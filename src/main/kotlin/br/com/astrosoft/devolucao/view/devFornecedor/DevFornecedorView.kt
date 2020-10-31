@@ -3,7 +3,8 @@ package br.com.astrosoft.devolucao.view.devFornecedor
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
-import br.com.astrosoft.framework.view.SubWindowPDF
+import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevFornecedorView
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.tabPanel
 import com.github.mvysny.karibudsl.v10.tabSheet
@@ -12,13 +13,9 @@ import com.vaadin.flow.router.Route
 
 @Route(layout = DevFornecedorLayout::class)
 @PageTitle("Devolução")
-class DevFornecedorView: ViewLayout<PedidoEntregaViewModel>(), IPedidoEntregaView {
-  override val viewModel: PedidoEntregaViewModel = PedidoEntregaViewModel(this)
-  override val tabEntregaImprimir = TabEntregaImprimir(viewModel.tabEntregaImprimirViewModel)
-  override val tabEntregaImpressoSemNota = TabEntregaImpressoSemNota(viewModel.tabEntregaImpressoSemNotaViewModel)
-  override val tabEntregaPendente = TabEntregaPendente(viewModel.tabEntregaPendenteViewModel)
-  override val tabEntregaImpressoComNota = TabEntregaImpressoComNota(viewModel.tabEntregaImpressoComNotaViewModel)
-  override val tabEntregador = TabEntregador(viewModel.tabEntregadorViewModel)
+class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorView {
+  override val viewModel: DevFornecedorViewModel = DevFornecedorViewModel(this)
+  override val tabNotaDevolucao = TabNotaDevolucao(viewModel.tabNotaDevolucaoViewModel)
   
   override fun isAccept(user: UserSaci) = true
   
@@ -27,32 +24,8 @@ class DevFornecedorView: ViewLayout<PedidoEntregaViewModel>(), IPedidoEntregaVie
       val user = AppConfig.userSaci
       setSizeFull()
       if(user?.entrega_imprimir == true)
-        tabPanel(tabEntregaImprimir)
-      if(user?.entrega_impressoSemNota == true)
-        tabPanel(tabEntregaImpressoSemNota)
-      if(user?.entrega_pendente == true)
-        tabPanel(tabEntregaPendente)
-      if(user?.entrega_impressoComNota == true)
-        tabPanel(tabEntregaImpressoComNota)
-      if(user?.entrega_entregador == true)
-        tabPanel(tabEntregador)
+        tabPanel(tabNotaDevolucao)
     }
-    
-  }
-  
-  override fun showRelatorioPedidoMinuta(pedidos: List<Pedido>) {
-    val byteArray = RelatorioPedido.processaPedidosMinutaCompacta(pedidos)
-    showRelatorio(byteArray)
-  }
-  
-  override fun showRelatorioPedido(pedidos: List<Pedido>) {
-    val byteArray = RelatorioPedido.processaPedidosMinutaCompacta(pedidos)
-    showRelatorio(byteArray)
-  }
-  
-  private fun showRelatorio(byteArray: ByteArray) {
-    val chave = "PedidoEntrega"
-    SubWindowPDF(chave, byteArray).open()
   }
 }
 

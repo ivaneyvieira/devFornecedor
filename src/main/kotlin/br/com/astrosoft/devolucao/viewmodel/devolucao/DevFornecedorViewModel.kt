@@ -1,15 +1,12 @@
-package br.com.astrosoft.devolucao.viewmodel
+package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
-class DevFornecedorViewModel (view: IDevFornecedorView): ViewModel<IDevFornecedorView>(view) {
+class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedorView>(view) {
   val tabNotaDevolucaoViewModel = NotaDevolucaoViewModel(this)
 }
 
 interface IDevFornecedorView: IView {
-  val tabEntregaImprimir: INotaDevolucao
-
-  
-
+  val tabNotaDevolucao: INotaDevolucao
 }

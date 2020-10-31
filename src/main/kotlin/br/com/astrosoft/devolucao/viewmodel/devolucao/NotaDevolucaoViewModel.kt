@@ -1,8 +1,5 @@
-package br.com.astrosoft.devolucao.viewmodel
+package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class NotaDevolucaoViewModel(val viewModel : DevFornecedorViewModel) {
-}
+class NotaDevolucaoViewModel(val viewModel: DevFornecedorViewModel)
 
-interface INotaDevolucao {
-  
-}
+interface INotaDevolucao
