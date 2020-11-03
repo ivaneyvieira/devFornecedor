@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.model
 
+import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
+import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
@@ -25,6 +27,23 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     script(sql) {
       addOptionalParameter("login", user.login)
       addOptionalParameter("bitAcesso", user.bitAcesso)
+    }
+  }
+  
+  fun notasDevolucao(): List<NotaDevolucao> {
+    val sql = "/sqlSaci/notaDevolucao.sql"
+    val dataInicial = 20201001
+    return query(sql, NotaDevolucao::class) {
+      addOptionalParameter("dataInicial", dataInicial)
+    }
+  }
+  
+  fun produtosNotaSaida(nota: NotaDevolucao): List<ProdutosNotaSaida> {
+    val sql = "/sqlSaci/produtosNotaSaida.sql"
+    return query(sql, ProdutosNotaSaida::class) {
+      addOptionalParameter("loja", nota.loja)
+      addOptionalParameter("pdv", nota.pdv)
+      addOptionalParameter("transacao", nota.transacao)
     }
   }
   

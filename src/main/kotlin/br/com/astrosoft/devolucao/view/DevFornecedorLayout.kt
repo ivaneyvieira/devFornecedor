@@ -32,7 +32,7 @@ import com.vaadin.flow.theme.lumo.Lumo
      shortName = AppConfig.shortName,
      iconPath = AppConfig.iconPath,
      enableInstallPrompt = false)
-@JsModule("./styles/shared-styles.js")
+//@JsModule("./styles/shared-styles.js")
 class DevFornecedorLayout: AppLayout() {
   init {
     isDrawerOpened = true

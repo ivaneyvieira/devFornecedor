@@ -3,11 +3,11 @@ import Build_gradle.Defs.vaadin10_version
 import Build_gradle.Defs.vaadinonkotlin_version
 
 object Defs {
-  const val vaadinonkotlin_version = "1.0.2"
-  const val vaadin10_version = "14.3.4"
+  const val vaadinonkotlin_version = "1.0.3"
+  const val vaadin10_version = "14.4.2"
   const val kotlin_version = "1.4.0"
   const val spring_boot_version = "2.2.6.RELEASE"
-  const val vaadin_plugin = "0.8.0"
+  const val vaadin_plugin = "0.14.3.7"
   //const val gretty_plugin = "3.0.1"
 }
 
