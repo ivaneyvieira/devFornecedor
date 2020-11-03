@@ -14,10 +14,10 @@ services:
     restart: always
     networks:
       rede_dev_fornecedor:
-        ipv4_address: 172.119.1.1
+        ipv4_address: 172.120.1.1
 networks:
   rede_dev_fornecedor:
     ipam:
       driver: default
       config:
-        - subnet: 172.119.0.0/16
+        - subnet: 172.120.0.0/16
