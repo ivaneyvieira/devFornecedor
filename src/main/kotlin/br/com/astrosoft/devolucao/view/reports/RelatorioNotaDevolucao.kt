@@ -45,10 +45,10 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
     }
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
-    return listOf(codigoCol,
-                  descricaoCol,
-                  gradeCol,
-                  qtdeCol)
+    return listOf(
+      qtdeCol, codigoCol,
+      descricaoCol,
+      gradeCol)
   }
   
   private fun titleBuider(): ComponentBuilder<*, *>? {
@@ -82,7 +82,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
   
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
-    val itens =notaDevolucao.listaProdutos()
+    val itens = notaDevolucao.listaProdutos()
     return DynamicReports.report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)

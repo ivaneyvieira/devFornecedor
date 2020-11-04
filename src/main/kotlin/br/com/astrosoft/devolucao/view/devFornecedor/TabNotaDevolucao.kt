@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.devFornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
+import br.com.astrosoft.devolucao.view.notaCelular
 import br.com.astrosoft.devolucao.view.notaDataNota
 import br.com.astrosoft.devolucao.view.notaDataPedido
 import br.com.astrosoft.devolucao.view.notaEmail
@@ -41,7 +42,8 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
   override fun Grid<NotaDevolucao>.gridPanel() {
     setSelectionMode(SelectionMode.MULTI)
     addColumnButton(PRINT, "Impressão", "Imp") {nota ->
-      showDialogImpressao(nota)
+      //showDialogImpressao(nota)
+      viewModel.imprimirNotaDevolucao(nota)
     }
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {nota ->
       showDialogRepresentante(nota)
@@ -98,6 +100,7 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
       //
       notaRepresentante()
       notaTelefone()
+      notaCelular()
       notaEmail()
     }
   }

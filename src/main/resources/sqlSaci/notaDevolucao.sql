@@ -18,4 +18,5 @@ WHERE N.issuedate >= :dataInicial
   AND N.nfse = 66
   AND N.storeno IN (2, 3, 4, 5)
   AND C.name NOT LIKE '%ENGECOPI%'
+  AND N.status <> 1
 GROUP BY loja, pdv, transacao

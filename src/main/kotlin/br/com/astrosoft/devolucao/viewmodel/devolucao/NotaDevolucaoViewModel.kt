@@ -7,11 +7,8 @@ class NotaDevolucaoViewModel(val viewModel: DevFornecedorViewModel) {
   private val subView
     get() = viewModel.view.tabNotaDevolucao
   
-  fun imprimirNotaDevolucao() = viewModel.exec{
-    val itensSelecionado = subView.itensSelecionados()
-    if(itensSelecionado.isEmpty())
-      fail("Não há itens selecionados")
-    subView.imprimeSelecionados(itensSelecionado)
+  fun imprimirNotaDevolucao(nota : NotaDevolucao) = viewModel.exec{
+    subView.imprimeSelecionados(listOf(nota))
   }
   
   fun updateGridNotaDevolucao() {

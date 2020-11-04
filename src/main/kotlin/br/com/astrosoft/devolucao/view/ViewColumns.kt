@@ -51,6 +51,10 @@ fun Grid<Representante>.notaTelefone() = addColumnString(Representante::telefone
   this.setHeader("Telefone")
 }
 
+fun Grid<Representante>.notaCelular() = addColumnString(Representante::celular) {
+  this.setHeader("Celular")
+}
+
 fun Grid<Representante>.notaEmail() = addColumnString(Representante::email) {
   this.setHeader("E-mail")
 }
