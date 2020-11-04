@@ -90,7 +90,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
       .columnGrid(* colunms)
       .setDataSource(itens)
       .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+     // .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style()
                           .setPadding(2)
                           .setTopBorder(stl.pen1Point()))
