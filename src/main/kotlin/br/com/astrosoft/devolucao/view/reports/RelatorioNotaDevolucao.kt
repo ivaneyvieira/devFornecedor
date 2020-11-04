@@ -21,6 +21,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.xml.soap.Text
 
 class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
   val codigoCol = col.column("Código", ProdutosNotaSaida::codigo.name, type.stringType())
@@ -66,6 +67,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
       }
       horizontalFlowList {
         text("DEV FORNECEDOR: ${notaDevolucao.fornecedor}")
+        text("COD FOR: ${notaDevolucao.vendno}", RIGHT, 200)
       }
     }
   }
