@@ -58,30 +58,30 @@ fun Grid<Representante>.notaEmail() = addColumnString(Representante::email) {
 // ****************************************************************************************
 // produtos de nota de saida
 // ****************************************************************************************
-fun Grid<ProdutosNotaSaida>.pedidoLoja() = addColumnInt(ProdutosNotaSaida::loja) {
+fun Grid<ProdutosNotaSaida>.produtoLoja() = addColumnInt(ProdutosNotaSaida::loja) {
   this.setHeader("Loja")
 }
 
-fun Grid<ProdutosNotaSaida>.pedidoPdv() = addColumnInt(ProdutosNotaSaida::pdv) {
+fun Grid<ProdutosNotaSaida>.produtoPdv() = addColumnInt(ProdutosNotaSaida::pdv) {
   this.setHeader("Pdv")
 }
 
-fun Grid<ProdutosNotaSaida>.pedidoTransacao() = addColumnInt(ProdutosNotaSaida::transacao) {
+fun Grid<ProdutosNotaSaida>.produtoTransacao() = addColumnInt(ProdutosNotaSaida::transacao) {
   this.setHeader("Transacao")
 }
 
-fun Grid<ProdutosNotaSaida>.pedidoCodigo() = addColumnString(ProdutosNotaSaida::codigo) {
+fun Grid<ProdutosNotaSaida>.produtoCodigo() = addColumnString(ProdutosNotaSaida::codigo) {
   this.setHeader("Código")
 }
 
-fun Grid<ProdutosNotaSaida>.pedidoDescricao() = addColumnString(ProdutosNotaSaida::descricao) {
+fun Grid<ProdutosNotaSaida>.produtoDescricao() = addColumnString(ProdutosNotaSaida::descricao) {
   this.setHeader("Descrição")
 }
 
-fun Grid<ProdutosNotaSaida>.pedidoGrade() = addColumnString(ProdutosNotaSaida::grade) {
+fun Grid<ProdutosNotaSaida>.produtoGrade() = addColumnString(ProdutosNotaSaida::grade) {
   this.setHeader("Grade")
 }
 
-fun Grid<ProdutosNotaSaida>.pedidoQtde() = addColumnInt(ProdutosNotaSaida::qtde) {
+fun Grid<ProdutosNotaSaida>.produtoQtde() = addColumnInt(ProdutosNotaSaida::qtde) {
   this.setHeader("Qtde")
 }

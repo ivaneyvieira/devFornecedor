@@ -65,7 +65,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
         }", RIGHT)
       }
       horizontalFlowList {
-        text("DEV FORNECEDOR:")
+        text("DEV FORNECEDOR: ${notaDevolucao.fornecedor}")
       }
     }
   }

@@ -28,6 +28,7 @@ import com.vaadin.flow.component.grid.ColumnTextAlign.START
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.icon.VaadinIcon.PHONE_LANDLINE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.tabs.Tab
@@ -161,6 +162,15 @@ fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
     this.center()
     this.block()
   }
+}
+
+fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
+                                                  tooltip: String? = null,
+                                                  header : String? = null,
+                                                  execButton: (T) -> Unit = {}): Grid.Column<T> {
+  return addColumnButton(iconButton, tooltip, execButton, block = {
+    setHeader(header)
+  })
 }
 
 fun <T: Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {

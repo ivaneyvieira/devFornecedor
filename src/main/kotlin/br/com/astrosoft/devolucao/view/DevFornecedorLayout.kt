@@ -55,7 +55,7 @@ class DevFornecedorLayout: AppLayout() {
         orientation = Tabs.Orientation.VERTICAL
         tab {
           this.icon(FORM)
-          routerLink(text = "Entrega", viewType = DevFornecedorView::class)
+          routerLink(text = "Devolução", viewType = DevFornecedorView::class)
         }
         
         tab {

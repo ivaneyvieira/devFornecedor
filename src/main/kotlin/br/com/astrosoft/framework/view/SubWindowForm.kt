@@ -2,7 +2,9 @@ package br.com.astrosoft.framework.view
 
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.content
+import com.github.mvysny.karibudsl.v10.h4
 import com.github.mvysny.karibudsl.v10.horizontalLayout
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.label
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.verticalLayout
@@ -31,7 +33,17 @@ class SubWindowForm(labelTitle: String,
           }
         }
         toolBar()
-        label(labelTitle)
+      }
+      horizontalLayout {
+        isSpacing= true
+        isPadding = false
+        setWidthFull()
+        labelTitle.split("|")
+          .forEach {linha ->
+            h4(linha){
+              isExpand = true
+            }
+          }
       }
       
       addAndExpand(blockForm())
