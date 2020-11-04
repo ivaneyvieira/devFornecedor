@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view
 
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
+import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
@@ -39,16 +40,18 @@ fun Grid<NotaDevolucao>.notaDataNota() = addColumnLocalDate(NotaDevolucao::dataN
 fun Grid<NotaDevolucao>.notaFornecedor() = addColumnString(NotaDevolucao::fornecedor) {
   this.setHeader("Fornecedor")
 }
-
-fun Grid<NotaDevolucao>.notaRepresentante() = addColumnString(NotaDevolucao::representante) {
+// ****************************************************************************************
+// produtos de nota de saida
+// ****************************************************************************************
+fun Grid<Representante>.notaRepresentante() = addColumnString(Representante::nome) {
   this.setHeader("Representante")
 }
 
-fun Grid<NotaDevolucao>.notaTelefone() = addColumnString(NotaDevolucao::telefone) {
+fun Grid<Representante>.notaTelefone() = addColumnString(Representante::telefone) {
   this.setHeader("Telefone")
 }
 
-fun Grid<NotaDevolucao>.notaEmail() = addColumnString(NotaDevolucao::email) {
+fun Grid<Representante>.notaEmail() = addColumnString(Representante::email) {
   this.setHeader("E-mail")
 }
 

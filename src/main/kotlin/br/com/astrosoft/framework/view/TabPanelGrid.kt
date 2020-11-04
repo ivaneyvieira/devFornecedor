@@ -41,8 +41,7 @@ abstract class TabPanelGrid<T: Any>: TabPanel<VerticalLayout> {
     dataProviderPanel.updateItens(itens)
   }
   
-  val listBeans
-    get() = dataProviderPanel.getAll()
+  fun listBeans()= dataProviderPanel.getAll()
   
   fun itensSelecionado() = gridPanel.selectedItems.toList()
 }

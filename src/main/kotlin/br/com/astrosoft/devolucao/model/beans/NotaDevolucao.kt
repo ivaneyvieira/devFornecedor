@@ -12,14 +12,13 @@ class NotaDevolucao(
   val nota: String,
   val dataNota: LocalDate,
   val fornecedor: String,
-  val representante: String,
-  val telefone: String,
-  val email: String
-                   ){
-  
+  val vendno: Int
+                   ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   
-  companion object{
+  fun listRepresentantes() = saci.representante(vendno)
+  
+  companion object {
     fun all() = saci.notasDevolucao()
   }
 }
