@@ -19,6 +19,9 @@ class NotaDevolucao(
   fun listRepresentantes() = saci.representante(vendno)
   
   companion object {
-    fun all() = saci.notasDevolucao()
+    fun all(): List<NotaDevolucao> {
+      UltimasNotas.updateList()
+      return saci.notasDevolucao()
+    }
   }
 }

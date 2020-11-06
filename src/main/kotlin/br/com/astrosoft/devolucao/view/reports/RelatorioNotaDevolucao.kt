@@ -32,7 +32,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
   val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
-      this.setFixedWidth(60*4)
+      //this.setFixedWidth(60*4)
     }
   val gradeCol = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType())
     .apply {
@@ -46,11 +46,38 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
       this.setFixedWidth(50)
     }
   
+  val niCol = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType())
+    .apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setFixedWidth(50)
+    }
+  val numeroNotaCol = col.column("Nota", ProdutosNotaSaida::numeroNota.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setFixedWidth(50)
+    }
+  val dataNotaCol = col.column("Data", ProdutosNotaSaida::dataNota.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setFixedWidth(50)
+    }
+  val qttdNotaCol = col.column("Quant", ProdutosNotaSaida::qttdNota.name, type.integerType())
+    .apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setFixedWidth(50)
+    }
+  
+  
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return listOf(
-      qtdeCol, codigoCol,
+      qtdeCol,
+      codigoCol,
       descricaoCol,
-      gradeCol)
+      gradeCol,
+      niCol,
+      numeroNotaCol,
+      dataNotaCol,
+      qttdNotaCol)
   }
   
   private fun titleBuider(): ComponentBuilder<*, *>? {

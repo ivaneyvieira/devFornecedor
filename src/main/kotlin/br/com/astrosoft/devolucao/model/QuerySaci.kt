@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
+import br.com.astrosoft.devolucao.model.beans.UltimasNotas
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
@@ -53,6 +54,11 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("pdv", nota.pdv)
       addOptionalParameter("transacao", nota.transacao)
     }
+  }
+  
+  fun ultimasNotas() : List<UltimasNotas>{
+    val sql = "/sqlSaci/ultimasNotas.sql"
+    return query(sql, UltimasNotas::class)
   }
   
   companion object {
