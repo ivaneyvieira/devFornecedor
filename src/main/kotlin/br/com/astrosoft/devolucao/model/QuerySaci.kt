@@ -58,7 +58,8 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   
   fun ultimasNotas() : List<UltimasNotas>{
     val sql = "/sqlSaci/ultimasNotas.sql"
-    return query(sql, UltimasNotas::class)
+    return emptyList()
+    //query(sql, UltimasNotas::class)
   }
   
   companion object {

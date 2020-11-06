@@ -32,7 +32,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
   val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
-      //this.setFixedWidth(60*4)
+      this.setFixedWidth(60*4)
     }
   val gradeCol = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType())
     .apply {
@@ -74,10 +74,11 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
       codigoCol,
       descricaoCol,
       gradeCol,
-      niCol,
-      numeroNotaCol,
-      dataNotaCol,
-      qttdNotaCol)
+     // niCol,
+     // numeroNotaCol,
+     // dataNotaCol,
+     // qttdNotaCol,
+                 )
   }
   
   private fun titleBuider(): ComponentBuilder<*, *>? {
