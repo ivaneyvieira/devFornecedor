@@ -62,6 +62,16 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     //query(sql, UltimasNotas::class)
   }
   
+  fun saveRmk(nota: NotaDevolucao){
+    val sql = "/sqlSaci/rmkUpdate.sql"
+    script(sql) {
+      addOptionalParameter("storeno", nota.loja)
+      addOptionalParameter("pdvno", nota.pdv)
+      addOptionalParameter("xano", nota.transacao)
+      addOptionalParameter("rmk", nota.rmk)
+    }
+  }
+  
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

@@ -24,12 +24,20 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.isExpand
+import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
+import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.icon.VaadinIcon.PHONE_LANDLINE
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.textfield.TextArea
+import com.vaadin.flow.data.value.ValueChangeMode
 import kotlin.reflect.KClass
 
 class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<NotaDevolucao>(), INotaDevolucao {
@@ -44,6 +52,10 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
     addColumnButton(PRINT, "Impressão", "Imp") {nota ->
       //showDialogImpressao(nota)
       viewModel.imprimirNotaDevolucao(nota)
+    }
+    addColumnButton(EDIT, "Editor", "Edt") {nota ->
+      //showDialogImpressao(nota)
+      viewModel.editRmk(nota)
     }
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {nota ->
       showDialogRepresentante(nota)
@@ -71,6 +83,36 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
     val report = RelatorioNotaDevolucao.processaRelatorio(itens)
     val chave = "DevReport"
     SubWindowPDF(chave, report).open()
+  }
+  
+  override fun editRmk(nota: NotaDevolucao, save: (NotaDevolucao) -> Unit) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
+                             toolBar = {window ->
+                               button("Salva") {
+                                 icon = VaadinIcon.CHECK.create()
+                                 onLeftClick {
+                                   save(nota)
+                                   window.close()
+                                 }
+                               }
+                             }) {
+      createFormEditRmk(nota)
+    }
+    form.open()
+  }
+  
+  private fun createFormEditRmk(nota: NotaDevolucao): Component {
+    return TextArea().apply {
+      this.style.set("overflow-y", "auto");
+      this.isExpand = true
+      this.focus()
+      this.value = nota.rmk
+      valueChangeMode = ValueChangeMode.TIMEOUT
+      addValueChangeListener {
+        val text = it.value
+        nota.rmk = text
+      }
+    }
   }
   
   private fun showDialogRepresentante(nota: NotaDevolucao?) {

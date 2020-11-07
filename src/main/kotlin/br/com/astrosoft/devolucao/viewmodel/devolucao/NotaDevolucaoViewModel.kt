@@ -18,10 +18,17 @@ class NotaDevolucaoViewModel(val viewModel: DevFornecedorViewModel) {
   private fun listNotaDevolucao(): List<NotaDevolucao> {
     return NotaDevolucao.all()
   }
+  
+  fun editRmk(nota: NotaDevolucao) {
+    subView.editRmk(nota){nota ->
+      nota.save()
+    }
+  }
 }
 
 interface INotaDevolucao {
   fun updateGrid(list: List<NotaDevolucao>)
   fun itensSelecionados(): List<NotaDevolucao>
   fun imprimeSelecionados(itens : List<NotaDevolucao>)
+  fun editRmk(nota: NotaDevolucao, save: (NotaDevolucao) -> Unit)
 }

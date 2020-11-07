@@ -12,11 +12,14 @@ class NotaDevolucao(
   val nota: String,
   val dataNota: LocalDate,
   val fornecedor: String,
-  val vendno: Int
+  val vendno: Int,
+  var rmk: String
                    ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   
   fun listRepresentantes() = saci.representante(vendno)
+  
+  fun save() = saci.saveRmk(this)
   
   companion object {
     fun all(): List<NotaDevolucao> {

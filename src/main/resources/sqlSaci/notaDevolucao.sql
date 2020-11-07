@@ -6,13 +6,16 @@ SELECT N.storeno                                 AS loja,
        cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        cast(N.issuedate AS DATE)                 AS dataNota,
        cast(CONCAT(C.no, ' ', C.name) AS CHAR)   AS fornecedor,
-       V.no                                      AS vendno
-FROM sqldados.nf           AS N
-  LEFT JOIN sqldados.eord  AS O
+       V.no                                      AS vendno,
+       IFNULL(R.rmk, '')                         AS rmk
+FROM sqldados.nf              AS N
+  LEFT JOIN sqldados.nfdevRmk AS R
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.eord     AS O
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN sqldados.custp AS C
+  LEFT JOIN sqldados.custp    AS C
 	      ON C.no = N.custno
-  LEFT JOIN sqldados.vend  AS V
+  LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
 WHERE N.issuedate >= :dataInicial
   AND N.nfse = 66

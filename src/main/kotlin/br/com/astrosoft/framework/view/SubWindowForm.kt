@@ -14,7 +14,7 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class SubWindowForm(labelTitle: String,
-                    val toolBar: HasComponents.() -> Unit = {},
+                    val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
                     val blockForm: () -> Component):
   Dialog() {
   init {
@@ -32,7 +32,7 @@ class SubWindowForm(labelTitle: String,
             close()
           }
         }
-        toolBar()
+        toolBar(this@SubWindowForm)
       }
       horizontalLayout {
         isSpacing= true
