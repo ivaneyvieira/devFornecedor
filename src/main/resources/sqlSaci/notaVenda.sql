@@ -22,5 +22,6 @@ WHERE N.issuedate BETWEEN :dataInicial AND :dataFinal
   AND N.storeno IN (2, 3, 4, 5)
   AND C.name NOT LIKE '%ENGECOPI%'
   AND N.status <> 1
+AND N.tipo = 2
 GROUP BY loja, pdv, transacao
 LIMIT 1000
