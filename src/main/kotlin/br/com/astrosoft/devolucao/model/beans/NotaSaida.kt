@@ -3,7 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
-class NotaDevolucao(
+class NotaSaida(
   val loja: Int,
   val pdv: Int,
   val transacao: Int,
@@ -14,7 +14,7 @@ class NotaDevolucao(
   val fornecedor: String,
   val vendno: Int,
   var rmk: String
-                   ) {
+               ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   
   fun listRepresentantes() = saci.representante(vendno)
@@ -22,9 +22,14 @@ class NotaDevolucao(
   fun save() = saci.saveRmk(this)
   
   companion object {
-    fun all(): List<NotaDevolucao> {
+    fun findNotaDevolucao(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
       UltimasNotas.updateList()
-      return saci.notasDevolucao()
+      return saci.notasDevolucao(dataInicial, dataFinal)
+    }
+
+    fun findNotaVenda(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
+      UltimasNotas.updateList()
+      return saci.notasVenda(dataInicial, dataFinal)
     }
   }
 }

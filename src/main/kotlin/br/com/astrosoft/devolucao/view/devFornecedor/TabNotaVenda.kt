@@ -19,7 +19,9 @@ import br.com.astrosoft.devolucao.view.produtoGrade
 import br.com.astrosoft.devolucao.view.produtoQtde
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INotaDevolucao
+import br.com.astrosoft.devolucao.viewmodel.devolucao.INotaVenda
 import br.com.astrosoft.devolucao.viewmodel.devolucao.NotaDevolucaoViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.NotaVendaViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -44,7 +46,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
 import java.time.LocalDate
 import kotlin.reflect.KClass
 
-class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<NotaSaida>(), INotaDevolucao {
+class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>(), INotaVenda {
   private lateinit var dataInicialEdt: DatePicker
   private lateinit var dataFinalEdt: DatePicker
 
@@ -71,7 +73,7 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
     setSelectionMode(SelectionMode.MULTI)
     addColumnButton(PRINT, "Impressão", "Imp") {nota ->
       //showDialogImpressao(nota)
-      viewModel.imprimirNotaDevolucao(nota)
+      viewModel.imprimirNotaVenda(nota)
     }
     addColumnButton(EDIT, "Editor", "Edt") {nota ->
       //showDialogImpressao(nota)
@@ -90,10 +92,10 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
   
   
   override val label: String
-    get() = "Notas série 66"
+    get() = "Notas série 1"
   
   override fun updateComponent() {
-    viewModel.updateGridNotaDevolucao()
+    viewModel.updateGridNotaVenda()
   }
   
   override fun itensSelecionados(): List<NotaSaida> {

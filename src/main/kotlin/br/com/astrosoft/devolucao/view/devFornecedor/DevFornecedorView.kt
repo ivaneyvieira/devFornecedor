@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevFornecedorView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.INotaVenda
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.tabPanel
 import com.github.mvysny.karibudsl.v10.tabSheet
@@ -16,6 +17,7 @@ import com.vaadin.flow.router.Route
 class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorView {
   override val viewModel: DevFornecedorViewModel = DevFornecedorViewModel(this)
   override val tabNotaDevolucao = TabNotaDevolucao(viewModel.tabNotaDevolucaoViewModel)
+  override val tabNotaVenda = TabNotaVenda(viewModel.tabNotaVendaViewModel)
   
   override fun isAccept(user: UserSaci) = true
   
@@ -23,8 +25,8 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
     val ts = tabSheet {
       val user = AppConfig.userSaci
       setSizeFull()
-      if(user?.entrega_imprimir == true)
-        tabPanel(tabNotaDevolucao)
+      tabPanel(tabNotaDevolucao)
+      tabPanel(tabNotaVenda)
     }
   }
 }

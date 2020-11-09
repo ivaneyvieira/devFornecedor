@@ -3,25 +3,25 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import java.time.LocalDate
 
-class NotaDevolucaoViewModel(val viewModel: DevFornecedorViewModel) {
+class NotaVendaViewModel(val viewModel: DevFornecedorViewModel) {
   private val subView
-    get() = viewModel.view.tabNotaDevolucao
+    get() = viewModel.view.tabNotaVenda
   
-  fun imprimirNotaDevolucao(nota: NotaSaida) = viewModel.exec {
+  fun imprimirNotaVenda(nota: NotaSaida) = viewModel.exec {
     subView.imprimeSelecionados(listOf(nota))
   }
   
-  fun updateGridNotaDevolucao() = viewModel.exec {
+  fun updateGridNotaVenda() = viewModel.exec {
     val dataInicial = subView.dataInicial()
     val dataFinal = subView.dataFinal()
     if(dataInicial == null || dataFinal == null)
       subView.updateGrid(emptyList())
     else
-      subView.updateGrid(listNotaDevolucao(dataInicial, dataFinal))
+      subView.updateGrid(listNotaVenda(dataInicial, dataFinal))
   }
   
-  private fun listNotaDevolucao(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
-    return NotaSaida.findNotaDevolucao(dataInicial, dataFinal)
+  private fun listNotaVenda(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
+    return NotaSaida.findNotaVenda(dataInicial, dataFinal)
   }
   
   fun editRmk(nota: NotaSaida) {
@@ -31,7 +31,7 @@ class NotaDevolucaoViewModel(val viewModel: DevFornecedorViewModel) {
   }
 }
 
-interface INotaDevolucao {
+interface INotaVenda {
   fun updateGrid(list: List<NotaSaida>)
   fun itensSelecionados(): List<NotaSaida>
   fun imprimeSelecionados(itens: List<NotaSaida>)

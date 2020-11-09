@@ -1,12 +1,14 @@
 package br.com.astrosoft.devolucao.model
 
-import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.devolucao.model.beans.UltimasNotas
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
+import br.com.astrosoft.framework.util.toSaciDate
+import java.time.LocalDate
 
 class QuerySaci: QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -32,11 +34,19 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun notasDevolucao(): List<NotaDevolucao> {
+  fun notasDevolucao(dataInicial : LocalDate, dataFinal : LocalDate): List<NotaSaida> {
     val sql = "/sqlSaci/notaDevolucao.sql"
-    val dataInicial = 20201001
-    return query(sql, NotaDevolucao::class) {
-      addOptionalParameter("dataInicial", dataInicial)
+    return query(sql, NotaSaida::class) {
+      addOptionalParameter("dataInicial", dataInicial.toSaciDate())
+      addOptionalParameter("dataFinal", dataFinal.toSaciDate())
+    }
+  }
+  
+  fun notasVenda(dataInicial : LocalDate, dataFinal : LocalDate): List<NotaSaida> {
+    val sql = "/sqlSaci/notaVenda.sql"
+    return query(sql, NotaSaida::class) {
+      addOptionalParameter("dataInicial", dataInicial.toSaciDate())
+      addOptionalParameter("dataFinal", dataFinal.toSaciDate())
     }
   }
   
@@ -47,7 +57,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun produtosNotaSaida(nota: NotaDevolucao): List<ProdutosNotaSaida> {
+  fun produtosNotaSaida(nota: NotaSaida): List<ProdutosNotaSaida> {
     val sql = "/sqlSaci/produtosNotaSaida.sql"
     return query(sql, ProdutosNotaSaida::class) {
       addOptionalParameter("loja", nota.loja)
@@ -62,7 +72,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     //query(sql, UltimasNotas::class)
   }
   
-  fun saveRmk(nota: NotaDevolucao){
+  fun saveRmk(nota: NotaSaida){
     val sql = "/sqlSaci/rmkUpdate.sql"
     script(sql) {
       addOptionalParameter("storeno", nota.loja)

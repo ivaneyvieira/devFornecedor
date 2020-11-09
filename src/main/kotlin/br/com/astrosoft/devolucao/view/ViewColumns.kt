@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.view
 
-import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.framework.view.addColumnInt
@@ -9,35 +9,35 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 //Notaas de devolução
-fun Grid<NotaDevolucao>.notaLoja() = addColumnInt(NotaDevolucao::loja) {
+fun Grid<NotaSaida>.notaLoja() = addColumnInt(NotaSaida::loja) {
   this.setHeader("Loja")
 }
 
-fun Grid<NotaDevolucao>.notaPdv() = addColumnInt(NotaDevolucao::pdv) {
+fun Grid<NotaSaida>.notaPdv() = addColumnInt(NotaSaida::pdv) {
   this.setHeader("Pdv")
 }
 
-fun Grid<NotaDevolucao>.notaTransacao() = addColumnInt(NotaDevolucao::transacao) {
+fun Grid<NotaSaida>.notaTransacao() = addColumnInt(NotaSaida::transacao) {
   this.setHeader("Transacao")
 }
 
-fun Grid<NotaDevolucao>.notaPedido() = addColumnInt(NotaDevolucao::pedido) {
+fun Grid<NotaSaida>.notaPedido() = addColumnInt(NotaSaida::pedido) {
   this.setHeader("Pedido")
 }
 
-fun Grid<NotaDevolucao>.notaDataPedido() = addColumnLocalDate(NotaDevolucao::dataPedido) {
+fun Grid<NotaSaida>.notaDataPedido() = addColumnLocalDate(NotaSaida::dataPedido) {
   this.setHeader("Data")
 }
 
-fun Grid<NotaDevolucao>.notaNota() = addColumnString(NotaDevolucao::nota) {
+fun Grid<NotaSaida>.notaNota() = addColumnString(NotaSaida::nota) {
   this.setHeader("Nota")
 }
 
-fun Grid<NotaDevolucao>.notaDataNota() = addColumnLocalDate(NotaDevolucao::dataNota) {
+fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
   this.setHeader("Data")
 }
 
-fun Grid<NotaDevolucao>.notaFornecedor() = addColumnString(NotaDevolucao::fornecedor) {
+fun Grid<NotaSaida>.notaFornecedor() = addColumnString(NotaSaida::fornecedor) {
   this.setHeader("Fornecedor")
 }
 // ****************************************************************************************

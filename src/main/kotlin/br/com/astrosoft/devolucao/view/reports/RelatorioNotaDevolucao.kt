@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.view.reports
 
-import br.com.astrosoft.devolucao.model.beans.NotaDevolucao
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
@@ -21,9 +21,8 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
-import javax.xml.soap.Text
 
-class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
+class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   val codigoCol = col.column("Código", ProdutosNotaSaida::codigo.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
@@ -85,7 +84,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
     return verticalList {
       horizontalFlowList {
         text("ENGECOPI", LEFT)
-        text("PROCESSO INTERNO ${notaDevolucao.nota}", CENTER, 300)
+        text("PROCESSO INTERNO ${notaSaida.nota}", CENTER, 300)
         text("${
           LocalDate.now()
             .format()
@@ -95,8 +94,8 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
         }", RIGHT)
       }
       horizontalFlowList {
-        text("DEV FORNECEDOR: ${notaDevolucao.fornecedor}")
-        text("COD FOR: ${notaDevolucao.vendno}", RIGHT, 200)
+        text("DEV FORNECEDOR: ${notaSaida.fornecedor}")
+        text("COD FOR: ${notaSaida.vendno}", RIGHT, 200)
       }
     }
   }
@@ -113,7 +112,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
   
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
-    val itens = notaDevolucao.listaProdutos()
+    val itens = notaSaida.listaProdutos()
     return DynamicReports.report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
@@ -132,7 +131,7 @@ class RelatorioNotaDevolucao(val notaDevolucao: NotaDevolucao) {
   }
   
   companion object {
-    fun processaRelatorio(listNota: List<NotaDevolucao>): ByteArray {
+    fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {
       val printList = listNota.map {nota ->
         val report = RelatorioNotaDevolucao(nota).makeReport()
         report?.toJasperPrint()

@@ -18,7 +18,7 @@ FROM sqldados.nf              AS N
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
 WHERE N.issuedate BETWEEN :dataInicial AND :dataFinal
-  AND N.nfse = 66
+  AND N.nfse = 1
   AND N.storeno IN (2, 3, 4, 5)
   AND C.name NOT LIKE '%ENGECOPI%'
   AND N.status <> 1
