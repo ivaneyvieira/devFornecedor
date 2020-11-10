@@ -11,6 +11,8 @@ WHERE xano > 0
   AND issuedate > 20190101
 GROUP BY storeno, pdvno, xano;
 
+DO @VENDNO := :fornecedor * 1;
+
 SELECT N.storeno                                 AS loja,
        N.pdvno                                   AS pdv,
        N.xano                                    AS transacao,
@@ -35,7 +37,7 @@ FROM sqldados.nf              AS N
 	      ON C.cpf_cgc = V.cgc
 WHERE (N.issuedate BETWEEN :dataInicial AND :dataFinal OR :fornecedor <> '' OR :nota <> '' OR
        :dataInicial = 0 OR :dataFinal = 0)
-  AND (C.no = :fornecedor * 1 OR V.no = :fornecedor * 1 OR C.name LIKE CONCAT(:fornecedor, '%') OR
+  AND (C.no = @VENDNO OR V.no = @VENDNO OR C.name LIKE CAST(CONCAT(:fornecedor, '%') AS CHAR) OR
        :fornecedor = '')
   AND (N.nfno = :nota OR :nota = '')
   AND (:fornecedor <> '' OR :nota <> '' OR (:dataInicial <> 0 AND :dataFinal <> 0))
