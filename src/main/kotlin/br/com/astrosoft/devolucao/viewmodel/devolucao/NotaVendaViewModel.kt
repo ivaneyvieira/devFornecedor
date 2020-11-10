@@ -14,19 +14,25 @@ class NotaVendaViewModel(val viewModel: DevFornecedorViewModel) {
   fun updateGridNotaVenda() = viewModel.exec {
     val dataInicial = subView.dataInicial()
     val dataFinal = subView.dataFinal()
+    val fornecedor = subView.fornecedor()
+    val nota = subView.nota()
+    
     if(dataInicial == null || dataFinal == null)
       subView.updateGrid(emptyList())
     else
-      subView.updateGrid(listNotaVenda(dataInicial, dataFinal))
+      subView.updateGrid(listNotaVenda(dataInicial, dataFinal, fornecedor, nota))
   }
   
-  private fun listNotaVenda(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
-    return NotaSaida.findNotaVenda(dataInicial, dataFinal)
+  private fun listNotaVenda(dataInicial: LocalDate?,
+                            dataFinal: LocalDate?,
+                            fornecedor: String,
+                            nota: String): List<NotaSaida> {
+    return NotaSaida.findNotaVenda(dataInicial, dataFinal, fornecedor, nota)
   }
   
   fun editRmk(nota: NotaSaida) {
-    subView.editRmk(nota) {nota ->
-      nota.save()
+    subView.editRmk(nota) {notaSaida ->
+      notaSaida.save()
     }
   }
 }
@@ -38,4 +44,6 @@ interface INotaVenda {
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun dataInicial(): LocalDate?
   fun dataFinal(): LocalDate?
+  fun fornecedor(): String
+  fun nota(): String
 }

@@ -34,19 +34,26 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun notasDevolucao(dataInicial : LocalDate, dataFinal : LocalDate): List<NotaSaida> {
+  fun notasDevolucao(dataInicial: LocalDate?,
+                     dataFinal: LocalDate?,
+                     fornecedor: String,
+                     nota: String): List<NotaSaida> {
     val sql = "/sqlSaci/notaDevolucao.sql"
     return query(sql, NotaSaida::class) {
-      addOptionalParameter("dataInicial", dataInicial.toSaciDate())
-      addOptionalParameter("dataFinal", dataFinal.toSaciDate())
+      addOptionalParameter("dataInicial", dataInicial?.toSaciDate() ?: 0)
+      addOptionalParameter("dataFinal", dataFinal?.toSaciDate() ?: 0)
+      addOptionalParameter("fornecedor", fornecedor)
+      addOptionalParameter("nota", nota)
     }
   }
   
-  fun notasVenda(dataInicial : LocalDate, dataFinal : LocalDate): List<NotaSaida> {
+  fun notasVenda(dataInicial: LocalDate?, dataFinal: LocalDate?, fornecedor: String, nota: String): List<NotaSaida> {
     val sql = "/sqlSaci/notaVenda.sql"
     return query(sql, NotaSaida::class) {
-      addOptionalParameter("dataInicial", dataInicial.toSaciDate())
-      addOptionalParameter("dataFinal", dataFinal.toSaciDate())
+      addOptionalParameter("dataInicial", dataInicial?.toSaciDate() ?: 0)
+      addOptionalParameter("dataFinal", dataFinal?.toSaciDate() ?: 0)
+      addOptionalParameter("fornecedor", fornecedor)
+      addOptionalParameter("nota", nota)
     }
   }
   
@@ -66,13 +73,13 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun ultimasNotas() : List<UltimasNotas>{
-    val sql = "/sqlSaci/ultimasNotas.sql"
+  fun ultimasNotas(): List<UltimasNotas> {
+    //val sql = "/sqlSaci/ultimasNotas.sql"
     return emptyList()
     //query(sql, UltimasNotas::class)
   }
   
-  fun saveRmk(nota: NotaSaida){
+  fun saveRmk(nota: NotaSaida) {
     val sql = "/sqlSaci/rmkUpdate.sql"
     script(sql) {
       addOptionalParameter("storeno", nota.loja)

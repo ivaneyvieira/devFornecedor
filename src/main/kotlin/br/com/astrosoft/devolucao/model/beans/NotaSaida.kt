@@ -10,6 +10,7 @@ class NotaSaida(
   val pedido: Int,
   val dataPedido: LocalDate,
   val nota: String,
+  val fatura: String,
   val dataNota: LocalDate,
   val fornecedor: String,
   val vendno: Int,
@@ -22,14 +23,20 @@ class NotaSaida(
   fun save() = saci.saveRmk(this)
   
   companion object {
-    fun findNotaDevolucao(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
+    fun findNotaDevolucao(dataInicial: LocalDate?,
+                          dataFinal: LocalDate?,
+                          fornecedor: String,
+                          nota: String): List<NotaSaida> {
       UltimasNotas.updateList()
-      return saci.notasDevolucao(dataInicial, dataFinal)
+      return saci.notasDevolucao(dataInicial, dataFinal, fornecedor, nota)
     }
-
-    fun findNotaVenda(dataInicial: LocalDate, dataFinal: LocalDate): List<NotaSaida> {
+    
+    fun findNotaVenda(dataInicial: LocalDate?,
+                      dataFinal: LocalDate?,
+                      fornecedor: String,
+                      nota: String): List<NotaSaida> {
       UltimasNotas.updateList()
-      return saci.notasVenda(dataInicial, dataFinal)
+      return saci.notasVenda(dataInicial, dataFinal, fornecedor, nota)
     }
   }
 }

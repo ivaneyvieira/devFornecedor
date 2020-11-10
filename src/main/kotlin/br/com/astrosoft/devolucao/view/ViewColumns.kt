@@ -33,6 +33,10 @@ fun Grid<NotaSaida>.notaNota() = addColumnString(NotaSaida::nota) {
   this.setHeader("Nota")
 }
 
+fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
+  this.setHeader("Fatura")
+}
+
 fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
   this.setHeader("Data")
 }

@@ -7,6 +7,7 @@ import br.com.astrosoft.devolucao.view.notaCelular
 import br.com.astrosoft.devolucao.view.notaDataNota
 import br.com.astrosoft.devolucao.view.notaDataPedido
 import br.com.astrosoft.devolucao.view.notaEmail
+import br.com.astrosoft.devolucao.view.notaFatura
 import br.com.astrosoft.devolucao.view.notaFornecedor
 import br.com.astrosoft.devolucao.view.notaLoja
 import br.com.astrosoft.devolucao.view.notaNota
@@ -31,6 +32,7 @@ import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
@@ -42,6 +44,7 @@ import com.vaadin.flow.component.icon.VaadinIcon.PHONE_LANDLINE
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextArea
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 import java.time.LocalDate
 import kotlin.reflect.KClass
@@ -49,6 +52,8 @@ import kotlin.reflect.KClass
 class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>(), INotaVenda {
   private lateinit var dataInicialEdt: DatePicker
   private lateinit var dataFinalEdt: DatePicker
+  private lateinit var fornecedorEdt: TextField
+  private lateinit var notaEdt: TextField
 
   override fun classPanel(): KClass<NotaSaida> = NotaSaida::class
   
@@ -63,6 +68,16 @@ class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>()
     dataFinalEdt = datePicker("Data Final"){
       localePtBr()
       isClearButtonVisible = true
+      addValueChangeListener {
+        updateComponent()
+      }
+    }
+    fornecedorEdt = textField("Fornecedor") {
+      addValueChangeListener {
+        updateComponent()
+      }
+    }
+    notaEdt = textField("Nota") {
       addValueChangeListener {
         updateComponent()
       }
@@ -86,10 +101,10 @@ class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>()
     notaPedido()
     notaDataPedido()
     notaNota()
+    notaFatura()
     notaDataNota()
     notaFornecedor()
   }
-  
   
   override val label: String
     get() = "Notas série 1"
@@ -125,8 +140,9 @@ class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>()
   }
   
   override fun dataInicial(): LocalDate? = dataInicialEdt.value
-  
   override fun dataFinal(): LocalDate? = dataFinalEdt.value
+  override fun fornecedor(): String = fornecedorEdt.value?.trim() ?: ""
+  override fun nota(): String = notaEdt.value?.trim() ?: ""
   
   private fun createFormEditRmk(nota: NotaSaida): Component {
     return TextArea().apply {
