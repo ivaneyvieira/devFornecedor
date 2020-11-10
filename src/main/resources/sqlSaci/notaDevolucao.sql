@@ -5,10 +5,13 @@ CREATE TEMPORARY TABLE TDUP (
 SELECT storeno,
        pdvno,
        xano,
-       dupno
+       dupno,
+       MAX(duedate)               AS vencimento,
+       SUM(amtdue) - SUM(amtpaid) AS valorDevido
 FROM sqldados.dup
 WHERE xano > 0
   AND issuedate > 20190101
+  AND status <> 5
 GROUP BY storeno, pdvno, xano;
 
 DO @VENDNO := :fornecedor * 1;
@@ -46,5 +49,6 @@ WHERE (N.issuedate BETWEEN :dataInicial AND :dataFinal OR :fornecedor <> '' OR :
   AND C.name NOT LIKE '%ENGECOPI%'
   AND N.status <> 1
   AND N.tipo = 2
+  AND (IFNULL(D.valorDevido, 100) > 0)
 GROUP BY loja, pdv, transacao
 LIMIT 1000
