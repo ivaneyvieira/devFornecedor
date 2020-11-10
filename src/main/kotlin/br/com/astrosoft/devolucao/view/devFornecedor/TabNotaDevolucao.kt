@@ -57,6 +57,7 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
   
   override fun HorizontalLayout.toolBarConfig() {
     dataInicialEdt = datePicker("Data Incial") {
+      valueChangeMode = ValueChangeMode.TIMEOUT
       localePtBr()
       isClearButtonVisible = true
       addValueChangeListener {
@@ -65,6 +66,7 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
     }
     dataFinalEdt = datePicker("Data Final") {
       localePtBr()
+      valueChangeMode = ValueChangeMode.TIMEOUT
       isClearButtonVisible = true
       addValueChangeListener {
         updateComponent()

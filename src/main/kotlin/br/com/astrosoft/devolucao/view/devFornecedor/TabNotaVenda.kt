@@ -61,6 +61,7 @@ class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>()
     dataInicialEdt = datePicker("Data Incial"){
       localePtBr()
       isClearButtonVisible = true
+      valueChangeMode = ValueChangeMode.TIMEOUT
       addValueChangeListener {
         updateComponent()
       }
@@ -68,16 +69,19 @@ class TabNotaVenda(val viewModel: NotaVendaViewModel): TabPanelGrid<NotaSaida>()
     dataFinalEdt = datePicker("Data Final"){
       localePtBr()
       isClearButtonVisible = true
+      valueChangeMode = ValueChangeMode.TIMEOUT
       addValueChangeListener {
         updateComponent()
       }
     }
     fornecedorEdt = textField("Fornecedor") {
+      valueChangeMode = ValueChangeMode.TIMEOUT
       addValueChangeListener {
         updateComponent()
       }
     }
     notaEdt = textField("Nota") {
+      valueChangeMode = ValueChangeMode.TIMEOUT
       addValueChangeListener {
         updateComponent()
       }
