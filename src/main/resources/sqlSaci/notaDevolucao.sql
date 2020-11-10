@@ -10,8 +10,8 @@ SELECT storeno,
        SUM(amtdue) - SUM(amtpaid) AS valorDevido
 FROM sqldados.dup
 WHERE xano > 0
-  AND issuedate > 20190101
   AND status <> 5
+  AND storeno IN (2, 3, 4, 5)
 GROUP BY storeno, pdvno, xano;
 
 DO @VENDNO := :fornecedor * 1;
@@ -38,12 +38,11 @@ FROM sqldados.nf              AS N
 	      ON C.no = N.custno
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.issuedate BETWEEN :dataInicial AND :dataFinal OR :fornecedor <> '' OR :nota <> '' OR
-       :dataInicial = 0 OR :dataFinal = 0)
+WHERE (N.issuedate BETWEEN :dataInicial AND :dataFinal OR :dataInicial = 0 OR :dataFinal = 0)
   AND (C.no = @VENDNO OR V.no = @VENDNO OR C.name LIKE CAST(CONCAT(:fornecedor, '%') AS CHAR) OR
        :fornecedor = '')
   AND (N.nfno = :nota OR :nota = '')
-  AND (:fornecedor <> '' OR :nota <> '' OR (:dataInicial <> 0 AND :dataFinal <> 0))
+  AND (:fornecedor <> '' OR :nota <> '' OR (:dataInicial <> 0 OR :dataFinal <> 0))
   AND N.nfse = 66
   AND N.storeno IN (2, 3, 4, 5)
   AND C.name NOT LIKE '%ENGECOPI%'
