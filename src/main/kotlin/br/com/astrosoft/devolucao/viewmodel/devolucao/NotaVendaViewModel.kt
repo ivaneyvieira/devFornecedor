@@ -17,10 +17,7 @@ class NotaVendaViewModel(val viewModel: DevFornecedorViewModel) {
     val fornecedor = subView.fornecedor()
     val nota = subView.nota()
     
-    if(dataInicial == null || dataFinal == null)
-      subView.updateGrid(emptyList())
-    else
-      subView.updateGrid(listNotaVenda(dataInicial, dataFinal, fornecedor, nota))
+    subView.updateGrid(listNotaVenda(dataInicial, dataFinal, fornecedor, nota))
   }
   
   private fun listNotaVenda(dataInicial: LocalDate?,
