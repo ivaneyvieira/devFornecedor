@@ -14,7 +14,7 @@ SELECT N.storeno,
        N.issuedate,
        N.eordno,
        O.date                                  AS pedidoDate,
-       cast(CONCAT(C.no, ' ', C.name) AS CHAR) AS fornecedor
+       cast(CONCAT(C.no, ' ', C.name) AS CHAR) AS fornecedorNome
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -63,7 +63,7 @@ SELECT N.storeno                                 AS loja,
        cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
        cast(N.issuedate AS DATE)                 AS dataNota,
-       N.fornecedor                              AS fornecedor,
+       N.fornecedorNome                          AS fornecedor,
        N.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk
 FROM TNF                      AS N
@@ -72,5 +72,6 @@ FROM TNF                      AS N
   LEFT JOIN TDUP              AS D
 	      ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
-GROUP BY loja, pdv, transacao
-LIMIT 1000
+GROUP BY loja, pdv, transacao, dataNota, fornecedor
+ORDER BY dataNota DESC, fornecedor
+LIMIT 10000
