@@ -43,6 +43,7 @@ CREATE TEMPORARY TABLE TDUP (
 SELECT N.nfstoreno                AS storeno,
        N.nfno,
        N.nfse,
+       D.status,
        CAST(N.dupno AS CHAR)      AS fatura,
        MAX(duedate)               AS vencimento,
        SUM(amtdue) - SUM(amtpaid) AS valorDevido
@@ -72,6 +73,7 @@ FROM TNF                      AS N
   LEFT JOIN TDUP              AS D
 	      ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
+  AND (IFNULL(status, 0) <> 5)
 GROUP BY loja, pdv, transacao, dataNota, fornecedor
 ORDER BY dataNota DESC, fornecedor
 LIMIT 10000
