@@ -53,7 +53,6 @@ FROM sqldados.dup           AS D
 		  N.dupse = D.dupse
   INNER JOIN TNF               NF
 	       ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
-WHERE D.status <> 5
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 SELECT N.storeno                                 AS loja,

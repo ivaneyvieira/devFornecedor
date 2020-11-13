@@ -7,13 +7,9 @@ import org.sql2o.Connection
 import org.sql2o.Query
 import org.sql2o.Sql2o
 import org.sql2o.converters.Converter
-import org.sql2o.converters.ConverterException
 import org.sql2o.quirks.NoQuirks
-import java.sql.Date
-import java.sql.Time
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneOffset
 import kotlin.reflect.KClass
 
 typealias QueryHandle = Query.() -> Unit
@@ -36,6 +32,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     val maps = HashMap<Class<*>, Converter<*>>()
     maps[LocalDate::class.java] = LocalDateConverter()
     maps[LocalTime::class.java] = LocalSqlTimeConverter()
+    maps[ByteArray::class.java] = ByteArrayConverter()
     this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
   }
   
@@ -47,21 +44,6 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
   
-  /*
-  private inline fun <reified T> buildQuery(file: String, proc: (Connection, Query) -> List<T>): List<T> {
-   
-    return this.sql2o.open()
-      .use {con ->
-        val query = con.createQuery(sql)
-        val time = System.currentTimeMillis()
-        println("SQL2O ==> $sql")
-        val result = proc(con, query)
-        val difTime = System.currentTimeMillis() - time
-        println("######################## TEMPO QUERY $difTime ms ########################")
-        result
-      }
-  }
-  */
   protected fun <T: Any> query(file: String, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
     val statements = toStratments(file)
     if(statements.isEmpty()) return emptyList()
@@ -112,6 +94,11 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return this
   }
   
+  fun Query.addOptionalParameter(name: String, value: ByteArray?): Query {
+    if(this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
+    return this
+  }
+  
   fun Query.addOptionalParameter(name: String, value: Int): Query {
     if(this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
     return this
@@ -132,30 +119,3 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
 }
 
-class LocalDateConverter: Converter<LocalDate?> {
-  @Throws(ConverterException::class)
-  override fun convert(value: Any?): LocalDate? {
-    if(value !is Date) return null
-    return value.toLocalDate()
-  }
-  
-  override fun toDatabaseParam(value: LocalDate?): Any? {
-    value ?: return null
-    return Date(value.atStartOfDay()
-                  .toInstant(ZoneOffset.UTC)
-                  .toEpochMilli())
-  }
-}
-
-class LocalSqlTimeConverter: Converter<LocalTime?> {
-  @Throws(ConverterException::class)
-  override fun convert(value: Any?): LocalTime? {
-    if(value !is Time) return null
-    return value.toLocalTime()
-  }
-  
-  override fun toDatabaseParam(value: LocalTime?): Any? {
-    value ?: return null
-    return Time.valueOf(value)
-  }
-}

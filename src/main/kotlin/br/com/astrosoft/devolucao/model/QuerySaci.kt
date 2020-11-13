@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model
 
+import br.com.astrosoft.devolucao.model.beans.NFFiles
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
@@ -86,6 +87,51 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("pdvno", nota.pdv)
       addOptionalParameter("xano", nota.transacao)
       addOptionalParameter("rmk", nota.rmk)
+    }
+  }
+  
+  //Files
+  fun insertFile(file: NFFiles){
+    val sql = "/sqlSaci/fileInsert.sql"
+    script(sql) {
+      addOptionalParameter("storeno", file.storeno)
+      addOptionalParameter("pdvno", file.pdvno)
+      addOptionalParameter("xano", file.xano)
+      addOptionalParameter("date", file.date.toSaciDate())
+      addOptionalParameter("nome", file.nome)
+      addOptionalParameter("data", file.file)
+    }
+  }
+  
+  fun updateFile(file: NFFiles){
+    val sql = "/sqlSaci/fileUpdate.sql"
+    script(sql) {
+      addOptionalParameter("storeno", file.storeno)
+      addOptionalParameter("pdvno", file.pdvno)
+      addOptionalParameter("xano", file.xano)
+      addOptionalParameter("date", file.date.toSaciDate())
+      addOptionalParameter("nome", file.nome)
+      addOptionalParameter("data", file.file)
+    }
+  }
+  
+  fun deleteFile(file: NFFiles){
+    val sql = "/sqlSaci/fileDelete.sql"
+    script(sql) {
+      addOptionalParameter("storeno", file.storeno)
+      addOptionalParameter("pdvno", file.pdvno)
+      addOptionalParameter("xano", file.xano)
+      addOptionalParameter("date", file.date.toSaciDate())
+      addOptionalParameter("nome", file.nome)
+    }
+  }
+  
+  fun selectFile(nfs: NotaSaida): List<NFFiles>{
+    val sql = "/sqlSaci/fileDelete.sql"
+    return query(sql, NFFiles::class) {
+      addOptionalParameter("storeno", nfs.loja)
+      addOptionalParameter("pdvno", nfs.pdv)
+      addOptionalParameter("xano", nfs.transacao)
     }
   }
   

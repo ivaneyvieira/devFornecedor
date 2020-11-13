@@ -22,6 +22,8 @@ class NotaSaida(
   
   fun save() = saci.saveRmk(this)
   
+  fun listFiles() = saci.selectFile(this)
+  
   companion object {
     fun findNotaDevolucao(dataInicial: LocalDate?,
                           dataFinal: LocalDate?,
