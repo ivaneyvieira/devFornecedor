@@ -44,6 +44,10 @@ fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
 fun Grid<NotaSaida>.notaFornecedor() = addColumnString(NotaSaida::fornecedor) {
   this.setHeader("Fornecedor")
 }
+
+fun Grid<NotaSaida>.notaFornecedorCodigoCliente() = addColumnInt(NotaSaida::custno) {
+  this.setHeader("Código")
+}
 // ****************************************************************************************
 // produtos de nota de saida
 // ****************************************************************************************

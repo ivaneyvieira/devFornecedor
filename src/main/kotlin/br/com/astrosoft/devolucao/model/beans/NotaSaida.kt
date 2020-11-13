@@ -12,6 +12,7 @@ class NotaSaida(
   val nota: String,
   val fatura: String,
   val dataNota: LocalDate,
+  val custno: Int,
   val fornecedor: String,
   val vendno: Int,
   var rmk: String

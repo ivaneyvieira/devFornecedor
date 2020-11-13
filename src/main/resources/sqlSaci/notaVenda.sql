@@ -10,11 +10,12 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       V.no                                    AS vendno,
+       V.no   AS vendno,
        N.issuedate,
        N.eordno,
-       O.date                                  AS pedidoDate,
-       cast(CONCAT(C.no, ' ', C.name) AS CHAR) AS fornecedorNome
+       O.date AS pedidoDate,
+       C.no   AS custno,
+       C.name AS fornecedorNome
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -63,6 +64,7 @@ SELECT N.storeno                                 AS loja,
        cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
        cast(N.issuedate AS DATE)                 AS dataNota,
+       N.custno                                  AS custno,
        N.fornecedorNome                          AS fornecedor,
        N.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk

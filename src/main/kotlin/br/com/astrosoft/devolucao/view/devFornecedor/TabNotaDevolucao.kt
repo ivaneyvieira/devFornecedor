@@ -9,6 +9,7 @@ import br.com.astrosoft.devolucao.view.notaDataPedido
 import br.com.astrosoft.devolucao.view.notaEmail
 import br.com.astrosoft.devolucao.view.notaFatura
 import br.com.astrosoft.devolucao.view.notaFornecedor
+import br.com.astrosoft.devolucao.view.notaFornecedorCodigoCliente
 import br.com.astrosoft.devolucao.view.notaLoja
 import br.com.astrosoft.devolucao.view.notaNota
 import br.com.astrosoft.devolucao.view.notaPedido
@@ -103,6 +104,7 @@ class TabNotaDevolucao(val viewModel: NotaDevolucaoViewModel): TabPanelGrid<Nota
     notaNota()
     notaFatura()
     notaDataNota()
+    notaFornecedorCodigoCliente()
     notaFornecedor()
   }
   
