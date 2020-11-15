@@ -35,26 +35,10 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun notasDevolucao(dataInicial: LocalDate?,
-                     dataFinal: LocalDate?,
-                     fornecedor: String,
-                     nota: String): List<NotaSaida> {
+  fun notasDevolucao(serie : String): List<NotaSaida> {
     val sql = "/sqlSaci/notaDevolucao.sql"
     return query(sql, NotaSaida::class) {
-      addOptionalParameter("dataInicial", dataInicial?.toSaciDate() ?: 0)
-      addOptionalParameter("dataFinal", dataFinal?.toSaciDate() ?: 0)
-      addOptionalParameter("fornecedor", fornecedor)
-      addOptionalParameter("nota", nota)
-    }
-  }
-  
-  fun notasVenda(dataInicial: LocalDate?, dataFinal: LocalDate?, fornecedor: String, nota: String): List<NotaSaida> {
-    val sql = "/sqlSaci/notaVenda.sql"
-    return query(sql, NotaSaida::class) {
-      addOptionalParameter("dataInicial", dataInicial?.toSaciDate() ?: 0)
-      addOptionalParameter("dataFinal", dataFinal?.toSaciDate() ?: 0)
-      addOptionalParameter("fornecedor", fornecedor)
-      addOptionalParameter("nota", nota)
+      addOptionalParameter("serie", serie)
     }
   }
   

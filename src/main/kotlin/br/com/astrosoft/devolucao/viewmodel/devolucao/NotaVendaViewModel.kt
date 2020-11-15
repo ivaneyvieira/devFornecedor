@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
+import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
-import java.time.LocalDate
 
 class NotaVendaViewModel(val viewModel: DevFornecedorViewModel) {
   private val subView
@@ -12,19 +12,12 @@ class NotaVendaViewModel(val viewModel: DevFornecedorViewModel) {
   }
   
   fun updateGridNotaVenda() = viewModel.exec {
-    val dataInicial = subView.dataInicial()
-    val dataFinal = subView.dataFinal()
-    val fornecedor = subView.fornecedor()
-    val nota = subView.nota()
-    
-    subView.updateGrid(listNotaVenda(dataInicial, dataFinal, fornecedor, nota))
+    subView.updateGrid(listNotaDevolucao())
   }
   
-  private fun listNotaVenda(dataInicial: LocalDate?,
-                            dataFinal: LocalDate?,
-                            fornecedor: String,
-                            nota: String): List<NotaSaida> {
-    return NotaSaida.findNotaVenda(dataInicial, dataFinal, fornecedor, nota)
+  private fun listNotaDevolucao(): List<Fornecedor> {
+    NotaSaida.updateNotasDevolucao("66")
+    return NotaSaida.findFornecedores()
   }
   
   fun editRmk(nota: NotaSaida) {
@@ -35,12 +28,8 @@ class NotaVendaViewModel(val viewModel: DevFornecedorViewModel) {
 }
 
 interface INotaVenda {
-  fun updateGrid(list: List<NotaSaida>)
-  fun itensSelecionados(): List<NotaSaida>
+  fun updateGrid(list: List<Fornecedor>)
+  fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(itens: List<NotaSaida>)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
-  fun dataInicial(): LocalDate?
-  fun dataFinal(): LocalDate?
-  fun fornecedor(): String
-  fun nota(): String
 }

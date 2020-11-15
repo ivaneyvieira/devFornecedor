@@ -36,7 +36,7 @@ abstract class TabPanelGrid<T: Any>: TabPanel<VerticalLayout> {
     addAndExpand(gridPanel)
   }
   
-  fun updateGrid(itens: List<T>) {
+  final fun updateGrid(itens: List<T>) {
     gridPanel.deselectAll()
     dataProviderPanel.updateItens(itens)
   }

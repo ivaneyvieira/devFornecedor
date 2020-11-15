@@ -25,21 +25,26 @@ class NotaSaida(
   
   fun listFiles() = saci.selectFile(this)
   
+  fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno)
+  
   companion object {
-    fun findNotaDevolucao(dataInicial: LocalDate?,
-                          dataFinal: LocalDate?,
-                          fornecedor: String,
-                          nota: String): List<NotaSaida> {
-      UltimasNotas.updateList()
-      return saci.notasDevolucao(dataInicial, dataFinal, fornecedor, nota)
+    private val fornecedores = mutableListOf<Fornecedor>()
+    
+    fun updateNotasDevolucao(serie: String) {
+      val notas = saci.notasDevolucao(serie)
+      val grupos = notas.groupBy {it.chaveFornecedor()}
+      fornecedores.clear()
+      fornecedores.addAll(grupos.map {entry ->
+        Fornecedor(entry.key.custno, entry.key.fornecedor, entry.key.vendno, entry.value)
+      })
     }
     
-    fun findNotaVenda(dataInicial: LocalDate?,
-                      dataFinal: LocalDate?,
-                      fornecedor: String,
-                      nota: String): List<NotaSaida> {
-      UltimasNotas.updateList()
-      return saci.notasVenda(dataInicial, dataFinal, fornecedor, nota)
-    }
+    fun findFornecedores() = fornecedores.toList()
   }
 }
+
+data class ChaveFornecedor(
+  val custno: Int,
+  val fornecedor: String,
+  val vendno: Int
+                          )

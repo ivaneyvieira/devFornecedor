@@ -1,5 +1,4 @@
-DO @VENDNO := :fornecedor * 1;
-DO @NOTA := :nota * 1;
+DO @SERIE := :serie;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -10,11 +9,12 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       V.no                                    AS vendno,
+       V.no   AS vendno,
        N.issuedate,
        N.eordno,
-       O.date                                  AS pedidoDate,
-       cast(CONCAT(C.no, ' ', C.name) AS CHAR) AS fornecedorNome
+       O.date AS pedidoDate,
+       C.no   AS custno,
+       C.name AS fornecedorNome
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -24,12 +24,7 @@ FROM sqldados.nf              AS N
 	      ON C.no = N.custno
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.issuedate BETWEEN :dataInicial AND :dataFinal OR :dataInicial = 0 OR :dataFinal = 0)
-  AND (C.no = @VENDNO OR V.no = @VENDNO OR C.name LIKE CAST(CONCAT(:fornecedor, '%') AS CHAR) OR
-       :fornecedor = '')
-  AND (N.nfno = @NOTA OR :nota = '')
-  AND (:fornecedor <> '' OR :nota <> '' OR (:dataInicial <> 0 AND :dataFinal <> 0))
-  AND N.nfse = 66
+WHERE N.nfse = @SERIE
   AND N.storeno IN (2, 3, 4, 5)
   AND C.name NOT LIKE '%ENGECOPI%'
   AND N.status <> 1
@@ -63,6 +58,7 @@ SELECT N.storeno                                 AS loja,
        cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
        cast(N.issuedate AS DATE)                 AS dataNota,
+       N.custno                                  AS custno,
        N.fornecedorNome                          AS fornecedor,
        N.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk
@@ -73,6 +69,4 @@ FROM TNF                      AS N
 	      ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)
-GROUP BY loja, pdv, transacao, dataNota, fornecedor
-ORDER BY dataNota DESC, fornecedor
-LIMIT 10000
+GROUP BY loja, pdv, transacao, dataNota, custno

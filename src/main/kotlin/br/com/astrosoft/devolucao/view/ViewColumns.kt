@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view
 
+import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
@@ -41,13 +42,23 @@ fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
   this.setHeader("Data")
 }
 
-fun Grid<NotaSaida>.notaFornecedor() = addColumnString(NotaSaida::fornecedor) {
-  this.setHeader("Fornecedor")
+
+// ****************************************************************************************
+// Fornecedor
+// ****************************************************************************************
+
+fun Grid<Fornecedor>.notaFornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
+  this.setHeader("Código Fornecedor")
 }
 
-fun Grid<NotaSaida>.notaFornecedorCodigoCliente() = addColumnInt(NotaSaida::custno) {
-  this.setHeader("Código")
+fun Grid<Fornecedor>.notaFornecedorCodigoCliente() = addColumnInt(Fornecedor::custno) {
+  this.setHeader("Código Cliente")
 }
+
+fun Grid<Fornecedor>.notaFornecedor() = addColumnString(Fornecedor::fornecedor) {
+  this.setHeader("Nome do Fornecedor")
+}
+
 // ****************************************************************************************
 // produtos de nota de saida
 // ****************************************************************************************

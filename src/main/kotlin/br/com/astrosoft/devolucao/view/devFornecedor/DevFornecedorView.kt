@@ -1,11 +1,9 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevFornecedorView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.INotaVenda
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.tabPanel
 import com.github.mvysny.karibudsl.v10.tabSheet
@@ -22,8 +20,7 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
   override fun isAccept(user: UserSaci) = true
   
   init {
-    val ts = tabSheet {
-      val user = AppConfig.userSaci
+    tabSheet {
       setSizeFull()
       tabPanel(tabNotaDevolucao)
       tabPanel(tabNotaVenda)
