@@ -19,8 +19,6 @@ class NotaSaida(
                ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   
-  fun listRepresentantes() = saci.representante(vendno)
-  
   fun save() = saci.saveRmk(this)
   
   fun listFiles() = saci.selectFile(this)

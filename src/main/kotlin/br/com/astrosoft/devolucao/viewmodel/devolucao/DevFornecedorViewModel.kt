@@ -4,8 +4,8 @@ import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedorView>(view) {
-  val tabNotaDevolucaoViewModel = NotaDevolucaoViewModel(this)
-  val tabNotaVendaViewModel = NotaVendaViewModel(this)
+  val tabNotaDevolucaoViewModel = NotaSerie66ViewModel(this)
+  val tabNotaVendaViewModel = NotaSerie01ViewModel(this)
 }
 
 interface IDevFornecedorView: IView {
