@@ -7,8 +7,14 @@ class ProdutosNotaSaida(
   val codigo: String,
   val descricao: String,
   val grade: String,
-  val qtde: Int
+  val qtde: Int,
+  val barcode: String,
+  val un: String,
+  val valorUnitario: Double,
+  val valorTotal: Double
                        ) {
+  var item : Int = 0
+  
   fun ultimasNotas(): List<UltimasNotas> {
     val list =
       UltimasNotas.ultimasNotas(codigo, grade)

@@ -23,26 +23,55 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
-  val codigoCol = col.column("Código", ProdutosNotaSaida::codigo.name, type.stringType())
+  val codigoCol = col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType())
     .apply {
-      this.setHorizontalTextAlignment(LEFT)
+      this.setHorizontalTextAlignment(RIGHT)
+      //this.setPattern("000000")
       this.setFixedWidth(50)
     }
   val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
-      this.setFixedWidth(60*4)
+      //this.setFixedWidth(60 * 4)
     }
   val gradeCol = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(CENTER)
       this.setFixedWidth(50)
     }
-  val qtdeCol = col.column("Qtde", ProdutosNotaSaida::qtde.name, type.integerType())
+  val qtdeCol = col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType())
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
       this.setPattern("0")
+      this.setFixedWidth(40)
+    }
+  val itemCol = col.column("Item", ProdutosNotaSaida::item.name, type.integerType())
+    .apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setPattern("000")
+      this.setFixedWidth(25)
+    }
+  val valorUnitarioCol = col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setPattern("#,##0.00")
       this.setFixedWidth(50)
+    }
+  val valorTotalCol = col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setPattern("#,##0.00")
+      this.setFixedWidth(60)
+    }
+  val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(80)
+    }
+  val unCol = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(30)
     }
   
   val niCol = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType())
@@ -66,17 +95,17 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       this.setFixedWidth(50)
     }
   
-  
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return listOf(
-      qtdeCol,
+      itemCol,
+      barcodeCol,
       codigoCol,
       descricaoCol,
       gradeCol,
-     // niCol,
-     // numeroNotaCol,
-     // dataNotaCol,
-     // qttdNotaCol,
+      unCol,
+      qtdeCol,
+      valorUnitarioCol,
+      valorTotalCol
                  )
   }
   
@@ -112,7 +141,12 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
-    val itens = notaSaida.listaProdutos()
+    var index : Int = 1
+    val itens = notaSaida.listaProdutos().sortedBy{it.codigo.toIntOrNull() ?: 0 }.map{
+      it.apply{
+        item = index++
+      }
+    }
     return DynamicReports.report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
@@ -120,7 +154,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       .columnGrid(* colunms)
       .setDataSource(itens)
       .summary(pageFooterBuilder())
-     // .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+      // .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style()
                           .setPadding(2)
                           .setTopBorder(stl.pen1Point()))
