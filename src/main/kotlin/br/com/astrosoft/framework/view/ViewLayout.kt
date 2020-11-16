@@ -169,7 +169,9 @@ fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
                                                   header : String? = null,
                                                   execButton: (T) -> Unit = {}): Grid.Column<T> {
   return addColumnButton(iconButton, tooltip, execButton, block = {
-    setHeader(header)
+    this.setHeader(header)
+    this.isAutoWidth = false
+    this.width = "4em"
   })
 }
 
@@ -179,8 +181,8 @@ fun <T: Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
     lista.indexOf(it) + 1
   }.apply {
     this.textAlign = END
-    isAutoWidth = true
-    setHeader(label)
+    this.isAutoWidth = true
+    this.setHeader(label)
     this.key = label
   }
 }

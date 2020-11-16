@@ -9,14 +9,15 @@ import br.com.astrosoft.devolucao.view.notaDataNota
 import br.com.astrosoft.devolucao.view.notaDataPedido
 import br.com.astrosoft.devolucao.view.notaEmail
 import br.com.astrosoft.devolucao.view.notaFatura
-import br.com.astrosoft.devolucao.view.notaFornecedor
-import br.com.astrosoft.devolucao.view.notaFornecedorCodigo
-import br.com.astrosoft.devolucao.view.notaFornecedorCodigoCliente
+import br.com.astrosoft.devolucao.view.fornecedorNome
+import br.com.astrosoft.devolucao.view.fornecedorCodigo
+import br.com.astrosoft.devolucao.view.fornecedorCliente
 import br.com.astrosoft.devolucao.view.notaLoja
 import br.com.astrosoft.devolucao.view.notaNota
 import br.com.astrosoft.devolucao.view.notaPedido
 import br.com.astrosoft.devolucao.view.notaRepresentante
 import br.com.astrosoft.devolucao.view.notaTelefone
+import br.com.astrosoft.devolucao.view.notaValor
 import br.com.astrosoft.devolucao.view.produtoCodigo
 import br.com.astrosoft.devolucao.view.produtoDescricao
 import br.com.astrosoft.devolucao.view.produtoGrade
@@ -55,9 +56,9 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {fornecedor ->
       showDialogRepresentante(fornecedor)
     }
-    notaFornecedorCodigoCliente()
-    notaFornecedor()
-    notaFornecedorCodigo()
+    fornecedorNome()
+    fornecedorCliente()
+    fornecedorCodigo()
   }
   
   override fun itensSelecionados(): List<Fornecedor> {
@@ -162,11 +163,12 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
       }
       
       notaLoja()
-      notaPedido()
       notaDataPedido()
+      notaPedido()
+      notaDataNota()
       notaNota()
       notaFatura()
-      notaDataNota()
+      notaValor()
     }
   }
   

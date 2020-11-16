@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
+import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
@@ -42,21 +43,25 @@ fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
   this.setHeader("Data")
 }
 
+fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valor) {
+  this.setHeader("Valor")
+}
+
 
 // ****************************************************************************************
 // Fornecedor
 // ****************************************************************************************
 
-fun Grid<Fornecedor>.notaFornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
-  this.setHeader("Código Fornecedor")
+fun Grid<Fornecedor>.fornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
+  this.setHeader("Código")
 }
 
-fun Grid<Fornecedor>.notaFornecedorCodigoCliente() = addColumnInt(Fornecedor::custno) {
-  this.setHeader("Código Cliente")
+fun Grid<Fornecedor>.fornecedorCliente() = addColumnInt(Fornecedor::custno) {
+  this.setHeader("Cliente")
 }
 
-fun Grid<Fornecedor>.notaFornecedor() = addColumnString(Fornecedor::fornecedor) {
-  this.setHeader("Nome do Fornecedor")
+fun Grid<Fornecedor>.fornecedorNome() = addColumnString(Fornecedor::fornecedor) {
+  this.setHeader("Fornecedor")
 }
 
 // ****************************************************************************************
