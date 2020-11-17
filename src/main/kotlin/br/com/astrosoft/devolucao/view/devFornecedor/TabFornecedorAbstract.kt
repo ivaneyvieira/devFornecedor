@@ -4,14 +4,14 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
+import br.com.astrosoft.devolucao.view.fornecedorCliente
+import br.com.astrosoft.devolucao.view.fornecedorCodigo
+import br.com.astrosoft.devolucao.view.fornecedorNome
 import br.com.astrosoft.devolucao.view.notaCelular
 import br.com.astrosoft.devolucao.view.notaDataNota
 import br.com.astrosoft.devolucao.view.notaDataPedido
 import br.com.astrosoft.devolucao.view.notaEmail
 import br.com.astrosoft.devolucao.view.notaFatura
-import br.com.astrosoft.devolucao.view.fornecedorNome
-import br.com.astrosoft.devolucao.view.fornecedorCodigo
-import br.com.astrosoft.devolucao.view.fornecedorCliente
 import br.com.astrosoft.devolucao.view.notaLoja
 import br.com.astrosoft.devolucao.view.notaNota
 import br.com.astrosoft.devolucao.view.notaPedido
@@ -32,6 +32,7 @@ import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
@@ -42,11 +43,22 @@ import com.vaadin.flow.component.icon.VaadinIcon.PHONE_LANDLINE
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextArea
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   TabPanelGrid<Fornecedor>(Fornecedor::class), INota {
+  private lateinit var edtFiltro: TextField
+  
   override fun HorizontalLayout.toolBarConfig() {
+    edtFiltro = textField("Filtro") {
+      width = "400px"
+      valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        viewModel.updateFiltro()
+      }
+    }
   }
   
   override fun Grid<Fornecedor>.gridPanel() {
@@ -56,9 +68,14 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {fornecedor ->
       showDialogRepresentante(fornecedor)
     }
-    fornecedorNome()
-    fornecedorCliente()
     fornecedorCodigo()
+    fornecedorCliente()
+    fornecedorNome()
+  }
+  
+  override fun filtro() = edtFiltro.value ?: ""
+  override fun setFiltro(txt : String) {
+    edtFiltro.value = txt
   }
   
   override fun itensSelecionados(): List<Fornecedor> {

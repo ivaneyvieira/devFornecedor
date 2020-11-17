@@ -15,6 +15,7 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
   }
   
   private fun listNotaDevolucao(): List<Fornecedor> {
+    subView.setFiltro("")
     NotaSaida.updateNotasDevolucao(subView.serie)
     return NotaSaida.findFornecedores()
   }
@@ -24,13 +25,32 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
       notaSaida.save()
     }
   }
+  
+  fun updateFiltro() {
+    val filtro: String = subView.filtro()
+    val resultList =
+      NotaSaida.findFornecedores()
+        .filtro(filtro)
+    
+    subView.updateGrid(resultList)
+  }
+}
+
+fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
+  return this.filter {
+    val filtroNum = txt.toIntOrNull() ?: 0
+    it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txt, ignoreCase = true)
+  }
 }
 
 interface INota {
-  abstract val serie: String
+  val serie: String
   
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(itens: List<NotaSaida>)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
+  fun filtro(): String
+  fun setFiltro(txt: String) {
+  }
 }
