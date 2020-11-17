@@ -46,12 +46,9 @@ fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
 fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valor) {
   this.setHeader("Valor")
 }
-
-
 // ****************************************************************************************
 // Fornecedor
 // ****************************************************************************************
-
 fun Grid<Fornecedor>.fornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
   this.setHeader("Fornecedor")
 }

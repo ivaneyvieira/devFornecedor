@@ -9,14 +9,14 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       V.no                                                 AS vendno,
+       V.no                                                             AS vendno,
        N.issuedate,
        N.eordno,
-       O.date                                               AS pedidoDate,
-       C.no                                                 AS custno,
-       C.name                                               AS fornecedorNome,
-       N.grossamt / 100                                     AS valor,
-       CONCAT(TRIM(N.remarks), '\n', TRIM(R2.remarks__480)) AS obsNota
+       O.date                                                           AS pedidoDate,
+       C.no                                                             AS custno,
+       C.name                                                           AS fornecedorNome,
+       N.grossamt / 100                                                 AS valor,
+       CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, ''))) AS obsNota
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
