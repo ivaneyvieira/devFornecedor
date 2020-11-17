@@ -73,7 +73,6 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       this.setHorizontalTextAlignment(CENTER)
       this.setFixedWidth(30)
     }
-  
   val niCol = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
@@ -132,10 +131,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   private fun sumaryBuild(): ComponentBuilder<*, *>? {
     return verticalList {
       breakLine()
-      horizontalFlowList {
-        text("OBSERVAÇÃO:", LEFT, 100)
-        text(notaSaida.obsNota, LEFT)
-      }
+      
+      text("OBSERVAÇÕES:", LEFT, 100)
+      text(notaSaida.obsNota, LEFT)
     }
   }
   
@@ -151,12 +149,15 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
-    var index : Int = 1
-    val itens = notaSaida.listaProdutos().sortedBy{it.codigo.toIntOrNull() ?: 0 }.map{
-      it.apply{
-        item = index++
-      }
-    }
+    var index: Int = 1
+    val itens =
+      notaSaida.listaProdutos()
+        .sortedBy {it.codigo.toIntOrNull() ?: 0}
+        .map {
+          it.apply {
+            item = index++
+          }
+        }
     return DynamicReports.report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
@@ -174,8 +175,6 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
                     .setStyle(stl.style()
                                 .setFontSize(8)))
   }
-  
-
   
   companion object {
     fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {
