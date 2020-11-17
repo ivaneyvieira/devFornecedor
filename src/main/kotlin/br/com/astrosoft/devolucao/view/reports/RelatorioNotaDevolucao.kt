@@ -129,6 +129,16 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     }
   }
   
+  private fun sumaryBuild(): ComponentBuilder<*, *>? {
+    return verticalList {
+      breakLine()
+      horizontalFlowList {
+        text("OBSERVAÇÃO:", LEFT, 100)
+        text(notaSaida.obsNota, LEFT)
+      }
+    }
+  }
+  
   private fun pageFooterBuilder(): ComponentBuilder<*, *>? {
     return DynamicReports.cmp.verticalList()
   }
@@ -153,6 +163,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       .columns(* colunms)
       .columnGrid(* colunms)
       .setDataSource(itens)
+      .summary(sumaryBuild())
       .summary(pageFooterBuilder())
       // .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style()
@@ -163,6 +174,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
                     .setStyle(stl.style()
                                 .setFontSize(8)))
   }
+  
+
   
   companion object {
     fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {

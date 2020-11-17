@@ -53,7 +53,7 @@ fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valor) {
 // ****************************************************************************************
 
 fun Grid<Fornecedor>.fornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
-  this.setHeader("Código")
+  this.setHeader("Fornecedor")
 }
 
 fun Grid<Fornecedor>.fornecedorCliente() = addColumnInt(Fornecedor::custno) {

@@ -9,15 +9,18 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       V.no             AS vendno,
+       V.no                                                 AS vendno,
        N.issuedate,
        N.eordno,
-       O.date           AS pedidoDate,
-       C.no             AS custno,
-       C.name           AS fornecedorNome,
-       N.grossamt / 100 AS valor
+       O.date                                               AS pedidoDate,
+       C.no                                                 AS custno,
+       C.name                                               AS fornecedorNome,
+       N.grossamt / 100                                     AS valor,
+       CONCAT(TRIM(N.remarks), '\n', TRIM(R2.remarks__480)) AS obsNota
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.nfrmk    AS R2
 	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.eord     AS O
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
@@ -36,13 +39,13 @@ DROP TEMPORARY TABLE IF EXISTS TDUP;
 CREATE TEMPORARY TABLE TDUP (
   PRIMARY KEY (storeno, nfno, nfse)
 )
-SELECT N.nfstoreno                AS storeno,
+SELECT N.nfstoreno                      AS storeno,
        N.nfno,
        N.nfse,
        D.status,
-       CAST(N.dupno AS CHAR)      AS fatura,
-       MAX(duedate)               AS vencimento,
-       SUM(amtdue) - SUM(amtpaid) AS valorDevido
+       CAST(N.dupno AS CHAR)            AS fatura,
+       MAX(duedate)                     AS vencimento,
+       SUM(amtdue - disc_amt - amtpaid) AS valorDevido
 FROM sqldados.dup           AS D
   INNER JOIN sqldados.nfdup AS N
 	       ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
@@ -63,8 +66,8 @@ SELECT N.storeno                                 AS loja,
        N.fornecedorNome                          AS fornecedor,
        N.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk,
-       SUM(N.valor)                              AS valor
-
+       SUM(N.valor)                              AS valor,
+       IFNULL(obsNota, '')                       AS obsNota
 FROM TNF                      AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
