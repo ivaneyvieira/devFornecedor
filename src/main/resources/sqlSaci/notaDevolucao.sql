@@ -55,6 +55,7 @@ FROM sqldados.dup           AS D
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 SELECT N.storeno                                 AS loja,
+       S.sname                                   AS sigla,
        N.pdvno                                   AS pdv,
        N.xano                                    AS transacao,
        N.eordno                                  AS pedido,
@@ -68,11 +69,13 @@ SELECT N.storeno                                 AS loja,
        IFNULL(R.rmk, '')                         AS rmk,
        SUM(N.valor)                              AS valor,
        IFNULL(obsNota, '')                       AS obsNota
-FROM TNF                      AS N
-  LEFT JOIN sqldados.nfdevRmk AS R
-	      USING (storeno, pdvno, xano)
-  LEFT JOIN TDUP              AS D
-	      ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+FROM TNF                       AS N
+  INNER JOIN sqldados.store    AS S
+	       ON S.no = N.storeno
+  LEFT JOIN  sqldados.nfdevRmk AS R
+	       USING (storeno, pdvno, xano)
+  LEFT JOIN  TDUP              AS D
+	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)
 GROUP BY loja, pdv, transacao, dataNota, custno

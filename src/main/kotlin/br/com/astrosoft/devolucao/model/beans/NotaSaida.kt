@@ -5,6 +5,7 @@ import java.time.LocalDate
 
 class NotaSaida(
   val loja: Int,
+  val sigla: String,
   val pdv: Int,
   val transacao: Int,
   val pedido: Int,

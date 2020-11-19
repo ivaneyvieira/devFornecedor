@@ -121,7 +121,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   private fun titleBuider(): ComponentBuilder<*, *>? {
     return verticalList {
       horizontalFlowList {
-        text("ENGECOPI      PROCESSO ${notaSaida.nota}     -     ${notaSaida.dataNota.format()}", LEFT)
+        text("ENGECOPI   ${notaSaida.sigla}   PROCESSO ${notaSaida.nota}     -     ${notaSaida.dataNota.format()}", LEFT)
         text("${
           LocalDate.now()
             .format()
@@ -131,7 +131,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
         }", RIGHT)
       }
       horizontalFlowList {
-        text("DEV FORNECEDOR: ${notaSaida.fornecedor}")
+        text("${notaSaida.custno} ${notaSaida.fornecedor}")
         text("COD FOR: ${notaSaida.vendno}", RIGHT, 200)
       }
     }
