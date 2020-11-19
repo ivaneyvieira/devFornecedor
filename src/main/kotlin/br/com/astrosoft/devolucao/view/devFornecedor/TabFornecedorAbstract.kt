@@ -25,6 +25,7 @@ import br.com.astrosoft.devolucao.view.produtoQtde
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.NotaSerieViewModel
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -34,6 +35,7 @@ import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.icon.VaadinIcon.CHECK
@@ -185,7 +187,12 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
       notaDataNota()
       notaNota()
       notaFatura()
-      notaValor()
+      notaValor().apply {
+        val totalPedido = listNotas.sumByDouble {it.valor}.format()
+        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+      }
+      
+      
     }
   }
   
