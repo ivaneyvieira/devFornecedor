@@ -120,33 +120,11 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
             binder.bind(this, UserSaci::impressora.name)
           }
         if(operation in listOf(ADD, READ, DELETE, UPDATE)) {
-          checkBox("Entrega Imprimir") {
-            binder.bind(this, UserSaci::entrega_imprimir.name)
+          checkBox("Nota série 66") {
+            binder.bind(this, UserSaci::nota66.name)
           }
-          checkBox("Entrega Impresso sem nota") {
-            binder.bind(this, UserSaci::entrega_impressoSemNota.name)
-          }
-          checkBox("Entrega Pendente") {
-            binder.bind(this, UserSaci::entrega_pendente.name)
-          }
-          checkBox("Entrega Editor de Nota") {
-            binder.bind(this, UserSaci::entrega_impressoComNota.name)
-          }
-          checkBox("Desempenho Entrega") {
-            binder.bind(this, UserSaci::entrega_entregador.name)
-          }
-          
-          checkBox("Retira Imprimir") {
-            binder.bind(this, UserSaci::retira_imprimir.name)
-          }
-          checkBox("Retira Impresso sem nota") {
-            binder.bind(this, UserSaci::retira_impressoSemNota.name)
-          }
-          checkBox("Retira Pendente") {
-            binder.bind(this, UserSaci::retira_pendente.name)
-          }
-          checkBox("Retira Editor de Nota") {
-            binder.bind(this, UserSaci::retira_impressoComNota.name)
+          checkBox("Nota série 1") {
+            binder.bind(this, UserSaci::nota01.name)
           }
         }
       }

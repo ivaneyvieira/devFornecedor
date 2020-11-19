@@ -27,6 +27,8 @@ class NotaSaida(
   
   fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno)
   
+  fun serieNota() = nota.split("/").getOrNull(1) ?: ""
+  
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
     

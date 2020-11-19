@@ -95,7 +95,17 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     }
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
-    return listOf(
+    return if(notaSaida.serieNota() == "66")
+      listOf(
+        itemCol,
+        barcodeCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        unCol,
+        qtdeCol
+            )
+    else listOf(
       itemCol,
       barcodeCol,
       codigoCol,
@@ -105,14 +115,13 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       qtdeCol,
       valorUnitarioCol,
       valorTotalCol
-                 )
+               )
   }
   
   private fun titleBuider(): ComponentBuilder<*, *>? {
     return verticalList {
       horizontalFlowList {
-        text("ENGECOPI", LEFT)
-        text("PROCESSO INTERNO ${notaSaida.nota}", CENTER, 300)
+        text("ENGECOPI      PROCESSO ${notaSaida.nota}     -     ${notaSaida.dataNota.format()}", LEFT)
         text("${
           LocalDate.now()
             .format()
@@ -142,9 +151,12 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   }
   
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return listOf(
-      sbt.sum(qtdeCol)
-                 )
+    return if(notaSaida.serieNota() == "66") emptyList()
+    else
+      listOf(
+        sbt.text("Total R$", valorUnitarioCol),
+        sbt.sum(valorTotalCol)
+            )
   }
   
   fun makeReport(): JasperReportBuilder? {
@@ -166,7 +178,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       .setDataSource(itens)
       .summary(sumaryBuild())
       .summary(pageFooterBuilder())
-      // .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style()
                           .setPadding(2)
                           .setTopBorder(stl.pen1Point()))

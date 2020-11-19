@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
+import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
@@ -21,9 +22,12 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
   
   init {
     tabSheet {
+      val username = AppConfig.userSaci
       setSizeFull()
-      tabPanel(tabNotaDevolucao)
-      tabPanel(tabNotaVenda)
+      if(username?.nota66 == true)
+        tabPanel(tabNotaDevolucao)
+      if(username?.nota01 == true)
+        tabPanel(tabNotaVenda)
     }
   }
 }
