@@ -9,14 +9,18 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       V.no                                                             AS vendno,
+       V.no                                                              AS vendno,
        N.issuedate,
        N.eordno,
-       O.date                                                           AS pedidoDate,
-       C.no                                                             AS custno,
-       C.name                                                           AS fornecedorNome,
-       N.grossamt / 100                                                 AS valor,
-       CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, ''))) AS obsNota
+       O.date                                                            AS pedidoDate,
+       C.no                                                              AS custno,
+       C.name                                                            AS fornecedorNome,
+       N.grossamt / 100                                                  AS valor,
+       CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
+       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS Serie01Rejeitada,
+       IF((N.remarks LIKE 'PAG%DES% DUP% NI%' OR N.remarks LIKE '%REPOSI% NI%') AND N.nfse = '1',
+	  'S', 'N')                                                      AS Serie01Pago,
+       TRIM(N.remarks)                                                   AS remarks
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -68,7 +72,10 @@ SELECT N.storeno                                 AS loja,
        N.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk,
        SUM(N.valor)                              AS valor,
-       IFNULL(obsNota, '')                       AS obsNota
+       IFNULL(obsNota, '')                       AS obsNota,
+       Serie01Rejeitada                          AS serie01Rejeitada,
+       Serie01Pago                               AS serie01Pago,
+       remarks                                   AS remarks
 FROM TNF                       AS N
   INNER JOIN sqldados.store    AS S
 	       ON S.no = N.storeno
@@ -78,4 +85,5 @@ FROM TNF                       AS N
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)
+  AND (D.fatura IS NOT NULL OR Serie01Pago = 'N')
 GROUP BY loja, pdv, transacao, dataNota, custno

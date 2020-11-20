@@ -18,7 +18,10 @@ class NotaSaida(
   val vendno: Int,
   var rmk: String,
   val valor: Double,
-  val obsNota: String
+  val obsNota: String,
+  val serie01Rejeitada: String,
+  val serie01Pago: String,
+  val remarks: String
                ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   
