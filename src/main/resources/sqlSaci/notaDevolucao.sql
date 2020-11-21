@@ -18,8 +18,7 @@ SELECT N.storeno,
        N.grossamt / 100                                                  AS valor,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS Serie01Rejeitada,
-       IF((N.remarks LIKE 'PAG%DES% DUP% NI%' OR N.remarks LIKE '%REPOSI% NI%') AND N.nfse = '1',
-	  'S', 'N')                                                      AS Serie01Pago,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS Serie01Pago,
        TRIM(N.remarks)                                                   AS remarks
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
