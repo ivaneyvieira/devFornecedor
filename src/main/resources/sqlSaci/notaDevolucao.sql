@@ -85,5 +85,5 @@ FROM TNF                       AS N
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)
-  AND (D.fatura IS NOT NULL OR Serie01Pago = 'N')
+  AND ((D.fatura IS NOT NULL OR Serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno
