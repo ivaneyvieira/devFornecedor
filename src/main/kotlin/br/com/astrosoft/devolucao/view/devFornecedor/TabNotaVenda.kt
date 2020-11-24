@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
+import br.com.astrosoft.devolucao.model.beans.NFFile
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INotaVenda
 import br.com.astrosoft.devolucao.viewmodel.devolucao.NotaSerie01ViewModel
 

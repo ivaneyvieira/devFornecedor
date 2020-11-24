@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
@@ -125,4 +126,10 @@ fun Grid<ProdutosNotaSaida>.produtoUltData() = addColumnLocalDate(ProdutosNotaSa
 
 fun Grid<ProdutosNotaSaida>.produtoUltQtd() = addColumnInt(ProdutosNotaSaida::qttdNota) {
   this.setHeader("Quant")
+}
+
+//*******************************
+
+fun Grid<NFFile>.nfFileDescricao() = addColumnString(NFFile::nome) {
+  this.setHeader("Descrição")
 }

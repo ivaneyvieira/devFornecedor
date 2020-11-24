@@ -5,7 +5,6 @@ import com.github.mvysny.karibudsl.v10.content
 import com.github.mvysny.karibudsl.v10.h4
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
-import com.github.mvysny.karibudsl.v10.label
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.Component
@@ -35,12 +34,12 @@ class SubWindowForm(labelTitle: String,
         toolBar(this@SubWindowForm)
       }
       horizontalLayout {
-        isSpacing= true
+        isSpacing = true
         isPadding = false
         setWidthFull()
         labelTitle.split("|")
           .forEach {linha ->
-            h4(linha){
+            h4(linha) {
               isExpand = true
             }
           }

@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 
 abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
@@ -22,7 +23,13 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
   
   fun editRmk(nota: NotaSaida) {
     subView.editRmk(nota) {notaSaida ->
-      notaSaida.save()
+      notaSaida.saveRmk()
+    }
+  }
+  
+  fun editFile(nota: NotaSaida) = viewModel.exec {
+    subView.editFile(nota) {nfFile ->
+      nfFile.saveFile()
     }
   }
   
@@ -34,12 +41,18 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
     
     subView.updateGrid(resultList)
   }
-}
-
-fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
-  return this.filter {
-    val filtroNum = txt.toIntOrNull() ?: 0
-    it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txt, ignoreCase = true)
+  
+  fun deleteFile(file: NFFile?) = viewModel.exec {
+    file?.apply {
+      this.delete()
+    }
+  }
+  
+  fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
+    return this.filter {
+      val filtroNum = txt.toIntOrNull() ?: 0
+      it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txt, ignoreCase = true)
+    }
   }
 }
 
@@ -50,7 +63,7 @@ interface INota {
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(itens: List<NotaSaida>)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
+  fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String
-  fun setFiltro(txt: String) {
-  }
+  fun setFiltro(txt: String)
 }

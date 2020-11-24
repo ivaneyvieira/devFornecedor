@@ -25,7 +25,7 @@ class NotaSaida(
                ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   
-  fun save() = saci.saveRmk(this)
+  fun saveRmk() = saci.saveRmk(this)
   
   fun listFiles() = saci.selectFile(this)
   

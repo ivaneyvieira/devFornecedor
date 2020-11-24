@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model
 
-import br.com.astrosoft.devolucao.model.beans.NFFiles
+import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
@@ -9,7 +9,6 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.toSaciDate
-import java.time.LocalDate
 
 class QuerySaci: QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -75,7 +74,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   //Files
-  fun insertFile(file: NFFiles){
+  fun insertFile(file: NFFile){
     val sql = "/sqlSaci/fileInsert.sql"
     script(sql) {
       addOptionalParameter("storeno", file.storeno)
@@ -83,11 +82,11 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("xano", file.xano)
       addOptionalParameter("date", file.date.toSaciDate())
       addOptionalParameter("nome", file.nome)
-      addOptionalParameter("data", file.file)
+      addOptionalParameter("file", file.file)
     }
   }
   
-  fun updateFile(file: NFFiles){
+  fun updateFile(file: NFFile){
     val sql = "/sqlSaci/fileUpdate.sql"
     script(sql) {
       addOptionalParameter("storeno", file.storeno)
@@ -95,11 +94,11 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("xano", file.xano)
       addOptionalParameter("date", file.date.toSaciDate())
       addOptionalParameter("nome", file.nome)
-      addOptionalParameter("data", file.file)
+      addOptionalParameter("file", file.file)
     }
   }
   
-  fun deleteFile(file: NFFiles){
+  fun deleteFile(file: NFFile){
     val sql = "/sqlSaci/fileDelete.sql"
     script(sql) {
       addOptionalParameter("storeno", file.storeno)
@@ -110,9 +109,9 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun selectFile(nfs: NotaSaida): List<NFFiles>{
-    val sql = "/sqlSaci/fileDelete.sql"
-    return query(sql, NFFiles::class) {
+  fun selectFile(nfs: NotaSaida): List<NFFile>{
+    val sql = "/sqlSaci/fileSelect.sql"
+    return query(sql, NFFile::class) {
       addOptionalParameter("storeno", nfs.loja)
       addOptionalParameter("pdvno", nfs.pdv)
       addOptionalParameter("xano", nfs.transacao)
