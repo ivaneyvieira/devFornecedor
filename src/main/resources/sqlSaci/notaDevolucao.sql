@@ -39,14 +39,14 @@ FROM sqldados.nf              AS N
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN sqldados.custp    AS C
 	      ON C.no = N.custno
+		AND C.no not in (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333, 709327,108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
 WHERE N.nfse = @SERIE
   AND N.storeno IN (2, 3, 4, 5)
-  AND C.name NOT LIKE '%ENGECOPI%'
   AND N.status <> 1
   AND N.tipo = 2
-GROUP BY storeno, nfno, nfse;
+GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
 CREATE TEMPORARY TABLE TDUP (
