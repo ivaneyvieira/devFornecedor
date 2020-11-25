@@ -7,50 +7,64 @@ import net.sf.dynamicreports.report.builder.component.VerticalListBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
 
-fun horizontalFlowList(block: (HorizontalListBuilder) -> HorizontalListBuilder): HorizontalListBuilder {
+fun horizontalBlock(block: (HorizontalListBuilder) -> HorizontalListBuilder): HorizontalListBuilder {
   val hrizontal = cmp.horizontalFlowList()
   block(hrizontal)
   return hrizontal
 }
 
-fun verticalList(block: VerticalListBuilder.() -> VerticalListBuilder): VerticalListBuilder {
+fun verticalBlock(block: VerticalListBuilder.() -> Unit): VerticalListBuilder {
   val vertical = cmp.verticalList()
   block(vertical)
   return vertical
 }
 
-fun VerticalListBuilder.horizontalFlowList(block: HorizontalListBuilder.() -> Unit): VerticalListBuilder {
+fun VerticalListBuilder.horizontalList(block: HorizontalListBuilder.() -> Unit) {
   val horizontal = cmp.horizontalList()
   block(horizontal)
-  return this.add(horizontal)
+  this.add(horizontal)
 }
 
-fun HorizontalListBuilder.verticalList(block: (VerticalListBuilder) -> Unit): HorizontalListBuilder {
+fun VerticalListBuilder.verticalList(block: VerticalListBuilder.() -> Unit) {
   val vertical = cmp.verticalList()
   block(vertical)
-  return this.add(vertical)
+  this.add(vertical)
 }
 
-fun VerticalListBuilder.breakLine(): VerticalListBuilder {
-  return this.add(cmp.text(""))
+fun HorizontalListBuilder.horizontalList(block: HorizontalListBuilder.() -> Unit) {
+  val horizontal = cmp.horizontalList()
+  block(horizontal)
+  this.add(horizontal)
+}
+
+fun HorizontalListBuilder.verticalList(block: VerticalListBuilder.() -> Unit) {
+  val vertical = cmp.verticalList()
+  block(vertical)
+  this.add(vertical)
+}
+
+fun VerticalListBuilder.breakLine() {
+  this.add(cmp.text(""))
 }
 
 fun HorizontalListBuilder.text(text: String, horizontalTextAlignment: HorizontalTextAlignment = LEFT, width: Int = 0,
-                               block: TextFieldBuilder<String>.() -> Unit = {}): HorizontalListBuilder {
+                               block: TextFieldBuilder<String>.() -> Unit = {}): TextFieldBuilder<String> {
   val textString = cmp.text(text)
     .setHorizontalTextAlignment(horizontalTextAlignment)
   if(width > 0)
     textString.setFixedWidth(width)
   textString.block()
-  return this.add(textString)
+  this.add(textString)
+  return textString
 }
 
 fun VerticalListBuilder.text(text: String, horizontalTextAlignment: HorizontalTextAlignment = LEFT, width: Int = 0,
-                             block: TextFieldBuilder<String>.() -> Unit = {}): VerticalListBuilder {
+                             block: TextFieldBuilder<String>.() -> Unit = {}): TextFieldBuilder<String> {
   val textString = cmp.text(text)
     .setHorizontalTextAlignment(horizontalTextAlignment)
   if(width > 0)
     textString.setFixedWidth(width)
   textString.block()
-  return this.add(textString)
+  this.add(textString)
+  return textString
 }

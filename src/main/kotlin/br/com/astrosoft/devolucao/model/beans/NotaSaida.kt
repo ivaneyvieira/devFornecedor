@@ -21,9 +21,24 @@ class NotaSaida(
   val obsNota: String,
   val serie01Rejeitada: String,
   val serie01Pago: String,
-  val remarks: String
+  val remarks: String,
+  val baseIcms: Double = 0.00,
+  val valorIcms: Double = 0.00,
+  val baseIcmsSubst: Double = 0.00,
+  val icmsSubst: Double = 0.00,
+  val valorFrete: Double = 0.00,
+  val valorSeguro: Double = 0.00,
+  val valorDesconto: Double = 0.00,
+  val outrasDespesas: Double = 0.00,
+  val valorIpi: Double = 0.00,
+  val valorTotal: Double = 0.00
                ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
+  
+  val valorTotalProduto: Double
+    get() = listaProdutos().sumByDouble {
+      it.valorTotal
+    }
   
   fun saveRmk() = saci.saveRmk(this)
   
@@ -31,7 +46,8 @@ class NotaSaida(
   
   fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno)
   
-  fun serieNota() = nota.split("/").getOrNull(1) ?: ""
+  fun serieNota() = nota.split("/")
+                      .getOrNull(1) ?: ""
   
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()

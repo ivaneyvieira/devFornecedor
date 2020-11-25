@@ -19,7 +19,17 @@ SELECT N.storeno,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS Serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS Serie01Pago,
-       TRIM(N.remarks)                                                   AS remarks
+       TRIM(N.remarks)                                                   AS remarks,
+       N.netamt / 100                                                    AS baseIcms,
+       N.icms_amt / 100                                                  AS valorIcms,
+       N.baseIcmsSubst / 100                                             AS baseIcmsSubst,
+       N.icmsSubst / 100                                                 AS icmsSubst,
+       N.fre_amt / 100                                                   AS valorFrete,
+       N.sec_amt / 100                                                   AS valorSeguro,
+       N.discount / 100                                                  AS valorDesconto,
+       0.00                                                              AS outrasDespesas,
+       N.ipi_amt / 100                                                   AS valorIpi,
+       grossamt / 100                                                    AS valorTotal
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -74,7 +84,16 @@ SELECT N.storeno                                 AS loja,
        IFNULL(obsNota, '')                       AS obsNota,
        Serie01Rejeitada                          AS serie01Rejeitada,
        Serie01Pago                               AS serie01Pago,
-       remarks                                   AS remarks
+       remarks                                   AS remarks,
+       baseIcms                                  AS baseIcms,
+       valorIcms                                 AS valorIcms,
+       baseIcmsSubst                             AS baseIcmsSubst,
+       icmsSubst                                 AS icmsSubst,
+       valorFrete                                AS valorFrete,
+       valorSeguro                               AS valorSeguro,
+       outrasDespesas                            AS outrasDespesas,
+       valorIpi                                  AS valorIpi,
+       valorTotal                                AS valorTotal
 FROM TNF                       AS N
   INNER JOIN sqldados.store    AS S
 	       ON S.no = N.storeno
