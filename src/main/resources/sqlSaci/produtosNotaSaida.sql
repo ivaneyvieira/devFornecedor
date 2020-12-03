@@ -43,6 +43,8 @@ FROM sqldados.inv          AS I
 	       USING (prdno, grade)
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & pow(2, 15) = 0
+  AND I.cfo NOT IN (1910, 2910)
+  AND I.type = 0
 GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_INV;
