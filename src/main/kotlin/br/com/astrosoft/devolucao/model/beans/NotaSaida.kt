@@ -31,7 +31,8 @@ class NotaSaida(
   val valorDesconto: Double = 0.00,
   val outrasDespesas: Double = 0.00,
   val valorIpi: Double = 0.00,
-  val valorTotal: Double = 0.00
+  val valorTotal: Double = 0.00,
+  val obsPedido: String
                ) {
   fun listaProdutos() = saci.produtosNotaSaida(this)
   

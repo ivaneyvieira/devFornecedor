@@ -7,8 +7,9 @@ import br.com.astrosoft.devolucao.view.reports.Templates.fieldFont
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontTitle
 import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
-import net.sf.dynamicreports.report.builder.DynamicReports
+import net.sf.dynamicreports.report.builder.DynamicReports.cmp
 import net.sf.dynamicreports.report.builder.DynamicReports.col
+import net.sf.dynamicreports.report.builder.DynamicReports.report
 import net.sf.dynamicreports.report.builder.DynamicReports.sbt
 import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.DynamicReports.type
@@ -69,7 +70,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(80)
+      this.setFixedWidth(100)
     }
   val unCol = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType())
     .apply {
@@ -96,6 +97,17 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       this.setHorizontalTextAlignment(LEFT)
       this.setFixedWidth(50)
     }
+  val invnoCol = col.column("NI", ProdutosNotaSaida::invno.name, type.integerType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setPattern("0")
+      this.setFixedWidth(50)
+    }
+  val quantInvCol = col.column("Quant NI", ProdutosNotaSaida::quantInv.name, type.integerType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(50)
+    }
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return if(notaSaida.serieNota() == "66")
@@ -106,7 +118,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
         descricaoCol,
         gradeCol,
         unCol,
-        qtdeCol
+        qtdeCol,
+        invnoCol,
+        quantInvCol
             )
     else listOf(
       itemCol,
@@ -188,19 +202,19 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
             setStyle(fieldBorder)
             text("VALOR DO SEGURO", LEFT) {this.setStyle(fieldFontTitle)}
             text(notaSaida.valorSeguro.format(), RIGHT) {this.setStyle(fieldFont)}
-            setWidth(widitInicial*2*3/8)
+            setWidth(widitInicial * 2 * 3 / 8)
           }
           this.verticalList {
             setStyle(fieldBorder)
             text("DESCONTO", LEFT) {this.setStyle(fieldFontTitle)}
             text(notaSaida.valorDesconto.format(), RIGHT) {this.setStyle(fieldFont)}
-            setWidth(widitInicial*2*2/8)
+            setWidth(widitInicial * 2 * 2 / 8)
           }
           this.verticalList {
             setStyle(fieldBorder)
             text("VALOR ICMS SUBSTITUIÇÃO", LEFT) {this.setStyle(fieldFontTitle)}
             text(notaSaida.icmsSubst.format(), RIGHT) {this.setStyle(fieldFont)}
-            setWidth(widitInicial*2*3/8)
+            setWidth(widitInicial * 2 * 3 / 8)
           }
           this.verticalList {
             setStyle(fieldBorder)
@@ -226,11 +240,13 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       
       text("OBSERVAÇÕES:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
+      if(notaSaida.serieNota() == "66")
+        text(notaSaida.obsPedido)
     }
   }
   
   private fun pageFooterBuilder(): ComponentBuilder<*, *>? {
-    return DynamicReports.cmp.verticalList()
+    return cmp.verticalList()
   }
   
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
@@ -253,7 +269,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
             item = index++
           }
         }
-    return DynamicReports.report()
+    return report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
@@ -265,7 +281,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       .setSubtotalStyle(stl.style()
                           .setPadding(2)
                           .setTopBorder(stl.pen1Point()))
-      .pageFooter(DynamicReports.cmp.pageNumber()
+      .pageFooter(cmp.pageNumber()
                     .setHorizontalTextAlignment(RIGHT)
                     .setStyle(stl.style()
                                 .setFontSize(8)))

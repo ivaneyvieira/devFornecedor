@@ -29,7 +29,8 @@ SELECT N.storeno,
        N.discount / 100                                                  AS valorDesconto,
        0.00                                                              AS outrasDespesas,
        N.ipi_amt / 100                                                   AS valorIpi,
-       grossamt / 100                                                    AS valorTotal
+       grossamt / 100                                                    AS valorTotal,
+       TRIM(MID(IFNULL(OBS.remarks__480, ''), 1, 40))                    AS obsPedido
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -37,9 +38,12 @@ FROM sqldados.nf              AS N
 	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.eord     AS O
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
+  LEFT JOIN sqldados.eordrk   AS OBS
+	      ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN sqldados.custp    AS C
-	      ON C.no = N.custno
-		AND C.no not in (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333, 709327,108751)
+	      ON C.no = N.custno AND
+		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+			      709327, 108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
 WHERE N.nfse = @SERIE
@@ -93,7 +97,8 @@ SELECT N.storeno                                 AS loja,
        valorSeguro                               AS valorSeguro,
        outrasDespesas                            AS outrasDespesas,
        valorIpi                                  AS valorIpi,
-       valorTotal                                AS valorTotal
+       valorTotal                                AS valorTotal,
+       N.obsPedido                               AS obsPEdido
 FROM TNF                       AS N
   INNER JOIN sqldados.store    AS S
 	       ON S.no = N.storeno

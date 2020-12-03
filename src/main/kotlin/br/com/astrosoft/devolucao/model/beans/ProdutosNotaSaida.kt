@@ -11,9 +11,11 @@ class ProdutosNotaSaida(
   val barcode: String,
   val un: String,
   val valorUnitario: Double,
-  val valorTotal: Double
+  val valorTotal: Double,
+  val invno: Int,
+  val quantInv: Int
                        ) {
-  var item : Int = 0
+  var item: Int = 0
   
   fun ultimasNotas(): List<UltimasNotas> {
     val list =
