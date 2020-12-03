@@ -39,7 +39,7 @@ FROM sqldados.nf              AS N
   LEFT JOIN sqldados.eord     AS O
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN sqldados.eordrk   AS OBS
-	      ON O.storeno = N.storeno AND O.ordno = N.eordno
+	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
   LEFT JOIN sqldados.custp    AS C
 	      ON C.no = N.custno AND
 		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
