@@ -18,14 +18,15 @@ FROM sqldados.xaprd          AS X
 	       ON X.prdno = P.no
 WHERE X.storeno = :loja
   AND X.pdvno = :pdv
-  AND X.xano = :transacao;
+  AND X.xano = :transacao
+GROUP BY X.storeno, X.pdvno, X.xano, X.prdno, X.grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
   PRIMARY KEY (prdno, grade)
 )
 SELECT codigo AS prdno, grade
-FROM T_NF greoup
+FROM T_NF
 GROUP BY codigo, grade;
 
 
