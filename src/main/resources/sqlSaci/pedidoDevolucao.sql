@@ -71,6 +71,7 @@ GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTA;
 CREATE TEMPORARY TABLE T_NOTA
+(INDEX (loja, pedido))
 SELECT N.storeno                                 AS loja,
        S.sname                                   AS sigla,
        N.pdvno                                   AS pdv,
