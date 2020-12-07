@@ -15,6 +15,7 @@ import com.vaadin.flow.router.Route
 @PageTitle("Devolução")
 class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorView {
   override val viewModel: DevFornecedorViewModel = DevFornecedorViewModel(this)
+  override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)
   override val tabNotaDevolucao = TabNotaDevolucao(viewModel.tabNotaDevolucaoViewModel)
   override val tabNotaVenda = TabNotaVenda(viewModel.tabNotaVendaViewModel)
   
@@ -24,6 +25,8 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
     tabSheet {
       val username = AppConfig.userSaci
       setSizeFull()
+      if(username?.pedido == true)
+        tabPanel(tabPedido)
       if(username?.nota66 == true)
         tabPanel(tabNotaDevolucao)
       if(username?.nota01 == true)

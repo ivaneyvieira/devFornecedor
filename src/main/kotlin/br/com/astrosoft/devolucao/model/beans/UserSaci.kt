@@ -31,6 +31,12 @@ class UserSaci {
       bitAcesso = if(value) bitAcesso or BIT_NOTA66
       else bitAcesso and BIT_NOTA66.inv()
     }
+  var pedido
+    get() = (bitAcesso and BIT_PEDIDO) != 0 || admin
+    set(value) {
+      bitAcesso = if(value) bitAcesso or BIT_PEDIDO
+      else bitAcesso and BIT_PEDIDO.inv()
+    }
   
   val admin
     get() = login == "ADM"
@@ -39,6 +45,7 @@ class UserSaci {
     private val BIT_ATIVO = 2.pow(0)
     private val BIT_NOTA01 = 2.pow(1)
     private val BIT_NOTA66 = 2.pow(2)
+    private val BIT_PEDIDO = 2.pow(3)
 
     
     fun findAll(): List<UserSaci>? {

@@ -3,7 +3,9 @@ package br.com.astrosoft.devolucao.view
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.model.beans.Pedido
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
+import br.com.astrosoft.devolucao.model.beans.ProdutosPedido
 import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
@@ -11,7 +13,9 @@ import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
-//Notaas de devolução
+// ****************************************************************************************
+// Notas
+// ****************************************************************************************
 fun Grid<NotaSaida>.notaLoja() = addColumnInt(NotaSaida::loja) {
   this.setHeader("Loja")
 }
@@ -47,6 +51,38 @@ fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
 fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valor) {
   this.setHeader("Valor")
 }
+
+// ****************************************************************************************
+// Pedidos
+// ****************************************************************************************
+fun Grid<Pedido>.pedidoLoja() = addColumnInt(Pedido::loja) {
+  this.setHeader("Loja")
+}
+
+fun Grid<Pedido>.pedidoPedido() = addColumnInt(Pedido::pedido) {
+  this.setHeader("Pedido")
+}
+
+fun Grid<Pedido>.pedidoDataPedido() = addColumnLocalDate(Pedido::dataPedido) {
+  this.setHeader("Data")
+}
+
+fun Grid<Pedido>.pedidoNota() = addColumnString(Pedido::nota) {
+  this.setHeader("Nota")
+}
+
+fun Grid<Pedido>.pedidoFatura() = addColumnString(Pedido::fatura) {
+  this.setHeader("Fatura")
+}
+
+fun Grid<Pedido>.pedidoDataNota() = addColumnLocalDate(Pedido::dataNota) {
+  this.setHeader("Data")
+}
+
+fun Grid<Pedido>.pedidoValor() = addColumnDouble(Pedido::valor) {
+  this.setHeader("Valor")
+}
+
 // ****************************************************************************************
 // Fornecedor
 // ****************************************************************************************
@@ -63,7 +99,7 @@ fun Grid<Fornecedor>.fornecedorNome() = addColumnString(Fornecedor::fornecedor) 
 }
 
 // ****************************************************************************************
-// produtos de nota de saida
+// Representantes
 // ****************************************************************************************
 fun Grid<Representante>.notaRepresentante() = addColumnString(Representante::nome) {
   this.setHeader("Representante")
@@ -128,8 +164,50 @@ fun Grid<ProdutosNotaSaida>.produtoUltQtd() = addColumnInt(ProdutosNotaSaida::qt
   this.setHeader("Quant")
 }
 
-//*******************************
+// ****************************************************************************************
+// produtos de pedidos
+// ****************************************************************************************
+fun Grid<ProdutosPedido>.produtoPedLoja() = addColumnInt(ProdutosPedido::loja) {
+  this.setHeader("Loja")
+}
 
+fun Grid<ProdutosPedido>.produtoPedNumero() = addColumnInt(ProdutosPedido::pedido) {
+  this.setHeader("Pedido")
+}
+
+fun Grid<ProdutosPedido>.produtoPedCodigo() = addColumnString(ProdutosPedido::codigo) {
+  this.setHeader("Código")
+}
+
+fun Grid<ProdutosPedido>.produtoPedDescricao() = addColumnString(ProdutosPedido::descricao) {
+  this.setHeader("Descrição")
+}
+
+fun Grid<ProdutosPedido>.produtoPedGrade() = addColumnString(ProdutosPedido::grade) {
+  this.setHeader("Grade")
+}
+
+fun Grid<ProdutosPedido>.produtoPedBarcode() = addColumnString(ProdutosPedido::barcode) {
+  this.setHeader("Código de Barras")
+}
+
+fun Grid<ProdutosPedido>.produtoPedUn() = addColumnString(ProdutosPedido::un) {
+  this.setHeader("Un")
+}
+
+fun Grid<ProdutosPedido>.produtoPedQtde() = addColumnInt(ProdutosPedido::qtde) {
+  this.setHeader("Qtde")
+}
+
+fun Grid<ProdutosPedido>.produtoPedValorUnitario() = addColumnDouble(ProdutosPedido::valorUnitario) {
+  this.setHeader("R$ Unit")
+}
+
+fun Grid<ProdutosPedido>.produtoPedValortotal() = addColumnDouble(ProdutosPedido::valorTotal) {
+  this.setHeader("R$ Total")
+}
+
+//*******************************
 fun Grid<NFFile>.nfFileDescricao() = addColumnString(NFFile::nome) {
   this.setHeader("Descrição")
 }

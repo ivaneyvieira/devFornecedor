@@ -2,7 +2,9 @@ package br.com.astrosoft.devolucao.model
 
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.model.beans.Pedido
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
+import br.com.astrosoft.devolucao.model.beans.ProdutosPedido
 import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.devolucao.model.beans.UltimasNotas
 import br.com.astrosoft.devolucao.model.beans.UserSaci
@@ -38,6 +40,19 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/notaDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("serie", serie)
+    }
+  }
+  
+  fun pedidosDevolucao(): List<Pedido> {
+    val sql = "/sqlSaci/pedidoDevolucao.sql"
+    return query(sql, Pedido::class)
+  }
+  
+  fun produtosPedido(loja : Int, pedido: Int) : List<ProdutosPedido>{
+    val sql = "/sqlSaci/produtosPedido.sql"
+    return query(sql, ProdutosPedido::class) {
+      addOptionalParameter("loja", loja)
+      addOptionalParameter("pedido", pedido)
     }
   }
   
