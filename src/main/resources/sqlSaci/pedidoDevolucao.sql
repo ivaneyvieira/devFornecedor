@@ -98,46 +98,61 @@ SELECT N.storeno                                 AS loja,
        outrasDespesas                            AS outrasDespesas,
        valorIpi                                  AS valorIpi,
        valorTotal                                AS valorTotal,
-       N.obsPedido                               AS obsPEdido
+       N.obsPedido                               AS obsPedido
 FROM TNF                       AS N
   INNER JOIN sqldados.store    AS S
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk AS R
 	       USING (storeno, pdvno, xano)
+  INNER JOIN sqldados.eord     AS E
+	       ON E.storeno = N.storeno AND E.ordno = N.eordno AND E.paymno = 315
   LEFT JOIN  TDUP              AS D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)
-  AND (IFNULL(status, 0) <> 5)
+  AND (IFNULL(D.status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR Serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno;
 
-DROP TEMPORARY TABLE IF EXISTS T_PEDIDO;
-CREATE TEMPORARY TABLE T_PEDIDO (
-  INDEX (loja, pedido)
-)
-select loja,
-       sigla,
-       pedido,
-       nota,
-       dataNota,
-       fatura,
-       custno,
-       fornecedor,
-       vendno
-FROM T_NOTA
-where pedido <> 0;
-
-select E.storeno            AS loja,
-       sigla                AS sigla,
-       CAST(E.date AS DATE) AS dataPedido,
-       E.ordno              AS pedido,
-       nota                 AS nota,
-       P.dataNota           as dataNota,
-       P.fatura             AS fatura,
-       E.amount / 100       as valor,
-       P.custno             as custno,
-       fornecedor           as fornecedor,
-       vendno               as vendno
-from sqldados.eord    AS E
-  INNER JOIN T_PEDIDO AS P
-	       ON E.storeno = P.loja AND E.ordno = P.pedido
+select E.storeno                                      AS loja,
+       S.sname                                        AS sigla,
+       IFNULL(N.pdv, 0)                               AS pdv,
+       IFNULL(N.transacao, 0)                         AS transacao,
+       E.ordno                                        AS pedido,
+       CAST(E.date as DATE)                           AS dataPedido,
+       IFNULL(N.nota, 0)                              AS nota,
+       IFNULL(N.fatura, 0)                            AS fatura,
+       N.dataNota                                     AS dataNota,
+       E.custno                                       AS custno,
+       IFNULL(C.name, '')                             AS fornecedor,
+       IFNULL(V.no, 0)                                AS vendno,
+       IFNULL(N.rmk, '')                              AS rmk,
+       IFNULL(N.valor, E.amount / 100)                as valor,
+       IFNULL(N.obsNota, '')                          AS obsNota,
+       IFNULL(N.serie01Rejeitada, '')                 AS serie01Rejeitada,
+       IFNULL(N.serie01Pago, '')                      AS serie01Pago,
+       IFNULL(N.remarks, '')                          AS remarks,
+       IFNULL(N.baseIcms, 0.00)                       AS baseIcms,
+       IFNULL(N.valorIcms, 0.00)                      AS valorIcms,
+       IFNULL(N.baseIcmsSubst, 0.00)                  AS baseIcmsSubst,
+       IFNULL(N.icmsSubst, 0.00)                      AS icmsSubst,
+       IFNULL(N.valorFrete, 0.00)                     AS valorFrete,
+       IFNULL(N.valorSeguro, 0.00)                    AS valorSeguro,
+       IFNULL(N.outrasDespesas, 0.00)                 AS outrasDespesas,
+       IFNULL(N.valorIpi, 0.00)                       AS valorIpi,
+       IFNULL(N.valorTotal, 0.00)                     AS valorTotal,
+       TRIM(MID(IFNULL(OBS.remarks__480, ''), 1, 40)) AS obsPedido,
+       'PED'                                          AS tipo
+from sqldados.eord          AS E
+  LEFT JOIN sqldados.eordrk AS OBS
+	      ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
+  LEFT JOIN sqldados.store  AS S
+	      ON S.no = E.storeno
+  LEFT JOIN sqldados.custp  AS C
+	      ON C.no = E.custno AND
+		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+			      709327, 108751)
+  LEFT JOIN sqldados.vend   AS V
+	      ON C.cpf_cgc = V.cgc
+  LEFT JOIN T_NOTA          AS N
+	      ON E.storeno = N.loja AND E.ordno = N.pedido
+WHERE E.paymno = 315

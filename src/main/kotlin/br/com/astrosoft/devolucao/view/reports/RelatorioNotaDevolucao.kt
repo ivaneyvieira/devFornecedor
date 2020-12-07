@@ -110,7 +110,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     }
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
-    return if(notaSaida.serieNota() == "66")
+    return if(notaSaida.tipo == "66" || notaSaida.tipo == "PED")
       listOf(
         itemCol,
         barcodeCol,
@@ -138,7 +138,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   private fun titleBuider(): ComponentBuilder<*, *>? {
     return verticalBlock {
       horizontalList {
-        val dup = if(notaSaida.serieNota() == "66") "" else "DUP: ${notaSaida.fatura}"
+        val dup = if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") "" else "DUP: ${notaSaida.fatura}"
         val dataAtual =
           LocalDate.now()
             .format()
@@ -157,7 +157,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   
   private fun sumaryBuild(): ComponentBuilder<*, *>? {
     return verticalBlock {
-      if(notaSaida.serieNota() == "1") {
+      if(notaSaida.tipo == "1") {
         breakLine()
         val widitInicial = 110
         this.horizontalList {
@@ -240,7 +240,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       
       text("OBSERVAÇÕES:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
-      if(notaSaida.serieNota() == "66")
+      if(notaSaida.tipo == "66" || notaSaida.tipo == "PED")
         text(notaSaida.obsPedido)
     }
   }
@@ -250,7 +250,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   }
   
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return if(notaSaida.serieNota() == "66") emptyList()
+    return if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") emptyList()
     else
       listOf(
         sbt.text("Total R$", valorUnitarioCol),

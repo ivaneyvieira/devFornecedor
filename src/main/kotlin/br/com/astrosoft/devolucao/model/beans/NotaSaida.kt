@@ -32,9 +32,11 @@ class NotaSaida(
   val outrasDespesas: Double = 0.00,
   val valorIpi: Double = 0.00,
   val valorTotal: Double = 0.00,
-  val obsPedido: String
+  val obsPedido: String,
+  val tipo: String
                ) {
-  fun listaProdutos() = saci.produtosNotaSaida(this)
+  fun listaProdutos() = if(tipo == "PED") saci.produtosPedido(loja, pedido)
+  else saci.produtosNotaSaida(this)
   
   val valorTotalProduto: Double
     get() = listaProdutos().sumByDouble {
@@ -47,14 +49,11 @@ class NotaSaida(
   
   fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno)
   
-  fun serieNota() = nota.split("/")
-                      .getOrNull(1) ?: ""
-  
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
     
     fun updateNotasDevolucao(serie: String) {
-      val notas = saci.notasDevolucao(serie)
+      val notas = if(serie == "PED") saci.pedidosDevolucao() else saci.notasDevolucao(serie)
       val grupos = notas.groupBy {it.chaveFornecedor()}
       fornecedores.clear()
       fornecedores.addAll(grupos.map {entry ->

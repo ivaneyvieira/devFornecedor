@@ -98,7 +98,8 @@ SELECT N.storeno                                 AS loja,
        outrasDespesas                            AS outrasDespesas,
        valorIpi                                  AS valorIpi,
        valorTotal                                AS valorTotal,
-       N.obsPedido                               AS obsPEdido
+       N.obsPedido                               AS obsPedido,
+       N.nfse                                    AS tipo
 FROM TNF                       AS N
   INNER JOIN sqldados.store    AS S
 	       ON S.no = N.storeno

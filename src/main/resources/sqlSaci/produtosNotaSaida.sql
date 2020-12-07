@@ -72,8 +72,8 @@ SELECT loja,
        valorTotal,
        barcode,
        un,
-       invno,
-       ROUND(quantInv) AS quantInv
+       IFNULL(invno, 0)              as invno,
+       ROUND(IFNULL(quantInv, 0.00)) AS quantInv
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)
