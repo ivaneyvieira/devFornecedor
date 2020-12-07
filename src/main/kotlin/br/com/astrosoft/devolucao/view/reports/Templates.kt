@@ -4,6 +4,8 @@ import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.DynamicReports.template
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
+import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
+import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.constant.VerticalTextAlignment.MIDDLE
 import java.awt.Color
 
@@ -32,6 +34,7 @@ object Templates {
     stl.style(boldStyle)
   val reportTemplate =
     template()
+      .setPageFormat(A4, LANDSCAPE)
       .setColumnStyle(columnStyle)
       .setColumnTitleStyle(columnTitleStyle)
       .setGroupStyle(groupStyle)
