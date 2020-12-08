@@ -173,7 +173,11 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   private fun titleBuider(): ComponentBuilder<*, *>? {
     return verticalBlock {
       horizontalList {
-        val dup = if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") "" else "DUP: ${notaSaida.fatura}"
+        val dup = when(notaSaida.tipo) {
+          "PED" -> "PED. ${notaSaida.pedido}"
+          "66" -> ""
+          else        -> "DUP: ${notaSaida.fatura}"
+        }
         val dataAtual =
           LocalDate.now()
             .format()
