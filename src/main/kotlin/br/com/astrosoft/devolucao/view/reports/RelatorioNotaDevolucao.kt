@@ -38,7 +38,6 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       this.setHorizontalTextAlignment(CENTER)
       this.setFixedWidth(80)
     }
-  
   val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
@@ -175,8 +174,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       horizontalList {
         val dup = when(notaSaida.tipo) {
           "PED" -> "PED. ${notaSaida.pedido}"
-          "66" -> ""
-          else        -> "DUP: ${notaSaida.fatura}"
+          "66"  -> "PED. ${notaSaida.pedido} - ${notaSaida.dataPedido.format()}"
+          else  -> "DUP: ${notaSaida.fatura}"
         }
         val dataAtual =
           LocalDate.now()
