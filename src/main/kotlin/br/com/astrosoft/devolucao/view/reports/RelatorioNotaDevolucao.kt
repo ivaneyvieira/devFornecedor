@@ -76,7 +76,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(100)
+      this.setFixedWidth(80)
     }
   val unCol = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType())
     .apply {
