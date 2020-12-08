@@ -50,18 +50,23 @@ DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV (
   PRIMARY KEY (codigo, grade)
 )
-SELECT prdno            AS codigo,
+SELECT prdno                                                        AS codigo,
        grade,
        invno,
-       SUM(qtty / 1000) AS quantInv
-FROM iprd
+       CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) as notaInv,
+       CAST(I.issue_date AS DATE)                                   as dateInv,
+       P.fob / 100                                                  as valorUnitInv,
+       SUM(qtty / 1000)                                             AS quantInv
+FROM sqldados.iprd        AS P
+  inner join sqldados.inv AS I
+	       USING (invno)
   INNER JOIN T_PRD_ULT
 	       USING (invno, prdno, grade)
 GROUP BY prdno, grade;
 
 select loja,
-       0                             as pdv,
-       0                             as transacao,
+       0                                          as pdv,
+       0                                          as transacao,
        codigo,
        descricao,
        grade,
@@ -70,8 +75,12 @@ select loja,
        valorTotal,
        barcode,
        un,
-       IFNULL(invno, 0)              as invno,
-       ROUND(IFNULL(quantInv, 0.00)) AS quantInv
+       IFNULL(invno, 0)                           as invno,
+       ROUND(IFNULL(quantInv, 0.00))              AS quantInv,
+       IFNULL(notaInv, '')                        AS notaInv,
+       dateInv                                    AS dateInv,
+       IFNULL(valorUnitInv, 0.00)                 AS valorUnitInv,
+       IFNULL(valorUnitInv, 0.00) * valorUnitario as valorTotalInv
 from T_PEDIDO
   LEFT JOIN T_INV
 	      USING (codigo, grade)

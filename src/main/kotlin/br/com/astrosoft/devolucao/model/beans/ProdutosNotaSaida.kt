@@ -1,5 +1,8 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.framework.util.toDate
+import java.time.LocalDate
+
 class ProdutosNotaSaida(
   val loja: Int,
   val pdv: Int,
@@ -13,9 +16,15 @@ class ProdutosNotaSaida(
   val valorUnitario: Double,
   val valorTotal: Double,
   val invno: Int,
-  val quantInv: Int
+  val quantInv: Int,
+  val notaInv: String,
+  val dateInv: LocalDate?,
+  val valorUnitInv: Double,
+  val valorTotalInv: Double
                        ) {
   var item: Int = 0
+  
+  val dateInvDate get() = dateInv?.toDate()
   
   fun ultimasNotas(): List<UltimasNotas> {
     val list =

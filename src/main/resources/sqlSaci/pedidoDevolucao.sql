@@ -157,3 +157,4 @@ from sqldados.eord          AS E
   LEFT JOIN T_NOTA          AS N
 	      ON E.storeno = N.loja AND E.ordno = N.pedido
 WHERE E.paymno = 315
+  AND N.loja is null

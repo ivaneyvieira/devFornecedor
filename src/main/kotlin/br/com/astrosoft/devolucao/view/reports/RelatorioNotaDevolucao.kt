@@ -105,6 +105,30 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     }
   val quantInvCol = col.column("Quant NI", ProdutosNotaSaida::quantInv.name, type.integerType())
     .apply {
+      this.setPattern("#,##0")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(50)
+    }
+  val notaInvCol = col.column("Nota", ProdutosNotaSaida::notaInv.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+    }
+  val dateInvCol = col.column("Data", ProdutosNotaSaida::dateInvDate.name, type.dateType())
+    .apply {
+      this.setPattern("dd/MM/yyyy")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+    }
+  val valorUnitInvCol = col.column("R$ Unit", ProdutosNotaSaida::valorUnitInv.name, type.doubleType())
+    .apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(50)
+    }
+  val valortotalInvCol = col.column("R$ Valor Total", ProdutosNotaSaida::valorTotalInv.name, type.doubleType())
+    .apply {
+      this.setPattern("#,##0.00")
       this.setHorizontalTextAlignment(RIGHT)
       this.setFixedWidth(50)
     }
@@ -120,7 +144,11 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
         unCol,
         qtdeCol,
         invnoCol,
-        quantInvCol
+        quantInvCol,
+        notaInvCol,
+        dateInvCol,
+        valorUnitInvCol,
+        valortotalInvCol
             )
     else listOf(
       itemCol,
@@ -250,7 +278,10 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   }
   
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") emptyList()
+    return if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") listOf(
+      sbt.text("Total R$", valorUnitInvCol),
+      sbt.sum(valortotalInvCol)
+                                                                       )
     else
       listOf(
         sbt.text("Total R$", valorUnitarioCol),
