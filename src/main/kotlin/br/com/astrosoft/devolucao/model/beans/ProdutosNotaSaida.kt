@@ -8,6 +8,7 @@ class ProdutosNotaSaida(
   val pdv: Int,
   val transacao: Int,
   val codigo: String,
+  val refFor: String,
   val descricao: String,
   val grade: String,
   val qtde: Int,
@@ -23,7 +24,6 @@ class ProdutosNotaSaida(
   val valorTotalInv: Double
                        ) {
   var item: Int = 0
-  
   val dateInvDate get() = dateInv?.toDate()
   
   fun ultimasNotas(): List<UltimasNotas> {

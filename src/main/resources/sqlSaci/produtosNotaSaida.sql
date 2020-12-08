@@ -10,6 +10,7 @@ SELECT X.storeno                       AS loja,
        X.price / 100                   AS valorUnitario,
        ROUND(X.qtty) * (X.price / 100) AS valorTotal,
        IFNULL(B.barcode, P.barcode)    AS barcode,
+       P.mfno_ref                      AS refFor,
        TRIM(MID(P.name, 37, 3))        AS un
 FROM sqldados.xaprd          AS X
   LEFT JOIN  sqldados.prdbar AS B
@@ -69,6 +70,7 @@ SELECT loja,
        pdv,
        transacao,
        codigo,
+       refFor,
        descricao,
        grade,
        qtde,
@@ -76,12 +78,12 @@ SELECT loja,
        valorTotal,
        barcode,
        un,
-       IFNULL(invno, 0)                           as invno,
-       ROUND(IFNULL(quantInv, 0.00))              AS quantInv,
-       IFNULL(notaInv, '')                        AS notaInv,
-       dateInv                                    AS dateInv,
-       IFNULL(valorUnitInv, 0.00)                 AS valorUnitInv,
-       IFNULL(valorUnitInv, 0.00) * valorUnitario as valorTotalInv
+       IFNULL(invno, 0)                  as invno,
+       ROUND(IFNULL(quantInv, 0.00))     AS quantInv,
+       IFNULL(notaInv, '')               AS notaInv,
+       dateInv                           AS dateInv,
+       IFNULL(valorUnitInv, 0.00)        AS valorUnitInv,
+       IFNULL(valorUnitInv, 0.00) * qtde as valorTotalInv
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)

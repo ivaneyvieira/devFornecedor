@@ -3,6 +3,7 @@ CREATE TEMPORARY TABLE T_PEDIDO
 SELECT X.storeno                              AS loja,
        X.ordno                                AS pedido,
        X.prdno                                AS codigo,
+       P.mfno_ref                             AS refFor,
        TRIM(MID(P.name, 1, 37))               AS descricao,
        X.grade                                AS grade,
        ROUND(X.qtty / 1000)                   AS qtde,
@@ -65,9 +66,10 @@ FROM sqldados.iprd        AS P
 GROUP BY prdno, grade;
 
 select loja,
-       0                                          as pdv,
-       0                                          as transacao,
+       0                                 as pdv,
+       0                                 as transacao,
        codigo,
+       refFor,
        descricao,
        grade,
        qtde,
@@ -75,12 +77,12 @@ select loja,
        valorTotal,
        barcode,
        un,
-       IFNULL(invno, 0)                           as invno,
-       ROUND(IFNULL(quantInv, 0.00))              AS quantInv,
-       IFNULL(notaInv, '')                        AS notaInv,
-       dateInv                                    AS dateInv,
-       IFNULL(valorUnitInv, 0.00)                 AS valorUnitInv,
-       IFNULL(valorUnitInv, 0.00) * valorUnitario as valorTotalInv
+       IFNULL(invno, 0)                  as invno,
+       ROUND(IFNULL(quantInv, 0.00))     AS quantInv,
+       IFNULL(notaInv, '')               AS notaInv,
+       dateInv                           AS dateInv,
+       IFNULL(valorUnitInv, 0.00)        AS valorUnitInv,
+       IFNULL(valorUnitInv, 0.00) * qtde as valorTotalInv
 from T_PEDIDO
   LEFT JOIN T_INV
 	      USING (codigo, grade)

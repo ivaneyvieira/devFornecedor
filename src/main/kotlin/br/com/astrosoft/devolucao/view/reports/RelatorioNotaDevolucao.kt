@@ -31,8 +31,14 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
       //this.setPattern("000000")
-      this.setFixedWidth(50)
+      this.setFixedWidth(40)
     }
+  val refForCol = col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(80)
+    }
+  
   val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(LEFT)
@@ -107,18 +113,18 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     .apply {
       this.setPattern("#,##0")
       this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
+      this.setFixedWidth(40)
     }
   val notaInvCol = col.column("Nota", ProdutosNotaSaida::notaInv.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(60)
+      this.setFixedWidth(50)
     }
   val dateInvCol = col.column("Data", ProdutosNotaSaida::dateInvDate.name, type.dateType())
     .apply {
       this.setPattern("dd/MM/yyyy")
       this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(60)
+      this.setFixedWidth(50)
     }
   val valorUnitInvCol = col.column("R$ Unit", ProdutosNotaSaida::valorUnitInv.name, type.doubleType())
     .apply {
@@ -138,15 +144,16 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       listOf(
         itemCol,
         barcodeCol,
+        refForCol,
         codigoCol,
         descricaoCol,
         gradeCol,
         unCol,
-        qtdeCol,
         invnoCol,
         quantInvCol,
         notaInvCol,
         dateInvCol,
+        qtdeCol,
         valorUnitInvCol,
         valortotalInvCol
             )
