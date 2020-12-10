@@ -33,6 +33,7 @@ import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.showOutput
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -42,6 +43,7 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.VaadinIcon.CHECK
@@ -60,7 +62,10 @@ import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
+import org.vaadin.stefan.LazyDownloadButton
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   TabPanelGrid<Fornecedor>(Fornecedor::class), INota {
@@ -216,11 +221,44 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   
   private fun showDialogNota(fornecedor: Fornecedor?) {
     fornecedor ?: return
+    lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
-    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})") {
-      createGridNotas(listNotas)
-    }
+    val form =
+      SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", toolBar = {
+        button("Impressão") {
+          icon = PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirNotaDevolucao(notas)
+          }
+        }
+        this.add(buttonPlanilha {
+          gridNota.asMultiSelect().selectedItems.toList()
+        })
+      }) {
+        gridNota = createGridNotas(listNotas)
+        gridNota
+      }
     form.open()
+  }
+  
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime =
+      LocalDateTime.now()
+        .format(sdf)
+    val filename = "notas$textTime.xlsx"
+    return filename
+  }
+  
+  private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
+    val button = LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(),
+                                    {filename()},
+                                    {
+                                      viewModel.geraPlanilha(notas())
+                                    }
+                                   )
+    return button
   }
   
   private fun showDialogImpressao(nota: NotaSaida?) {
@@ -251,12 +289,9 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
+      setSelectionMode(MULTI)
       setItems(listNotas)
       //
-      addColumnButton(PRINT, "Impressão", "Imp") {nota ->
-        //showDialogImpressao(nota)
-        viewModel.imprimirNotaDevolucao(nota)
-      }
       addColumnButton(FILE_PICTURE, "Arquivos", "Arq") {nota ->
         viewModel.editFile(nota)
       }

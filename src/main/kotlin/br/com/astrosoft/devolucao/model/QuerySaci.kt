@@ -34,7 +34,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun notasDevolucao(serie : String): List<NotaSaida> {
+  fun notasDevolucao(serie: String): List<NotaSaida> {
     val sql = "/sqlSaci/notaDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("serie", serie)
@@ -46,11 +46,14 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class)
   }
   
-  fun produtosPedido(loja : Int, pedido: Int) : List<ProdutosNotaSaida>{
+  fun produtosPedido(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
     val sql = "/sqlSaci/produtosPedido.sql"
     return query(sql, ProdutosNotaSaida::class) {
-      addOptionalParameter("loja", loja)
-      addOptionalParameter("pedido", pedido)
+      addOptionalParameter("loja", notaSaida.loja)
+      addOptionalParameter("pedido", notaSaida.pedido)
+    }.map {produto ->
+      produto.nota = notaSaida
+      produto
     }
   }
   
@@ -61,12 +64,15 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun produtosNotaSaida(nota: NotaSaida): List<ProdutosNotaSaida> {
+  fun produtosNotaSaida(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
     val sql = "/sqlSaci/produtosNotaSaida.sql"
     return query(sql, ProdutosNotaSaida::class) {
-      addOptionalParameter("loja", nota.loja)
-      addOptionalParameter("pdv", nota.pdv)
-      addOptionalParameter("transacao", nota.transacao)
+      addOptionalParameter("loja", notaSaida.loja)
+      addOptionalParameter("pdv", notaSaida.pdv)
+      addOptionalParameter("transacao", notaSaida.transacao)
+    }.map {produto ->
+      produto.nota = notaSaida
+      produto
     }
   }
   
@@ -87,7 +93,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   //Files
-  fun insertFile(file: NFFile){
+  fun insertFile(file: NFFile) {
     val sql = "/sqlSaci/fileInsert.sql"
     script(sql) {
       addOptionalParameter("storeno", file.storeno)
@@ -99,7 +105,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun updateFile(file: NFFile){
+  fun updateFile(file: NFFile) {
     val sql = "/sqlSaci/fileUpdate.sql"
     script(sql) {
       addOptionalParameter("storeno", file.storeno)
@@ -111,7 +117,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun deleteFile(file: NFFile){
+  fun deleteFile(file: NFFile) {
     val sql = "/sqlSaci/fileDelete.sql"
     script(sql) {
       addOptionalParameter("storeno", file.storeno)
@@ -122,7 +128,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun selectFile(nfs: NotaSaida): List<NFFile>{
+  fun selectFile(nfs: NotaSaida): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
     return query(sql, NFFile::class) {
       addOptionalParameter("storeno", nfs.loja)

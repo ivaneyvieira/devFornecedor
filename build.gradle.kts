@@ -80,6 +80,7 @@ dependencies {
   implementation("com.github.nwillc:poink:0.4.6")
   implementation("com.flowingcode.addons:font-awesome-iron-iconset:2.1.2")
   implementation("org.vaadin.haijian:exporter:3.0.1")
+  implementation("com.github.nwillc:poink:0.4.6")
   //compile("com.flowingcode.addons.applayout:app-layout-addon:2.0.2")
   implementation(kotlin("stdlib-jdk8"))
   

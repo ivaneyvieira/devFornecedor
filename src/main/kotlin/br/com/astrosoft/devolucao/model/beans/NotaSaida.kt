@@ -35,7 +35,7 @@ class NotaSaida(
   val obsPedido: String,
   val tipo: String
                ) {
-  fun listaProdutos() = if(tipo == "PED") saci.produtosPedido(loja, pedido)
+  fun listaProdutos() = if(tipo == "PED") saci.produtosPedido(this)
   else saci.produtosNotaSaida(this)
   
   val valorTotalProduto: Double

@@ -25,7 +25,7 @@ class ProdutosNotaSaida(
                        ) {
   var item: Int = 0
   val dateInvDate get() = dateInv?.toDate()
-  
+  var nota : NotaSaida? = null
   fun ultimasNotas(): List<UltimasNotas> {
     val list =
       UltimasNotas.ultimasNotas(codigo, grade)
