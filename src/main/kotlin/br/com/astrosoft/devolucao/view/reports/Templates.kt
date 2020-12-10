@@ -50,4 +50,8 @@ object Templates {
   val fieldBorder = stl.style(fieldFont)
     .setBorder(stl.penThin())
     .setRadius(10)
+  
+  val fieldFontGrande = stl.style(rootStyle)
+    .setFontSize(14)
+  
 }

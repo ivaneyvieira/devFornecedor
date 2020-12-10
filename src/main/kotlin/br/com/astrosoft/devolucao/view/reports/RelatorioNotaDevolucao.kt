@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldBorder
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldFont
+import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontGrande
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontTitle
 import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
@@ -169,27 +170,89 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
                )
   }
   
-  private fun titleBuider(): ComponentBuilder<*, *>? {
+  private fun titleBuiderPedido(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
-        val dup = when(notaSaida.tipo) {
-          "PED" -> "PED. ${notaSaida.pedido}"
-          "66"  -> "PED. ${notaSaida.pedido} - ${notaSaida.dataPedido.format()}"
-          else  -> "DUP: ${notaSaida.fatura}"
+        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+          this.setStyle(fieldFontGrande)
         }
+      }
+      horizontalList {
         val dataAtual =
           LocalDate.now()
             .format()
-        val horaAtual = LocalTime.now()
-          .format()
-        text("ENGECOPI   ${notaSaida.sigla}   PROCESSO ${notaSaida.nota}  -  ${notaSaida.dataNota.format()}  $dup",
-             LEFT)
+        val horaAtual =
+          LocalTime.now()
+            .format()
+        val custno = notaSaida.custno
+        val fornecedor = notaSaida.fornecedor
+        val vendno = notaSaida.vendno
+        val pedido = notaSaida.pedido
+        val dataPedido = notaSaida.dataPedido.format()
+        text("$custno - $fornecedor (FOR - ${vendno})   PED. $pedido - $dataPedido", LEFT)
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
+    }
+  }
+  
+  private fun titleBuiderNota66(): ComponentBuilder<*, *> {
+    return verticalBlock {
       horizontalList {
-        text("${notaSaida.custno} ${notaSaida.fornecedor}")
-        text("COD FOR: ${notaSaida.vendno}", RIGHT, 200)
+        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+          this.setStyle(fieldFontGrande)
+        }
       }
+      horizontalList {
+        val dataAtual =
+          LocalDate.now()
+            .format()
+        val horaAtual =
+          LocalTime.now()
+            .format()
+        val custno = notaSaida.custno
+        val fornecedor = notaSaida.fornecedor
+        val vendno = notaSaida.vendno
+        val pedido = notaSaida.pedido
+        val dataPedido = notaSaida.dataPedido.format()
+        val nota = notaSaida.nota
+        val dataNota = notaSaida.dataNota.format()
+        text("$custno - $fornecedor (FOR - ${vendno})   PED. $pedido - $dataPedido   NOTA $nota - $dataNota", LEFT)
+        text("$dataAtual-$horaAtual", RIGHT, 100)
+      }
+    }
+  }
+  
+  private fun titleBuiderNota01(): ComponentBuilder<*, *> {
+    return verticalBlock {
+      horizontalList {
+        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+          this.setStyle(fieldFontGrande)
+        }
+      }
+      horizontalList {
+        val dataAtual =
+          LocalDate.now()
+            .format()
+        val horaAtual =
+          LocalTime.now()
+            .format()
+        val custno = notaSaida.custno
+        val fornecedor = notaSaida.fornecedor
+        val vendno = notaSaida.vendno
+        val nota = notaSaida.nota
+        val dataNota = notaSaida.dataNota.format()
+        val fatura = notaSaida.fatura
+        text("$custno - $fornecedor (FOR - ${vendno})   NDF $nota - $dataNota   DUP $fatura", LEFT)
+        text("$dataAtual-$horaAtual", RIGHT, 100)
+      }
+    }
+  }
+  
+  private fun titleBuider(): ComponentBuilder<*, *>? {
+    return when(notaSaida.tipo) {
+      "PED" -> titleBuiderPedido()
+      "66"  -> titleBuiderNota66()
+      else  -> titleBuiderNota01()
     }
   }
   
@@ -345,3 +408,4 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     }
   }
 }
+
