@@ -81,6 +81,7 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -289,7 +290,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     val button = LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(),
                                     {filename()},
                                     {
-                                      viewModel.geraPlanilha(notas())
+                                      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
                                     }
                                    )
     return button
@@ -364,6 +365,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
 }
 
 class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): VerticalLayout() {
+  private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField
   private var rteMessage: EnhancedRichTextEditor
   private lateinit var chkAnexos: Checkbox
@@ -384,17 +386,28 @@ class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): Vert
           this.value = event.detail
         }
       }
-      edtAssunto = textField("Assunto")
+      edtAssunto = textField("Assunto"){
+        this.width = "400px"
+      }
       chkRelatorio = checkBox("Relatório")
+      chkPlanilha = checkBox("Planilha")
       chkAnexos = checkBox("Anexos")
       
       button("Enviar") {
+        val numerosNota = notas.joinToString(separator = " ") { it.nota }
         onLeftClick {
           val mail = MailGMail()
           val filesReport = if(chkRelatorio.value) {
             notas.map {nota ->
               val report = RelatorioNotaDevolucao.processaRelatorio(notas)
               FileAttach("Relatorio de notas.pdf", report)
+            }
+          }
+          else emptyList()
+          val filesPlanilha = if(chkPlanilha.value) {
+            notas.map {nota ->
+              val planilha = viewModel.geraPlanilha(notas)
+              FileAttach("Planilha de Notas.xlsx", planilha)
             }
           }
           else emptyList()
@@ -407,7 +420,10 @@ class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): Vert
             }
           }
           else emptyList()
-          mail.sendMail(cmbEmail.value, edtAssunto.value, rteMessage.htmlValue, filesReport + filesAnexo)
+          mail.sendMail(cmbEmail.value,
+                        edtAssunto.value,
+                        rteMessage.htmlValue,
+                        filesReport + filesPlanilha + filesAnexo)
         }
       }
     }

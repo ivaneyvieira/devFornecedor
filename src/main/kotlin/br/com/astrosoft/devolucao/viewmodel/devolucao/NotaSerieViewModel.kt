@@ -5,7 +5,6 @@ import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
 import br.com.astrosoft.framework.viewmodel.fail
-import java.io.ByteArrayInputStream
 
 abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
   protected abstract val subView: INota
@@ -54,18 +53,17 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
     }
   }
   
-  fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
+  private fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
     return this.filter {
       val filtroNum = txt.toIntOrNull() ?: 0
       it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txt, ignoreCase = true)
     }
   }
   
-  fun geraPlanilha(notas: List<NotaSaida>): ByteArrayInputStream {
+  fun geraPlanilha(notas: List<NotaSaida>): ByteArray {
     val planilha = PlanilhaNotas()
-    val bytes = planilha.grava(notas)
-    
-    return ByteArrayInputStream(bytes)
+  
+    return planilha.grava(notas)
   }
   
   fun listEmail(fornecedor: Fornecedor?): List<String> {

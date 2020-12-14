@@ -26,8 +26,8 @@ class MailGMail {
   val nomeRemetente = "Engecopi"
   val protocolo = "smtp"
   val servidor = "smtp.gmail.com" // do painel de controle do SMTP
-  val username = "eng.alerta@gmail.com" // do painel de controle do SMTP
-  val senha = "@Enge.2019" // do painel de controle do SMTP
+  val username = "engecopi.devolucao@gmail.com" // do painel de controle do SMTP
+  val senha = "@Engdev.2100" // do painel de controle do SMTP
   val porta = "465" // do painel de controle do SMTP
   val props = initProperties()
   val session: Session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha)).apply {
@@ -88,15 +88,19 @@ class MailGMail {
     }
   }
   
-  private fun createMessage(to: String, subject: String): MimeMessage {
+  private fun createMessage(toList: String, subject: String): MimeMessage {
+    val toSplit = toList.split(",").toList().map {it.trim()}
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
-    val iaTo = arrayOfNulls<InternetAddress>(1)
-    val iaReplyTo = arrayOfNulls<InternetAddress>(1)
-    iaReplyTo[0] = InternetAddress(to, to)
-    iaTo[0] = InternetAddress(to, to)
+    val iaTo = arrayOfNulls<InternetAddress>(toSplit.size)
+    //val iaReplyTo = arrayOfNulls<InternetAddress>(1)
+   // iaReplyTo[0] = InternetAddress(to, to)
+    toSplit.forEachIndexed { index, to ->
+      iaTo[index] = InternetAddress(to, to)
+    }
+    
     
     val message = MimeMessage(session)
-    message.replyTo = iaReplyTo
+    //message.replyTo = iaReplyTo
     message.setFrom(iaFrom)
     if(iaTo.isNotEmpty()) message.setRecipients(Message.RecipientType.TO, iaTo)
     message.subject = subject
