@@ -4,7 +4,6 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
-import br.com.astrosoft.framework.viewmodel.exec
 import br.com.astrosoft.framework.viewmodel.fail
 import java.io.ByteArrayInputStream
 
@@ -12,7 +11,7 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
   protected abstract val subView: INota
   
   fun imprimirNotaDevolucao(notas: List<NotaSaida>) = viewModel.exec {
-    notas.ifEmpty{
+    notas.ifEmpty {
       fail("Não nenhuma nota selecionada")
     }
     subView.imprimeSelecionados(notas)
@@ -62,11 +61,21 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
     }
   }
   
-  fun geraPlanilha(notas : List<NotaSaida>): ByteArrayInputStream?  {
+  fun geraPlanilha(notas: List<NotaSaida>): ByteArrayInputStream {
     val planilha = PlanilhaNotas()
     val bytes = planilha.grava(notas)
-
+    
     return ByteArrayInputStream(bytes)
+  }
+  
+  fun listEmail(fornecedor: Fornecedor?): List<String> {
+    return fornecedor?.listEmail().orEmpty()
+  }
+  
+  fun enviarEmail(notas: List<NotaSaida>) = viewModel.exec {
+    if(notas.isEmpty())
+      fail("Nenhuma nota selecionada")
+    subView.enviaEmail(notas)
   }
 }
 
@@ -80,4 +89,5 @@ interface INota {
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String
   fun setFiltro(txt: String)
+  fun enviaEmail(notas: List<NotaSaida>)
 }

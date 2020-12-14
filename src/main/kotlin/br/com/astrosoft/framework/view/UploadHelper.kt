@@ -56,9 +56,9 @@ private fun createComponent(fileName: String, byteArray: ByteArray): Component {
 
 fun HasComponents.showOutput(fileName: String, byteArray: ByteArray) {
   val component = createComponent(fileName, byteArray)
-  showOutput(fileName, component)
+  showOutput(component)
 }
 
-fun HasComponents.showOutput(text: String, content: Component) {
+fun HasComponents.showOutput(content: Component) {
   this.add(content)
 }

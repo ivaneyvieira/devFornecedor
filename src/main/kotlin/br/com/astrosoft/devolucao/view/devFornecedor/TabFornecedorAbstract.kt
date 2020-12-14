@@ -27,6 +27,8 @@ import br.com.astrosoft.devolucao.view.produtoQtde
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.NotaSerieViewModel
+import br.com.astrosoft.framework.model.FileAttach
+import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
@@ -35,19 +37,34 @@ import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.showOutput
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.checkBox
+import com.github.mvysny.karibudsl.v10.comboBox
+import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
+import com.vaadin.componentfactory.EnhancedRichTextEditor
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.BLOCKQUOTE
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.CLEAN
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.CODE_BLOCK
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.IMAGE
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.LINK
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.READONLY
+import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.STRIKE
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.checkbox.Checkbox
+import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.VaadinIcon.CHECK
 import com.vaadin.flow.component.icon.VaadinIcon.EDIT
+import com.vaadin.flow.component.icon.VaadinIcon.ENVELOPE_O
 import com.vaadin.flow.component.icon.VaadinIcon.EYE
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_PICTURE
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
@@ -55,6 +72,7 @@ import com.vaadin.flow.component.icon.VaadinIcon.PHONE_LANDLINE
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.icon.VaadinIcon.TRASH
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.upload.FileRejectedEvent
@@ -66,6 +84,7 @@ import org.vaadin.stefan.LazyDownloadButton
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   TabPanelGrid<Fornecedor>(Fornecedor::class), INota {
@@ -102,8 +121,8 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     return itensSelecionado()
   }
   
-  override fun imprimeSelecionados(itens: List<NotaSaida>) {
-    val report = RelatorioNotaDevolucao.processaRelatorio(itens)
+  override fun imprimeSelecionados(notas: List<NotaSaida>) {
+    val report = RelatorioNotaDevolucao.processaRelatorio(notas)
     val chave = "DevReport"
     SubWindowPDF(chave, report).open()
   }
@@ -127,7 +146,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   override fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit) {
     val grid = createFormEditFile(nota)
     val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-                             toolBar = {window ->
+                             toolBar = {_ ->
                                val (buffer, upload) = uploadFile()
                                upload.addSucceededListener {
                                  val fileName = it.fileName
@@ -235,10 +254,25 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
         this.add(buttonPlanilha {
           gridNota.asMultiSelect().selectedItems.toList()
         })
+        button("Email") {
+          icon = ENVELOPE_O.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.enviarEmail(notas)
+          }
+        }
       }) {
         gridNota = createGridNotas(listNotas)
         gridNota
       }
+    form.open()
+  }
+  
+  override fun enviaEmail(notas: List<NotaSaida>) {
+    val nota = notas.firstOrNull() ?: return
+    val form = SubWindowForm("DEV FORNECEDOR: ${nota.fornecedor}") {
+      FormEmail(viewModel, notas)
+    }
     form.open()
   }
   
@@ -326,5 +360,73 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
       produtoGrade()
       produtoQtde()
     }
+  }
+}
+
+class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): VerticalLayout() {
+  private lateinit var edtAssunto: TextField
+  private var rteMessage: EnhancedRichTextEditor
+  private lateinit var chkAnexos: Checkbox
+  private lateinit var chkRelatorio: Checkbox
+  private lateinit var cmbEmail: ComboBox<String>
+  
+  init {
+    val fornecedor =
+      NotaSaida.findFornecedores()
+        .firstOrNull {it.notas.containsAll(notas)}
+    rteMessage = richEditor()
+    horizontalLayout {
+      cmbEmail = comboBox("E-Mail") {
+        this.width = "400px"
+        this.isAllowCustomValue = true
+        setItems(viewModel.listEmail(fornecedor))
+        addCustomValueSetListener {event ->
+          this.value = event.detail
+        }
+      }
+      edtAssunto = textField("Assunto")
+      chkRelatorio = checkBox("Relatório")
+      chkAnexos = checkBox("Anexos")
+      
+      button("Enviar") {
+        onLeftClick {
+          val mail = MailGMail()
+          val filesReport = if(chkRelatorio.value) {
+            notas.map {nota ->
+              val report = RelatorioNotaDevolucao.processaRelatorio(notas)
+              FileAttach("Relatorio de notas.pdf", report)
+            }
+          }
+          else emptyList()
+          val filesAnexo = if(chkAnexos.value) {
+            notas.flatMap {nota ->
+              nota.listFiles()
+                .map {nfile ->
+                  FileAttach(nfile.nome, nfile.file)
+                }
+            }
+          }
+          else emptyList()
+          mail.sendMail(cmbEmail.value, edtAssunto.value, rteMessage.htmlValue, filesReport + filesAnexo)
+        }
+      }
+    }
+    addAndExpand(rteMessage)
+  }
+  
+  private fun richEditor(): EnhancedRichTextEditor {
+    val rte = EnhancedRichTextEditor()
+    rte.width = "100%"
+    val buttons = HashMap<ToolbarButton, Boolean>()
+    buttons[CLEAN] = false
+    buttons[BLOCKQUOTE] = false
+    buttons[CODE_BLOCK] = false
+    buttons[IMAGE] = false
+    buttons[LINK] = false
+    buttons[STRIKE] = false
+    buttons[READONLY] = false
+    rte.toolbarButtonsVisibility = buttons
+    
+    return rte
   }
 }

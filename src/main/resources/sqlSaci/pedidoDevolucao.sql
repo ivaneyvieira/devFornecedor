@@ -70,8 +70,9 @@ FROM sqldados.dup           AS D
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTA;
-CREATE TEMPORARY TABLE T_NOTA
-(INDEX (loja, pedido))
+CREATE TEMPORARY TABLE T_NOTA (
+  INDEX (loja, pedido)
+)
 SELECT N.storeno                                 AS loja,
        S.sname                                   AS sigla,
        N.pdvno                                   AS pdv,
@@ -125,6 +126,7 @@ select E.storeno                                      AS loja,
        N.dataNota                                     AS dataNota,
        E.custno                                       AS custno,
        IFNULL(C.name, '')                             AS fornecedor,
+       IFNULL(C.email, '')                            AS email,
        IFNULL(V.no, 0)                                AS vendno,
        IFNULL(N.rmk, '')                              AS rmk,
        IFNULL(N.valor, E.amount / 100)                as valor,

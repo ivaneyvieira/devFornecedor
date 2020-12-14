@@ -81,6 +81,14 @@ dependencies {
   implementation("com.flowingcode.addons:font-awesome-iron-iconset:2.1.2")
   implementation("org.vaadin.haijian:exporter:3.0.1")
   implementation("com.github.nwillc:poink:0.4.6")
+  /*
+  <dependency>
+   <groupId>com.vaadin.componentfactory</groupId>
+   <artifactId>enhanced-rich-text-editor</artifactId>
+   <version>2.2.3</version>
+</dependency>
+   */
+  implementation("com.vaadin.componentfactory:enhanced-rich-text-editor:2.2.3")
   //compile("com.flowingcode.addons.applayout:app-layout-addon:2.0.2")
   implementation(kotlin("stdlib-jdk8"))
   
@@ -97,6 +105,7 @@ dependencies {
   
   implementation("com.lowagie:itext:2.1.7")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
+  implementation("com.sun.mail:javax.mail:1.6.2")
 }
 
 vaadin {

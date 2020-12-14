@@ -15,6 +15,7 @@ class NotaSaida(
   val dataNota: LocalDate,
   val custno: Int,
   val fornecedor: String,
+  val email: String,
   val vendno: Int,
   var rmk: String,
   val valor: Double,
@@ -47,7 +48,7 @@ class NotaSaida(
   
   fun listFiles() = saci.selectFile(this)
   
-  fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno)
+  fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno, email)
   
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
@@ -57,7 +58,7 @@ class NotaSaida(
       val grupos = notas.groupBy {it.chaveFornecedor()}
       fornecedores.clear()
       fornecedores.addAll(grupos.map {entry ->
-        Fornecedor(entry.key.custno, entry.key.fornecedor, entry.key.vendno, entry.value)
+        Fornecedor(entry.key.custno, entry.key.fornecedor, entry.key.vendno, entry.key.email, entry.value)
       })
     }
     
@@ -68,5 +69,6 @@ class NotaSaida(
 data class ChaveFornecedor(
   val custno: Int,
   val fornecedor: String,
-  val vendno: Int
+  val vendno: Int,
+  val email: String
                           )
