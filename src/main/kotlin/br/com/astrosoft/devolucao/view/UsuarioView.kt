@@ -120,6 +120,9 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
             binder.bind(this, UserSaci::impressora.name)
           }
         if(operation in listOf(ADD, READ, DELETE, UPDATE)) {
+          integerField("Número Loja") {
+            binder.bind(this, UserSaci::storeno.name)
+          }
           checkBox("Nota série 66") {
             binder.bind(this, UserSaci::nota66.name)
           }

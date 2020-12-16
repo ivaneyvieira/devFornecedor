@@ -31,6 +31,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     script(sql) {
       addOptionalParameter("login", user.login)
       addOptionalParameter("bitAcesso", user.bitAcesso)
+      addOptionalParameter("loja", user.storeno)
     }
   }
   

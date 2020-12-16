@@ -9,6 +9,7 @@ class UserSaci {
   var login: String = ""
   var senha: String = ""
   var bitAcesso: Int = 0
+  var storeno: Int = 0
   var prntno: Int = 0
   var impressora: String = ""
   
@@ -37,7 +38,6 @@ class UserSaci {
       bitAcesso = if(value) bitAcesso or BIT_PEDIDO
       else bitAcesso and BIT_PEDIDO.inv()
     }
-  
   val admin
     get() = login == "ADM"
   
@@ -46,7 +46,6 @@ class UserSaci {
     private val BIT_NOTA01 = 2.pow(1)
     private val BIT_NOTA66 = 2.pow(2)
     private val BIT_PEDIDO = 2.pow(3)
-
     
     fun findAll(): List<UserSaci>? {
       return saci.findAllUser()

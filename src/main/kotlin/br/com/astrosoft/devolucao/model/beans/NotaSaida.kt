@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
@@ -54,8 +55,12 @@ class NotaSaida(
     private val fornecedores = mutableListOf<Fornecedor>()
     
     fun updateNotasDevolucao(serie: String) {
+      val user = AppConfig.userSaci
+      val loja = if(user?.admin == true) 0 else user?.storeno ?: 0
       val notas = if(serie == "PED") saci.pedidosDevolucao() else saci.notasDevolucao(serie)
-      val grupos = notas.groupBy {it.chaveFornecedor()}
+      val grupos =
+        notas.filter {it.loja == loja || loja == 0}
+          .groupBy {it.chaveFornecedor()}
       fornecedores.clear()
       fornecedores.addAll(grupos.map {entry ->
         Fornecedor(entry.key.custno, entry.key.fornecedor, entry.key.vendno, entry.key.email, entry.value)
