@@ -333,6 +333,9 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
       addColumnButton(EDIT, "Editor", "Edt") {nota ->
         viewModel.editRmk(nota)
       }
+      addColumnButton(ENVELOPE_O, "Editor", "Email") {nota ->
+        viewModel.enviarEmail(listOf(nota))
+      }
       
       notaLoja()
       notaDataPedido()
