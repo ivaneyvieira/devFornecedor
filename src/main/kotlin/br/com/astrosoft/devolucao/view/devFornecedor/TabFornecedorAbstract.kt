@@ -245,7 +245,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     val listNotas = fornecedor.notas
     val form =
       SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", toolBar = {
-        val captionImpressoa = if(serie == "66") "Impressão Completa" else "Impressão"
+        val captionImpressoa = if(serie == "66" || serie == "PED") "Impressão Completa" else "Impressão"
         button(captionImpressoa) {
           icon = PRINT.create()
           onLeftClick {
@@ -253,7 +253,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
             viewModel.imprimirNotaDevolucao(notas)
           }
         }
-        if(serie == "66") {
+        if(serie == "66" || serie == "PED") {
           button("Impressão Resumida") {
             icon = PRINT.create()
             onLeftClick {

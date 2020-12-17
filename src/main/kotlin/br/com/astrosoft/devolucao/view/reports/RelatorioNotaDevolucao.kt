@@ -144,7 +144,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when(notaSaida.tipo) {
-      "66"  -> if(resumida) listOf(
+      "66", "PED"  -> if(resumida) listOf(
         itemCol,
         barcodeCol,
         refForCol,
@@ -170,22 +170,6 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         valorUnitInvCol,
         valortotalInvCol
                  )
-      "PED" -> listOf(
-        itemCol,
-        barcodeCol,
-        refForCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        unCol,
-        invnoCol,
-        quantInvCol,
-        notaInvCol,
-        dateInvCol,
-        qtdeCol,
-        valorUnitInvCol,
-        valortotalInvCol
-                     )
       else  -> listOf(
         itemCol,
         barcodeCol,
@@ -403,7 +387,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
             item = index++
           }
         }
-    val pageOrientation = if(notaSaida.tipo == "66" && resumida) PORTRAIT else LANDSCAPE
+    val pageOrientation = if((notaSaida.tipo == "66" ||  notaSaida.tipo == "PED") && resumida) PORTRAIT else LANDSCAPE
     return report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
