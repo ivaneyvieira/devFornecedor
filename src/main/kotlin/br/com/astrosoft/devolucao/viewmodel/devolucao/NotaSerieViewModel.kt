@@ -9,11 +9,11 @@ import br.com.astrosoft.framework.viewmodel.fail
 abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
   protected abstract val subView: INota
   
-  fun imprimirNotaDevolucao(notas: List<NotaSaida>) = viewModel.exec {
+  fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
     notas.ifEmpty {
       fail("Não nenhuma nota selecionada")
     }
-    subView.imprimeSelecionados(notas)
+    subView.imprimeSelecionados(notas, resumida)
   }
   
   fun updateGridNota() = viewModel.exec {
@@ -82,7 +82,7 @@ interface INota {
   
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
-  fun imprimeSelecionados(itens: List<NotaSaida>)
+  fun imprimeSelecionados(itens: List<NotaSaida>, resumida : Boolean)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String

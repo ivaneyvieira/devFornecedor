@@ -20,6 +20,9 @@ import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
+import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
+import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
+import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
@@ -27,7 +30,7 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
+class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   val codigoCol = col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType())
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
@@ -140,8 +143,18 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
     }
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
-    return if(notaSaida.tipo == "66" || notaSaida.tipo == "PED")
-      listOf(
+    return when(notaSaida.tipo) {
+      "66"  -> if(resumida) listOf(
+        itemCol,
+        barcodeCol,
+        refForCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        unCol,
+        qtdeCol
+                                  )
+      else listOf(
         itemCol,
         barcodeCol,
         refForCol,
@@ -156,18 +169,35 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
         qtdeCol,
         valorUnitInvCol,
         valortotalInvCol
-            )
-    else listOf(
-      itemCol,
-      barcodeCol,
-      codigoCol,
-      descricaoCol,
-      gradeCol,
-      unCol,
-      qtdeCol,
-      valorUnitarioCol,
-      valorTotalCol
-               )
+                 )
+      "PED" -> listOf(
+        itemCol,
+        barcodeCol,
+        refForCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        unCol,
+        invnoCol,
+        quantInvCol,
+        notaInvCol,
+        dateInvCol,
+        qtdeCol,
+        valorUnitInvCol,
+        valortotalInvCol
+                     )
+      else  -> listOf(
+        itemCol,
+        barcodeCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        unCol,
+        qtdeCol,
+        valorUnitarioCol,
+        valorTotalCol
+                     )
+    }
   }
   
   private fun titleBuiderPedido(): ComponentBuilder<*, *> {
@@ -373,6 +403,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
             item = index++
           }
         }
+    val pageOrientation = if(notaSaida.tipo == "66" && resumida) PORTRAIT else LANDSCAPE
     return report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
@@ -380,6 +411,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
       .columnGrid(* colunms)
       .setDataSource(itens)
       .summary(sumaryBuild())
+      .setPageFormat(A4, pageOrientation)
       .summary(pageFooterBuilder())
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style()
@@ -392,9 +424,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida) {
   }
   
   companion object {
-    fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {
+    fun processaRelatorio(listNota: List<NotaSaida>, resumida: Boolean = false): ByteArray {
       val printList = listNota.map {nota ->
-        val report = RelatorioNotaDevolucao(nota).makeReport()
+        val report = RelatorioNotaDevolucao(nota, resumida).makeReport()
         report?.toJasperPrint()
       }
       val exporter = JRPdfExporter()

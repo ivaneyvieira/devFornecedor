@@ -122,8 +122,8 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     return itensSelecionado()
   }
   
-  override fun imprimeSelecionados(notas: List<NotaSaida>) {
-    val report = RelatorioNotaDevolucao.processaRelatorio(notas)
+  override fun imprimeSelecionados(notas: List<NotaSaida>, resumida : Boolean) {
+    val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida)
     val chave = "DevReport"
     SubWindowPDF(chave, report).open()
   }
@@ -245,11 +245,21 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     val listNotas = fornecedor.notas
     val form =
       SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", toolBar = {
-        button("Impressão") {
+        val captionImpressoa = if(serie == "66") "Impressão Completa" else "Impressão"
+        button(captionImpressoa) {
           icon = PRINT.create()
           onLeftClick {
             val notas = gridNota.asMultiSelect().selectedItems.toList()
             viewModel.imprimirNotaDevolucao(notas)
+          }
+        }
+        if(serie == "66") {
+          button("Impressão Resumida") {
+            icon = PRINT.create()
+            onLeftClick {
+              val notas = gridNota.asMultiSelect().selectedItems.toList()
+              viewModel.imprimirNotaDevolucao(notas, resumida = true)
+            }
           }
         }
         this.add(buttonPlanilha {
@@ -287,12 +297,9 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   }
   
   private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
-    val button = LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(),
-                                    {filename()},
-                                    {
-                                      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
-                                    }
-                                   )
+    val button = LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    }
     return button
   }
   
@@ -389,7 +396,7 @@ class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): Vert
           this.value = event.detail
         }
       }
-      edtAssunto = textField("Assunto"){
+      edtAssunto = textField("Assunto") {
         this.width = "400px"
       }
       chkRelatorio = checkBox("Relatório")
@@ -397,7 +404,7 @@ class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): Vert
       chkAnexos = checkBox("Anexos")
       
       button("Enviar") {
-        val numerosNota = notas.joinToString(separator = " ") { it.nota }
+        val numerosNota = notas.joinToString(separator = " ") {it.nota}
         onLeftClick {
           val mail = MailGMail()
           val filesReport = if(chkRelatorio.value) {
