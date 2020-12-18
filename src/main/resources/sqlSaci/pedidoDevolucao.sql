@@ -104,10 +104,10 @@ SELECT N.storeno                                 AS loja,
 FROM TNF                       AS N
   INNER JOIN sqldados.store    AS S
 	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk AS R
-	       USING (storeno, pdvno, xano)
   INNER JOIN sqldados.eord     AS E
 	       ON E.storeno = N.storeno AND E.ordno = N.eordno AND E.paymno = 315
+  LEFT JOIN  sqldados.nfdevRmk AS R
+	       ON R.storeno = E.storeno AND R.pdvno = 9999 AND R.xano = E.ordno
   LEFT JOIN  TDUP              AS D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
 WHERE (IFNULL(D.valorDevido, 100) > 0)

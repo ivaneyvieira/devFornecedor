@@ -82,7 +82,6 @@ import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -122,7 +121,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     return itensSelecionado()
   }
   
-  override fun imprimeSelecionados(notas: List<NotaSaida>, resumida : Boolean) {
+  override fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean) {
     val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida)
     val chave = "DevReport"
     SubWindowPDF(chave, report).open()
@@ -155,12 +154,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
                                    buffer.getInputStream(fileName)
                                      .readBytes()
                                  val nfFile =
-                                   NFFile(storeno = nota.loja,
-                                          pdvno = nota.pdv,
-                                          xano = nota.transacao,
-                                          date = LocalDate.now(),
-                                          nome = fileName,
-                                          file = bytes)
+                                   NFFile.new(nota, fileName, bytes)
                                  insert(nfFile)
                                  grid.setItems(nota.listFiles())
                                }

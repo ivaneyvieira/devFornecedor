@@ -85,7 +85,14 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   
   fun saveRmk(nota: NotaSaida) {
     val sql = "/sqlSaci/rmkUpdate.sql"
-    script(sql) {
+    if(nota.tipo == "PED")
+      script(sql) {
+        addOptionalParameter("storeno", nota.loja)
+        addOptionalParameter("pdvno", 9999)
+        addOptionalParameter("xano", nota.pedido)
+        addOptionalParameter("rmk", nota.rmk)
+      }
+    else script(sql) {
       addOptionalParameter("storeno", nota.loja)
       addOptionalParameter("pdvno", nota.pdv)
       addOptionalParameter("xano", nota.transacao)
@@ -131,7 +138,12 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   
   fun selectFile(nfs: NotaSaida): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
-    return query(sql, NFFile::class) {
+    return if(nfs.tipo == "PED") query(sql, NFFile::class) {
+      addOptionalParameter("storeno", nfs.loja)
+      addOptionalParameter("pdvno", 9999)
+      addOptionalParameter("xano", nfs.pedido)
+    }
+    else query(sql, NFFile::class) {
       addOptionalParameter("storeno", nfs.loja)
       addOptionalParameter("pdvno", nfs.pdv)
       addOptionalParameter("xano", nfs.transacao)
