@@ -8,4 +8,6 @@ class PedidoViewModel(viewModel: DevFornecedorViewModel): NotaSerieViewModel(vie
 interface IPedido : INota {
   override val serie: String
     get() = "PED"
+  override val pago66: String
+    get() = ""
 }

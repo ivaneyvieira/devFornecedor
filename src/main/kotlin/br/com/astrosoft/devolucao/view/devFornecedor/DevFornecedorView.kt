@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevFornecedorView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.INota66Pago
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.tabPanel
 import com.github.mvysny.karibudsl.v10.tabSheet
@@ -19,6 +20,7 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
   override val viewModel: DevFornecedorViewModel = DevFornecedorViewModel(this)
   override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)
   override val tabNotaDevolucao = TabNotaDevolucao(viewModel.tabNotaDevolucaoViewModel)
+  override val tabNota66Pago = TabNota66Pago(viewModel.tabNota66Pago)
   override val tabNotaVenda = TabNotaVenda(viewModel.tabNotaVendaViewModel)
   
   override fun isAccept(user: UserSaci) = true
@@ -33,6 +35,8 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
         tabPanel(tabNotaDevolucao)
       if(username?.nota01 == true)
         tabPanel(tabNotaVenda)
+      if(username?.nota66Pago == true)
+        tabPanel(tabNota66Pago)
     }
   }
 }

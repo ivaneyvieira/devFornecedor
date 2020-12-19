@@ -23,6 +23,7 @@ class NotaSaida(
   val obsNota: String,
   val serie01Rejeitada: String,
   val serie01Pago: String,
+  val serie66Pago: String,
   val remarks: String,
   val baseIcms: Double = 0.00,
   val valorIcms: Double = 0.00,
@@ -54,12 +55,13 @@ class NotaSaida(
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
     
-    fun updateNotasDevolucao(serie: String) {
+    fun updateNotasDevolucao(serie: String, pago66: String) {
       val user = AppConfig.userSaci
       val loja = if(user?.admin == true) 0 else user?.storeno ?: 0
       val notas = if(serie == "PED") saci.pedidosDevolucao() else saci.notasDevolucao(serie)
       val grupos =
         notas.filter {it.loja == loja || loja == 0}
+          .filter {pago66 == "" || it.serie66Pago == pago66}
           .groupBy {it.chaveFornecedor()}
       fornecedores.clear()
       fornecedores.addAll(grupos.map {entry ->

@@ -22,7 +22,7 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
   
   private fun listNotaDevolucao(): List<Fornecedor> {
     subView.setFiltro("")
-    NotaSaida.updateNotasDevolucao(subView.serie)
+    NotaSaida.updateNotasDevolucao(subView.serie, subView.pago66)
     return NotaSaida.findFornecedores()
   }
   
@@ -79,6 +79,7 @@ abstract class NotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
 
 interface INota {
   val serie: String
+  val pago66: String
   
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>

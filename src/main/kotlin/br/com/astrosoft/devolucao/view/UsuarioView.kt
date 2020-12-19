@@ -132,6 +132,9 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
           checkBox("Nota série 1") {
             binder.bind(this, UserSaci::nota01.name)
           }
+          checkBox("Nota série 66 pago") {
+            binder.bind(this, UserSaci::nota66Pago.name)
+          }
         }
       }
       hr()
@@ -160,8 +163,8 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
   override fun buildCaption(operation: CrudOperation?, domainObject: UserSaci?): String {
     return operation?.let {crudOperation ->
       when(crudOperation) {
-        READ -> "Consulta"
-        ADD -> "Adiciona"
+        READ   -> "Consulta"
+        ADD    -> "Adiciona"
         UPDATE -> "Atualiza"
         DELETE -> "Remove"
       }

@@ -5,12 +5,14 @@ import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedorView>(view) {
   val tabNotaDevolucaoViewModel = NotaSerie66ViewModel(this)
+  val tabNota66Pago = NotaSerie66PagoViewModel(this)
   val tabNotaVendaViewModel = NotaSerie01ViewModel(this)
   val tabPedidoViewModel = PedidoViewModel(this)
 }
 
 interface IDevFornecedorView: IView {
   val tabNotaDevolucao: INotaDevolucao
+  val tabNota66Pago: INota66Pago
   val tabNotaVenda: INotaVenda
   val tabPedido: IPedido
 }
