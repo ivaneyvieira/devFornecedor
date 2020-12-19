@@ -18,8 +18,13 @@
     font-weight: bold;
 }
 
-
 [part~="footer-cell"] {
     font-size: 120%;
+    font-weight: bold;
+}
+
+[part~="cell"].iconMarc {
+    background: darkgreen;
+    color: crimson;
     font-weight: bold;
 }

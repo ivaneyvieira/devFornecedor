@@ -146,9 +146,11 @@ fun (@VaadinDsl TabSheet).selectedChange(onEvent: (event: SelectedChangeEvent) -
 fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
                                                   tooltip: String? = null,
                                                   execButton: (T) -> Unit = {},
+                                                  configIcon: (Icon, T) -> Unit = {_, _ ->},
                                                   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return addComponentColumn {bean ->
     Icon(iconButton).apply {
+      configIcon(this, bean)
       this.style.set("cursor", "pointer")
       if(tooltip != null)
         this.tooltip = tooltip
@@ -167,8 +169,9 @@ fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
 fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
                                                   tooltip: String? = null,
                                                   header: String? = null,
+                                                  configIcon: (Icon, T) -> Unit = {_, _ ->},
                                                   execButton: (T) -> Unit = {}): Grid.Column<T> {
-  return addColumnButton(iconButton, tooltip, execButton, block = {
+  return addColumnButton(iconButton, tooltip, execButton, configIcon, block = {
     this.setHeader(header)
     this.isAutoWidth = false
     this.width = "4em"

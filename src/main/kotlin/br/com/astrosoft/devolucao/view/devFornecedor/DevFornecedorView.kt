@@ -8,11 +8,13 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevFornecedorView
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.tabPanel
 import com.github.mvysny.karibudsl.v10.tabSheet
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
 @Route(layout = DevFornecedorLayout::class)
 @PageTitle("Devolução")
+@CssImport("./styles/gridTotal.css")
 class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorView {
   override val viewModel: DevFornecedorViewModel = DevFornecedorViewModel(this)
   override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)

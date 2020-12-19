@@ -82,7 +82,7 @@ interface INota {
   
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
-  fun imprimeSelecionados(itens: List<NotaSaida>, resumida : Boolean)
+  fun imprimeSelecionados(notas: List<NotaSaida>, resumida : Boolean)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String

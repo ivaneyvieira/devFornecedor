@@ -62,6 +62,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.html.Div
+import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon.CHECK
 import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.icon.VaadinIcon.ENVELOPE_O
@@ -113,6 +114,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   }
   
   override fun filtro() = edtFiltro.value ?: ""
+  
   override fun setFiltro(txt: String) {
     edtFiltro.value = txt
   }
@@ -328,10 +330,10 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
       setSelectionMode(MULTI)
       setItems(listNotas)
       //
-      addColumnButton(FILE_PICTURE, "Arquivos", "Arq") {nota ->
+      addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) {nota ->
         viewModel.editFile(nota)
       }
-      addColumnButton(EDIT, "Editor", "Edt") {nota ->
+      addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) {nota ->
         viewModel.editRmk(nota)
       }
       addColumnButton(ENVELOPE_O, "Editor", "Email") {nota ->
@@ -351,6 +353,20 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
     }
+  }
+  
+  fun configIconArq(icon: Icon, nota: NotaSaida) {
+    if(nota.listFiles()
+        .isNotEmpty()
+    )
+      icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+  
+  fun configIconEdt(icon: Icon, nota: NotaSaida) {
+    if(nota.rmk.isNotBlank())
+      icon.color = "DarkGreen"
+    else icon.color = ""
   }
   
   private fun createGridImpressao(listProdutos: List<ProdutosNotaSaida>): Grid<ProdutosNotaSaida> {
@@ -398,18 +414,18 @@ class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): Vert
       chkAnexos = checkBox("Anexos")
       
       button("Enviar") {
-        val numerosNota = notas.joinToString(separator = " ") {it.nota}
+        // val numerosNota = notas.joinToString(separator = " ") {it.nota}
         onLeftClick {
           val mail = MailGMail()
           val filesReport = if(chkRelatorio.value) {
-            notas.map {nota ->
+            notas.map {_ ->
               val report = RelatorioNotaDevolucao.processaRelatorio(notas)
               FileAttach("Relatorio de notas.pdf", report)
             }
           }
           else emptyList()
           val filesPlanilha = if(chkPlanilha.value) {
-            notas.map {nota ->
+            notas.map {_ ->
               val planilha = viewModel.geraPlanilha(notas)
               FileAttach("Planilha de Notas.xlsx", planilha)
             }
