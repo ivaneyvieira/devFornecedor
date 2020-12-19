@@ -11,8 +11,8 @@ class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedor
 }
 
 interface IDevFornecedorView: IView {
-  val tabNotaDevolucao: INotaDevolucao
-  val tabNota66Pago: INota66Pago
-  val tabNotaVenda: INotaVenda
+  val tabNotaSerie66: INotaSerie66
+  val tabNotaSerie66Pago: INotaSerie66Pago
+  val tabNotaSerie01: INotaSerie01
   val tabPedido: IPedido
 }

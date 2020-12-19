@@ -2,10 +2,10 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 class NotaSerie01ViewModel(viewModel: DevFornecedorViewModel): NotaSerieViewModel(viewModel) {
   override val subView
-    get() = viewModel.view.tabNotaVenda
+    get() = viewModel.view.tabNotaSerie01
 }
 
-interface INotaVenda: INota {
+interface INotaSerie01: INota {
   override val serie: String
     get() = "1"
   
