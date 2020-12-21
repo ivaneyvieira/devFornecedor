@@ -27,7 +27,7 @@ class MailGMail {
   val protocolo = "smtp"
   val servidor = "smtp.gmail.com" // do painel de controle do SMTP
   val username = "engecopi.devolucao@gmail.com" // do painel de controle do SMTP
-  val senha = "@Engdev.2100" // do painel de controle do SMTP
+  val senha = "devfor04" // do painel de controle do SMTP
   val porta = "465" // do painel de controle do SMTP
   val props = initProperties()
   val session: Session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha)).apply {
