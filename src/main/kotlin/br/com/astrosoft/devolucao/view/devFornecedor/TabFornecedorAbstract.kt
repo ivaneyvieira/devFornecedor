@@ -337,7 +337,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
       addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) {nota ->
         viewModel.editRmk(nota)
       }
-      addColumnButton(ENVELOPE_O, "Editor", "Email") {nota ->
+      addColumnButton(ENVELOPE_O, "Editor", "Email", ::configMostraEmail) {nota ->
         viewModel.mostrarEmailNota(nota)
       }
       
@@ -368,7 +368,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
-     // setSelectionMode(MULTI)
+      // setSelectionMode(MULTI)
       setItems(emails)
       
       addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
@@ -391,6 +391,14 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   
   fun configIconArq(icon: Icon, nota: NotaSaida) {
     if(nota.listFiles()
+        .isNotEmpty()
+    )
+      icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+  
+  fun configMostraEmail(icon: Icon, nota: NotaSaida) {
+    if(nota.listEmailNota()
         .isNotEmpty()
     )
       icon.color = "DarkGreen"
