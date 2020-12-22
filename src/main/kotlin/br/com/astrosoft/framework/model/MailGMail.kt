@@ -1,14 +1,8 @@
 package br.com.astrosoft.framework.model
 
-import java.io.ByteArrayInputStream
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 import java.io.UnsupportedEncodingException
 import java.util.*
 import javax.activation.DataHandler
-import javax.activation.DataSource
 import javax.activation.FileDataSource
 import javax.mail.Authenticator
 import javax.mail.Message
@@ -30,27 +24,32 @@ class MailGMail {
   val senha = "devfor04" // do painel de controle do SMTP
   val porta = "465" // do painel de controle do SMTP
   val props = initProperties()
-  val session: Session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha)).apply {
-    debug = false
-  }
+  val session: Session =
+    Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
+      .apply {
+        debug = false
+      }
   
-  fun sendMail(to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()) {
+  fun sendMail(to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()): Boolean {
     try {
       val message = createMessage(to, subject)
       val multPart = MimeMultipart().apply {
         val partText = partText(htmlMessage)
         val partFile = partsFile(files)
         this.addBodyPart(partText)
-        partFile.forEach {part->
+        partFile.forEach {part ->
           this.addBodyPart(part)
         }
       }
       message.setContent(multPart)
       transport(message)
+      return true
     } catch(e: UnsupportedEncodingException) {
       e.printStackTrace()
+      return false
     } catch(e: MessagingException) {
       e.printStackTrace()
+      return false
     }
   }
   
@@ -89,16 +88,17 @@ class MailGMail {
   }
   
   private fun createMessage(toList: String, subject: String): MimeMessage {
-    val toSplit = toList.split(",").toList().map {it.trim()}
+    val toSplit =
+      toList.split(",")
+        .toList()
+        .map {it.trim()}
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
     val iaTo = arrayOfNulls<InternetAddress>(toSplit.size)
     //val iaReplyTo = arrayOfNulls<InternetAddress>(1)
-   // iaReplyTo[0] = InternetAddress(to, to)
-    toSplit.forEachIndexed { index, to ->
+    // iaReplyTo[0] = InternetAddress(to, to)
+    toSplit.forEachIndexed {index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
-    
-    
     val message = MimeMessage(session)
     //message.replyTo = iaReplyTo
     message.setFrom(iaFrom)

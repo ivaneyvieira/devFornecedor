@@ -52,6 +52,12 @@ class NotaSaida(
   
   fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno, email)
   
+  fun salvaEmail(bean: EmailBean, idEmail: Int) {
+    saci.salvaEmailEnviado(bean, this, idEmail)
+  }
+  
+  fun listEmailNota() = saci.listEmailNota(this)
+  
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
     

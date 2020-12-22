@@ -1,10 +1,16 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
+import br.com.astrosoft.devolucao.model.beans.EmailBean
+import br.com.astrosoft.devolucao.model.beans.EmailEnviado
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
+import br.com.astrosoft.devolucao.view.emailAssunto
+import br.com.astrosoft.devolucao.view.emailData
+import br.com.astrosoft.devolucao.view.emailEmail
+import br.com.astrosoft.devolucao.view.emailHora
 import br.com.astrosoft.devolucao.view.fornecedorCliente
 import br.com.astrosoft.devolucao.view.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.fornecedorNome
@@ -25,17 +31,15 @@ import br.com.astrosoft.devolucao.view.produtoDescricao
 import br.com.astrosoft.devolucao.view.produtoGrade
 import br.com.astrosoft.devolucao.view.produtoQtde
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
+import br.com.astrosoft.devolucao.viewmodel.devolucao.AbstractNotaSerieViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INota
-import br.com.astrosoft.devolucao.viewmodel.devolucao.NotaSerieViewModel
-import br.com.astrosoft.framework.model.FileAttach
-import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.showOutput
-import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.checkBox
 import com.github.mvysny.karibudsl.v10.comboBox
@@ -79,7 +83,6 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
-import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
@@ -87,7 +90,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
+abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   TabPanelGrid<Fornecedor>(Fornecedor::class), INota {
   private lateinit var edtFiltro: TextField
   
@@ -190,11 +193,11 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   
   private fun createFormEditRmk(nota: NotaSaida): Component {
     return TextArea().apply {
-      this.style.set("overflow-y", "auto");
+      this.style.set("overflow-y", "auto")
       this.isExpand = true
       this.focus()
       this.value = nota.rmk
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = TIMEOUT
       addValueChangeListener {
         val text = it.value
         nota.rmk = text
@@ -288,15 +291,13 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
     val textTime =
       LocalDateTime.now()
         .format(sdf)
-    val filename = "notas$textTime.xlsx"
-    return filename
+    return "notas$textTime.xlsx"
   }
   
   private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
-    val button = LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), ::filename) {
+    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
       ByteArrayInputStream(viewModel.geraPlanilha(notas()))
     }
-    return button
   }
   
   private fun showDialogImpressao(nota: NotaSaida?) {
@@ -337,7 +338,7 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
         viewModel.editRmk(nota)
       }
       addColumnButton(ENVELOPE_O, "Editor", "Email") {nota ->
-        viewModel.enviarEmail(listOf(nota))
+        viewModel.mostrarEmailNota(nota)
       }
       
       notaLoja()
@@ -353,6 +354,39 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
     }
+  }
+  
+  override fun selecionaEmail(nota: NotaSaida, emails: List<EmailEnviado>) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}") {
+      createGridEmail(nota, emails)
+    }
+    form.open()
+  }
+  
+  private fun createGridEmail(nota: NotaSaida, emails: List<EmailEnviado>): Grid<EmailEnviado> {
+    val gridDetail = Grid(EmailEnviado::class.java, false)
+    return gridDetail.apply {
+      addThemeVariants(LUMO_COMPACT)
+      isMultiSort = false
+     // setSelectionMode(MULTI)
+      setItems(emails)
+      
+      addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
+        editEmail(nota, emailEnviado)
+      }
+      
+      emailAssunto()
+      emailEmail()
+      emailData()
+      emailHora()
+    }
+  }
+  
+  private fun editEmail(nota: NotaSaida, emailEnviado: EmailEnviado?) {
+    val form = SubWindowForm("DEV FORNECEDOR: ${nota.fornecedor}") {
+      FormEmail(viewModel, listOf(nota), emailEnviado)
+    }
+    form.open()
   }
   
   fun configIconArq(icon: Icon, nota: NotaSaida) {
@@ -384,13 +418,32 @@ abstract class TabFornecedorAbstract(val viewModel: NotaSerieViewModel):
   }
 }
 
-class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): VerticalLayout() {
+class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida>, emailEnviado: EmailEnviado? = null):
+  VerticalLayout() {
   private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField
   private var rteMessage: EnhancedRichTextEditor
   private lateinit var chkAnexos: Checkbox
   private lateinit var chkRelatorio: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
+  var bean: EmailBean
+    get() = EmailBean(
+      email = cmbEmail.value ?: "",
+      assunto = edtAssunto.value ?: "",
+      msg = rteMessage.value ?: "",
+      msgHtml = rteMessage.htmlValue ?: "",
+      planilha = if(chkPlanilha.value) "S" else "N",
+      relatorio = if(chkRelatorio.value) "S" else "N",
+      anexos = if(chkAnexos.value) "S" else "N"
+                     )
+    set(value) {
+      cmbEmail.value = value.email
+      edtAssunto.value = value.assunto
+      rteMessage.value = value.msg
+      chkPlanilha.value = value.planilha == "S"
+      chkRelatorio.value = value.relatorio == "S"
+      chkAnexos.value = value.anexos == "S"
+    }
   
   init {
     val fornecedor =
@@ -416,38 +469,14 @@ class FormEmail(val viewModel: NotaSerieViewModel, notas: List<NotaSaida>): Vert
       button("Enviar") {
         // val numerosNota = notas.joinToString(separator = " ") {it.nota}
         onLeftClick {
-          val mail = MailGMail()
-          val filesReport = if(chkRelatorio.value) {
-            notas.map {_ ->
-              val report = RelatorioNotaDevolucao.processaRelatorio(notas)
-              FileAttach("Relatorio de notas.pdf", report)
-            }
-          }
-          else emptyList()
-          val filesPlanilha = if(chkPlanilha.value) {
-            notas.map {_ ->
-              val planilha = viewModel.geraPlanilha(notas)
-              FileAttach("Planilha de Notas.xlsx", planilha)
-            }
-          }
-          else emptyList()
-          val filesAnexo = if(chkAnexos.value) {
-            notas.flatMap {nota ->
-              nota.listFiles()
-                .map {nfile ->
-                  FileAttach(nfile.nome, nfile.file)
-                }
-            }
-          }
-          else emptyList()
-          mail.sendMail(cmbEmail.value,
-                        edtAssunto.value,
-                        rteMessage.htmlValue,
-                        filesReport + filesPlanilha + filesAnexo)
+          viewModel.enviaEmail(bean, notas)
         }
       }
     }
     addAndExpand(rteMessage)
+    emailEnviado?.let {emailEnviado ->
+      bean = emailEnviado.emailBean()
+    }
   }
   
   private fun richEditor(): EnhancedRichTextEditor {

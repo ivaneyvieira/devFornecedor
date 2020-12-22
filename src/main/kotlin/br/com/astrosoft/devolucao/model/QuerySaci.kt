@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.model
 
+import br.com.astrosoft.devolucao.model.beans.EmailBean
+import br.com.astrosoft.devolucao.model.beans.EmailEnviado
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
@@ -150,6 +152,52 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
+  //Email
+  fun listEmailNota(nota: NotaSaida): List<EmailEnviado> {
+    val sql = "/sqlSaci/listEmailEnviado.sql"
+    return if(nota.tipo == "PED") query(sql, EmailEnviado::class) {
+      addOptionalParameter("storeno", nota.loja)
+      addOptionalParameter("pdvno", 9999)
+      addOptionalParameter("xano", nota.pedido)
+    }
+    else query(sql, EmailEnviado::class) {
+      addOptionalParameter("storeno", nota.loja)
+      addOptionalParameter("pdvno", nota.pdv)
+      addOptionalParameter("xano", nota.transacao)
+    }
+  }
+
+  fun listNotasEmailNota(idEmail : Int): List<EmailEnviado> {
+    val sql = "/sqlSaci/listNotasEmailEnviado.sql"
+    return  query(sql, EmailEnviado::class) {
+      addOptionalParameter("idEmail", idEmail)
+    }
+  }
+  
+  fun salvaEmailEnviado(bean: EmailBean, nota: NotaSaida, idEmail : Int) {
+    val sql = "/sqlSaci/salvaEmailEnviado.sql"
+    val storeno = nota.loja
+    val pdvno =  if(nota.tipo == "PED") 9999 else nota.pdv
+    val xano =  if(nota.tipo == "PED") nota.pedido else nota.transacao
+    script(sql) {
+      addOptionalParameter("idEmail", idEmail)
+      addOptionalParameter("storeno", storeno)
+      addOptionalParameter("pdvno", pdvno)
+      addOptionalParameter("xano", xano)
+      addOptionalParameter("email", bean.email)
+      addOptionalParameter("assunto", bean.assunto)
+      addOptionalParameter("msg", bean.msg)
+      addOptionalParameter("planilha", bean.planilha)
+      addOptionalParameter("relatorio", bean.relatorio)
+      addOptionalParameter("anexos", bean.anexos)
+    }
+  }
+  
+  fun newEmailId() : Int {
+    val sql = "select MAX(idEmail + 1) as max from sqldados.devEmail"
+    return query(sql, Max::class).firstOrNull()?.max ?: 1
+  }
+  
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
@@ -164,3 +212,5 @@ class QuerySaci: QueryDB(driver, url, username, password) {
 }
 
 val saci = QuerySaci()
+
+data class Max(val max : Int)

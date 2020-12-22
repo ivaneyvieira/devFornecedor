@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class NotaSerie01ViewModel(viewModel: DevFornecedorViewModel): NotaSerieViewModel(viewModel) {
+class NotaSerie01ViewModel(viewModel: DevFornecedorViewModel): AbstractNotaSerieViewModel(viewModel) {
   override val subView
     get() = viewModel.view.tabNotaSerie01
 }

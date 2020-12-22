@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view
 
+import br.com.astrosoft.devolucao.model.beans.EmailEnviado
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
@@ -8,6 +9,7 @@ import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
+import br.com.astrosoft.framework.view.addColumnLocalTime
 import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
@@ -135,4 +137,25 @@ fun Grid<ProdutosNotaSaida>.produtoUltQtd() = addColumnInt(ProdutosNotaSaida::qt
 
 fun Grid<NFFile>.nfFileDescricao() = addColumnString(NFFile::nome) {
   this.setHeader("Descrição")
+}
+
+// ****************************************************************************************
+// Emails
+// ****************************************************************************************
+
+
+fun Grid<EmailEnviado>.emailEmail()  = addColumnString(EmailEnviado::email) {
+  this.setHeader("E-mail")
+}
+
+fun Grid<EmailEnviado>.emailAssunto()  = addColumnString(EmailEnviado::assunto) {
+  this.setHeader("Assunto")
+}
+
+fun Grid<EmailEnviado>.emailData()  = addColumnLocalDate(EmailEnviado::data) {
+  this.setHeader("Data")
+}
+
+fun Grid<EmailEnviado>.emailHora()  = addColumnLocalTime(EmailEnviado::hora) {
+  this.setHeader("Hora")
 }
