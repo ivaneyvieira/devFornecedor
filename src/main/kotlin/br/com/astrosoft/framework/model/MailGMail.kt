@@ -1,14 +1,17 @@
 package br.com.astrosoft.framework.model
 
+import com.sun.mail.imap.IMAPFolder
 import java.io.UnsupportedEncodingException
 import java.util.*
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
 import javax.mail.Authenticator
+import javax.mail.Folder
 import javax.mail.Message
 import javax.mail.MessagingException
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
+import javax.mail.Store
 import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
@@ -16,16 +19,16 @@ import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 
 class MailGMail {
-  val emailRemetente = "eng.alerta@gmail.com"
+  val emailRemetente = "engecopi.devolucao@gmail.com"
   val nomeRemetente = "Engecopi"
   val protocolo = "smtp"
-  val servidor = "smtp.gmail.com" // do painel de controle do SMTP
+  val servidorSmtp = "smtp.gmail.com" // do painel de controle do SMTP
   val username = "engecopi.devolucao@gmail.com" // do painel de controle do SMTP
   val senha = "devfor04" // do painel de controle do SMTP
-  val porta = "465" // do painel de controle do SMTP
-  val props = initProperties()
-  val session: Session =
-    Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
+  val portaSmtp = "465" // do painel de controle do SMTP
+  val propsSmtp = initPropertiesSmtp()
+  val sessionSmtp: Session =
+    Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha))
       .apply {
         debug = false
       }
@@ -54,19 +57,19 @@ class MailGMail {
   }
   
   private fun transport(message: MimeMessage) {
-    val transport: Transport = session.getTransport(protocolo)
-    transport.connect(servidor, username, senha)
+    val transport: Transport = sessionSmtp.getTransport(protocolo)
+    transport.connect(servidorSmtp, username, senha)
     message.saveChanges()
     transport.sendMessage(message, message.allRecipients)
     transport.close()
   }
   
-  private fun initProperties(): Properties {
+  private fun initPropertiesSmtp(): Properties {
     return Properties().apply {
       this["mail.transport.protocol"] = protocolo
-      this["mail.smtp.host"] = servidor
+      this["mail.smtp.host"] = servidorSmtp
       this["mail.smtp.auth"] = "true"
-      this["mail.smtp.port"] = porta
+      this["mail.smtp.port"] = portaSmtp
       this["mail.smtp.ssl.enable"] = "true";
     }
   }
@@ -99,13 +102,64 @@ class MailGMail {
     toSplit.forEachIndexed {index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
-    val message = MimeMessage(session)
+    val message = MimeMessage(sessionSmtp)
     //message.replyTo = iaReplyTo
     message.setFrom(iaFrom)
     if(iaTo.isNotEmpty()) message.setRecipients(Message.RecipientType.TO, iaTo)
     message.subject = subject
     message.sentDate = Date()
     return message
+  }
+  
+  fun listEmail() {
+    var folder: IMAPFolder? = null
+    var store: Store? = null
+  
+    try {
+      val props = System.getProperties()
+      props.setProperty("mail.store.protocol", "imaps")
+      val session = Session.getDefaultInstance(props,  GmailAuthenticator(username, senha))
+      store = session.getStore("imaps")
+      store.connect("imap.googlemail.com", username, senha)
+  
+      store.defaultFolder.list().forEach {
+        println(it.name)
+      }
+      
+      folder = store.getFolder("INBOX") as IMAPFolder? // This doesn't work for other email account
+      //folder = (IMAPFolder) store.getFolder("inbox"); This works for both email account
+      if(!folder!!.isOpen) folder.open(Folder.READ_WRITE)
+      val messages = folder.messages
+      println("No of Messages : " + folder.messageCount)
+      println("No of Unread Messages : " + folder.unreadMessageCount)
+      println(messages.size)
+      for(i in messages.indices) {
+        println("*****************************************************************************")
+        println("MESSAGE " + (i + 1) + ":")
+        val msg = messages[i]
+        //System.out.println(msg.getMessageNumber());
+        //Object String;
+        //System.out.println(folder.getUID(msg)
+        val subject = msg.subject
+        println("Subject: $subject")
+        println("From: " + msg.from[0])
+        println("To: " + msg.allRecipients[0])
+        println("Date: " + msg.receivedDate)
+        println("Size: " + msg.size)
+        println(msg.flags)
+        println("""
+  Body:
+  ${msg.content}
+  """.trimIndent())
+        val rep = msg
+        println(msg.contentType)
+      }
+    } finally {
+      if(folder != null && folder.isOpen) {
+        folder.close(true)
+      }
+      store?.close()
+    }
   }
 }
 
@@ -124,3 +178,9 @@ fun main() {
 }
 *
  */
+
+
+fun main() {
+  val mail = MailGMail()
+  mail.listEmail()
+}
