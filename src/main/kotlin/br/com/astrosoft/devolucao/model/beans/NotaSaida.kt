@@ -2,6 +2,8 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.EmailMessage
+import br.com.astrosoft.framework.model.MailGMail
 import java.time.LocalDate
 
 class NotaSaida(
@@ -57,6 +59,28 @@ class NotaSaida(
   }
   
   fun listEmailNota() = saci.listEmailNota(this)
+  
+  fun listaEmailRecebidoNota(): List<EmailEnviado> {
+    val gmail = MailGMail()
+    val numeroNota = nota.split("/")[0]
+    return gmail.listEmail("[Gmail]/Todos os e-mails", numeroNota)
+      .map {msg: EmailMessage ->
+        EmailEnviado(
+          storeno = loja,
+          pdvno = pdv,
+          xano = transacao,
+          data = msg.data.toLocalDate(),
+          hora = msg.data.toLocalTime(),
+          idEmail = 0,
+          email = msg.from.joinToString(separator = ","),
+          assunto = msg.subject,
+          msg = msg.content.messageTxt,
+          planilha = "N",
+          relatorio = "N",
+          anexos = "N"
+                    )
+      }
+  }
   
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()

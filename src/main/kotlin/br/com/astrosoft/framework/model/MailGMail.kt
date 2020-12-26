@@ -1,14 +1,20 @@
 package br.com.astrosoft.framework.model
 
+import br.com.astrosoft.framework.util.toDate
+import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
 import java.io.UnsupportedEncodingException
+import java.time.LocalDateTime
 import java.util.*
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
+import javax.mail.Address
 import javax.mail.Authenticator
 import javax.mail.Folder
 import javax.mail.Message
+import javax.mail.Message.RecipientType
 import javax.mail.MessagingException
+import javax.mail.Multipart
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
 import javax.mail.Store
@@ -17,6 +23,13 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
+import javax.mail.search.AndTerm
+import javax.mail.search.ComparisonTerm
+import javax.mail.search.ReceivedDateTerm
+import javax.mail.search.RecipientStringTerm
+import javax.mail.search.RecipientTerm
+import javax.mail.search.SearchTerm
+import javax.mail.search.SubjectTerm
 
 class MailGMail {
   val emailRemetente = "engecopi.devolucao@gmail.com"
@@ -111,48 +124,39 @@ class MailGMail {
     return message
   }
   
-  fun listEmail() {
+  fun listEmail(folderName: String, subjectSearch: String): List<EmailMessage> {
     var folder: IMAPFolder? = null
     var store: Store? = null
-  
-    try {
+    
+    return try {
       val props = System.getProperties()
       props.setProperty("mail.store.protocol", "imaps")
-      val session = Session.getDefaultInstance(props,  GmailAuthenticator(username, senha))
+      val session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
       store = session.getStore("imaps")
       store.connect("imap.googlemail.com", username, senha)
-  
-      store.defaultFolder.list().forEach {
-        println(it.name)
-      }
       
-      folder = store.getFolder("INBOX") as IMAPFolder? // This doesn't work for other email account
-      //folder = (IMAPFolder) store.getFolder("inbox"); This works for both email account
-      if(!folder!!.isOpen) folder.open(Folder.READ_WRITE)
-      val messages = folder.messages
-      println("No of Messages : " + folder.messageCount)
-      println("No of Unread Messages : " + folder.unreadMessageCount)
-      println(messages.size)
-      for(i in messages.indices) {
-        println("*****************************************************************************")
-        println("MESSAGE " + (i + 1) + ":")
-        val msg = messages[i]
-        //System.out.println(msg.getMessageNumber());
-        //Object String;
-        //System.out.println(folder.getUID(msg)
-        val subject = msg.subject
-        println("Subject: $subject")
-        println("From: " + msg.from[0])
-        println("To: " + msg.allRecipients[0])
-        println("Date: " + msg.receivedDate)
-        println("Size: " + msg.size)
-        println(msg.flags)
-        println("""
-  Body:
-  ${msg.content}
-  """.trimIndent())
-        val rep = msg
-        println(msg.contentType)
+      store.getFolder("[Gmail]")
+        .list()
+        .forEach {
+          println("${it.name} - ${it.fullName}")
+        }
+      
+      folder = store.getFolder(folderName) as IMAPFolder?
+      if(folder == null) emptyList()
+      else {
+        if(!folder.isOpen) folder.open(Folder.READ_ONLY)
+        folder.search(AndTerm(SubjectTerm(subjectSearch),
+                              RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))))
+          .map {message ->
+            val content = message.contentBean()
+            EmailMessage(
+              subject = message.subject ?: "",
+              data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+              from = message.from.toList(),
+              to = message.allRecipients.toList(),
+              content = content
+                        )
+          }
       }
     } finally {
       if(folder != null && folder.isOpen) {
@@ -161,6 +165,41 @@ class MailGMail {
       store?.close()
     }
   }
+  
+  private fun lastHoursSearchTerm(hours: Long): SearchTerm {
+    val rightNow = LocalDateTime.now()
+    val past = rightNow.minusHours(hours)
+    val olderThan: SearchTerm = ReceivedDateTerm(ComparisonTerm.LE, rightNow.toDate())
+    val newerThan: SearchTerm = ReceivedDateTerm(ComparisonTerm.GE, past.toDate())
+    return AndTerm(newerThan, olderThan)
+  }
+  
+  companion object {
+    const val folderEnviados = "[Gmail]/E-mails enviados"
+    const val folderRecebidos = "INBOX"
+  }
+}
+
+private fun Message.contentBean(): Content {
+  val contentLocal = content
+  return if(contentLocal is Multipart) {
+    val multipart = contentLocal as Multipart
+    val anexos = mutableListOf<Attachment>()
+    var messageTxt = ""
+    for(i in 0 until multipart.count) {
+      val bodyPart = multipart.getBodyPart(i)
+      val disposition = bodyPart.disposition
+      if(disposition != null && (disposition.toUpperCase() == "ATTACHMENT")) {
+        val handler = bodyPart.dataHandler
+        //val part = bodyPart as MimeBodyPart
+        //val bytes = IOUtils.toByteArray(part.rawInputStream)
+        anexos.add(Attachment(handler.name, ByteArray(0)))
+      }
+      else messageTxt = bodyPart.content.toString()
+    }
+    Content(messageTxt, anexos)
+  }
+  else Content(content.toString(), emptyList())
 }
 
 class GmailAuthenticator(val username: String, val password: String): Authenticator() {
@@ -168,6 +207,24 @@ class GmailAuthenticator(val username: String, val password: String): Authentica
     return PasswordAuthentication(username, password)
   }
 }
+
+data class EmailMessage(
+  val subject: String,
+  val data: LocalDateTime,
+  val from: List<Address>,
+  val to: List<Address>,
+  val content: Content
+                       )
+
+class Attachment(
+  val name: String,
+  val content: ByteArray
+                )
+
+data class Content(
+  val messageTxt: String,
+  val anexos: List<Attachment>
+                  )
 /*
 fun main() {
   var message = "<i>Greetings!</i><br>"
@@ -178,9 +235,15 @@ fun main() {
 }
 *
  */
-
-
+/*
 fun main() {
   val mail = MailGMail()
-  mail.listEmail()
+  val list = mail.listEmail("[Gmail]/Todos os e-mails", "454724")
+  println("Tamanho da lista: ${list.size}")
+  list.forEach {
+    println("****************************************************************************************")
+    println(it)
+  }
 }
+*
+ */
