@@ -106,6 +106,7 @@ dependencies {
   implementation("com.lowagie:itext:2.1.7")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
+  implementation("com.sun.mail:gimap:1.6.2")
 }
 
 vaadin {

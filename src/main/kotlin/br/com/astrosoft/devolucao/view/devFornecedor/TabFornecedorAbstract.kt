@@ -365,11 +365,12 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   
   private fun createGridEmail(nota: NotaSaida, emails: List<EmailEnviado>): Grid<EmailEnviado> {
     val gridDetail = Grid(EmailEnviado::class.java, false)
+    val lista = emails + nota.listaEmailRecebidoNota()
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       // setSelectionMode(MULTI)
-      setItems(emails)
+      setItems(lista.sortedWith(compareByDescending<EmailEnviado> {it.data}.thenByDescending {it.hora}))
       
       addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
         editEmail(nota, emailEnviado)
