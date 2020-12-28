@@ -54,18 +54,18 @@ class NotaSaida(
   
   fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno, email)
   
-  fun salvaEmail(bean: EmailBean, idEmail: Int) {
-    saci.salvaEmailEnviado(bean, this, idEmail)
+  fun salvaEmail(gmail: EmailGmail, idEmail: Int) {
+    saci.salvaEmailEnviado(gmail, this, idEmail)
   }
   
   fun listEmailNota() = saci.listEmailNota(this)
   
-  fun listaEmailRecebidoNota(): List<EmailEnviado> {
+  fun listaEmailRecebidoNota(): List<EmailDB> {
     val gmail = MailGMail()
     val numeroNota = nota.split("/")[0]
     return gmail.listEmail("[Gmail]/Todos os e-mails", numeroNota)
       .map {msg: EmailMessage ->
-        EmailEnviado(
+        EmailDB(
           storeno = loja,
           pdvno = pdv,
           xano = transacao,

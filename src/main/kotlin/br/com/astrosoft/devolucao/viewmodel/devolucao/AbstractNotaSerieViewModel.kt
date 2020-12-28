@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.EmailBean
-import br.com.astrosoft.devolucao.model.beans.EmailEnviado
+import br.com.astrosoft.devolucao.model.beans.EmailDB
+import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
@@ -82,27 +82,27 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
     subView.enviaEmail(notas)
   }
   
-  fun enviaEmail(bean: EmailBean, notas: List<NotaSaida>) = viewModel.exec {
+  fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>) = viewModel.exec {
     val mail = MailGMail()
-    val filesReport = createReports(bean, notas)
-    val filesPlanilha = createPlanilha(bean, notas)
-    val filesAnexo = createAnexos(bean, notas)
-    val enviadoComSucesso = mail.sendMail(bean.email,
-                                          bean.assunto,
-                                          bean.msgHtml,
+    val filesReport = createReports(gmail, notas)
+    val filesPlanilha = createPlanilha(gmail, notas)
+    val filesAnexo = createAnexos(gmail, notas)
+    val enviadoComSucesso = mail.sendMail(gmail.email,
+                                          gmail.assunto,
+                                          gmail.msgHtml,
                                           filesReport + filesPlanilha + filesAnexo)
     if(enviadoComSucesso) {
-      val idEmail = EmailEnviado.newEmailId()
+      val idEmail = EmailDB.newEmailId()
       notas.forEach {nota ->
-        nota.salvaEmail(bean, idEmail)
+        nota.salvaEmail(gmail, idEmail)
       }
     }
     else fail("Erro ao enviar e-mail")
   }
   
-  private fun createAnexos(bean: EmailBean,
+  private fun createAnexos(gmail: EmailGmail,
                            notas: List<NotaSaida>): List<FileAttach> {
-    return when(bean.anexos) {
+    return when(gmail.anexos) {
       "S"  -> {
         notas.flatMap {nota ->
           nota.listFiles()
@@ -115,9 +115,9 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
     }
   }
   
-  private fun createPlanilha(bean: EmailBean,
+  private fun createPlanilha(gmail: EmailGmail,
                              notas: List<NotaSaida>): List<FileAttach> {
-    return when(bean.planilha) {
+    return when(gmail.planilha) {
       "S"  -> {
         notas.map {_ ->
           val planilha = geraPlanilha(notas)
@@ -128,9 +128,9 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
     }
   }
   
-  private fun createReports(bean: EmailBean,
+  private fun createReports(gmail: EmailGmail,
                             notas: List<NotaSaida>): List<FileAttach> {
-    return when(bean.relatorio) {
+    return when(gmail.relatorio) {
       "S"  -> {
         notas.map {_ ->
           val report = RelatorioNotaDevolucao.processaRelatorio(notas)
@@ -160,6 +160,6 @@ interface INota {
   fun filtro(): String
   fun setFiltro(txt: String)
   fun enviaEmail(notas: List<NotaSaida>)
-  fun selecionaEmail(nota: NotaSaida, emails: List<EmailEnviado>)
+  fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>)
 }
 

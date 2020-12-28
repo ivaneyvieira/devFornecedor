@@ -1,11 +1,11 @@
-
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import Build_gradle.Defs.vaadin10_version
 import Build_gradle.Defs.vaadinonkotlin_version
 
 object Defs {
-  const val vaadinonkotlin_version = "1.0.3"
-  const val vaadin10_version = "14.4.2"
-  const val kotlin_version = "1.4.0"
+  const val vaadinonkotlin_version = "1.0.4"
+  const val vaadin10_version = "14.4.4"
+  const val kotlin_version = "1.4.21"
   const val spring_boot_version = "2.2.6.RELEASE"
   const val vaadin_plugin = "0.14.3.7"
   //const val gretty_plugin = "3.0.1"
@@ -14,11 +14,11 @@ object Defs {
 plugins {
   id("org.springframework.boot") version  "2.2.6.RELEASE"
   id("io.spring.dependency-management") version "1.0.9.RELEASE"
-  kotlin("jvm") version "1.4.0"
+  kotlin("jvm") version "1.4.21"
   id("org.gretty") version "3.0.3"
   war
-  id("com.vaadin") version "0.8.0"
-  kotlin("plugin.spring") version "1.4.0"
+  id("com.vaadin") version "0.14.3.7"
+  kotlin("plugin.spring") version "1.4.21"
 }
 
 defaultTasks("clean", "vaadinBuildFrontend", "build")
@@ -37,9 +37,10 @@ gretty {
 }
 val staging by configurations.creating
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-  kotlinOptions.jvmTarget = "1.8"
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
+
 group = "devolucao"
 version = "1.0"
 
@@ -51,7 +52,13 @@ dependencies {
   // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("com.github.mvysny.karibudsl:karibu-dsl:${vaadinonkotlin_version}")
   // Vaadin 14
-  implementation("com.vaadin:vaadin-core:${vaadin10_version}")
+  implementation("com.vaadin:vaadin-core:${vaadin10_version}") {
+    // Webjars are only needed when running in Vaadin 13 compatibility mode
+    listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
+           "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
+           "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents")
+      .forEach { exclude(group = it) }
+  }
   implementation("com.vaadin:vaadin-spring-boot-starter:${vaadin10_version}")
   providedCompile("javax.servlet:javax.servlet-api:3.1.0")
   
@@ -66,6 +73,9 @@ dependencies {
   implementation("org.imgscalr:imgscalr-lib:4.2")
   implementation("com.jcraft:jsch:0.1.55")
   implementation("org.cups4j:cups4j:0.7.6")
+  // https://mvnrepository.com/artifact/org.jsoup/jsoup
+  implementation("org.jsoup:jsoup:1.13.1")
+  
   // logging
   // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
   //implementation("com.github.appreciated:app-layout-addon:3.0.0.beta5")
@@ -81,14 +91,7 @@ dependencies {
   implementation("com.flowingcode.addons:font-awesome-iron-iconset:2.1.2")
   implementation("org.vaadin.haijian:exporter:3.0.1")
   implementation("com.github.nwillc:poink:0.4.6")
-  /*
-  <dependency>
-   <groupId>com.vaadin.componentfactory</groupId>
-   <artifactId>enhanced-rich-text-editor</artifactId>
-   <version>2.2.3</version>
-</dependency>
-   */
-  implementation("com.vaadin.componentfactory:enhanced-rich-text-editor:2.2.3")
+
   //compile("com.flowingcode.addons.applayout:app-layout-addon:2.0.2")
   implementation(kotlin("stdlib-jdk8"))
   
@@ -110,7 +113,7 @@ dependencies {
 }
 
 vaadin {
-  productionMode = true
+  
 }
 
 dependencyManagement {

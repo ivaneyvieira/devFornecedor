@@ -1,5 +1,6 @@
 package br.com.astrosoft.framework.util
 
+import org.jsoup.Jsoup
 import java.text.DecimalFormat
 
 private val formatNumber = DecimalFormat("#,##0.00")
@@ -68,6 +69,11 @@ fun parameterNames(sql: String): List<String> {
     .toList()
     .flatten()
     .filter {!it.startsWith(":")}
+}
+
+fun htmlToText(htmlTxt : String?): String {
+  htmlTxt ?: return ""
+  return Jsoup.parse(htmlTxt.replace("</p>", "\n").replace("<br>", "\n")).wholeText()
 }
 /*
 @Suppress("UNCHECKED_CAST")

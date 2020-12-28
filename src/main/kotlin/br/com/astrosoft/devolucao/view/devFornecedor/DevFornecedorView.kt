@@ -32,10 +32,10 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
         tabPanel(tabPedido)
       if(username?.nota66 == true)
         tabPanel(tabNotaSerie66)
-      if(username?.nota01 == true)
-        tabPanel(tabNotaSerie01)
       if(username?.nota66Pago == true)
         tabPanel(tabNotaSerie66Pago)
+      if(username?.nota01 == true)
+        tabPanel(tabNotaSerie01)
     }
   }
 }
