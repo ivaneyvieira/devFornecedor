@@ -321,7 +321,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(MULTI)
-      setItems(listNotas.sortedByDescending {if(it.tipo == "PED") it.dataPedido else it.dataPedido})
+      setItems(listNotas)
       //
       addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) {nota ->
         viewModel.editFile(nota)
@@ -334,9 +334,9 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
       }
       
       notaLoja()
-      notaDataPedido()
+      val dataPedido = notaDataPedido()
       notaPedido()
-      notaDataNota()
+      val dataNota = notaDataNota()
       notaNota()
       notaFatura()
       notaValor().apply {
@@ -345,6 +345,10 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
             .format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
+      if(serie == "PED")
+        this.setColumnOrder(dataPedido)
+      else
+        this.setColumnOrder(dataNota)
     }
   }
   
