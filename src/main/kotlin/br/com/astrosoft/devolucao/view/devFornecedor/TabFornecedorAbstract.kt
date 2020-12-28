@@ -45,6 +45,7 @@ import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.checkBox
 import com.github.mvysny.karibudsl.v10.comboBox
+import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -57,6 +58,7 @@ import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
+import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
@@ -76,6 +78,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
+import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
@@ -334,9 +337,9 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
       }
       
       notaLoja()
-      val dataPedido = notaDataPedido()
+      notaDataPedido()
       notaPedido()
-      val dataNota = notaDataNota()
+      notaDataNota()
       notaNota()
       notaFatura()
       notaValor().apply {
@@ -346,9 +349,13 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
       if(serie == "PED")
-        this.setColumnOrder(dataPedido)
+        sort(listOf(
+          GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING))
+            )
       else
-        this.setColumnOrder(dataNota)
+        sort(listOf(
+          GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING))
+            )
     }
   }
   
