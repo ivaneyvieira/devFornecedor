@@ -32,7 +32,7 @@ SELECT N.storeno,
        0.00                                                              AS outrasDespesas,
        N.ipi_amt / 100                                                   AS valorIpi,
        grossamt / 100                                                    AS valorTotal,
-       TRIM(MID(IFNULL(OBS.remarks__480, ''), 1, 40))                    AS obsPedido
+       TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
@@ -111,6 +111,8 @@ FROM TNF                       AS N
 	       USING (storeno, pdvno, xano)
   LEFT JOIN  TDUP              AS D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+  LEFT JOIN  sqldados.eordrk   AS O
+	       ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR Serie01Pago = 'N') OR N.nfse = '66')

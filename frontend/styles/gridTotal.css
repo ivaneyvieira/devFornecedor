@@ -28,3 +28,7 @@
     color: crimson;
     font-weight: bold;
 }
+
+[part~="ck-content"].dark {
+    color: black;
+}

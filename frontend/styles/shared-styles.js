@@ -31,9 +31,11 @@ $_documentContainer.innerHTML = `
       --lumo-space-m: 0.625rem;
       --lumo-space-s: 0.3125rem;
       --lumo-space-xs: 0.1875rem;
+      --ck-color-base-background: hsl(270, 1%, 29%);
     }
 
     [theme~="dark"] {
+          --ck-color-base-background: hsl(270, 1%, 29%);
     }
   </style>
 </custom-style>

@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.view
 
-import br.com.astrosoft.devolucao.model.beans.EmailEnviado
+import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
@@ -144,18 +144,22 @@ fun Grid<NFFile>.nfFileDescricao() = addColumnString(NFFile::nome) {
 // ****************************************************************************************
 
 
-fun Grid<EmailEnviado>.emailEmail()  = addColumnString(EmailEnviado::email) {
+fun Grid<EmailDB>.emailTipo()  = addColumnString(EmailDB::tipoEmail) {
+  this.setHeader("Tipo")
+}
+
+fun Grid<EmailDB>.emailEmail()  = addColumnString(EmailDB::email) {
   this.setHeader("E-mail")
 }
 
-fun Grid<EmailEnviado>.emailAssunto()  = addColumnString(EmailEnviado::assunto) {
+fun Grid<EmailDB>.emailAssunto()  = addColumnString(EmailDB::assunto) {
   this.setHeader("Assunto")
 }
 
-fun Grid<EmailEnviado>.emailData()  = addColumnLocalDate(EmailEnviado::data) {
+fun Grid<EmailDB>.emailData()  = addColumnLocalDate(EmailDB::data) {
   this.setHeader("Data")
 }
 
-fun Grid<EmailEnviado>.emailHora()  = addColumnLocalTime(EmailEnviado::hora) {
+fun Grid<EmailDB>.emailHora()  = addColumnLocalTime(EmailDB::hora) {
   this.setHeader("Hora")
 }

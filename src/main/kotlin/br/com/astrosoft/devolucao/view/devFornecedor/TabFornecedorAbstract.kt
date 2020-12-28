@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
-import br.com.astrosoft.devolucao.model.beans.EmailBean
-import br.com.astrosoft.devolucao.model.beans.EmailEnviado
+import br.com.astrosoft.devolucao.model.beans.EmailDB
+import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
@@ -11,6 +11,7 @@ import br.com.astrosoft.devolucao.view.emailAssunto
 import br.com.astrosoft.devolucao.view.emailData
 import br.com.astrosoft.devolucao.view.emailEmail
 import br.com.astrosoft.devolucao.view.emailHora
+import br.com.astrosoft.devolucao.view.emailTipo
 import br.com.astrosoft.devolucao.view.fornecedorCliente
 import br.com.astrosoft.devolucao.view.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.fornecedorNome
@@ -34,6 +35,7 @@ import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.AbstractNotaSerieViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INota
 import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.util.htmlToText
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -47,15 +49,6 @@ import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
-import com.vaadin.componentfactory.EnhancedRichTextEditor
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.BLOCKQUOTE
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.CLEAN
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.CODE_BLOCK
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.IMAGE
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.LINK
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.READONLY
-import com.vaadin.componentfactory.EnhancedRichTextEditor.ToolbarButton.STRIKE
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
@@ -88,7 +81,6 @@ import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   TabPanelGrid<Fornecedor>(Fornecedor::class), INota {
@@ -329,7 +321,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(MULTI)
-      setItems(listNotas)
+      setItems(listNotas.sortedByDescending {if(it.tipo == "PED") it.dataPedido else it.dataPedido})
       //
       addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) {nota ->
         viewModel.editFile(nota)
@@ -356,34 +348,35 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
     }
   }
   
-  override fun selecionaEmail(nota: NotaSaida, emails: List<EmailEnviado>) {
+  override fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>) {
     val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}") {
       createGridEmail(nota, emails)
     }
     form.open()
   }
   
-  private fun createGridEmail(nota: NotaSaida, emails: List<EmailEnviado>): Grid<EmailEnviado> {
-    val gridDetail = Grid(EmailEnviado::class.java, false)
+  private fun createGridEmail(nota: NotaSaida, emails: List<EmailDB>): Grid<EmailDB> {
+    val gridDetail = Grid(EmailDB::class.java, false)
     val lista = emails + nota.listaEmailRecebidoNota()
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       // setSelectionMode(MULTI)
-      setItems(lista.sortedWith(compareByDescending<EmailEnviado> {it.data}.thenByDescending {it.hora}))
+      setItems(lista.sortedWith(compareByDescending<EmailDB> {it.data}.thenByDescending {it.hora}))
       
       addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
         editEmail(nota, emailEnviado)
       }
       
-      emailAssunto()
-      emailEmail()
       emailData()
       emailHora()
+      emailAssunto()
+      emailTipo()
+      emailEmail()
     }
   }
   
-  private fun editEmail(nota: NotaSaida, emailEnviado: EmailEnviado?) {
+  private fun editEmail(nota: NotaSaida, emailEnviado: EmailDB?) {
     val form = SubWindowForm("DEV FORNECEDOR: ${nota.fornecedor}") {
       FormEmail(viewModel, listOf(nota), emailEnviado)
     }
@@ -427,28 +420,29 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   }
 }
 
-class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida>, emailEnviado: EmailEnviado? = null):
+class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida>, emailEnviado: EmailDB? = null):
   VerticalLayout() {
   private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField
-  private var rteMessage: EnhancedRichTextEditor
+  private var rteMessage: TextArea
   private lateinit var chkAnexos: Checkbox
   private lateinit var chkRelatorio: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
-  var bean: EmailBean
-    get() = EmailBean(
+  var gmail: EmailGmail
+    get() = EmailGmail(
       email = cmbEmail.value ?: "",
       assunto = edtAssunto.value ?: "",
       msg = rteMessage.value ?: "",
-      msgHtml = rteMessage.htmlValue ?: "",
+      msgHtml = rteMessage.value ?: "",
       planilha = if(chkPlanilha.value) "S" else "N",
       relatorio = if(chkRelatorio.value) "S" else "N",
       anexos = if(chkAnexos.value) "S" else "N"
-                     )
+                      )
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto
-      rteMessage.value = value.msg
+      rteMessage.value = htmlToText(value.msg)
+      //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
       chkPlanilha.value = value.planilha == "S"
       chkRelatorio.value = value.relatorio == "S"
       chkAnexos.value = value.anexos == "S"
@@ -458,8 +452,10 @@ class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida
     val fornecedor =
       NotaSaida.findFornecedores()
         .firstOrNull {it.notas.containsAll(notas)}
-    rteMessage = richEditor()
+    rteMessage = richEditor(emailEnviado?.msg ?: "")
+    setSizeFull()
     horizontalLayout {
+      setWidthFull()
       cmbEmail = comboBox("E-Mail") {
         this.width = "400px"
         this.isAllowCustomValue = true
@@ -469,7 +465,7 @@ class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida
         }
       }
       edtAssunto = textField("Assunto") {
-        this.width = "400px"
+        this.isExpand = true
       }
       chkRelatorio = checkBox("Relatório")
       chkPlanilha = checkBox("Planilha")
@@ -478,29 +474,24 @@ class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida
       button("Enviar") {
         // val numerosNota = notas.joinToString(separator = " ") {it.nota}
         onLeftClick {
-          viewModel.enviaEmail(bean, notas)
+          viewModel.enviaEmail(gmail, notas)
         }
       }
     }
+    rteMessage.width = "100%"
+    
     addAndExpand(rteMessage)
-    emailEnviado?.let {emailEnviado ->
-      bean = emailEnviado.emailBean()
+    emailEnviado?.let {email ->
+      gmail = email.emailBean()
     }
   }
   
-  private fun richEditor(): EnhancedRichTextEditor {
-    val rte = EnhancedRichTextEditor()
-    rte.width = "100%"
-    val buttons = HashMap<ToolbarButton, Boolean>()
-    buttons[CLEAN] = false
-    buttons[BLOCKQUOTE] = false
-    buttons[CODE_BLOCK] = false
-    buttons[IMAGE] = false
-    buttons[LINK] = false
-    buttons[STRIKE] = false
-    buttons[READONLY] = false
-    rte.toolbarButtonsVisibility = buttons
+  private fun richEditor(htmlText: String): TextArea {
+    val rte = TextArea()
+    
+    rte.value = htmlToText(htmlText)
     
     return rte
   }
 }
+

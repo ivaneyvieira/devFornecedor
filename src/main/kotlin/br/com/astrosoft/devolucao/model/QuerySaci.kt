@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.model
 
-import br.com.astrosoft.devolucao.model.beans.EmailBean
-import br.com.astrosoft.devolucao.model.beans.EmailEnviado
+import br.com.astrosoft.devolucao.model.beans.EmailDB
+import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
@@ -153,28 +153,28 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   //Email
-  fun listEmailNota(nota: NotaSaida): List<EmailEnviado> {
+  fun listEmailNota(nota: NotaSaida): List<EmailDB> {
     val sql = "/sqlSaci/listEmailEnviado.sql"
-    return if(nota.tipo == "PED") query(sql, EmailEnviado::class) {
+    return if(nota.tipo == "PED") query(sql, EmailDB::class) {
       addOptionalParameter("storeno", nota.loja)
       addOptionalParameter("pdvno", 9999)
       addOptionalParameter("xano", nota.pedido)
     }
-    else query(sql, EmailEnviado::class) {
+    else query(sql, EmailDB::class) {
       addOptionalParameter("storeno", nota.loja)
       addOptionalParameter("pdvno", nota.pdv)
       addOptionalParameter("xano", nota.transacao)
     }
   }
 
-  fun listNotasEmailNota(idEmail : Int): List<EmailEnviado> {
+  fun listNotasEmailNota(idEmail : Int): List<EmailDB> {
     val sql = "/sqlSaci/listNotasEmailEnviado.sql"
-    return  query(sql, EmailEnviado::class) {
+    return  query(sql, EmailDB::class) {
       addOptionalParameter("idEmail", idEmail)
     }
   }
   
-  fun salvaEmailEnviado(bean: EmailBean, nota: NotaSaida, idEmail : Int) {
+  fun salvaEmailEnviado(gmail: EmailGmail, nota: NotaSaida, idEmail : Int) {
     val sql = "/sqlSaci/salvaEmailEnviado.sql"
     val storeno = nota.loja
     val pdvno =  if(nota.tipo == "PED") 9999 else nota.pdv
@@ -184,12 +184,12 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", storeno)
       addOptionalParameter("pdvno", pdvno)
       addOptionalParameter("xano", xano)
-      addOptionalParameter("email", bean.email)
-      addOptionalParameter("assunto", bean.assunto)
-      addOptionalParameter("msg", bean.msg)
-      addOptionalParameter("planilha", bean.planilha)
-      addOptionalParameter("relatorio", bean.relatorio)
-      addOptionalParameter("anexos", bean.anexos)
+      addOptionalParameter("email", gmail.email)
+      addOptionalParameter("assunto", gmail.assunto)
+      addOptionalParameter("msg", gmail.msg)
+      addOptionalParameter("planilha", gmail.planilha)
+      addOptionalParameter("relatorio", gmail.relatorio)
+      addOptionalParameter("anexos", gmail.anexos)
     }
   }
   

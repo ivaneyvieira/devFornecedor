@@ -3,10 +3,15 @@ package br.com.astrosoft.framework.model
 import br.com.astrosoft.framework.util.toDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.io.UnsupportedEncodingException
 import java.time.LocalDateTime
 import java.util.*
 import javax.activation.DataHandler
+import javax.activation.DataSource
 import javax.activation.FileDataSource
 import javax.mail.Address
 import javax.mail.Authenticator
@@ -99,7 +104,7 @@ class MailGMail {
   
   private fun partText(htmlMessage: String): MimeBodyPart {
     return MimeBodyPart().apply {
-      this.dataHandler = DataHandler((HTMLDataSource(htmlMessage)))
+      this.setText(htmlMessage)
     }
   }
   
@@ -134,12 +139,12 @@ class MailGMail {
       val session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
       store = session.getStore("imaps")
       store.connect("imap.googlemail.com", username, senha)
-      
+      /*
       store.getFolder("[Gmail]")
         .list()
         .forEach {
           println("${it.name} - ${it.fullName}")
-        }
+        }*/
       
       folder = store.getFolder(folderName) as IMAPFolder?
       if(folder == null) emptyList()
@@ -166,6 +171,27 @@ class MailGMail {
     }
   }
   
+  internal class PlainTextDataSource(private val html: String?): DataSource {
+    @Throws(IOException::class)
+    override fun getInputStream(): InputStream {
+      if(html == null) throw IOException("html message is null!")
+      return ByteArrayInputStream(html.toByteArray())
+    }
+    
+    @Throws(IOException::class)
+    override fun getOutputStream(): OutputStream {
+      throw IOException("This DataHandler cannot write HTML")
+    }
+    
+    override fun getContentType(): String {
+      return "text/html"
+    }
+    
+    override fun getName(): String {
+      return "HTMLDataSource"
+    }
+  }
+  
   private fun lastHoursSearchTerm(hours: Long): SearchTerm {
     val rightNow = LocalDateTime.now()
     val past = rightNow.minusHours(hours)
@@ -183,7 +209,7 @@ class MailGMail {
 private fun Message.contentBean(): Content {
   val contentLocal = content
   return if(contentLocal is Multipart) {
-    val multipart = contentLocal as Multipart
+    val multipart = contentLocal
     val anexos = mutableListOf<Attachment>()
     var messageTxt = ""
     for(i in 0 until multipart.count) {
