@@ -62,8 +62,8 @@ class NotaSaida(
   
   fun listaEmailRecebidoNota(): List<EmailDB> {
     val gmail = MailGMail()
-    val numeroNota = nota.split("/")[0]
-    return gmail.listEmail("[Gmail]/Todos os e-mails", numeroNota)
+    val numero = if(tipo == "PED") pedido.toString() else nota.split("/")[0]
+    return gmail.listEmail("[Gmail]/Todos os e-mails", numero)
       .map {msg: EmailMessage ->
         EmailDB(
           storeno = loja,
