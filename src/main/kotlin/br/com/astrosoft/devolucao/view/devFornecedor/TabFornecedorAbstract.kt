@@ -107,10 +107,10 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {fornecedor ->
       showDialogRepresentante(fornecedor)
     }
+    fornecedorUltimaData()
     fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
-    fornecedorUltimaData()
   }
   
   override fun filtro() = edtFiltro.value ?: ""
