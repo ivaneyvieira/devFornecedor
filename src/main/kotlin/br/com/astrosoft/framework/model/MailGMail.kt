@@ -139,12 +139,6 @@ class MailGMail {
       val session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
       store = session.getStore("imaps")
       store.connect("imap.googlemail.com", username, senha)
-      /*
-      store.getFolder("[Gmail]")
-        .list()
-        .forEach {
-          println("${it.name} - ${it.fullName}")
-        }*/
       
       folder = store.getFolder(folderName) as IMAPFolder?
       if(folder == null) emptyList()
@@ -203,6 +197,7 @@ class MailGMail {
   companion object {
     const val folderEnviados = "[Gmail]/E-mails enviados"
     const val folderRecebidos = "INBOX"
+    const val folderAll = "[Gmail]/Todos os e-mails"
   }
 }
 
@@ -217,8 +212,6 @@ private fun Message.contentBean(): Content {
       val disposition = bodyPart.disposition
       if(disposition != null && (disposition.toUpperCase() == "ATTACHMENT")) {
         val handler = bodyPart.dataHandler
-        //val part = bodyPart as MimeBodyPart
-        //val bytes = IOUtils.toByteArray(part.rawInputStream)
         anexos.add(Attachment(handler.name, ByteArray(0)))
       }
       else messageTxt = bodyPart.content.toString()

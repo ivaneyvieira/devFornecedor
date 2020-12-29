@@ -64,7 +64,6 @@ dependencies {
   
   implementation("com.zaxxer:HikariCP:3.4.1")
   // logging
-  // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
   implementation("ch.qos.logback:logback-classic:1.2.3")
   implementation("org.slf4j:slf4j-api:1.7.30")
   implementation("org.sql2o:sql2o:1.6.0")
@@ -77,8 +76,6 @@ dependencies {
   implementation("org.jsoup:jsoup:1.13.1")
   
   // logging
-  // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-  //implementation("com.github.appreciated:app-layout-addon:3.0.0.beta5")
   implementation("org.vaadin.tatu:twincolselect:1.2.0")
   implementation("org.vaadin.gatanaso:multiselect-combo-box-flow:1.1.0")
   implementation("org.vaadin.tabs:paged-tabs:2.0.1")
@@ -92,7 +89,6 @@ dependencies {
   implementation("org.vaadin.haijian:exporter:3.0.1")
   implementation("com.github.nwillc:poink:0.4.6")
 
-  //compile("com.flowingcode.addons.applayout:app-layout-addon:2.0.2")
   implementation(kotlin("stdlib-jdk8"))
   
   implementation(kotlin("reflect"))
