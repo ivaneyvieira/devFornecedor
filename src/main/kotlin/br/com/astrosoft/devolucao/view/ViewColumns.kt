@@ -67,6 +67,10 @@ fun Grid<Fornecedor>.fornecedorNome() = addColumnString(Fornecedor::fornecedor) 
   this.setHeader("Fornecedor")
 }
 
+fun Grid<Fornecedor>.fornecedorUltimaData() = addColumnLocalDate(Fornecedor::ultimaData) {
+  this.setHeader("Ultima Data")
+}
+
 // ****************************************************************************************
 // Representantes
 // ****************************************************************************************
@@ -142,7 +146,6 @@ fun Grid<NFFile>.nfFileDescricao() = addColumnString(NFFile::nome) {
 // ****************************************************************************************
 // Emails
 // ****************************************************************************************
-
 
 fun Grid<EmailDB>.emailTipo()  = addColumnString(EmailDB::tipoEmail) {
   this.setHeader("Tipo")

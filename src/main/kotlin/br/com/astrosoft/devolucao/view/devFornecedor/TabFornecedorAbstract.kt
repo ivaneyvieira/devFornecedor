@@ -15,6 +15,7 @@ import br.com.astrosoft.devolucao.view.emailTipo
 import br.com.astrosoft.devolucao.view.fornecedorCliente
 import br.com.astrosoft.devolucao.view.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.fornecedorNome
+import br.com.astrosoft.devolucao.view.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.nfFileDescricao
 import br.com.astrosoft.devolucao.view.notaCelular
 import br.com.astrosoft.devolucao.view.notaDataNota
@@ -109,6 +110,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
     fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
+    fornecedorUltimaData()
   }
   
   override fun filtro() = edtFiltro.value ?: ""
