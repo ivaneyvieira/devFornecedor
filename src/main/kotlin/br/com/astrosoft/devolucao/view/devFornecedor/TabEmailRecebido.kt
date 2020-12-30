@@ -5,11 +5,13 @@ import br.com.astrosoft.devolucao.view.emailAssunto
 import br.com.astrosoft.devolucao.view.emailData
 import br.com.astrosoft.devolucao.view.emailEmail
 import br.com.astrosoft.devolucao.view.emailHora
-import br.com.astrosoft.devolucao.view.emailTipo
 import br.com.astrosoft.devolucao.viewmodel.devolucao.EmailRecebidoViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailRecebido
+import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnButton
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabEmailRecebido(val viewModel: EmailRecebidoViewModel):
@@ -19,6 +21,9 @@ class TabEmailRecebido(val viewModel: EmailRecebidoViewModel):
   }
   
   override fun Grid<EmailDB>.gridPanel() {
+    addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
+      editEmail(emailEnviado)
+    }
     emailData()
     emailHora()
     emailAssunto()
@@ -30,5 +35,12 @@ class TabEmailRecebido(val viewModel: EmailRecebidoViewModel):
   
   override fun updateComponent() {
     viewModel.updateGridNota()
+  }
+  
+  private fun editEmail(emailEnviado: EmailDB?) {
+    val form = SubWindowForm("E-MAIL RECEBIDO") {
+      FormEmail(viewModel, emptyList(), emailEnviado)
+    }
+    form.open()
   }
 }

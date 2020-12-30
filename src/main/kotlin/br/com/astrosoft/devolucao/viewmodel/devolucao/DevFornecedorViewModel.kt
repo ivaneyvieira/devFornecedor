@@ -1,5 +1,8 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
+import br.com.astrosoft.devolucao.model.beans.EmailGmail
+import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
@@ -17,4 +20,9 @@ interface IDevFornecedorView: IView {
   val tabNotaSerie01: INotaSerie01
   val tabPedido: IPedido
   val tabEmailRecebido: IEmailRecebido
+}
+
+interface IEmailViewModel {
+  fun listEmail(fornecedor: Fornecedor?): List<String>
+  fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>)
 }

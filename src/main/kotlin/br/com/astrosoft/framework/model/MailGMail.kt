@@ -145,19 +145,22 @@ class MailGMail {
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
         val toTerm = RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))
-        val hourTerm = lastHoursSearchTerm(24 * 30)
+        val hourTerm = lastHoursSearchTerm(24 * 7)
         val term = if(subjectSearch == "") AndTerm(arrayOf(toTerm, hourTerm))
         else AndTerm(arrayOf(SubjectTerm(subjectSearch), toTerm, hourTerm))
         folder.search(term)
-          .map {message ->
+          .mapNotNull {message ->
             val content = message.contentBean()
-            EmailMessage(
-              subject = message.subject ?: "",
-              data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-              from = message.from.toList(),
-              to = message.allRecipients.toList(),
-              content = content
-                        )
+            val regex = """[0-9]{3,20}""".toRegex()
+            if(regex.containsMatchIn(message.subject))
+              EmailMessage(
+                subject = message.subject ?: "",
+                data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+                from = message.from.toList(),
+                to = message.allRecipients.toList(),
+                content = content
+                          )
+            else null
           }
       }
     } finally {
