@@ -11,7 +11,7 @@ import br.com.astrosoft.framework.model.FileAttach
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.fail
 
-abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel) {
+abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel): IEmailViewModel {
   protected abstract val subView: INota
   
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
@@ -71,7 +71,7 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
     return planilha.grava(notas)
   }
   
-  fun listEmail(fornecedor: Fornecedor?): List<String> {
+  override fun listEmail(fornecedor: Fornecedor?): List<String> {
     return fornecedor?.listEmail()
       .orEmpty()
   }
@@ -82,7 +82,7 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
     subView.enviaEmail(notas)
   }
   
-  fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>) = viewModel.exec {
+  override fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>) = viewModel.exec {
     val mail = MailGMail()
     val filesReport = createReports(gmail, notas)
     val filesPlanilha = createPlanilha(gmail, notas)

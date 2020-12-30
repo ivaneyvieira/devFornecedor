@@ -34,6 +34,7 @@ import br.com.astrosoft.devolucao.view.produtoGrade
 import br.com.astrosoft.devolucao.view.produtoQtde
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.AbstractNotaSerieViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INota
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
@@ -433,7 +434,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   }
 }
 
-class FormEmail(val viewModel: AbstractNotaSerieViewModel, notas: List<NotaSaida>, emailEnviado: EmailDB? = null):
+class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnviado: EmailDB? = null):
   VerticalLayout() {
   private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField
