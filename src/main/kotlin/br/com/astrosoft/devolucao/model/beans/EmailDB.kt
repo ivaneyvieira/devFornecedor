@@ -4,6 +4,8 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.MailGMail
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.mail.Address
+import javax.mail.internet.InternetAddress
 
 class EmailDB(val storeno: Int,
               val pdvno: Int,
@@ -48,7 +50,7 @@ class EmailDB(val storeno: Int,
           data = msg.data.toLocalDate(),
           hora = msg.data.toLocalTime(),
           idEmail = 0,
-          email = msg.from.toString(),
+          email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
           assunto = msg.subject,
           msg = msg.content.messageTxt,
           planilha = "N",

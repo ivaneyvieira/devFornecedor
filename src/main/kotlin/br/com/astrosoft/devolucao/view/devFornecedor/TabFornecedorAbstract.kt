@@ -502,9 +502,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
   
   private fun richEditor(htmlText: String): TextArea {
     val rte = TextArea()
-    
     rte.value = htmlToText(htmlText)
-    
     return rte
   }
 }
