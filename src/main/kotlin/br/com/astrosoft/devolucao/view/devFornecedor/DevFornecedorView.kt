@@ -21,6 +21,7 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
   override val tabNotaSerie66 = TabNotaSerie66(viewModel.tabNotaDevolucaoViewModel)
   override val tabNotaSerie66Pago = TabNotaSerie66Pago(viewModel.tabNota66Pago)
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaVendaViewModel)
+  override val tabEmailRecebido = TabEmailRecebido(viewModel.tabEmailRecebido)
   
   override fun isAccept(user: UserSaci) = true
   
@@ -36,6 +37,8 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
         tabPanel(tabNotaSerie66Pago)
       if(username?.nota01 == true)
         tabPanel(tabNotaSerie01)
+      if(username?.tabEmailRecebido == true)
+        tabPanel(tabEmailRecebido)
     }
   }
 }

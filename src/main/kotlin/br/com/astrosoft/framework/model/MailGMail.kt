@@ -4,6 +4,7 @@ import br.com.astrosoft.framework.util.toDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -31,7 +32,6 @@ import javax.mail.internet.MimeMultipart
 import javax.mail.search.AndTerm
 import javax.mail.search.ComparisonTerm
 import javax.mail.search.ReceivedDateTerm
-import javax.mail.search.RecipientStringTerm
 import javax.mail.search.RecipientTerm
 import javax.mail.search.SearchTerm
 import javax.mail.search.SubjectTerm
@@ -129,7 +129,7 @@ class MailGMail {
     return message
   }
   
-  fun listEmail(folderName: String, subjectSearch: String): List<EmailMessage> {
+  fun listEmail(subjectSearch: String): List<EmailMessage> {
     var folder: IMAPFolder? = null
     var store: Store? = null
     
@@ -140,12 +140,15 @@ class MailGMail {
       store = session.getStore("imaps")
       store.connect("imap.googlemail.com", username, senha)
       
-      folder = store.getFolder(folderName) as IMAPFolder?
+      folder = store.getFolder(folderAll) as IMAPFolder?
       if(folder == null) emptyList()
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
-        folder.search(AndTerm(SubjectTerm(subjectSearch),
-                              RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))))
+        val toTerm = RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))
+        val hourTerm = lastHoursSearchTerm(24 * 30)
+        val term = if(subjectSearch == "") AndTerm(arrayOf(toTerm, hourTerm))
+        else AndTerm(arrayOf(SubjectTerm(subjectSearch), toTerm, hourTerm))
+        folder.search(term)
           .map {message ->
             val content = message.contentBean()
             EmailMessage(
@@ -252,7 +255,6 @@ fun main() {
   val mail = MailGMail();
   mail.sendMail(DestinoMail("Ivaney", "ivaneyvieira@gmail.com"), "Teste 01", message)
 }
-*
  */
 /*
 fun main() {
@@ -264,5 +266,13 @@ fun main() {
     println(it)
   }
 }
-*
  */
+
+class FileAttach(val nome: String, val bytes: ByteArray) {
+  fun fileName(): String {
+    val fileName = "/tmp/$nome"
+    val file = File(fileName)
+    file.writeBytes(bytes)
+    return fileName
+  }
+}

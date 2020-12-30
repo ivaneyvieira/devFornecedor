@@ -8,6 +8,7 @@ class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedor
   val tabNota66Pago = NotaSerie66PagoViewModel(this)
   val tabNotaVendaViewModel = NotaSerie01ViewModel(this)
   val tabPedidoViewModel = PedidoViewModel(this)
+  val tabEmailRecebido = EmailRecebidoViewModel(this)
 }
 
 interface IDevFornecedorView: IView {
@@ -15,4 +16,5 @@ interface IDevFornecedorView: IView {
   val tabNotaSerie66Pago: INotaSerie66Pago
   val tabNotaSerie01: INotaSerie01
   val tabPedido: IPedido
+  val tabEmailRecebido: IEmailRecebido
 }

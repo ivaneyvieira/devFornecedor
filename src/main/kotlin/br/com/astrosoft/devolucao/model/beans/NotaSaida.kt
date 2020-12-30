@@ -63,7 +63,7 @@ class NotaSaida(
   fun listaEmailRecebidoNota(): List<EmailDB> {
     val gmail = MailGMail()
     val numero = if(tipo == "PED") pedido.toString() else nota.split("/")[0]
-    return gmail.listEmail("[Gmail]/Todos os e-mails", numero)
+    return gmail.listEmail(numero)
       .map {msg: EmailMessage ->
         EmailDB(
           storeno = loja,
@@ -78,7 +78,7 @@ class NotaSaida(
           planilha = "N",
           relatorio = "N",
           anexos = "N"
-                    )
+               )
       }
   }
   
@@ -101,6 +101,8 @@ class NotaSaida(
     
     fun findFornecedores() = fornecedores.toList()
   }
+  
+  fun listNotasPedido() = saci.pedidosDevolucao() + saci.notasDevolucao("")
 }
 
 data class ChaveFornecedor(
