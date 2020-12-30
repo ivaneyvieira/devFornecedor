@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.MailGMail
 import java.time.LocalDate
+import javax.mail.internet.InternetAddress
 
 class NotaSaida(
   val loja: Int,
@@ -72,7 +73,7 @@ class NotaSaida(
           data = msg.data.toLocalDate(),
           hora = msg.data.toLocalTime(),
           idEmail = 0,
-          email = msg.from.joinToString(separator = ","),
+          email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
           assunto = msg.subject,
           msg = msg.content.messageTxt,
           planilha = "N",
