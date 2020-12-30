@@ -3,8 +3,8 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.MailGMail
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
-import javax.mail.Address
 import javax.mail.internet.InternetAddress
 
 class EmailDB(val storeno: Int,
@@ -33,6 +33,8 @@ class EmailDB(val storeno: Int,
   fun isEmailEnviado() = idEmail > 0
   fun isEmailRecebido() = !isEmailEnviado()
   
+  fun dataHora() = LocalDateTime.of(data, hora)
+  
   val tipoEmail
     get() = if(isEmailRecebido()) "Recebido" else "Enviado"
   
@@ -42,21 +44,29 @@ class EmailDB(val storeno: Int,
     fun listEmailRecebidos(): List<EmailDB> {
       val gmail = MailGMail()
       val emails = gmail.listEmail("")
-      return emails.map {msg ->
-        EmailDB(
-          storeno = 0,
-          pdvno = 0,
-          xano = 0,
-          data = msg.data.toLocalDate(),
-          hora = msg.data.toLocalTime(),
-          idEmail = 0,
-          email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
-          assunto = msg.subject,
-          msg = msg.content.messageTxt,
-          planilha = "N",
-          relatorio = "N",
-          anexos = "N"
-               )
+      val emailsEnviados = saci.listEmailPara()
+      return emails.mapNotNull {msg ->
+        val from = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: ""
+        val emailResposta = emailsEnviados.filter {email ->
+          email.email.contains(from) && msg.data
+            .isAfter(email.dataHora())
+        }
+        if(emailResposta.isNotEmpty()) null
+        else
+          EmailDB(
+            storeno = 0,
+            pdvno = 0,
+            xano = 0,
+            data = msg.data.toLocalDate(),
+            hora = msg.data.toLocalTime(),
+            idEmail = 0,
+            email = from,
+            assunto = msg.subject,
+            msg = msg.content.messageTxt,
+            planilha = "N",
+            relatorio = "N",
+            anexos = "N"
+                 )
       }
     }
   }

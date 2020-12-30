@@ -166,19 +166,25 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("xano", nota.transacao)
     }
   }
-
-  fun listNotasEmailNota(idEmail : Int): List<EmailDB> {
+  
+  fun listEmailPara(): List<EmailDB> {
+    val sql = "/sqlSaci/listEmailEnviadoPara.sql"
+    return emptyList()
+    //return query(sql, EmailDB::class)
+  }
+  
+  fun listNotasEmailNota(idEmail: Int): List<EmailDB> {
     val sql = "/sqlSaci/listNotasEmailEnviado.sql"
-    return  query(sql, EmailDB::class) {
+    return query(sql, EmailDB::class) {
       addOptionalParameter("idEmail", idEmail)
     }
   }
   
-  fun salvaEmailEnviado(gmail: EmailGmail, nota: NotaSaida, idEmail : Int) {
+  fun salvaEmailEnviado(gmail: EmailGmail, nota: NotaSaida, idEmail: Int) {
     val sql = "/sqlSaci/salvaEmailEnviado.sql"
     val storeno = nota.loja
-    val pdvno =  if(nota.tipo == "PED") 9999 else nota.pdv
-    val xano =  if(nota.tipo == "PED") nota.pedido else nota.transacao
+    val pdvno = if(nota.tipo == "PED") 9999 else nota.pdv
+    val xano = if(nota.tipo == "PED") nota.pedido else nota.transacao
     script(sql) {
       addOptionalParameter("idEmail", idEmail)
       addOptionalParameter("storeno", storeno)
@@ -193,7 +199,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun newEmailId() : Int {
+  fun newEmailId(): Int {
     val sql = "select MAX(idEmail + 1) as max from sqldados.devEmail"
     return query(sql, Max::class).firstOrNull()?.max ?: 1
   }
@@ -213,4 +219,4 @@ class QuerySaci: QueryDB(driver, url, username, password) {
 
 val saci = QuerySaci()
 
-data class Max(val max : Int)
+data class Max(val max: Int)

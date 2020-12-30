@@ -109,7 +109,7 @@ dependencies {
 }
 
 vaadin {
-  
+    
 }
 
 dependencyManagement {
