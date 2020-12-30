@@ -9,6 +9,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.UnsupportedEncodingException
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import javax.activation.DataHandler
@@ -140,27 +141,25 @@ class MailGMail {
       store = session.getStore("imaps")
       store.connect("imap.googlemail.com", username, senha)
       
-      folder = store.getFolder(folderAll) as IMAPFolder?
+      folder = store.getFolder(folderRecebidos) as IMAPFolder?
       if(folder == null) emptyList()
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
         val toTerm = RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))
-        val hourTerm = lastHoursSearchTerm(24 * 7)
-        val term = if(subjectSearch == "") AndTerm(arrayOf(toTerm, hourTerm))
-        else AndTerm(arrayOf(SubjectTerm(subjectSearch), toTerm, hourTerm))
+        val hourTerm = lastHoursSearchTerm(24 * 100)
+        val term = if(subjectSearch == "") ReceivedDateTerm(ComparisonTerm.GE, LocalDate.of(2020,12,30).toDate())
+        else AndTerm(arrayOf(SubjectTerm(subjectSearch)))
         folder.search(term)
           .mapNotNull {message ->
             val content = message.contentBean()
             val regex = """[0-9]{3,20}""".toRegex()
-            if(regex.containsMatchIn(message.subject))
-              EmailMessage(
-                subject = message.subject ?: "",
-                data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-                from = message.from.toList(),
-                to = message.allRecipients.toList(),
-                content = content
-                          )
-            else null
+            EmailMessage(
+              subject = message.subject ?: "",
+              data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+              from = message.from.toList(),
+              to = message.allRecipients.toList(),
+              content = content
+                        )
           }
       }
     } finally {
