@@ -76,7 +76,7 @@ class NotaSaida(
           messageID = msg.messageID,
           email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
           assunto = msg.subject,
-          msg = msg.content.messageTxt,
+          msg = {msg.content().messageTxt},
           planilha = "N",
           relatorio = "N",
           anexos = "N"

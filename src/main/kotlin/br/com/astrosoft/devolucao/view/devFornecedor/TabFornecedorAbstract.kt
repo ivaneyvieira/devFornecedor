@@ -446,7 +446,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
     get() = EmailGmail(
       email = cmbEmail.value ?: "",
       assunto = edtAssunto.value ?: "",
-      msg = rteMessage.value ?: "",
+      msg = {rteMessage.value ?: ""},
       msgHtml = rteMessage.value ?: "",
       planilha = if(chkPlanilha.value) "S" else "N",
       relatorio = if(chkRelatorio.value) "S" else "N",
@@ -456,7 +456,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto
-      rteMessage.value = htmlToText(value.msg)
+      rteMessage.value = htmlToText(value.msg())
       //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
       chkPlanilha.value = value.planilha == "S"
       chkRelatorio.value = value.relatorio == "S"
@@ -467,7 +467,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
     val fornecedor =
       NotaSaida.findFornecedores()
         .firstOrNull {it.notas.containsAll(notas)}
-    rteMessage = richEditor(emailEnviado?.msg ?: "")
+    rteMessage = richEditor()
     setSizeFull()
     horizontalLayout {
       setWidthFull()
@@ -501,9 +501,8 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
     }
   }
   
-  private fun richEditor(htmlText: String): TextArea {
+  private fun richEditor(): TextArea {
     val rte = TextArea()
-    rte.value = htmlToText(htmlText)
     return rte
   }
 }

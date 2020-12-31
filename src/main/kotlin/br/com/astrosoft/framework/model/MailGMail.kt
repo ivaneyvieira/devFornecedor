@@ -1,9 +1,11 @@
 package br.com.astrosoft.framework.model
 
 import br.com.astrosoft.framework.util.toDate
+import br.com.astrosoft.framework.util.toLocalDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
 import com.sun.mail.imap.IMAPMessage
+import com.sun.mail.imap.IMAPStore
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.IOException
@@ -20,7 +22,6 @@ import javax.mail.Address
 import javax.mail.Authenticator
 import javax.mail.Folder
 import javax.mail.Message
-import javax.mail.Message.RecipientType
 import javax.mail.MessagingException
 import javax.mail.Multipart
 import javax.mail.PasswordAuthentication
@@ -34,20 +35,21 @@ import javax.mail.internet.MimeMultipart
 import javax.mail.search.AndTerm
 import javax.mail.search.ComparisonTerm
 import javax.mail.search.ReceivedDateTerm
-import javax.mail.search.RecipientTerm
 import javax.mail.search.SearchTerm
 import javax.mail.search.SubjectTerm
+import javax.mail.FetchProfile
+import javax.mail.FetchProfile.Item
 
 class MailGMail {
-  val emailRemetente = "engecopi.devolucao@gmail.com"
-  val nomeRemetente = "Engecopi"
-  val protocolo = "smtp"
-  val servidorSmtp = "smtp.gmail.com" // do painel de controle do SMTP
-  val username = "engecopi.devolucao@gmail.com" // do painel de controle do SMTP
-  val senha = "devfor04" // do painel de controle do SMTP
-  val portaSmtp = "465" // do painel de controle do SMTP
-  val propsSmtp = initPropertiesSmtp()
-  val sessionSmtp: Session =
+  private val emailRemetente = "engecopi.devolucao@gmail.com"
+  private val nomeRemetente = "Engecopi"
+  private val protocolo = "smtp"
+  private val servidorSmtp = "smtp.gmail.com" // do painel de controle do SMTP
+  private val username = "engecopi.devolucao@gmail.com" // do painel de controle do SMTP
+  private val senha = "devfor04" // do painel de controle do SMTP
+  private val portaSmtp = "465" // do painel de controle do SMTP
+  private val propsSmtp = initPropertiesSmtp()
+  private val sessionSmtp: Session =
     Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha))
       .apply {
         debug = false
@@ -90,7 +92,7 @@ class MailGMail {
       this["mail.smtp.host"] = servidorSmtp
       this["mail.smtp.auth"] = "true"
       this["mail.smtp.port"] = portaSmtp
-      this["mail.smtp.ssl.enable"] = "true";
+      this["mail.smtp.ssl.enable"] = "true"
     }
   }
   
@@ -139,33 +141,39 @@ class MailGMail {
       val props = System.getProperties()
       props.setProperty("mail.store.protocol", "imaps")
       val session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
-      store = session.getStore("imaps")
+      store = session.getStore("imaps") as IMAPStore
       store.connect("imap.googlemail.com", username, senha)
       
       folder = store.getFolder(folderRecebidos) as IMAPFolder?
       if(folder == null) emptyList()
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
-        val toTerm = RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))
-        val hourTerm = lastHoursSearchTerm(24 * 100)
+        /*
         val term =
           if(subjectSearch == "") ReceivedDateTerm(ComparisonTerm.GE,
                                                    LocalDate.of(2020, 12, 30)
                                                      .toDate())
           else AndTerm(arrayOf(SubjectTerm(subjectSearch)))
-        val messages = folder.search(term)
-        messages
+        val messages = folder.search(term)*/
+        val dataInicial = LocalDate.of(2020, 12, 29)
+        val messages = folder.messages
+        val profile = FetchProfile()
+        profile.add(Item.ENVELOPE)
+        profile.add(IMAPFolder.FetchProfileItem.HEADERS)
+        folder.fetch(messages, profile)
+        messages.filter {
+          if(subjectSearch == "")
+            it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
+          else it.subject.contains(subjectSearch)
+        }
           .mapNotNull {message ->
-            val content = message.contentBean()
-            val regex = """[0-9]{3,20}""".toRegex()
             
             EmailMessage(
               messageID = (message as? IMAPMessage)?.messageID ?: "",
               subject = message.subject ?: "",
               data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
               from = message.from.toList(),
-              to = message.allRecipients.toList(),
-              content = content
+              to = message.allRecipients.toList()
                         )
           }
       }
@@ -177,33 +185,41 @@ class MailGMail {
     }
   }
   
-  internal class PlainTextDataSource(private val html: String?): DataSource {
-    @Throws(IOException::class)
-    override fun getInputStream(): InputStream {
-      if(html == null) throw IOException("html message is null!")
-      return ByteArrayInputStream(html.toByteArray())
-    }
+  fun listMessageContent(messageID: String): List<Content> {
+    var folder: IMAPFolder? = null
+    var store: Store? = null
     
-    @Throws(IOException::class)
-    override fun getOutputStream(): OutputStream {
-      throw IOException("This DataHandler cannot write HTML")
+    return try {
+      val props = System.getProperties()
+      props.setProperty("mail.store.protocol", "imaps")
+      val session = Session.getDefaultInstance(props, GmailAuthenticator(username, senha))
+      store = session.getStore("imaps") as IMAPStore
+      store.connect("imap.googlemail.com", username, senha)
+      
+      folder = store.getFolder(folderRecebidos) as IMAPFolder?
+      if(folder == null) emptyList()
+      else {
+        if(!folder.isOpen) folder.open(Folder.READ_ONLY)
+
+        val dataInicial = LocalDate.of(2020, 12, 29)
+        val messages = folder.messages
+        val profile = FetchProfile()
+        profile.add(Item.ENVELOPE)
+        profile.add(IMAPFolder.FetchProfileItem.HEADERS)
+        folder.fetch(messages, profile)
+        messages.filter {
+          val id = (it as? IMAPMessage)?.messageID ?: ""
+          id == messageID
+        }.map {
+          it.contentBean()
+        }
+      }
+    } finally {
+      if(folder != null && folder.isOpen) {
+        folder.close(true)
+      }
+      store?.close()
     }
-    
-    override fun getContentType(): String {
-      return "text/html"
-    }
-    
-    override fun getName(): String {
-      return "HTMLDataSource"
-    }
-  }
-  
-  private fun lastHoursSearchTerm(hours: Long): SearchTerm {
-    val rightNow = LocalDateTime.now()
-    val past = rightNow.minusHours(hours)
-    val olderThan: SearchTerm = ReceivedDateTerm(ComparisonTerm.LE, rightNow.toDate())
-    val newerThan: SearchTerm = ReceivedDateTerm(ComparisonTerm.GE, past.toDate())
-    return AndTerm(newerThan, olderThan)
   }
   
   companion object {
@@ -222,11 +238,7 @@ private fun Message.contentBean(): Content {
     for(i in 0 until multipart.count) {
       val bodyPart = multipart.getBodyPart(i)
       val disposition = bodyPart.disposition
-      if(disposition != null && (disposition.toUpperCase() == "ATTACHMENT")) {
-        val handler = bodyPart.dataHandler
-        anexos.add(Attachment(handler.name, ByteArray(0)))
-      }
-      else messageTxt = bodyPart.content.toString()
+      if(disposition == null || disposition.toUpperCase() != "ATTACHMENT") messageTxt = bodyPart.content.toString()
     }
     Content(messageTxt, anexos)
   }
@@ -240,13 +252,17 @@ class GmailAuthenticator(val username: String, val password: String): Authentica
 }
 
 data class EmailMessage(
-  val messageID : String,
+  val messageID: String,
   val subject: String,
   val data: LocalDateTime,
   val from: List<Address>,
-  val to: List<Address>,
-  val content: Content
-                       )
+  val to: List<Address>
+                       ){
+  fun content(): Content {
+    val gmail = MailGMail()
+    return gmail.listMessageContent(messageID).firstOrNull() ?: Content("", emptyList())
+  }
+}
 
 class Attachment(
   val name: String,
