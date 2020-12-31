@@ -236,9 +236,11 @@ private fun Message.contentBean(): Content {
     val anexos = mutableListOf<Attachment>()
     var messageTxt = ""
     for(i in 0 until multipart.count) {
-      val bodyPart = multipart.getBodyPart(i)
-      val disposition = bodyPart.disposition
-      if(disposition == null || disposition.toUpperCase() != "ATTACHMENT") messageTxt = bodyPart.content.toString()
+      if(messageTxt == "") {
+        val bodyPart = multipart.getBodyPart(i)
+        val disposition = bodyPart.disposition
+        if(disposition?.toUpperCase() != "ATTACHMENT") messageTxt = bodyPart.content.toString()
+      }
     }
     Content(messageTxt, anexos)
   }
