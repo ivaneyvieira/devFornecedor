@@ -1,29 +1,25 @@
 package br.com.astrosoft.framework.model
 
-import br.com.astrosoft.framework.util.toDate
 import br.com.astrosoft.framework.util.toLocalDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
 import com.sun.mail.imap.IMAPMessage
 import com.sun.mail.imap.IMAPStore
-import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 import java.io.UnsupportedEncodingException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import javax.activation.DataHandler
-import javax.activation.DataSource
 import javax.activation.FileDataSource
 import javax.mail.Address
 import javax.mail.Authenticator
+import javax.mail.FetchProfile
+import javax.mail.FetchProfile.Item
 import javax.mail.Folder
 import javax.mail.Message
 import javax.mail.MessagingException
-import javax.mail.Multipart
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
 import javax.mail.Store
@@ -32,13 +28,6 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
-import javax.mail.search.AndTerm
-import javax.mail.search.ComparisonTerm
-import javax.mail.search.ReceivedDateTerm
-import javax.mail.search.SearchTerm
-import javax.mail.search.SubjectTerm
-import javax.mail.FetchProfile
-import javax.mail.FetchProfile.Item
 
 class MailGMail {
   private val emailRemetente = "engecopi.devolucao@gmail.com"
@@ -163,11 +152,11 @@ class MailGMail {
         folder.fetch(messages, profile)
         messages.filter {
           if(subjectSearch == "")
-            it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
+            it.receivedDate.toLocalDate()
+              ?.isAfter(dataInicial) == true
           else it.subject.contains(subjectSearch)
         }
           .mapNotNull {message ->
-            
             EmailMessage(
               messageID = (message as? IMAPMessage)?.messageID ?: "",
               subject = message.subject ?: "",
@@ -200,7 +189,6 @@ class MailGMail {
       if(folder == null) emptyList()
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
-
         val dataInicial = LocalDate.of(2020, 12, 29)
         val messages = folder.messages
         val profile = FetchProfile()
@@ -210,9 +198,10 @@ class MailGMail {
         messages.filter {
           val id = (it as? IMAPMessage)?.messageID ?: ""
           id == messageID
-        }.map {
-          it.contentBean()
         }
+          .map {
+            it.contentBean()
+          }
       }
     } finally {
       if(folder != null && folder.isOpen) {
@@ -230,21 +219,36 @@ class MailGMail {
 }
 
 private fun Message.contentBean(): Content {
-  val contentLocal = content
-  return if(contentLocal is Multipart) {
-    val multipart = contentLocal
-    val anexos = mutableListOf<Attachment>()
-    var messageTxt = ""
-    for(i in 0 until multipart.count) {
-      if(messageTxt == "") {
-        val bodyPart = multipart.getBodyPart(i)
-        val disposition = bodyPart.disposition
-        if(disposition?.toUpperCase() != "ATTACHMENT") messageTxt = bodyPart.content.toString()
-      }
-    }
-    Content(messageTxt, anexos)
+  var result = ""
+  if(this.isMimeType("text/plain")) {
+    result =
+      this.content
+        .toString()
   }
-  else Content(content.toString(), emptyList())
+  else if(this.isMimeType("multipart/*")) {
+    val mimeMultipart = this.content as MimeMultipart
+    result = getTextFromMimeMultipart(mimeMultipart)
+  }
+  return Content(result, emptyList())
+}
+
+@Throws(MessagingException::class, IOException::class)
+private fun getTextFromMimeMultipart(mimeMultipart: MimeMultipart): String {
+  var result = ""
+  val count = mimeMultipart.count
+  for(i in 0 until count) {
+    val bodyPart = mimeMultipart.getBodyPart(i)
+    if(bodyPart.isMimeType("text/*")) {
+      result = """
+            $result
+            ${bodyPart.content}
+            """.trimIndent()
+      break // without break same text appears twice in my tests
+    } else if (bodyPart.content is MimeMultipart){
+      result += getTextFromMimeMultipart(bodyPart.content as MimeMultipart)
+    }
+  }
+  return result
 }
 
 class GmailAuthenticator(val username: String, val password: String): Authenticator() {
@@ -259,10 +263,11 @@ data class EmailMessage(
   val data: LocalDateTime,
   val from: List<Address>,
   val to: List<Address>
-                       ){
+                       ) {
   fun content(): Content {
     val gmail = MailGMail()
-    return gmail.listMessageContent(messageID).firstOrNull() ?: Content("", emptyList())
+    return gmail.listMessageContent(messageID)
+             .firstOrNull() ?: Content("", emptyList())
   }
 }
 
