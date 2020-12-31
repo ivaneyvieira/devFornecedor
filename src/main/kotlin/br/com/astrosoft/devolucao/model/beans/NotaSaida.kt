@@ -73,6 +73,7 @@ class NotaSaida(
           data = msg.data.toLocalDate(),
           hora = msg.data.toLocalTime(),
           idEmail = 0,
+          messageID = msg.messageID,
           email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
           assunto = msg.subject,
           msg = msg.content.messageTxt,

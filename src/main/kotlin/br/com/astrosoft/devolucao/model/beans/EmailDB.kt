@@ -13,6 +13,7 @@ class EmailDB(val storeno: Int,
               val data: LocalDate,
               val hora: LocalTime,
               val idEmail: Int,
+              val messageID: String,
               val email: String,
               val assunto: String,
               val msg: String,
@@ -27,7 +28,8 @@ class EmailDB(val storeno: Int,
     msgHtml = "",
     planilha = planilha,
     relatorio = relatorio,
-    anexos = anexos
+    anexos = anexos,
+    messageID = messageID
                               )
   
   fun isEmailEnviado() = idEmail > 0
@@ -45,11 +47,11 @@ class EmailDB(val storeno: Int,
       val gmail = MailGMail()
       val emails = gmail.listEmail("")
       val emailsEnviados = saci.listEmailPara()
-      return emails.mapNotNull {msg ->
-        val from = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: ""
-        val emailResposta = emailsEnviados.filter {email ->
-          email.email.contains(from) && msg.data
-            .isAfter(email.dataHora())
+      return emails.mapNotNull {msgRecebido ->
+        val from = (msgRecebido.from.getOrNull(0) as? InternetAddress)?.address ?: ""
+        val emailResposta = emailsEnviados.filter {emailEnviado ->
+          emailEnviado.email.contains(from) && emailEnviado.dataHora()
+            .isAfter(msgRecebido.data)
         }
         if(emailResposta.isNotEmpty()) null
         else
@@ -57,12 +59,13 @@ class EmailDB(val storeno: Int,
             storeno = 0,
             pdvno = 0,
             xano = 0,
-            data = msg.data.toLocalDate(),
-            hora = msg.data.toLocalTime(),
+            data = msgRecebido.data.toLocalDate(),
+            hora = msgRecebido.data.toLocalTime(),
             idEmail = 0,
+            messageID = msgRecebido.messageID,
             email = from,
-            assunto = msg.subject,
-            msg = msg.content.messageTxt,
+            assunto = msgRecebido.subject,
+            msg = msgRecebido.content.messageTxt,
             planilha = "N",
             relatorio = "N",
             anexos = "N"

@@ -169,8 +169,8 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   
   fun listEmailPara(): List<EmailDB> {
     val sql = "/sqlSaci/listEmailEnviadoPara.sql"
-    return emptyList()
-    //return query(sql, EmailDB::class)
+    //return emptyList()
+    return query(sql, EmailDB::class)
   }
   
   fun listNotasEmailNota(idEmail: Int): List<EmailDB> {
@@ -191,6 +191,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("pdvno", pdvno)
       addOptionalParameter("xano", xano)
       addOptionalParameter("email", gmail.email)
+      addOptionalParameter("messageID", gmail.messageID)
       addOptionalParameter("assunto", gmail.assunto)
       addOptionalParameter("msg", gmail.msg)
       addOptionalParameter("planilha", gmail.planilha)
@@ -198,6 +199,27 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("anexos", gmail.anexos)
     }
   }
+  
+  fun salvaEmailEnviado(gmail: EmailGmail, idEmail: Int) {
+    val sql = "/sqlSaci/salvaEmailEnviado.sql"
+    val storeno = 0
+    val pdvno = 0
+    val xano = 0
+    script(sql) {
+      addOptionalParameter("idEmail", idEmail)
+      addOptionalParameter("storeno", storeno)
+      addOptionalParameter("pdvno", pdvno)
+      addOptionalParameter("xano", xano)
+      addOptionalParameter("email", gmail.email)
+      addOptionalParameter("assunto", gmail.assunto)
+      addOptionalParameter("messageID", gmail.messageID)
+      addOptionalParameter("msg", gmail.msg)
+      addOptionalParameter("planilha", gmail.planilha)
+      addOptionalParameter("relatorio", gmail.relatorio)
+      addOptionalParameter("anexos", gmail.anexos)
+    }
+  }
+  
   
   fun newEmailId(): Int {
     val sql = "select MAX(idEmail + 1) as max from sqldados.devEmail"
