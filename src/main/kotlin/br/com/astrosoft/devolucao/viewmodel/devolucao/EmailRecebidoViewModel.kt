@@ -26,7 +26,11 @@ class EmailRecebidoViewModel(val viewModel: DevFornecedorViewModel): IEmailViewM
                                           gmail.assunto,
                                           gmail.msgHtml,
                                           emptyList())
-    if(!enviadoComSucesso) fail("Erro ao enviar e-mail")
+    if(enviadoComSucesso) {
+      val idEmail = EmailDB.newEmailId()
+      gmail.salvaEmail(idEmail)
+    }
+    else fail("Erro ao enviar e-mail")
   }
 }
 

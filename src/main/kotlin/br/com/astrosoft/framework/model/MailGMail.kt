@@ -3,6 +3,7 @@ package br.com.astrosoft.framework.model
 import br.com.astrosoft.framework.util.toDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
+import com.sun.mail.imap.IMAPMessage
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.IOException
@@ -147,13 +148,19 @@ class MailGMail {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
         val toTerm = RecipientTerm(RecipientType.TO, InternetAddress(emailRemetente))
         val hourTerm = lastHoursSearchTerm(24 * 100)
-        val term = if(subjectSearch == "") ReceivedDateTerm(ComparisonTerm.GE, LocalDate.of(2020,12,30).toDate())
-        else AndTerm(arrayOf(SubjectTerm(subjectSearch)))
-        folder.search(term)
+        val term =
+          if(subjectSearch == "") ReceivedDateTerm(ComparisonTerm.GE,
+                                                   LocalDate.of(2020, 12, 30)
+                                                     .toDate())
+          else AndTerm(arrayOf(SubjectTerm(subjectSearch)))
+        val messages = folder.search(term)
+        messages
           .mapNotNull {message ->
             val content = message.contentBean()
             val regex = """[0-9]{3,20}""".toRegex()
+            
             EmailMessage(
+              messageID = (message as? IMAPMessage)?.messageID ?: "",
               subject = message.subject ?: "",
               data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
               from = message.from.toList(),
@@ -233,6 +240,7 @@ class GmailAuthenticator(val username: String, val password: String): Authentica
 }
 
 data class EmailMessage(
+  val messageID : String,
   val subject: String,
   val data: LocalDateTime,
   val from: List<Address>,

@@ -450,7 +450,8 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
       msgHtml = rteMessage.value ?: "",
       planilha = if(chkPlanilha.value) "S" else "N",
       relatorio = if(chkRelatorio.value) "S" else "N",
-      anexos = if(chkAnexos.value) "S" else "N"
+      anexos = if(chkAnexos.value) "S" else "N",
+      messageID = ""
                       )
     set(value) {
       cmbEmail.value = value.email
