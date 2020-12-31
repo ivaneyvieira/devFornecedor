@@ -122,7 +122,7 @@ class MailGMail {
     return message
   }
   
-  fun listEmail(subjectSearch: String): List<EmailMessage> {
+  fun listEmail(gmailFolder: GamilFolder, subjectSearch: String): List<EmailMessage> {
     var folder: IMAPFolder? = null
     var store: Store? = null
     
@@ -133,17 +133,10 @@ class MailGMail {
       store = session.getStore("imaps") as IMAPStore
       store.connect("imap.googlemail.com", username, senha)
       
-      folder = store.getFolder(folderRecebidos) as IMAPFolder?
+      folder = store.getFolder(gmailFolder.path) as IMAPFolder?
       if(folder == null) emptyList()
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
-        /*
-        val term =
-          if(subjectSearch == "") ReceivedDateTerm(ComparisonTerm.GE,
-                                                   LocalDate.of(2020, 12, 30)
-                                                     .toDate())
-          else AndTerm(arrayOf(SubjectTerm(subjectSearch)))
-        val messages = folder.search(term)*/
         val dataInicial = LocalDate.of(2020, 12, 29)
         val messages = folder.messages
         val profile = FetchProfile()
@@ -174,7 +167,7 @@ class MailGMail {
     }
   }
   
-  fun listMessageContent(messageID: String): List<Content> {
+  fun listMessageContent(gmailFolder: GamilFolder, messageID: String): List<Content> {
     var folder: IMAPFolder? = null
     var store: Store? = null
     
@@ -185,11 +178,10 @@ class MailGMail {
       store = session.getStore("imaps") as IMAPStore
       store.connect("imap.googlemail.com", username, senha)
       
-      folder = store.getFolder(folderRecebidos) as IMAPFolder?
+      folder = store.getFolder(gmailFolder.path) as IMAPFolder?
       if(folder == null) emptyList()
       else {
         if(!folder.isOpen) folder.open(Folder.READ_ONLY)
-        val dataInicial = LocalDate.of(2020, 12, 29)
         val messages = folder.messages
         val profile = FetchProfile()
         profile.add(Item.ENVELOPE)
@@ -209,12 +201,6 @@ class MailGMail {
       }
       store?.close()
     }
-  }
-  
-  companion object {
-    const val folderEnviados = "[Gmail]/E-mails enviados"
-    const val folderRecebidos = "INBOX"
-    const val folderAll = "[Gmail]/Todos os e-mails"
   }
 }
 
@@ -244,7 +230,8 @@ private fun getTextFromMimeMultipart(mimeMultipart: MimeMultipart): String {
             ${bodyPart.content}
             """.trimIndent()
       break // without break same text appears twice in my tests
-    } else if (bodyPart.content is MimeMultipart){
+    }
+    else if(bodyPart.content is MimeMultipart) {
       result += getTextFromMimeMultipart(bodyPart.content as MimeMultipart)
     }
   }
@@ -266,7 +253,7 @@ data class EmailMessage(
                        ) {
   fun content(): Content {
     val gmail = MailGMail()
-    return gmail.listMessageContent(messageID)
+    return gmail.listMessageContent(GamilFolder.Todos, messageID)
              .firstOrNull() ?: Content("", emptyList())
   }
 }
@@ -280,26 +267,6 @@ data class Content(
   val messageTxt: String,
   val anexos: List<Attachment>
                   )
-/*
-fun main() {
-  var message = "<i>Greetings!</i><br>"
-  message += "<b>Wish you a nice day!</b><br>"
-  message += "<font color=red>Duke</font>"
-  val mail = MailGMail();
-  mail.sendMail(DestinoMail("Ivaney", "ivaneyvieira@gmail.com"), "Teste 01", message)
-}
- */
-/*
-fun main() {
-  val mail = MailGMail()
-  val list = mail.listEmail("[Gmail]/Todos os e-mails", "454724")
-  println("Tamanho da lista: ${list.size}")
-  list.forEach {
-    println("****************************************************************************************")
-    println(it)
-  }
-}
- */
 
 class FileAttach(val nome: String, val bytes: ByteArray) {
   fun fileName(): String {
@@ -308,4 +275,10 @@ class FileAttach(val nome: String, val bytes: ByteArray) {
     file.writeBytes(bytes)
     return fileName
   }
+}
+
+enum class GamilFolder(val path: String) {
+  Enviados("[Gmail]/E-mails enviados"),
+  Recebidos("INBOX"),
+  Todos("[Gmail]/Todos os e-mails")
 }

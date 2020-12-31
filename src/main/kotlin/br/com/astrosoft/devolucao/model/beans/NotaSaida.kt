@@ -3,7 +3,10 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.EmailMessage
+import br.com.astrosoft.framework.model.GamilFolder.Recebidos
+import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
+import com.sun.mail.gimap.GmailFolder
 import java.time.LocalDate
 import javax.mail.internet.InternetAddress
 
@@ -64,7 +67,7 @@ class NotaSaida(
   fun listaEmailRecebidoNota(): List<EmailDB> {
     val gmail = MailGMail()
     val numero = if(tipo == "PED") pedido.toString() else nota.split("/")[0]
-    return gmail.listEmail(numero)
+    return gmail.listEmail(Todos, numero)
       .map {msg: EmailMessage ->
         EmailDB(
           storeno = loja,
