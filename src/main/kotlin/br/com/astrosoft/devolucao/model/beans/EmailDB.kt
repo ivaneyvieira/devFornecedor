@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.GamilFolder.Recebidos
 import br.com.astrosoft.framework.model.MailGMail
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -45,7 +46,7 @@ class EmailDB(val storeno: Int,
     
     fun listEmailRecebidos(): List<EmailDB> {
       val gmail = MailGMail()
-      val emails = gmail.listEmail("")
+      val emails = gmail.listEmail(Recebidos, "")
       val emailsEnviados = saci.listEmailPara()
       return emails.mapNotNull {msgRecebido ->
         val from = (msgRecebido.from.getOrNull(0) as? InternetAddress)?.address ?: ""
