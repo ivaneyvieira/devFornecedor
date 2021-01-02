@@ -44,7 +44,7 @@ class UserSaci {
       bitAcesso = if(value) bitAcesso or BIT_NOTA66_PAGO
       else bitAcesso and BIT_NOTA66_PAGO.inv()
     }
-  var tabEmailRecebido
+  var emailRecebido
     get() = (bitAcesso and BIT_EMAIL_ENVIADO) != 0 || admin
     set(value) {
       bitAcesso = if(value) bitAcesso or BIT_EMAIL_ENVIADO
