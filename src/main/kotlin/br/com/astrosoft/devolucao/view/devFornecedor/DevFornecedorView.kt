@@ -37,7 +37,7 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
         tabPanel(tabNotaSerie66Pago)
       if(username?.nota01 == true)
         tabPanel(tabNotaSerie01)
-      if(username?.tabEmailRecebido == true)
+      if(username?.emailRecebido == true)
         tabPanel(tabEmailRecebido)
     }
   }
