@@ -135,7 +135,7 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
           checkBox("Nota série 66 pago") {
             binder.bind(this, UserSaci::nota66Pago.name)
           }
-          checkBox("Email Enviado") {
+          checkBox("Email Recebido") {
             binder.bind(this, UserSaci::emailRecebido.name)
           }
         }
