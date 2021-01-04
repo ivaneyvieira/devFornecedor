@@ -33,10 +33,10 @@ class EmailDB(val storeno: Int,
     messageID = messageID
                               )
   
-  fun isEmailEnviado() = idEmail > 0
-  fun isEmailRecebido() = !isEmailEnviado()
+  fun isEmailEnviado() = idEmail != 0
+  fun isEmailRecebido() = idEmail == 0
   
-  fun dataHora() = LocalDateTime.of(data, hora)
+  fun dataHora(): LocalDateTime? = LocalDateTime.of(data, hora)
   
   val tipoEmail
     get() = if(isEmailRecebido()) "Recebido" else "Enviado"
@@ -52,7 +52,7 @@ class EmailDB(val storeno: Int,
         val from = (msgRecebido.from.getOrNull(0) as? InternetAddress)?.address ?: ""
         val emailResposta = emailsEnviados.filter {emailEnviado ->
           emailEnviado.email.contains(from) && emailEnviado.dataHora()
-            .isAfter(msgRecebido.data)
+            ?.isAfter(msgRecebido.data) == true
         }
         if(emailResposta.isNotEmpty()) null
         else
