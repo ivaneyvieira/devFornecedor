@@ -1,11 +1,11 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class PedidoViewModel(viewModel: DevFornecedorViewModel): AbstractNotaSerieViewModel(viewModel) {
+class TabPedidoViewModel(viewModel: DevFornecedorViewModel): AbstractNotaSerieViewModel(viewModel) {
   override val subView
     get() = viewModel.view.tabPedido
 }
 
-interface IPedido: INota {
+interface ITabPedido: ITabNota {
   override val serie: String
     get() = "PED"
   override val pago66: String

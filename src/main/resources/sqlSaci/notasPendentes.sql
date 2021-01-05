@@ -26,4 +26,5 @@ from T
   left join sqldados.vend  AS V
 	      ON V.cgc = rementente
   left join sqldados.store AS S
-	      ON S.cgc = destinatario;
+	      ON S.cgc = destinatario
+WHERE V.name is not null;

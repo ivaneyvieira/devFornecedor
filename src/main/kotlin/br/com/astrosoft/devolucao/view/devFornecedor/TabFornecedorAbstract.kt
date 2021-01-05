@@ -35,7 +35,7 @@ import br.com.astrosoft.devolucao.view.produtoQtde
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.AbstractNotaSerieViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailViewModel
-import br.com.astrosoft.devolucao.viewmodel.devolucao.INota
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -88,7 +88,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
-  TabPanelGrid<Fornecedor>(Fornecedor::class), INota {
+  TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   private lateinit var edtFiltro: TextField
   
   override fun HorizontalLayout.toolBarConfig() {
