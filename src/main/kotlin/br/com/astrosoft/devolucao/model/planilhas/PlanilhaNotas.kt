@@ -35,7 +35,7 @@ class PlanilhaNotas {
     CampoString("Data") {dateInv.format()},
     CampoNumber("R$ Unit") {valorUnitInv},
     CampoNumber("R$ Total") {valorTotalInv},
-    )
+                                                                )
   
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
     val wb = workbook {

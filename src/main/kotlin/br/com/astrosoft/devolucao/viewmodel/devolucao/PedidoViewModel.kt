@@ -5,7 +5,7 @@ class PedidoViewModel(viewModel: DevFornecedorViewModel): AbstractNotaSerieViewM
     get() = viewModel.view.tabPedido
 }
 
-interface IPedido : INota {
+interface IPedido: INota {
   override val serie: String
     get() = "PED"
   override val pago66: String

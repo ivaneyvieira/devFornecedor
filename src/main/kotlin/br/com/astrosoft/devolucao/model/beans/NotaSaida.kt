@@ -3,10 +3,8 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.EmailMessage
-import br.com.astrosoft.framework.model.GamilFolder.Recebidos
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
-import com.sun.mail.gimap.GmailFolder
 import java.time.LocalDate
 import javax.mail.internet.InternetAddress
 
