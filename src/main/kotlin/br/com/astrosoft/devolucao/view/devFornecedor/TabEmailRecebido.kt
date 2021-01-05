@@ -17,7 +17,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabEmailRecebido(val viewModel: EmailRecebidoViewModel):
   TabPanelGrid<EmailDB>(EmailDB::class), IEmailRecebido {
-  override fun HorizontalLayout.toolBarConfig() {  }
+  override fun HorizontalLayout.toolBarConfig() {}
   
   override fun Grid<EmailDB>.gridPanel() {
     addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->

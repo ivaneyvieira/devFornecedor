@@ -149,7 +149,7 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
   }
 }
 
-interface INota : ITabView {
+interface INota: ITabView {
   val serie: String
   val pago66: String
   

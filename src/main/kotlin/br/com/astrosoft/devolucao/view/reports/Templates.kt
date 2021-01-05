@@ -42,7 +42,6 @@ object Templates {
       .setSubtotalStyle(subtotalStyle)
       .setDetailStyle(stl.style(rootStyle)
                         .setFontSize(8))
-  
   val fieldFontTitle = stl.style(rootStyle)
     .setFontSize(4)
   val fieldFont = stl.style(rootStyle)
@@ -50,8 +49,6 @@ object Templates {
   val fieldBorder = stl.style(fieldFont)
     .setBorder(stl.penThin())
     .setRadius(10)
-  
   val fieldFontGrande = stl.style(rootStyle)
     .setFontSize(14)
-  
 }

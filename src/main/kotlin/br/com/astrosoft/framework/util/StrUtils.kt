@@ -71,9 +71,11 @@ fun parameterNames(sql: String): List<String> {
     .filter {!it.startsWith(":")}
 }
 
-fun htmlToText(htmlTxt : String?): String {
+fun htmlToText(htmlTxt: String?): String {
   htmlTxt ?: return ""
-  return Jsoup.parse(htmlTxt.replace("</p>", "\n").replace("<br>", "\n")).wholeText()
+  return Jsoup.parse(htmlTxt.replace("</p>", "\n")
+                       .replace("<br>", "\n"))
+    .wholeText()
 }
 /*
 @Suppress("UNCHECKED_CAST")

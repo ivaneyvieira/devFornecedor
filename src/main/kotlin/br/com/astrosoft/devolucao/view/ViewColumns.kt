@@ -136,33 +136,29 @@ fun Grid<ProdutosNotaSaida>.produtoUltData() = addColumnLocalDate(ProdutosNotaSa
 fun Grid<ProdutosNotaSaida>.produtoUltQtd() = addColumnInt(ProdutosNotaSaida::qttdNota) {
   this.setHeader("Quant")
 }
-
 //*******************************
-
 fun Grid<NFFile>.nfFileDescricao() = addColumnString(NFFile::nome) {
   this.setHeader("Descrição")
 }
-
 // ****************************************************************************************
 // Emails
 // ****************************************************************************************
-
-fun Grid<EmailDB>.emailTipo()  = addColumnString(EmailDB::tipoEmail) {
+fun Grid<EmailDB>.emailTipo() = addColumnString(EmailDB::tipoEmail) {
   this.setHeader("Tipo")
 }
 
-fun Grid<EmailDB>.emailEmail()  = addColumnString(EmailDB::email) {
+fun Grid<EmailDB>.emailEmail() = addColumnString(EmailDB::email) {
   this.setHeader("E-mail")
 }
 
-fun Grid<EmailDB>.emailAssunto()  = addColumnString(EmailDB::assunto) {
+fun Grid<EmailDB>.emailAssunto() = addColumnString(EmailDB::assunto) {
   this.setHeader("Assunto")
 }
 
-fun Grid<EmailDB>.emailData()  = addColumnLocalDate(EmailDB::data) {
+fun Grid<EmailDB>.emailData() = addColumnLocalDate(EmailDB::data) {
   this.setHeader("Data")
 }
 
-fun Grid<EmailDB>.emailHora()  = addColumnLocalTime(EmailDB::hora) {
+fun Grid<EmailDB>.emailHora() = addColumnLocalTime(EmailDB::hora) {
   this.setHeader("Hora")
 }

@@ -83,7 +83,7 @@ fun <T: Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>)
     }
     props.map {prop ->
       when(gridSort.direction) {
-        DESCENDING -> compareByDescending {
+        DESCENDING      -> compareByDescending {
           prop.get(it)
         }
         null, ASCENDING -> compareBy<T> {

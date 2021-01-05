@@ -21,7 +21,6 @@ class LoginView: VerticalLayout(), BeforeEnterObserver {
       loginFormApp.isError = true
   }
   
-  
   private fun isError(beforeEnterEvent: BeforeEnterEvent): Boolean {
     return beforeEnterEvent.location
       .queryParameters

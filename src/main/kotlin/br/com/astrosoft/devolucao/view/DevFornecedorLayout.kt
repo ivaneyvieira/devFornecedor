@@ -17,7 +17,6 @@ import com.github.mvysny.karibudsl.v10.tab
 import com.github.mvysny.karibudsl.v10.tabs
 import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.applayout.AppLayout
-import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.dependency.JsModule
 import com.vaadin.flow.component.icon.VaadinIcon.FORM
 import com.vaadin.flow.component.icon.VaadinIcon.USER

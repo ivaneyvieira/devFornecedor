@@ -5,7 +5,6 @@ class NotaSerie66PagoViewModel(viewModel: DevFornecedorViewModel): AbstractNotaS
     get() = viewModel.view.tabNotaSerie66Pago
 }
 
-
 interface INotaSerie66Pago: INota {
   override val serie: String
     get() = "66"

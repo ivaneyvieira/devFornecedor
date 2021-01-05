@@ -8,7 +8,6 @@ class NotaSerie01ViewModel(viewModel: DevFornecedorViewModel): AbstractNotaSerie
 interface INotaSerie01: INota {
   override val serie: String
     get() = "1"
-  
   override val pago66: String
     get() = ""
 }

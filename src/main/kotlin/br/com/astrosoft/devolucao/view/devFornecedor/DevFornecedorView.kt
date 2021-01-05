@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
@@ -33,7 +32,8 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
       tabs.forEach {tab ->
         tabPanel(tab as ITabPanel)
       }
-      tabs.firstOrNull()?.updateComponent()
+      tabs.firstOrNull()
+        ?.updateComponent()
     }
   }
 }

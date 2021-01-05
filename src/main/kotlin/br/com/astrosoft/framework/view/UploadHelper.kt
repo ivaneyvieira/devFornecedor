@@ -2,8 +2,6 @@ package br.com.astrosoft.framework.view
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.HtmlComponent
-import com.vaadin.flow.component.Tag
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.Image
 import com.vaadin.flow.server.InputStreamFactory
@@ -15,11 +13,13 @@ import javax.imageio.ImageIO
 private fun createComponent(fileName: String, byteArray: ByteArray): Component {
   when {
     fileName.endsWith("pdf", ignoreCase = true)
-    -> {
+                                                                                                                                -> {
       val resourcePDF = StreamResource(fileName, ConverteByte(byteArray))
       return PDFViewer(resourcePDF)
     }
-    fileName.endsWith("jpg", ignoreCase = true) || fileName.endsWith("jpeg", ignoreCase = true) || fileName.endsWith("png", ignoreCase = true) -> {
+    fileName.endsWith("jpg", ignoreCase = true) || fileName.endsWith("jpeg",
+                                                                     ignoreCase = true) || fileName.endsWith("png",
+                                                                                                             ignoreCase = true) -> {
       val image = Image()
       try {
         image.element
@@ -48,7 +48,7 @@ private fun createComponent(fileName: String, byteArray: ByteArray): Component {
       }
       return image
     }
-    else                                                                              -> {
+    else                                                                                                                        -> {
       return Div()
     }
   }

@@ -220,7 +220,6 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  
   fun newEmailId(): Int {
     val sql = "select MAX(idEmail + 1) as max from sqldados.devEmail"
     return query(sql, Max::class).firstOrNull()?.max ?: 1
