@@ -23,10 +23,10 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
   }
   
   fun updateGridNota() = viewModel.exec {
-    subView.updateGrid(listNotaDevolucao())
+    subView.updateGrid(listFornecedores())
   }
   
-  private fun listNotaDevolucao(): List<Fornecedor> {
+  private fun listFornecedores(): List<Fornecedor> {
     subView.setFiltro("")
     NotaSaida.updateNotasDevolucao(subView.serie, subView.pago66)
     return NotaSaida.findFornecedores()
