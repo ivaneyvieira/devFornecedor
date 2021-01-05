@@ -9,6 +9,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.framework.model.FileAttach
 import br.com.astrosoft.framework.model.MailGMail
+import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
 abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel): IEmailViewModel {
@@ -148,7 +149,7 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
   }
 }
 
-interface INota {
+interface INota : ITabView {
   val serie: String
   val pago66: String
   

@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevFornecedorViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevFornecedorView
+import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.tabPanel
 import com.github.mvysny.karibudsl.v10.tabSheet
@@ -27,18 +28,12 @@ class DevFornecedorView: ViewLayout<DevFornecedorViewModel>(), IDevFornecedorVie
   
   init {
     tabSheet {
-      val username = AppConfig.userSaci
       setSizeFull()
-      if(username?.pedido == true)
-        tabPanel(tabPedido)
-      if(username?.nota66 == true)
-        tabPanel(tabNotaSerie66)
-      if(username?.nota66Pago == true)
-        tabPanel(tabNotaSerie66Pago)
-      if(username?.nota01 == true)
-        tabPanel(tabNotaSerie01)
-      if(username?.emailRecebido == true)
-        tabPanel(tabEmailRecebido)
+      val tabs = viewModel.tabsAuthorized()
+      tabs.forEach {tab ->
+        tabPanel(tab as ITabPanel)
+      }
+      tabs.firstOrNull()?.updateComponent()
     }
   }
 }

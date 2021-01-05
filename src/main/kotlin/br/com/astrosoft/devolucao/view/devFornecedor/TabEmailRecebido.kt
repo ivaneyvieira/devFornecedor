@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
+import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.view.emailAssunto
 import br.com.astrosoft.devolucao.view.emailData
@@ -16,9 +17,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabEmailRecebido(val viewModel: EmailRecebidoViewModel):
   TabPanelGrid<EmailDB>(EmailDB::class), IEmailRecebido {
-  override fun HorizontalLayout.toolBarConfig() {
-  
-  }
+  override fun HorizontalLayout.toolBarConfig() {  }
   
   override fun Grid<EmailDB>.gridPanel() {
     addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
@@ -28,6 +27,11 @@ class TabEmailRecebido(val viewModel: EmailRecebidoViewModel):
     emailHora()
     emailAssunto()
     emailEmail()
+  }
+  
+  override fun isAuthorized(): Boolean {
+    val username = AppConfig.userSaci
+    return username?.emailRecebido == true
   }
   
   override val label: String

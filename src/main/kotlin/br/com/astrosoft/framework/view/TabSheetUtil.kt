@@ -1,13 +1,14 @@
 package br.com.astrosoft.framework.view
 
+import br.com.astrosoft.framework.viewmodel.ITabView
 import com.github.mvysny.karibudsl.v10.TabSheet
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 
-fun <T: Component> TabSheet.tabPanel(tabPanel: TabPanel<T>) {
+fun TabSheet.tabPanel(tabPanel: ITabPanel) {
   this.tab {
-    tabPanel.createComponent
+    tabPanel .createComponent
   }
     .apply {
       val button = Button(tabPanel.label) {
@@ -15,13 +16,12 @@ fun <T: Component> TabSheet.tabPanel(tabPanel: TabPanel<T>) {
       }
       button.addThemeVariants(ButtonVariant.LUMO_SMALL)
       this.addComponentAsFirst(button)
-      tabPanel.updateComponent()
     }
 }
 
-interface TabPanel<T: Component> {
-  val createComponent: T
-  val label: String
-  fun updateComponent()
+interface ITabPanel : ITabView {
+  val createComponent: Component
 }
+
+
 

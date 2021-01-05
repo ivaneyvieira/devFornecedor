@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.framework.model.MailGMail
+import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
 class EmailRecebidoViewModel(val viewModel: DevFornecedorViewModel): IEmailViewModel {
@@ -34,6 +35,6 @@ class EmailRecebidoViewModel(val viewModel: DevFornecedorViewModel): IEmailViewM
   }
 }
 
-interface IEmailRecebido {
+interface IEmailRecebido: ITabView {
   fun updateGrid(listEmailRecebido: List<EmailDB>)
 }
