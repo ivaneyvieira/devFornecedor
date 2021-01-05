@@ -2,7 +2,9 @@ package br.com.astrosoft.devolucao.view
 
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.devolucao.model.beans.FornecedorEntrada
 import br.com.astrosoft.devolucao.model.beans.NFFile
+import br.com.astrosoft.devolucao.model.beans.NotaEntrada
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
@@ -161,4 +163,38 @@ fun Grid<EmailDB>.emailData() = addColumnLocalDate(EmailDB::data) {
 
 fun Grid<EmailDB>.emailHora() = addColumnLocalTime(EmailDB::hora) {
   this.setHeader("Hora")
+}
+
+// ****************************************************************************************
+// Fornecedor Entrada
+// ****************************************************************************************
+fun Grid<FornecedorEntrada>.fornecedorEntradaNumero() = addColumnInt(FornecedorEntrada::vendno) {
+  this.setHeader("Número")
+}
+
+fun Grid<FornecedorEntrada>.fornecedorEntradaNome() = addColumnString(FornecedorEntrada::fornecedor) {
+  this.setHeader("Fornecedor")
+}
+
+// ****************************************************************************************
+// Notas Entrada
+// ****************************************************************************************
+fun Grid<NotaEntrada>.notaEntradaLoja() = addColumnInt(NotaEntrada::storeno) {
+  this.setHeader("Loja")
+}
+
+fun Grid<NotaEntrada>.notaEntradaNota() = addColumnString(NotaEntrada::nota) {
+  this.setHeader("NF")
+}
+
+fun Grid<NotaEntrada>.notaEntradaData() = addColumnLocalDate(NotaEntrada::dataNota) {
+  this.setHeader("Data")
+}
+
+fun Grid<NotaEntrada>.notaEntradaHora() = addColumnString(NotaEntrada::horaNota) {
+  this.setHeader("Loja")
+}
+
+fun Grid<NotaEntrada>.notaEntradaNfKey() = addColumnString(NotaEntrada::nfekey) {
+  this.setHeader("Chave de acesso")
 }

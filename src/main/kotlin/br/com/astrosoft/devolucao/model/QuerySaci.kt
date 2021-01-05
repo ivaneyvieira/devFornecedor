@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.NFFile
+import br.com.astrosoft.devolucao.model.beans.NotaEntrada
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
@@ -223,6 +224,12 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   fun newEmailId(): Int {
     val sql = "select MAX(idEmail + 1) as max from sqldados.devEmail"
     return query(sql, Max::class).firstOrNull()?.max ?: 1
+  }
+  
+  // Recebimentos
+  fun listaNotasPendentes(): List<NotaEntrada> {
+    val sql = "/sqlSaci/notasPendentes.sql"
+    return query(sql, NotaEntrada::class)
   }
   
   companion object {
