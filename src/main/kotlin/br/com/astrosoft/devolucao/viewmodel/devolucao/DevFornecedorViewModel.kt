@@ -8,11 +8,11 @@ import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedorView>(view) {
-  val tabNotaDevolucaoViewModel = NotaSerie66ViewModel(this)
-  val tabNota66Pago = NotaSerie66PagoViewModel(this)
-  val tabNotaVendaViewModel = NotaSerie01ViewModel(this)
-  val tabPedidoViewModel = PedidoViewModel(this)
-  val tabEmailRecebido = EmailRecebidoViewModel(this)
+  val tabNotaDevolucaoViewModel = TabNotaSerie66ViewModel(this)
+  val tabNota66Pago = TabNotaSerie66PagoViewModel(this)
+  val tabNotaVendaViewModel = TabNotaSerie01ViewModel(this)
+  val tabPedidoViewModel = TabPedidoViewModel(this)
+  val tabEmailRecebido = TabEmailRecebidoViewModel(this)
   private val listTab: List<ITabView>
     get() = listOf(view.tabPedido,
                    view.tabNotaSerie66,
@@ -26,11 +26,11 @@ class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedor
 }
 
 interface IDevFornecedorView: IView {
-  val tabNotaSerie66: INotaSerie66
-  val tabNotaSerie66Pago: INotaSerie66Pago
-  val tabNotaSerie01: INotaSerie01
-  val tabPedido: IPedido
-  val tabEmailRecebido: IEmailRecebido
+  val tabNotaSerie66: ITabNotaSerie66
+  val tabNotaSerie66Pago: ITabNotaSerie66Pago
+  val tabNotaSerie01: ITabNotaSerie01
+  val tabPedido: ITabPedido
+  val tabEmailRecebido: ITabEmailRecebido
 }
 
 interface IEmailViewModel {

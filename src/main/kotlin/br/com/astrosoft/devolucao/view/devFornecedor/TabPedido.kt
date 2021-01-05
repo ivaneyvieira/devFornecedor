@@ -1,10 +1,10 @@
 package br.com.astrosoft.devolucao.view.devFornecedor
 
 import br.com.astrosoft.AppConfig
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IPedido
-import br.com.astrosoft.devolucao.viewmodel.devolucao.PedidoViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedido
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoViewModel
 
-class TabPedido(viewModel: PedidoViewModel): TabFornecedorAbstract(viewModel), IPedido {
+class TabPedido(viewModel: TabPedidoViewModel): TabFornecedorAbstract(viewModel), ITabPedido {
   override val label: String
     get() = "Pedido"
   

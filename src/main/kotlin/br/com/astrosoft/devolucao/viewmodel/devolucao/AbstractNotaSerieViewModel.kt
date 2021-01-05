@@ -13,7 +13,7 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
 abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel): IEmailViewModel {
-  protected abstract val subView: INota
+  protected abstract val subView: ITabNota
   
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
     notas.ifEmpty {
@@ -149,7 +149,7 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
   }
 }
 
-interface INota: ITabView {
+interface ITabNota: ITabView {
   val serie: String
   val pago66: String
   
