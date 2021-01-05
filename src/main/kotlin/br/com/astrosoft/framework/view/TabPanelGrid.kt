@@ -1,5 +1,6 @@
 package br.com.astrosoft.framework.view
 
+import br.com.astrosoft.framework.viewmodel.ITabView
 import com.github.mvysny.karibudsl.v10.getAll
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
@@ -10,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 import kotlin.reflect.KClass
 
-abstract class TabPanelGrid<T: Any>(val classGrid  : KClass<T>): TabPanel<VerticalLayout> {
+abstract class TabPanelGrid<T: Any>(val classGrid  : KClass<T>): ITabPanel {
   private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
   private val gridPanel: Grid<T> = Grid(classGrid.java, false)
   protected abstract fun HorizontalLayout.toolBarConfig()

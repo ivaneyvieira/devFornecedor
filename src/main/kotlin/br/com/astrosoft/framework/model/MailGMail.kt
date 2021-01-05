@@ -14,6 +14,7 @@ import java.util.*
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
 import javax.mail.Address
+import javax.mail.AuthenticationFailedException
 import javax.mail.Authenticator
 import javax.mail.FetchProfile
 import javax.mail.FetchProfile.Item
@@ -159,6 +160,8 @@ class MailGMail {
                         )
           }
       }
+    } catch(e: AuthenticationFailedException) {
+      return emptyList()
     } finally {
       if(folder != null && folder.isOpen) {
         folder.close(true)

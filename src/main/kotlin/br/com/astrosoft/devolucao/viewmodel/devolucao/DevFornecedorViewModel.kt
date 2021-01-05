@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
@@ -12,6 +13,16 @@ class DevFornecedorViewModel(view: IDevFornecedorView): ViewModel<IDevFornecedor
   val tabNotaVendaViewModel = NotaSerie01ViewModel(this)
   val tabPedidoViewModel = PedidoViewModel(this)
   val tabEmailRecebido = EmailRecebidoViewModel(this)
+  private val listTab: List<ITabView>
+    get() = listOf(view.tabPedido,
+                   view.tabNotaSerie66,
+                   view.tabNotaSerie66Pago,
+                   view.tabNotaSerie01,
+                   view.tabEmailRecebido)
+  
+  fun tabsAuthorized() = listTab.filter {
+    it.isAuthorized()
+  }
 }
 
 interface IDevFornecedorView: IView {
