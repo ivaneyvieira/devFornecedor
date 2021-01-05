@@ -5,9 +5,13 @@ class FornecedorEntrada(
   val fornecedor: String,
   val notas: List<NotaEntrada>
                        ) {
+  val ultimaData
+    get() = notas.maxOfOrNull {it.dataNota}
+  
   companion object {
     fun listFornecedores() = NotaEntrada.listNotasPendentes()
-      .groupBy { ChaveFornecedorEntrada(it.vendno, it.fornecedor)}.map {group ->
+      .groupBy {ChaveFornecedorEntrada(it.vendno, it.fornecedor)}
+      .map {group ->
         FornecedorEntrada(group.key.vendno, group.key.fornecedor, group.value)
       }
   }

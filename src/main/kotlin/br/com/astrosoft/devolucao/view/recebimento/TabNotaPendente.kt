@@ -10,6 +10,7 @@ import br.com.astrosoft.devolucao.view.notaEntradaHora
 import br.com.astrosoft.devolucao.view.notaEntradaLoja
 import br.com.astrosoft.devolucao.view.notaEntradaNfKey
 import br.com.astrosoft.devolucao.view.notaEntradaNota
+import br.com.astrosoft.devolucao.view.notaEntradaUltimaData
 import br.com.astrosoft.devolucao.viewmodel.recebimento.ITabNotaPendente
 import br.com.astrosoft.devolucao.viewmodel.recebimento.TabNotaPendenteViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -35,7 +36,8 @@ class TabNotaPendente(val viewModel: TabNotaPendenteViewModel):
     addColumnButton(FILE_TABLE, "Notas", "Notas") {fornecedor ->
       showDialogNota(fornecedor)
     }
-    
+  
+    notaEntradaUltimaData()
     fornecedorEntradaNumero()
     fornecedorEntradaNome()
   }

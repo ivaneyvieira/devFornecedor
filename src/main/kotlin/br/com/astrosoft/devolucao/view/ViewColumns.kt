@@ -172,6 +172,10 @@ fun Grid<FornecedorEntrada>.fornecedorEntradaNumero() = addColumnInt(FornecedorE
   this.setHeader("Número")
 }
 
+fun Grid<FornecedorEntrada>.notaEntradaUltimaData() = addColumnLocalDate(FornecedorEntrada::ultimaData) {
+  this.setHeader("Ultima Data")
+}
+
 fun Grid<FornecedorEntrada>.fornecedorEntradaNome() = addColumnString(FornecedorEntrada::fornecedor) {
   this.setHeader("Fornecedor")
 }
