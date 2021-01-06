@@ -2,6 +2,7 @@ package br.com.astrosoft.framework.viewmodel
 
 import br.com.astrosoft.devolucao.model.QuerySaci
 import br.com.astrosoft.framework.util.CupsUtils
+import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.lpad
 import br.com.astrosoft.framework.util.rpad
 import java.io.File
@@ -55,7 +56,7 @@ abstract class PrintText<T> {
         }
         sumary(text)
         finalize(text)
-        if(!QuerySaci.test)
+        if(!DB.test)
           CupsUtils.printCups(impressora, text.toString())
         else {
           println(text.toString())

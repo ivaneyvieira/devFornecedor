@@ -5,12 +5,10 @@ import java.io.FileReader
 import java.util.*
 
 class DB(banco: String) {
-  private val prop = properties()
   val driver = prop?.getProperty("datasource.$banco.databaseDriver") ?: ""
   val url = prop?.getProperty("datasource.$banco.databaseUrl") ?: ""
   val username = prop?.getProperty("datasource.$banco.username") ?: ""
   val password = prop?.getProperty("datasource.$banco.password") ?: ""
-  val test = prop?.getProperty("test") == "true"
   
   companion object {
     private val propertieFile = System.getProperty("ebean.props.file")
@@ -22,5 +20,11 @@ class DB(banco: String) {
       properties.load(FileReader(file))
       return properties
     }
+    
+    private val prop = properties()
+    val test = prop?.getProperty("test") == "true"
+    val gmailUser = prop?.getProperty("gmailUser")
+    val gmailPass = prop?.getProperty("gmailPass")
+    val gmailName = prop?.getProperty("gmailName")
   }
 }
