@@ -92,7 +92,13 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
       this.setPattern("#,##0.00")
-      this.setFixedWidth(60)
+      this.setFixedWidth(50)
+    }
+  val vstCol = col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setPattern("#,##0.00")
+      this.setFixedWidth(50)
     }
   val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType())
     .apply {
@@ -185,6 +191,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         valorUnitarioCol,
         valorTotalCol,
         ipiCol,
+        vstCol,
         valorTotalIpiCol
                  )
       else        -> listOf(
@@ -386,6 +393,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
       sbt.text("Total R$", valorUnitarioCol),
       sbt.sum(valorTotalCol),
       sbt.sum(ipiCol),
+      sbt.sum(vstCol),
       sbt.sum(valorTotalIpiCol),
                                                                        )
     else
@@ -393,6 +401,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         sbt.text("Total R$", valorUnitarioCol),
         sbt.sum(valorTotalCol),
         sbt.sum(ipiCol),
+        sbt.sum(vstCol),
         sbt.sum(valorTotalIpiCol),
             )
   }
