@@ -486,7 +486,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
         this.isExpand = true
       }
       chkRelatorio = checkBox("Relatório")
-      chkRelatorioResumido = checkBox("Relatório Resumido")
+      chkRelatorioResumido = checkBox("Resumido")
       chkPlanilha = checkBox("Planilha")
       chkAnexos = checkBox("Anexos")
       
