@@ -10,6 +10,7 @@ SELECT X.storeno                              AS loja,
        X.price / 100                          AS valorUnitario,
        ROUND(X.qtty / 1000) * (X.price / 100) AS valorTotal,
        I.ipi / 10000                          AS ipiAliq,
+       I.costdel3 / 10000                     AS stAliq,
        IFNULL(B.barcode, P.barcode)           AS barcode,
        TRIM(MID(P.name, 37, 3))               AS un,
        P.taxno                                AS st
@@ -70,8 +71,8 @@ FROM sqldados.iprd        AS P
 GROUP BY prdno, grade;
 
 select loja,
-       0                                        as pdv,
-       0                                        as transacao,
+       0                                                 as pdv,
+       0                                                 as transacao,
        codigo,
        refFor,
        descricao,
@@ -79,17 +80,18 @@ select loja,
        qtde,
        valorUnitario,
        valorTotal,
-       IFNULL(ipiAliq * valorTotal, 0.00)       as ipi,
-       IFNULL((ipiAliq + 1) * valorTotal, 0.00) as valorTotalIpi,
+       IFNULL(ipiAliq * valorTotal, 0.00)                as ipi,
+       IFNULL(stAliq * valorTotal, 0.00)                 as vst,
+       IFNULL((ipiAliq + stAliq + 1) * valorTotal, 0.00) as valorTotalIpi,
        barcode,
        un,
        st,
-       IFNULL(invno, 0)                         as invno,
-       ROUND(IFNULL(quantInv, 0.00))            AS quantInv,
-       IFNULL(notaInv, '')                      AS notaInv,
-       dateInv                                  AS dateInv,
-       IFNULL(valorUnitInv, 0.00)               AS valorUnitInv,
-       IFNULL(valorUnitInv, 0.00) * qtde        as valorTotalInv
+       IFNULL(invno, 0)                                  as invno,
+       ROUND(IFNULL(quantInv, 0.00))                     AS quantInv,
+       IFNULL(notaInv, '')                               AS notaInv,
+       dateInv                                           AS dateInv,
+       IFNULL(valorUnitInv, 0.00)                        AS valorUnitInv,
+       IFNULL(valorUnitInv, 0.00) * qtde                 as valorTotalInv
 from T_PEDIDO
   LEFT JOIN T_INV
 	      USING (codigo, grade)

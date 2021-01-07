@@ -23,7 +23,8 @@ class ProdutosNotaSaida(
   val dateInv: LocalDate?,
   val valorUnitInv: Double,
   val valorTotalInv: Double,
-  val ipi : Double,
+  val ipi: Double,
+  val vst: Double,
   val valorTotalIpi: Double
                        ) {
   var item: Int = 0
