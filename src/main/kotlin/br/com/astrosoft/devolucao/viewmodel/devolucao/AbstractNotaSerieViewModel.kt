@@ -131,15 +131,25 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
   
   private fun createReports(gmail: EmailGmail,
                             notas: List<NotaSaida>): List<FileAttach> {
-    return when(gmail.relatorio) {
+    val relatoriosCompleto = when(gmail.relatorio) {
       "S"  -> {
         notas.map {_ ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(notas)
+          val report = RelatorioNotaDevolucao.processaRelatorio(notas, false)
           FileAttach("Relatorio de notas.pdf", report)
         }
       }
       else -> emptyList()
     }
+    val relatoriosResumido = when(gmail.relatorioResumido) {
+      "S"  -> {
+        notas.map {_ ->
+          val report = RelatorioNotaDevolucao.processaRelatorio(notas, true)
+          FileAttach("Relatorio de notas.pdf", report)
+        }
+      }
+      else -> emptyList()
+    }
+    return relatoriosCompleto + relatoriosResumido
   }
   
   fun mostrarEmailNota(nota: NotaSaida?) = viewModel.exec {

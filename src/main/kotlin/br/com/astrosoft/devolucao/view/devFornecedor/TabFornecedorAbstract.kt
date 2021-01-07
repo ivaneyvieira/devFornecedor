@@ -441,6 +441,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
   private var rteMessage: TextArea
   private lateinit var chkAnexos: Checkbox
   private lateinit var chkRelatorio: Checkbox
+  private lateinit var chkRelatorioResumido: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
   var gmail: EmailGmail
     get() = EmailGmail(
@@ -450,6 +451,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
       msgHtml = rteMessage.value ?: "",
       planilha = if(chkPlanilha.value) "S" else "N",
       relatorio = if(chkRelatorio.value) "S" else "N",
+      relatorioResumido = if(chkRelatorioResumido.value) "S" else "N",
       anexos = if(chkAnexos.value) "S" else "N",
       messageID = ""
                       )
@@ -460,6 +462,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
       //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
       chkPlanilha.value = value.planilha == "S"
       chkRelatorio.value = value.relatorio == "S"
+      chkRelatorioResumido.value = value.relatorioResumido == "S"
       chkAnexos.value = value.anexos == "S"
     }
   
@@ -483,6 +486,7 @@ class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnv
         this.isExpand = true
       }
       chkRelatorio = checkBox("Relatório")
+      chkRelatorioResumido = checkBox("Relatório Resumido")
       chkPlanilha = checkBox("Planilha")
       chkAnexos = checkBox("Anexos")
       
