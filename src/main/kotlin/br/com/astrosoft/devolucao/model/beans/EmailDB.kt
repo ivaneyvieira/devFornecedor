@@ -29,6 +29,7 @@ class EmailDB(val storeno: Int,
     msgHtml = "",
     planilha = planilha,
     relatorio = relatorio,
+    relatorioResumido = "N",
     anexos = anexos,
     messageID = messageID
                               )
