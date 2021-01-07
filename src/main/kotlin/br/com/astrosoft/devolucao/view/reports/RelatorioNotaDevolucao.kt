@@ -10,6 +10,7 @@ import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.cmp
 import net.sf.dynamicreports.report.builder.DynamicReports.col
+import net.sf.dynamicreports.report.builder.DynamicReports.margin
 import net.sf.dynamicreports.report.builder.DynamicReports.report
 import net.sf.dynamicreports.report.builder.DynamicReports.sbt
 import net.sf.dynamicreports.report.builder.DynamicReports.stl
@@ -52,6 +53,11 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
       this.setHorizontalTextAlignment(CENTER)
       this.setFixedWidth(50)
     }
+  val stCol = col.column("ST", ProdutosNotaSaida::st.name, type.stringType())
+    .apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(25)
+    }
   val qtdeCol = col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType())
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
@@ -71,6 +77,18 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
       this.setFixedWidth(50)
     }
   val valorTotalCol = col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setPattern("#,##0.00")
+      this.setFixedWidth(60)
+    }
+  val valorTotalIpiCol = col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType())
+    .apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setPattern("#,##0.00")
+      this.setFixedWidth(60)
+    }
+  val ipiCol = col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType())
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
       this.setPattern("#,##0.00")
@@ -162,13 +180,12 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         descricaoCol,
         gradeCol,
         unCol,
-        invnoCol,
-        quantInvCol,
-        notaInvCol,
-        dateInvCol,
+        stCol,
         qtdeCol,
-        valorUnitInvCol,
-        valortotalInvCol
+        valorUnitarioCol,
+        valorTotalCol,
+        ipiCol,
+        valorTotalIpiCol
                  )
       else        -> listOf(
         itemCol,
@@ -366,13 +383,17 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") listOf(
-      sbt.text("Total R$", valorUnitInvCol),
-      sbt.sum(valortotalInvCol)
+      sbt.text("Total R$", valorUnitarioCol),
+      sbt.sum(valorTotalCol),
+      sbt.sum(ipiCol),
+      sbt.sum(valorTotalIpiCol),
                                                                        )
     else
       listOf(
         sbt.text("Total R$", valorUnitarioCol),
-        sbt.sum(valorTotalCol)
+        sbt.sum(valorTotalCol),
+        sbt.sum(ipiCol),
+        sbt.sum(valorTotalIpiCol),
             )
   }
   
@@ -396,6 +417,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
       .setDataSource(itens)
       .summary(sumaryBuild())
       .setPageFormat(A4, pageOrientation)
+      .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style()
