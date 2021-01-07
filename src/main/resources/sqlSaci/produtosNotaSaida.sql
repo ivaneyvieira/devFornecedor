@@ -9,12 +9,17 @@ SELECT X.storeno                       AS loja,
        ROUND(X.qtty)                   AS qtde,
        X.price / 100                   AS valorUnitario,
        ROUND(X.qtty) * (X.price / 100) AS valorTotal,
+       I.ipi / 10000                     AS ipiAliq,
        IFNULL(B.barcode, P.barcode)    AS barcode,
        P.mfno_ref                      AS refFor,
-       TRIM(MID(P.name, 37, 3))        AS un
-FROM sqldados.xaprd          AS X
+       TRIM(MID(P.name, 37, 3))        AS un,
+       P.taxno                         AS st
+FROM sqldados.xaprd           AS X
+  LEFT JOIN sqldados.prp   AS I
+	      ON I.storeno = 10
+		AND I.prdno = X.prdno
   LEFT JOIN  sqldados.prdbar AS B
-	       USING (prdno, grade)
+	       ON B.prdno = X.prdno AND  B.grade = X.grade
   INNER JOIN sqldados.prd    AS P
 	       ON X.prdno = P.no
 WHERE X.storeno = :loja
@@ -76,14 +81,17 @@ SELECT loja,
        qtde,
        valorUnitario,
        valorTotal,
+       IFNULL(ipiAliq * valorTotal, 0.00)       as ipi,
+       IFNULL((ipiAliq + 1) * valorTotal, 0.00) as valorTotalIpi,
        barcode,
        un,
-       IFNULL(invno, 0)                  as invno,
-       ROUND(IFNULL(quantInv, 0.00))     AS quantInv,
-       IFNULL(notaInv, '')               AS notaInv,
-       dateInv                           AS dateInv,
-       IFNULL(valorUnitInv, 0.00)        AS valorUnitInv,
-       IFNULL(valorUnitInv, 0.00) * qtde as valorTotalInv
+       st,
+       IFNULL(invno, 0)                         as invno,
+       ROUND(IFNULL(quantInv, 0.00))            AS quantInv,
+       IFNULL(notaInv, '')                      AS notaInv,
+       dateInv                                  AS dateInv,
+       IFNULL(valorUnitInv, 0.00)               AS valorUnitInv,
+       IFNULL(valorUnitInv, 0.00) * qtde        as valorTotalInv
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)

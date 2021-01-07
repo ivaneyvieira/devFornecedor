@@ -14,6 +14,7 @@ class ProdutosNotaSaida(
   val qtde: Int,
   val barcode: String,
   val un: String,
+  val st: String,
   val valorUnitario: Double,
   val valorTotal: Double,
   val invno: Int,
@@ -21,7 +22,9 @@ class ProdutosNotaSaida(
   val notaInv: String,
   val dateInv: LocalDate?,
   val valorUnitInv: Double,
-  val valorTotalInv: Double
+  val valorTotalInv: Double,
+  val ipi : Double,
+  val valorTotalIpi: Double
                        ) {
   var item: Int = 0
   val dateInvDate get() = dateInv?.toDate()
