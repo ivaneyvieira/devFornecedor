@@ -18,7 +18,7 @@ FROM sqldados.eoprd          AS X
   LEFT JOIN  sqldados.prp    AS I
 	       ON I.storeno = 10 AND I.prdno = X.prdno
   LEFT JOIN  sqldados.prdbar AS B
-	       USING (prdno, grade)
+	       ON B.prdno = X.prdno AND B.grade = X.grade
   INNER JOIN sqldados.prd    AS P
 	       ON X.prdno = P.no
 WHERE X.storeno = :loja
