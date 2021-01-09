@@ -56,6 +56,18 @@ class UserSaci {
       bitAcesso = if(value) bitAcesso or BIT_NOTA_PENDENTE
       else bitAcesso and BIT_NOTA_PENDENTE.inv()
     }
+  var agendaAgendada
+    get() = (bitAcesso and BIT_AGENDA_AGENDADO) != 0 || admin
+    set(value) {
+      bitAcesso = if(value) bitAcesso or BIT_AGENDA_AGENDADO
+      else bitAcesso and BIT_AGENDA_AGENDADO.inv()
+    }
+  var agendaNaoAgendada
+    get() = (bitAcesso and BIT_AGENDA_NAO_AGENDADO) != 0 || admin
+    set(value) {
+      bitAcesso = if(value) bitAcesso or BIT_AGENDA_NAO_AGENDADO
+      else bitAcesso and BIT_AGENDA_NAO_AGENDADO.inv()
+    }
   val admin
     get() = login == "ADM"
   
@@ -67,6 +79,8 @@ class UserSaci {
     private val BIT_NOTA66_PAGO = 2.pow(4)
     private val BIT_EMAIL_ENVIADO = 2.pow(5)
     private val BIT_NOTA_PENDENTE = 2.pow(6)
+    private val BIT_AGENDA_AGENDADO = 2.pow(7)
+    private val BIT_AGENDA_NAO_AGENDADO = 2.pow(8)
     
     fun findAll(): List<UserSaci>? {
       return saci.findAllUser()
