@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view
 
 import br.com.astrosoft.AppConfig
+import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.devFornecedor.DevFornecedorView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
 import com.github.mvysny.karibudsl.v10.anchor
@@ -19,6 +20,7 @@ import com.github.mvysny.karibudsl.v10.tabs
 import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.applayout.AppLayout
 import com.vaadin.flow.component.dependency.JsModule
+import com.vaadin.flow.component.icon.VaadinIcon.CLOCK
 import com.vaadin.flow.component.icon.VaadinIcon.FORM
 import com.vaadin.flow.component.icon.VaadinIcon.TRUCK
 import com.vaadin.flow.component.icon.VaadinIcon.USER
@@ -63,6 +65,11 @@ class DevFornecedorLayout: AppLayout() {
         tab {
           this.icon(TRUCK)
           routerLink(text = "Recebimento", viewType = RecebimentoView::class)
+        }
+  
+        tab {
+          this.icon(CLOCK)
+          routerLink(text = "Agenda", viewType = AgendaView::class)
         }
   
         tab {

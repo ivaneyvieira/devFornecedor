@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model
 
+import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.NFFile
@@ -230,6 +231,14 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   fun listaNotasPendentes(): List<NotaEntrada> {
     val sql = "/sqlSaci/notasPendentes.sql"
     return query(sql, NotaEntrada::class)
+  }
+  
+  // Agenda
+  fun listaAgenda(agendado: Boolean): List<Agenda> {
+    val sql = "/sqlSaci/listaAgenda.sql"
+    return query(sql, Agenda::class) {
+      addOptionalParameter("agendado", if(agendado) "S" else "N")
+    }
   }
   
   companion object {
