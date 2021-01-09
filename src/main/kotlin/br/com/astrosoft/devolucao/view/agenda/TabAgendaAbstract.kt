@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.view.agenda
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
-import br.com.astrosoft.devolucao.view.agendaAgd
+import br.com.astrosoft.devolucao.view.agendaAbrev
 import br.com.astrosoft.devolucao.view.agendaData
 import br.com.astrosoft.devolucao.view.agendaEmissao
 import br.com.astrosoft.devolucao.view.agendaFornecedor
@@ -32,10 +32,10 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaVMAbstract):
     agendaLoja()
     agendaData()
     agendaHora()
-    agendaAgd()
     agendaRecebedor()
     agendaOrd()
     agendaFornecedor()
+    agendaAbrev()
     agendaEmissao()
     agendaNf()
     agendaVolume()
