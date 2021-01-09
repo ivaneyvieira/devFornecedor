@@ -7,7 +7,6 @@ class Agenda(
   val loja: Int,
   val data: LocalDate?,
   val hora: String,
-  val agd: String,
   val recebedor: String,
   val invno: String,
   val fornecedor: Int,

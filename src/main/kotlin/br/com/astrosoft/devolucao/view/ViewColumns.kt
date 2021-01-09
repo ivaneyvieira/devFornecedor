@@ -220,10 +220,6 @@ fun Grid<Agenda>.agendaHora() = addColumnString(Agenda::hora) {
   this.setHeader("Hora")
 }
 
-fun Grid<Agenda>.agendaAgd() = addColumnString(Agenda::agd) {
-  this.setHeader("Agd")
-}
-
 fun Grid<Agenda>.agendaRecebedor() = addColumnString(Agenda::recebedor) {
   this.setHeader("Recebedor")
 }
@@ -234,6 +230,10 @@ fun Grid<Agenda>.agendaOrd() = addColumnString(Agenda::invno) {
 
 fun Grid<Agenda>.agendaFornecedor() = addColumnInt(Agenda::fornecedor) {
   this.setHeader("Forn")
+}
+
+fun Grid<Agenda>.agendaAbrev() = addColumnString(Agenda::abreviacao) {
+  this.setHeader("Abrev")
 }
 
 fun Grid<Agenda>.agendaEmissao() = addColumnLocalDate(Agenda::emissao) {
