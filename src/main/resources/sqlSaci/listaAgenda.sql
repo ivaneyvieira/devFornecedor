@@ -57,7 +57,8 @@ FROM sqldados.invnew
 	      ON (carr.no = invnew.carrno)
   LEFT JOIN sqldados.inv
 	      ON (inv.vendno = invnew.vendno AND inv.nfname = invnew.nfname /*AND inv.storeno = invnew.storeno AND inv.invse = invnew.invse*/)
-WHERE inv.invno IS NULL;
+WHERE (invnew.date > 20171031)
+  AND inv.invno IS NULL;
 
 DROP TABLE IF EXISTS sqldados.T_INV_UNION;
 CREATE TEMPORARY TABLE sqldados.T_INV_UNION
@@ -118,6 +119,5 @@ SELECT loja,
        pedido                                       AS pedido
 FROM sqldados.T_INV_UNION
 WHERE loja <> 0
-HAVING IF(:agendado = 'S', data IS NOT NULL AND hora <> '',
-	  NOT (data IS NOT NULL AND hora <> ''))
+HAVING IF(:agendado = 'S', data IS NOT NULL AND hora <> '', NOT (data IS NOT NULL AND hora <> ''))
 
