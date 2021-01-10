@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabPedidoViewModel(viewModel: DevFornecedorViewModel): AbstractNotaSerieViewModel(viewModel) {
+class TabPedidoViewModel(viewModel: DevolucaoViewModel): TabDevolucaoViewModelAbstract(viewModel) {
   override val subView
     get() = viewModel.view.tabPedido
 }

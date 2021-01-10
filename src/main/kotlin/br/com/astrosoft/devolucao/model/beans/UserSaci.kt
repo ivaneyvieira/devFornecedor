@@ -1,88 +1,35 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.IUser
 import kotlin.math.pow
+import kotlin.reflect.KProperty
 
-class UserSaci {
+class UserSaci : IUser {
   var no: Int = 0
   var name: String = ""
-  var login: String = ""
-  var senha: String = ""
+  override var login: String = ""
+  override var senha: String = ""
   var bitAcesso: Int = 0
   var storeno: Int = 0
   var prntno: Int = 0
   var impressora: String = ""
   
   //Outros campos
-  var ativo
-    get() = (bitAcesso and BIT_ATIVO) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_ATIVO
-      else bitAcesso and BIT_ATIVO.inv()
-    }
-  var nota01
-    get() = (bitAcesso and BIT_NOTA01) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_NOTA01
-      else bitAcesso and BIT_NOTA01.inv()
-    }
-  var nota66
-    get() = (bitAcesso and BIT_NOTA66) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_NOTA66
-      else bitAcesso and BIT_NOTA66.inv()
-    }
-  var pedido
-    get() = (bitAcesso and BIT_PEDIDO) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_PEDIDO
-      else bitAcesso and BIT_PEDIDO.inv()
-    }
-  var nota66Pago
-    get() = (bitAcesso and BIT_NOTA66_PAGO) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_NOTA66_PAGO
-      else bitAcesso and BIT_NOTA66_PAGO.inv()
-    }
-  var emailRecebido
-    get() = (bitAcesso and BIT_EMAIL_ENVIADO) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_EMAIL_ENVIADO
-      else bitAcesso and BIT_EMAIL_ENVIADO.inv()
-    }
-  var notaPendente
-    get() = (bitAcesso and BIT_NOTA_PENDENTE) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_NOTA_PENDENTE
-      else bitAcesso and BIT_NOTA_PENDENTE.inv()
-    }
-  var agendaAgendada
-    get() = (bitAcesso and BIT_AGENDA_AGENDADO) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_AGENDA_AGENDADO
-      else bitAcesso and BIT_AGENDA_AGENDADO.inv()
-    }
-  var agendaNaoAgendada
-    get() = (bitAcesso and BIT_AGENDA_NAO_AGENDADO) != 0 || admin
-    set(value) {
-      bitAcesso = if(value) bitAcesso or BIT_AGENDA_NAO_AGENDADO
-      else bitAcesso and BIT_AGENDA_NAO_AGENDADO.inv()
-    }
-  val admin
+  override var ativo by DelegateAuthorized(0)
+  var nota01 by DelegateAuthorized(1)
+  var nota66 by DelegateAuthorized(2)
+  var pedido by DelegateAuthorized(3)
+  var nota66Pago by DelegateAuthorized(4)
+  var emailRecebido by DelegateAuthorized(5)
+  var notaPendente by DelegateAuthorized(6)
+  var agendaAgendada by DelegateAuthorized(7)
+  var agendaNaoAgendada by DelegateAuthorized(8)
+  override val admin
     get() = login == "ADM"
   
   companion object {
-    private val BIT_ATIVO = 2.pow(0)
-    private val BIT_NOTA01 = 2.pow(1)
-    private val BIT_NOTA66 = 2.pow(2)
-    private val BIT_PEDIDO = 2.pow(3)
-    private val BIT_NOTA66_PAGO = 2.pow(4)
-    private val BIT_EMAIL_ENVIADO = 2.pow(5)
-    private val BIT_NOTA_PENDENTE = 2.pow(6)
-    private val BIT_AGENDA_AGENDADO = 2.pow(7)
-    private val BIT_AGENDA_NAO_AGENDADO = 2.pow(8)
-    
-    fun findAll(): List<UserSaci>? {
+    fun findAll(): List<UserSaci> {
       return saci.findAllUser()
         .filter {it.ativo}
     }
@@ -97,6 +44,19 @@ class UserSaci {
   }
 }
 
-fun Int.pow(e: Int): Int = this.toDouble()
-  .pow(e)
-  .toInt()
+class DelegateAuthorized(private val numBit: Int) {
+  private val bit = 2.toDouble()
+    .pow(numBit)
+    .toInt()
+  
+  operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
+    thisRef ?: return false
+    return (thisRef.bitAcesso and bit) != 0 || thisRef.admin
+  }
+  
+  operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean) {
+    thisRef ?: return
+    thisRef.bitAcesso = if(value) thisRef.bitAcesso or bit
+    else thisRef.bitAcesso and bit.inv()
+  }
+}

@@ -6,13 +6,7 @@ import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class RecebimentoViewModel(view: IRecebimentoView): ViewModel<IRecebimentoView>(view) {
   val tabNotaPendenteViewModel = TabNotaPendenteViewModel(this)
-  
-  private val listTab: List<ITabView>
-    get() = listOf(view.tabNotaPendente)
-  
-  fun tabsAuthorized() = listTab.filter {
-    it.isAuthorized()
-  }
+  override fun listTab(): List<ITabView> = listOf(view.tabNotaPendente)
 }
 
 interface IRecebimentoView: IView {

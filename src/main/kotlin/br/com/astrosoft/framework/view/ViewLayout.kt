@@ -1,6 +1,6 @@
 package br.com.astrosoft.framework.view
 
-import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
@@ -13,6 +13,7 @@ import com.github.mvysny.karibudsl.v10.formLayout
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.tabSheet
 import com.github.mvysny.karibudsl.v10.tooltip
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.ComponentEvent
@@ -62,7 +63,19 @@ abstract class ViewLayout<VM: ViewModel<*>>: VerticalLayout(), IView, BeforeLeav
     this.setSizeFull()
   }
   
-  abstract fun isAccept(user: UserSaci): Boolean
+  fun addTabSheat(viewModel: VM){
+    tabSheet {
+      setSizeFull()
+      val tabs = viewModel.tabsAuthorized()
+      tabs.forEach {tab ->
+        tabPanel(tab as ITabPanel)
+      }
+      tabs.firstOrNull()
+        ?.updateComponent()
+    }
+  }
+  
+  abstract fun isAccept(user: IUser): Boolean
   
   override fun showError(msg: String) {
     ConfirmDialog.createError()

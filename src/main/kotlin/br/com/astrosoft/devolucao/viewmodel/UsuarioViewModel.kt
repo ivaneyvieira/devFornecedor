@@ -1,43 +1,27 @@
 package br.com.astrosoft.devolucao.viewmodel
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.framework.viewmodel.IView
-import br.com.astrosoft.framework.viewmodel.ViewModel
-import br.com.astrosoft.framework.viewmodel.fail
+import br.com.astrosoft.framework.viewmodel.ITabView
+import br.com.astrosoft.framework.viewmodel.IUsuarioView
+import br.com.astrosoft.framework.viewmodel.UserViewModel
 
-class UsuarioViewModel(view: IUsuarioView): ViewModel<IUsuarioView>(view) {
-  fun findAll(): List<UserSaci>? {
-    return UserSaci.findAll()
+class UsuarioViewModel(view: IUsuarioView): UserViewModel<UserSaci, IUsuarioView>(view) {
+  override fun listTab(): List<ITabView> = emptyList()
+
+  override fun findAllUser() = UserSaci.findAll()
+  
+  override fun findUser(login: String) = UserSaci.findUser(login)
+  
+  override fun addUser(user: UserSaci) {
+    UserSaci.updateUser(user)
   }
   
-  fun add(user: UserSaci): UserSaci? {
-    exec {
-      user.ativo = true
-      validaUser(user)
-      UserSaci.updateUser(user)
-    }
-    return user
+  override fun updateUser(user: UserSaci) {
+    UserSaci.updateUser(user)
   }
   
-  private fun validaUser(user: UserSaci?): UserSaci {
-    UserSaci.findUser(user?.login) ?: fail("Usuário não encontrado no saci")
-    return user ?: fail("Usuário não selecionado")
-  }
-  
-  fun update(user: UserSaci?): UserSaci? {
-    exec {
-      UserSaci.updateUser(validaUser(user))
-    }
-    return user
-  }
-  
-  fun delete(user: UserSaci?) {
-    exec {
-      val userValid = validaUser(user)
-      userValid.ativo = false
-      UserSaci.updateUser(userValid)
-    }
+  override fun deleteUser(user: UserSaci) {
+    UserSaci.updateUser(user)
   }
 }
 
-interface IUsuarioView: IView

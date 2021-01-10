@@ -12,7 +12,7 @@ import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel): IEmailViewModel {
+abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel): IEmailView {
   protected abstract val subView: ITabNota
   
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
@@ -22,7 +22,7 @@ abstract class AbstractNotaSerieViewModel(val viewModel: DevFornecedorViewModel)
     subView.imprimeSelecionados(notas, resumida)
   }
   
-  fun updateGridNota() = viewModel.exec {
+  override fun updateView() = viewModel.exec {
     subView.updateGrid(listFornecedores())
   }
   

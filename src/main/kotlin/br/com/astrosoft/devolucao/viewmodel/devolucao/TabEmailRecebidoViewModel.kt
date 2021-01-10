@@ -8,11 +8,11 @@ import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabEmailRecebidoViewModel(val viewModel: DevFornecedorViewModel): IEmailViewModel {
+class TabEmailRecebidoViewModel(val viewModel: DevolucaoViewModel): IEmailView {
   private val subView
     get() = viewModel.view.tabEmailRecebido
   
-  fun updateGridNota() {
+  override fun updateView() = viewModel.exec {
     subView.updateGrid(listEmailRecebido())
   }
   

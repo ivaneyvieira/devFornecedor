@@ -1,13 +1,15 @@
-package br.com.astrosoft.devolucao.view.devFornecedor
+package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.EmailDB
-import br.com.astrosoft.devolucao.view.emailAssunto
-import br.com.astrosoft.devolucao.view.emailData
-import br.com.astrosoft.devolucao.view.emailEmail
-import br.com.astrosoft.devolucao.view.emailHora
+import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailHora
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabEmailRecebido
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabEmailRecebidoViewModel
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
@@ -29,8 +31,8 @@ class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel):
     emailEmail()
   }
   
-  override fun isAuthorized(): Boolean {
-    val username = AppConfig.userSaci
+  override fun isAuthorized(user : IUser): Boolean {
+    val username = user as? UserSaci
     return username?.emailRecebido == true
   }
   
@@ -38,7 +40,7 @@ class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel):
     get() = "E-mails Recebidos"
   
   override fun updateComponent() {
-    viewModel.updateGridNota()
+    viewModel.updateView()
   }
   
   private fun editEmail(emailEnviado: EmailDB?) {

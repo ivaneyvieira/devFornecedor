@@ -1,5 +1,7 @@
 package br.com.astrosoft
 
+import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.spring.SecurityUtils
 import br.com.astrosoft.framework.view.ViewUtil
 
@@ -10,6 +12,7 @@ object AppConfig {
   const val shortName = "Devolução"
   const val iconPath = "icons/logo.png"
   val userDetails get() = SecurityUtils.userDetails
-  val userSaci get() = userDetails?.userSaci
-  val isAdmin get() = userSaci?.admin == true
+  val user get() = userDetails?.userSaci
+  val isAdmin get() = user?.admin == true
+  fun findUser(username : String?) : IUser? = saci.findUser(username)
 }
