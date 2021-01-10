@@ -1,7 +1,6 @@
 package br.com.astrosoft.framework.model
 
 import br.com.astrosoft.framework.util.DB
-import br.com.astrosoft.framework.util.DB.Companion
 import br.com.astrosoft.framework.util.toLocalDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder
@@ -33,12 +32,12 @@ import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 
 class MailGMail {
-  private val emailRemetente = DB.gmailUser ?: "engecopi.devolucao@gmail.com"
-  private val nomeRemetente = DB.gmailName ?: "Engecopi"
+  private val emailRemetente = DB.gmailUser ?: ""
+  private val nomeRemetente = DB.gmailName ?: ""
   private val protocolo = "smtp"
   private val servidorSmtp = "smtp.gmail.com" // do painel de controle do SMTP
-  private val username = emailRemetente// do painel de controle do SMTP
-  private val senha = DB.gmailPass ?: "Dev.for04" // do painel de controle do SMTP
+  private val username = emailRemetente // do painel de controle do SMTP
+  private val senha = DB.gmailPass ?: "" // do painel de controle do SMTP
   private val portaSmtp = "465" // do painel de controle do SMTP
   private val propsSmtp = initPropertiesSmtp()
   private val sessionSmtp: Session =

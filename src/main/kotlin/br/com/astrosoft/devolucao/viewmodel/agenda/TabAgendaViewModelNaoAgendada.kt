@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.agenda
 
-class TabAgendaVMNaoAgendada(viewModel: AgendaViewModel): TabAgendaVMAbstract(viewModel)  {
+class TabAgendaViewModelNaoAgendada(viewModel: AgendaViewModel): TabAgendaViewModelAbstract(viewModel) {
   override val subView
     get() = viewModel.view.tabAgendaNaoAgendada
 }
@@ -8,5 +8,4 @@ class TabAgendaVMNaoAgendada(viewModel: AgendaViewModel): TabAgendaVMAbstract(vi
 interface ITabAgendaNaoAgendada: ITabAgenda {
   override val agendado: Boolean
     get() = false
-
 }

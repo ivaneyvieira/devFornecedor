@@ -1,4 +1,4 @@
-package br.com.astrosoft.devolucao.view.devFornecedor
+package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.EmailGmail
@@ -7,35 +7,36 @@ import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
-import br.com.astrosoft.devolucao.view.emailAssunto
-import br.com.astrosoft.devolucao.view.emailData
-import br.com.astrosoft.devolucao.view.emailEmail
-import br.com.astrosoft.devolucao.view.emailHora
-import br.com.astrosoft.devolucao.view.emailTipo
-import br.com.astrosoft.devolucao.view.fornecedorCliente
-import br.com.astrosoft.devolucao.view.fornecedorCodigo
-import br.com.astrosoft.devolucao.view.fornecedorNome
-import br.com.astrosoft.devolucao.view.fornecedorUltimaData
-import br.com.astrosoft.devolucao.view.nfFileDescricao
-import br.com.astrosoft.devolucao.view.notaCelular
-import br.com.astrosoft.devolucao.view.notaDataNota
-import br.com.astrosoft.devolucao.view.notaDataPedido
-import br.com.astrosoft.devolucao.view.notaEmail
-import br.com.astrosoft.devolucao.view.notaFatura
-import br.com.astrosoft.devolucao.view.notaLoja
-import br.com.astrosoft.devolucao.view.notaNota
-import br.com.astrosoft.devolucao.view.notaPedido
-import br.com.astrosoft.devolucao.view.notaRepresentante
-import br.com.astrosoft.devolucao.view.notaTelefone
-import br.com.astrosoft.devolucao.view.notaValor
-import br.com.astrosoft.devolucao.view.produtoCodigo
-import br.com.astrosoft.devolucao.view.produtoDescricao
-import br.com.astrosoft.devolucao.view.produtoGrade
-import br.com.astrosoft.devolucao.view.produtoQtde
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailHora
+import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailTipo
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
+import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileData
+import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileDescricao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoCodigo
+import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoDescricao
+import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoGrade
+import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoQtde
+import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaCelular
+import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaEmail
+import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaRepresentante
+import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaTelefone
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.AbstractNotaSerieViewModel
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -87,7 +88,7 @@ import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
+abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract):
   TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   private lateinit var edtFiltro: TextField
   
@@ -186,7 +187,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   }
   
   override fun updateComponent() {
-    viewModel.updateGridNota()
+    viewModel.updateView()
   }
   
   private fun createFormEditRmk(nota: NotaSaida): Component {
@@ -224,6 +225,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
         setItems(nota.listFiles())
       }
       nfFileDescricao()
+      nfFileData()
     }
   }
   
@@ -434,7 +436,7 @@ abstract class TabFornecedorAbstract(val viewModel: AbstractNotaSerieViewModel):
   }
 }
 
-class FormEmail(val viewModel: IEmailViewModel, notas: List<NotaSaida>, emailEnviado: EmailDB? = null):
+class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado: EmailDB? = null):
   VerticalLayout() {
   private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField

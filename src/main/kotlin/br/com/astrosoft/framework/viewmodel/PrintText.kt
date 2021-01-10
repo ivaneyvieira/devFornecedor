@@ -1,6 +1,5 @@
 package br.com.astrosoft.framework.viewmodel
 
-import br.com.astrosoft.devolucao.model.QuerySaci
 import br.com.astrosoft.framework.util.CupsUtils
 import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.lpad

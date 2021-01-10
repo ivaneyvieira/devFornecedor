@@ -89,7 +89,7 @@ class NotaSaida(
     private val fornecedores = mutableListOf<Fornecedor>()
     
     fun updateNotasDevolucao(serie: String, pago66: String) {
-      val user = AppConfig.userSaci
+      val user = AppConfig.user as? UserSaci
       val loja = if(user?.admin == true) 0 else user?.storeno ?: 0
       val notas = if(serie == "PED") saci.pedidosDevolucao() else saci.notasDevolucao(serie)
       val grupos =

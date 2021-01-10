@@ -18,9 +18,8 @@ class Agenda(
   val transp: Int,
   val nome: String,
   val pedido: Int
-            ){
-  
-  companion object{
-    fun listaAgenda(agendado : Boolean) = saci.listaAgenda(agendado)
+            ) {
+  companion object {
+    fun listaAgenda(agendado: Boolean) = saci.listaAgenda(agendado)
   }
 }

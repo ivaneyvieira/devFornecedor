@@ -1,0 +1,53 @@
+package br.com.astrosoft.devolucao.view.devolucao.columns
+
+import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
+import br.com.astrosoft.framework.view.addColumnInt
+import br.com.astrosoft.framework.view.addColumnLocalDate
+import br.com.astrosoft.framework.view.addColumnString
+import com.vaadin.flow.component.grid.Grid
+
+object ProdutosNotaSaidaViewColumns {
+  fun Grid<ProdutosNotaSaida>.produtoLoja() = addColumnInt(ProdutosNotaSaida::loja) {
+    this.setHeader("Loja")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoPdv() = addColumnInt(ProdutosNotaSaida::pdv) {
+    this.setHeader("Pdv")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoTransacao() = addColumnInt(ProdutosNotaSaida::transacao) {
+    this.setHeader("Transacao")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoCodigo() = addColumnString(ProdutosNotaSaida::codigo) {
+    this.setHeader("Código")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoDescricao() = addColumnString(ProdutosNotaSaida::descricao) {
+    this.setHeader("Descrição")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoGrade() = addColumnString(ProdutosNotaSaida::grade) {
+    this.setHeader("Grade")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoQtde() = addColumnInt(ProdutosNotaSaida::qtde) {
+    this.setHeader("Qtde")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoUltNi() = addColumnInt(ProdutosNotaSaida::ni) {
+    this.setHeader("NI")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoUltNumero() = addColumnString(ProdutosNotaSaida::numeroNota) {
+    this.setHeader("Número")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoUltData() = addColumnLocalDate(ProdutosNotaSaida::dataNota) {
+    this.setHeader("Data")
+  }
+  
+  fun Grid<ProdutosNotaSaida>.produtoUltQtd() = addColumnInt(ProdutosNotaSaida::qttdNota) {
+    this.setHeader("Quant")
+  }
+}
