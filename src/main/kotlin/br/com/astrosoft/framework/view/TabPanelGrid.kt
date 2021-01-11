@@ -42,5 +42,5 @@ abstract class TabPanelGrid<T: Any>(val classGrid: KClass<T>): ITabPanel {
   
   fun listBeans() = dataProviderPanel.getAll()
   
-  fun itensSelecionado() = gridPanel.selectedItems.toList()
+  fun itensSelecionados() = gridPanel.selectedItems.toList()
 }

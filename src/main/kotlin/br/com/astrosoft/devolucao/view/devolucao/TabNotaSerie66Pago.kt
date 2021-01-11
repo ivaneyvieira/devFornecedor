@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaSerie66Pago
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaSerie66PagoViewModel

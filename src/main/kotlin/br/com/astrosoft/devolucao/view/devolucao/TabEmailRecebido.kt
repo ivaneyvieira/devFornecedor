@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
@@ -23,7 +22,7 @@ class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel):
   
   override fun Grid<EmailDB>.gridPanel() {
     addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
-      editEmail(emailEnviado)
+      DLgEditEmail(viewModel).editEmail(emailEnviado)
     }
     emailData()
     emailHora()
@@ -31,7 +30,7 @@ class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel):
     emailEmail()
   }
   
-  override fun isAuthorized(user : IUser): Boolean {
+  override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.emailRecebido == true
   }
@@ -42,8 +41,10 @@ class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel):
   override fun updateComponent() {
     viewModel.updateView()
   }
-  
-  private fun editEmail(emailEnviado: EmailDB?) {
+}
+
+class DLgEditEmail(val viewModel: TabEmailRecebidoViewModel) {
+  fun editEmail(emailEnviado: EmailDB?) {
     val form = SubWindowForm("E-MAIL RECEBIDO") {
       FormEmail(viewModel, emptyList(), emailEnviado)
     }

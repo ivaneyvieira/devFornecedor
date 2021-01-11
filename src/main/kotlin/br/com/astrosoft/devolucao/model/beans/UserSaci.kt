@@ -5,7 +5,7 @@ import br.com.astrosoft.framework.model.IUser
 import kotlin.math.pow
 import kotlin.reflect.KProperty
 
-class UserSaci : IUser {
+class UserSaci: IUser {
   var no: Int = 0
   var name: String = ""
   override var login: String = ""

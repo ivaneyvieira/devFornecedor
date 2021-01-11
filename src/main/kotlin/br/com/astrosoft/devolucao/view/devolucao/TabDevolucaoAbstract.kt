@@ -5,7 +5,6 @@ import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
-import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
@@ -25,10 +24,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
-import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoCodigo
-import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoDescricao
-import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoGrade
-import br.com.astrosoft.devolucao.view.devolucao.columns.ProdutosNotaSaidaViewColumns.produtoQtde
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaCelular
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaRepresentante
@@ -104,10 +99,10 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
   
   override fun Grid<Fornecedor>.gridPanel() {
     addColumnButton(FILE_TABLE, "Notas", "Notas") {fornecedor ->
-      showDialogNota(fornecedor)
+      DlgNota(viewModel).showDialogNota(fornecedor, serie)
     }
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {fornecedor ->
-      showDialogRepresentante(fornecedor)
+      DlgFornecedor().showDialogRepresentante(fornecedor)
     }
     fornecedorUltimaData()
     fornecedorCodigo()
@@ -121,10 +116,6 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     edtFiltro.value = txt
   }
   
-  override fun itensSelecionados(): List<Fornecedor> {
-    return itensSelecionado()
-  }
-  
   override fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean) {
     val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida)
     val chave = "DevReport"
@@ -132,239 +123,28 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
   }
   
   override fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-                             toolBar = {window ->
-                               button("Salva") {
-                                 icon = CHECK.create()
-                                 onLeftClick {
-                                   save(nota)
-                                   window.close()
-                                 }
-                               }
-                             }) {
-      createFormEditRmk(nota)
-    }
-    form.open()
+    DlgEditRmk().editRmk(nota, save)
   }
   
   override fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit) {
-    val grid = createFormEditFile(nota)
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-                             toolBar = {_ ->
-                               val (buffer, upload) = uploadFile()
-                               upload.addSucceededListener {
-                                 val fileName = it.fileName
-                                 val bytes =
-                                   buffer.getInputStream(fileName)
-                                     .readBytes()
-                                 val nfFile =
-                                   NFFile.new(nota, fileName, bytes)
-                                 insert(nfFile)
-                                 grid.setItems(nota.listFiles())
-                               }
-                             }) {
-      grid
-    }
-    form.open()
-  }
-  
-  private fun HasComponents.uploadFile(): Pair<MultiFileMemoryBuffer, Upload> {
-    val buffer = MultiFileMemoryBuffer()
-    val upload = Upload(buffer)
-    upload.setAcceptedFileTypes("image/jpeg", "image/png", "application/pdf", "text/plain")
-    val uploadButton = Button("Arquivo Nota")
-    upload.uploadButton = uploadButton
-    upload.isAutoUpload = true
-    upload.maxFileSize = 1024 * 1024 * 1024
-    upload.addFileRejectedListener {event: FileRejectedEvent ->
-      println(event.errorMessage)
-    }
-    upload.addFailedListener {event ->
-      println(event.reason.message)
-    }
-    add(upload)
-    return Pair(buffer, upload)
+    DlgEditFile(viewModel).editFile(nota, insert)
   }
   
   override fun updateComponent() {
     viewModel.updateView()
   }
   
-  private fun createFormEditRmk(nota: NotaSaida): Component {
-    return TextArea().apply {
-      this.style.set("overflow-y", "auto")
-      this.isExpand = true
-      this.focus()
-      this.value = nota.rmk
-      valueChangeMode = TIMEOUT
-      addValueChangeListener {
-        val text = it.value
-        nota.rmk = text
-      }
-    }
-  }
-  
-  private fun createFormEditFile(nota: NotaSaida): Grid<NFFile> {
-    val gridDetail = Grid(NFFile::class.java, false)
-    return gridDetail.apply {
-      addThemeVariants(LUMO_COMPACT)
-      isMultiSort = false
-      setItems(nota.listFiles())
-      //
-      addColumnButton(EYE, "Visualizar", "Ver") {file ->
-        val form = SubWindowForm(file.nome,
-                                 toolBar = { }) {
-          val div = Div()
-          div.showOutput(file.nome, file.file)
-          div
-        }
-        form.open()
-      }
-      addColumnButton(TRASH, "Remover arquivo", "Rem") {file ->
-        viewModel.deleteFile(file)
-        setItems(nota.listFiles())
-      }
-      nfFileDescricao()
-      nfFileData()
-    }
-  }
-  
-  private fun showDialogRepresentante(fornecedor: Fornecedor?) {
-    fornecedor ?: return
-    val listRepresentantes = fornecedor.listRepresentantes()
-    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})") {
-      createGridRepresentantes(listRepresentantes)
-    }
-    form.open()
-  }
-  
-  private fun showDialogNota(fornecedor: Fornecedor?) {
-    fornecedor ?: return
-    lateinit var gridNota: Grid<NotaSaida>
-    val listNotas = fornecedor.notas
-    val form =
-      SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", toolBar = {
-        val captionImpressoa = if(serie == "66" || serie == "PED") "Impressão Completa" else "Impressão"
-        button(captionImpressoa) {
-          icon = PRINT.create()
-          onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirNotaDevolucao(notas)
-          }
-        }
-        if(serie == "66" || serie == "PED") {
-          button("Impressão Resumida") {
-            icon = PRINT.create()
-            onLeftClick {
-              val notas = gridNota.asMultiSelect().selectedItems.toList()
-              viewModel.imprimirNotaDevolucao(notas, resumida = true)
-            }
-          }
-        }
-        this.add(buttonPlanilha {
-          gridNota.asMultiSelect().selectedItems.toList()
-        })
-        button("Email") {
-          icon = ENVELOPE_O.create()
-          onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.enviarEmail(notas)
-          }
-        }
-      }) {
-        gridNota = createGridNotas(listNotas)
-        gridNota
-      }
-    form.open()
-  }
-  
   override fun enviaEmail(notas: List<NotaSaida>) {
-    val nota = notas.firstOrNull() ?: return
-    val form = SubWindowForm("DEV FORNECEDOR: ${nota.fornecedor}") {
-      FormEmail(viewModel, notas)
-    }
-    form.open()
-  }
-  
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime =
-      LocalDateTime.now()
-        .format(sdf)
-    return "notas$textTime.xlsx"
-  }
-  
-  private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
-    }
-  }
-  
-  private fun showDialogImpressao(nota: NotaSaida?) {
-    nota ?: return
-    val listProdutos = nota.listaProdutos()
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}") {
-      createGridImpressao(listProdutos)
-    }
-    form.open()
-  }
-  
-  private fun createGridRepresentantes(listRepresentantes: List<Representante>): Grid<Representante> {
-    val gridDetail = Grid(Representante::class.java, false)
-    return gridDetail.apply {
-      addThemeVariants(LUMO_COMPACT)
-      isMultiSort = false
-      setItems(listRepresentantes)
-      //
-      notaRepresentante()
-      notaTelefone()
-      notaCelular()
-      notaEmail()
-    }
-  }
-  
-  private fun createGridNotas(listNotas: List<NotaSaida>): Grid<NotaSaida> {
-    val gridDetail = Grid(NotaSaida::class.java, false)
-    return gridDetail.apply {
-      addThemeVariants(LUMO_COMPACT)
-      isMultiSort = false
-      setSelectionMode(MULTI)
-      setItems(listNotas)
-      //
-      addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) {nota ->
-        viewModel.editFile(nota)
-      }
-      addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) {nota ->
-        viewModel.editRmk(nota)
-      }
-      addColumnButton(ENVELOPE_O, "Editor", "Email", ::configMostraEmail) {nota ->
-        viewModel.mostrarEmailNota(nota)
-      }
-      
-      notaLoja()
-      notaDataPedido()
-      notaPedido()
-      notaDataNota()
-      notaNota()
-      notaFatura()
-      notaValor().apply {
-        val totalPedido =
-          listNotas.sumByDouble {it.valor}
-            .format()
-        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
-      }
-      if(serie == "PED")
-        sort(listOf(
-          GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING))
-            )
-      else
-        sort(listOf(
-          GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING))
-            )
-    }
+    DlgEnviaEmail(viewModel).enviaEmail(notas)
   }
   
   override fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>) {
+    DlgSelecionaEmail(viewModel).selecionaEmail(nota, emails)
+  }
+}
+
+class DlgSelecionaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
+  fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>) {
     val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}") {
       createGridEmail(nota, emails)
     }
@@ -398,40 +178,137 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     }
     form.open()
   }
-  
-  fun configIconArq(icon: Icon, nota: NotaSaida) {
-    if(nota.listFiles()
-        .isNotEmpty()
-    )
-      icon.color = "DarkGreen"
-    else icon.color = ""
+}
+
+class DlgEnviaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
+  fun enviaEmail(notas: List<NotaSaida>) {
+    val nota = notas.firstOrNull() ?: return
+    val form = SubWindowForm("DEV FORNECEDOR: ${nota.fornecedor}") {
+      FormEmail(viewModel, notas)
+    }
+    form.open()
+  }
+}
+
+class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
+  fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit) {
+    val grid = createFormEditFile(nota)
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
+                             toolBar = {_ ->
+                               val (buffer, upload) = uploadFile()
+                               upload.addSucceededListener {
+                                 val fileName = it.fileName
+                                 val bytes =
+                                   buffer.getInputStream(fileName)
+                                     .readBytes()
+                                 val nfFile =
+                                   NFFile.new(nota, fileName, bytes)
+                                 insert(nfFile)
+                                 grid.setItems(nota.listFiles())
+                               }
+                             }) {
+      grid
+    }
+    form.open()
   }
   
-  fun configMostraEmail(icon: Icon, nota: NotaSaida) {
-    if(nota.listEmailNota()
-        .isNotEmpty()
-    )
-      icon.color = "DarkGreen"
-    else icon.color = ""
-  }
-  
-  fun configIconEdt(icon: Icon, nota: NotaSaida) {
-    if(nota.rmk.isNotBlank())
-      icon.color = "DarkGreen"
-    else icon.color = ""
-  }
-  
-  private fun createGridImpressao(listProdutos: List<ProdutosNotaSaida>): Grid<ProdutosNotaSaida> {
-    val gridDetail = Grid(ProdutosNotaSaida::class.java, false)
+  private fun createFormEditFile(nota: NotaSaida): Grid<NFFile> {
+    val gridDetail = Grid(NFFile::class.java, false)
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
-      setItems(listProdutos)
+      setItems(nota.listFiles())
       //
-      produtoCodigo()
-      produtoDescricao()
-      produtoGrade()
-      produtoQtde()
+      addColumnButton(EYE, "Visualizar", "Ver") {file ->
+        val form = SubWindowForm(file.nome,
+                                 toolBar = { }) {
+          val div = Div()
+          div.showOutput(file.nome, file.file)
+          div
+        }
+        form.open()
+      }
+      addColumnButton(TRASH, "Remover arquivo", "Rem") {file ->
+        viewModel.deleteFile(file)
+        setItems(nota.listFiles())
+      }
+      nfFileDescricao()
+      nfFileData()
+    }
+  }
+  
+  private fun HasComponents.uploadFile(): Pair<MultiFileMemoryBuffer, Upload> {
+    val buffer = MultiFileMemoryBuffer()
+    val upload = Upload(buffer)
+    upload.setAcceptedFileTypes("image/jpeg", "image/png", "application/pdf", "text/plain")
+    val uploadButton = Button("Arquivo Nota")
+    upload.uploadButton = uploadButton
+    upload.isAutoUpload = true
+    upload.maxFileSize = 1024 * 1024 * 1024
+    upload.addFileRejectedListener {event: FileRejectedEvent ->
+      println(event.errorMessage)
+    }
+    upload.addFailedListener {event ->
+      println(event.reason.message)
+    }
+    add(upload)
+    return Pair(buffer, upload)
+  }
+}
+
+class DlgEditRmk {
+  fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
+                             toolBar = {window ->
+                               button("Salva") {
+                                 icon = CHECK.create()
+                                 onLeftClick {
+                                   save(nota)
+                                   window.close()
+                                 }
+                               }
+                             }) {
+      createFormEditRmk(nota)
+    }
+    form.open()
+  }
+  
+  private fun createFormEditRmk(nota: NotaSaida): Component {
+    return TextArea().apply {
+      this.style.set("overflow-y", "auto")
+      this.isExpand = true
+      this.focus()
+      this.value = nota.rmk
+      valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        val text = it.value
+        nota.rmk = text
+      }
+    }
+  }
+}
+
+class DlgFornecedor {
+  fun showDialogRepresentante(fornecedor: Fornecedor?) {
+    fornecedor ?: return
+    val listRepresentantes = fornecedor.listRepresentantes()
+    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})") {
+      createGridRepresentantes(listRepresentantes)
+    }
+    form.open()
+  }
+  
+  private fun createGridRepresentantes(listRepresentantes: List<Representante>): Grid<Representante> {
+    val gridDetail = Grid(Representante::class.java, false)
+    return gridDetail.apply {
+      addThemeVariants(LUMO_COMPACT)
+      isMultiSort = false
+      setItems(listRepresentantes)
+      //
+      notaRepresentante()
+      notaTelefone()
+      notaCelular()
+      notaEmail()
     }
   }
 }
@@ -445,7 +322,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   private lateinit var chkRelatorio: Checkbox
   private lateinit var chkRelatorioResumido: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
-  var gmail: EmailGmail
+  private var gmail: EmailGmail
     get() = EmailGmail(
       email = cmbEmail.value ?: "",
       assunto = edtAssunto.value ?: "",
@@ -508,8 +385,125 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   }
   
   private fun richEditor(): TextArea {
-    val rte = TextArea()
-    return rte
+    return TextArea()
   }
 }
 
+class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
+  fun showDialogNota(fornecedor: Fornecedor?, serie: String) {
+    fornecedor ?: return
+    lateinit var gridNota: Grid<NotaSaida>
+    val listNotas = fornecedor.notas
+    val form =
+      SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", toolBar = {
+        val captionImpressoa = if(serie == "66" || serie == "PED") "Impressão Completa" else "Impressão"
+        button(captionImpressoa) {
+          icon = PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirNotaDevolucao(notas)
+          }
+        }
+        if(serie == "66" || serie == "PED") {
+          button("Impressão Resumida") {
+            icon = PRINT.create()
+            onLeftClick {
+              val notas = gridNota.asMultiSelect().selectedItems.toList()
+              viewModel.imprimirNotaDevolucao(notas, resumida = true)
+            }
+          }
+        }
+        this.add(buttonPlanilha {
+          gridNota.asMultiSelect().selectedItems.toList()
+        })
+        button("Email") {
+          icon = ENVELOPE_O.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.enviarEmail(notas)
+          }
+        }
+      }) {
+        gridNota = createGridNotas(listNotas, serie)
+        gridNota
+      }
+    form.open()
+  }
+  
+  private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    }
+  }
+  
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime =
+      LocalDateTime.now()
+        .format(sdf)
+    return "notas$textTime.xlsx"
+  }
+  
+  private fun createGridNotas(listNotas: List<NotaSaida>, serie: String): Grid<NotaSaida> {
+    val gridDetail = Grid(NotaSaida::class.java, false)
+    return gridDetail.apply {
+      addThemeVariants(LUMO_COMPACT)
+      isMultiSort = false
+      setSelectionMode(MULTI)
+      setItems(listNotas)
+      //
+      addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) {nota ->
+        viewModel.editFile(nota)
+      }
+      addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) {nota ->
+        viewModel.editRmk(nota)
+      }
+      addColumnButton(ENVELOPE_O, "Editor", "Email", ::configMostraEmail) {nota ->
+        viewModel.mostrarEmailNota(nota)
+      }
+      
+      notaLoja()
+      notaDataPedido()
+      notaPedido()
+      notaDataNota()
+      notaNota()
+      notaFatura()
+      notaValor().apply {
+        val totalPedido =
+          listNotas.sumByDouble {it.valor}
+            .format()
+        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+      }
+      if(serie == "PED")
+        sort(listOf(
+          GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING))
+            )
+      else
+        sort(listOf(
+          GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING))
+            )
+    }
+  }
+  
+  private fun configIconEdt(icon: Icon, nota: NotaSaida) {
+    if(nota.rmk.isNotBlank())
+      icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+  
+  private fun configMostraEmail(icon: Icon, nota: NotaSaida) {
+    if(nota.listEmailNota()
+        .isNotEmpty()
+    )
+      icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+  
+  private fun configIconArq(icon: Icon, nota: NotaSaida) {
+    if(nota.listFiles()
+        .isNotEmpty()
+    )
+      icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+}
