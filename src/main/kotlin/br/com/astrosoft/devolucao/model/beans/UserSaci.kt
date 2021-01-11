@@ -30,8 +30,7 @@ class UserSaci: IUser {
   
   companion object {
     fun findAll(): List<UserSaci> {
-      return saci.findAllUser()
-        .filter {it.ativo}
+      return saci.findAllUser().filter {it.ativo}
     }
     
     fun updateUser(user: UserSaci) {
@@ -45,9 +44,7 @@ class UserSaci: IUser {
 }
 
 class DelegateAuthorized(private val numBit: Int) {
-  private val bit = 2.toDouble()
-    .pow(numBit)
-    .toInt()
+  private val bit = 2.toDouble().pow(numBit).toInt()
   
   operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
     thisRef ?: return false

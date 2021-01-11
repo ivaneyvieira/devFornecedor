@@ -32,179 +32,147 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
-  val codigoCol = col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      //this.setPattern("000000")
-      this.setFixedWidth(40)
-    }
-  val refForCol = col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(80)
-    }
-  val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(LEFT)
-      //this.setFixedWidth(60 * 4)
-    }
-  val gradeCol = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(50)
-    }
-  val stCol = col.column("ST", ProdutosNotaSaida::st.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(25)
-    }
-  val qtdeCol = col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("0")
-      this.setFixedWidth(40)
-    }
-  val itemCol = col.column("Item", ProdutosNotaSaida::item.name, type.integerType())
-    .apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setPattern("000")
-      this.setFixedWidth(25)
-    }
-  val valorUnitarioCol = col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(50)
-    }
-  val valorTotalCol = col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(60)
-    }
-  val valorTotalIpiCol = col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(60)
-    }
-  val ipiCol = col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(50)
-    }
-  val vstCol = col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(50)
-    }
-  val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(80)
-    }
-  val unCol = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(30)
-    }
-  val niCol = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType())
-    .apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setFixedWidth(50)
-    }
-  val numeroNotaCol = col.column("Nota", ProdutosNotaSaida::numeroNota.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setFixedWidth(50)
-    }
-  val dataNotaCol = col.column("Data", ProdutosNotaSaida::dataNota.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setFixedWidth(50)
-    }
-  val qttdNotaCol = col.column("Quant", ProdutosNotaSaida::qttdNota.name, type.integerType())
-    .apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setFixedWidth(50)
-    }
-  val invnoCol = col.column("NI", ProdutosNotaSaida::invno.name, type.integerType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setPattern("0")
-      this.setFixedWidth(50)
-    }
-  val quantInvCol = col.column("Quant NI", ProdutosNotaSaida::quantInv.name, type.integerType())
-    .apply {
-      this.setPattern("#,##0")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(40)
-    }
-  val notaInvCol = col.column("Nota", ProdutosNotaSaida::notaInv.name, type.stringType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-    }
-  val dateInvCol = col.column("Data", ProdutosNotaSaida::dateInvDate.name, type.dateType())
-    .apply {
-      this.setPattern("dd/MM/yyyy")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-    }
-  val valorUnitInvCol = col.column("R$ Unit", ProdutosNotaSaida::valorUnitInv.name, type.doubleType())
-    .apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-    }
-  val valortotalInvCol = col.column("R$ Valor Total", ProdutosNotaSaida::valorTotalInv.name, type.doubleType())
-    .apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-    }
+  val codigoCol = col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(RIGHT) //this.setPattern("000000")
+    this.setFixedWidth(40)
+  }
+  val refForCol = col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(80)
+  }
+  val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(LEFT) //this.setFixedWidth(60 * 4)
+  }
+  val gradeCol = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(50)
+  }
+  val stCol = col.column("ST", ProdutosNotaSaida::st.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(25)
+  }
+  val qtdeCol = col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("0")
+    this.setFixedWidth(40)
+  }
+  val itemCol = col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setPattern("000")
+    this.setFixedWidth(25)
+  }
+  val valorUnitarioCol = col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("#,##0.00")
+    this.setFixedWidth(50)
+  }
+  val valorTotalCol = col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("#,##0.00")
+    this.setFixedWidth(60)
+  }
+  val valorTotalIpiCol = col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("#,##0.00")
+    this.setFixedWidth(60)
+  }
+  val ipiCol = col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("#,##0.00")
+    this.setFixedWidth(50)
+  }
+  val vstCol = col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("#,##0.00")
+    this.setFixedWidth(50)
+  }
+  val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(80)
+  }
+  val unCol = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(30)
+  }
+  val niCol = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType()).apply {
+    this.setHorizontalTextAlignment(LEFT)
+    this.setFixedWidth(50)
+  }
+  val numeroNotaCol = col.column("Nota", ProdutosNotaSaida::numeroNota.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(LEFT)
+    this.setFixedWidth(50)
+  }
+  val dataNotaCol = col.column("Data", ProdutosNotaSaida::dataNota.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(LEFT)
+    this.setFixedWidth(50)
+  }
+  val qttdNotaCol = col.column("Quant", ProdutosNotaSaida::qttdNota.name, type.integerType()).apply {
+    this.setHorizontalTextAlignment(LEFT)
+    this.setFixedWidth(50)
+  }
+  val invnoCol = col.column("NI", ProdutosNotaSaida::invno.name, type.integerType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setPattern("0")
+    this.setFixedWidth(50)
+  }
+  val quantInvCol = col.column("Quant NI", ProdutosNotaSaida::quantInv.name, type.integerType()).apply {
+    this.setPattern("#,##0")
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setFixedWidth(40)
+  }
+  val notaInvCol = col.column("Nota", ProdutosNotaSaida::notaInv.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setFixedWidth(50)
+  }
+  val dateInvCol = col.column("Data", ProdutosNotaSaida::dateInvDate.name, type.dateType()).apply {
+    this.setPattern("dd/MM/yyyy")
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setFixedWidth(50)
+  }
+  val valorUnitInvCol = col.column("R$ Unit", ProdutosNotaSaida::valorUnitInv.name, type.doubleType()).apply {
+    this.setPattern("#,##0.00")
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setFixedWidth(50)
+  }
+  val valortotalInvCol = col.column("R$ Valor Total", ProdutosNotaSaida::valorTotalInv.name, type.doubleType()).apply {
+    this.setPattern("#,##0.00")
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setFixedWidth(50)
+  }
   
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when(notaSaida.tipo) {
-      "66", "PED" -> if(resumida) listOf(
-        itemCol,
-        barcodeCol,
-        refForCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        unCol,
-        qtdeCol
-                                        )
-      else listOf(
-        itemCol,
-        barcodeCol,
-        refForCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        unCol,
-        stCol,
-        qtdeCol,
-        valorUnitarioCol,
-        valorTotalCol,
-        ipiCol,
-        vstCol,
-        valorTotalIpiCol
-                 )
-      else        -> listOf(
-        itemCol,
-        barcodeCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        unCol,
-        qtdeCol,
-        valorUnitarioCol,
-        valorTotalCol
-                           )
+      "66", "PED" -> if(resumida) listOf(itemCol,
+                                         barcodeCol,
+                                         refForCol,
+                                         codigoCol,
+                                         descricaoCol,
+                                         gradeCol,
+                                         unCol,
+                                         qtdeCol)
+      else listOf(itemCol,
+                  barcodeCol,
+                  refForCol,
+                  codigoCol,
+                  descricaoCol,
+                  gradeCol,
+                  unCol,
+                  stCol,
+                  qtdeCol,
+                  valorUnitarioCol,
+                  valorTotalCol,
+                  ipiCol,
+                  vstCol,
+                  valorTotalIpiCol)
+      else        -> listOf(itemCol,
+                            barcodeCol,
+                            codigoCol,
+                            descricaoCol,
+                            gradeCol,
+                            unCol,
+                            qtdeCol,
+                            valorUnitarioCol,
+                            valorTotalCol)
     }
   }
   
@@ -216,12 +184,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         }
       }
       horizontalList {
-        val dataAtual =
-          LocalDate.now()
-            .format()
-        val horaAtual =
-          LocalTime.now()
-            .format()
+        val dataAtual = LocalDate.now().format()
+        val horaAtual = LocalTime.now().format()
         val custno = notaSaida.custno
         val fornecedor = notaSaida.fornecedor
         val vendno = notaSaida.vendno
@@ -241,12 +205,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         }
       }
       horizontalList {
-        val dataAtual =
-          LocalDate.now()
-            .format()
-        val horaAtual =
-          LocalTime.now()
-            .format()
+        val dataAtual = LocalDate.now().format()
+        val horaAtual = LocalTime.now().format()
         val custno = notaSaida.custno
         val fornecedor = notaSaida.fornecedor
         val vendno = notaSaida.vendno
@@ -268,12 +228,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         }
       }
       horizontalList {
-        val dataAtual =
-          LocalDate.now()
-            .format()
-        val horaAtual =
-          LocalTime.now()
-            .format()
+        val dataAtual = LocalDate.now().format()
+        val horaAtual = LocalTime.now().format()
         val custno = notaSaida.custno
         val fornecedor = notaSaida.fornecedor
         val vendno = notaSaida.vendno
@@ -364,12 +320,10 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
           this.verticalList {
             setStyle(fieldBorder)
             text("VALOR TOTAL DA NOTA", LEFT) {
-              this.setStyle(stl.style(fieldFontTitle)
-                              .bold())
+              this.setStyle(stl.style(fieldFontTitle).bold())
             }
             text(notaSaida.valorTotal.format(), RIGHT) {
-              this.setStyle(stl.style(fieldFont)
-                              .bold())
+              this.setStyle(stl.style(fieldFont).bold())
             }
             setWidth(widitInicial)
           }
@@ -379,8 +333,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
       
       text("OBSERVAÇÕES:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
-      if(notaSaida.tipo == "66" || notaSaida.tipo == "PED")
-        text(notaSaida.obsPedido)
+      if(notaSaida.tipo == "66" || notaSaida.tipo == "PED") text(notaSaida.obsPedido)
     }
   }
   
@@ -396,46 +349,29 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
       sbt.sum(vstCol),
       sbt.sum(valorTotalIpiCol),
                                                                        )
-    else
-      listOf(
-        sbt.text("Total R$", valorUnitarioCol),
-        sbt.sum(valorTotalCol),
-        sbt.sum(ipiCol),
-        sbt.sum(vstCol),
-        sbt.sum(valorTotalIpiCol),
-            )
+    else listOf(
+      sbt.text("Total R$", valorUnitarioCol),
+      sbt.sum(valorTotalCol),
+      sbt.sum(ipiCol),
+      sbt.sum(vstCol),
+      sbt.sum(valorTotalIpiCol),
+               )
   }
   
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
     var index: Int = 1
-    val itens =
-      notaSaida.listaProdutos()
-        .sortedBy {it.codigo.toIntOrNull() ?: 0}
-        .map {
-          it.apply {
-            item = index++
-          }
-        }
+    val itens = notaSaida.listaProdutos().sortedBy {it.codigo.toIntOrNull() ?: 0}.map {
+      it.apply {
+        item = index++
+      }
+    }
     val pageOrientation = if((notaSaida.tipo == "66" || notaSaida.tipo == "PED") && resumida) PORTRAIT else LANDSCAPE
-    return report()
-      .title(titleBuider())
-      .setTemplate(Templates.reportTemplate)
-      .columns(* colunms)
-      .columnGrid(* colunms)
-      .setDataSource(itens)
-      .summary(sumaryBuild())
-      .setPageFormat(A4, pageOrientation)
-      .setPageMargin(margin(28))
-      .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
-      .setSubtotalStyle(stl.style()
-                          .setPadding(2)
-                          .setTopBorder(stl.pen1Point()))
-      .pageFooter(cmp.pageNumber()
-                    .setHorizontalTextAlignment(RIGHT)
-                    .setStyle(stl.style()
-                                .setFontSize(8)))
+    return report().title(titleBuider()).setTemplate(Templates.reportTemplate).columns(* colunms).columnGrid(* colunms)
+      .setDataSource(itens).summary(sumaryBuild()).setPageFormat(A4, pageOrientation).setPageMargin(margin(28))
+      .summary(pageFooterBuilder()).subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+      .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
+      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
   }
   
   companion object {

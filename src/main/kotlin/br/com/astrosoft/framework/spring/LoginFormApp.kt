@@ -14,8 +14,7 @@ class LoginFormApp: LoginForm() {
     setI18n(loginI18n())
   }
   
-  private fun loginI18n() = LoginI18n.createDefault()
-    .apply {
+  private fun loginI18n() = LoginI18n.createDefault().apply {
       this.form.username = "Usuário"
       this.form.title = AppConfig.title
       this.form.submit = "Entrar"

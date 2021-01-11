@@ -10,8 +10,7 @@ import java.text.DecimalFormat
 abstract class PrintText<T> {
   private val columns = mutableListOf<Column<T, *>>()
   
-  fun columText(header: String, size: Int, lineBreak: Boolean = false,
-                process: T.() -> String): PrintText<T> {
+  fun columText(header: String, size: Int, lineBreak: Boolean = false, process: T.() -> String): PrintText<T> {
     val column = Column(header, size, lineBreak, process) {str ->
       str.rpad(size, " ")
     }
@@ -27,8 +26,7 @@ abstract class PrintText<T> {
                   process: T.() -> Double): PrintText<T> {
     val decimalFormat = DecimalFormat(format)
     val column = Column(header, size, lineBreak, process) {number ->
-      decimalFormat.format(number.toInt())
-        .lpad(size, " ")
+      decimalFormat.format(number.toInt()).lpad(size, " ")
     }
     columns.add(column)
     return this
@@ -43,8 +41,7 @@ abstract class PrintText<T> {
   }
   
   fun print(impressora: String, dados: List<T>) {
-    dados.firstOrNull()
-      ?.let {bean ->
+    dados.firstOrNull()?.let {bean ->
         val text = StringBuilder()
         inicialize(text)
         printTitle(text, bean)
@@ -55,8 +52,7 @@ abstract class PrintText<T> {
         }
         sumary(text)
         finalize(text)
-        if(!DB.test)
-          CupsUtils.printCups(impressora, text.toString())
+        if(!DB.test) CupsUtils.printCups(impressora, text.toString())
         else {
           println(text.toString())
           File("/tmp/relatorio.txt").writeText(text.toString())
@@ -71,43 +67,25 @@ abstract class PrintText<T> {
   }
   
   private fun inicialize(text: StringBuilder) {
-    text.append(0x1b.toChar())
-      .append(0x0f.toChar())
+    text.append(0x1b.toChar()).append(0x0f.toChar())
   }
   
   protected fun String.barras(): String {
     val stringBuffer = StringBuilder()
-    stringBuffer
-      .append(0x1d.toChar())
-      .append(0x68.toChar())
-      .append(0x50.toChar())
-      .append(0x1d.toChar())
-      .append(0x77.toChar())
-      .append(0x04.toChar())
-      .append(0x1d.toChar())
-      .append(0x6b.toChar())
-      .append(0x49.toChar())
-      .append(this.length.toChar())
-      .append(this)
+    stringBuffer.append(0x1d.toChar()).append(0x68.toChar()).append(0x50.toChar()).append(0x1d.toChar())
+      .append(0x77.toChar()).append(0x04.toChar()).append(0x1d.toChar()).append(0x6b.toChar()).append(0x49.toChar())
+      .append(this.length.toChar()).append(this)
     return stringBuffer.toString()
   }
   
   protected fun String.negrito(): String {
     val stringBuffer = StringBuilder()
-    stringBuffer.append(0x1b.toChar())
-      .append(0x45.toChar())
-      .append(this)
-      .append(0x1b.toChar())
-      .append(0x46.toChar())
+    stringBuffer.append(0x1b.toChar()).append(0x45.toChar()).append(this).append(0x1b.toChar()).append(0x46.toChar())
     return this
   }
   
   private fun finalize(text: StringBuilder) {
-    text.append(0x0a.toChar())
-      .append(0x0a.toChar())
-      .append(0x0a.toChar())
-      .append(0x1b.toChar())
-      .append(0x69.toChar())
+    text.append(0x0a.toChar()).append(0x0a.toChar()).append(0x0a.toChar()).append(0x1b.toChar()).append(0x69.toChar())
       .append(0x12.toChar())
   }
   
@@ -129,20 +107,13 @@ abstract class PrintText<T> {
   
   private fun String.expandLine(): String {
     val stringBuffer = StringBuilder()
-    stringBuffer.append(0x1b.toChar())
-      .append(0x45.toChar())
-      .append(0x01.toChar())
-      .append(this)
-      .append(0x1b.toChar())
-      .append(0x45.toChar())
-      .append(0x00.toChar())
-      .appendLine()
+    stringBuffer.append(0x1b.toChar()).append(0x45.toChar()).append(0x01.toChar()).append(this).append(0x1b.toChar())
+      .append(0x45.toChar()).append(0x00.toChar()).appendLine()
     return stringBuffer.toString()
   }
   
   private fun StringBuilder.line(line: String): StringBuilder {
-    this.append(line)
-      .appendLine()
+    this.append(line).appendLine()
     return this
   }
   
@@ -155,8 +126,8 @@ abstract class PrintText<T> {
   }
 }
 
-data class Column<T, V>(val header: String, val size: Int, val lineBreak: Boolean,
-                        val process: T.() -> V, val posProcess: (V) -> String) {
+data class Column<T, V>(val header: String, val size: Int, val lineBreak: Boolean, val process: T.() -> V,
+                        val posProcess: (V) -> String) {
   val columnText
     get() = header.rpad(size, "_")
   

@@ -45,25 +45,21 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override fun formCrud(operation: CrudOperation?, domainObject: UserSaci?, readOnly: Boolean,
                         binder: Binder<UserSaci>): Component {
     return FormLayout().apply {
-      if(operation in listOf(READ, DELETE, UPDATE))
-        integerField("Número") {
-          isReadOnly = true
-          binder.bind(this, UserSaci::no.name)
-        }
-      if(operation in listOf(ADD, READ, DELETE, UPDATE))
-        textField("Login") {
-          binder.bind(this, UserSaci::login.name)
-        }
-      if(operation in listOf(READ, DELETE, UPDATE))
-        textField("Nome") {
-          isReadOnly = true
-          binder.bind(this, UserSaci::name.name)
-        }
-      if(operation in listOf(READ, DELETE, UPDATE))
-        textField("Impressora") {
-          isReadOnly = true
-          binder.bind(this, UserSaci::impressora.name)
-        }
+      if(operation in listOf(READ, DELETE, UPDATE)) integerField("Número") {
+        isReadOnly = true
+        binder.bind(this, UserSaci::no.name)
+      }
+      if(operation in listOf(ADD, READ, DELETE, UPDATE)) textField("Login") {
+        binder.bind(this, UserSaci::login.name)
+      }
+      if(operation in listOf(READ, DELETE, UPDATE)) textField("Nome") {
+        isReadOnly = true
+        binder.bind(this, UserSaci::name.name)
+      }
+      if(operation in listOf(READ, DELETE, UPDATE)) textField("Impressora") {
+        isReadOnly = true
+        binder.bind(this, UserSaci::impressora.name)
+      }
       if(operation in listOf(ADD, READ, DELETE, UPDATE)) {
         integerField("Número Loja") {
           binder.bind(this, UserSaci::storeno.name)

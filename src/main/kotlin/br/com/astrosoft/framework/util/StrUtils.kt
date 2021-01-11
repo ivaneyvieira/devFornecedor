@@ -65,19 +65,13 @@ fun String.mid(start: Int): String {
 fun parameterNames(sql: String): List<String> {
   val regex = Regex(":([a-zA-Z0-9_]+)")
   val matches = regex.findAll(sql)
-  return matches.map {it.groupValues}
-    .toList()
-    .flatten()
-    .filter {!it.startsWith(":")}
+  return matches.map {it.groupValues}.toList().flatten().filter {!it.startsWith(":")}
 }
 
 fun htmlToText(htmlTxt: String?): String {
   htmlTxt ?: return ""
-  return Jsoup.parse(htmlTxt.replace("</p>", "\n")
-                       .replace("<br>", "\n"))
-    .wholeText()
-}
-/*
+  return Jsoup.parse(htmlTxt.replace("</p>", "\n").replace("<br>", "\n")).wholeText()
+}/*
 @Suppress("UNCHECKED_CAST")
 fun readInstanceProperty(instance: Any, propertyName: String): Any? {
   val property = instance::class.memberProperties

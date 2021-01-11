@@ -9,8 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant
 fun TabSheet.tabPanel(tabPanel: ITabPanel) {
   this.tab {
     tabPanel.createComponent
-  }
-    .apply {
+  }.apply {
       val button = Button(tabPanel.label) {
         tabPanel.updateComponent()
       }

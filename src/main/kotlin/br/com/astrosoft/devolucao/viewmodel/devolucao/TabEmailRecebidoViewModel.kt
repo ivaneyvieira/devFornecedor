@@ -16,17 +16,14 @@ class TabEmailRecebidoViewModel(val viewModel: DevolucaoViewModel): IEmailView {
     subView.updateGrid(listEmailRecebido())
   }
   
-  private fun listEmailRecebido() = EmailDB.listEmailRecebidos()
-    .sortedWith(compareByDescending<EmailDB> {it.data}.thenByDescending {it.hora})
+  private fun listEmailRecebido() =
+    EmailDB.listEmailRecebidos().sortedWith(compareByDescending<EmailDB> {it.data}.thenByDescending {it.hora})
   
   override fun listEmail(fornecedor: Fornecedor?): List<String> = emptyList()
   
   override fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>) = viewModel.exec {
     val mail = MailGMail()
-    val enviadoComSucesso = mail.sendMail(gmail.email,
-                                          gmail.assunto,
-                                          gmail.msgHtml,
-                                          emptyList())
+    val enviadoComSucesso = mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, emptyList())
     if(enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       gmail.salvaEmail(idEmail)

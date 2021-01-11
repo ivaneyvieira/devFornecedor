@@ -1,5 +1,4 @@
-package br.com.astrosoft.framework.model
-/*
+package br.com.astrosoft.framework.model/*
 interface LoginInfoProvider {
   val loginInfo: LoginInfo?
 }

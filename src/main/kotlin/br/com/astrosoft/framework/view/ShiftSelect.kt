@@ -52,11 +52,9 @@ fun <T: Any> list(grade: Grid<T>): List<T> {
   val dataProvider = grade.dataProvider as ListDataProvider
   val filter = dataProvider.filter
   val queryOrdem = comparator(grade)
-  return dataProvider.items.toList()
-    .filter {
+  return dataProvider.items.toList().filter {
       filter?.test(it) ?: true
-    }
-    .let {list ->
+    }.let {list ->
       if(queryOrdem == null) list
       else list.sortedWith<T>(queryOrdem)
     }
@@ -71,11 +69,8 @@ fun <T: Any> comparator(grade: Grid<T>): Comparator<T>? {
 
 fun <T: Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>): Comparator<T>? {
   return sortOrder.flatMap {gridSort ->
-    val sortOrdem =
-      gridSort.sorted.getSortOrder(gridSort.direction)
-        .toList()
-    val propsBean = classGrid.members.toList()
-      .filterIsInstance<KProperty1<T, Comparable<*>>>()
+    val sortOrdem = gridSort.sorted.getSortOrder(gridSort.direction).toList()
+    val propsBean = classGrid.members.toList().filterIsInstance<KProperty1<T, Comparable<*>>>()
     val props = sortOrdem.mapNotNull {querySortOrder ->
       propsBean.firstOrNull {prop ->
         prop.name == querySortOrder.sorted
@@ -91,8 +86,7 @@ fun <T: Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>)
         }
       }
     }
-  }
-    .reduce {acc, comparator ->
+  }.reduce {acc, comparator ->
       acc.thenComparing(comparator)
     }
 }

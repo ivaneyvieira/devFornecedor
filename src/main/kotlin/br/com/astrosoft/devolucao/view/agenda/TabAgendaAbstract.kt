@@ -21,10 +21,9 @@ import br.com.astrosoft.framework.view.TabPanelGrid
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract):
-  TabPanelGrid<Agenda>(Agenda::class), ITabAgenda {
-  override fun HorizontalLayout.toolBarConfig() {
-    //Falta definir o filtro
+abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): TabPanelGrid<Agenda>(Agenda::class),
+                                                                             ITabAgenda {
+  override fun HorizontalLayout.toolBarConfig() { //Falta definir o filtro
   }
   
   override fun Grid<Agenda>.gridPanel() {

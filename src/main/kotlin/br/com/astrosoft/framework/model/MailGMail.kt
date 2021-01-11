@@ -40,11 +40,9 @@ class MailGMail {
   private val senha = DB.gmailPass ?: "" // do painel de controle do SMTP
   private val portaSmtp = "465" // do painel de controle do SMTP
   private val propsSmtp = initPropertiesSmtp()
-  private val sessionSmtp: Session =
-    Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha))
-      .apply {
-        debug = false
-      }
+  private val sessionSmtp: Session = Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
+      debug = false
+    }
   
   fun sendMail(to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()): Boolean {
     try {
@@ -104,19 +102,14 @@ class MailGMail {
   }
   
   private fun createMessage(toList: String, subject: String): MimeMessage {
-    val toSplit =
-      toList.split(",")
-        .toList()
-        .map {it.trim()}
+    val toSplit = toList.split(",").toList().map {it.trim()}
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
-    val iaTo = arrayOfNulls<InternetAddress>(toSplit.size)
-    //val iaReplyTo = arrayOfNulls<InternetAddress>(1)
+    val iaTo = arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1)
     // iaReplyTo[0] = InternetAddress(to, to)
     toSplit.forEachIndexed {index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
-    val message = MimeMessage(sessionSmtp)
-    //message.replyTo = iaReplyTo
+    val message = MimeMessage(sessionSmtp) //message.replyTo = iaReplyTo
     message.setFrom(iaFrom)
     if(iaTo.isNotEmpty()) message.setRecipients(Message.RecipientType.TO, iaTo)
     message.subject = subject
@@ -146,19 +139,14 @@ class MailGMail {
         profile.add(IMAPFolder.FetchProfileItem.HEADERS)
         folder.fetch(messages, profile)
         messages.filter {
-          if(subjectSearch == "")
-            it.receivedDate.toLocalDate()
-              ?.isAfter(dataInicial) == true
+          if(subjectSearch == "") it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
           else it.subject.contains(subjectSearch)
-        }
-          .mapNotNull {message ->
-            EmailMessage(
-              messageID = (message as? IMAPMessage)?.messageID ?: "",
-              subject = message.subject ?: "",
-              data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-              from = message.from.toList(),
-              to = message.allRecipients.toList()
-                        )
+        }.mapNotNull {message ->
+            EmailMessage(messageID = (message as? IMAPMessage)?.messageID ?: "",
+                         subject = message.subject ?: "",
+                         data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+                         from = message.from.toList(),
+                         to = message.allRecipients.toList())
           }
       }
     } catch(e: AuthenticationFailedException) {
@@ -194,8 +182,7 @@ class MailGMail {
         messages.filter {
           val id = (it as? IMAPMessage)?.messageID ?: ""
           id == messageID
-        }
-          .map {
+        }.map {
             it.contentBean()
           }
       }
@@ -211,9 +198,7 @@ class MailGMail {
 private fun Message.contentBean(): Content {
   var result = ""
   if(this.isMimeType("text/plain")) {
-    result =
-      this.content
-        .toString()
+    result = this.content.toString()
   }
   else if(this.isMimeType("multipart/*")) {
     val mimeMultipart = this.content as MimeMultipart
@@ -248,29 +233,17 @@ class GmailAuthenticator(val username: String, val password: String): Authentica
   }
 }
 
-data class EmailMessage(
-  val messageID: String,
-  val subject: String,
-  val data: LocalDateTime,
-  val from: List<Address>,
-  val to: List<Address>
-                       ) {
+data class EmailMessage(val messageID: String, val subject: String, val data: LocalDateTime, val from: List<Address>,
+                        val to: List<Address>) {
   fun content(): Content {
     val gmail = MailGMail()
-    return gmail.listMessageContent(GamilFolder.Todos, messageID)
-             .firstOrNull() ?: Content("", emptyList())
+    return gmail.listMessageContent(GamilFolder.Todos, messageID).firstOrNull() ?: Content("", emptyList())
   }
 }
 
-class Attachment(
-  val name: String,
-  val content: ByteArray
-                )
+class Attachment(val name: String, val content: ByteArray)
 
-data class Content(
-  val messageTxt: String,
-  val anexos: List<Attachment>
-                  )
+data class Content(val messageTxt: String, val anexos: List<Attachment>)
 
 class FileAttach(val nome: String, val bytes: ByteArray) {
   fun fileName(): String {

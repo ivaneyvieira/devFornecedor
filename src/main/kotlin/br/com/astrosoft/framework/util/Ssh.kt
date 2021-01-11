@@ -18,8 +18,7 @@ class Ssh(private val host: String, val user: String, private val password: Stri
   private fun conectSession(exec: (Session) -> Unit) {
     config["StrictHostKeyChecking"] = "no"
     val jsch = JSch()
-    jsch.getSession(user, host, port)
-      ?.let {session ->
+    jsch.getSession(user, host, port)?.let {session ->
         session.setPassword(password)
         session.setConfig(config)
         session.connect()
@@ -64,5 +63,4 @@ private fun getOutput(channel: Channel): String {
     }
   }
   return stringBuild.toString()
-}
-// device for ressu4_bem: smb://ENGECOPI/192.168.4.56/ressu4_bem
+} // device for ressu4_bem: smb://ENGECOPI/192.168.4.56/ressu4_bem

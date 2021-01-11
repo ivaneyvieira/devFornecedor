@@ -49,10 +49,8 @@ fun VerticalListBuilder.breakLine() {
 
 fun HorizontalListBuilder.text(text: String, horizontalTextAlignment: HorizontalTextAlignment = LEFT, width: Int = 0,
                                block: TextFieldBuilder<String>.() -> Unit = {}): TextFieldBuilder<String> {
-  val textString = cmp.text(text)
-    .setHorizontalTextAlignment(horizontalTextAlignment)
-  if(width > 0)
-    textString.setFixedWidth(width)
+  val textString = cmp.text(text).setHorizontalTextAlignment(horizontalTextAlignment)
+  if(width > 0) textString.setFixedWidth(width)
   textString.block()
   this.add(textString)
   return textString
@@ -60,10 +58,8 @@ fun HorizontalListBuilder.text(text: String, horizontalTextAlignment: Horizontal
 
 fun VerticalListBuilder.text(text: String, horizontalTextAlignment: HorizontalTextAlignment = LEFT, width: Int = 0,
                              block: TextFieldBuilder<String>.() -> Unit = {}): TextFieldBuilder<String> {
-  val textString = cmp.text(text)
-    .setHorizontalTextAlignment(horizontalTextAlignment)
-  if(width > 0)
-    textString.setFixedWidth(width)
+  val textString = cmp.text(text).setHorizontalTextAlignment(horizontalTextAlignment)
+  if(width > 0) textString.setFixedWidth(width)
   textString.block()
   this.add(textString)
   return textString

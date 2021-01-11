@@ -156,8 +156,7 @@ class DlgSelecionaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
     val lista = emails + nota.listaEmailRecebidoNota()
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
-      isMultiSort = false
-      // setSelectionMode(MULTI)
+      isMultiSort = false // setSelectionMode(MULTI)
       setItems(lista.sortedWith(compareByDescending<EmailDB> {it.data}.thenByDescending {it.hora}))
       
       addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
@@ -193,20 +192,16 @@ class DlgEnviaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
 class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit) {
     val grid = createFormEditFile(nota)
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-                             toolBar = {_ ->
-                               val (buffer, upload) = uploadFile()
-                               upload.addSucceededListener {
-                                 val fileName = it.fileName
-                                 val bytes =
-                                   buffer.getInputStream(fileName)
-                                     .readBytes()
-                                 val nfFile =
-                                   NFFile.new(nota, fileName, bytes)
-                                 insert(nfFile)
-                                 grid.setItems(nota.listFiles())
-                               }
-                             }) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = {_ ->
+      val (buffer, upload) = uploadFile()
+      upload.addSucceededListener {
+        val fileName = it.fileName
+        val bytes = buffer.getInputStream(fileName).readBytes()
+        val nfFile = NFFile.new(nota, fileName, bytes)
+        insert(nfFile)
+        grid.setItems(nota.listFiles())
+      }
+    }) {
       grid
     }
     form.open()
@@ -217,11 +212,9 @@ class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
-      setItems(nota.listFiles())
-      //
+      setItems(nota.listFiles()) //
       addColumnButton(EYE, "Visualizar", "Ver") {file ->
-        val form = SubWindowForm(file.nome,
-                                 toolBar = { }) {
+        val form = SubWindowForm(file.nome, toolBar = { }) {
           val div = Div()
           div.showOutput(file.nome, file.file)
           div
@@ -258,16 +251,15 @@ class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
 
 class DlgEditRmk {
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-                             toolBar = {window ->
-                               button("Salva") {
-                                 icon = CHECK.create()
-                                 onLeftClick {
-                                   save(nota)
-                                   window.close()
-                                 }
-                               }
-                             }) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = {window ->
+      button("Salva") {
+        icon = CHECK.create()
+        onLeftClick {
+          save(nota)
+          window.close()
+        }
+      }
+    }) {
       createFormEditRmk(nota)
     }
     form.open()
@@ -303,8 +295,7 @@ class DlgFornecedor {
     return gridDetail.apply {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
-      setItems(listRepresentantes)
-      //
+      setItems(listRepresentantes) //
       notaRepresentante()
       notaTelefone()
       notaCelular()
@@ -313,8 +304,7 @@ class DlgFornecedor {
   }
 }
 
-class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado: EmailDB? = null):
-  VerticalLayout() {
+class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado: EmailDB? = null): VerticalLayout() {
   private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField
   private var rteMessage: TextArea
@@ -323,22 +313,19 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   private lateinit var chkRelatorioResumido: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
   private var gmail: EmailGmail
-    get() = EmailGmail(
-      email = cmbEmail.value ?: "",
-      assunto = edtAssunto.value ?: "",
-      msg = {rteMessage.value ?: ""},
-      msgHtml = rteMessage.value ?: "",
-      planilha = if(chkPlanilha.value) "S" else "N",
-      relatorio = if(chkRelatorio.value) "S" else "N",
-      relatorioResumido = if(chkRelatorioResumido.value) "S" else "N",
-      anexos = if(chkAnexos.value) "S" else "N",
-      messageID = ""
-                      )
+    get() = EmailGmail(email = cmbEmail.value ?: "",
+                       assunto = edtAssunto.value ?: "",
+                       msg = {rteMessage.value ?: ""},
+                       msgHtml = rteMessage.value ?: "",
+                       planilha = if(chkPlanilha.value) "S" else "N",
+                       relatorio = if(chkRelatorio.value) "S" else "N",
+                       relatorioResumido = if(chkRelatorioResumido.value) "S" else "N",
+                       anexos = if(chkAnexos.value) "S" else "N",
+                       messageID = "")
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto
-      rteMessage.value = htmlToText(value.msg())
-      //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
+      rteMessage.value = htmlToText(value.msg()) //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
       chkPlanilha.value = value.planilha == "S"
       chkRelatorio.value = value.relatorio == "S"
       chkRelatorioResumido.value = value.relatorioResumido == "S"
@@ -346,9 +333,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
     }
   
   init {
-    val fornecedor =
-      NotaSaida.findFornecedores()
-        .firstOrNull {it.notas.containsAll(notas)}
+    val fornecedor = NotaSaida.findFornecedores().firstOrNull {it.notas.containsAll(notas)}
     rteMessage = richEditor()
     setSizeFull()
     horizontalLayout {
@@ -369,8 +354,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
       chkPlanilha = checkBox("Planilha")
       chkAnexos = checkBox("Anexos")
       
-      button("Enviar") {
-        // val numerosNota = notas.joinToString(separator = " ") {it.nota}
+      button("Enviar") { // val numerosNota = notas.joinToString(separator = " ") {it.nota}
         onLeftClick {
           viewModel.enviaEmail(gmail, notas)
         }
@@ -438,9 +422,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
   
   private fun filename(): String {
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime =
-      LocalDateTime.now()
-        .format(sdf)
+    val textTime = LocalDateTime.now().format(sdf)
     return "notas$textTime.xlsx"
   }
   
@@ -450,8 +432,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(MULTI)
-      setItems(listNotas)
-      //
+      setItems(listNotas) //
       addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) {nota ->
         viewModel.editFile(nota)
       }
@@ -469,41 +450,26 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
       notaNota()
       notaFatura()
       notaValor().apply {
-        val totalPedido =
-          listNotas.sumByDouble {it.valor}
-            .format()
+        val totalPedido = listNotas.sumByDouble {it.valor}.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
-      if(serie == "PED")
-        sort(listOf(
-          GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING))
-            )
-      else
-        sort(listOf(
-          GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING))
-            )
+      if(serie == "PED") sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
+      else sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
     }
   }
   
   private fun configIconEdt(icon: Icon, nota: NotaSaida) {
-    if(nota.rmk.isNotBlank())
-      icon.color = "DarkGreen"
+    if(nota.rmk.isNotBlank()) icon.color = "DarkGreen"
     else icon.color = ""
   }
   
   private fun configMostraEmail(icon: Icon, nota: NotaSaida) {
-    if(nota.listEmailNota()
-        .isNotEmpty()
-    )
-      icon.color = "DarkGreen"
+    if(nota.listEmailNota().isNotEmpty()) icon.color = "DarkGreen"
     else icon.color = ""
   }
   
   private fun configIconArq(icon: Icon, nota: NotaSaida) {
-    if(nota.listFiles()
-        .isNotEmpty()
-    )
-      icon.color = "DarkGreen"
+    if(nota.listFiles().isNotEmpty()) icon.color = "DarkGreen"
     else icon.color = ""
   }
 }
