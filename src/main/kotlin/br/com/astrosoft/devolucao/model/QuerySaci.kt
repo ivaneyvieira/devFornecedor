@@ -81,21 +81,18 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  fun ultimasNotas(): List<UltimasNotas> {
-    //val sql = "/sqlSaci/ultimasNotas.sql"
-    return emptyList()
-    //query(sql, UltimasNotas::class)
+  fun ultimasNotas(): List<UltimasNotas> { //val sql = "/sqlSaci/ultimasNotas.sql"
+    return emptyList() //query(sql, UltimasNotas::class)
   }
   
   fun saveRmk(nota: NotaSaida) {
     val sql = "/sqlSaci/rmkUpdate.sql"
-    if(nota.tipo == "PED")
-      script(sql) {
-        addOptionalParameter("storeno", nota.loja)
-        addOptionalParameter("pdvno", 9999)
-        addOptionalParameter("xano", nota.pedido)
-        addOptionalParameter("rmk", nota.rmk)
-      }
+    if(nota.tipo == "PED") script(sql) {
+      addOptionalParameter("storeno", nota.loja)
+      addOptionalParameter("pdvno", 9999)
+      addOptionalParameter("xano", nota.pedido)
+      addOptionalParameter("rmk", nota.rmk)
+    }
     else script(sql) {
       addOptionalParameter("storeno", nota.loja)
       addOptionalParameter("pdvno", nota.pdv)
@@ -170,8 +167,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   fun listEmailPara(): List<EmailDB> {
-    val sql = "/sqlSaci/listEmailEnviadoPara.sql"
-    //return emptyList()
+    val sql = "/sqlSaci/listEmailEnviadoPara.sql" //return emptyList()
     return query(sql, EmailDB::class)
   }
   
@@ -247,9 +243,7 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     internal val url = db.url
     internal val username = db.username
     internal val password = db.password
-    val ipServer =
-      url.split("/")
-        .getOrNull(2)
+    val ipServer = url.split("/").getOrNull(2)
   }
 }
 

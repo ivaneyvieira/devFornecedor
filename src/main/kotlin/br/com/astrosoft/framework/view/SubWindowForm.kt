@@ -12,10 +12,8 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.VaadinIcon
 
-class SubWindowForm(labelTitle: String,
-                    val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
-                    val blockForm: () -> Component):
-  Dialog() {
+class SubWindowForm(labelTitle: String, val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
+                    val blockForm: () -> Component): Dialog() {
   init {
     width = "100%"
     height = "100%"
@@ -37,8 +35,7 @@ class SubWindowForm(labelTitle: String,
         isSpacing = true
         isPadding = false
         setWidthFull()
-        labelTitle.split("|")
-          .forEach {linha ->
+        labelTitle.split("|").forEach {linha ->
             h4(linha) {
               isExpand = true
             }

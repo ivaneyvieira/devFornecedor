@@ -39,8 +39,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   private fun registerDriver(driver: String) {
     try {
       Class.forName(driver)
-    } catch(e: ClassNotFoundException) {
-      //throw RuntimeException(e)
+    } catch(e: ClassNotFoundException) { //throw RuntimeException(e)
     }
   }
   
@@ -57,8 +56,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
   
-  private fun <T: Any> querySQL(con: Connection, sql: String?, classes: KClass<T>,
-                                lambda: QueryHandle = {}): List<T> {
+  private fun <T: Any> querySQL(con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
     val query = con.createQuery(sql)
     query.lambda()
     println(sql)
@@ -73,10 +71,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
   
   fun toStratments(file: String): List<String> {
-    return if(file.startsWith("/"))
-      readFile(file)?.split(";")
-        .orEmpty()
-        .filter {it.isNotBlank() || it.isNotEmpty()}
+    return if(file.startsWith("/")) readFile(file)?.split(";").orEmpty().filter {it.isNotBlank() || it.isNotEmpty()}
     else listOf(file)
   }
   
@@ -110,8 +105,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
   
   private fun <T> transaction(block: (Connection) -> T): T {
-    return sql2o.beginTransaction()
-      .use {con ->
+    return sql2o.beginTransaction().use {con ->
         val ret = block(con)
         con.commit()
         ret

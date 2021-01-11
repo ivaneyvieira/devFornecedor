@@ -20,14 +20,12 @@ class ByteArrayConverter: ConverterBase<ByteArray>() {
           if(stream != null) {
             try {
               stream.close()
-            } catch(ignore: Throwable) {
-              // ignore stream.close errors
+            } catch(ignore: Throwable) { // ignore stream.close errors
             }
           }
           try {
             value.free()
-          } catch(ignore: Throwable) {
-            // ignore blob.free errors
+          } catch(ignore: Throwable) { // ignore blob.free errors
           }
         }
       } catch(e: SQLException) {

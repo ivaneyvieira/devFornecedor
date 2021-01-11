@@ -15,26 +15,11 @@ import org.springframework.security.web.util.matcher.RequestMatcher
 class SecurityConfiguration: WebSecurityConfigurerAdapter() {
   @Throws(Exception::class)
   override fun configure(http: HttpSecurity) {
-    http.csrf()
-      .disable()
-      .requestCache()
-      .requestCache(CustomRequestCache())
-      .and()
-      .authorizeRequests()
+    http.csrf().disable().requestCache().requestCache(CustomRequestCache()).and().authorizeRequests()
       .requestMatchers(RequestMatcher {request ->
         SecurityUtils.isFrameworkInternalRequest(request)
-      })
-      .permitAll()
-      .anyRequest()
-      .authenticated()
-      .and()
-      .formLogin()
-      .loginPage(LOGIN_URL)
-      .permitAll()
-      .loginProcessingUrl(LOGIN_PROCESSING_URL)
-      .failureUrl(LOGIN_FAILURE_URL)
-      .and()
-      .logout()
+      }).permitAll().anyRequest().authenticated().and().formLogin().loginPage(LOGIN_URL).permitAll()
+      .loginProcessingUrl(LOGIN_PROCESSING_URL).failureUrl(LOGIN_FAILURE_URL).and().logout()
       .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
   }
   
@@ -49,18 +34,16 @@ class SecurityConfiguration: WebSecurityConfigurerAdapter() {
   }
   
   override fun configure(web: WebSecurity) {
-    web.ignoring()
-      .antMatchers(
-        "/VAADIN/**",
-        "/favicon.ico",
-        "/robots.txt",
-        "/manifest.webmanifest",
-        "/sw.js",
-        "/offline.html",
-        "/icons/**",
-        "/images/**",
-        "/styles/**",
-        "/h2-console/**")
+    web.ignoring().antMatchers("/VAADIN/**",
+                               "/favicon.ico",
+                               "/robots.txt",
+                               "/manifest.webmanifest",
+                               "/sw.js",
+                               "/offline.html",
+                               "/icons/**",
+                               "/images/**",
+                               "/styles/**",
+                               "/h2-console/**")
   }
   
   companion object {

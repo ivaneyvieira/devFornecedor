@@ -47,11 +47,10 @@ class TabNotaPendente(val viewModel: TabNotaPendenteViewModel):
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaEntrada>
     val listNotas = fornecedor.notas
-    val form =
-      SubWindowForm("DEV FORNECEDOR: ${fornecedor.vendno} ${fornecedor.fornecedor}") {
-        gridNota = createGridNotas(listNotas)
-        gridNota
-      }
+    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.vendno} ${fornecedor.fornecedor}") {
+      gridNota = createGridNotas(listNotas)
+      gridNota
+    }
     form.open()
   }
   
@@ -61,8 +60,7 @@ class TabNotaPendente(val viewModel: TabNotaPendenteViewModel):
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(MULTI)
-      setItems(listNotas)
-      //
+      setItems(listNotas) //
       notaEntradaLoja()
       notaEntradaNota()
       notaEntradaData()

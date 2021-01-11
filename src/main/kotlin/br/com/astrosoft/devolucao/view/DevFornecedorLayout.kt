@@ -47,8 +47,7 @@ class DevFornecedorLayout: AppLayout() {
       h3(AppConfig.title)
       horizontalLayout {
         isExpand = true
-      }
-      //anchor("logout", "Sair")
+      } //anchor("logout", "Sair")
       button("Sair") {
         onLeftClick {
           SecurityContextHolder.clearContext();

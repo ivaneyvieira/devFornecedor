@@ -72,9 +72,7 @@ object SystemUtils {
       val baseName = c.name
       val index = baseName.lastIndexOf('.')
       if(index != -1) {
-        nameRet =
-          baseName.substring(0, index)
-            .replace('.', '/') + "/" + nameRet
+        nameRet = baseName.substring(0, index).replace('.', '/') + "/" + nameRet
       }
     }
     else {
@@ -97,9 +95,7 @@ object SystemUtils {
   
   private fun hashString(type: String, input: String): String {
     val hexChar = "0123456789ABCDEF"
-    val bytes =
-      MessageDigest.getInstance(type)
-        .digest(input.toByteArray())
+    val bytes = MessageDigest.getInstance(type).digest(input.toByteArray())
     val result = StringBuilder(bytes.size * 2)
     
     bytes.forEach {

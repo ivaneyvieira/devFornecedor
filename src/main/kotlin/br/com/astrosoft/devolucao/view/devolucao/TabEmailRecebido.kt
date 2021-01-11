@@ -16,8 +16,8 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel):
-  TabPanelGrid<EmailDB>(EmailDB::class), ITabEmailRecebido {
+class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel): TabPanelGrid<EmailDB>(EmailDB::class),
+                                                                  ITabEmailRecebido {
   override fun HorizontalLayout.toolBarConfig() {}
   
   override fun Grid<EmailDB>.gridPanel() {

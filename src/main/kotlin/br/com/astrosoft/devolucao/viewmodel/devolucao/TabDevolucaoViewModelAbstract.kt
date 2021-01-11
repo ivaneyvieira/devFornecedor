@@ -46,9 +46,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
   
   fun updateFiltro() {
     val filtro: String = subView.filtro()
-    val resultList =
-      NotaSaida.findFornecedores()
-        .filtro(filtro)
+    val resultList = NotaSaida.findFornecedores().filtro(filtro)
     
     subView.updateGrid(resultList)
   }
@@ -73,13 +71,11 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
   }
   
   override fun listEmail(fornecedor: Fornecedor?): List<String> {
-    return fornecedor?.listEmail()
-      .orEmpty()
+    return fornecedor?.listEmail().orEmpty()
   }
   
   fun enviarEmail(notas: List<NotaSaida>) = viewModel.exec {
-    if(notas.isEmpty())
-      fail("Nenhuma nota selecionada")
+    if(notas.isEmpty()) fail("Nenhuma nota selecionada")
     subView.enviaEmail(notas)
   }
   
@@ -88,10 +84,8 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
     val filesReport = createReports(gmail, notas)
     val filesPlanilha = createPlanilha(gmail, notas)
     val filesAnexo = createAnexos(gmail, notas)
-    val enviadoComSucesso = mail.sendMail(gmail.email,
-                                          gmail.assunto,
-                                          gmail.msgHtml,
-                                          filesReport + filesPlanilha + filesAnexo)
+    val enviadoComSucesso =
+      mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
     if(enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach {nota ->
@@ -101,13 +95,11 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
     else fail("Erro ao enviar e-mail")
   }
   
-  private fun createAnexos(gmail: EmailGmail,
-                           notas: List<NotaSaida>): List<FileAttach> {
+  private fun createAnexos(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when(gmail.anexos) {
       "S"  -> {
         notas.flatMap {nota ->
-          nota.listFiles()
-            .map {nfile ->
+          nota.listFiles().map {nfile ->
               FileAttach(nfile.nome, nfile.file)
             }
         }
@@ -116,8 +108,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
     }
   }
   
-  private fun createPlanilha(gmail: EmailGmail,
-                             notas: List<NotaSaida>): List<FileAttach> {
+  private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when(gmail.planilha) {
       "S"  -> {
         notas.map {_ ->
@@ -129,8 +120,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
     }
   }
   
-  private fun createReports(gmail: EmailGmail,
-                            notas: List<NotaSaida>): List<FileAttach> {
+  private fun createReports(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     val relatoriosCompleto = when(gmail.relatorio) {
       "S"  -> {
         notas.map {_ ->

@@ -17,16 +17,11 @@ class LoginView: VerticalLayout(), BeforeEnterObserver {
   private val loginFormApp = LoginFormApp()
   
   override fun beforeEnter(beforeEnterEvent: BeforeEnterEvent) {
-    if(isError(beforeEnterEvent))
-      loginFormApp.isError = true
+    if(isError(beforeEnterEvent)) loginFormApp.isError = true
   }
   
   private fun isError(beforeEnterEvent: BeforeEnterEvent): Boolean {
-    return beforeEnterEvent.location
-      .queryParameters
-      .parameters
-      .getOrDefault("error", emptyList())
-      .isNotEmpty()
+    return beforeEnterEvent.location.queryParameters.parameters.getOrDefault("error", emptyList()).isNotEmpty()
   }
   
   init {
