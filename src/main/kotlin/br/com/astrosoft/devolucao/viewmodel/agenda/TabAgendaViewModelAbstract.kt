@@ -4,7 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.IViewModelUpdate
 
-abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel) : IViewModelUpdate {
+abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel): IViewModelUpdate {
   protected abstract val subView: ITabAgenda
   
   override fun updateView() = viewModel.exec {

@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.recebimento
 
-import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.recebimento.IRecebimentoView
 import br.com.astrosoft.devolucao.viewmodel.recebimento.RecebimentoViewModel

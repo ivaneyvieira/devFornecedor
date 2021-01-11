@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaSerie66
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaSerie66ViewModel
@@ -10,7 +9,7 @@ class TabNotaSerie66(viewModel: TabNotaSerie66ViewModel): TabDevolucaoAbstract(v
   override val label: String
     get() = "Notas série 66"
   
-  override fun isAuthorized(user : IUser): Boolean {
+  override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.nota66 == true
   }

@@ -31,7 +31,6 @@ import com.vaadin.flow.server.PWA
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
 import org.springframework.security.core.context.SecurityContextHolder
-import sun.java2d.marlin.MarlinProperties
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push

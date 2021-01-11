@@ -63,7 +63,7 @@ abstract class ViewLayout<VM: ViewModel<*>>: VerticalLayout(), IView, BeforeLeav
     this.setSizeFull()
   }
   
-  fun addTabSheat(viewModel: VM){
+  fun addTabSheat(viewModel: VM) {
     tabSheet {
       setSizeFull()
       val tabs = viewModel.tabsAuthorized()

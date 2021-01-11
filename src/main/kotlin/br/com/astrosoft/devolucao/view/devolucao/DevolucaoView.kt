@@ -1,14 +1,10 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevolucaoViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoView
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.ViewLayout
-import br.com.astrosoft.framework.view.tabPanel
-import com.github.mvysny.karibudsl.v10.tabSheet
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route

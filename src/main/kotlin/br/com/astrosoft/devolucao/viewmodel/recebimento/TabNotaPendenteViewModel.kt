@@ -4,7 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.FornecedorEntrada
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.IViewModelUpdate
 
-class TabNotaPendenteViewModel(val viewModel: RecebimentoViewModel) : IViewModelUpdate {
+class TabNotaPendenteViewModel(val viewModel: RecebimentoViewModel): IViewModelUpdate {
   private val subView
     get() = viewModel.view.tabNotaPendente
   

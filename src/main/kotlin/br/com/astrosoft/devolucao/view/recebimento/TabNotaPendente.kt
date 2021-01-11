@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.recebimento
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.FornecedorEntrada
 import br.com.astrosoft.devolucao.model.beans.NotaEntrada
 import br.com.astrosoft.devolucao.model.beans.UserSaci
@@ -29,7 +28,7 @@ class TabNotaPendente(val viewModel: TabNotaPendenteViewModel):
   override fun HorizontalLayout.toolBarConfig() {
   }
   
-  override fun isAuthorized(user : IUser): Boolean {
+  override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.notaPendente == true
   }

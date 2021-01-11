@@ -7,7 +7,7 @@ import br.com.astrosoft.framework.viewmodel.UserViewModel
 
 class UsuarioViewModel(view: IUsuarioView): UserViewModel<UserSaci, IUsuarioView>(view) {
   override fun listTab(): List<ITabView> = emptyList()
-
+  
   override fun findAllUser() = UserSaci.findAll()
   
   override fun findUser(login: String) = UserSaci.findUser(login)
