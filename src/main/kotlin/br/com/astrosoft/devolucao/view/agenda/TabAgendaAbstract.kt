@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.agenda
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaEmissao
@@ -24,15 +25,18 @@ import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.datePicker
+import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.binder.Binder
+import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): TabPanelGrid<Agenda>(Agenda::class),
                                                                              ITabAgenda {
@@ -57,6 +61,9 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
     agendaTransp()
     agendaNome()
     agendaPedido()
+  
+    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING), GridSortOrder(getColumnBy(Agenda::hora),
+                                                                                   ASCENDING)))
   }
   
   override fun updateComponent() {
