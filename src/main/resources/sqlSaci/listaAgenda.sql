@@ -3,20 +3,21 @@ CREATE TEMPORARY TABLE sqldados.T_INV2 /*T2*/
 SELECT inv2.storeno                                                                     AS loja,
        TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1 AS data,
        LEFT(inv2.c2, 8)                                                                 AS hora,
-       emp.sname                                                                        AS recebedor,
+       IFNULL(emp.no, 0)                                                                as empno,
+       IFNULL(emp.sname, '')                                                            AS recebedor,
        inv2.invno                                                                       AS invno,
        inv2.vendno                                                                      AS forn,
        IFNULL(vend.sname, 'NAO ENCONTRADO')                                             AS abrev,
        IF(inv2.nfname = 0, CAST(inv2.invno AS CHAR), inv2.nfname)                       AS nf,
-       inv.invno                                                                        AS ni,
-       NULL                                                                             AS entrada,
        inv2.issue_date                                                                  AS emissao,
        inv2.ordno                                                                       AS pedido,
        CAST(inv2.l2 AS CHAR)                                                            AS conh,
        inv2.carrno                                                                      AS transp,
        CAST(IFNULL(LEFT(carr.name, 10), 'NAO ENCONT') AS CHAR)                          AS nome,
        CAST(inv2.packages AS CHAR)                                                      AS volume,
-       inv2.grossamt                                                                    AS total
+       inv2.grossamt                                                                    AS total,
+       IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S', 'N')               AS agendado,
+       IF(emp.sname IS NULL, 'N', 'S')                                                  AS recebido
 FROM sqldados.inv2
   LEFT JOIN sqldados.vend
 	      ON (vend.no = inv2.vendno)
@@ -26,81 +27,14 @@ FROM sqldados.inv2
 	      ON (inv.vendno = inv2.vendno AND inv.nfname = inv2.nfname AND
 		  inv.ordno = inv2.ordno AND inv.grossamt = inv2.grossamt)
   LEFT JOIN sqldados.emp
-	      ON (emp.no = inv2.auxStr6)
-WHERE inv.invno IS NULL;
-
-DROP TABLE IF EXISTS sqldados.T_INVNEW;
-CREATE TEMPORARY TABLE sqldados.T_INVNEW
-SELECT DISTINCT invnew.storeno                                                     AS loja,
-		invnew.date                                                        AS data,
-		LEFT(invnew.auxStr1, 5)                                            AS hora,
-		''                                                                 AS recebedor,
-		0                                                                  AS invno,
-		invnew.vendno                                                      AS forn,
-		IFNULL(vend.sname, 'NAO ENCONTRADO')                               AS abrev,
-		IF(invnew.nfname = '0', CAST(invnew.invno AS CHAR), invnew.nfname) AS nf,
-		IFNULL(inv.invno, 0)                                               AS ni,
-		0                                                                  AS entrada,
-		0                                                                  AS emissao,
-		0                                                                  AS pedido,
-		invnew.auxStr4                                                     AS conh,
-		invnew.carrno                                                      AS transp,
-		IFNULL(carr.sname, 'NAO ENCONT')                                   AS nome,
-		invnew.auxStr5                                                     AS volume,
-		invnew.grossamt                                                    AS total
-FROM sqldados.invnew
-  LEFT JOIN sqldados.vend
-	      ON (vend.no = invnew.vendno)
-  LEFT JOIN sqldados.vend AS carr
-	      ON (carr.no = invnew.carrno)
-  LEFT JOIN sqldados.inv
-	      ON (inv.vendno = invnew.vendno AND inv.nfname = invnew.nfname /*AND inv.storeno = invnew.storeno AND inv.invse = invnew.invse*/)
-WHERE (invnew.date > 20171031)
-  AND inv.invno IS NULL;
-
-DROP TABLE IF EXISTS sqldados.T_INV_UNION;
-CREATE TEMPORARY TABLE sqldados.T_INV_UNION
-SELECT loja,
-       data,
-       hora,
-       recebedor,
-       invno,
-       forn,
-       abrev,
-       emissao,
-       nf,
-       volume,
-       total,
-       transp,
-       nome,
-       pedido,
-       ni,
-       entrada,
-       conh
-FROM sqldados.T_INV2
-UNION
-SELECT DISTINCT loja,
-		data,
-		hora,
-		recebedor,
-		invno,
-		forn,
-		abrev,
-		emissao,
-		nf,
-		volume,
-		total,
-		transp,
-		nome,
-		pedido,
-		ni,
-		entrada,
-		conh
-FROM sqldados.T_INVNEW;
+	      ON (emp.no = inv2.auxStr6 AND emp.no <> 0)
+WHERE inv.invno IS NULL
+  AND inv2.storeno > 0;
 
 SELECT loja,
        CAST(IF(data = 0, NULL, data * 1) AS DATE)   AS data,
        IFNULL(hora, '')                             AS hora,
+       CAST(empno as unsigned)                      as empno,
        IFNULL(recebedor, '')                        AS recebedor,
        IFNULL(CAST(invno AS CHAR), '')              AS invno,
        forn                                         AS fornecedor,
@@ -112,7 +46,8 @@ SELECT loja,
        transp                                       AS transp,
        nome                                         AS nome,
        pedido                                       AS pedido
-FROM sqldados.T_INV_UNION
+FROM sqldados.T_INV2
 WHERE loja <> 0
-HAVING IF(:agendado = 'S', data IS NOT NULL AND hora <> '', NOT (data IS NOT NULL AND hora <> ''))
+  AND agendado = :agendado
+  AND recebido = :recebido
 

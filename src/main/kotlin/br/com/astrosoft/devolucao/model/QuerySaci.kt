@@ -1,8 +1,10 @@
 package br.com.astrosoft.devolucao.model
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
+import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.EmailGmail
+import br.com.astrosoft.devolucao.model.beans.Funcionario
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaEntrada
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
@@ -12,6 +14,7 @@ import br.com.astrosoft.devolucao.model.beans.UltimasNotas
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 
 class QuerySaci: QueryDB(driver, url, username, password) {
@@ -230,11 +233,30 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   // Agenda
-  fun listaAgenda(agendado: Boolean): List<Agenda> {
+  fun listaAgenda(agendado: Boolean, recebido: Boolean): List<Agenda> {
     val sql = "/sqlSaci/listaAgenda.sql"
     return query(sql, Agenda::class) {
       addOptionalParameter("agendado", if(agendado) "S" else "N")
+      addOptionalParameter("recebido", if(recebido) "S" else "N")
     }
+  }
+  
+  fun updateAgenda(agendaUpdate: AgendaUpdate) {
+    val sql = "/sqlSaci/updateAgenda.sql"
+    val dataStr = agendaUpdate.data.format()
+    script(sql) {
+      addOptionalParameter("invno", agendaUpdate.invno)
+      addOptionalParameter("data", dataStr)
+      addOptionalParameter("hora", agendaUpdate.hora ?: "")
+      addOptionalParameter("recebedor", agendaUpdate.recebedor ?: "")
+    }
+  }
+  
+  fun listFuncionario(codigo: String): Funcionario? {
+    val sql = "/sqlSaci/listFuncionario.sql"
+    return query(sql, Funcionario::class) {
+      addOptionalParameter("codigo", codigo.toIntOrNull() ?: 0)
+    }.firstOrNull()
   }
   
   companion object {

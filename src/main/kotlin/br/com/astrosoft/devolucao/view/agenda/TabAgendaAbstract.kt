@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view.agenda
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
+import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaEmissao
@@ -17,9 +18,21 @@ import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaTr
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaVolume
 import br.com.astrosoft.devolucao.viewmodel.agenda.ITabAgenda
 import br.com.astrosoft.devolucao.viewmodel.agenda.TabAgendaViewModelAbstract
+import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnButton
+import com.github.mvysny.karibudsl.v10.bind
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.datePicker
+import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.data.binder.Binder
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): TabPanelGrid<Agenda>(Agenda::class),
                                                                              ITabAgenda {
@@ -27,6 +40,9 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
   }
   
   override fun Grid<Agenda>.gridPanel() {
+    addColumnButton(EDIT, "Agendamento", "Agd") {agenda ->
+      DlgAgendamento(viewModel).edtAgendamento(agenda)
+    }
     agendaLoja()
     agendaData()
     agendaHora()
@@ -45,5 +61,41 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
   
   override fun updateComponent() {
     viewModel.updateView()
+  }
+}
+
+class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract): VerticalLayout() {
+  private val binder = Binder(AgendaUpdate::class.java)
+  
+  init {
+    datePicker("Data Agendada") {
+      bind(binder).bind(AgendaUpdate::data)
+    }
+    textField("Horário") {
+      bind(binder).bind(AgendaUpdate::hora)
+    }
+    textField("Recebedor") {
+      bind(binder).bind(AgendaUpdate::recebedor)
+    }
+  }
+  
+  fun edtAgendamento(agenda: Agenda) {
+    val form = SubWindowForm("Nr. Ordem ${agenda.invno}  NF ${agenda.nf}", ::toolBar) {
+      binder.bean = agenda.agendaUpdate()
+      this
+    }
+    form.open()
+  }
+  
+  private fun toolBar(hasComponents: HasComponents, subWindowForm: SubWindowForm) {
+    hasComponents.apply {
+      this.button("Salvar") {
+        this.addThemeVariants(LUMO_PRIMARY)
+        onLeftClick {
+          viewModel.salvaAgendamento(binder.bean)
+          subWindowForm.close()
+        }
+      }
+    }
   }
 }

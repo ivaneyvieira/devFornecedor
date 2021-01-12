@@ -8,4 +8,6 @@ class TabAgendaViewModelNaoAgendada(viewModel: AgendaViewModel): TabAgendaViewMo
 interface ITabAgendaNaoAgendada: ITabAgenda {
   override val agendado: Boolean
     get() = false
+  override val recebido: Boolean
+    get() = false
 }
