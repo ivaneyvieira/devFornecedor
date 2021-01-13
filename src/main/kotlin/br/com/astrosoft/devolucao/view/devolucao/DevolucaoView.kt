@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevolucaoViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoView
@@ -20,7 +21,10 @@ class DevolucaoView: ViewLayout<DevolucaoViewModel>(), IDevolucaoView {
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaVendaViewModel)
   override val tabEmailRecebido = TabEmailRecebido(viewModel.tabEmailRecebido)
   
-  override fun isAccept(user: IUser) = true
+  override fun isAccept(user: IUser): Boolean {
+    val userSaci = user as? UserSaci ?: return false
+    return userSaci.menuDevolucao
+  }
   
   init {
     addTabSheat(viewModel)

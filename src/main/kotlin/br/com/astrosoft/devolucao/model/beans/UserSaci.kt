@@ -26,6 +26,10 @@ class UserSaci: IUser {
   var agendaAgendada by DelegateAuthorized(7)
   var agendaNaoAgendada by DelegateAuthorized(8)
   var agendaRecebida by DelegateAuthorized(9)
+  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido
+  val menuRecebimento = notaPendente
+  val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
+  
   override val admin
     get() = login == "ADM"
   

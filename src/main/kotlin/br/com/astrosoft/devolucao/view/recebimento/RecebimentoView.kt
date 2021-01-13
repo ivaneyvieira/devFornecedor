@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.recebimento
 
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.recebimento.IRecebimentoView
 import br.com.astrosoft.devolucao.viewmodel.recebimento.RecebimentoViewModel
@@ -16,7 +17,10 @@ class RecebimentoView: ViewLayout<RecebimentoViewModel>(), IRecebimentoView {
   override val viewModel = RecebimentoViewModel(this)
   override val tabNotaPendente = TabNotaPendente(viewModel.tabNotaPendenteViewModel)
   
-  override fun isAccept(user: IUser) = true
+  override fun isAccept(user: IUser) : Boolean {
+    val userSaci = user as? UserSaci ?: return false
+    return userSaci.menuRecebimento
+  }
   
   init {
     addTabSheat(viewModel)
