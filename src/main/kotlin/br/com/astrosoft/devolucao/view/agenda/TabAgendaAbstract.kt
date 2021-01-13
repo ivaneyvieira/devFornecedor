@@ -19,16 +19,19 @@ import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaTr
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaVolume
 import br.com.astrosoft.devolucao.viewmodel.agenda.ITabAgenda
 import br.com.astrosoft.devolucao.viewmodel.agenda.TabAgendaViewModelAbstract
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.datePicker
+import com.github.mvysny.karibudsl.v10.getAll
 import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
@@ -57,7 +60,11 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
     agendaEmissao()
     agendaNf()
     agendaVolume()
-    agendaTotal()
+    agendaTotal().let {col ->
+      val lista = this.dataProvider.getAll()
+      val total = lista.sumByDouble {it.total}.format()
+      col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
+    }
     agendaTransp()
     agendaNome()
     agendaPedido()
