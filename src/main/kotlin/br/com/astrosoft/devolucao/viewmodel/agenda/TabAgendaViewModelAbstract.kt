@@ -2,9 +2,12 @@ package br.com.astrosoft.devolucao.viewmodel.agenda
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.IViewModelUpdate
 import br.com.astrosoft.framework.viewmodel.fail
+import java.time.LocalDate
+import java.time.LocalTime
 
 abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel): IViewModelUpdate {
   protected abstract val subView: ITabAgenda
@@ -14,19 +17,24 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel): IView
     subView.updateGrid(listAgenda(subView.agendado, subView.recebido, filtro))
   }
   
-  private fun listAgenda(agendado: Boolean, recebido: Boolean, filtro: String) = Agenda.listaAgenda(agendado,
-                                                                                                    recebido, filtro)
+  private fun listAgenda(agendado: Boolean, recebido: Boolean, filtro: String) =
+    Agenda.listaAgenda(agendado, recebido, filtro)
   
   fun salvaAgendamento(bean: AgendaUpdate?) = viewModel.exec {
     bean ?: fail("Agendamento inválido")
-    bean.save()
+    val newbean =
+      if(bean.dataRecbedor == null && !bean.recebedor.isNullOrEmpty()) bean.copy(dataRecbedor = LocalDate.now(),
+                                                                                horaRecebedor = LocalTime.now()
+                                                                                  .format())
+      else bean
+    newbean.save()
     updateView()
   }
 }
 
 interface ITabAgenda: ITabView {
   fun updateGrid(itens: List<Agenda>)
-  fun filtro():String
+  fun filtro(): String
   val agendado: Boolean
   val recebido: Boolean
 }
