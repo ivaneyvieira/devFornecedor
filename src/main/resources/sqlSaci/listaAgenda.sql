@@ -3,8 +3,8 @@ CREATE TEMPORARY TABLE sqldados.T_INV2 /*T2*/
 SELECT inv2.storeno                                                                         AS loja,
        IF(inv2.c1 <> '',
 	  TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1,
-	  IF(vend.state = 'PI', DATE_ADD(inv2.date, INTERVAL 2 DAY) * 1,
-	     DATE_ADD(inv2.date, INTERVAL 1 MONTH)) * 1)                                    as data,
+	  IF(vend.state = 'PI', DATE_ADD(inv2.issue_date, INTERVAL 2 DAY) * 1,
+	     DATE_ADD(inv2.issue_date, INTERVAL 1 MONTH)) * 1)                              as data,
   /*TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1 AS data,*/
        LEFT(inv2.c2, 8)                                                                     AS hora,
        IFNULL(emp.no, 0)                                                                    as empno,

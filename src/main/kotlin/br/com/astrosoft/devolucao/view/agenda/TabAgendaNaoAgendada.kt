@@ -13,5 +13,5 @@ class TabAgendaNaoAgendada(viewModel: TabAgendaViewModelNaoAgendada): TabAgendaA
   }
   
   override val label: String
-    get() = "Não agendado"
+    get() = "Pré-entrada"
 }

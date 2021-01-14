@@ -82,7 +82,7 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
         checkBox("Nota Pendente") {
           binder.bind(this, UserSaci::notaPendente.name)
         }
-        checkBox("Não Agendada") {
+        checkBox("Pré-entrada") {
           binder.bind(this, UserSaci::agendaNaoAgendada.name)
         }
         checkBox("Agendada") {
