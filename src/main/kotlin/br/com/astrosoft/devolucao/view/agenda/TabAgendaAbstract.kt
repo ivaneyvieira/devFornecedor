@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.agenda
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaEmissao
@@ -65,28 +64,31 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
     }
     agendaLoja()
     agendaData()
+    
     agendaHora()
     agendaRecebedor()
     agendaOrd()
+    
+    agendaPedido()
     agendaFornecedor()
     agendaAbrev()
+    
     agendaEmissao()
     agendaNf()
-    agendaVolume()
-   agendaTotal().let {col ->
-     this.dataProvider.addDataProviderListener {
-       val lista = this.dataProvider.getAll()
-       val total = lista.sumByDouble {it.total}.format()
-       col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
-     }
-   }
     agendaTransp()
+    
     agendaNome()
-    agendaPedido()
-  
-    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING), GridSortOrder(getColumnBy(Agenda::hora),
-                                                                                   ASCENDING)))
-
+    agendaVolume()
+    agendaTotal().let {col ->
+      this.dataProvider.addDataProviderListener {
+        val lista = this.dataProvider.getAll()
+        val total = lista.sumByDouble {it.total}.format()
+        col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
+      }
+    }
+    
+    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
+                GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
   }
   
   override fun updateComponent() {
