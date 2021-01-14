@@ -19,6 +19,7 @@ class Agenda(val loja: Int, val data: LocalDate?, val hora: String, val empno: I
                                     horaRecebedor)
   
   companion object {
-    fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String) = saci.listaAgenda(agendado, recebido, filtro)
+    fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja: Int) =
+      saci.listaAgenda(agendado, recebido, filtro, loja)
   }
 }

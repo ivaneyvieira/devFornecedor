@@ -233,12 +233,13 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   // Agenda
-  fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String): List<Agenda> {
+  fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja : Int): List<Agenda> {
     val sql = "/sqlSaci/listaAgenda.sql"
     return query(sql, Agenda::class) {
       addOptionalParameter("agendado", if(agendado) "S" else "N")
       addOptionalParameter("recebido", if(recebido) "S" else "N")
       addOptionalParameter("filtro", filtro)
+      addOptionalParameter("loja", loja)
     }
   }
   

@@ -1,3 +1,5 @@
+DO @LOJA := :loja;
+
 DROP TABLE IF EXISTS sqldados.T_INV2;
 CREATE TEMPORARY TABLE sqldados.T_INV2 /*T2*/
 SELECT inv2.storeno                                                                         AS loja,
@@ -39,7 +41,8 @@ FROM sqldados.inv2
   LEFT JOIN sqldados.emp
 	      ON (emp.no = inv2.auxStr6 AND emp.no <> 0)
 WHERE inv.invno IS NULL
-  AND inv2.storeno > 0;
+  AND inv2.storeno > 0
+  AND (inv2.storeno = @LOJA OR @LOJA = 0);
 
 SELECT loja,
        CAST(IF(data = 0, NULL, data * 1) AS DATE)                 AS data,
