@@ -9,6 +9,6 @@ class Agenda(val loja: Int, val data: LocalDate?, val hora: String, val empno: I
   fun agendaUpdate() = AgendaUpdate(invno.toIntOrNull() ?: 0, data, hora, if(empno == 0) "" else empno.toString())
   
   companion object {
-    fun listaAgenda(agendado: Boolean, recebido: Boolean) = saci.listaAgenda(agendado, recebido)
+    fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String) = saci.listaAgenda(agendado, recebido, filtro)
   }
 }

@@ -1,23 +1,27 @@
 DROP TABLE IF EXISTS sqldados.T_INV2;
 CREATE TEMPORARY TABLE sqldados.T_INV2 /*T2*/
-SELECT inv2.storeno                                                                     AS loja,
-       TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1 AS data,
-       LEFT(inv2.c2, 8)                                                                 AS hora,
-       IFNULL(emp.no, 0)                                                                as empno,
-       IFNULL(emp.sname, '')                                                            AS recebedor,
-       inv2.invno                                                                       AS invno,
-       inv2.vendno                                                                      AS forn,
-       IFNULL(vend.sname, 'NAO ENCONTRADO')                                             AS abrev,
-       IF(inv2.nfname = 0, CAST(inv2.invno AS CHAR), inv2.nfname)                       AS nf,
-       inv2.issue_date                                                                  AS emissao,
-       inv2.ordno                                                                       AS pedido,
-       CAST(inv2.l2 AS CHAR)                                                            AS conh,
-       inv2.carrno                                                                      AS transp,
-       CAST(IFNULL(LEFT(carr.name, 10), 'NAO ENCONT') AS CHAR)                          AS nome,
-       CAST(inv2.packages AS CHAR)                                                      AS volume,
-       inv2.grossamt                                                                    AS total,
-       IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S', 'N')               AS agendado,
-       IF(emp.sname IS NULL, 'N', 'S')                                                  AS recebido
+SELECT inv2.storeno                                                       AS loja,
+       IF(inv2.c1 <> '',
+	  TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1,
+	  IF(vend.state = 'PI', DATE_ADD(inv2.date, INTERVAL 2 DAY) * 1,
+	     DATE_ADD(inv2.date, INTERVAL 1 MONTH)) * 1)                  as data,
+  /*TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1 AS data,*/
+       LEFT(inv2.c2, 8)                                                   AS hora,
+       IFNULL(emp.no, 0)                                                  as empno,
+       IFNULL(emp.sname, '')                                              AS recebedor,
+       inv2.invno                                                         AS invno,
+       inv2.vendno                                                        AS forn,
+       IFNULL(vend.sname, 'NAO ENCONTRADO')                               AS abrev,
+       IF(inv2.nfname = 0, CAST(inv2.invno AS CHAR), inv2.nfname)         AS nf,
+       inv2.issue_date                                                    AS emissao,
+       inv2.ordno                                                         AS pedido,
+       CAST(inv2.l2 AS CHAR)                                              AS conh,
+       inv2.carrno                                                        AS transp,
+       CAST(IFNULL(LEFT(carr.name, 10), 'NAO ENCONT') AS CHAR)            AS nome,
+       CAST(inv2.packages AS CHAR)                                        AS volume,
+       inv2.grossamt                                                      AS total,
+       IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S', 'N') AS agendado,
+       IF(emp.sname IS NULL, 'N', 'S')                                    AS recebido
 FROM sqldados.inv2
   LEFT JOIN sqldados.vend
 	      ON (vend.no = inv2.vendno)
@@ -50,4 +54,8 @@ FROM sqldados.T_INV2
 WHERE loja <> 0
   AND agendado = :agendado
   AND recebido = :recebido
-
+HAVING (:filtro = '' OR DATE_FORMAT(data, '%d') = :filtro OR DATE_FORMAT(data, '%m') = :filtro OR
+	DATE_FORMAT(data, '%Y') = :filtro OR recebedor LIKE CONCAT(:filtro, '%') OR
+	abreviacao LIKE CONCAT(:filtro, '%') OR nome LIKE CONCAT(:filtro, '%') OR
+	empno LIKE :filtro OR invno LIKE :filtro OR nf LIKE :filtro OR transp LIKE :filtro OR
+	pedido LIKE :filtro)
