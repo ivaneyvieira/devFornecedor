@@ -250,6 +250,8 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addOptionalParameter("data", dataStr)
       addOptionalParameter("hora", agendaUpdate.hora ?: "")
       addOptionalParameter("recebedor", agendaUpdate.recebedor ?: "")
+      addOptionalParameter("dataRecbedor", agendaUpdate.dataRecbedor.format())
+      addOptionalParameter("horaRecebedor", agendaUpdate.horaRecebedor ?: "")
     }
   }
   

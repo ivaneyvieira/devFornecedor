@@ -24,6 +24,11 @@ object AgendaViewColumns {
     this.setHeader("Recebedor")
   }
   
+  fun Grid<Agenda>.agendaDataHoraRecebedor() = addColumnString(Agenda::dataHoraRecebimento) {
+    this.setHeader("Data Hora Recebedor")
+    this.setSortProperty(Agenda::dataRecbedor.name, Agenda::horaRecebedor.name)
+  }
+  
   fun Grid<Agenda>.agendaOrd() = addColumnString(Agenda::invno) {
     this.setHeader("Ord")
   }

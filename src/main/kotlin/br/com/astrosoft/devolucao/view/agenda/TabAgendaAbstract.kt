@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
+import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaDataHoraRecebedor
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaEmissao
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaFornecedor
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaHora
@@ -67,6 +68,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
     
     agendaHora()
     agendaRecebedor()
+    agendaDataHoraRecebedor()
     agendaOrd()
     
     agendaPedido()
@@ -101,6 +103,8 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract): VerticalLayout(
   
   init {
     datePicker("Data Agendada") {
+      this.isClearButtonVisible = true
+      this.isAutoOpen = true
       bind(binder).bind(AgendaUpdate::data)
     }
     textField("Horário") {
