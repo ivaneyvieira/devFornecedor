@@ -10,10 +10,13 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel): IView
   protected abstract val subView: ITabAgenda
   
   override fun updateView() = viewModel.exec {
-    subView.updateGrid(listAgenda(subView.agendado, subView.recebido))
+    val filtro = subView.filtro()
+    subView.updateGrid(listAgenda(subView.agendado, subView.recebido, filtro))
   }
   
-  private fun listAgenda(agendado: Boolean, recebido: Boolean) = Agenda.listaAgenda(agendado, recebido)
+  private fun listAgenda(agendado: Boolean, recebido: Boolean, filtro: String) = Agenda.listaAgenda(agendado,
+                                                                                                    recebido, filtro)
+  
   fun salvaAgendamento(bean: AgendaUpdate?) = viewModel.exec {
     bean ?: fail("Agendamento inválido")
     bean.save()
@@ -23,7 +26,7 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel): IView
 
 interface ITabAgenda: ITabView {
   fun updateGrid(itens: List<Agenda>)
-  
+  fun filtro():String
   val agendado: Boolean
   val recebido: Boolean
 }

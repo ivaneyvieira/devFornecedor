@@ -38,13 +38,26 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
+import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): TabPanelGrid<Agenda>(Agenda::class),
                                                                              ITabAgenda {
+  private lateinit var edtFiltro: TextField
+  
   override fun HorizontalLayout.toolBarConfig() { //Falta definir o filtro
+    edtFiltro = textField("Filtro") {
+      width = "400px"
+      valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
   }
+  
+  override fun filtro() = edtFiltro.value ?: ""
   
   override fun Grid<Agenda>.gridPanel() {
     addColumnButton(EDIT, "Agendamento", "Agd") {agenda ->
@@ -60,17 +73,20 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract): Tab
     agendaEmissao()
     agendaNf()
     agendaVolume()
-    agendaTotal().let {col ->
-      val lista = this.dataProvider.getAll()
-      val total = lista.sumByDouble {it.total}.format()
-      col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
-    }
+   agendaTotal().let {col ->
+     this.dataProvider.addDataProviderListener {
+       val lista = this.dataProvider.getAll()
+       val total = lista.sumByDouble {it.total}.format()
+       col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
+     }
+   }
     agendaTransp()
     agendaNome()
     agendaPedido()
   
     sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING), GridSortOrder(getColumnBy(Agenda::hora),
                                                                                    ASCENDING)))
+
   }
   
   override fun updateComponent() {
