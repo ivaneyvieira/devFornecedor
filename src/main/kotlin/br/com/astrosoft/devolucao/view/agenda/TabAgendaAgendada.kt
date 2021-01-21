@@ -8,7 +8,7 @@ import br.com.astrosoft.framework.model.IUser
 class TabAgendaAgendada(viewModel: TabAgendaViewModelAgendada): TabAgendaAbstract(viewModel), ITabAgendaAgendada {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.agendaAgendada == true
+    return username?.permissoes?.agendaAgendada == true
   }
   
   override val label: String

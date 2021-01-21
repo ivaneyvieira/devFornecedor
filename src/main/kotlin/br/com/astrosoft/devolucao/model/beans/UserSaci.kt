@@ -16,26 +16,21 @@ class UserSaci: IUser {
   var impressora: String = ""
   
   //Outros campos
-  override var ativo by DelegateAuthorized(0)
-  var nota01 by DelegateAuthorized(1)
-  var nota66 by DelegateAuthorized(2)
-  var pedido by DelegateAuthorized(3)
-  var nota66Pago by DelegateAuthorized(4)
-  var emailRecebido by DelegateAuthorized(5)
-  var notaPendente by DelegateAuthorized(6)
-  var agendaAgendada by DelegateAuthorized(7)
-  var agendaNaoAgendada by DelegateAuthorized(8)
-  var agendaRecebida by DelegateAuthorized(9)
-  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido
-  val menuRecebimento = notaPendente
-  val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
-  
+  val permissoes
+    get() = Permissoes(this)
   override val admin
     get() = login == "ADM"
   
+  override var ativo: Boolean
+    get() = permissoes.ativo
+    set(value) {
+      permissoes.ativo = ativo
+    }
+  
+  
   companion object {
     fun findAll(): List<UserSaci> {
-      return saci.findAllUser().filter {it.ativo}
+      return saci.findAllUser().filter {it.permissoes.ativo}
     }
     
     fun updateUser(user: UserSaci) {
@@ -48,17 +43,34 @@ class UserSaci: IUser {
   }
 }
 
+class Permissoes(val user: UserSaci) {
+  var ativo by DelegateAuthorized(0)
+  var nota01 by DelegateAuthorized(1)
+  var nota66 by DelegateAuthorized(2)
+  var pedido by DelegateAuthorized(3)
+  var nota66Pago by DelegateAuthorized(4)
+  var emailRecebido by DelegateAuthorized(5)
+  var notaPendente by DelegateAuthorized(6)
+  var agendaAgendada by DelegateAuthorized(7)
+  var agendaNaoAgendada by DelegateAuthorized(8)
+  var agendaRecebida by DelegateAuthorized(9)
+  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido
+  val menuRecebimento = notaPendente
+  val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
+}
+
 class DelegateAuthorized(private val numBit: Int) {
   private val bit = 2.toDouble().pow(numBit).toInt()
   
-  operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
+  operator fun getValue(thisRef: Permissoes?, property: KProperty<*>): Boolean {
     thisRef ?: return false
-    return (thisRef.bitAcesso and bit) != 0 || thisRef.admin
+    return (thisRef.user.bitAcesso and bit) != 0 || thisRef.user.admin
   }
   
-  operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean) {
+  operator fun setValue(thisRef: Permissoes?, property: KProperty<*>, value: Boolean?) {
     thisRef ?: return
-    thisRef.bitAcesso = if(value) thisRef.bitAcesso or bit
-    else thisRef.bitAcesso and bit.inv()
+    value ?: return
+    thisRef.user.bitAcesso = if(value) thisRef.user.bitAcesso or bit
+    else thisRef.user.bitAcesso and bit.inv()
   }
 }

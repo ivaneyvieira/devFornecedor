@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
@@ -32,6 +33,7 @@ import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
+import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -101,6 +103,9 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     addColumnButton(FILE_TABLE, "Notas", "Notas") {fornecedor ->
       DlgNota(viewModel).showDialogNota(fornecedor, serie)
     }
+    addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) {fornecedor ->
+      viewModel.editRmkVend(fornecedor)
+    }
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") {fornecedor ->
       DlgFornecedor().showDialogRepresentante(fornecedor)
     }
@@ -108,6 +113,16 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
+  }
+  
+  override fun editRmkVend(fornecedor: Fornecedor, save: (Fornecedor) -> Unit) {
+    DlgEditRmkVend().editRmk(fornecedor, save)
+  }
+  
+  
+  private fun configIconEdt(icon: Icon, fornecedor: Fornecedor) {
+    if(fornecedor.obs.isNotBlank()) icon.color = "DarkGreen"
+    else icon.color = ""
   }
   
   override fun filtro() = edtFiltro.value ?: ""
@@ -140,6 +155,68 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
   
   override fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>) {
     DlgSelecionaEmail(viewModel).selecionaEmail(nota, emails)
+  }
+}
+
+class DlgEditRmkVend {
+  fun editRmk(fornecedor: Fornecedor, save: (Fornecedor) -> Unit) {
+    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.fornecedor}", toolBar = {window ->
+      button("Salva") {
+        icon = CHECK.create()
+        onLeftClick {
+          save(fornecedor)
+          window.close()
+        }
+      }
+    }) {
+      createFormEditRmk(fornecedor)
+    }
+    form.open()
+  }
+  
+  private fun createFormEditRmk(fornecedor: Fornecedor): Component {
+    return TextArea().apply {
+      this.style.set("overflow-y", "auto")
+      this.isExpand = true
+      this.focus()
+      this.value = fornecedor.obs
+      valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        val text = it.value
+        fornecedor.obs = text
+      }
+    }
+  }
+}
+
+class DlgEditRmk {
+  fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = {window ->
+      button("Salva") {
+        icon = CHECK.create()
+        onLeftClick {
+          save(nota)
+          window.close()
+        }
+      }
+    }) {
+      createFormEditRmk(nota)
+    }
+    form.open()
+  }
+  
+  private fun createFormEditRmk(nota: NotaSaida): Component {
+    return TextArea().apply {
+      this.style.set("overflow-y", "auto")
+      this.isExpand = true
+      this.focus()
+      this.value = nota.rmk
+      valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        val text = it.value
+        nota.rmk = text
+      }
+    }
   }
 }
 
@@ -246,37 +323,6 @@ class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
     }
     add(upload)
     return Pair(buffer, upload)
-  }
-}
-
-class DlgEditRmk {
-  fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = {window ->
-      button("Salva") {
-        icon = CHECK.create()
-        onLeftClick {
-          save(nota)
-          window.close()
-        }
-      }
-    }) {
-      createFormEditRmk(nota)
-    }
-    form.open()
-  }
-  
-  private fun createFormEditRmk(nota: NotaSaida): Component {
-    return TextArea().apply {
-      this.style.set("overflow-y", "auto")
-      this.isExpand = true
-      this.focus()
-      this.value = nota.rmk
-      valueChangeMode = TIMEOUT
-      addValueChangeListener {
-        val text = it.value
-        nota.rmk = text
-      }
-    }
   }
 }
 

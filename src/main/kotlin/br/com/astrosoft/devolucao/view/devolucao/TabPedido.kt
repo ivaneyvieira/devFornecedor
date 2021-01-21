@@ -11,6 +11,6 @@ class TabPedido(viewModel: TabPedidoViewModel): TabDevolucaoAbstract(viewModel),
   
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.pedido == true
+    return username?.permissoes?.pedido == true
   }
 }
