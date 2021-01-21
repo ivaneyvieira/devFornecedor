@@ -100,8 +100,8 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
       "S"  -> {
         notas.flatMap {nota ->
           nota.listFiles().map {nfile ->
-              FileAttach(nfile.nome, nfile.file)
-            }
+            FileAttach(nfile.nome, nfile.file)
+          }
         }
       }
       else -> emptyList()
@@ -147,6 +147,12 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
     val emails = nota.listEmailNota()
     subView.selecionaEmail(nota, emails)
   }
+  
+  fun editRmkVend(fornecedor: Fornecedor) {
+    subView.editRmkVend(fornecedor) {forn ->
+      forn.saveRmkVend()
+    }
+  }
 }
 
 interface ITabNota: ITabView {
@@ -162,5 +168,6 @@ interface ITabNota: ITabView {
   fun setFiltro(txt: String)
   fun enviaEmail(notas: List<NotaSaida>)
   fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>)
+  fun editRmkVend(fornecedor: Fornecedor, save: (Fornecedor) -> Unit)
 }
 

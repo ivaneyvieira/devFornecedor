@@ -9,7 +9,7 @@ class TabAgendaNaoAgendada(viewModel: TabAgendaViewModelNaoAgendada): TabAgendaA
                                                                       ITabAgendaNaoAgendada {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.agendaNaoAgendada == true
+    return username?.permissoes?.agendaNaoAgendada == true
   }
   
   override val label: String

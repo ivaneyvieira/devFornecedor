@@ -65,31 +65,31 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           binder.bind(this, UserSaci::storeno.name)
         }
         checkBox("Pedido") {
-          binder.bind(this, UserSaci::pedido.name)
+          binder.bind(this, "permissoes.pedido")
         }
         checkBox("Nota série 66") {
-          binder.bind(this, UserSaci::nota66.name)
+          binder.bind(this, "permissoes.nota66")
         }
         checkBox("Nota série 1") {
-          binder.bind(this, UserSaci::nota01.name)
+          binder.bind(this, "permissoes.nota01")
         }
         checkBox("Nota série 66 pago") {
-          binder.bind(this, UserSaci::nota66Pago.name)
+          binder.bind(this, "permissoes.nota66Pago")
         }
         checkBox("Email Recebido") {
-          binder.bind(this, UserSaci::emailRecebido.name)
+          binder.bind(this, "permissoes.emailRecebido")
         }
         checkBox("Nota Pendente") {
-          binder.bind(this, UserSaci::notaPendente.name)
+          binder.bind(this, "permissoes.notaPendente")
         }
         checkBox("Pré-entrada") {
-          binder.bind(this, UserSaci::agendaNaoAgendada.name)
+          binder.bind(this, "permissoes.agendaNaoAgendada")
         }
         checkBox("Agendada") {
-          binder.bind(this, UserSaci::agendaAgendada.name)
+          binder.bind(this, "permissoes.agendaAgendada")
         }
         checkBox("Recebida") {
-          binder.bind(this, UserSaci::agendaRecebida.name)
+          binder.bind(this, "permissoes.agendaRecebida")
         }
       }
     }

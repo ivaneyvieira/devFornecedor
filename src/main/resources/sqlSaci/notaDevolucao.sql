@@ -103,15 +103,18 @@ SELECT N.storeno                                 AS loja,
        valorIpi                                  AS valorIpi,
        valorTotal                                AS valorTotal,
        N.obsPedido                               AS obsPedido,
-       N.nfse                                    AS tipo
-FROM TNF                       AS N
-  INNER JOIN sqldados.store    AS S
+       N.nfse                                    AS tipo,
+       IFNULL(RV.rmk, '')                        AS rmkVend
+FROM TNF                        AS N
+  INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk AS R
+  LEFT JOIN  sqldados.nfdevRmk  AS R
 	       USING (storeno, pdvno, xano)
-  LEFT JOIN  TDUP              AS D
+  LEFT JOIN  sqldados.nfvendRmk AS RV
+	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
+  LEFT JOIN  TDUP               AS D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-  LEFT JOIN  sqldados.eordrk   AS O
+  LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)

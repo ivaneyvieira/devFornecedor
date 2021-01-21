@@ -146,19 +146,22 @@ select E.storeno                          AS loja,
        IFNULL(N.valorIpi, 0.00)           AS valorIpi,
        IFNULL(N.valorTotal, 0.00)         AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, '')) AS obsPedido,
-       'PED'                              AS tipo
-from sqldados.eord          AS E
-  LEFT JOIN sqldados.eordrk AS OBS
+       'PED'                              AS tipo,
+       IFNULL(RV.rmk, '')                 AS rmkVend
+from sqldados.eord             AS E
+  LEFT JOIN sqldados.eordrk    AS OBS
 	      ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
-  LEFT JOIN sqldados.store  AS S
+  LEFT JOIN sqldados.store     AS S
 	      ON S.no = E.storeno
-  LEFT JOIN sqldados.custp  AS C
+  LEFT JOIN sqldados.custp     AS C
 	      ON C.no = E.custno AND
 		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
 			      709327, 108751)
-  LEFT JOIN sqldados.vend   AS V
+  LEFT JOIN sqldados.vend      AS V
 	      ON C.cpf_cgc = V.cgc
-  LEFT JOIN T_NOTA          AS N
+  LEFT JOIN sqldados.nfvendRmk AS RV
+	      ON RV.vendno = V.no AND RV.tipo = 'PED'
+  LEFT JOIN T_NOTA             AS N
 	      ON E.storeno = N.loja AND E.ordno = N.pedido
 WHERE E.paymno = 315
   AND N.loja is null
