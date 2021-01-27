@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.IUser
+import java.time.LocalDateTime
 import kotlin.math.pow
 import kotlin.reflect.KProperty
 
@@ -20,13 +21,11 @@ class UserSaci: IUser {
     get() = Permissoes(this)
   override val admin
     get() = login == "ADM"
-  
   override var ativo: Boolean
     get() = permissoes.ativo
     set(value) {
-      permissoes.ativo = ativo
+      permissoes.ativo = value
     }
-  
   
   companion object {
     fun findAll(): List<UserSaci> {
@@ -73,4 +72,8 @@ class DelegateAuthorized(private val numBit: Int) {
     thisRef.user.bitAcesso = if(value) thisRef.user.bitAcesso or bit
     else thisRef.user.bitAcesso and bit.inv()
   }
+}
+
+class Filme(val nome: String, val ano : Int, val duracao: Int){
+
 }

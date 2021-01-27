@@ -111,9 +111,9 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
   private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when(gmail.planilha) {
       "S"  -> {
-        notas.map {_ ->
-          val planilha = geraPlanilha(notas)
-          FileAttach("Planilha de Notas.xlsx", planilha)
+        notas.map {nota ->
+          val planilha = geraPlanilha(listOf(nota))
+          FileAttach("Planilha da Nota ${nota.nota.replace("/","_")}.xlsx", planilha)
         }
       }
       else -> emptyList()
@@ -123,18 +123,18 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
   private fun createReports(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     val relatoriosCompleto = when(gmail.relatorio) {
       "S"  -> {
-        notas.map {_ ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(notas, false)
-          FileAttach("Relatorio de notas.pdf", report)
+        notas.map {nota ->
+          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false)
+          FileAttach("Relatorio da nota ${nota.nota.replace("/","_")}.pdf", report)
         }
       }
       else -> emptyList()
     }
     val relatoriosResumido = when(gmail.relatorioResumido) {
       "S"  -> {
-        notas.map {_ ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(notas, true)
-          FileAttach("Relatorio de notas.pdf", report)
+        notas.map {nota ->
+          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true)
+          FileAttach("Relatorio da nota ${nota.nota.replace("/","_")}.pdf.pdf", report)
         }
       }
       else -> emptyList()
