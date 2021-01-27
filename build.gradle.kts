@@ -24,6 +24,7 @@ plugins {
 defaultTasks("clean", "vaadinBuildFrontend", "build")
 
 repositories {
+  mavenLocal()
   mavenCentral()
   jcenter() // for Gretty runners
   maven {
@@ -109,7 +110,10 @@ dependencies {
 }
 
 vaadin {
-    
+  if (gradle.startParameter.taskNames.contains("stage")) {
+    productionMode = true
+  }
+  pnpmEnable = false
 }
 
 dependencyManagement {
