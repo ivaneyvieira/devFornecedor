@@ -12,10 +12,15 @@ class DevolucaoViewModel(view: IDevolucaoView): ViewModel<IDevolucaoView>(view) 
   val tabNota66Pago = TabNotaSerie66PagoViewModel(this)
   val tabNotaVendaViewModel = TabNotaSerie01ViewModel(this)
   val tabPedidoViewModel = TabPedidoViewModel(this)
+  val tabEntradaViewModel = TabEntradaViewModel(this)
   val tabEmailRecebido = TabEmailRecebidoViewModel(this)
   
-  override fun listTab() =
-    listOf(view.tabPedido, view.tabNotaSerie66, view.tabNotaSerie66Pago, view.tabNotaSerie01, view.tabEmailRecebido)
+  override fun listTab() = listOf(view.tabPedido,
+                                  view.tabNotaSerie66,
+                                  view.tabNotaSerie66Pago,
+                                  view.tabNotaSerie01,
+                                  view.tabEmailRecebido,
+                                  view.tabEntrada)
 }
 
 interface IDevolucaoView: IView {
@@ -23,6 +28,7 @@ interface IDevolucaoView: IView {
   val tabNotaSerie66Pago: ITabNotaSerie66Pago
   val tabNotaSerie01: ITabNotaSerie01
   val tabPedido: ITabPedido
+  val tabEntrada: ITabEntrada
   val tabEmailRecebido: ITabEmailRecebido
 }
 

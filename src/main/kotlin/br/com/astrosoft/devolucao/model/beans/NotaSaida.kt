@@ -63,7 +63,11 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
     fun updateNotasDevolucao(serie: String, pago66: String) {
       val user = AppConfig.user as? UserSaci
       val loja = if(user?.admin == true) 0 else user?.storeno ?: 0
-      val notas = if(serie == "PED") saci.pedidosDevolucao() else saci.notasDevolucao(serie)
+      val notas = when(serie) {
+        "PED" -> saci.pedidosDevolucao()
+        "ENT" -> saci.entradaDevolucao()
+        else  -> saci.notasDevolucao(serie)
+      }
       val grupos =
         notas.filter {it.loja == loja || loja == 0}.filter {pago66 == "" || it.serie66Pago == pago66}
           .groupBy {it.chaveFornecedor()}

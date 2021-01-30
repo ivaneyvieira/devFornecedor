@@ -79,6 +79,9 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
         checkBox("Email Recebido") {
           binder.bind(this, "permissoes.emailRecebido")
         }
+        checkBox("Retorno 66") {
+          binder.bind(this, "permissoes.entrada")
+        }
         checkBox("Nota Pendente") {
           binder.bind(this, "permissoes.notaPendente")
         }

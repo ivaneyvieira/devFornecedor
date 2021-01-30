@@ -55,4 +55,4 @@ FROM sqldados.inv               AS N
 	       ON N.vendno = V.vendno
 WHERE N.invse = '66'
   AND (N.bits & POW(2, 4) = 0)
-GROUP BY loja, pdv, transacao, dataNota, custno
+GROUP BY loja, pdv, transacao, dataNota, custno;
