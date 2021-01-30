@@ -6,7 +6,6 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.Representante
-import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
@@ -33,7 +32,6 @@ import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
-import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -110,7 +108,7 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
       DlgFornecedor().showDialogRepresentante(fornecedor)
     }
     fornecedorUltimaData()
-    fornecedorCodigo()
+    if(serie != "ENT") fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
   }
@@ -118,7 +116,6 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
   override fun editRmkVend(fornecedor: Fornecedor, save: (Fornecedor) -> Unit) {
     DlgEditRmkVend().editRmk(fornecedor, save)
   }
-  
   
   private fun configIconEdt(icon: Icon, fornecedor: Fornecedor) {
     if(fornecedor.obs.isNotBlank()) icon.color = "DarkGreen"

@@ -16,6 +16,7 @@ import com.vaadin.flow.router.Route
 class DevolucaoView: ViewLayout<DevolucaoViewModel>(), IDevolucaoView {
   override val viewModel: DevolucaoViewModel = DevolucaoViewModel(this)
   override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)
+  override val tabEntrada = TabEntrada(viewModel.tabEntradaViewModel)
   override val tabNotaSerie66 = TabNotaSerie66(viewModel.tabNotaDevolucaoViewModel)
   override val tabNotaSerie66Pago = TabNotaSerie66Pago(viewModel.tabNota66Pago)
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaVendaViewModel)

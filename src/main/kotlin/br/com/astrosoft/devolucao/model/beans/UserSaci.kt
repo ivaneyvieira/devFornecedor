@@ -53,7 +53,8 @@ class Permissoes(val user: UserSaci) {
   var agendaAgendada by DelegateAuthorized(7)
   var agendaNaoAgendada by DelegateAuthorized(8)
   var agendaRecebida by DelegateAuthorized(9)
-  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido
+  var entrada by DelegateAuthorized(10)
+  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada
   val menuRecebimento = notaPendente
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
 }
