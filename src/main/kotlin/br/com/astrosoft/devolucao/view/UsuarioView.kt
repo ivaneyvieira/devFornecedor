@@ -31,7 +31,7 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override fun columns() =
     listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
   
-  private fun Grid<UserSaci>.addColumnBool(caption: String, value: UserSaci.() -> Boolean) {
+  fun Grid<UserSaci>.addColumnBool(caption: String, value: UserSaci.() -> Boolean) {
     val column = this.addComponentColumn {bean ->
       if(bean.value()) CHECK_CIRCLE_O.create()
       else CIRCLE_THIN.create()
@@ -40,7 +40,7 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
     column.textAlign = ColumnTextAlign.CENTER
   }
   
-  override fun createGrid() = GridCrud<UserSaci>(UserSaci::class.java)
+  override fun createGrid() = GridCrud(UserSaci::class.java)
   
   override fun formCrud(operation: CrudOperation?, domainObject: UserSaci?, readOnly: Boolean,
                         binder: Binder<UserSaci>): Component {
