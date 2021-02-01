@@ -53,6 +53,8 @@ FROM sqldados.inv               AS N
 	       ON RV.vendno = N.vendno AND RV.tipo = N.invse
   INNER JOIN TVEND              AS V
 	       ON N.vendno = V.vendno
+  INNER JOIN sqldados.eord      AS O
+	       ON O.storeno = N.storeno AND O.ordno = N.ordno AND O.paymno = 316
 WHERE N.invse = '66'
   AND (N.bits & POW(2, 4) = 0)
-GROUP BY loja, pdv, transacao, dataNota, custno;
+GROUP BY loja, pdv, transacao, dataNota, custno

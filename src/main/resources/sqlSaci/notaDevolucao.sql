@@ -1,60 +1,122 @@
-DROP TEMPORARY TABLE IF EXISTS TVEND;
-CREATE TEMPORARY TABLE TVEND (
-  PRIMARY KEY (vendno)
-)
-select V.no   as vendno,
-       C.no   AS custno,
-       V.name AS fornecedorNome,
-       V.email
-from sqldados.vend         AS V
-  LEFT JOIN sqldados.custp AS C
-	      ON C.cpf_cgc = V.cgc
-WHERE V.name NOT LIKE 'ENGECOPI%'
-GROUP BY V.no;
+DO @SERIE := :serie;
 
-SELECT N.storeno                                    AS loja,
-       S.sname                                      AS sigla,
-       9999                                         AS pdv,
-       N.invno                                      AS transacao,
-       0                                            AS pedido,
-       cast(NULL AS DATE)                           AS dataPedido,
-       cast(CONCAT(N.nfname, '/', N.invse) AS CHAR) AS nota,
-       ''                                           AS fatura,
-       cast(N.issue_date AS DATE)                   AS dataNota,
-       V.custno                                     AS custno,
-       V.fornecedorNome                             AS fornecedor,
-       V.email                                      as email,
-       N.vendno                                     AS vendno,
-       IFNULL(R.rmk, '')                            AS rmk,
-       SUM(N.grossamt)                              AS valor,
-       IFNULL(N.remarks, '')                        AS obsNota,
-       'N'                                          AS serie01Rejeitada,
-       'N'                                          AS serie01Pago,
-       'N'                                          AS serie66Pago,
-       remarks                                      AS remarks,
-       0                                            AS baseIcms,
-       0                                            AS valorIcms,
-       0                                            AS baseIcmsSubst,
-       0                                            AS icmsSubst,
-       0                                            AS valorFrete,
-       0                                            AS valorSeguro,
-       0                                            AS outrasDespesas,
-       0                                            AS valorIpi,
-       0                                            AS valorTotal,
-       ''                                           AS obsPedido,
-       'ENT'                                        AS tipo,
-       IFNULL(RV.rmk, '')                           AS rmkVend
-FROM sqldados.inv               AS N
+DROP TEMPORARY TABLE IF EXISTS TNF;
+CREATE TEMPORARY TABLE TNF (
+  PRIMARY KEY (storeno, nfno, nfse)
+)
+SELECT N.storeno,
+       N.pdvno,
+       N.xano,
+       N.nfno,
+       N.nfse,
+       V.no                                                              AS vendno,
+       N.issuedate,
+       N.eordno,
+       O.date                                                            AS pedidoDate,
+       C.no                                                              AS custno,
+       C.name                                                            AS fornecedorNome,
+       C.email                                                           AS email,
+       N.grossamt / 100                                                  AS valor,
+       CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
+       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS Serie01Rejeitada,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS Serie01Pago,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '66', 'S', 'N')         AS Serie66Pago,
+       TRIM(N.remarks)                                                   AS remarks,
+       N.netamt / 100                                                    AS baseIcms,
+       N.icms_amt / 100                                                  AS valorIcms,
+       N.baseIcmsSubst / 100                                             AS baseIcmsSubst,
+       N.icmsSubst / 100                                                 AS icmsSubst,
+       N.fre_amt / 100                                                   AS valorFrete,
+       N.sec_amt / 100                                                   AS valorSeguro,
+       N.discount / 100                                                  AS valorDesconto,
+       0.00                                                              AS outrasDespesas,
+       N.ipi_amt / 100                                                   AS valorIpi,
+       grossamt / 100                                                    AS valorTotal,
+       TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido
+FROM sqldados.nf              AS N
+  LEFT JOIN sqldados.nfdevRmk AS R
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.nfrmk    AS R2
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.eord     AS O
+	      ON O.storeno = N.storeno AND O.ordno = N.eordno
+  LEFT JOIN sqldados.eordrk   AS OBS
+	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
+  LEFT JOIN sqldados.custp    AS C
+	      ON C.no = N.custno AND
+		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+			      709327, 108751)
+  LEFT JOIN sqldados.vend     AS V
+	      ON C.cpf_cgc = V.cgc
+WHERE (N.nfse = @SERIE OR (@SERIE = '' AND (N.nfse IN ('1', '66'))))
+  AND N.storeno IN (2, 3, 4, 5)
+  AND N.status <> 1
+  AND N.tipo = 2
+GROUP BY N.storeno, N.nfno, N.nfse;
+
+DROP TEMPORARY TABLE IF EXISTS TDUP;
+CREATE TEMPORARY TABLE TDUP (
+  PRIMARY KEY (storeno, nfno, nfse)
+)
+SELECT N.nfstoreno                      AS storeno,
+       N.nfno,
+       N.nfse,
+       D.status,
+       CAST(N.dupno AS CHAR)            AS fatura,
+       MAX(duedate)                     AS vencimento,
+       SUM(amtdue - disc_amt - amtpaid) AS valorDevido
+FROM sqldados.dup           AS D
+  INNER JOIN sqldados.nfdup AS N
+	       ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
+		  N.dupse = D.dupse
+  INNER JOIN TNF               NF
+	       ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
+GROUP BY N.nfstoreno, N.nfno, N.nfse;
+
+SELECT N.storeno                                 AS loja,
+       S.sname                                   AS sigla,
+       N.pdvno                                   AS pdv,
+       N.xano                                    AS transacao,
+       N.eordno                                  AS pedido,
+       cast(N.pedidoDate AS DATE)                AS dataPedido,
+       cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
+       IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
+       cast(N.issuedate AS DATE)                 AS dataNota,
+       N.custno                                  AS custno,
+       N.fornecedorNome                          AS fornecedor,
+       N.email                                   as email,
+       N.vendno                                  AS vendno,
+       IFNULL(R.rmk, '')                         AS rmk,
+       SUM(N.valor)                              AS valor,
+       IFNULL(obsNota, '')                       AS obsNota,
+       Serie01Rejeitada                          AS serie01Rejeitada,
+       Serie01Pago                               AS serie01Pago,
+       Serie66Pago                               AS serie66Pago,
+       remarks                                   AS remarks,
+       baseIcms                                  AS baseIcms,
+       valorIcms                                 AS valorIcms,
+       baseIcmsSubst                             AS baseIcmsSubst,
+       icmsSubst                                 AS icmsSubst,
+       valorFrete                                AS valorFrete,
+       valorSeguro                               AS valorSeguro,
+       outrasDespesas                            AS outrasDespesas,
+       valorIpi                                  AS valorIpi,
+       valorTotal                                AS valorTotal,
+       N.obsPedido                               AS obsPedido,
+       N.nfse                                    AS tipo,
+       IFNULL(RV.rmk, '')                        AS rmkVend
+FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS R
-	       ON N.storeno = R.storeno AND R.pdvno = 9999 AND N.invno = R.xano
+	       USING (storeno, pdvno, xano)
   LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = N.vendno AND RV.tipo = N.invse
-  INNER JOIN TVEND              AS V
-	       ON N.vendno = V.vendno
-  INNER JOIN sqldados.eord      AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.ordno AND O.paymno = 316
-WHERE N.invse = '66'
-  AND (N.bits & POW(2, 4) = 0)
+	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
+  LEFT JOIN  TDUP               AS D
+	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+  LEFT JOIN  sqldados.eordrk    AS O
+	       ON O.storeno = N.storeno AND O.ordno = N.eordno
+WHERE (IFNULL(D.valorDevido, 100) > 0)
+  AND (IFNULL(status, 0) <> 5)
+  AND ((D.fatura IS NOT NULL OR Serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno
