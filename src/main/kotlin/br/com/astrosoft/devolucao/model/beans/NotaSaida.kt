@@ -17,8 +17,11 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
                 val valorSeguro: Double = 0.00, val valorDesconto: Double = 0.00, val outrasDespesas: Double = 0.00,
                 val valorIpi: Double = 0.00, val valorTotal: Double = 0.00, val obsPedido: String, val tipo: String,
                 val rmkVend: String) {
-  fun listaProdutos() = if(tipo == "PED") saci.produtosPedido(this)
-  else saci.produtosNotaSaida(this)
+  fun listaProdutos() = when(tipo) {
+    "PED" -> saci.produtosPedido(this)
+    "ENT" -> saci.produtosEntrada(this)
+    else  -> saci.produtosNotaSaida(this)
+  }
   
   val valorTotalProduto: Double
     get() = listaProdutos().sumByDouble {

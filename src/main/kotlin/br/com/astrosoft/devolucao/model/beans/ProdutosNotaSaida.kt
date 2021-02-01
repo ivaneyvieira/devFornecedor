@@ -9,7 +9,8 @@ class ProdutosNotaSaida(val loja: Int, val pdv: Int, val transacao: Int, val cod
                         val quantInv: Int, val notaInv: String, val dateInv: LocalDate?, val valorUnitInv: Double,
                         val valorTotalInv: Double, val ipi: Double, val vst: Double, val valorTotalIpi: Double) {
   var item: Int = 0
-  val dateInvDate get() = dateInv?.toDate()
+  val dateInvDate
+    get() = dateInv?.toDate()
   var nota: NotaSaida? = null
   fun ultimasNotas(): List<UltimasNotas> {
     val list = UltimasNotas.ultimasNotas(codigo, grade).sortedWith(compareBy({it.data}, {it.ni})).reversed()
