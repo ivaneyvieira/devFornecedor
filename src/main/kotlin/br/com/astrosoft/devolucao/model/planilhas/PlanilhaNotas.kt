@@ -16,26 +16,20 @@ import java.io.ByteArrayOutputStream
 class PlanilhaNotas {
   private val campos: List<Campo<*, ProdutosNotaSaida>> =
     listOf(
-      CampoInt("Loja") {loja},
-      CampoString("Nota") {nota?.nota ?: ""},
-      CampoString("Data") {nota?.dataNota.format()},
-      CampoString("Pedido") {nota?.pedido?.toString() ?: ""},
-      CampoString("Data") {nota?.dataPedido.format()},
-      CampoString("Código") {codigo},
-      CampoString("Ref. Fabricante") {refFor},
-      CampoString("Descrição") {descricao},
-      CampoString("Unidare") {un},
-      CampoString("Grade") {grade},
-      CampoInt("Quantidade") {qtde},
-      CampoString("Código de Barras") {barcode},
-      CampoNumber("R$ Unit") {valorUnitario},
-      CampoNumber("R$ Total") {valorTotal},
+      CampoString("Emissão") {nota?.dataNota.format()},
       CampoInt("NI") {invno},
-      CampoInt("Quant") {quantInv},
-      CampoString("Nota") {notaInv},
-      CampoString("Data") {dateInv.format()},
-      CampoNumber("R$ Unit") {valorUnitInv},
-      CampoNumber("R$ Total") {valorTotalInv},
+      CampoInt("Q NI") {quantInv},
+      
+      CampoInt("Q Dev") {qtde},
+      CampoString("Código") {codigo},
+      CampoString("Descrição") {descricao},
+      
+      CampoString("Grade") {grade},
+      CampoNumber("R$ Unit") {valorUnitario},
+      CampoNumber("R$ IPI") {ipi},
+      
+      CampoNumber("R$ ST") {vst},
+      CampoNumber("R$ Total") {valorTotalIpi},
           )
   
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
