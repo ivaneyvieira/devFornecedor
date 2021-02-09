@@ -1,3 +1,4 @@
+import Build_gradle.Defs.kotlin_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import Build_gradle.Defs.vaadin10_version
 import Build_gradle.Defs.vaadinonkotlin_version
