@@ -9,12 +9,12 @@ import java.time.LocalTime
 import javax.mail.internet.InternetAddress
 
 class EmailDB(val storeno: Int, val pdvno: Int, val xano: Int, val data: LocalDate, val hora: LocalTime,
-              val idEmail: Int, val messageID: String, val email: String, val assunto: String, val msg: () -> String,
-              val planilha: String, val relatorio: String, val anexos: String) {
+              val idEmail: Int, val messageID: String, val email: String, val assunto: String,
+              val msg: String, val planilha: String, val relatorio: String, val anexos: String) {
   fun notasEmail() = saci.listNotasEmailNota(idEmail)
   fun emailBean() = EmailGmail(email = email,
                                assunto = assunto,
-                               msg = {msg()},
+                               msg = {msg},
                                msgHtml = "",
                                planilha = planilha,
                                relatorio = relatorio,
@@ -52,7 +52,7 @@ class EmailDB(val storeno: Int, val pdvno: Int, val xano: Int, val data: LocalDa
                      messageID = msgRecebido.messageID,
                      email = from,
                      assunto = msgRecebido.subject,
-                     msg = {msgRecebido.content().messageTxt},
+                     msg = msgRecebido.content().messageTxt ,
                      planilha = "N",
                      relatorio = "N",
                      anexos = "N")
