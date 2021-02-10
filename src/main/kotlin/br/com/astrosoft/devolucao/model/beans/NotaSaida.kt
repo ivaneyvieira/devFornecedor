@@ -53,7 +53,7 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
               messageID = msg.messageID,
               email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
               assunto = msg.subject,
-              msg = {msg.content().messageTxt},
+              msg = msg.content().messageTxt ?: "",
               planilha = "N",
               relatorio = "N",
               anexos = "N")

@@ -196,13 +196,15 @@ class MailGMail {
 }
 
 private fun Message.contentBean(): Content {
-  var result = ""
-  if(this.isMimeType("text/plain")) {
-    result = this.content.toString()
-  }
-  else if(this.isMimeType("multipart/*")) {
-    val mimeMultipart = this.content as MimeMultipart
-    result = getTextFromMimeMultipart(mimeMultipart)
+  var result = when {
+    this.isMimeType("text/plain")  -> {
+      this.content.toString()
+    }
+    this.isMimeType("multipart/*") -> {
+      val mimeMultipart = this.content as MimeMultipart
+      getTextFromMimeMultipart(mimeMultipart)
+    }
+    else                           -> ""
   }
   return Content(result, emptyList())
 }
