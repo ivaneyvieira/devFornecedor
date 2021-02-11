@@ -32,8 +32,11 @@ SELECT N.storeno,
        0.00                                                              AS outrasDespesas,
        N.ipi_amt / 100                                                   AS valorIpi,
        grossamt / 100                                                    AS valorTotal,
-       TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido
+       TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido,
+       IFNULL(X.nfekey, '')                                              AS chave
 FROM sqldados.nf              AS N
+  LEFT JOIN sqldados.nfes     AS X
+	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.nfdevRmk AS R
 	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.nfrmk    AS R2
@@ -78,13 +81,13 @@ SELECT N.storeno                                 AS loja,
        N.pdvno                                   AS pdv,
        N.xano                                    AS transacao,
        N.eordno                                  AS pedido,
-       cast(N.pedidoDate AS DATE)                AS dataPedido,
-       cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
+       CAST(N.pedidoDate AS DATE)                AS dataPedido,
+       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
-       cast(N.issuedate AS DATE)                 AS dataNota,
+       CAST(N.issuedate AS DATE)                 AS dataNota,
        N.custno                                  AS custno,
        N.fornecedorNome                          AS fornecedor,
-       N.email                                   as email,
+       N.email                                   AS email,
        N.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk,
        SUM(N.valor)                              AS valor,
@@ -104,7 +107,8 @@ SELECT N.storeno                                 AS loja,
        valorTotal                                AS valorTotal,
        N.obsPedido                               AS obsPedido,
        N.nfse                                    AS tipo,
-       IFNULL(RV.rmk, '')                        AS rmkVend
+       IFNULL(RV.rmk, '')                        AS rmkVend,
+       chave                                     AS chave
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno

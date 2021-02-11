@@ -18,18 +18,16 @@ class PlanilhaNotas {
     listOf(
       CampoString("Emissão") {nota?.dataNota.format()},
       CampoInt("NI") {invno},
-      CampoInt("Q NI") {quantInv},
-      
-      CampoInt("Q Dev") {qtde},
+      CampoInt("Qnt NI") {quantInv},
+      CampoInt("Qnt Dev") {qtde},
       CampoString("Código") {codigo},
       CampoString("Descrição") {descricao},
-      
       CampoString("Grade") {grade},
       CampoNumber("R$ Unit") {valorUnitario},
       CampoNumber("R$ IPI") {ipi},
-      
       CampoNumber("R$ ST") {vst},
       CampoNumber("R$ Total") {valorTotalIpi},
+      CampoString("Chave") {nota?.chave?.substring(1, 6) ?: ""},
           )
   
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
@@ -46,9 +44,9 @@ class PlanilhaNotas {
         val headers = campos.map {it.header}
         row(headers, headerStyle)
         listaNotas.flatMap {it.listaProdutos()}.sortedBy {it.loja}.forEach {produto ->
-            val valores = campos.map {it.produceVakue(produto)}
-            row(valores, rowStyle)
-          }
+          val valores = campos.map {it.produceVakue(produto)}
+          row(valores, rowStyle)
+        }
       }
       
       campos.forEachIndexed {index, _ ->

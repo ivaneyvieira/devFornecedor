@@ -79,10 +79,10 @@ SELECT N.storeno                                 AS loja,
        N.pdvno                                   AS pdv,
        N.xano                                    AS transacao,
        N.eordno                                  AS pedido,
-       cast(N.pedidoDate AS DATE)                AS dataPedido,
-       cast(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
+       CAST(N.pedidoDate AS DATE)                AS dataPedido,
+       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
-       cast(N.issuedate AS DATE)                 AS dataNota,
+       CAST(N.issuedate AS DATE)                 AS dataNota,
        N.custno                                  AS custno,
        N.fornecedorNome                          AS fornecedor,
        N.vendno                                  AS vendno,
@@ -117,12 +117,12 @@ WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND ((D.fatura IS NOT NULL OR Serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno;
 
-select E.storeno                          AS loja,
+SELECT E.storeno                          AS loja,
        S.sname                            AS sigla,
        IFNULL(N.pdv, 0)                   AS pdv,
        IFNULL(N.transacao, 0)             AS transacao,
        E.ordno                            AS pedido,
-       CAST(E.date as DATE)               AS dataPedido,
+       CAST(E.date AS DATE)               AS dataPedido,
        IFNULL(N.nota, 0)                  AS nota,
        IFNULL(N.fatura, 0)                AS fatura,
        N.dataNota                         AS dataNota,
@@ -131,7 +131,7 @@ select E.storeno                          AS loja,
        IFNULL(C.email, '')                AS email,
        IFNULL(V.no, 0)                    AS vendno,
        IFNULL(N.rmk, '')                  AS rmk,
-       IFNULL(N.valor, E.amount / 100)    as valor,
+       IFNULL(N.valor, E.amount / 100)    AS valor,
        IFNULL(N.obsNota, '')              AS obsNota,
        IFNULL(N.serie01Rejeitada, '')     AS serie01Rejeitada,
        IFNULL(N.serie01Pago, '')          AS serie01Pago,
@@ -147,8 +147,9 @@ select E.storeno                          AS loja,
        IFNULL(N.valorTotal, 0.00)         AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, '')) AS obsPedido,
        'PED'                              AS tipo,
-       IFNULL(RV.rmk, '')                 AS rmkVend
-from sqldados.eord             AS E
+       IFNULL(RV.rmk, '')                 AS rmkVend,
+       ''                                 AS chave
+FROM sqldados.eord             AS E
   LEFT JOIN sqldados.eordrk    AS OBS
 	      ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
   LEFT JOIN sqldados.store     AS S
@@ -164,4 +165,4 @@ from sqldados.eord             AS E
   LEFT JOIN T_NOTA             AS N
 	      ON E.storeno = N.loja AND E.ordno = N.pedido
 WHERE E.paymno = 315
-  AND N.loja is null
+  AND N.loja IS NULL
