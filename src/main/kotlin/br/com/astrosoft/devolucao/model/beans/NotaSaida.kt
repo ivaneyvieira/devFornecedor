@@ -16,7 +16,7 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
                 val baseIcmsSubst: Double = 0.00, val icmsSubst: Double = 0.00, val valorFrete: Double = 0.00,
                 val valorSeguro: Double = 0.00, val valorDesconto: Double = 0.00, val outrasDespesas: Double = 0.00,
                 val valorIpi: Double = 0.00, val valorTotal: Double = 0.00, val obsPedido: String, val tipo: String,
-                val rmkVend: String) {
+                val rmkVend: String, val chave : String) {
   fun listaProdutos() = when(tipo) {
     "PED" -> saci.produtosPedido(this)
     "ENT" -> saci.produtosEntrada(this)

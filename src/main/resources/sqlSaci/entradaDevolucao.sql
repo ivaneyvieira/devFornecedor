@@ -2,11 +2,11 @@ DROP TEMPORARY TABLE IF EXISTS TVEND;
 CREATE TEMPORARY TABLE TVEND (
   PRIMARY KEY (vendno)
 )
-select V.no   as vendno,
+SELECT V.no   AS vendno,
        C.no   AS custno,
        V.name AS fornecedorNome,
        V.email
-from sqldados.vend         AS V
+FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
 WHERE V.name NOT LIKE 'ENGECOPI%'
@@ -17,13 +17,13 @@ SELECT N.storeno                                    AS loja,
        9999                                         AS pdv,
        N.invno                                      AS transacao,
        N.ordno                                      AS pedido,
-       cast(NULL AS DATE)                           AS dataPedido,
-       cast(CONCAT(N.nfname, '/', N.invse) AS CHAR) AS nota,
+       CAST(NULL AS DATE)                           AS dataPedido,
+       CAST(CONCAT(N.nfname, '/', N.invse) AS CHAR) AS nota,
        ''                                           AS fatura,
-       cast(N.issue_date AS DATE)                   AS dataNota,
+       CAST(N.issue_date AS DATE)                   AS dataNota,
        V.custno                                     AS custno,
        V.fornecedorNome                             AS fornecedor,
-       V.email                                      as email,
+       V.email                                      AS email,
        N.vendno                                     AS vendno,
        IFNULL(R.rmk, '')                            AS rmk,
        SUM(N.grossamt / 100)                        AS valor,
@@ -43,8 +43,11 @@ SELECT N.storeno                                    AS loja,
        0                                            AS valorTotal,
        ''                                           AS obsPedido,
        'ENT'                                        AS tipo,
-       IFNULL(RV.rmk, '')                           AS rmkVend
+       IFNULL(RV.rmk, '')                           AS rmkVend,
+       IFNULL(X.nfekey, '')                         AS chave
 FROM sqldados.inv               AS N
+  LEFT JOIN  sqldados.invnfe    AS X
+	       USING (invno)
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS R
