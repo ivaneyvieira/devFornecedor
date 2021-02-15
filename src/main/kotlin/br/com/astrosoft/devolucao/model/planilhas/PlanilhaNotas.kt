@@ -29,7 +29,7 @@ class PlanilhaNotas {
       CampoNumber("R$ ST") {vst},
       CampoNumber("R$ Total") {valorTotalIpi},
       CampoString("Chave") {
-        val text = nota?.chave ?: ""
+        val text = chaveUlt ?: ""
         text.substring(0, 6.coerceAtMost(text.length))
       },
           )
