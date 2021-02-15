@@ -48,7 +48,7 @@ FROM sqldados.inv          AS I
   INNER JOIN T_PRD
 	       USING (prdno, grade)
 WHERE I.bits & POW(2, 4) = 0
-  AND I.auxShort13 & pow(2, 15) = 0
+  AND I.auxShort13 & POW(2, 15) = 0
   AND I.cfo NOT IN (1910, 2910, 1916, 2916, 1949, 2949)
   AND I.type = 0
 GROUP BY prdno, grade;
@@ -60,12 +60,15 @@ CREATE TEMPORARY TABLE T_INV (
 SELECT prdno                                                        AS codigo,
        grade,
        invno,
-       CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) as notaInv,
-       CAST(I.issue_date AS DATE)                                   as dateInv,
-       P.fob / 100                                                  as valorUnitInv,
-       SUM(qtty / 1000)                                             AS quantInv
-FROM sqldados.iprd        AS P
-  inner join sqldados.inv AS I
+       CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) AS notaInv,
+       CAST(I.issue_date AS DATE)                                   AS dateInv,
+       P.fob / 100                                                  AS valorUnitInv,
+       SUM(qtty / 1000)                                             AS quantInv,
+       IFNULL(X.nfekey, '')                                         AS chaveUlt
+FROM sqldados.iprd           AS P
+  INNER JOIN sqldados.inv    AS I
+	       USING (invno)
+  LEFT JOIN  sqldados.invnfe AS X
 	       USING (invno)
   INNER JOIN T_PRD_ULT
 	       USING (invno, prdno, grade)
@@ -81,19 +84,20 @@ SELECT loja,
        qtde,
        valorUnitario,
        valorTotal,
-       TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2)                           as ipi,
-       TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2)                            as vst,
+       TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2)                           AS ipi,
+       TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2)                            AS vst,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2) +
-       TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) as valorTotalIpi,
+       TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) AS valorTotalIpi,
        barcode,
        un,
        st,
-       IFNULL(invno, 0)                                                          as invno,
+       IFNULL(invno, 0)                                                          AS invno,
        ROUND(IFNULL(quantInv, 0.00))                                             AS quantInv,
        IFNULL(notaInv, '')                                                       AS notaInv,
        dateInv                                                                   AS dateInv,
        IFNULL(valorUnitInv, 0.00)                                                AS valorUnitInv,
-       IFNULL(valorUnitInv, 0.00) * qtde                                         as valorTotalInv
+       IFNULL(valorUnitInv, 0.00) * qtde                                         AS valorTotalInv,
+       chaveUlt                                                                  AS chaveUlt
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)

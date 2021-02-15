@@ -1,21 +1,21 @@
 DROP TEMPORARY TABLE IF EXISTS T_PEDIDO;
 CREATE TEMPORARY TABLE T_PEDIDO
-SELECT X.storeno                              AS loja,
-       X.ordno                                AS pedido,
-       X.prdno                                AS codigo,
-       P.mfno_ref                             AS refFor,
-       TRIM(MID(P.name, 1, 37))               AS descricao,
-       X.grade                                AS grade,
-       ROUND(X.qtty / 1000)                   AS qtde,
-      /*
-       X.price / 100                          AS valorUnitario,
-       ROUND(X.qtty / 1000) * (X.price / 100) AS valorTotal,
-       */
-       I.ipi / 10000                          AS ipiAliq,
-       I.costdel3 / 10000                     AS stAliq,
-       IFNULL(B.barcode, P.barcode)           AS barcode,
-       TRIM(MID(P.name, 37, 3))               AS un,
-       P.taxno                                AS st
+SELECT X.storeno                    AS loja,
+       X.ordno                      AS pedido,
+       X.prdno                      AS codigo,
+       P.mfno_ref                   AS refFor,
+       TRIM(MID(P.name, 1, 37))     AS descricao,
+       X.grade                      AS grade,
+       ROUND(X.qtty / 1000)         AS qtde,
+  /*
+   X.price / 100                          AS valorUnitario,
+   ROUND(X.qtty / 1000) * (X.price / 100) AS valorTotal,
+   */
+       I.ipi / 10000                AS ipiAliq,
+       I.costdel3 / 10000           AS stAliq,
+       IFNULL(B.barcode, P.barcode) AS barcode,
+       TRIM(MID(P.name, 37, 3))     AS un,
+       P.taxno                      AS st
 FROM sqldados.eoprd          AS X
   LEFT JOIN  sqldados.prp    AS I
 	       ON I.storeno = 10 AND I.prdno = X.prdno
@@ -64,9 +64,12 @@ SELECT prdno                                                        AS codigo,
        CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) AS notaInv,
        CAST(I.issue_date AS DATE)                                   AS dateInv,
        P.fob / 100                                                  AS valorUnitInv,
-       SUM(qtty / 1000)                                             AS quantInv
-FROM sqldados.iprd        AS P
-  INNER JOIN sqldados.inv AS I
+       SUM(qtty / 1000)                                             AS quantInv,
+       IFNULL(X.nfekey, '')                                         AS chaveUlt
+FROM sqldados.iprd           AS P
+  INNER JOIN sqldados.inv    AS I
+	       USING (invno)
+  LEFT JOIN  sqldados.invnfe AS X
 	       USING (invno)
   INNER JOIN T_PRD_ULT
 	       USING (invno, prdno, grade)
@@ -93,7 +96,8 @@ SELECT loja,
        IFNULL(notaInv, '')                                        AS notaInv,
        dateInv                                                    AS dateInv,
        IFNULL(valorUnitInv, 0.00)                                 AS valorUnitInv,
-       IFNULL(valorUnitInv, 0.00) * qtde                          AS valorTotalInv
+       IFNULL(valorUnitInv, 0.00) * qtde                          AS valorTotalInv,
+       chaveUlt                                                   AS chaveUlt
 FROM T_PEDIDO
   LEFT JOIN T_INV
 	      USING (codigo, grade)
