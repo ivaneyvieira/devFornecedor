@@ -28,7 +28,10 @@ class PlanilhaNotas {
       CampoNumber("R$ IPI") {ipi},
       CampoNumber("R$ ST") {vst},
       CampoNumber("R$ Total") {valorTotalIpi},
-      CampoString("Chave") {nota?.chave?.substring(1, 6) ?: ""},
+      CampoString("Chave") {
+        val text = nota?.chave ?: ""
+        text.substring(0, 6.coerceAtMost(text.length))
+      },
           )
   
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
