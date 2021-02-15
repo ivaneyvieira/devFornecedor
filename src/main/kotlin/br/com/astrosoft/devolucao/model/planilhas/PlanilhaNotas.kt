@@ -23,6 +23,7 @@ class PlanilhaNotas {
       CampoString("Código") {codigo},
       CampoString("Descrição") {descricao},
       CampoString("Grade") {grade},
+      CampoString("Ref Forn") {refFor},
       CampoNumber("R$ Unit") {valorUnitario},
       CampoNumber("R$ IPI") {ipi},
       CampoNumber("R$ ST") {vst},
