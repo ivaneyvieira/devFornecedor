@@ -12,11 +12,11 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
                 val dataPedido: LocalDate, val nota: String, val fatura: String, val dataNota: LocalDate,
                 val custno: Int, val fornecedor: String, val email: String, val vendno: Int, var rmk: String,
                 val valor: Double, val obsNota: String, val serie01Rejeitada: String, val serie01Pago: String,
-                val serie66Pago: String, val remarks: String, val baseIcms: Double = 0.00, val valorIcms: Double = 0.00,
-                val baseIcmsSubst: Double = 0.00, val icmsSubst: Double = 0.00, val valorFrete: Double = 0.00,
-                val valorSeguro: Double = 0.00, val valorDesconto: Double = 0.00, val outrasDespesas: Double = 0.00,
-                val valorIpi: Double = 0.00, val valorTotal: Double = 0.00, val obsPedido: String, val tipo: String,
-                val rmkVend: String, val chave : String) {
+                val serie01Coleta: String, val serie66Pago: String, val remarks: String, val baseIcms: Double = 0.00,
+                val valorIcms: Double = 0.00, val baseIcmsSubst: Double = 0.00, val icmsSubst: Double = 0.00,
+                val valorFrete: Double = 0.00, val valorSeguro: Double = 0.00, val valorDesconto: Double = 0.00,
+                val outrasDespesas: Double = 0.00, val valorIpi: Double = 0.00, val valorTotal: Double = 0.00,
+                val obsPedido: String, val tipo: String, val rmkVend: String, val chave: String) {
   fun listaProdutos() = when(tipo) {
     "PED" -> saci.produtosPedido(this)
     "ENT" -> saci.produtosEntrada(this)
@@ -53,7 +53,7 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
               messageID = msg.messageID,
               email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
               assunto = msg.subject,
-              msg = msg.content().messageTxt ?: "",
+              msg = msg.content().messageTxt,
               planilha = "N",
               relatorio = "N",
               anexos = "N")
@@ -63,7 +63,7 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
     
-    fun updateNotasDevolucao(serie: String, pago66: String) {
+    fun updateNotasDevolucao(serie: String, pago66: String, coleta66: String) {
       val user = AppConfig.user as? UserSaci
       val loja = if(user?.admin == true) 0 else user?.storeno ?: 0
       val notas = when(serie) {
@@ -73,7 +73,7 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
       }
       val grupos =
         notas.filter {it.loja == loja || loja == 0}.filter {pago66 == "" || it.serie66Pago == pago66}
-          .groupBy {it.chaveFornecedor()}
+          .filter {coleta66 == "" || it.serie01Coleta == coleta66}.groupBy {it.chaveFornecedor()}
       fornecedores.clear()
       fornecedores.addAll(grupos.map {entry ->
         Fornecedor(entry.key.custno,

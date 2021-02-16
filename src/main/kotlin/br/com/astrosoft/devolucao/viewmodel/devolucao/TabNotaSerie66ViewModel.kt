@@ -10,4 +10,6 @@ interface ITabNotaSerie66: ITabNota {
     get() = "66"
   override val pago66: String
     get() = "N"
+  override val coleta01: String
+    get() = ""
 }

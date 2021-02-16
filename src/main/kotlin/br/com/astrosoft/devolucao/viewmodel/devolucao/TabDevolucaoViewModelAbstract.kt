@@ -28,7 +28,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
   
   private fun listFornecedores(): List<Fornecedor> {
     subView.setFiltro("")
-    NotaSaida.updateNotasDevolucao(subView.serie, subView.pago66)
+    NotaSaida.updateNotasDevolucao(subView.serie, subView.pago66, subView.coleta01)
     return NotaSaida.findFornecedores()
   }
   
@@ -158,6 +158,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
 interface ITabNota: ITabView {
   val serie: String
   val pago66: String
+  val coleta01: String
   
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
