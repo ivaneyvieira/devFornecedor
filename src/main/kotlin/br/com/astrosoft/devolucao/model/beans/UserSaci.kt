@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.IUser
-import java.time.LocalDateTime
 import kotlin.math.pow
 import kotlin.reflect.KProperty
 
@@ -54,7 +53,8 @@ class Permissoes(val user: UserSaci) {
   var agendaNaoAgendada by DelegateAuthorized(8)
   var agendaRecebida by DelegateAuthorized(9)
   var entrada by DelegateAuthorized(10)
-  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada
+  var nota01Coleta by DelegateAuthorized(11)
+  val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada || nota01Coleta
   val menuRecebimento = notaPendente
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
 }
@@ -75,6 +75,4 @@ class DelegateAuthorized(private val numBit: Int) {
   }
 }
 
-class Filme(val nome: String, val ano : Int, val duracao: Int){
-
-}
+class Filme(val nome: String, val ano: Int, val duracao: Int) {}

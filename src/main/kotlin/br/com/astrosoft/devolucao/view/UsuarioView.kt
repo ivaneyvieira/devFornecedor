@@ -73,6 +73,9 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
         checkBox("Nota série 1") {
           binder.bind(this, "permissoes.nota01")
         }
+        checkBox("Nota série 1 Coleta") {
+          binder.bind(this, "permissoes.nota01Coleta")
+        }
         checkBox("Nota série 66 pago") {
           binder.bind(this, "permissoes.nota66Pago")
         }

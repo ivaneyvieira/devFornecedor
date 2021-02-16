@@ -10,7 +10,8 @@ import br.com.astrosoft.framework.viewmodel.ViewModel
 class DevolucaoViewModel(view: IDevolucaoView): ViewModel<IDevolucaoView>(view) {
   val tabNotaDevolucaoViewModel = TabNotaSerie66ViewModel(this)
   val tabNota66Pago = TabNotaSerie66PagoViewModel(this)
-  val tabNotaVendaViewModel = TabNotaSerie01ViewModel(this)
+  val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
+  val tabNotaSerie01ColetaViewModel = TabNotaSerie01ColetaViewModel(this)
   val tabPedidoViewModel = TabPedidoViewModel(this)
   val tabEntradaViewModel = TabEntradaViewModel(this)
   val tabEmailRecebido = TabEmailRecebidoViewModel(this)
@@ -19,6 +20,7 @@ class DevolucaoViewModel(view: IDevolucaoView): ViewModel<IDevolucaoView>(view) 
                                   view.tabNotaSerie66,
                                   view.tabNotaSerie66Pago,
                                   view.tabNotaSerie01,
+                                  view.tabNotaSerie01Coleta,
                                   view.tabEmailRecebido,
                                   view.tabEntrada)
 }
@@ -27,6 +29,7 @@ interface IDevolucaoView: IView {
   val tabNotaSerie66: ITabNotaSerie66
   val tabNotaSerie66Pago: ITabNotaSerie66Pago
   val tabNotaSerie01: ITabNotaSerie01
+  val tabNotaSerie01Coleta: ITabNotaSerie01Coleta
   val tabPedido: ITabPedido
   val tabEntrada: ITabEntrada
   val tabEmailRecebido: ITabEmailRecebido

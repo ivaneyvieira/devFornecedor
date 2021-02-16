@@ -18,9 +18,10 @@ SELECT N.storeno,
        C.email                                                           AS email,
        N.grossamt / 100                                                  AS valor,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
-       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS Serie01Rejeitada,
-       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS Serie01Pago,
-       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '66', 'S', 'N')         AS Serie66Pago,
+       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
+       IF((N.remarks LIKE '%COLETA%') AND N.nfse = '1', 'S', 'N')        AS serie01Coleta,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '66', 'S', 'N')         AS serie66Pago,
        TRIM(N.remarks)                                                   AS remarks,
        N.netamt / 100                                                    AS baseIcms,
        N.icms_amt / 100                                                  AS valorIcms,
@@ -92,9 +93,10 @@ SELECT N.storeno                                 AS loja,
        IFNULL(R.rmk, '')                         AS rmk,
        SUM(N.valor)                              AS valor,
        IFNULL(obsNota, '')                       AS obsNota,
-       Serie01Rejeitada                          AS serie01Rejeitada,
-       Serie01Pago                               AS serie01Pago,
-       Serie66Pago                               AS serie66Pago,
+       serie01Rejeitada                          AS serie01Rejeitada,
+       serie01Pago                               AS serie01Pago,
+       serie01Coleta                             AS serie01Coleta,
+       serie66Pago                               AS serie66Pago,
        remarks                                   AS remarks,
        baseIcms                                  AS baseIcms,
        valorIcms                                 AS valorIcms,
@@ -122,5 +124,5 @@ FROM TNF                        AS N
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND (IFNULL(status, 0) <> 5)
-  AND ((D.fatura IS NOT NULL OR Serie01Pago = 'N') OR N.nfse = '66')
+  AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno
