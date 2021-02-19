@@ -11,5 +11,5 @@ interface ITabNotaSerie01: ITabNota {
   override val pago66: String
     get() = ""
   override val coleta01: String
-    get() = "N"
+    get() = ""
 }
