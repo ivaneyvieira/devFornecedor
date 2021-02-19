@@ -9,12 +9,12 @@ import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class DevolucaoViewModel(view: IDevolucaoView): ViewModel<IDevolucaoView>(view) {
   val tabNotaDevolucaoViewModel = TabNotaSerie66ViewModel(this)
-  val tabNota66Pago = TabNotaSerie66PagoViewModel(this)
+  val tabNota66PagoViewModel = TabNotaSerie66PagoViewModel(this)
   val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
   val tabNotaSerie01ColetaViewModel = TabNotaSerie01ColetaViewModel(this)
   val tabPedidoViewModel = TabPedidoViewModel(this)
   val tabEntradaViewModel = TabEntradaViewModel(this)
-  val tabEmailRecebido = TabEmailRecebidoViewModel(this)
+  val tabEmailRecebidoViewModel = TabEmailRecebidoViewModel(this)
   
   override fun listTab() = listOf(view.tabPedido,
                                   view.tabNotaSerie66,
