@@ -18,10 +18,10 @@ class DevolucaoView: ViewLayout<DevolucaoViewModel>(), IDevolucaoView {
   override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)
   override val tabEntrada = TabEntrada(viewModel.tabEntradaViewModel)
   override val tabNotaSerie66 = TabNotaSerie66(viewModel.tabNotaDevolucaoViewModel)
-  override val tabNotaSerie66Pago = TabNotaSerie66Pago(viewModel.tabNota66Pago)
+  override val tabNotaSerie66Pago = TabNotaSerie66Pago(viewModel.tabNota66PagoViewModel)
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaSerie01ViewModel)
   override val tabNotaSerie01Coleta = TabNotaSerie01Coleta(viewModel.tabNotaSerie01ColetaViewModel)
-  override val tabEmailRecebido = TabEmailRecebido(viewModel.tabEmailRecebido)
+  override val tabEmailRecebido = TabEmailRecebido(viewModel.tabEmailRecebidoViewModel)
   
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
