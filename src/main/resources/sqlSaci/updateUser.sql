@@ -5,5 +5,5 @@ SET auxLong1 = :loja
 WHERE no = @NO;
 
 INSERT  INTO sqldados.userApp(userno, appName, bitAcesso)
-VALUES(@NO, 'devFornecedor', :bitAcesso)
+VALUES(@NO, :appName, :bitAcesso)
 ON DUPLICATE KEY UPDATE bitAcesso = :bitAcesso

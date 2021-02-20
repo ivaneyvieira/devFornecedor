@@ -18,7 +18,7 @@ class AgendaView: ViewLayout<AgendaViewModel>(), IAgendaView {
   
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.permissoes.menuAgenda
+    return userSaci.menuAgenda
   }
   
   override val tabAgendaAgendada = TabAgendaAgendada(viewModel.tabAgendadaVMAgendada)

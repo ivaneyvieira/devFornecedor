@@ -7,6 +7,7 @@ import br.com.astrosoft.framework.view.ViewUtil
 
 object AppConfig {
   val version = ViewUtil.versao
+  const val appName = "devFornecedor"
   const val commpany = "Engecopi"
   const val title = "Devolução Fornecedor"
   const val shortName = "Devolução"
