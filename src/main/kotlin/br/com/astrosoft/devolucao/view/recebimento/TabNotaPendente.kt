@@ -30,7 +30,7 @@ class TabNotaPendente(val viewModel: TabNotaPendenteViewModel):
   
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.permissoes?.notaPendente == true
+    return username?.notaPendente == true
   }
   
   override fun Grid<FornecedorEntrada>.gridPanel() {

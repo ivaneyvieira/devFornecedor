@@ -32,7 +32,7 @@ class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel): TabPanelGrid<E
   
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.permissoes?.emailRecebido == true
+    return username?.emailRecebido == true
   }
   
   override val label: String

@@ -11,6 +11,6 @@ class TabNotaSerie01(viewModel: TabNotaSerie01ViewModel): TabDevolucaoAbstract(v
   
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.permissoes?.nota01 == true
+    return username?.nota01 == true
   }
 }

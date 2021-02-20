@@ -19,7 +19,7 @@ class RecebimentoView: ViewLayout<RecebimentoViewModel>(), IRecebimentoView {
   
   override fun isAccept(user: IUser) : Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.permissoes.menuRecebimento
+    return userSaci.menuRecebimento
   }
   
   init {

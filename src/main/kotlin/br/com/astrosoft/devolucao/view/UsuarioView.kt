@@ -65,37 +65,37 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           binder.bind(this, UserSaci::storeno.name)
         }
         checkBox("Pedido") {
-          binder.bind(this, "permissoes.pedido")
+          binder.bind(this, UserSaci::pedido.name)
         }
         checkBox("Nota série 66") {
-          binder.bind(this, "permissoes.nota66")
+          binder.bind(this, UserSaci::nota66.name)
         }
         checkBox("Nota série 1") {
-          binder.bind(this, "permissoes.nota01")
+          binder.bind(this, UserSaci::nota01.name)
         }
         checkBox("Nota série 1 Coleta") {
-          binder.bind(this, "permissoes.nota01Coleta")
+          binder.bind(this, UserSaci::nota01Coleta.name)
         }
         checkBox("Nota série 66 pago") {
-          binder.bind(this, "permissoes.nota66Pago")
+          binder.bind(this, UserSaci::nota66Pago.name)
         }
         checkBox("Email Recebido") {
-          binder.bind(this, "permissoes.emailRecebido")
+          binder.bind(this, UserSaci::emailRecebido.name)
         }
         checkBox("Retorno 66") {
-          binder.bind(this, "permissoes.entrada")
+          binder.bind(this, UserSaci::entrada.name)
         }
         checkBox("Nota Pendente") {
-          binder.bind(this, "permissoes.notaPendente")
+          binder.bind(this, UserSaci::notaPendente.name)
         }
         checkBox("Pré-entrada") {
-          binder.bind(this, "permissoes.agendaNaoAgendada")
+          binder.bind(this, UserSaci::agendaNaoAgendada.name)
         }
         checkBox("Agendada") {
-          binder.bind(this, "permissoes.agendaAgendada")
+          binder.bind(this, UserSaci::agendaAgendada.name)
         }
         checkBox("Recebida") {
-          binder.bind(this, "permissoes.agendaRecebida")
+          binder.bind(this, UserSaci::agendaRecebida.name)
         }
       }
     }

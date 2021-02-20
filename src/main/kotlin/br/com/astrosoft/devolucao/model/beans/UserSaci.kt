@@ -14,35 +14,7 @@ class UserSaci: IUser {
   var storeno: Int = 0
   var prntno: Int = 0
   var impressora: String = ""
-  
-  //Outros campos
-  val permissoes
-    get() = Permissoes(this)
-  override val admin
-    get() = login == "ADM"
-  override var ativo: Boolean
-    get() = permissoes.ativo
-    set(value) {
-      permissoes.ativo = value
-    }
-  
-  companion object {
-    fun findAll(): List<UserSaci> {
-      return saci.findAllUser().filter {it.permissoes.ativo}
-    }
-    
-    fun updateUser(user: UserSaci) {
-      saci.updateUser(user)
-    }
-    
-    fun findUser(login: String?): UserSaci? {
-      return saci.findUser(login)
-    }
-  }
-}
-
-class Permissoes(val user: UserSaci) {
-  var ativo by DelegateAuthorized(0)
+  override var ativo by DelegateAuthorized(0)
   var nota01 by DelegateAuthorized(1)
   var nota66 by DelegateAuthorized(2)
   var pedido by DelegateAuthorized(3)
@@ -57,22 +29,41 @@ class Permissoes(val user: UserSaci) {
   val menuDevolucao = nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada || nota01Coleta
   val menuRecebimento = notaPendente
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
+  override val admin
+    get() = login == "ADM"
+
+  
+  companion object {
+    fun findAll(): List<UserSaci> {
+      return saci.findAllUser().filter {it.ativo}
+    }
+    
+    fun updateUser(user: UserSaci) {
+      saci.updateUser(user)
+    }
+    
+    fun findUser(login: String?): UserSaci? {
+      return saci.findUser(login)
+    }
+  }
 }
 
-class DelegateAuthorized(private val numBit: Int) {
+class DelegateAuthorized(numBit: Int) {
   private val bit = 2.toDouble().pow(numBit).toInt()
   
-  operator fun getValue(thisRef: Permissoes?, property: KProperty<*>): Boolean {
+  operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
     thisRef ?: return false
-    return (thisRef.user.bitAcesso and bit) != 0 || thisRef.user.admin
+    return (thisRef.bitAcesso and bit) != 0 || thisRef.admin
   }
   
-  operator fun setValue(thisRef: Permissoes?, property: KProperty<*>, value: Boolean?) {
+  operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean?) {
     thisRef ?: return
-    value ?: return
-    thisRef.user.bitAcesso = if(value) thisRef.user.bitAcesso or bit
-    else thisRef.user.bitAcesso and bit.inv()
+    val v = value ?: false
+    thisRef.bitAcesso = when {
+      v    -> thisRef.bitAcesso or bit
+      else -> thisRef.bitAcesso and bit.inv()
+    }
   }
 }
 
-class Filme(val nome: String, val ano: Int, val duracao: Int) {}
+

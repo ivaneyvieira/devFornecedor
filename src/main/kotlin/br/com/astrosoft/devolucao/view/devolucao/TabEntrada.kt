@@ -11,6 +11,6 @@ class TabEntrada(viewModel: TabEntradaViewModel): TabDevolucaoAbstract(viewModel
   
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.permissoes?.entrada == true
+    return username?.entrada == true
   }
 }
