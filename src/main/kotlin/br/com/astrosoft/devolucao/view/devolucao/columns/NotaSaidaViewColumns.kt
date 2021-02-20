@@ -40,7 +40,7 @@ object NotaSaidaViewColumns {
     this.setHeader("Data")
   }
   
-  fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valor) {
+  fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valorNota) {
     this.setHeader("Valor")
   }
 }

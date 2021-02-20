@@ -23,6 +23,8 @@ class NotaSaida(val loja: Int, val sigla: String, val pdv: Int, val transacao: I
     else  -> saci.produtosNotaSaida(this)
   }
   
+  val valorNota
+    get() = if(tipo == "1") valor else listaProdutos().sumByDouble {it.valorTotalIpi}
   val valorTotalProduto: Double
     get() = listaProdutos().sumByDouble {
       it.valorTotal
