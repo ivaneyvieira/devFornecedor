@@ -9,10 +9,6 @@ import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.formlayout.FormLayout
-import com.vaadin.flow.component.grid.ColumnTextAlign
-import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.icon.VaadinIcon.CHECK_CIRCLE_O
-import com.vaadin.flow.component.icon.VaadinIcon.CIRCLE_THIN
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -30,15 +26,6 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   
   override fun columns() =
     listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
-  
-  fun Grid<UserSaci>.addColumnBool(caption: String, value: UserSaci.() -> Boolean) {
-    val column = this.addComponentColumn {bean ->
-      if(bean.value()) CHECK_CIRCLE_O.create()
-      else CIRCLE_THIN.create()
-    }
-    column.setHeader(caption)
-    column.textAlign = ColumnTextAlign.CENTER
-  }
   
   override fun createGrid() = GridCrud(UserSaci::class.java)
   
