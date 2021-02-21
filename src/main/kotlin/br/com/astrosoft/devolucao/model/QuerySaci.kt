@@ -7,6 +7,7 @@ import br.com.astrosoft.devolucao.model.beans.EmailDB
 import br.com.astrosoft.devolucao.model.beans.EmailGmail
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.Funcionario
+import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.NotaEntrada
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
@@ -35,6 +36,11 @@ class QuerySaci: QueryDB(driver, url, username, password) {
       addParameter("login", "TODOS")
       addParameter("appName", AppConfig.appName)
     }
+  }
+  
+  fun allLojas(): List<Loja> {
+    val sql = "/sqlSaci/listLojas.sql"
+    return query(sql, Loja::class)
   }
   
   fun updateUser(user: UserSaci) {

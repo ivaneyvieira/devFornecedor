@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel
 
+import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.IUsuarioView
@@ -23,5 +24,7 @@ class UsuarioViewModel(view: IUsuarioView): UserViewModel<UserSaci, IUsuarioView
   override fun deleteUser(user: UserSaci) {
     UserSaci.updateUser(user)
   }
+  
+  fun allLojas() = Loja.allLojas()
 }
 

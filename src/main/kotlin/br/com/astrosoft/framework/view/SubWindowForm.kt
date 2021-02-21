@@ -36,10 +36,10 @@ class SubWindowForm(labelTitle: String, val toolBar: HasComponents.(SubWindowFor
         isPadding = false
         setWidthFull()
         labelTitle.split("|").forEach {linha ->
-            h4(linha) {
-              isExpand = true
-            }
+          h4(linha) {
+            isExpand = true
           }
+        }
       }
       
       addAndExpand(blockForm())

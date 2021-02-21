@@ -19,12 +19,12 @@ class Ssh(private val host: String, val user: String, private val password: Stri
     config["StrictHostKeyChecking"] = "no"
     val jsch = JSch()
     jsch.getSession(user, host, port)?.let {session ->
-        session.setPassword(password)
-        session.setConfig(config)
-        session.connect()
-        exec(session)
-        session.disconnect()
-      }
+      session.setPassword(password)
+      session.setConfig(config)
+      session.connect()
+      exec(session)
+      session.disconnect()
+    }
   }
 }
 

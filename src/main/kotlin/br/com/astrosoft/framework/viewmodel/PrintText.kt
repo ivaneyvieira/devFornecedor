@@ -42,22 +42,22 @@ abstract class PrintText<T> {
   
   fun print(impressora: String, dados: List<T>) {
     dados.firstOrNull()?.let {bean ->
-        val text = StringBuilder()
-        inicialize(text)
-        printTitle(text, bean)
-        
-        printHeader(text)
-        dados.forEach {beanDetail ->
-          printDetail(text, beanDetail)
-        }
-        sumary(text)
-        finalize(text)
-        if(!DB.test) CupsUtils.printCups(impressora, text.toString())
-        else {
-          println(text.toString())
-          File("/tmp/relatorio.txt").writeText(text.toString())
-        }
+      val text = StringBuilder()
+      inicialize(text)
+      printTitle(text, bean)
+      
+      printHeader(text)
+      dados.forEach {beanDetail ->
+        printDetail(text, beanDetail)
       }
+      sumary(text)
+      finalize(text)
+      if(!DB.test) CupsUtils.printCups(impressora, text.toString())
+      else {
+        println(text.toString())
+        File("/tmp/relatorio.txt").writeText(text.toString())
+      }
+    }
   }
   
   private fun sumary(text: StringBuilder) {

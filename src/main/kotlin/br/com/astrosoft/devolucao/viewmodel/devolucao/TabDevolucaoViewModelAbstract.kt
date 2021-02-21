@@ -113,7 +113,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
       "S"  -> {
         notas.map {nota ->
           val planilha = geraPlanilha(listOf(nota))
-          FileAttach("Planilha da Nota ${nota.nota.replace("/","_")}.xlsx", planilha)
+          FileAttach("Planilha da Nota ${nota.nota.replace("/", "_")}.xlsx", planilha)
         }
       }
       else -> emptyList()
@@ -125,7 +125,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
       "S"  -> {
         notas.map {nota ->
           val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false)
-          FileAttach("Relatorio da nota ${nota.nota.replace("/","_")}.pdf", report)
+          FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf", report)
         }
       }
       else -> emptyList()
@@ -134,7 +134,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel):
       "S"  -> {
         notas.map {nota ->
           val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true)
-          FileAttach("Relatorio da nota ${nota.nota.replace("/","_")}.pdf.pdf", report)
+          FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf.pdf", report)
         }
       }
       else -> emptyList()

@@ -1,6 +1,5 @@
 package br.com.astrosoft.framework.view
 
-import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.IView
@@ -24,15 +23,12 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.charts.model.style.SolidColor
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.datepicker.DatePicker.DatePickerI18n
-import com.vaadin.flow.component.grid.ColumnTextAlign
 import com.vaadin.flow.component.grid.ColumnTextAlign.CENTER
 import com.vaadin.flow.component.grid.ColumnTextAlign.END
 import com.vaadin.flow.component.grid.ColumnTextAlign.START
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.component.icon.VaadinIcon.CHECK_CIRCLE_O
-import com.vaadin.flow.component.icon.VaadinIcon.CIRCLE_THIN
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.tabs.Tab
@@ -98,8 +94,8 @@ abstract class ViewLayout<VM: ViewModel<*>>: VerticalLayout(), IView, BeforeLeav
   
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
     ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton(Runnable {
-        execYes()
-      }, ButtonOption.caption("Sim")).withNoButton(Runnable {execNo()}, ButtonOption.caption("Não")).open()
+      execYes()
+    }, ButtonOption.caption("Sim")).withNoButton(Runnable {execNo()}, ButtonOption.caption("Não")).open()
   }
   
   override fun beforeLeave(event: BeforeLeaveEvent?) {

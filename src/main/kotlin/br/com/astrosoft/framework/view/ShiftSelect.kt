@@ -53,11 +53,11 @@ fun <T: Any> list(grade: Grid<T>): List<T> {
   val filter = dataProvider.filter
   val queryOrdem = comparator(grade)
   return dataProvider.items.toList().filter {
-      filter?.test(it) ?: true
-    }.let {list ->
-      if(queryOrdem == null) list
-      else list.sortedWith<T>(queryOrdem)
-    }
+    filter?.test(it) ?: true
+  }.let {list ->
+    if(queryOrdem == null) list
+    else list.sortedWith<T>(queryOrdem)
+  }
 }
 
 fun <T: Any> comparator(grade: Grid<T>): Comparator<T>? {
@@ -87,6 +87,6 @@ fun <T: Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>)
       }
     }
   }.reduce {acc, comparator ->
-      acc.thenComparing(comparator)
-    }
+    acc.thenComparing(comparator)
+  }
 }

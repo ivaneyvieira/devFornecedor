@@ -31,7 +31,6 @@ class UserSaci: IUser {
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
   override val admin
     get() = login == "ADM"
-
   
   companion object {
     fun findAll(): List<UserSaci> {
