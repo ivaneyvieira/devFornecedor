@@ -106,10 +106,10 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   
   private fun <T> transaction(block: (Connection) -> T): T {
     return sql2o.beginTransaction().use {con ->
-        val ret = block(con)
-        con.commit()
-        ret
-      }
+      val ret = block(con)
+      con.commit()
+      ret
+    }
   }
 }
 

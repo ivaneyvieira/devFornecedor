@@ -5,6 +5,9 @@ import br.com.astrosoft.devolucao.viewmodel.UsuarioViewModel
 import br.com.astrosoft.framework.view.UserLayout
 import br.com.astrosoft.framework.viewmodel.IUsuarioView
 import com.github.mvysny.karibudsl.v10.checkBox
+import com.github.mvysny.karibudsl.v10.comboBox
+import com.github.mvysny.karibudsl.v10.formLayout
+import com.github.mvysny.karibudsl.v10.h4
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Component
@@ -33,56 +36,96 @@ class UsuarioView: UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
                         binder: Binder<UserSaci>): Component {
     return FormLayout().apply {
       if(operation in listOf(READ, DELETE, UPDATE)) integerField("Número") {
-        isReadOnly = true
+        isReadOnly = readOnly
         binder.bind(this, UserSaci::no.name)
       }
-      if(operation in listOf(ADD, READ, DELETE, UPDATE)) textField("Login") {
+      if(operation in listOf(ADD, READ, DELETE, UPDATE)) comboBox<String>("Login") {
+        isReadOnly = readOnly
+        setItems(viewModel.listLogins().sorted())
+        isAllowCustomValue = false
         binder.bind(this, UserSaci::login.name)
       }
       if(operation in listOf(READ, DELETE, UPDATE)) textField("Nome") {
         isReadOnly = true
         binder.bind(this, UserSaci::name.name)
       }
-      if(operation in listOf(READ, DELETE, UPDATE)) textField("Impressora") {
-        isReadOnly = true
-        binder.bind(this, UserSaci::impressora.name)
-      }
       if(operation in listOf(ADD, READ, DELETE, UPDATE)) {
-        integerField("Número Loja") {
+        comboBox<Int>("Número Loja") {
+          isReadOnly = readOnly
+          isAllowCustomValue = false
+          val lojas = viewModel.allLojas()
+          val values = lojas.map {it.no} + listOf(0)
+          setItems(values.distinct().sorted())
+          this.setItemLabelGenerator {storeno ->
+            when(storeno) {
+              0    -> "Todas as lojas"
+              else -> lojas.firstOrNull {loja ->
+                loja.no == storeno
+              }?.descricao ?: ""
+            }
+          }
+          isAllowCustomValue = false
           binder.bind(this, UserSaci::storeno.name)
         }
-        checkBox("Pedido") {
-          binder.bind(this, UserSaci::pedido.name)
+        formLayout {
+          h4("Devolução") {
+            colspan = 2
+          }
+          
+          checkBox("Pedido") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedido.name)
+          }
+          checkBox("Nota série 66") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::nota66.name)
+          }
+          checkBox("Nota série 1") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::nota01.name)
+          }
+          checkBox("Nota série 1 Coleta") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::nota01Coleta.name)
+          }
+          checkBox("Nota série 66 pago") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::nota66Pago.name)
+          }
+          checkBox("Email Recebido") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::emailRecebido.name)
+          }
+          checkBox("Retorno 66") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entrada.name)
+          }
         }
-        checkBox("Nota série 66") {
-          binder.bind(this, UserSaci::nota66.name)
+        formLayout {
+          h4("Agenda") {
+            colspan = 2
+          }
+          checkBox("Pré-entrada") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::agendaNaoAgendada.name)
+          }
+          checkBox("Agendada") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::agendaAgendada.name)
+          }
+          checkBox("Recebida") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::agendaRecebida.name)
+          }
         }
-        checkBox("Nota série 1") {
-          binder.bind(this, UserSaci::nota01.name)
-        }
-        checkBox("Nota série 1 Coleta") {
-          binder.bind(this, UserSaci::nota01Coleta.name)
-        }
-        checkBox("Nota série 66 pago") {
-          binder.bind(this, UserSaci::nota66Pago.name)
-        }
-        checkBox("Email Recebido") {
-          binder.bind(this, UserSaci::emailRecebido.name)
-        }
-        checkBox("Retorno 66") {
-          binder.bind(this, UserSaci::entrada.name)
-        }
-        checkBox("Nota Pendente") {
-          binder.bind(this, UserSaci::notaPendente.name)
-        }
-        checkBox("Pré-entrada") {
-          binder.bind(this, UserSaci::agendaNaoAgendada.name)
-        }
-        checkBox("Agendada") {
-          binder.bind(this, UserSaci::agendaAgendada.name)
-        }
-        checkBox("Recebida") {
-          binder.bind(this, UserSaci::agendaRecebida.name)
+        formLayout {
+          h4("Recebimento") {
+            colspan = 2
+          }
+          checkBox("Nota Pendente") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaPendente.name)
+          }
         }
       }
     }

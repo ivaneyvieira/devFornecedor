@@ -1,11 +1,10 @@
-import Build_gradle.Defs.kotlin_version
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import Build_gradle.Defs.vaadin10_version
 import Build_gradle.Defs.vaadinonkotlin_version
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
   const val vaadinonkotlin_version = "1.0.4"
-  const val vaadin10_version = "14.4.4"
+  const val vaadin10_version = "14.4.7"
   const val kotlin_version = "1.4.21"
   const val spring_boot_version = "2.2.6.RELEASE"
   const val vaadin_plugin = "0.14.3.7"
@@ -111,9 +110,6 @@ dependencies {
 }
 
 vaadin {
-  if (gradle.startParameter.taskNames.contains("stage")) {
-    productionMode = true
-  }
   pnpmEnable = false
 }
 

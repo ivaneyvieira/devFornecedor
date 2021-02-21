@@ -17,7 +17,7 @@ class RecebimentoView: ViewLayout<RecebimentoViewModel>(), IRecebimentoView {
   override val viewModel = RecebimentoViewModel(this)
   override val tabNotaPendente = TabNotaPendente(viewModel.tabNotaPendenteViewModel)
   
-  override fun isAccept(user: IUser) : Boolean {
+  override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
     return userSaci.menuRecebimento
   }

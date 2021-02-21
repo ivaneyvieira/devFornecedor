@@ -41,8 +41,8 @@ class MailGMail {
   private val portaSmtp = "465" // do painel de controle do SMTP
   private val propsSmtp = initPropertiesSmtp()
   private val sessionSmtp: Session = Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
-      debug = false
-    }
+    debug = false
+  }
   
   fun sendMail(to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()): Boolean {
     try {
@@ -104,8 +104,8 @@ class MailGMail {
   private fun createMessage(toList: String, subject: String): MimeMessage {
     val toSplit = toList.split(",").toList().map {it.trim()}
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
-    val iaTo = arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1)
-    // iaReplyTo[0] = InternetAddress(to, to)
+    val iaTo =
+      arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
     toSplit.forEachIndexed {index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
@@ -142,12 +142,12 @@ class MailGMail {
           if(subjectSearch == "") it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
           else it.subject.contains(subjectSearch)
         }.mapNotNull {message ->
-            EmailMessage(messageID = (message as? IMAPMessage)?.messageID ?: "",
-                         subject = message.subject ?: "",
-                         data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-                         from = message.from.toList(),
-                         to = message.allRecipients.toList())
-          }
+          EmailMessage(messageID = (message as? IMAPMessage)?.messageID ?: "",
+                       subject = message.subject ?: "",
+                       data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+                       from = message.from.toList(),
+                       to = message.allRecipients.toList())
+        }
       }
     } catch(e: AuthenticationFailedException) {
       return emptyList()
@@ -183,8 +183,8 @@ class MailGMail {
           val id = (it as? IMAPMessage)?.messageID ?: ""
           id == messageID
         }.map {
-            it.contentBean()
-          }
+          it.contentBean()
+        }
       }
     } finally {
       if(folder != null && folder.isOpen) {

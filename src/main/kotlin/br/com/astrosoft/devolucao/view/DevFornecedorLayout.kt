@@ -50,7 +50,7 @@ class DevFornecedorLayout: AppLayout() {
       } //anchor("logout", "Sair")
       button("Sair") {
         onLeftClick {
-          SecurityContextHolder.clearContext();
+          SecurityContextHolder.clearContext()
           ui.ifPresent {
             it.session.close()
             it.navigate("")

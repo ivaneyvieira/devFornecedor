@@ -13,6 +13,10 @@ abstract class UserViewModel<B: IUser, V: IUsuarioView>(view: V): ViewModel<V>(v
     return findAllUser()
   }
   
+  fun listLogins() = findAll().map {
+    it.login
+  }
+  
   fun add(user: B?): B? {
     exec {
       user ?: fail("Usuário não selecionado")

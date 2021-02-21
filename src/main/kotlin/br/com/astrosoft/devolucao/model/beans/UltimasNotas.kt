@@ -10,8 +10,8 @@ class UltimasNotas(val ni: Int, val loja: Int, val nfNumero: String, val data: L
     
     fun updateList() {
       ultimasNota = saci.ultimasNotas().groupBy {
-          ProdutoGrade(it.codigo, it.grade)
-        }
+        ProdutoGrade(it.codigo, it.grade)
+      }
     }
     
     fun ultimasNotas(codigo: String, grade: String): List<UltimasNotas> {

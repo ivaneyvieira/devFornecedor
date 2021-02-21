@@ -7,8 +7,8 @@ class FornecedorEntrada(val vendno: Int, val fornecedor: String, val notas: List
   companion object {
     fun listFornecedores() =
       NotaEntrada.listNotasPendentes().groupBy {ChaveFornecedorEntrada(it.vendno, it.fornecedor)}.map {group ->
-          FornecedorEntrada(group.key.vendno, group.key.fornecedor, group.value)
-        }
+        FornecedorEntrada(group.key.vendno, group.key.fornecedor, group.value)
+      }
   }
 }
 
