@@ -81,7 +81,7 @@ object SystemUtils {
     return nameRet
   }
   
-  fun readFile(file: String): String? {
+  fun readFile(file: String): String {
     return readFile(file, Charset.defaultCharset())
   }
   

@@ -67,7 +67,7 @@ fun <T: Any> comparator(grade: Grid<T>): Comparator<T>? {
   return comparator(sortOrder, classGrid)
 }
 
-fun <T: Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>): Comparator<T>? {
+fun <T: Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>): Comparator<T> {
   return sortOrder.flatMap {gridSort ->
     val sortOrdem = gridSort.sorted.getSortOrder(gridSort.direction).toList()
     val propsBean = classGrid.members.toList().filterIsInstance<KProperty1<T, Comparable<*>>>()

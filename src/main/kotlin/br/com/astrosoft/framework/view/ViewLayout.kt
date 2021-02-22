@@ -93,9 +93,9 @@ abstract class ViewLayout<VM: ViewModel<*>>: VerticalLayout(), IView, BeforeLeav
   }
   
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
-    ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton(Runnable {
+    ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton({
       execYes()
-    }, ButtonOption.caption("Sim")).withNoButton(Runnable {execNo()}, ButtonOption.caption("Não")).open()
+    }, ButtonOption.caption("Sim")).withNoButton({execNo()}, ButtonOption.caption("Não")).open()
   }
   
   override fun beforeLeave(event: BeforeLeaveEvent?) {
@@ -137,7 +137,7 @@ abstract class ViewLayout<VM: ViewModel<*>>: VerticalLayout(), IView, BeforeLeav
 }
 
 fun (@VaadinDsl TabSheet).selectedChange(onEvent: (event: SelectedChangeEvent) -> Unit) {
-  addSelectedChangeListener(ComponentEventListener<SelectedChangeEvent> {event -> onEvent(event)})
+  addSelectedChangeListener {event -> onEvent(event)}
 }
 
 fun <T: Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon, tooltip: String? = null,

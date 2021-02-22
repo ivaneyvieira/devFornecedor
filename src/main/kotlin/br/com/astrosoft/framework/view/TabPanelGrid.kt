@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 import kotlin.reflect.KClass
 
-abstract class TabPanelGrid<T: Any>(val classGrid: KClass<T>): ITabPanel {
+abstract class TabPanelGrid<T: Any>(classGrid: KClass<T>): ITabPanel {
   private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
   private val gridPanel: Grid<T> = Grid(classGrid.java, false)
   protected abstract fun HorizontalLayout.toolBarConfig()
