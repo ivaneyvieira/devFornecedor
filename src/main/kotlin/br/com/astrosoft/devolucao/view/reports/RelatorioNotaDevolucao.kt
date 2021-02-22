@@ -16,6 +16,7 @@ import net.sf.dynamicreports.report.builder.DynamicReports.sbt
 import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.DynamicReports.type
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder
+import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
@@ -30,111 +31,112 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.*
 
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
-  val codigoCol = col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType()).apply {
+  val codigoCol: TextColumnBuilder<String> = col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(RIGHT) //this.setPattern("000000")
     this.setFixedWidth(40)
   }
-  val refForCol = col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
+  val refForCol: TextColumnBuilder<String> = col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(80)
   }
-  val descricaoCol = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
+  val descricaoCol: TextColumnBuilder<String> = col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(LEFT) //this.setFixedWidth(60 * 4)
   }
-  val gradeCol = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
+  val gradeCol: TextColumnBuilder<String> = col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(50)
   }
-  val stCol = col.column("ST", ProdutosNotaSaida::st.name, type.stringType()).apply {
+  val stCol: TextColumnBuilder<String> = col.column("ST", ProdutosNotaSaida::st.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(25)
   }
-  val qtdeCol = col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
+  val qtdeCol: TextColumnBuilder<Int> = col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("0")
     this.setFixedWidth(40)
   }
-  val itemCol = col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
+  val itemCol: TextColumnBuilder<Int> = col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setPattern("000")
     this.setFixedWidth(25)
   }
-  val valorUnitarioCol = col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType()).apply {
+  val valorUnitarioCol: TextColumnBuilder<Double> = col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("#,##0.00")
     this.setFixedWidth(50)
   }
-  val valorTotalCol = col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType()).apply {
+  val valorTotalCol: TextColumnBuilder<Double> = col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("#,##0.00")
     this.setFixedWidth(60)
   }
-  val valorTotalIpiCol = col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType()).apply {
+  val valorTotalIpiCol: TextColumnBuilder<Double> = col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("#,##0.00")
     this.setFixedWidth(60)
   }
-  val ipiCol = col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType()).apply {
+  val ipiCol: TextColumnBuilder<Double> = col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("#,##0.00")
     this.setFixedWidth(50)
   }
-  val vstCol = col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType()).apply {
+  val vstCol: TextColumnBuilder<Double> = col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("#,##0.00")
     this.setFixedWidth(50)
   }
-  val barcodeCol = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
+  val barcodeCol: TextColumnBuilder<String> = col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(80)
   }
-  val unCol = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
+  val unCol: TextColumnBuilder<String> = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(30)
   }
-  val niCol = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType()).apply {
+  val niCol: TextColumnBuilder<Int> = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(LEFT)
     this.setFixedWidth(50)
   }
-  val numeroNotaCol = col.column("Nota", ProdutosNotaSaida::numeroNota.name, type.stringType()).apply {
+  val numeroNotaCol: TextColumnBuilder<String> = col.column("Nota", ProdutosNotaSaida::numeroNota.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(LEFT)
     this.setFixedWidth(50)
   }
-  val dataNotaCol = col.column("Data", ProdutosNotaSaida::dataNota.name, type.stringType()).apply {
+  val dataNotaCol: TextColumnBuilder<String> = col.column("Data", ProdutosNotaSaida::dataNota.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(LEFT)
     this.setFixedWidth(50)
   }
-  val qttdNotaCol = col.column("Quant", ProdutosNotaSaida::qttdNota.name, type.integerType()).apply {
+  val qttdNotaCol: TextColumnBuilder<Int> = col.column("Quant", ProdutosNotaSaida::qttdNota.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(LEFT)
     this.setFixedWidth(50)
   }
-  val invnoCol = col.column("NI", ProdutosNotaSaida::invno.name, type.integerType()).apply {
+  val invnoCol: TextColumnBuilder<Int> = col.column("NI", ProdutosNotaSaida::invno.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("0")
     this.setFixedWidth(50)
   }
-  val quantInvCol = col.column("Quant NI", ProdutosNotaSaida::quantInv.name, type.integerType()).apply {
+  val quantInvCol: TextColumnBuilder<Int> = col.column("Quant NI", ProdutosNotaSaida::quantInv.name, type.integerType()).apply {
     this.setPattern("#,##0")
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(40)
   }
-  val notaInvCol = col.column("Nota", ProdutosNotaSaida::notaInv.name, type.stringType()).apply {
+  val notaInvCol: TextColumnBuilder<String> = col.column("Nota", ProdutosNotaSaida::notaInv.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(50)
   }
-  val dateInvCol = col.column("Data", ProdutosNotaSaida::dateInvDate.name, type.dateType()).apply {
+  val dateInvCol: TextColumnBuilder<Date> = col.column("Data", ProdutosNotaSaida::dateInvDate.name, type.dateType()).apply {
     this.setPattern("dd/MM/yyyy")
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(50)
   }
-  val valorUnitInvCol = col.column("R$ Unit", ProdutosNotaSaida::valorUnitInv.name, type.doubleType()).apply {
+  val valorUnitInvCol: TextColumnBuilder<Double> = col.column("R$ Unit", ProdutosNotaSaida::valorUnitInv.name, type.doubleType()).apply {
     this.setPattern("#,##0.00")
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(50)
   }
-  val valortotalInvCol = col.column("R$ Valor Total", ProdutosNotaSaida::valorTotalInv.name, type.doubleType()).apply {
+  val valortotalInvCol: TextColumnBuilder<Double> = col.column("R$ Valor Total", ProdutosNotaSaida::valorTotalInv.name, type.doubleType()).apply {
     this.setPattern("#,##0.00")
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(50)
@@ -242,7 +244,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
     }
   }
   
-  private fun titleBuider(): ComponentBuilder<*, *>? {
+  private fun titleBuider(): ComponentBuilder<*, *> {
     return when(notaSaida.tipo) {
       "PED" -> titleBuiderPedido()
       "66"  -> titleBuiderNota66()
@@ -250,7 +252,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
     }
   }
   
-  private fun sumaryBuild(): ComponentBuilder<*, *>? {
+  private fun sumaryBuild(): ComponentBuilder<*, *> {
     return verticalBlock {
       if(notaSaida.tipo == "1") {
         breakLine()
@@ -360,7 +362,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
-    var index: Int = 1
+    var index = 1
     val itens = notaSaida.listaProdutos().sortedBy {it.codigo.toIntOrNull() ?: 0}.map {
       it.apply {
         item = index++

@@ -16,15 +16,17 @@ class DB(banco: String) {
     private fun properties(): Properties? {
       val properties = Properties()
       val file = File(propertieFile)
-      
-      properties.load(FileReader(file))
-      return properties
+      return if(file.exists()) {
+        properties.load(FileReader(file))
+        properties
+      }
+      else null
     }
     
     private val prop = properties()
     val test = prop?.getProperty("test") == "true"
-    val gmailUser = prop?.getProperty("gmailUser")
-    val gmailPass = prop?.getProperty("gmailPass")
-    val gmailName = prop?.getProperty("gmailName")
+    val gmailUser: String = prop?.getProperty("gmailUser") ?: ""
+    val gmailPass: String = prop?.getProperty("gmailPass") ?: ""
+    val gmailName: String = prop?.getProperty("gmailName") ?: ""
   }
 }

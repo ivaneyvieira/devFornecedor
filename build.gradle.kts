@@ -36,7 +36,7 @@ gretty {
   contextPath = "/"
   servletContainer = "jetty9.4"
 }
-val staging by configurations.creating
+val staging: Configuration by configurations.creating
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"

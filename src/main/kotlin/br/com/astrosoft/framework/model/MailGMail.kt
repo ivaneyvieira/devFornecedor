@@ -32,12 +32,12 @@ import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 
 class MailGMail {
-  private val emailRemetente = DB.gmailUser ?: ""
-  private val nomeRemetente = DB.gmailName ?: ""
+  private val emailRemetente = DB.gmailUser
+  private val nomeRemetente = DB.gmailName
   private val protocolo = "smtp"
   private val servidorSmtp = "smtp.gmail.com" // do painel de controle do SMTP
   private val username = emailRemetente // do painel de controle do SMTP
-  private val senha = DB.gmailPass ?: "" // do painel de controle do SMTP
+  private val senha = DB.gmailPass  // do painel de controle do SMTP
   private val portaSmtp = "465" // do painel de controle do SMTP
   private val propsSmtp = initPropertiesSmtp()
   private val sessionSmtp: Session = Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
@@ -196,7 +196,7 @@ class MailGMail {
 }
 
 private fun Message.contentBean(): Content {
-  var result = when {
+  val result = when {
     this.isMimeType("text/plain")  -> {
       this.content.toString()
     }

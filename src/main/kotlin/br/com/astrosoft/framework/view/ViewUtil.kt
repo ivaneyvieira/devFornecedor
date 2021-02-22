@@ -7,7 +7,7 @@ class ViewUtil {
     val versao: String
       get() {
         val arquivo = "/versao.txt"
-        return SystemUtils.readFile(arquivo) ?: "1.0"
+        return SystemUtils.readFile(arquivo)
       }
   }
 }
