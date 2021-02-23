@@ -5,20 +5,20 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 object Defs {
   const val vaadinonkotlin_version = "1.0.4"
   const val vaadin10_version = "14.4.7"
-  const val kotlin_version = "1.4.21"
-  const val spring_boot_version = "2.2.6.RELEASE"
+  const val kotlin_version = "1.4.30"
+  const val spring_boot_version = "2.4.3"
   const val vaadin_plugin = "0.14.3.7"
   //const val gretty_plugin = "3.0.1"
 }
 
 plugins {
-  id("org.springframework.boot") version  "2.2.6.RELEASE"
-  id("io.spring.dependency-management") version "1.0.9.RELEASE"
-  kotlin("jvm") version "1.4.21"
-  id("org.gretty") version "3.0.3"
+  id("org.springframework.boot") version  "2.4.3"
+  id("io.spring.dependency-management") version "1.0.11.RELEASE"
+  kotlin("jvm") version "1.4.30"
+  //id("org.gretty") version "3.0.3"
   war
   id("com.vaadin") version "0.14.3.7"
-  kotlin("plugin.spring") version "1.4.21"
+  kotlin("plugin.spring") version "1.4.30"
 }
 
 defaultTasks("clean", "vaadinBuildFrontend", "build")
@@ -32,21 +32,29 @@ repositories {
   }
 }
 
+/*
 gretty {
   contextPath = "/"
   servletContainer = "jetty9.4"
 }
+
+ */
 val staging: Configuration by configurations.creating
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions {
+    freeCompilerArgs = listOf("-Xjsr305=strict")
+    jvmTarget = "1.8"
+  }
 }
 
 group = "devolucao"
 version = "1.0"
+java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
 
 dependencies {
   //Spring
+
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.session:spring-session-core")
   providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
@@ -107,6 +115,9 @@ dependencies {
   implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
   implementation("com.sun.mail:gimap:1.6.2")
+  
+  developmentOnly("org.springframework.boot:spring-boot-devtools")
+  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
 vaadin {
