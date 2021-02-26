@@ -24,7 +24,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
     private fun listFornecedores(): List<Fornecedor> {
         subView.setFiltro("")
-        NotaSaida.updateNotasDevolucao(subView.serie, subView.pago66, subView.coleta01)
+        NotaSaida.updateNotasDevolucao(subView.serie, subView.pago66, subView.coleta01, subView.remessaConserto)
         return NotaSaida.findFornecedores()
     }
 
@@ -134,7 +134,6 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
                     FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf", report)
                 }
             }
-
             else -> emptyList()
         }
         val relatoriosResumido = when (gmail.relatorioResumido) {
@@ -144,7 +143,6 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
                     FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf.pdf", report)
                 }
             }
-
             else -> emptyList()
         }
         return relatoriosCompleto + relatoriosResumido
