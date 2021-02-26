@@ -16,38 +16,39 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon.EDIT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel): TabPanelGrid<EmailDB>(EmailDB::class),
-                                                                  ITabEmailRecebido {
-  override fun HorizontalLayout.toolBarConfig() {}
-  
-  override fun Grid<EmailDB>.gridPanel() {
-    addColumnButton(EDIT, "Edita e-mail", "Edt") {emailEnviado ->
-      DLgEditEmail(viewModel).editEmail(emailEnviado)
+class TabEmailRecebido(val viewModel: TabEmailRecebidoViewModel) :
+        TabPanelGrid<EmailDB>(EmailDB::class),
+        ITabEmailRecebido {
+    override fun HorizontalLayout.toolBarConfig() {}
+
+    override fun Grid<EmailDB>.gridPanel() {
+        addColumnButton(EDIT, "Edita e-mail", "Edt") { emailEnviado ->
+            DLgEditEmail(viewModel).editEmail(emailEnviado)
+        }
+        emailData()
+        emailHora()
+        emailAssunto()
+        emailEmail()
     }
-    emailData()
-    emailHora()
-    emailAssunto()
-    emailEmail()
-  }
-  
-  override fun isAuthorized(user: IUser): Boolean {
-    val username = user as? UserSaci
-    return username?.emailRecebido == true
-  }
-  
-  override val label: String
-    get() = "E-mails Recebidos"
-  
-  override fun updateComponent() {
-    viewModel.updateView()
-  }
+
+    override fun isAuthorized(user: IUser): Boolean {
+        val username = user as? UserSaci
+        return username?.emailRecebido == true
+    }
+
+    override val label: String
+        get() = "E-mails Recebidos"
+
+    override fun updateComponent() {
+        viewModel.updateView()
+    }
 }
 
 class DLgEditEmail(val viewModel: TabEmailRecebidoViewModel) {
-  fun editEmail(emailEnviado: EmailDB?) {
-    val form = SubWindowForm("E-MAIL RECEBIDO") {
-      FormEmail(viewModel, emptyList(), emailEnviado)
+    fun editEmail(emailEnviado: EmailDB?) {
+        val form = SubWindowForm("E-MAIL RECEBIDO") {
+            FormEmail(viewModel, emptyList(), emailEnviado)
+        }
+        form.open()
     }
-    form.open()
-  }
 }

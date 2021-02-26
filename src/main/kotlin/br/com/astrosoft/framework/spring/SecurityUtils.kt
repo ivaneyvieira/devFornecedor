@@ -6,19 +6,20 @@ import org.springframework.security.core.context.SecurityContextHolder
 import javax.servlet.http.HttpServletRequest
 
 object SecurityUtils {
-  fun isFrameworkInternalRequest(request: HttpServletRequest?): Boolean {
-    val parameterValue = request?.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER) ?: return false
-    return RequestType.values().any {it.identifier == parameterValue}
-  }
-  
-  val isUserLoggedIn: Boolean
-    get() {
-      val authentication = SecurityContextHolder.getContext().authentication ?: return false
-      return authentication.isAuthenticated
+    fun isFrameworkInternalRequest(request: HttpServletRequest?): Boolean {
+        val parameterValue =
+            request?.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER) ?: return false
+        return RequestType.values().any { it.identifier == parameterValue }
     }
-  val userDetails: UserSaciDetails?
-    get() {
-      val authentication = SecurityContextHolder.getContext().authentication ?: return null
-      return authentication.principal as? UserSaciDetails
-    }
+
+    val isUserLoggedIn: Boolean
+        get() {
+            val authentication = SecurityContextHolder.getContext().authentication ?: return false
+            return authentication.isAuthenticated
+        }
+    val userDetails: UserSaciDetails?
+        get() {
+            val authentication = SecurityContextHolder.getContext().authentication ?: return null
+            return authentication.principal as? UserSaciDetails
+        }
 }
