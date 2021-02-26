@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.format
@@ -40,10 +41,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         }
     }
 
-    fun notasDevolucao(serie: String): List<NotaSaida> {
+    fun notasDevolucao(serie: Serie): List<NotaSaida> {
         val sql = "/sqlSaci/notaDevolucao.sql"
         return query(sql, NotaSaida::class) {
-            addOptionalParameter("serie", serie)
+            addOptionalParameter("serie", serie.value)
         }
     }
 

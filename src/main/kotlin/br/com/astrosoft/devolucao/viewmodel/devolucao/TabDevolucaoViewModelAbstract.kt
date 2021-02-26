@@ -163,10 +163,19 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
     }
 }
 
+enum class SimNao(val value: String) {
+    SIM("S"), NAO("N"), NONE("")
+}
+
+enum class Serie(val value: String) {
+    Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), VAZIO("")
+}
+
 interface ITabNota : ITabView {
-    val serie: String
-    val pago66: String
-    val coleta01: String
+    val serie: Serie
+    val pago66: SimNao
+    val coleta01: SimNao
+    val remessaConserto: SimNao
 
     fun updateGrid(itens: List<Fornecedor>)
     fun itensSelecionados(): List<Fornecedor>

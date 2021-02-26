@@ -26,6 +26,8 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumn
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
@@ -84,7 +86,7 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
             DlgFornecedor().showDialogRepresentante(fornecedor)
         }
         fornecedorUltimaData()
-        if (serie != "ENT") fornecedorCodigo()
+        if (serie != ENT) fornecedorCodigo()
         fornecedorCliente()
         fornecedorNome()
     }
@@ -403,7 +405,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
 }
 
 class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
-    fun showDialogNota(fornecedor: Fornecedor?, serie: String) {
+    fun showDialogNota(fornecedor: Fornecedor?, serie: Serie) {
         fornecedor ?: return
         lateinit var gridNota: Grid<NotaSaida>
         val listNotas = fornecedor.notas
@@ -412,7 +414,9 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
                     "DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})",
                     toolBar = {
                         val captionImpressoa =
-                            if (serie == "66" || serie == "PED") "Impressão Completa" else "Impressão"
+                            if (serie == Serie66 || serie == PED) "Impressão Completa"
+                            else
+                                "Impressão"
                         button(captionImpressoa) {
                             icon = PRINT.create()
                             onLeftClick {
@@ -420,7 +424,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
                                 viewModel.imprimirNotaDevolucao(notas)
                             }
                         }
-                        if (serie == "66" || serie == "PED") {
+                        if (serie == Serie66 || serie == PED) {
                             button("Impressão Resumida") {
                                 icon = PRINT.create()
                                 onLeftClick {
@@ -458,7 +462,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
         return "notas$textTime.xlsx"
     }
 
-    private fun createGridNotas(listNotas: List<NotaSaida>, serie: String): Grid<NotaSaida> {
+    private fun createGridNotas(listNotas: List<NotaSaida>, serie: Serie): Grid<NotaSaida> {
         val gridDetail = Grid(NotaSaida::class.java, false)
         return gridDetail.apply {
             addThemeVariants(LUMO_COMPACT)
@@ -485,14 +489,14 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
                 val totalPedido = listNotas.sumByDouble { it.valorNota }.format()
                 setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
             }
-            if (serie == "PED") sort(
+            if (serie == PED) sort(
                     listOf(
                             GridSortOrder(
                                     getColumnBy(NotaSaida::dataPedido),
                                     SortDirection.ASCENDING
                                          )
                           )
-                                    )
+                                  )
             else sort(
                     listOf(
                             GridSortOrder(
