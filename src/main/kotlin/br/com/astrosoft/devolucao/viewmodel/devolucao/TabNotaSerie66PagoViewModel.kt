@@ -7,10 +7,12 @@ class TabNotaSerie66PagoViewModel(viewModel: DevolucaoViewModel) :
 }
 
 interface ITabNotaSerie66Pago : ITabNota {
-    override val serie: String
-        get() = "66"
-    override val pago66: String
-        get() = "S"
-    override val coleta01: String
-        get() = ""
+    override val serie: Serie
+        get() = Serie.Serie66
+    override val pago66: SimNao
+        get() = SimNao.SIM
+    override val coleta01: SimNao
+        get() = SimNao.NONE
+    override val remessaConserto: SimNao
+        get() = SimNao.NONE
 }

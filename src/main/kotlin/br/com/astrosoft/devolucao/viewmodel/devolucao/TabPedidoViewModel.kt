@@ -6,10 +6,12 @@ class TabPedidoViewModel(viewModel: DevolucaoViewModel) : TabDevolucaoViewModelA
 }
 
 interface ITabPedido : ITabNota {
-    override val serie: String
-        get() = "PED"
-    override val pago66: String
-        get() = ""
-    override val coleta01: String
-        get() = ""
+    override val serie: Serie
+        get() = Serie.PED
+    override val pago66: SimNao
+        get() = SimNao.NONE
+    override val coleta01: SimNao
+        get() = SimNao.NONE
+    override val remessaConserto: SimNao
+        get() = SimNao.NONE
 }
