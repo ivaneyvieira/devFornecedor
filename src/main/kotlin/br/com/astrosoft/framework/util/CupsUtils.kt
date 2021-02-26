@@ -5,46 +5,46 @@ import org.cups4j.CupsPrinter
 import org.cups4j.PrintJob
 
 object CupsUtils {
-  private val cupsClient = CupsClient("192.168.1.14", 631, "root")
-  private val printers
-    get() = cupsClient.printers.toList()
-  val printersInfo
-    get() = printers.filter {it.location != ""}.map {PrinterInfo(it)}
-  
-  fun printerExists(printerName: String): Boolean {
-    val impressoras = printers
-    return impressoras.any {it.name == printerName}
-  }
-  
-  private fun findPrinter(printerName: String): CupsPrinter? {
-    val printers = cupsClient.printers.toList()
-    return printers.firstOrNull {it.name == printerName}
-  }
-  
-  @Throws(ECupsPrinter::class)
-  fun CupsPrinter.printText(text: String, resultMsg: (String) -> Unit = {}) {
-    val job = PrintJob.Builder(text.toByteArray()).build()
-    try {
-      val result = print(job)
-      resultMsg("Job ${result.jobId}: ${result.resultDescription} : ${result.resultMessage}")
-    } catch(e: Exception) {
-      throw ECupsPrinter("Erro de impressão")
+    private val cupsClient = CupsClient("192.168.1.14", 631, "root")
+    private val printers
+        get() = cupsClient.printers.toList()
+    val printersInfo
+        get() = printers.filter { it.location != "" }.map { PrinterInfo(it) }
+
+    fun printerExists(printerName: String): Boolean {
+        val impressoras = printers
+        return impressoras.any { it.name == printerName }
     }
-  }
-  
-  fun CupsPrinter.printerTeste() {
-    printText(etiqueta)
-  }
-  
-  @Throws(ECupsPrinter::class)
-  fun printCups(impressora: String, text: String, resultMsg: (String) -> Unit = {}) {
-    val printer =
-      findPrinter(impressora)
-      ?: throw ECupsPrinter("Impressora $impressora não está configurada no sistema operacional")
-    printer.printText(text, resultMsg)
-  }
-  
-  private val etiqueta = """
+
+    private fun findPrinter(printerName: String): CupsPrinter? {
+        val printers = cupsClient.printers.toList()
+        return printers.firstOrNull { it.name == printerName }
+    }
+
+    @Throws(ECupsPrinter::class)
+    fun CupsPrinter.printText(text: String, resultMsg: (String) -> Unit = {}) {
+        val job = PrintJob.Builder(text.toByteArray()).build()
+        try {
+            val result = print(job)
+            resultMsg("Job ${result.jobId}: ${result.resultDescription} : ${result.resultMessage}")
+        } catch (e: Exception) {
+            throw ECupsPrinter("Erro de impressão")
+        }
+    }
+
+    fun CupsPrinter.printerTeste() {
+        printText(etiqueta)
+    }
+
+    @Throws(ECupsPrinter::class)
+    fun printCups(impressora: String, text: String, resultMsg: (String) -> Unit = {}) {
+        val printer =
+            findPrinter(impressora)
+                ?: throw ECupsPrinter("Impressora $impressora não está configurada no sistema operacional")
+        printer.printText(text, resultMsg)
+    }
+
+    private val etiqueta = """
     |^XA
     |^FT20,070^A0N,70,50^FH^FDNF ENTRADA:1212^FS
     |^FT600,070^A0N,70,50^FH^FD30/06/18^FS
@@ -59,10 +59,10 @@ object CupsUtils {
     |^XZ""".trimMargin()
 }
 
-class ECupsPrinter(msg: String): Exception(msg)
+class ECupsPrinter(msg: String) : Exception(msg)
 
 class PrinterInfo(private val printer: CupsPrinter) {
-  val name: String get() = printer.name
-  val location: String get() = printer.location
-  val description: String get() = printer.description
+    val name: String get() = printer.name
+    val location: String get() = printer.location
+    val description: String get() = printer.description
 }

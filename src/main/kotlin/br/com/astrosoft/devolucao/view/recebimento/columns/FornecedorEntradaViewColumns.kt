@@ -7,15 +7,18 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 object FornecedorEntradaViewColumns {
-  fun Grid<FornecedorEntrada>.fornecedorEntradaNumero() = addColumnInt(FornecedorEntrada::vendno) {
-    this.setHeader("Número")
-  }
-  
-  fun Grid<FornecedorEntrada>.notaEntradaUltimaData() = addColumnLocalDate(FornecedorEntrada::ultimaData) {
-    this.setHeader("Ultima Data")
-  }
-  
-  fun Grid<FornecedorEntrada>.fornecedorEntradaNome() = addColumnString(FornecedorEntrada::fornecedor) {
-    this.setHeader("Fornecedor")
-  }
+    fun Grid<FornecedorEntrada>.fornecedorEntradaNumero() =
+        addColumnInt(FornecedorEntrada::vendno) {
+            this.setHeader("Número")
+        }
+
+    fun Grid<FornecedorEntrada>.notaEntradaUltimaData() =
+        addColumnLocalDate(FornecedorEntrada::ultimaData) {
+            this.setHeader("Ultima Data")
+        }
+
+    fun Grid<FornecedorEntrada>.fornecedorEntradaNome() =
+        addColumnString(FornecedorEntrada::fornecedor) {
+            this.setHeader("Fornecedor")
+        }
 }

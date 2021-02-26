@@ -21,10 +21,7 @@ import com.github.mvysny.karibudsl.v10.tabs
 import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.applayout.AppLayout
 import com.vaadin.flow.component.dependency.JsModule
-import com.vaadin.flow.component.icon.VaadinIcon.CLOCK
-import com.vaadin.flow.component.icon.VaadinIcon.FORM
-import com.vaadin.flow.component.icon.VaadinIcon.TRUCK
-import com.vaadin.flow.component.icon.VaadinIcon.USER
+import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.page.Push
 import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.server.PWA
@@ -34,60 +31,62 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
-@PWA(name = AppConfig.title,
-     shortName = AppConfig.shortName,
-     iconPath = AppConfig.iconPath,
-     enableInstallPrompt = false)
+@PWA(
+        name = AppConfig.title,
+        shortName = AppConfig.shortName,
+        iconPath = AppConfig.iconPath,
+        enableInstallPrompt = false
+    )
 @JsModule("./styles/shared-styles.js")
-class DevFornecedorLayout: AppLayout() {
-  init {
-    isDrawerOpened = true
-    navbar {
-      drawerToggle()
-      h3(AppConfig.title)
-      horizontalLayout {
-        isExpand = true
-      } //anchor("logout", "Sair")
-      button("Sair") {
-        onLeftClick {
-          SecurityContextHolder.clearContext()
-          ui.ifPresent {
-            it.session.close()
-            it.navigate("")
-          }
+class DevFornecedorLayout : AppLayout() {
+    init {
+        isDrawerOpened = true
+        navbar {
+            drawerToggle()
+            h3(AppConfig.title)
+            horizontalLayout {
+                isExpand = true
+            } //anchor("logout", "Sair")
+            button("Sair") {
+                onLeftClick {
+                    SecurityContextHolder.clearContext()
+                    ui.ifPresent {
+                        it.session.close()
+                        it.navigate("")
+                    }
+                }
+            }
         }
-      }
+        drawer {
+            verticalLayout {
+                label("Versão ${AppConfig.version}")
+                label(AppConfig.user?.login)
+            }
+            hr()
+
+            tabs {
+                orientation = Tabs.Orientation.VERTICAL
+                tab {
+                    this.icon(FORM)
+                    routerLink(text = "Devolução", viewType = DevolucaoView::class)
+                }
+
+                tab {
+                    this.icon(TRUCK)
+                    routerLink(text = "Recebimento", viewType = RecebimentoView::class)
+                }
+
+                tab {
+                    this.icon(CLOCK)
+                    routerLink(text = "Agenda", viewType = AgendaView::class)
+                }
+
+                tab {
+                    this.isEnabled = AppConfig.isAdmin
+                    this.icon(USER)
+                    routerLink(text = "Usuário", viewType = UsuarioView::class)
+                }
+            }
+        }
     }
-    drawer {
-      verticalLayout {
-        label("Versão ${AppConfig.version}")
-        label(AppConfig.user?.login)
-      }
-      hr()
-      
-      tabs {
-        orientation = Tabs.Orientation.VERTICAL
-        tab {
-          this.icon(FORM)
-          routerLink(text = "Devolução", viewType = DevolucaoView::class)
-        }
-        
-        tab {
-          this.icon(TRUCK)
-          routerLink(text = "Recebimento", viewType = RecebimentoView::class)
-        }
-        
-        tab {
-          this.icon(CLOCK)
-          routerLink(text = "Agenda", viewType = AgendaView::class)
-        }
-        
-        tab {
-          this.isEnabled = AppConfig.isAdmin
-          this.icon(USER)
-          routerLink(text = "Usuário", viewType = UsuarioView::class)
-        }
-      }
-    }
-  }
 }

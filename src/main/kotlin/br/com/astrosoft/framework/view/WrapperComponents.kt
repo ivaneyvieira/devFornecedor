@@ -7,4 +7,4 @@ import org.vaadin.gatanaso.MultiselectComboBox
 
 @VaadinDsl
 fun <T> (@VaadinDsl HasComponents).multiselectComboBox(block: (@VaadinDsl MultiselectComboBox<T>).() -> Unit = {}) =
-  init(MultiselectComboBox(), block)
+    init(MultiselectComboBox(), block)
