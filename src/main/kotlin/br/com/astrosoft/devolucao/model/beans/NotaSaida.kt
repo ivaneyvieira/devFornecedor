@@ -5,7 +5,7 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
 import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
@@ -100,7 +100,10 @@ class NotaSaida(
     companion object {
         private val fornecedores = mutableListOf<Fornecedor>()
 
-        fun updateNotasDevolucao(serie: Serie, pago66: SimNao, coleta66: SimNao) {
+        fun updateNotasDevolucao(
+                serie: Serie, pago66: SimNao, coleta66: SimNao,
+                remessaConserto: SimNao
+                                ) {
             val user = AppConfig.user as? UserSaci
             val loja = if (user?.admin == true) 0 else user?.storeno ?: 0
             val notas = when (serie) {
@@ -112,6 +115,7 @@ class NotaSaida(
                 notas.filter { it.loja == loja || loja == 0 }
                         .filter { pago66 == NONE || it.serie66Pago == pago66.value }
                         .filter { coleta66 == NONE || it.serie01Coleta == coleta66.value }
+                        .filter { remessaConserto == NONE || it.remessaConserto == remessaConserto.value }
                         .groupBy { it.chaveFornecedor() }
             fornecedores.clear()
             fornecedores.addAll(grupos.map { entry ->
@@ -129,8 +133,6 @@ class NotaSaida(
 
         fun findFornecedores() = fornecedores.toList()
     }
-
-    fun listNotasPedido() = saci.pedidosDevolucao() + saci.notasDevolucao(VAZIO)
 }
 
 data class ChaveFornecedor(
