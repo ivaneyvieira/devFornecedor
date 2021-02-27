@@ -7,11 +7,11 @@ import br.com.astrosoft.framework.model.IUser
 
 class TabAgendaNaoAgendada(viewModel: TabAgendaViewModelNaoAgendada) : TabAgendaAbstract(viewModel),
                                                                        ITabAgendaNaoAgendada {
-    override fun isAuthorized(user: IUser): Boolean {
-        val username = user as? UserSaci
-        return username?.agendaNaoAgendada == true
-    }
+  override fun isAuthorized(user: IUser): Boolean {
+    val username = user as? UserSaci
+    return username?.agendaNaoAgendada == true
+  }
 
-    override val label: String
-        get() = "Pré-entrada"
+  override val label: String
+    get() = "Pré-entrada"
 }

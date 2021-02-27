@@ -6,11 +6,11 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoViewModel
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedido(viewModel: TabPedidoViewModel) : TabDevolucaoAbstract(viewModel), ITabPedido {
-    override val label: String
-        get() = "Pedido"
+  override val label: String
+    get() = "Pedido"
 
-    override fun isAuthorized(user: IUser): Boolean {
-        val username = user as? UserSaci
-        return username?.pedido == true
-    }
+  override fun isAuthorized(user: IUser): Boolean {
+    val username = user as? UserSaci
+    return username?.pedido == true
+  }
 }

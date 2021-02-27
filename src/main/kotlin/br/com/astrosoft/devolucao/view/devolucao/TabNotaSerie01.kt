@@ -7,11 +7,11 @@ import br.com.astrosoft.framework.model.IUser
 
 class TabNotaSerie01(viewModel: TabNotaSerie01ViewModel) : TabDevolucaoAbstract(viewModel),
                                                            ITabNotaSerie01 {
-    override val label: String
-        get() = "Notas série 1"
+  override val label: String
+    get() = "Notas série 1"
 
-    override fun isAuthorized(user: IUser): Boolean {
-        val username = user as? UserSaci
-        return username?.nota01 == true
-    }
+  override fun isAuthorized(user: IUser): Boolean {
+    val username = user as? UserSaci
+    return username?.nota01 == true
+  }
 }

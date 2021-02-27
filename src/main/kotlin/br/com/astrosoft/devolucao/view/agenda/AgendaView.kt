@@ -14,18 +14,18 @@ import com.vaadin.flow.router.Route
 @PageTitle("Agenda")
 @CssImport("./styles/gridTotal.css")
 class AgendaView : ViewLayout<AgendaViewModel>(), IAgendaView {
-    override val viewModel: AgendaViewModel = AgendaViewModel(this)
+  override val viewModel: AgendaViewModel = AgendaViewModel(this)
 
-    override fun isAccept(user: IUser): Boolean {
-        val userSaci = user as? UserSaci ?: return false
-        return userSaci.menuAgenda
-    }
+  override fun isAccept(user: IUser): Boolean {
+    val userSaci = user as? UserSaci ?: return false
+    return userSaci.menuAgenda
+  }
 
-    override val tabAgendaAgendada = TabAgendaAgendada(viewModel.tabAgendadaVMAgendada)
-    override val tabAgendaNaoAgendada = TabAgendaNaoAgendada(viewModel.tabAgendadaVMNaoAgendada)
-    override val tabAgendaRecebida = TabAgendaRecebida(viewModel.tabAgendadaVMRecebida)
+  override val tabAgendaAgendada = TabAgendaAgendada(viewModel.tabAgendadaVMAgendada)
+  override val tabAgendaNaoAgendada = TabAgendaNaoAgendada(viewModel.tabAgendadaVMNaoAgendada)
+  override val tabAgendaRecebida = TabAgendaRecebida(viewModel.tabAgendadaVMRecebida)
 
-    init {
-        addTabSheat(viewModel)
-    }
+  init {
+    addTabSheat(viewModel)
+  }
 }

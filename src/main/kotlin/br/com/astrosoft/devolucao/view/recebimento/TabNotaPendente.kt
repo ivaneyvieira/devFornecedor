@@ -23,56 +23,58 @@ import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class TabNotaPendente(val viewModel: TabNotaPendenteViewModel) :
-        TabPanelGrid<FornecedorEntrada>(FornecedorEntrada::class), ITabNotaPendente {
-    override fun HorizontalLayout.toolBarConfig() {
+class TabNotaPendente(val viewModel: TabNotaPendenteViewModel) : TabPanelGrid<FornecedorEntrada>(
+  FornecedorEntrada::class
+                                                                                                ),
+                                                                 ITabNotaPendente {
+  override fun HorizontalLayout.toolBarConfig() {
+  }
+
+  override fun isAuthorized(user: IUser): Boolean {
+    val username = user as? UserSaci
+    return username?.notaPendente == true
+  }
+
+  override fun Grid<FornecedorEntrada>.gridPanel() {
+    addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
+      showDialogNota(fornecedor)
     }
 
-    override fun isAuthorized(user: IUser): Boolean {
-        val username = user as? UserSaci
-        return username?.notaPendente == true
+    notaEntradaUltimaData()
+    fornecedorEntradaNumero()
+    fornecedorEntradaNome()
+  }
+
+  private fun showDialogNota(fornecedor: FornecedorEntrada?) {
+    fornecedor ?: return
+    lateinit var gridNota: Grid<NotaEntrada>
+    val listNotas = fornecedor.notas
+    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.vendno} ${fornecedor.fornecedor}") {
+      gridNota = createGridNotas(listNotas)
+      gridNota
     }
+    form.open()
+  }
 
-    override fun Grid<FornecedorEntrada>.gridPanel() {
-        addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
-            showDialogNota(fornecedor)
-        }
-
-        notaEntradaUltimaData()
-        fornecedorEntradaNumero()
-        fornecedorEntradaNome()
+  private fun createGridNotas(listNotas: List<NotaEntrada>): Grid<NotaEntrada> {
+    val gridDetail = Grid(NotaEntrada::class.java, false)
+    return gridDetail.apply {
+      addThemeVariants(LUMO_COMPACT)
+      isMultiSort = false
+      setSelectionMode(MULTI)
+      setItems(listNotas) //
+      notaEntradaLoja()
+      notaEntradaNota()
+      notaEntradaData()
+      notaEntradaHora()
+      notaEntradaNfKey()
     }
+  }
 
-    private fun showDialogNota(fornecedor: FornecedorEntrada?) {
-        fornecedor ?: return
-        lateinit var gridNota: Grid<NotaEntrada>
-        val listNotas = fornecedor.notas
-        val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.vendno} ${fornecedor.fornecedor}") {
-            gridNota = createGridNotas(listNotas)
-            gridNota
-        }
-        form.open()
-    }
+  override val label: String
+    get() = "Notas Pendentes"
 
-    private fun createGridNotas(listNotas: List<NotaEntrada>): Grid<NotaEntrada> {
-        val gridDetail = Grid(NotaEntrada::class.java, false)
-        return gridDetail.apply {
-            addThemeVariants(LUMO_COMPACT)
-            isMultiSort = false
-            setSelectionMode(MULTI)
-            setItems(listNotas) //
-            notaEntradaLoja()
-            notaEntradaNota()
-            notaEntradaData()
-            notaEntradaHora()
-            notaEntradaNfKey()
-        }
-    }
-
-    override val label: String
-        get() = "Notas Pendentes"
-
-    override fun updateComponent() {
-        viewModel.updateView()
-    }
+  override fun updateComponent() {
+    viewModel.updateView()
+  }
 }

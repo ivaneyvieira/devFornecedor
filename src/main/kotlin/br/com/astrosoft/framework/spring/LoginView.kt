@@ -14,25 +14,24 @@ import com.vaadin.flow.theme.lumo.Lumo
 @PageTitle("Login")
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 class LoginView : VerticalLayout(), BeforeEnterObserver {
-    private val loginFormApp = LoginFormApp()
+  private val loginFormApp = LoginFormApp()
 
-    override fun beforeEnter(beforeEnterEvent: BeforeEnterEvent) {
-        if (isError(beforeEnterEvent)) loginFormApp.isError = true
-    }
+  override fun beforeEnter(beforeEnterEvent: BeforeEnterEvent) {
+    if (isError(beforeEnterEvent)) loginFormApp.isError = true
+  }
 
-    private fun isError(beforeEnterEvent: BeforeEnterEvent): Boolean {
-        return beforeEnterEvent.location.queryParameters.parameters.getOrDefault(
-                "error",
-                emptyList()
-                                                                                ).isNotEmpty()
-    }
+  private fun isError(beforeEnterEvent: BeforeEnterEvent): Boolean {
+    return beforeEnterEvent.location.queryParameters.parameters.getOrDefault(
+      "error", emptyList()
+                                                                            ).isNotEmpty()
+  }
 
-    init {
-        addClassName("login-view")
-        setSizeFull()
-        justifyContentMode = CENTER
-        alignItems = Alignment.CENTER
-        loginFormApp.action = "login"
-        add(loginFormApp)
-    }
+  init {
+    addClassName("login-view")
+    setSizeFull()
+    justifyContentMode = CENTER
+    alignItems = Alignment.CENTER
+    loginFormApp.action = "login"
+    add(loginFormApp)
+  }
 }

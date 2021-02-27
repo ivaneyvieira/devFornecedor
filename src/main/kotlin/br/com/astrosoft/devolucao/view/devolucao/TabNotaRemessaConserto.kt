@@ -5,14 +5,15 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaRemessaConserto
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaRemessaConsertoViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabNotaRemessaConserto(viewModel: TabNotaRemessaConsertoViewModel) : TabDevolucaoAbstract
-                                                                           (viewModel),
+class TabNotaRemessaConserto(viewModel: TabNotaRemessaConsertoViewModel) : TabDevolucaoAbstract(
+  viewModel
+                                                                                               ),
                                                                            ITabNotaRemessaConserto {
-    override val label: String
-        get() = "Notas Remessa de Conserto"
+  override val label: String
+    get() = "Notas Remessa de Conserto"
 
-    override fun isAuthorized(user: IUser): Boolean {
-        val username = user as? UserSaci
-        return username?.remessaConserto == true
-    }
+  override fun isAuthorized(user: IUser): Boolean {
+    val username = user as? UserSaci
+    return username?.remessaConserto == true
+  }
 }

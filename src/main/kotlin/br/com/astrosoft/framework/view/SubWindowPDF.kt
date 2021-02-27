@@ -13,35 +13,33 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 class SubWindowPDF(chave: String, bytesBoletos: ByteArray) : Dialog() {
-    init {
-        width = "100%"
-        height = "100%"
-        val timeNumber = System.currentTimeMillis()
-        val resourcePDF =
-            StreamResource(
-                    "${chave}_${timeNumber}.pdf",
-                    ConverteByte(bytesBoletos)
-                          ) //val buttonWrapper = FileDownloadWrapper(resourcePDF)
-        verticalLayout {
-            isPadding = false
-            horizontalLayout {
-                add(Anchor(resourcePDF, "Download"))
-                button("Fechar") {
-                    icon = VaadinIcon.CLOSE.create()
-                    onLeftClick {
-                        close()
-                    }
-                }
-            }
-
-            addAndExpand(PDFViewer(resourcePDF))
+  init {
+    width = "100%"
+    height = "100%"
+    val timeNumber = System.currentTimeMillis()
+    val resourcePDF = StreamResource(
+      "${chave}_${timeNumber}.pdf", ConverteByte(bytesBoletos)
+                                    ) //val buttonWrapper = FileDownloadWrapper(resourcePDF)
+    verticalLayout {
+      isPadding = false
+      horizontalLayout {
+        add(Anchor(resourcePDF, "Download"))
+        button("Fechar") {
+          icon = VaadinIcon.CLOSE.create()
+          onLeftClick {
+            close()
+          }
         }
-        isCloseOnEsc = true
+      }
+
+      addAndExpand(PDFViewer(resourcePDF))
     }
+    isCloseOnEsc = true
+  }
 }
 
 class ConverteByte(val bytesBoletos: ByteArray) : InputStreamFactory {
-    override fun createInputStream(): InputStream {
-        return ByteArrayInputStream(bytesBoletos)
-    }
+  override fun createInputStream(): InputStream {
+    return ByteArrayInputStream(bytesBoletos)
+  }
 }

@@ -11,36 +11,36 @@ import com.vaadin.flow.data.provider.ListDataProvider
 import kotlin.reflect.KClass
 
 abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : ITabPanel {
-    private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
-    private val gridPanel: Grid<T> = Grid(classGrid.java, false)
-    protected abstract fun HorizontalLayout.toolBarConfig()
-    protected abstract fun Grid<T>.gridPanel()
+  private val dataProviderPanel = ListDataProvider<T>(mutableListOf())
+  private val gridPanel: Grid<T> = Grid(classGrid.java, false)
+  protected abstract fun HorizontalLayout.toolBarConfig()
+  protected abstract fun Grid<T>.gridPanel()
 
-    override val createComponent = VerticalLayout().apply {
-        this.setSizeFull()
-        isMargin = false
-        isPadding = false
-        horizontalLayout {
-            setWidthFull()
-            toolBarConfig()
-        }
-
-        gridPanel.apply {
-            this.dataProvider = dataProviderPanel
-            isExpand = true
-            isMultiSort = true
-            addThemeVariants(LUMO_COMPACT)
-            gridPanel()
-        }
-        addAndExpand(gridPanel)
+  override val createComponent = VerticalLayout().apply {
+    this.setSizeFull()
+    isMargin = false
+    isPadding = false
+    horizontalLayout {
+      setWidthFull()
+      toolBarConfig()
     }
 
-    fun updateGrid(itens: List<T>) {
-        gridPanel.deselectAll()
-        dataProviderPanel.updateItens(itens)
+    gridPanel.apply {
+      this.dataProvider = dataProviderPanel
+      isExpand = true
+      isMultiSort = true
+      addThemeVariants(LUMO_COMPACT)
+      gridPanel()
     }
+    addAndExpand(gridPanel)
+  }
 
-    fun listBeans() = dataProviderPanel.getAll()
+  fun updateGrid(itens: List<T>) {
+    gridPanel.deselectAll()
+    dataProviderPanel.updateItens(itens)
+  }
 
-    fun itensSelecionados() = gridPanel.selectedItems.toList()
+  fun listBeans() = dataProviderPanel.getAll()
+
+  fun itensSelecionados() = gridPanel.selectedItems.toList()
 }
