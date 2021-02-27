@@ -1,4 +1,4 @@
-UPDATE nfdevFile
+UPDATE sqldados.nfdevFile
 SET date = :DATE,
     nome = :nome,
     file = :file

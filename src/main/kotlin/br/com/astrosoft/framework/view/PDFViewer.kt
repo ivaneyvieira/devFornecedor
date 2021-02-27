@@ -7,12 +7,12 @@ import com.vaadin.flow.server.StreamResource
 
 @Tag("object")
 class PDFViewer private constructor() : Component(), HasSize {
-    constructor(resource: StreamResource?) : this() {
-        element.setAttribute("data", resource)
-    }
+  constructor(resource: StreamResource?) : this() {
+    element.setAttribute("data", resource)
+  }
 
-    init {
-        element.setAttribute("type", "application/pdf")
-        setSizeFull()
-    }
+  init {
+    element.setAttribute("type", "application/pdf")
+    setSizeFull()
+  }
 }

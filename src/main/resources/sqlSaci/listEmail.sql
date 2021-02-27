@@ -1,5 +1,5 @@
 select email
-from vend
+from sqldados.vend
 where no = :vendno
 union
 distinct

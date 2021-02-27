@@ -7,23 +7,23 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 object NotaEntradaViewColumns {
-    fun Grid<NotaEntrada>.notaEntradaLoja() = addColumnInt(NotaEntrada::storeno) {
-        this.setHeader("Loja")
-    }
+  fun Grid<NotaEntrada>.notaEntradaLoja() = addColumnInt(NotaEntrada::storeno) {
+    this.setHeader("Loja")
+  }
 
-    fun Grid<NotaEntrada>.notaEntradaNota() = addColumnString(NotaEntrada::nota) {
-        this.setHeader("NF")
-    }
+  fun Grid<NotaEntrada>.notaEntradaNota() = addColumnString(NotaEntrada::nota) {
+    this.setHeader("NF")
+  }
 
-    fun Grid<NotaEntrada>.notaEntradaData() = addColumnLocalDate(NotaEntrada::dataNota) {
-        this.setHeader("Data")
-    }
+  fun Grid<NotaEntrada>.notaEntradaData() = addColumnLocalDate(NotaEntrada::dataNota) {
+    this.setHeader("Data")
+  }
 
-    fun Grid<NotaEntrada>.notaEntradaHora() = addColumnString(NotaEntrada::horaNota) {
-        this.setHeader("Loja")
-    }
+  fun Grid<NotaEntrada>.notaEntradaHora() = addColumnString(NotaEntrada::horaNota) {
+    this.setHeader("Loja")
+  }
 
-    fun Grid<NotaEntrada>.notaEntradaNfKey() = addColumnString(NotaEntrada::nfekey) {
-        this.setHeader("Chave de acesso")
-    }
+  fun Grid<NotaEntrada>.notaEntradaNfKey() = addColumnString(NotaEntrada::nfekey) {
+    this.setHeader("Chave de acesso")
+  }
 }

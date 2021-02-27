@@ -9,20 +9,20 @@ import javax.servlet.annotation.WebListener
 
 @WebListener
 class Bootstrap : ServletContextListener {
-    override fun contextDestroyed(sce: ServletContextEvent?) {
-        log?.info("Shutting down")
-        log?.info("Destroying VaadinOnKotlin")
-        log?.info("Shutdown complete")
-    }
+  override fun contextDestroyed(sce: ServletContextEvent?) {
+    log?.info("Shutting down")
+    log?.info("Destroying VaadinOnKotlin")
+    log?.info("Shutdown complete")
+  }
 
-    override fun contextInitialized(sce: ServletContextEvent?) {
-        log?.info("Starting up")
-        Locale.setDefault(Locale("pt", "BR"))
-        val home = System.getenv("HOME")
-        val fileName = System.getenv("EBEAN_PROPS") ?: "$home/ebean.properties"
-        System.setProperty("ebean.props.file", fileName)
-        println("##################### $fileName")
-    }
+  override fun contextInitialized(sce: ServletContextEvent?) {
+    log?.info("Starting up")
+    Locale.setDefault(Locale("pt", "BR"))
+    val home = System.getenv("HOME")
+    val fileName = System.getenv("EBEAN_PROPS") ?: "$home/ebean.properties"
+    System.setProperty("ebean.props.file", fileName)
+    println("##################### $fileName")
+  }
 }
 
 val log: Logger? = LoggerFactory.getLogger(Bootstrap::class.java)

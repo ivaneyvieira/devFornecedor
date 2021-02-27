@@ -6,65 +6,65 @@ import kotlin.math.pow
 import kotlin.reflect.KProperty
 
 class UserSaci : IUser {
-    var no: Int = 0
-    var name: String = ""
-    override var login: String = ""
-    override var senha: String = ""
-    var bitAcesso: Int = 0
-    var storeno: Int = 0
-    var prntno: Int = 0
-    var impressora: String = ""
-    override var ativo by DelegateAuthorized(0)
-    var nota01 by DelegateAuthorized(1)
-    var nota66 by DelegateAuthorized(2)
-    var pedido by DelegateAuthorized(3)
-    var nota66Pago by DelegateAuthorized(4)
-    var emailRecebido by DelegateAuthorized(5)
-    var notaPendente by DelegateAuthorized(6)
-    var agendaAgendada by DelegateAuthorized(7)
-    var agendaNaoAgendada by DelegateAuthorized(8)
-    var agendaRecebida by DelegateAuthorized(9)
-    var entrada by DelegateAuthorized(10)
-    var nota01Coleta by DelegateAuthorized(11)
-    var remessaConserto by DelegateAuthorized(12)
-    val menuDevolucao =
-        nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada || nota01Coleta || remessaConserto
-    val menuRecebimento = notaPendente
-    val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
-    override val admin
-        get() = login == "ADM"
+  var no: Int = 0
+  var name: String = ""
+  override var login: String = ""
+  override var senha: String = ""
+  var bitAcesso: Int = 0
+  var storeno: Int = 0
+  var prntno: Int = 0
+  var impressora: String = ""
+  override var ativo by DelegateAuthorized(0)
+  var nota01 by DelegateAuthorized(1)
+  var nota66 by DelegateAuthorized(2)
+  var pedido by DelegateAuthorized(3)
+  var nota66Pago by DelegateAuthorized(4)
+  var emailRecebido by DelegateAuthorized(5)
+  var notaPendente by DelegateAuthorized(6)
+  var agendaAgendada by DelegateAuthorized(7)
+  var agendaNaoAgendada by DelegateAuthorized(8)
+  var agendaRecebida by DelegateAuthorized(9)
+  var entrada by DelegateAuthorized(10)
+  var nota01Coleta by DelegateAuthorized(11)
+  var remessaConserto by DelegateAuthorized(12)
+  val menuDevolucao =
+    nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada || nota01Coleta || remessaConserto
+  val menuRecebimento = notaPendente
+  val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
+  override val admin
+    get() = login == "ADM"
 
-    companion object {
-        fun findAll(): List<UserSaci> {
-            return saci.findAllUser().filter { it.ativo }
-        }
-
-        fun updateUser(user: UserSaci) {
-            saci.updateUser(user)
-        }
-
-        fun findUser(login: String?): UserSaci? {
-            return saci.findUser(login)
-        }
+  companion object {
+    fun findAll(): List<UserSaci> {
+      return saci.findAllUser().filter { it.ativo }
     }
+
+    fun updateUser(user: UserSaci) {
+      saci.updateUser(user)
+    }
+
+    fun findUser(login: String?): UserSaci? {
+      return saci.findUser(login)
+    }
+  }
 }
 
 class DelegateAuthorized(numBit: Int) {
-    private val bit = 2.toDouble().pow(numBit).toInt()
+  private val bit = 2.toDouble().pow(numBit).toInt()
 
-    operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
-        thisRef ?: return false
-        return (thisRef.bitAcesso and bit) != 0 || thisRef.admin
-    }
+  operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
+    thisRef ?: return false
+    return (thisRef.bitAcesso and bit) != 0 || thisRef.admin
+  }
 
-    operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean?) {
-        thisRef ?: return
-        val v = value ?: false
-        thisRef.bitAcesso = when {
-            v    -> thisRef.bitAcesso or bit
-            else -> thisRef.bitAcesso and bit.inv()
-        }
+  operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean?) {
+    thisRef ?: return
+    val v = value ?: false
+    thisRef.bitAcesso = when {
+      v    -> thisRef.bitAcesso or bit
+      else -> thisRef.bitAcesso and bit.inv()
     }
+  }
 }
 
 

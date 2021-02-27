@@ -7,40 +7,41 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class SubWindowForm(
-        labelTitle: String, val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
-        val blockForm: () -> Component
+  labelTitle: String,
+  val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
+  val blockForm: () -> Component
                    ) : Dialog() {
-    init {
-        width = "100%"
-        height = "100%"
+  init {
+    width = "100%"
+    height = "100%"
 
-        verticalLayout {
-            content { align(stretch, top) }
-            isPadding = false
-            horizontalLayout {
-                content { align(left, baseline) }
-                button("Fechar") {
-                    icon = VaadinIcon.CLOSE.create()
-                    onLeftClick {
-                        close()
-                    }
-                }
-                toolBar(this@SubWindowForm)
-            }
-            horizontalLayout {
-                isSpacing = true
-                isPadding = false
-                setWidthFull()
-                labelTitle.split("|").forEach { linha ->
-                    h4(linha) {
-                        isExpand = true
-                    }
-                }
-            }
-
-            addAndExpand(blockForm())
+    verticalLayout {
+      content { align(stretch, top) }
+      isPadding = false
+      horizontalLayout {
+        content { align(left, baseline) }
+        button("Fechar") {
+          icon = VaadinIcon.CLOSE.create()
+          onLeftClick {
+            close()
+          }
         }
-        isCloseOnEsc = true
+        toolBar(this@SubWindowForm)
+      }
+      horizontalLayout {
+        isSpacing = true
+        isPadding = false
+        setWidthFull()
+        labelTitle.split("|").forEach { linha ->
+          h4(linha) {
+            isExpand = true
+          }
+        }
+      }
+
+      addAndExpand(blockForm())
     }
+    isCloseOnEsc = true
+  }
 }
 

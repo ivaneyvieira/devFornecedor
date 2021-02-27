@@ -22,8 +22,8 @@ SELECT I.invno                                      AS ni,
        P.prdno                                      AS codigo,
        P.grade                                      AS grade,
        P.qtty / 1000                                AS qttd
-FROM inv          AS I
-  INNER JOIN iprd AS P
+FROM sqldados.inv          AS I
+  INNER JOIN sqldados.iprd AS P
 	       USING (invno)
   INNER JOIN T
 	       USING (prdno, grade)

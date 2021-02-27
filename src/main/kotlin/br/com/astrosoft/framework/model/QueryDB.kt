@@ -15,111 +15,106 @@ import kotlin.reflect.KClass
 typealias QueryHandle = Query.() -> Unit
 
 open class QueryDB(driver: String, url: String, username: String, password: String) {
-    protected val sql2o: Sql2o
+  protected val sql2o: Sql2o
 
-    init {
-        registerDriver(driver)
-        val config = HikariConfig()
-        config.jdbcUrl = url
-        config.username = username
-        config.password = password
-        config.addDataSourceProperty("cachePrepStmts", "true")
-        config.addDataSourceProperty("prepStmtCacheSize", "250")
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
-        config.isAutoCommit = false
-        val ds = HikariDataSource(config)
-        ds.maximumPoolSize = 5
-        val maps = HashMap<Class<*>, Converter<*>>()
-        maps[LocalDate::class.java] = LocalDateConverter()
-        maps[LocalTime::class.java] = LocalSqlTimeConverter()
-        maps[ByteArray::class.java] = ByteArrayConverter()
-        this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
-    }
+  init {
+    registerDriver(driver)
+    val config = HikariConfig()
+    config.jdbcUrl = url
+    config.username = username
+    config.password = password
+    config.addDataSourceProperty("cachePrepStmts", "true")
+    config.addDataSourceProperty("prepStmtCacheSize", "250")
+    config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
+    config.isAutoCommit = false
+    val ds = HikariDataSource(config)
+    ds.maximumPoolSize = 5
+    val maps = HashMap<Class<*>, Converter<*>>()
+    maps[LocalDate::class.java] = LocalDateConverter()
+    maps[LocalTime::class.java] = LocalSqlTimeConverter()
+    maps[ByteArray::class.java] = ByteArrayConverter()
+    this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
+  }
 
-    private fun registerDriver(driver: String) {
-        try {
-            Class.forName(driver)
-        } catch (e: ClassNotFoundException) { //throw RuntimeException(e)
-        }
+  private fun registerDriver(driver: String) {
+    try {
+      Class.forName(driver)
+    } catch (e: ClassNotFoundException) { //throw RuntimeException(e)
     }
+  }
 
-    protected fun <T : Any> query(
-            file: String,
-            classes: KClass<T>,
-            lambda: QueryHandle = {}
-                                 ): List<T> {
-        val statements = toStratments(file)
-        if (statements.isEmpty()) return emptyList()
-        val lastIndex = statements.lastIndex
-        val query = statements[lastIndex]
-        val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
-        return transaction { con ->
-            scriptSQL(con, updates, lambda)
-            val ret: List<T> = querySQL(con, query, classes, lambda)
-            ret
-        }
+  protected fun <T : Any> query(
+    file: String, classes: KClass<T>, lambda: QueryHandle = {}
+                               ): List<T> {
+    val statements = toStratments(file)
+    if (statements.isEmpty()) return emptyList()
+    val lastIndex = statements.lastIndex
+    val query = statements[lastIndex]
+    val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
+    return transaction { con ->
+      scriptSQL(con, updates, lambda)
+      val ret: List<T> = querySQL(con, query, classes, lambda)
+      ret
     }
+  }
 
-    private fun <T : Any> querySQL(
-            con: Connection,
-            sql: String?,
-            classes: KClass<T>,
-            lambda: QueryHandle = {}
-                                  ): List<T> {
-        val query = con.createQuery(sql)
-        query.lambda()
-        println(sql)
-        return query.executeAndFetch(classes.java)
-    }
+  private fun <T : Any> querySQL(
+    con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}
+                                ): List<T> {
+    val query = con.createQuery(sql)
+    query.lambda()
+    println(sql)
+    return query.executeAndFetch(classes.java)
+  }
 
-    protected fun script(file: String, lambda: QueryHandle = {}) {
-        val stratments = toStratments(file)
-        transaction { con ->
-            scriptSQL(con, stratments, lambda)
-        }
+  protected fun script(file: String, lambda: QueryHandle = {}) {
+    val stratments = toStratments(file)
+    transaction { con ->
+      scriptSQL(con, stratments, lambda)
     }
+  }
 
-    fun toStratments(file: String): List<String> {
-        return if (file.startsWith("/")) readFile(file).split(";")
-                .filter { it.isNotBlank() || it.isNotEmpty() }
-        else listOf(file)
-    }
+  fun toStratments(file: String): List<String> {
+    return if (file.startsWith("/")) readFile(file).split(";")
+      .filter { it.isNotBlank() || it.isNotEmpty() }
+    else listOf(file)
+  }
 
-    private fun scriptSQL(con: Connection, stratments: List<String>, lambda: QueryHandle = {}) {
-        stratments.forEach { sql ->
-            val query = con.createQuery(sql)
-            query.lambda()
-            query.executeUpdate()
-            println(sql)
-        }
+  private fun scriptSQL(con: Connection, stratments: List<String>, lambda: QueryHandle = {}) {
+    stratments.forEach { sql ->
+      val query = con.createQuery(sql)
+      query.lambda()
+      query.executeUpdate()
+      println(sql)
     }
+  }
 
-    fun Query.addOptionalParameter(name: String, value: String?): Query {
-        if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
-        return this
-    }
+  fun Query.addOptionalParameter(name: String, value: String?): Query {
+    if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
+    return this
+  }
 
-    fun Query.addOptionalParameter(name: String, value: ByteArray?): Query {
-        if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
-        return this
-    }
+  fun Query.addOptionalParameter(name: String, value: ByteArray?): Query {
+    if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
+    return this
+  }
 
-    fun Query.addOptionalParameter(name: String, value: Int): Query {
-        if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
-        return this
-    }
+  fun Query.addOptionalParameter(name: String, value: Int): Query {
+    if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
+    return this
+  }
 
-    fun Query.addOptionalParameter(name: String, value: Double): Query {
-        if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
-        return this
-    }
+  fun Query.addOptionalParameter(name: String, value: Double): Query {
+    if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
+    return this
+  }
 
-    private fun <T> transaction(block: (Connection) -> T): T {
-        return sql2o.beginTransaction().use { con ->
-            val ret = block(con)
-            con.commit()
-            ret
-        }
+  private fun <T> transaction(block: (Connection) -> T): T {
+    return sql2o.beginTransaction().use { con ->
+      val ret = block(con)
+      con.commit()
+      ret
     }
+  }
 }
 

@@ -1,5 +1,5 @@
 DELETE
-FROM nfdevFile
+FROM sqldados.nfdevFile
 WHERE storeno = :storeno
   AND pdvno = :pdvno
   AND xano = :xano

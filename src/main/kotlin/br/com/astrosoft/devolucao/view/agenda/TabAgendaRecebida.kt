@@ -7,11 +7,11 @@ import br.com.astrosoft.framework.model.IUser
 
 class TabAgendaRecebida(viewModel: TabAgendaViewModelRecebida) : TabAgendaAbstract(viewModel),
                                                                  ITabAgendaRecebida {
-    override fun isAuthorized(user: IUser): Boolean {
-        val username = user as? UserSaci
-        return username?.agendaRecebida == true
-    }
+  override fun isAuthorized(user: IUser): Boolean {
+    val username = user as? UserSaci
+    return username?.agendaRecebida == true
+  }
 
-    override val label: String
-        get() = "Recebido"
+  override val label: String
+    get() = "Recebido"
 }
