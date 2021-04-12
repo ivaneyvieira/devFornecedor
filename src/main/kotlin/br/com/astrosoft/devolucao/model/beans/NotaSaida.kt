@@ -54,7 +54,7 @@ class NotaSaida(
   fun listaProdutos() = when (tipo) {
     "PED" -> saci.produtosPedido(this)
     "ENT" -> saci.produtosEntrada(this)
-    else  -> saci.produtosNotaSaida(this)
+    else -> saci.produtosNotaSaida(this)
   }
 
   val valorNota
@@ -102,21 +102,22 @@ class NotaSaida(
     private val fornecedores = mutableListOf<Fornecedor>()
 
     fun updateNotasDevolucao(
-      serie: Serie, pago66: SimNao, coleta66: SimNao, remessaConserto: SimNao
+      serie: Serie, pago66: SimNao, pago01: SimNao, coleta66: SimNao, remessaConserto: SimNao
                             ) {
       val user = AppConfig.user as? UserSaci
       val loja = if (user?.admin == true) 0 else user?.storeno ?: 0
       val notas = when (serie) {
-        PED  -> saci.pedidosDevolucao()
-        ENT  -> saci.entradaDevolucao()
+        PED -> saci.pedidosDevolucao()
+        ENT -> saci.entradaDevolucao()
         else -> saci.notasDevolucao(serie)
       }
       val grupos = notas.asSequence()
-        .filter { it.loja == loja || loja == 0 }
-        .filter { pago66 == NONE || it.serie66Pago == pago66.value }
-        .filter { coleta66 == NONE || it.serie01Coleta == coleta66.value }
-        .filter { remessaConserto == NONE || it.remessaConserto == remessaConserto.value }
-        .groupBy { it.chaveFornecedor() }
+              .filter { it.loja == loja || loja == 0 }
+              .filter { pago66 == NONE || it.serie66Pago == pago66.value }
+              .filter { pago01 == NONE || it.serie01Pago == pago01.value }
+              .filter { coleta66 == NONE || it.serie01Coleta == coleta66.value }
+              .filter { remessaConserto == NONE || it.remessaConserto == remessaConserto.value }
+              .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
         Fornecedor(
@@ -136,10 +137,5 @@ class NotaSaida(
 }
 
 data class ChaveFornecedor(
-  val custno: Int,
-  val fornecedor: String,
-  val vendno: Int,
-  val email: String,
-  val tipo: String,
-  val obs: String
+  val custno: Int, val fornecedor: String, val vendno: Int, val email: String, val tipo: String, val obs: String
                           )
