@@ -27,6 +27,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
     NotaSaida.updateNotasDevolucao(
       subView.serie,
       subView.pago66,
+      subView.pago01,
       subView.coleta01,
       subView.remessaConserto
                                   )
@@ -174,6 +175,7 @@ enum class Serie(val value: String) {
 interface ITabNota : ITabView {
   val serie: Serie
   val pago66: SimNao
+  val pago01: SimNao
   val coleta01: SimNao
   val remessaConserto: SimNao
 

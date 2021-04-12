@@ -22,6 +22,7 @@ class DevolucaoView : ViewLayout<DevolucaoViewModel>(), IDevolucaoView {
   override val tabNotaRemessaConserto =
     TabNotaRemessaConserto(viewModel.tabNotaRemessaConsertoViewModel)
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaSerie01ViewModel)
+  override val tabNotaSerie01Pago = TabNotaSerie01Pago(viewModel.tabNotaSerie01PagoViewModel)
   override val tabNotaSerie01Coleta = TabNotaSerie01Coleta(viewModel.tabNotaSerie01ColetaViewModel)
   override val tabEmailRecebido = TabEmailRecebido(viewModel.tabEmailRecebidoViewModel)
 

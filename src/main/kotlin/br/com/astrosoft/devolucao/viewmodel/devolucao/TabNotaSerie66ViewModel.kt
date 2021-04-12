@@ -12,6 +12,8 @@ interface ITabNotaSerie66 : ITabNota {
     get() = Serie.Serie66
   override val pago66: SimNao
     get() = SimNao.NAO
+  override val pago01: SimNao
+    get() = SimNao.NONE
   override val coleta01: SimNao
     get() = SimNao.NONE
   override val remessaConserto: SimNao

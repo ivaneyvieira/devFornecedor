@@ -1,19 +1,19 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabNotaSerie01ViewModel(viewModel: DevolucaoViewModel) : TabDevolucaoViewModelAbstract(
+class TabNotaSerie01PagoViewModel(viewModel: DevolucaoViewModel) : TabDevolucaoViewModelAbstract(
   viewModel
                                                                                             ) {
   override val subView
     get() = viewModel.view.tabNotaSerie01
 }
 
-interface ITabNotaSerie01 : ITabNota {
+interface ITabNotaSerie01Pago : ITabNota {
   override val serie: Serie
     get() = Serie.Serie01
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao
-    get() = SimNao.NAO
+    get() = SimNao.SIM
   override val coleta01: SimNao
     get() = SimNao.NONE
   override val remessaConserto: SimNao
