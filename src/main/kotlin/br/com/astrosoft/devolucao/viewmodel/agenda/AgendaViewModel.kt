@@ -8,8 +8,7 @@ class AgendaViewModel(view: IAgendaView) : ViewModel<IAgendaView>(view) {
   val tabAgendadaVMNaoAgendada = TabAgendaViewModelNaoAgendada(this)
   val tabAgendadaVMRecebida = TabAgendaViewModelRecebida(this)
 
-  override fun listTab() =
-    listOf(view.tabAgendaNaoAgendada, view.tabAgendaAgendada, view.tabAgendaRecebida)
+  override fun listTab() = listOf(view.tabAgendaNaoAgendada, view.tabAgendaAgendada, view.tabAgendaRecebida)
 }
 
 interface IAgendaView : IView {

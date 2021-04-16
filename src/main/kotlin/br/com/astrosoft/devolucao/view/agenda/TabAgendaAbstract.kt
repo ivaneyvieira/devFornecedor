@@ -37,9 +37,7 @@ import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
-abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : TabPanelGrid<Agenda>(
-  Agenda::class
-                                                                                                  ),
+abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : TabPanelGrid<Agenda>(Agenda::class),
                                                                               ITabAgenda {
   private lateinit var edtFiltro: TextField
 
@@ -85,12 +83,8 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
       }
     }
 
-    sort(
-      listOf(
-        GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
-        GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)
-            )
-        )
+    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
+                GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
   }
 
   override fun updateComponent() {

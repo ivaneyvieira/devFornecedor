@@ -61,9 +61,7 @@ import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract) : TabPanelGrid<Fornecedor>(
-  Fornecedor::class
-                                                                                                            ),
+abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract) : TabPanelGrid<Fornecedor>(Fornecedor::class),
                                                                                     ITabNota {
   private lateinit var edtFiltro: TextField
 
@@ -168,16 +166,15 @@ class DlgEditRmkVend {
 
 class DlgEditRmk {
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-      toolBar = { window ->
-        button("Salva") {
-          icon = CHECK.create()
-          onLeftClick {
-            save(nota)
-            window.close()
-          }
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = { window ->
+      button("Salva") {
+        icon = CHECK.create()
+        onLeftClick {
+          save(nota)
+          window.close()
         }
-      }) {
+      }
+    }) {
       createFormEditRmk(nota)
     }
     form.open()
@@ -247,17 +244,16 @@ class DlgEnviaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
 class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit) {
     val grid = createFormEditFile(nota)
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}",
-      toolBar = { _ ->
-        val (buffer, upload) = uploadFile()
-        upload.addSucceededListener {
-          val fileName = it.fileName
-          val bytes = buffer.getInputStream(fileName).readBytes()
-          val nfFile = NFFile.new(nota, fileName, bytes)
-          insert(nfFile)
-          grid.setItems(nota.listFiles())
-        }
-      }) {
+    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = { _ ->
+      val (buffer, upload) = uploadFile()
+      upload.addSucceededListener {
+        val fileName = it.fileName
+        val bytes = buffer.getInputStream(fileName).readBytes()
+        val nfFile = NFFile.new(nota, fileName, bytes)
+        insert(nfFile)
+        grid.setItems(nota.listFiles())
+      }
+    }) {
       grid
     }
     form.open()
@@ -309,10 +305,9 @@ class DlgFornecedor {
   fun showDialogRepresentante(fornecedor: Fornecedor?) {
     fornecedor ?: return
     val listRepresentantes = fornecedor.listRepresentantes()
-    val form =
-      SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})") {
-        createGridRepresentantes(listRepresentantes)
-      }
+    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})") {
+      createGridRepresentantes(listRepresentantes)
+    }
     form.open()
   }
 
@@ -330,8 +325,7 @@ class DlgFornecedor {
   }
 }
 
-class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado: EmailDB? = null) :
-  VerticalLayout() {
+class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado: EmailDB? = null) : VerticalLayout() {
   private lateinit var chkPlanilha: Checkbox
   private lateinit var edtAssunto: TextField
   private var rteMessage: TextArea
@@ -340,22 +334,19 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   private lateinit var chkRelatorioResumido: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
   private var gmail: EmailGmail
-    get() = EmailGmail(
-      email = cmbEmail.value ?: "",
-      assunto = edtAssunto.value ?: "",
-      msg = { rteMessage.value ?: "" },
-      msgHtml = rteMessage.value ?: "",
-      planilha = if (chkPlanilha.value) "S" else "N",
-      relatorio = if (chkRelatorio.value) "S" else "N",
-      relatorioResumido = if (chkRelatorioResumido.value) "S" else "N",
-      anexos = if (chkAnexos.value) "S" else "N",
-      messageID = ""
-                      )
+    get() = EmailGmail(email = cmbEmail.value ?: "",
+                       assunto = edtAssunto.value ?: "",
+                       msg = { rteMessage.value ?: "" },
+                       msgHtml = rteMessage.value ?: "",
+                       planilha = if (chkPlanilha.value) "S" else "N",
+                       relatorio = if (chkRelatorio.value) "S" else "N",
+                       relatorioResumido = if (chkRelatorioResumido.value) "S" else "N",
+                       anexos = if (chkAnexos.value) "S" else "N",
+                       messageID = "")
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto
-      rteMessage.value =
-        htmlToText(value.msg()) //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
+      rteMessage.value = htmlToText(value.msg()) //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
       chkPlanilha.value = value.planilha == "S"
       chkRelatorio.value = value.relatorio == "S"
       chkRelatorioResumido.value = value.relatorioResumido == "S"
@@ -408,41 +399,40 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
-    val form =
-      SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})",
-        toolBar = {
-          val captionImpressoa = if (serie == Serie66 || serie == PED) "Impressão Completa"
-          else "Impressão"
-          button(captionImpressoa) {
-            icon = PRINT.create()
-            onLeftClick {
-              val notas = gridNota.asMultiSelect().selectedItems.toList()
-              viewModel.imprimirNotaDevolucao(notas)
-            }
-          }
-          if (serie == Serie66 || serie == PED) {
-            button("Impressão Resumida") {
-              icon = PRINT.create()
-              onLeftClick {
-                val notas = gridNota.asMultiSelect().selectedItems.toList()
-                viewModel.imprimirNotaDevolucao(notas, resumida = true)
-              }
-            }
-          }
-          this.add(buttonPlanilha {
-            gridNota.asMultiSelect().selectedItems.toList()
-          })
-          button("Email") {
-            icon = ENVELOPE_O.create()
-            onLeftClick {
-              val notas = gridNota.asMultiSelect().selectedItems.toList()
-              viewModel.enviarEmail(notas)
-            }
-          }
-        }) {
-        gridNota = createGridNotas(listNotas, serie)
-        gridNota
-      }
+    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})",
+                             toolBar = {
+                               val captionImpressoa = if (serie == Serie66 || serie == PED) "Impressão Completa"
+                               else "Impressão"
+                               button(captionImpressoa) {
+                                 icon = PRINT.create()
+                                 onLeftClick {
+                                   val notas = gridNota.asMultiSelect().selectedItems.toList()
+                                   viewModel.imprimirNotaDevolucao(notas)
+                                 }
+                               }
+                               if (serie == Serie66 || serie == PED) {
+                                 button("Impressão Resumida") {
+                                   icon = PRINT.create()
+                                   onLeftClick {
+                                     val notas = gridNota.asMultiSelect().selectedItems.toList()
+                                     viewModel.imprimirNotaDevolucao(notas, resumida = true)
+                                   }
+                                 }
+                               }
+                               this.add(buttonPlanilha {
+                                 gridNota.asMultiSelect().selectedItems.toList()
+                               })
+                               button("Email") {
+                                 icon = ENVELOPE_O.create()
+                                 onLeftClick {
+                                   val notas = gridNota.asMultiSelect().selectedItems.toList()
+                                   viewModel.enviarEmail(notas)
+                                 }
+                               }
+                             }) {
+      gridNota = createGridNotas(listNotas, serie)
+      gridNota
+    }
     form.open()
   }
 
@@ -485,20 +475,8 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
         val totalPedido = listNotas.sumByDouble { it.valorNota }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
-      if (serie == PED) sort(
-        listOf(
-          GridSortOrder(
-            getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING
-                       )
-              )
-                            )
-      else sort(
-        listOf(
-          GridSortOrder(
-            getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING
-                       )
-              )
-               )
+      if (serie == PED) sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
+      else sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
     }
   }
 

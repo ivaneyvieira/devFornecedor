@@ -24,13 +24,11 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun listFornecedores(): List<Fornecedor> {
     subView.setFiltro("")
-    NotaSaida.updateNotasDevolucao(
-      subView.serie,
-      subView.pago66,
-      subView.pago01,
-      subView.coleta01,
-      subView.remessaConserto
-                                  )
+    NotaSaida.updateNotasDevolucao(subView.serie,
+                                   subView.pago66,
+                                   subView.pago01,
+                                   subView.coleta01,
+                                   subView.remessaConserto)
     return NotaSaida.findFornecedores()
   }
 
@@ -62,9 +60,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
   private fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
     return this.filter {
       val filtroNum = txt.toIntOrNull() ?: 0
-      it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(
-        txt, ignoreCase = true
-                                                                                  )
+      it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txt, ignoreCase = true)
     }
   }
 
@@ -88,9 +84,10 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
     val filesReport = createReports(gmail, notas)
     val filesPlanilha = createPlanilha(gmail, notas)
     val filesAnexo = createAnexos(gmail, notas)
-    val enviadoComSucesso = mail.sendMail(
-      gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo
-                                         )
+    val enviadoComSucesso = mail.sendMail(gmail.email,
+                                          gmail.assunto,
+                                          gmail.msgHtml,
+                                          filesReport + filesPlanilha + filesAnexo)
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->
@@ -102,7 +99,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun createAnexos(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when (gmail.anexos) {
-      "S"  -> {
+      "S" -> {
         notas.flatMap { nota ->
           nota.listFiles().map { nfile ->
             FileAttach(nfile.nome, nfile.file)
@@ -116,7 +113,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when (gmail.planilha) {
-      "S"  -> {
+      "S" -> {
         notas.map { nota ->
           val planilha = geraPlanilha(listOf(nota))
           FileAttach("Planilha da Nota ${nota.nota.replace("/", "_")}.xlsx", planilha)
@@ -129,7 +126,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun createReports(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     val relatoriosCompleto = when (gmail.relatorio) {
-      "S"  -> {
+      "S" -> {
         notas.map { nota ->
           val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false)
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf", report)
@@ -139,7 +136,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
       else -> emptyList()
     }
     val relatoriosResumido = when (gmail.relatorioResumido) {
-      "S"  -> {
+      "S" -> {
         notas.map { nota ->
           val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true)
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf.pdf", report)
@@ -165,11 +162,17 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 }
 
 enum class SimNao(val value: String) {
-  SIM("S"), NAO("N"), NONE("")
+  SIM("S"),
+  NAO("N"),
+  NONE("")
 }
 
 enum class Serie(val value: String) {
-  Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), VAZIO("")
+  Serie01("1"),
+  Serie66("66"),
+  PED("PED"),
+  ENT("ENT"),
+  VAZIO("")
 }
 
 interface ITabNota : ITabView {

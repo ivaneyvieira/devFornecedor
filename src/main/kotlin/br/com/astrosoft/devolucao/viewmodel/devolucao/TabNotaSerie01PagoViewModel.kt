@@ -1,11 +1,10 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
-import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.Serie01
+import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
+import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.SIM
 
-class TabNotaSerie01PagoViewModel(viewModel: DevolucaoViewModel) : TabDevolucaoViewModelAbstract(
-  viewModel
-                                                                                            ) {
+class TabNotaSerie01PagoViewModel(viewModel: DevolucaoViewModel) : TabDevolucaoViewModelAbstract(viewModel) {
   override val subView
     get() = viewModel.view.tabNotaSerie01Pago
 }

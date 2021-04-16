@@ -31,14 +31,11 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
-@PWA(
-  name = AppConfig.title,
-  shortName = AppConfig.shortName,
-  iconPath = AppConfig.iconPath,
-  enableInstallPrompt = false
-    )
-@JsModule("./styles/shared-styles.js")
-class DevFornecedorLayout : AppLayout() {
+@PWA(name = AppConfig.title,
+     shortName = AppConfig.shortName,
+     iconPath = AppConfig.iconPath,
+     enableInstallPrompt = false)
+@JsModule("./styles/shared-styles.js") class DevFornecedorLayout : AppLayout() {
   init {
     isDrawerOpened = true
     navbar {
