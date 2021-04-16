@@ -78,41 +78,42 @@ FROM sqldados.dup           AS D
 	       ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
-SELECT N.storeno                                 AS loja,
-       S.sname                                   AS sigla,
-       N.pdvno                                   AS pdv,
-       N.xano                                    AS transacao,
-       N.eordno                                  AS pedido,
-       CAST(N.pedidoDate AS DATE)                AS dataPedido,
-       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
-       IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
-       CAST(N.issuedate AS DATE)                 AS dataNota,
-       N.custno                                  AS custno,
-       N.fornecedorNome                          AS fornecedor,
-       N.email                                   AS email,
-       N.vendno                                  AS vendno,
-       IFNULL(R.rmk, '')                         AS rmk,
-       SUM(N.valor)                              AS valor,
-       IFNULL(obsNota, '')                       AS obsNota,
-       serie01Rejeitada                          AS serie01Rejeitada,
-       serie01Pago                               AS serie01Pago,
-       serie01Coleta                             AS serie01Coleta,
-       serie66Pago                               AS serie66Pago,
-       remessaConserto                           AS remessaConserto,
-       remarks                                   AS remarks,
-       baseIcms                                  AS baseIcms,
-       valorIcms                                 AS valorIcms,
-       baseIcmsSubst                             AS baseIcmsSubst,
-       icmsSubst                                 AS icmsSubst,
-       valorFrete                                AS valorFrete,
-       valorSeguro                               AS valorSeguro,
-       outrasDespesas                            AS outrasDespesas,
-       valorIpi                                  AS valorIpi,
-       valorTotal                                AS valorTotal,
-       N.obsPedido                               AS obsPedido,
-       N.nfse                                    AS tipo,
-       IFNULL(RV.rmk, '')                        AS rmkVend,
-       chave                                     AS chave
+SELECT N.storeno                                                                               AS loja,
+       S.sname                                                                                 AS sigla,
+       N.pdvno                                                                                 AS pdv,
+       N.xano                                                                                  AS transacao,
+       N.eordno                                                                                AS pedido,
+       CAST(N.pedidoDate AS DATE)                                                              AS dataPedido,
+       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                                               AS nota,
+       IFNULL(CAST(D.fatura AS CHAR), '')                                                      AS fatura,
+       CAST(N.issuedate AS DATE)                                                               AS dataNota,
+       N.custno                                                                                AS custno,
+       N.fornecedorNome                                                                        AS fornecedor,
+       N.email                                                                                 AS email,
+       N.vendno                                                                                AS vendno,
+       IFNULL(R.rmk, '')                                                                       AS rmk,
+       SUM(N.valor)                                                                            AS valor,
+       IFNULL(obsNota, '')                                                                     AS obsNota,
+       serie01Rejeitada                                                                        AS serie01Rejeitada,
+       IF((D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR N.serie01Pago = 'S', 'S',
+	  'N')                                                                                 AS serie01Pago,
+       serie01Coleta                                                                           AS serie01Coleta,
+       serie66Pago                                                                             AS serie66Pago,
+       remessaConserto                                                                         AS remessaConserto,
+       remarks                                                                                 AS remarks,
+       baseIcms                                                                                AS baseIcms,
+       valorIcms                                                                               AS valorIcms,
+       baseIcmsSubst                                                                           AS baseIcmsSubst,
+       icmsSubst                                                                               AS icmsSubst,
+       valorFrete                                                                              AS valorFrete,
+       valorSeguro                                                                             AS valorSeguro,
+       outrasDespesas                                                                          AS outrasDespesas,
+       valorIpi                                                                                AS valorIpi,
+       valorTotal                                                                              AS valorTotal,
+       N.obsPedido                                                                             AS obsPedido,
+       N.nfse                                                                                  AS tipo,
+       IFNULL(RV.rmk, '')                                                                      AS rmkVend,
+       chave                                                                                   AS chave
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
@@ -124,7 +125,6 @@ FROM TNF                        AS N
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-WHERE (IFNULL(D.valorDevido, 100) > 0)
-  AND (IFNULL(status, 0) <> 5)
-/*  AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')*/
+WHERE (IFNULL(status, 0) <> 5)
+  AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno
