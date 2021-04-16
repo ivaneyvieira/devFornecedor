@@ -23,9 +23,7 @@ import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class TabNotaPendente(val viewModel: TabNotaPendenteViewModel) : TabPanelGrid<FornecedorEntrada>(
-  FornecedorEntrada::class
-                                                                                                ),
+class TabNotaPendente(val viewModel: TabNotaPendenteViewModel) : TabPanelGrid<FornecedorEntrada>(FornecedorEntrada::class),
                                                                  ITabNotaPendente {
   override fun HorizontalLayout.toolBarConfig() {
   }
