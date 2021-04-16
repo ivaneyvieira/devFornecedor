@@ -10,17 +10,14 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(layout = DevFornecedorLayout::class)
-@PageTitle("Devolução")
-@CssImport("./styles/gridTotal.css")
+@Route(layout = DevFornecedorLayout::class) @PageTitle("Devolução") @CssImport("./styles/gridTotal.css")
 class DevolucaoView : ViewLayout<DevolucaoViewModel>(), IDevolucaoView {
   override val viewModel: DevolucaoViewModel = DevolucaoViewModel(this)
   override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)
   override val tabEntrada = TabEntrada(viewModel.tabEntradaViewModel)
   override val tabNotaSerie66 = TabNotaSerie66(viewModel.tabNotaDevolucaoViewModel)
   override val tabNotaSerie66Pago = TabNotaSerie66Pago(viewModel.tabNota66PagoViewModel)
-  override val tabNotaRemessaConserto =
-    TabNotaRemessaConserto(viewModel.tabNotaRemessaConsertoViewModel)
+  override val tabNotaRemessaConserto = TabNotaRemessaConserto(viewModel.tabNotaRemessaConsertoViewModel)
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaSerie01ViewModel)
   override val tabNotaSerie01Pago = TabNotaSerie01Pago(viewModel.tabNotaSerie01PagoViewModel)
   override val tabNotaSerie01Coleta = TabNotaSerie01Coleta(viewModel.tabNotaSerie01ColetaViewModel)
