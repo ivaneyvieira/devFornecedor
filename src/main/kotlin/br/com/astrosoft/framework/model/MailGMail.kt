@@ -133,7 +133,7 @@ class MailGMail {
         folder.fetch(messages, profile)
         messages.filter {
           if (subjectSearch == "") it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
-          else it.subject.contains(subjectSearch)
+          else it.subject?.contains(subjectSearch) ?: false
         }.mapNotNull { message ->
           EmailMessage(
             messageID = (message as? IMAPMessage)?.messageID ?: "",
