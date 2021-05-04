@@ -2,6 +2,8 @@ package br.com.astrosoft.devolucao.view.reports
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontGrande
+import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontNormal
+import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontNormalCol
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
@@ -23,35 +25,34 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, val labelTitle: String) {
 
   val dataNotaCol = col.column("Data", NotaSaida::dataNotaString.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(50)
+    this.setFixedWidth(60)
   }
 
   val notaInvCol = col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(50)
+    this.setFixedWidth(60)
   }
 
   val faturaCol = col.column("Fatura", NotaSaida::fatura.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(50)
+    this.setFixedWidth(60)
   }
 
   val valorCol = col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
     this.setPattern("#,##0.00")
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(80)
+    this.setFixedWidth(100)
   }
-
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(lojaCol, dataNotaCol, notaInvCol, faturaCol, valorCol)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
-    val largura = 40 + 50 + 50 + 50 + 80
+    val largura = 40 + 60 + 60 + 60 + 100
     return verticalBlock {
       horizontalList {
-        text("FONECEDOR", CENTER, largura).apply {
+        text("FORNECEDOR", CENTER, largura).apply {
           this.setStyle(fieldFontGrande)
         }
       }
@@ -87,6 +88,8 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, val labelTitle: String) {
             .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
             .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
             .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+            .setColumnStyle(fieldFontNormal)
+            .setColumnTitleStyle(fieldFontNormalCol)
   }
 
   companion object {
