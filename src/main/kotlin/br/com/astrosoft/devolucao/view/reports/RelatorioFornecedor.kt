@@ -3,10 +3,9 @@ package br.com.astrosoft.devolucao.view.reports
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontGrande
-import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
-import net.sf.dynamicreports.report.builder.column.ColumnBuilder
+import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
@@ -16,12 +15,10 @@ import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
-import java.time.LocalDate
-import java.time.LocalTime
 
 class RelatorioFornecedor(val fornecedor: Fornecedor) {
   val lojaCol = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
-    this.setHorizontalTextAlignment(RIGHT) //this.setPattern("000000")
+    this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(40)
   }
 
@@ -47,20 +44,20 @@ class RelatorioFornecedor(val fornecedor: Fornecedor) {
   }
 
 
-  private fun columnBuilder(): List<ColumnBuilder<*, *>> {
+  private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(lojaCol, dataNotaCol, notaInvCol, faturaCol, valorCol)
-
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
+    val largura = 40 + 50 + 50 + 50 + 80
     return verticalBlock {
       horizontalList {
-        text("FONECEDOR", CENTER).apply {
+        text("FONECEDOR", CENTER, largura).apply {
           this.setStyle(fieldFontGrande)
         }
       }
       horizontalList {
-        text("${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", LEFT)
+        text("${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", LEFT, largura)
       }
       horizontalList {
         text("")
