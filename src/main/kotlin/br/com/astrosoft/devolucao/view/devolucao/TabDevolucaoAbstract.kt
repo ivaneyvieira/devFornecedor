@@ -23,6 +23,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumn
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaRepresentante
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaTelefone
+import br.com.astrosoft.devolucao.view.reports.RelatorioFornecedor
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
@@ -109,6 +110,12 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
   override fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean) {
     val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida)
     val chave = "DevReport"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimeRelatorio(fornecedor: Fornecedor) {
+    val report = RelatorioFornecedor.processaRelatorio(fornecedor)
+    val chave = "DevFornecedor"
     SubWindowPDF(chave, report).open()
   }
 
@@ -399,7 +406,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
-    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})",
+    val form = SubWindowForm(fornecedor.labelTitle,
                              toolBar = {
                                val captionImpressoa = if (serie == Serie66 || serie == PED) "Impressão Completa"
                                else "Impressão"
@@ -427,6 +434,14 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
                                  onLeftClick {
                                    val notas = gridNota.asMultiSelect().selectedItems.toList()
                                    viewModel.enviarEmail(notas)
+                                 }
+                               }
+                               if (serie in listOf(Serie01, Serie66)) {
+                                 button("Relatório") {
+                                   icon = PRINT.create()
+                                   onLeftClick {
+                                     viewModel.imprimirRelatorio(fornecedor)
+                                   }
                                  }
                                }
                              }) {

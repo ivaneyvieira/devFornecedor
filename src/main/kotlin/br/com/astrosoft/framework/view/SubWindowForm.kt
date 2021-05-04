@@ -7,9 +7,9 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class SubWindowForm(
-  labelTitle: String,
+  protected val labelTitle: String,
   val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
-  val blockForm: () -> Component
+  val blockForm: () -> Component,
                    ) : Dialog() {
   init {
     width = "100%"

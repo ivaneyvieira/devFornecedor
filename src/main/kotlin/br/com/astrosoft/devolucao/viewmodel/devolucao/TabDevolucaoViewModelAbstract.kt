@@ -18,6 +18,13 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
     subView.imprimeSelecionados(notas, resumida)
   }
 
+  fun imprimirRelatorio(fornecedor: Fornecedor) {
+    fornecedor.notas.ifEmpty {
+      fail("Não nenhuma nota selecionada")
+    }
+    subView.imprimeRelatorio(fornecedor)
+  }
+
   override fun updateView() = viewModel.exec {
     subView.updateGrid(listFornecedores())
   }
@@ -185,6 +192,7 @@ interface ITabNota : ITabView {
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)
+  fun imprimeRelatorio(fornecedor: Fornecedor)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String

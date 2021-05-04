@@ -10,50 +10,56 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
 import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 import javax.mail.internet.InternetAddress
 
-class NotaSaida(val loja: Int,
-                val sigla: String,
-                val pdv: Int,
-                val transacao: Int,
-                val pedido: Int,
-                val dataPedido: LocalDate,
-                val nota: String,
-                val fatura: String,
-                val dataNota: LocalDate,
-                val custno: Int,
-                val fornecedor: String,
-                val email: String,
-                val vendno: Int,
-                var rmk: String,
-                val valor: Double,
-                val obsNota: String,
-                val serie01Rejeitada: String,
-                val serie01Pago: String,
-                val serie01Coleta: String,
-                val serie66Pago: String,
-                val remessaConserto: String,
-                val remarks: String,
-                val baseIcms: Double = 0.00,
-                val valorIcms: Double = 0.00,
-                val baseIcmsSubst: Double = 0.00,
-                val icmsSubst: Double = 0.00,
-                val valorFrete: Double = 0.00,
-                val valorSeguro: Double = 0.00,
-                val valorDesconto: Double = 0.00,
-                val outrasDespesas: Double = 0.00,
-                val valorIpi: Double = 0.00,
-                val valorTotal: Double = 0.00,
-                val obsPedido: String,
-                val tipo: String,
-                val rmkVend: String,
-                val chave: String) {
+class NotaSaida(
+  val loja: Int,
+  val sigla: String,
+  val pdv: Int,
+  val transacao: Int,
+  val pedido: Int,
+  val dataPedido: LocalDate,
+  val nota: String,
+  val fatura: String,
+  val dataNota: LocalDate,
+  val custno: Int,
+  val fornecedor: String,
+  val email: String,
+  val vendno: Int,
+  var rmk: String,
+  val valor: Double,
+  val obsNota: String,
+  val serie01Rejeitada: String,
+  val serie01Pago: String,
+  val serie01Coleta: String,
+  val serie66Pago: String,
+  val remessaConserto: String,
+  val remarks: String,
+  val baseIcms: Double = 0.00,
+  val valorIcms: Double = 0.00,
+  val baseIcmsSubst: Double = 0.00,
+  val icmsSubst: Double = 0.00,
+  val valorFrete: Double = 0.00,
+  val valorSeguro: Double = 0.00,
+  val valorDesconto: Double = 0.00,
+  val outrasDespesas: Double = 0.00,
+  val valorIpi: Double = 0.00,
+  val valorTotal: Double = 0.00,
+  val obsPedido: String,
+  val tipo: String,
+  val rmkVend: String,
+  val chave: String,
+               ) {
   fun listaProdutos() = when (tipo) {
     "PED" -> saci.produtosPedido(this)
     "ENT" -> saci.produtosEntrada(this)
-    else -> saci.produtosNotaSaida(this)
+    else  -> saci.produtosNotaSaida(this)
   }
+
+  val dataNotaString
+    get() = dataNota.format()
 
   val valorNota
     get() = if (tipo == "1") valor else listaProdutos().sumByDouble { it.valorTotalIpi }
@@ -101,8 +107,8 @@ class NotaSaida(val loja: Int,
       val user = AppConfig.user as? UserSaci
       val loja = if (user?.admin == true) 0 else user?.storeno ?: 0
       val notas = when (serie) {
-        PED -> saci.pedidosDevolucao()
-        ENT -> saci.entradaDevolucao()
+        PED  -> saci.pedidosDevolucao()
+        ENT  -> saci.entradaDevolucao()
         else -> saci.notasDevolucao(serie)
       }
       val grupos = notas.asSequence()
@@ -128,9 +134,11 @@ class NotaSaida(val loja: Int,
   }
 }
 
-data class ChaveFornecedor(val custno: Int,
-                           val fornecedor: String,
-                           val vendno: Int,
-                           val email: String,
-                           val tipo: String,
-                           val obs: String)
+data class ChaveFornecedor(
+  val custno: Int,
+  val fornecedor: String,
+  val vendno: Int,
+  val email: String,
+  val tipo: String,
+  val obs: String,
+                          )

@@ -2,13 +2,15 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 
-class Fornecedor(val custno: Int,
-                 val fornecedor: String,
-                 val vendno: Int,
-                 val email: String,
-                 val tipo: String,
-                 var obs: String,
-                 val notas: List<NotaSaida>) {
+class Fornecedor(
+  val custno: Int,
+  val fornecedor: String,
+  val vendno: Int,
+  val email: String,
+  val tipo: String,
+  var obs: String,
+  val notas: List<NotaSaida>,
+                ) {
   fun listRepresentantes() = saci.representante(vendno)
 
   val ultimaData = notas.maxOf { nota ->
@@ -28,4 +30,7 @@ class Fornecedor(val custno: Int,
   fun saveRmkVend() {
     saci.saveRmkVend(this)
   }
+
+  val labelTitle
+    get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno})"
 }
