@@ -113,8 +113,8 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     SubWindowPDF(chave, report).open()
   }
 
-  override fun imprimeRelatorio(fornecedor: Fornecedor) {
-    val report = RelatorioFornecedor.processaRelatorio(fornecedor)
+  override fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String) {
+    val report = RelatorioFornecedor.processaRelatorio(notas, labelTitle)
     val chave = "DevFornecedor"
     SubWindowPDF(chave, report).open()
   }
@@ -406,45 +406,45 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
-    val form = SubWindowForm(fornecedor.labelTitle,
-                             toolBar = {
-                               val captionImpressoa = if (serie == Serie66 || serie == PED) "Impressão Completa"
-                               else "Impressão"
-                               button(captionImpressoa) {
-                                 icon = PRINT.create()
-                                 onLeftClick {
-                                   val notas = gridNota.asMultiSelect().selectedItems.toList()
-                                   viewModel.imprimirNotaDevolucao(notas)
-                                 }
-                               }
-                               if (serie == Serie66 || serie == PED) {
-                                 button("Impressão Resumida") {
-                                   icon = PRINT.create()
-                                   onLeftClick {
-                                     val notas = gridNota.asMultiSelect().selectedItems.toList()
-                                     viewModel.imprimirNotaDevolucao(notas, resumida = true)
-                                   }
-                                 }
-                               }
-                               this.add(buttonPlanilha {
-                                 gridNota.asMultiSelect().selectedItems.toList()
-                               })
-                               button("Email") {
-                                 icon = ENVELOPE_O.create()
-                                 onLeftClick {
-                                   val notas = gridNota.asMultiSelect().selectedItems.toList()
-                                   viewModel.enviarEmail(notas)
-                                 }
-                               }
-                               if (serie in listOf(Serie01, Serie66)) {
-                                 button("Relatório") {
-                                   icon = PRINT.create()
-                                   onLeftClick {
-                                     viewModel.imprimirRelatorio(fornecedor)
-                                   }
-                                 }
-                               }
-                             }) {
+    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+      val captionImpressoa = if (serie == Serie66 || serie == PED) "Impressão Completa"
+      else "Impressão"
+      button(captionImpressoa) {
+        icon = PRINT.create()
+        onLeftClick {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirNotaDevolucao(notas)
+        }
+      }
+      if (serie == Serie66 || serie == PED) {
+        button("Impressão Resumida") {
+          icon = PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirNotaDevolucao(notas, resumida = true)
+          }
+        }
+      }
+      this.add(buttonPlanilha {
+        gridNota.asMultiSelect().selectedItems.toList()
+      })
+      button("Email") {
+        icon = ENVELOPE_O.create()
+        onLeftClick {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.enviarEmail(notas)
+        }
+      }
+      if (serie in listOf(Serie01, Serie66)) {
+        button("Relatório") {
+          icon = PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirRelatorio(notas, "${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})")
+          }
+        }
+      }
+    }) {
       gridNota = createGridNotas(listNotas, serie)
       gridNota
     }

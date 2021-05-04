@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.reports
 
-import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontGrande
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
@@ -16,7 +15,7 @@ import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
-class RelatorioFornecedor(val fornecedor: Fornecedor) {
+class RelatorioFornecedor(val notas: List<NotaSaida>, val labelTitle: String) {
   val lojaCol = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(40)
@@ -57,10 +56,8 @@ class RelatorioFornecedor(val fornecedor: Fornecedor) {
         }
       }
       horizontalList {
-        text("${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", LEFT, largura)
-      }
-      horizontalList {
-        text("")
+        //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
+        text(labelTitle, LEFT, largura)
       }
     }
   }
@@ -78,13 +75,12 @@ class RelatorioFornecedor(val fornecedor: Fornecedor) {
 
   fun makeReport(): JasperReportBuilder {
     val colunms = columnBuilder().toTypedArray()
-    val itens = fornecedor.notas
     val pageOrientation = PORTRAIT
     return report().title(titleBuider())
             .setTemplate(Templates.reportTemplate)
             .columns(* colunms)
             .columnGrid(* colunms)
-            .setDataSource(itens)
+            .setDataSource(notas)
             .setPageFormat(A4, pageOrientation)
             .setPageMargin(margin(28))
             .summary(pageFooterBuilder())
@@ -94,8 +90,8 @@ class RelatorioFornecedor(val fornecedor: Fornecedor) {
   }
 
   companion object {
-    fun processaRelatorio(fornecedor: Fornecedor): ByteArray {
-      val report = RelatorioFornecedor(fornecedor).makeReport()
+    fun processaRelatorio(notas: List<NotaSaida>, labelTitle: String): ByteArray {
+      val report = RelatorioFornecedor(notas,  labelTitle  ).makeReport()
       val printList = listOf(report.toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()

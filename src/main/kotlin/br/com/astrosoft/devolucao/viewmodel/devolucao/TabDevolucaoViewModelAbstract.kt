@@ -18,11 +18,11 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
     subView.imprimeSelecionados(notas, resumida)
   }
 
-  fun imprimirRelatorio(fornecedor: Fornecedor) {
-    fornecedor.notas.ifEmpty {
+  fun imprimirRelatorio(notas: List<NotaSaida>, labelTitle: String) = viewModel.exec {
+    notas.ifEmpty {
       fail("Não nenhuma nota selecionada")
     }
-    subView.imprimeRelatorio(fornecedor)
+    subView.imprimeRelatorio(notas, labelTitle)
   }
 
   override fun updateView() = viewModel.exec {
@@ -106,7 +106,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun createAnexos(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when (gmail.anexos) {
-      "S" -> {
+      "S"  -> {
         notas.flatMap { nota ->
           nota.listFiles().map { nfile ->
             FileAttach(nfile.nome, nfile.file)
@@ -120,7 +120,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when (gmail.planilha) {
-      "S" -> {
+      "S"  -> {
         notas.map { nota ->
           val planilha = geraPlanilha(listOf(nota))
           FileAttach("Planilha da Nota ${nota.nota.replace("/", "_")}.xlsx", planilha)
@@ -133,7 +133,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun createReports(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     val relatoriosCompleto = when (gmail.relatorio) {
-      "S" -> {
+      "S"  -> {
         notas.map { nota ->
           val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false)
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf", report)
@@ -143,7 +143,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
       else -> emptyList()
     }
     val relatoriosResumido = when (gmail.relatorioResumido) {
-      "S" -> {
+      "S"  -> {
         notas.map { nota ->
           val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true)
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf.pdf", report)
@@ -192,7 +192,7 @@ interface ITabNota : ITabView {
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)
-  fun imprimeRelatorio(fornecedor: Fornecedor)
+  fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String
