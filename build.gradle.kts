@@ -122,6 +122,7 @@ dependencies {
 
 vaadin {
   pnpmEnable = false
+  productionMode = false
 }
 
 dependencyManagement {

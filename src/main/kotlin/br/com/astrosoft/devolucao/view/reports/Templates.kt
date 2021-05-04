@@ -35,5 +35,11 @@ object Templates {
   val fieldFontTitle: StyleBuilder = stl.style(rootStyle).setFontSize(4)
   val fieldFont: StyleBuilder = stl.style(rootStyle).setFontSize(6)
   val fieldBorder: StyleBuilder = stl.style(fieldFont).setBorder(stl.penThin()).setRadius(10)
+  val fieldFontNormal: StyleBuilder = stl.style(rootStyle).setFontSize(10)
+  val fieldFontNormalCol: StyleBuilder = stl.style(fieldFontNormal)
+          .setBorder(stl.pen1Point())
+          .setHorizontalTextAlignment(CENTER)
+          .setBackgroundColor(Color.LIGHT_GRAY)
+          .bold()
   val fieldFontGrande: StyleBuilder = stl.style(rootStyle).setFontSize(14)
 }
