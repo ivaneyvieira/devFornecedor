@@ -43,7 +43,7 @@ class RelatorioFornecedor(val fornecedor: Fornecedor) {
   val valorCol = col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
     this.setPattern("#,##0.00")
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(50)
+    this.setFixedWidth(80)
   }
 
 
@@ -55,15 +55,12 @@ class RelatorioFornecedor(val fornecedor: Fornecedor) {
   private fun titleBuider(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
-        text("ENGECOPI", CENTER).apply {
+        text("FONECEDOR", CENTER).apply {
           this.setStyle(fieldFontGrande)
         }
       }
       horizontalList {
-        val dataAtual = LocalDate.now().format()
-        val horaAtual = LocalTime.now().format()
-        text(fornecedor.labelTitle, LEFT)
-        text("$dataAtual-$horaAtual", RIGHT, 100)
+        text("${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})", LEFT)
       }
       horizontalList {
         text("")
