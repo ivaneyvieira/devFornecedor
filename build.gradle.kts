@@ -3,22 +3,22 @@ import Build_gradle.Defs.vaadinonkotlin_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
-  const val vaadinonkotlin_version = "1.0.4"
-  const val vaadin10_version = "14.4.7"
-  const val kotlin_version = "1.4.31"
+  const val vaadinonkotlin_version = "1.0.6"
+  const val vaadin10_version = "14.5.3"
+  const val kotlin_version = "1.5.0"
   const val spring_boot_version = "2.4.3"
-  const val vaadin_plugin = "0.14.3.7"
+  const val vaadin_plugin = "0.14.5.1"
   //const val gretty_plugin = "3.0.1"
 }
 
 plugins {
   id("org.springframework.boot") version  "2.4.3"
   id("io.spring.dependency-management") version "1.0.11.RELEASE"
-  kotlin("jvm") version "1.4.31"
+  kotlin("jvm") version "1.5.0"
   //id("org.gretty") version "3.0.3"
   war
   id("com.vaadin") version "0.14.3.7"
-  kotlin("plugin.spring") version "1.4.31"
+  kotlin("plugin.spring") version "1.5.0"
 }
 
 defaultTasks("clean", "vaadinBuildFrontend", "build")
