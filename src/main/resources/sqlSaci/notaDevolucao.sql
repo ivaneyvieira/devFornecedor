@@ -96,7 +96,7 @@ SELECT N.storeno                                                                
        IFNULL(obsNota, '')                                                                  AS obsNota,
        serie01Rejeitada                                                                     AS serie01Rejeitada,
        IF((D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR
-	  (D.status IS NO IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S'), 'S',
+	  (D.status IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S'), 'S',
 	  'N')                                                                              AS serie01Pago,
        serie01Coleta                                                                        AS serie01Coleta,
        serie66Pago                                                                          AS serie66Pago,
