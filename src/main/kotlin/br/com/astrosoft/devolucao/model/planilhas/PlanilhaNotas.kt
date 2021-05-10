@@ -15,8 +15,10 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaNotas {
   private val campos: List<Campo<*, ProdutosNotaSaida>> = listOf(
-    CampoString("Emissão") { nota?.dataNota.format() },
+    CampoInt("Fornecedor") { vendno },
     CampoInt("NI") { invno },
+    CampoString("NF") { notaInv },
+    CampoString("Emissão") { dateInv.format() },
     CampoInt("Qnt NI") { quantInv },
     CampoInt("Qnt Dev") { qtde },
     CampoString("Código") { codigo },
