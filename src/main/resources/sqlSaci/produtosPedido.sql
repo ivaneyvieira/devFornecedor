@@ -62,6 +62,7 @@ SELECT prdno                                                        AS codigo,
        grade,
        invno,
        vendno,
+       IFNULL(R.form_label, '')                                     AS rotulo,
        CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) AS notaInv,
        CAST(I.issue_date AS DATE)                                   AS dateInv,
        P.fob / 100                                                  AS valorUnitInv,
@@ -74,6 +75,8 @@ FROM sqldados.iprd           AS P
 	       USING (invno)
   INNER JOIN T_PRD_ULT
 	       USING (invno, prdno, grade)
+  LEFT JOIN  sqldados.prdalq AS R
+	       USING (prdno)
 GROUP BY prdno, grade;
 
 SELECT loja,
@@ -94,6 +97,7 @@ SELECT loja,
        st,
        IFNULL(invno, 0)                                           AS invno,
        IFNULL(vendno, 0)                                          AS vendno,
+       IFNULL(rotulo, '')                                         AS rotulo,
        ROUND(IFNULL(quantInv, 0.00))                              AS quantInv,
        IFNULL(notaInv, '')                                        AS notaInv,
        dateInv                                                    AS dateInv,
