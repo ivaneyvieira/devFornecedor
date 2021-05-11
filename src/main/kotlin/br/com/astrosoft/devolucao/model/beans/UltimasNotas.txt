@@ -1,0 +1,63 @@
+package br.com.astrosoft.devolucao.model.beans
+
+import br.com.astrosoft.devolucao.model.saci
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import java.io.File
+import java.time.LocalDate
+
+class UltimasNotas(
+  val ni: Int,
+  val loja: Int,
+  val nfNumero: String,
+  val data: LocalDate,
+  val codigo: String,
+  val grade: String,
+  val qttd: Int,
+  val vendno: Int,
+  val rotulo: String,
+                  ) {
+  companion object {
+    private var ultimasNota: Map<ProdutoGrade, List<UltimasNotas>> = emptyMap()
+    val tsvReader = csvReader {
+      charset = "ISO_8859_1"
+      quoteChar = '"'
+      delimiter = '\t'
+      escapeChar = '\\'
+    }
+
+    fun ultimasNotas(): List<UltimasNotas> {
+      val file = File("/tmp/ultimasCompras.txt")
+
+      val rows = tsvReader.readAllWithHeader(file)
+      return rows.map {
+        UltimasNotas(
+          ni = it["ni"]?.toIntOrNull() ?: 0,
+          loja = it["loja"]?.toIntOrNull() ?: 0,
+          nfNumero = it["nfNumero"] ?: "",
+          data = LocalDate.parse(it["data"]),
+          codigo = it["codigo"] ?: "",
+          grade = it["grada"] ?: "",
+          qttd = it["qttd"]?.toIntOrNull() ?: 0,
+          vendno = it["vendno"]?.toIntOrNull() ?: 0,
+          rotulo = it["rotulo"] ?: "",
+                    )
+      }
+    }
+
+    fun updateList() {
+      ultimasNota = ultimasNotas().groupBy {
+        ProdutoGrade(it.codigo, it.grade)
+      }
+    }
+
+    fun ultimasNotas(codigo: String, grade: String): List<UltimasNotas> {
+      return ultimasNota[ProdutoGrade(codigo, grade)].orEmpty()
+    }
+
+    init {
+      updateList()
+    }
+  }
+}
+
+data class ProdutoGrade(val codigo: String, val grade: String)
