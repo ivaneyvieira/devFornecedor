@@ -39,7 +39,7 @@ class ProdutosNotaSaida(
     return sequence {
       var saldo = 0
       list.forEach { nota ->
-        if (saldo >= qtde) yield(nota)
+        if (saldo < qtde) yield(nota)
         saldo += nota.qttd
       }
     }.toList().sortedWith(compareBy({ it.data }, { it.ni })).reversed()
