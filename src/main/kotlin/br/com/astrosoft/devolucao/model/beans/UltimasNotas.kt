@@ -9,7 +9,9 @@ class UltimasNotas(val ni: Int,
                    val data: LocalDate,
                    val codigo: String,
                    val grade: String,
-                   val qttd: Int) {
+                   val qttd: Int,
+                   val vendno: Int,
+                   val rotulo: String) {
   companion object {
     private var ultimasNota: Map<ProdutoGrade, List<UltimasNotas>> = emptyMap()
 
@@ -21,6 +23,10 @@ class UltimasNotas(val ni: Int,
 
     fun ultimasNotas(codigo: String, grade: String): List<UltimasNotas> {
       return ultimasNota[ProdutoGrade(codigo, grade)].orEmpty()
+    }
+
+    init {
+      updateList()
     }
   }
 }

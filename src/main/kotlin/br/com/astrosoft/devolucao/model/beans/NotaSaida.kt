@@ -52,10 +52,12 @@ class NotaSaida(
   val rmkVend: String,
   val chave: String,
                ) {
-  fun listaProdutos() = when (tipo) {
-    "PED" -> saci.produtosPedido(this)
-    "ENT" -> saci.produtosEntrada(this)
-    else  -> saci.produtosNotaSaida(this)
+  fun listaProdutos(): List<ProdutosNotaSaida> {
+    return when (tipo) {
+      "PED" -> saci.produtosPedido(this)
+      "ENT" -> saci.produtosEntrada(this)
+      else  -> saci.produtosNotaSaida(this)
+    }
   }
 
   val dataNotaString
