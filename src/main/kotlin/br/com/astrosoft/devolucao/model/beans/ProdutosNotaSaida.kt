@@ -39,7 +39,7 @@ class ProdutosNotaSaida(
     return sequence {
       var saldo = 0
       list.forEach { nota ->
-        if (saldo < qtde) yield(nota)
+        if (saldo >= qtde) yield(nota)
         saldo += nota.qttd
       }
     }.toList().sortedWith(compareBy({ it.data }, { it.ni })).reversed()
@@ -49,4 +49,6 @@ class ProdutosNotaSaida(
   val numeroNota get() = ultimasNotas().firstOrNull()?.nfNumero
   val dataNota get() = ultimasNotas().firstOrNull()?.data
   val qttdNota get() = ultimasNotas().firstOrNull()?.qttd
+  val vendnoNota get() = ultimasNotas().firstOrNull()?.vendno
+  val rotuloNota get() = ultimasNotas().firstOrNull()?.rotulo
 }
