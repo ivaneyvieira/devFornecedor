@@ -97,6 +97,7 @@ dependencies {
   implementation("com.flowingcode.addons:font-awesome-iron-iconset:2.1.2")
   implementation("org.vaadin.haijian:exporter:3.0.1")
   implementation("com.github.nwillc:poink:0.4.6")
+  implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
 
   implementation(kotlin("stdlib-jdk8"))
   

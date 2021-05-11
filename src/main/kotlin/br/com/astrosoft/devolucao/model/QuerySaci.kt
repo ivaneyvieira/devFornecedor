@@ -99,11 +99,6 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun ultimasNotas(): List<UltimasNotas> { //
-     val sql = "/sqlSaci/ultimasNotas.sql"
-    return query(sql, UltimasNotas::class)
-  }
-
   fun saveRmk(nota: NotaSaida) {
     val sql = "/sqlSaci/rmkUpdate.sql"
     if (nota.tipo == "PED") script(sql) {

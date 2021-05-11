@@ -34,20 +34,4 @@ object ProdutosNotaSaidaViewColumns {
   fun Grid<ProdutosNotaSaida>.produtoQtde() = addColumnInt(ProdutosNotaSaida::qtde) {
     this.setHeader("Qtde")
   }
-
-  fun Grid<ProdutosNotaSaida>.produtoUltNi() = addColumnInt(ProdutosNotaSaida::ni) {
-    this.setHeader("NI")
-  }
-
-  fun Grid<ProdutosNotaSaida>.produtoUltNumero() = addColumnString(ProdutosNotaSaida::numeroNota) {
-    this.setHeader("Número")
-  }
-
-  fun Grid<ProdutosNotaSaida>.produtoUltData() = addColumnLocalDate(ProdutosNotaSaida::dataNota) {
-    this.setHeader("Data")
-  }
-
-  fun Grid<ProdutosNotaSaida>.produtoUltQtd() = addColumnInt(ProdutosNotaSaida::qttdNota) {
-    this.setHeader("Quant")
-  }
 }

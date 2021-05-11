@@ -102,26 +102,6 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(30)
   }
-  val niCol: TextColumnBuilder<Int> = col.column("NI", ProdutosNotaSaida::ni.name, type.integerType()).apply {
-    this.setHorizontalTextAlignment(LEFT)
-    this.setFixedWidth(50)
-  }
-  val numeroNotaCol: TextColumnBuilder<String> = col.column("Nota",
-                                                            ProdutosNotaSaida::numeroNota.name,
-                                                            type.stringType()).apply {
-    this.setHorizontalTextAlignment(LEFT)
-    this.setFixedWidth(50)
-  }
-  val dataNotaCol: TextColumnBuilder<String> = col.column("Data", ProdutosNotaSaida::dataNota.name, type.stringType())
-          .apply {
-            this.setHorizontalTextAlignment(LEFT)
-            this.setFixedWidth(50)
-          }
-  val qttdNotaCol: TextColumnBuilder<Int> = col.column("Quant", ProdutosNotaSaida::qttdNota.name, type.integerType())
-          .apply {
-            this.setHorizontalTextAlignment(LEFT)
-            this.setFixedWidth(50)
-          }
   val invnoCol: TextColumnBuilder<Int> = col.column("NI", ProdutosNotaSaida::invno.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setPattern("0")

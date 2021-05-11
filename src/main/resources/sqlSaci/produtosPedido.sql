@@ -7,10 +7,6 @@ SELECT X.storeno                    AS loja,
        TRIM(MID(P.name, 1, 37))     AS descricao,
        X.grade                      AS grade,
        ROUND(X.qtty / 1000)         AS qtde,
-  /*
-   X.price / 100                          AS valorUnitario,
-   ROUND(X.qtty / 1000) * (X.price / 100) AS valorTotal,
-   */
        I.ipi / 10000                AS ipiAliq,
        I.costdel3 / 10000           AS stAliq,
        IFNULL(B.barcode, P.barcode) AS barcode,
@@ -31,18 +27,15 @@ DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
   PRIMARY KEY (prdno, grade)
 )
-SELECT codigo AS prdno, grade
+SELECT codigo AS prdno, grade, SUM(qtde) AS qtde
 FROM T_PEDIDO
 GROUP BY codigo, grade;
-
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD_ULT;
 CREATE TEMPORARY TABLE T_PRD_ULT (
   PRIMARY KEY (invno, prdno, grade)
 )
-SELECT prdno,
-       grade,
-       MAX(invno) AS invno
+SELECT prdno, grade, MAX(invno) AS invno, MAX(IF(P.qtty >= T_PRD.qtde, invno, NULL)) AS invnoQ
 FROM sqldados.inv          AS I
   INNER JOIN sqldados.iprd AS P
 	       USING (invno)
@@ -58,9 +51,9 @@ DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV (
   PRIMARY KEY (codigo, grade)
 )
-SELECT prdno                                                        AS codigo,
-       grade,
-       invno,
+SELECT P.prdno                                                      AS codigo,
+       P.grade,
+       P.invno,
        vendno,
        IFNULL(R.form_label, '')                                     AS rotulo,
        CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) AS notaInv,
@@ -73,11 +66,11 @@ FROM sqldados.iprd           AS P
 	       USING (invno)
   LEFT JOIN  sqldados.invnfe AS X
 	       USING (invno)
-  INNER JOIN T_PRD_ULT
-	       USING (invno, prdno, grade)
+  INNER JOIN T_PRD_ULT       AS U
+	       ON P.invno = IFNULL(U.invnoQ, U.invno) AND P.prdno = U.prdno AND P.grade = U.grade
   LEFT JOIN  sqldados.prdalq AS R
-	       USING (prdno)
-GROUP BY prdno, grade;
+	       ON R.prdno = P.prdno
+GROUP BY P.prdno, P.grade;
 
 SELECT loja,
        0                                                          AS pdv,
