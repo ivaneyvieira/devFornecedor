@@ -487,7 +487,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
       notaNota()
       notaFatura()
       notaValor().apply {
-        val totalPedido = listNotas.sumByDouble { it.valorNota }.format()
+        val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
       if (serie == PED) sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))

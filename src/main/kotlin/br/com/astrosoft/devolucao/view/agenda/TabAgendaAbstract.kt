@@ -78,7 +78,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaTotal().let { col ->
       this.dataProvider.addDataProviderListener {
         val lista = this.dataProvider.getAll()
-        val total = lista.sumByDouble { it.total }.format()
+        val total = lista.sumOf { it.total }.format()
         col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
       }
     }
