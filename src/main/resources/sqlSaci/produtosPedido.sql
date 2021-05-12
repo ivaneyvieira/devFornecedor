@@ -42,6 +42,7 @@ FROM sqldados.inv          AS I
   INNER JOIN T_PRD
 	       USING (prdno, grade)
 WHERE I.bits & POW(2, 4) = 0
+  AND I.storeno = 4
   AND I.auxShort13 & POW(2, 15) = 0
   AND I.cfo NOT IN (1910, 2910, 1916, 2916, 1949, 2949)
   AND I.type = 0

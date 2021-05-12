@@ -64,9 +64,9 @@ class NotaSaida(
     get() = dataNota.format()
 
   val valorNota
-    get() = if (tipo == "1") valor else listaProdutos().sumByDouble { it.valorTotalIpi }
+    get() = if (tipo == "1") valor else listaProdutos().sumOf { it.valorTotalIpi }
   val valorTotalProduto: Double
-    get() = listaProdutos().sumByDouble {
+    get() = listaProdutos().sumOf {
       it.valorTotal
     }
 
