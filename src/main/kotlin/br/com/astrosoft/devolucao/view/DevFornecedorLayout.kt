@@ -4,6 +4,7 @@ import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.devolucao.DevolucaoView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
+import br.com.astrosoft.devolucao.view.teste.AssinaturaView
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.drawer
 import com.github.mvysny.karibudsl.v10.drawerToggle
@@ -82,6 +83,11 @@ import org.springframework.security.core.context.SecurityContextHolder
           this.isEnabled = AppConfig.isAdmin
           this.icon(USER)
           routerLink(text = "Usuário", viewType = UsuarioView::class)
+        }
+        tab {
+          this.isEnabled = AppConfig.isAdmin
+          this.icon(SIGN_IN)
+          routerLink(text = "Assinatura", viewType = AssinaturaView::class)
         }
       }
     }
