@@ -111,6 +111,7 @@ dependencies {
   }
   // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts
   implementation("net.sf.jasperreports:jasperreports-fonts:6.12.2")
+  implementation("de.f0rce.signaturepad:signature-widget:2.0.0")
   
   implementation("com.lowagie:itext:2.1.7")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
