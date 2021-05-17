@@ -56,8 +56,7 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, val labelTitle: String) {
           this.setStyle(fieldFontGrande)
         }
       }
-      horizontalList {
-        //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
+      horizontalList { //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
         text(labelTitle, LEFT, largura)
       }
     }
@@ -77,24 +76,17 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, val labelTitle: String) {
   fun makeReport(): JasperReportBuilder {
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
-    return report().title(titleBuider())
-            .setTemplate(Templates.reportTemplate)
-            .columns(* colunms)
-            .columnGrid(* colunms)
-            .setDataSource(notas)
-            .setPageFormat(A4, pageOrientation)
-            .setPageMargin(margin(28))
-            .summary(pageFooterBuilder())
-            .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
-            .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
-            .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-            .setColumnStyle(fieldFontNormal)
-            .setColumnTitleStyle(fieldFontNormalCol)
+    return report().title(titleBuider()).setTemplate(Templates.reportTemplate).columns(* colunms).columnGrid(* colunms)
+      .setDataSource(notas).setPageFormat(A4, pageOrientation).setPageMargin(margin(28)).summary(pageFooterBuilder())
+      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+      .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
+      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .setColumnStyle(fieldFontNormal).setColumnTitleStyle(fieldFontNormalCol)
   }
 
   companion object {
     fun processaRelatorio(notas: List<NotaSaida>, labelTitle: String): ByteArray {
-      val report = RelatorioFornecedor(notas,  labelTitle  ).makeReport()
+      val report = RelatorioFornecedor(notas, labelTitle).makeReport()
       val printList = listOf(report.toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()

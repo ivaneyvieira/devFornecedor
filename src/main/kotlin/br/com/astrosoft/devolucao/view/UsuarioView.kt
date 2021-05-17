@@ -14,19 +14,19 @@ import org.vaadin.crudui.crud.CrudOperation
 import org.vaadin.crudui.crud.CrudOperation.*
 import org.vaadin.crudui.crud.impl.GridCrud
 
-@Route(layout = DevFornecedorLayout::class) @PageTitle("Usuário")
+@Route(layout = DevFornecedorLayout::class)
+@PageTitle("Usuário")
 class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override val viewModel = UsuarioViewModel(this)
 
   override fun columns() =
-          listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
+    listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
 
   override fun createGrid() = GridCrud(UserSaci::class.java)
 
-  override fun formCrud(operation: CrudOperation?,
-                        domainObject: UserSaci?,
-                        readOnly: Boolean,
-                        binder: Binder<UserSaci>): Component {
+  override fun formCrud(
+    operation: CrudOperation?, domainObject: UserSaci?, readOnly: Boolean, binder: Binder<UserSaci>
+                       ): Component {
     return FormLayout().apply {
       if (operation in listOf(READ, DELETE, UPDATE)) integerField("Número") {
         isReadOnly = readOnly
@@ -51,7 +51,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           setItems(values.distinct().sorted())
           this.setItemLabelGenerator { storeno ->
             when (storeno) {
-              0 -> "Todas as lojas"
+              0    -> "Todas as lojas"
               else -> lojas.firstOrNull { loja ->
                 loja.no == storeno
               }?.descricao ?: ""

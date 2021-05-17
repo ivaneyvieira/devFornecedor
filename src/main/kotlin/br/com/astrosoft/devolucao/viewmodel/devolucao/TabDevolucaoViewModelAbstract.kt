@@ -31,11 +31,9 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun listFornecedores(): List<Fornecedor> {
     subView.setFiltro("")
-    NotaSaida.updateNotasDevolucao(subView.serie,
-                                   subView.pago66,
-                                   subView.pago01,
-                                   subView.coleta01,
-                                   subView.remessaConserto)
+    NotaSaida.updateNotasDevolucao(
+      subView.serie, subView.pago66, subView.pago01, subView.coleta01, subView.remessaConserto
+                                  )
     return NotaSaida.findFornecedores()
   }
 
@@ -91,17 +89,15 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
     val filesReport = createReports(gmail, notas)
     val filesPlanilha = createPlanilha(gmail, notas)
     val filesAnexo = createAnexos(gmail, notas)
-    val enviadoComSucesso = mail.sendMail(gmail.email,
-                                          gmail.assunto,
-                                          gmail.msgHtml,
-                                          filesReport + filesPlanilha + filesAnexo)
+    val enviadoComSucesso = mail.sendMail(
+      gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo
+                                         )
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->
         nota.salvaEmail(gmail, idEmail)
       }
-    }
-    else fail("Erro ao enviar e-mail")
+    } else fail("Erro ao enviar e-mail")
   }
 
   private fun createAnexos(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {

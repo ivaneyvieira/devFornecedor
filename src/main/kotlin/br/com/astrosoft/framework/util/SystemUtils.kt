@@ -20,8 +20,7 @@ object SystemUtils {
     val envResult = enviroment[variable]
     return if (envResult == null || envResult.trim { it <= ' ' } == "") {
       def
-    }
-    else envResult
+    } else envResult
   }
 
   fun resize(imagem: ByteArray?, width: Int, height: Int): ByteArray? {
@@ -35,15 +34,13 @@ object SystemUtils {
     }
   }
 
-  @Throws(IOException::class)
-  private fun toBufferedImage(imagem: ByteArray?): BufferedImage? {
+  @Throws(IOException::class) private fun toBufferedImage(imagem: ByteArray?): BufferedImage? {
     if (imagem == null) return null
     val inputStream = ByteArrayInputStream(imagem)
     return ImageIO.read(inputStream)
   }
 
-  @Throws(IOException::class)
-  private fun toByteArray(image: BufferedImage): ByteArray? {
+  @Throws(IOException::class) private fun toByteArray(image: BufferedImage): ByteArray? {
     val baos = ByteArrayOutputStream()
     ImageIO.write(image, "jpg", baos)
     baos.flush()
@@ -76,8 +73,7 @@ object SystemUtils {
       if (index != -1) {
         nameRet = baseName.substring(0, index).replace('.', '/') + "/" + nameRet
       }
-    }
-    else {
+    } else {
       nameRet = nameRet.substring(1)
     }
     return nameRet
@@ -87,8 +83,7 @@ object SystemUtils {
     return readFile(file, Charset.defaultCharset())
   }
 
-  @Throws(IOException::class)
-  fun readFile(filename: String, encoding: Charset): String {
+  @Throws(IOException::class) fun readFile(filename: String, encoding: Charset): String {
     val resource = SystemUtils::class.java.getResource(filename)
     val path = Paths.get(resource.toURI())
     val encoded = Files.readAllBytes(path)

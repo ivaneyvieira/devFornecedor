@@ -41,9 +41,9 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
 
   private fun setOperationd(crud: GridCrud<B>) {
     crud.setOperations({ viewModel.findAll() },
-      { user: B? -> viewModel.add(user) },
-      { user: B? -> viewModel.update(user) },
-      { user: B? -> viewModel.delete(user) })
+                       { user: B? -> viewModel.add(user) },
+                       { user: B? -> viewModel.update(user) },
+                       { user: B? -> viewModel.delete(user) })
   }
 
   private fun layoutCrud(
@@ -121,9 +121,6 @@ class UserCrudFormFactory<B : IUser>(private val createForm: (CrudOperation?, B?
   }
 
   override fun showError(operation: CrudOperation?, e: Exception?) {
-    ConfirmDialog.createError()
-      .withCaption("Erro do aplicativo")
-      .withMessage(e?.message ?: "Erro desconhecido")
-      .open()
+    ConfirmDialog.createError().withCaption("Erro do aplicativo").withMessage(e?.message ?: "Erro desconhecido").open()
   }
 }

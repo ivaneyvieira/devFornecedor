@@ -9,8 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 class UserSaciDetailsService : UserDetailsService {
   override fun loadUserByUsername(username: String?): UserDetails {
-    val userSaci =
-      AppConfig.findUser(username) ?: throw UsernameNotFoundException("Usuário inválido")
+    val userSaci = AppConfig.findUser(username) ?: throw UsernameNotFoundException("Usuário inválido")
     return UserSaciDetails(userSaci)
   }
 }

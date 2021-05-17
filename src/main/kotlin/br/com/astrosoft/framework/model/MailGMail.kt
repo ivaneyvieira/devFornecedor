@@ -30,10 +30,9 @@ class MailGMail {
   private val senha = DB.gmailPass  // do painel de controle do SMTP
   private val portaSmtp = "465" // do painel de controle do SMTP
   private val propsSmtp = initPropertiesSmtp()
-  private val sessionSmtp: Session =
-    Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
-      debug = false
-    }
+  private val sessionSmtp: Session = Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
+    debug = false
+  }
 
   fun sendMail(
     to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()
@@ -218,8 +217,7 @@ private fun getTextFromMimeMultipart(mimeMultipart: MimeMultipart): String {
             ${bodyPart.content}
             """.trimIndent()
       break // without break same text appears twice in my tests
-    }
-    else if (bodyPart.content is MimeMultipart) {
+    } else if (bodyPart.content is MimeMultipart) {
       result += getTextFromMimeMultipart(bodyPart.content as MimeMultipart)
     }
   }
@@ -233,11 +231,7 @@ class GmailAuthenticator(val username: String, val password: String) : Authentic
 }
 
 data class EmailMessage(
-  val messageID: String,
-  val subject: String,
-  val data: LocalDateTime,
-  val from: List<Address>,
-  val to: List<Address>
+  val messageID: String, val subject: String, val data: LocalDateTime, val from: List<Address>, val to: List<Address>
                        ) {
   fun content(): Content {
     val gmail = MailGMail()
@@ -261,5 +255,7 @@ class FileAttach(val nome: String, val bytes: ByteArray) {
 }
 
 enum class GamilFolder(val path: String) {
-  Enviados("[Gmail]/E-mails enviados"), Recebidos("INBOX"), Todos("[Gmail]/Todos os e-mails")
+  Enviados("[Gmail]/E-mails enviados"),
+  Recebidos("INBOX"),
+  Todos("[Gmail]/Todos os e-mails")
 }

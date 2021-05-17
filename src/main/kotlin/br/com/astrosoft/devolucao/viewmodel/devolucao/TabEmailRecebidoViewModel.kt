@@ -17,7 +17,7 @@ class TabEmailRecebidoViewModel(val viewModel: DevolucaoViewModel) : IEmailView 
   }
 
   private fun listEmailRecebido() =
-          EmailDB.listEmailRecebidos().sortedWith(compareByDescending<EmailDB> { it.data }.thenByDescending { it.hora })
+    EmailDB.listEmailRecebidos().sortedWith(compareByDescending<EmailDB> { it.data }.thenByDescending { it.hora })
 
   override fun listEmail(fornecedor: Fornecedor?): List<String> = emptyList()
 
@@ -27,8 +27,7 @@ class TabEmailRecebidoViewModel(val viewModel: DevolucaoViewModel) : IEmailView 
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       gmail.salvaEmail(idEmail)
-    }
-    else fail("Erro ao enviar e-mail")
+    } else fail("Erro ao enviar e-mail")
   }
 }
 
