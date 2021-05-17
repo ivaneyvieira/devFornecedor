@@ -2,10 +2,11 @@ DROP TEMPORARY TABLE IF EXISTS TVEND;
 CREATE TEMPORARY TABLE TVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no   AS vendno,
-       C.no   AS custno,
-       V.name AS fornecedorNome,
-       V.email
+SELECT V.no       AS vendno,
+       C.no       AS custno,
+       V.name     AS fornecedorNome,
+       V.email,
+       V.auxLong4 AS fornecedorSap
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
@@ -24,6 +25,7 @@ SELECT N.storeno                                    AS loja,
        V.custno                                     AS custno,
        V.fornecedorNome                             AS fornecedor,
        V.email                                      AS email,
+       V.fornecedorSap                              AS fornecedorSap,
        N.vendno                                     AS vendno,
        IFNULL(R.rmk, '')                            AS rmk,
        SUM(N.grossamt / 100)                        AS valor,
