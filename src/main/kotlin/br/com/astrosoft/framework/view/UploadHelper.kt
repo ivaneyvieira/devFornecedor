@@ -12,7 +12,7 @@ import javax.imageio.ImageIO
 
 private fun createComponent(fileName: String, byteArray: ByteArray): Component {
   when {
-    fileName.endsWith("pdf", ignoreCase = true) -> {
+    fileName.endsWith("pdf", ignoreCase = true)                                             -> {
       val resourcePDF = StreamResource(fileName, ConverteByte(byteArray))
       return PDFViewer(resourcePDF)
     }
@@ -46,7 +46,7 @@ private fun createComponent(fileName: String, byteArray: ByteArray): Component {
       return image
     }
 
-    else -> {
+    else                                                                                    -> {
       return Div()
     }
   }

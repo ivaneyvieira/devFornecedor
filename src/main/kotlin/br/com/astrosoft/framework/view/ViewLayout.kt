@@ -34,10 +34,7 @@ import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KProperty1
 
-abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(),
-                                               IView,
-                                               BeforeLeaveObserver,
-                                               BeforeEnterObserver,
+abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLeaveObserver, BeforeEnterObserver,
                                                AfterNavigationObserver {
   abstract val viewModel: VM
 
@@ -75,9 +72,13 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(),
   }
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
-    ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton({
-      execYes()
-    }, ButtonOption.caption("Sim")).withNoButton({ execNo() }, ButtonOption.caption("Não")).open()
+    ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton(
+      {
+        execYes()
+      },
+      ButtonOption.caption("Sim")
+                                                                                            )
+      .withNoButton({ execNo() }, ButtonOption.caption("Não")).open()
   }
 
   override fun beforeLeave(event: BeforeLeaveEvent?) {
@@ -288,8 +289,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(
   property: KProperty1<T, Double?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
                                                   ): Grid.Column<T> {
-  val column =
-    this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00")))
+  val column = this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00")))
   column.isAutoWidth = true
   if (column.key == null) column.key = property.name
   column.right()
@@ -339,13 +339,8 @@ class TabClick(s: String?) : Tab(s) {
 
 fun DatePicker.localePtBr() {
   this.locale = Locale("pt-br")
-  this.i18n = DatePickerI18n().setWeek("semana")
-    .setCalendar("calendário")
-    .setClear("apagar")
-    .setToday("hoje")
-    .setCancel("cancelar")
-    .setFirstDayOfWeek(1)
-    .setMonthNames(
+  this.i18n = DatePickerI18n().setWeek("semana").setCalendar("calendário").setClear("apagar").setToday("hoje")
+    .setCancel("cancelar").setFirstDayOfWeek(1).setMonthNames(
       listOf(
         "janeiro",
         "fevereiro",
@@ -360,12 +355,11 @@ fun DatePicker.localePtBr() {
         "novembro",
         "dezembro"
             )
-                  )
-    .setWeekdays(
+                                                             ).setWeekdays(
       listOf(
         "domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"
             )
-                )
+                                                                          )
     .setWeekdaysShort(listOf("dom", "seg", "ter", "qua", "qui", "sex", "sab"))
 }
 

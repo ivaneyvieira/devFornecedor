@@ -75,8 +75,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
 
   fun toStratments(file: String): List<String> {
-    return if (file.startsWith("/")) readFile(file).split(";")
-      .filter { it.isNotBlank() || it.isNotEmpty() }
+    return if (file.startsWith("/")) readFile(file).split(";").filter { it.isNotBlank() || it.isNotEmpty() }
     else listOf(file)
   }
 

@@ -19,8 +19,7 @@ class DB(banco: String) {
       return if (file.exists()) {
         properties.load(FileReader(file))
         properties
-      }
-      else null
+      } else null
     }
 
     private val prop = properties()

@@ -6,7 +6,6 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.provider.SortDirection.DESCENDING
-import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.streams.toList
@@ -21,8 +20,7 @@ fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
       if (pedidoInicial == null) {
         pedidoInicial = pedido
         grade.select(pedido)
-      }
-      else {
+      } else {
         if (pedidoFinal == null) {
           val itens = list(grade)
           pedidoFinal = pedido
@@ -34,14 +32,12 @@ fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
           }
           pedidoFinal = null
           pedidoInicial = null
-        }
-        else {
+        } else {
           pedidoFinal = null
           pedidoInicial = null
         }
       }
-    }
-    else {
+    } else {
       pedidoFinal = null
       pedidoInicial = null
     }
