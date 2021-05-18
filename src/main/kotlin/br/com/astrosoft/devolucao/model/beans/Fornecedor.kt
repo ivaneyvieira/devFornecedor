@@ -33,5 +33,5 @@ class Fornecedor(
   }
 
   val labelTitle
-    get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno})"
+    get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
 }

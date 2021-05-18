@@ -142,7 +142,7 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
 
 class DlgEditRmkVend {
   fun editRmk(fornecedor: Fornecedor, save: (Fornecedor) -> Unit) {
-    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.fornecedor}", toolBar = { window ->
+    val form = SubWindowForm(fornecedor.labelTitle, toolBar = { window ->
       button("Salva") {
         icon = CHECK.create()
         onLeftClick {
@@ -312,7 +312,7 @@ class DlgFornecedor {
   fun showDialogRepresentante(fornecedor: Fornecedor?) {
     fornecedor ?: return
     val listRepresentantes = fornecedor.listRepresentantes()
-    val form = SubWindowForm("DEV FORNECEDOR: ${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})") {
+    val form = SubWindowForm(fornecedor.labelTitle) {
       createGridRepresentantes(listRepresentantes)
     }
     form.open()

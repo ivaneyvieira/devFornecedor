@@ -205,7 +205,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         val dataPedido = notaSaida.dataPedido.format()
         val nota = notaSaida.nota
         val dataNota = notaSaida.dataNota.format()
-        text("$custno - $fornecedor (FOR - ${vendno})   PED. $pedido - $dataPedido   NOTA $nota - $dataNota", LEFT)
+        val fornecedorSap = notaSaida.fornecedorSap
+
+        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota", LEFT)
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
     }
@@ -227,7 +229,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         val nota = notaSaida.nota
         val dataNota = notaSaida.dataNota.format()
         val fatura = notaSaida.fatura
-        text("$custno - $fornecedor (FOR - ${vendno})   NDF $nota - $dataNota   DUP $fatura", LEFT)
+        val fornecedorSap = notaSaida.fornecedorSap
+
+        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NDF $nota - $dataNota   DUP $fatura", LEFT)
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
     }
