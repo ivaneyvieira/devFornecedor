@@ -14,7 +14,9 @@ class Fornecedor(
                 ) {
   fun listRepresentantes() = saci.representante(vendno)
 
-  fun parcelasFornecedor() = saci.listParcelasFuncionarios(vendno)
+  fun parcelasFornecedor() = saci.listParcelasFornecedor(vendno)
+
+  fun pedidosFornecedor() = saci.listPedidosFornecedor(vendno)
 
   val ultimaData = notas.maxOf { nota ->
     if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
