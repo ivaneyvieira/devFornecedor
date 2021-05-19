@@ -19,6 +19,10 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNi
+import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNota
+import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaVencimento
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaCelular
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaRepresentante
@@ -80,6 +84,9 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
       DlgNota(viewModel).showDialogNota(fornecedor, serie)
     }
+    addColumnButton(MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
+      DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
+    }
     addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
     }
@@ -90,6 +97,8 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
     if (serie != ENT) fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
+
+    sort(listOf(GridSortOrder(getColumnBy(Fornecedor::fornecedor), SortDirection.ASCENDING)))
   }
 
   override fun editRmkVend(fornecedor: Fornecedor, save: (Fornecedor) -> Unit) {
@@ -512,3 +521,64 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
     else icon.color = ""
   }
 }
+
+class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
+  fun showDialogParcela(fornecedor: Fornecedor?, serie: Serie) {
+    fornecedor ?: return
+    lateinit var gridNota: Grid<Parcela>
+    val listNotas = fornecedor.parcelasFornecedor()
+    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+    }) {
+      gridNota = createGridParcelas(listNotas, serie)
+      gridNota
+    }
+    form.open()
+  }
+
+  private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    }
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    return "notas$textTime.xlsx"
+  }
+
+  private fun createGridParcelas(listParcelas: List<Parcela>, serie: Serie): Grid<Parcela> {
+    val gridDetail = Grid(Parcela::class.java, false)
+    return gridDetail.apply {
+      addThemeVariants(LUMO_COMPACT)
+      isMultiSort = false
+      setSelectionMode(MULTI)
+      setItems(listParcelas)
+
+
+      parcelaNi()
+      parcelaNota()
+      parcelaVencimento()
+      parcelaValor().apply {
+        val totalPedido = listParcelas.sumOf { it.valor }.format()
+        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+      }
+    }
+  }
+
+  private fun configIconEdt(icon: Icon, nota: NotaSaida) {
+    if (nota.rmk.isNotBlank()) icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+
+  private fun configMostraEmail(icon: Icon, nota: NotaSaida) {
+    if (nota.listEmailNota().isNotEmpty()) icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+
+  private fun configIconArq(icon: Icon, nota: NotaSaida) {
+    if (nota.listFiles().isNotEmpty()) icon.color = "DarkGreen"
+    else icon.color = ""
+  }
+}
+

@@ -283,6 +283,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
+  fun listParcelasFuncionarios(vendno: Int): List<Parcela> {
+    val sql = "/sqlSaci/parcelasFornecedor.sql"
+    return query(sql, Parcela::class) {
+      addOptionalParameter("vendno", vendno)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
