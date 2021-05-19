@@ -64,6 +64,7 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.provider.SortDirection
+import com.vaadin.flow.data.renderer.TemplateRenderer
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
@@ -565,13 +566,22 @@ class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
       setSelectionMode(MULTI)
       setItems(listParcelas)
 
-
       parcelaNi()
       parcelaNota()
       parcelaVencimento()
       parcelaValor().apply {
         val totalPedido = listParcelas.sumOf { it.valor }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+      }
+
+      val strTemplate = """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+          |<div><b>OBS</b>: [[item.obs]]</div>
+          |</div>""".trimMargin()
+      this.setItemDetailsRenderer(
+        TemplateRenderer.of<Parcela?>(strTemplate).withProperty("obs", Parcela::observacao)
+                                 )
+      listParcelas.forEach {parcela ->
+        this.setDetailsVisible(parcela, true)
       }
     }
     return VerticalLayout().apply {
