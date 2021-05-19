@@ -130,4 +130,5 @@ FROM TNF                        AS N
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
+  AND N.fornecedorNome IS NOT NULL
 GROUP BY loja, pdv, transacao, dataNota, custno
