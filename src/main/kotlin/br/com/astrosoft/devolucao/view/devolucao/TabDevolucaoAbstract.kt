@@ -23,6 +23,10 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parc
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaVencimento
+import br.com.astrosoft.devolucao.view.devolucao.columns.PedidoViewColumns.pedidoData
+import br.com.astrosoft.devolucao.view.devolucao.columns.PedidoViewColumns.pedidoLoja
+import br.com.astrosoft.devolucao.view.devolucao.columns.PedidoViewColumns.pedidoNumero
+import br.com.astrosoft.devolucao.view.devolucao.columns.PedidoViewColumns.pedidoTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaCelular
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaRepresentante
@@ -525,12 +529,17 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
 class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
   fun showDialogParcela(fornecedor: Fornecedor?, serie: Serie) {
     fornecedor ?: return
-    lateinit var gridNota: Grid<Parcela>
+
     val listNotas = fornecedor.parcelasFornecedor()
-    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-    }) {
-      gridNota = createGridParcelas(listNotas, serie)
-      gridNota
+    val listPedidos = fornecedor.pedidosFornecedor()
+    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
+      val gridNota = createGridParcelas(listNotas, "Notas fiscais")
+      val gridPedido = createGridPedidos(listPedidos, "Pedidos")
+
+      HorizontalLayout().apply {
+        setSizeFull()
+        addAndExpand(gridNota, gridPedido)
+      }
     }
     form.open()
   }
@@ -547,9 +556,10 @@ class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
     return "notas$textTime.xlsx"
   }
 
-  private fun createGridParcelas(listParcelas: List<Parcela>, serie: Serie): Grid<Parcela> {
+  private fun createGridParcelas(listParcelas: List<Parcela>, label: String): VerticalLayout {
     val gridDetail = Grid(Parcela::class.java, false)
-    return gridDetail.apply {
+    val grid = gridDetail.apply {
+      setSizeFull()
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(MULTI)
@@ -563,6 +573,33 @@ class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
         val totalPedido = listParcelas.sumOf { it.valor }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
+    }
+    return VerticalLayout().apply {
+      this.h3(label)
+      this.addAndExpand(grid)
+    }
+  }
+
+  private fun createGridPedidos(listPedidos: List<Pedido>, label: String): VerticalLayout {
+    val gridDetail = Grid(Pedido::class.java, false)
+    val grid = gridDetail.apply {
+      setSizeFull()
+      addThemeVariants(LUMO_COMPACT)
+      isMultiSort = false
+      setSelectionMode(MULTI)
+      setItems(listPedidos)
+
+      pedidoLoja()
+      pedidoNumero()
+      pedidoData()
+      pedidoTotal().apply {
+        val totalPedido = listPedidos.sumOf { it.total }.format()
+        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+      }
+    }
+    return VerticalLayout().apply {
+      this.h3(label)
+      this.addAndExpand(grid)
     }
   }
 

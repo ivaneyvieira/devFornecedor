@@ -283,9 +283,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
-  fun listParcelasFuncionarios(vendno: Int): List<Parcela> {
+  fun listParcelasFornecedor(vendno: Int): List<Parcela> {
     val sql = "/sqlSaci/parcelasFornecedor.sql"
     return query(sql, Parcela::class) {
+      addOptionalParameter("vendno", vendno)
+    }
+  }
+
+  fun listPedidosFornecedor(vendno: Int): List<Pedido> {
+    val sql = "/sqlSaci/pedidosFornecedor.sql"
+    return query(sql, Pedido::class) {
       addOptionalParameter("vendno", vendno)
     }
   }
