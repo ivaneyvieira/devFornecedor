@@ -533,8 +533,8 @@ class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
     val listNotas = fornecedor.parcelasFornecedor()
     val listPedidos = fornecedor.pedidosFornecedor()
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridNota = createGridParcelas(listNotas, "Notas fiscais")
-      val gridPedido = createGridPedidos(listPedidos, "Pedidos")
+      val gridNota = createGridParcelas(listNotas, "Títulos a Vencer")
+      val gridPedido = createGridPedidos(listPedidos, "Pedidos de Compra Pendentes")
 
       HorizontalLayout().apply {
         setSizeFull()
