@@ -89,7 +89,7 @@ SELECT N.storeno                                                                
        IFNULL(CAST(D.fatura AS CHAR), '')                                             AS fatura,
        CAST(N.issuedate AS DATE)                                                      AS dataNota,
        N.custno                                                                       AS custno,
-       N.fornecedorNome                                                               AS fornecedor,
+       IFNULL(N.fornecedorNome, '')                                                   AS fornecedor,
        N.email                                                                        AS email,
        N.fornecedorSap                                                                AS fornecedorSap,
        N.vendno                                                                       AS vendno,
