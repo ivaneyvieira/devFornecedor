@@ -33,11 +33,8 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumn
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaTelefone
 import br.com.astrosoft.devolucao.view.reports.RelatorioFornecedor
 import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IEmailView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
+import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.htmlToText
 import br.com.astrosoft.framework.view.*
@@ -66,12 +63,13 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.renderer.TemplateRenderer
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
+import org.apache.poi.ss.formula.functions.T
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract) :
+abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
   TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   private lateinit var edtFiltro: TextField
 
@@ -90,7 +88,7 @@ abstract class TabDevolucaoAbstract(val viewModel: TabDevolucaoViewModelAbstract
       DlgNota(viewModel).showDialogNota(fornecedor, serie)
     }
     addColumnButton(MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
-      DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
+      DlgParcelas(viewModel).showDialogParcela(fornecedor)
     }
     addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
@@ -216,7 +214,7 @@ class DlgEditRmk {
   }
 }
 
-class DlgSelecionaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
+class DlgSelecionaEmail<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>) {
     val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}") {
       createGridEmail(nota, emails)
@@ -252,7 +250,7 @@ class DlgSelecionaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
   }
 }
 
-class DlgEnviaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
+class DlgEnviaEmail<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   fun enviaEmail(notas: List<NotaSaida>) {
     val nota = notas.firstOrNull() ?: return
     val form = SubWindowForm("DEV FORNECEDOR: ${nota.fornecedor}") {
@@ -262,7 +260,7 @@ class DlgEnviaEmail(val viewModel: TabDevolucaoViewModelAbstract) {
   }
 }
 
-class DlgEditFile(val viewModel: TabDevolucaoViewModelAbstract) {
+class DlgEditFile<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit) {
     val grid = createFormEditFile(nota)
     val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = { _ ->
@@ -417,7 +415,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   }
 }
 
-class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
+class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   fun showDialogNota(fornecedor: Fornecedor?, serie: Serie) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaSaida>
@@ -533,8 +531,8 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
   }
 }
 
-class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
-  fun showDialogParcela(fornecedor: Fornecedor?, serie: Serie) {
+class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
+  fun showDialogParcela(fornecedor: Fornecedor?) {
     fornecedor ?: return
 
     val listNotas = fornecedor.parcelasFornecedor()

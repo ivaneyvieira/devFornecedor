@@ -8,7 +8,7 @@ import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabEmailRecebidoViewModel(val viewModel: DevolucaoViewModel) : IEmailView {
+class TabEmailRecebidoViewModel(val viewModel: Devolucao66ViewModel) : IEmailView {
   private val subView
     get() = viewModel.view.tabEmailRecebido
 

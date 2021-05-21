@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabPedidoViewModel(viewModel: DevolucaoViewModel) : TabDevolucaoViewModelAbstract(viewModel) {
+class TabPedidoViewModel(viewModel: Devolucao01ViewModel) : TabDevolucaoViewModelAbstract<IDevolucao01View>(viewModel) {
   override val subView
     get() = viewModel.view.tabPedido
 }

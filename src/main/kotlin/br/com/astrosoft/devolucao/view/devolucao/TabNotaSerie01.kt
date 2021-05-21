@@ -1,13 +1,15 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaSerie01
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaSerie01ViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabNotaSerie01(viewModel: TabNotaSerie01ViewModel) : TabDevolucaoAbstract(viewModel), ITabNotaSerie01 {
+class TabNotaSerie01(viewModel: TabNotaSerie01ViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel),
+                                                           ITabNotaSerie01 {
   override val label: String
-    get() = "Notas série 1"
+    get() = "Notas"
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
