@@ -423,7 +423,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      val captionImpressoa = if (serie == Serie66 || serie == PED) "Impressão Completa"
+      val captionImpressoa = if (serie == Serie66 || serie == PED || serie == AJT) "Impressão Completa"
       else "Impressão"
       button(captionImpressoa) {
         icon = PRINT.create()
@@ -432,7 +432,7 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
           viewModel.imprimirNotaDevolucao(notas)
         }
       }
-      if (serie == Serie66 || serie == PED) {
+      if (serie == Serie66 || serie == PED || serie == AJT) {
         button("Impressão Resumida") {
           icon = PRINT.create()
           onLeftClick {
@@ -506,7 +506,13 @@ class DlgNota(val viewModel: TabDevolucaoViewModelAbstract) {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
-      if (serie == PED) sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
+      if (serie == PED || serie == AJT) sort(
+        listOf(
+          GridSortOrder(
+            getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING
+                       )
+              )
+                                            )
       else sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
     }
   }

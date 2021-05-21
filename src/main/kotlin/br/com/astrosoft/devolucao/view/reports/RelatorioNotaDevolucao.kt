@@ -141,9 +141,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when (notaSaida.tipo) {
-      "66", "PED" -> if (resumida) listOf(
+      "66", "PED", "AJT" -> if (resumida) listOf(
         itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol
-                                         )
+                                                )
       else listOf(
         itemCol,
         barcodeCol,
@@ -160,9 +160,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         vstCol,
         valorTotalIpiCol
                  )
-      else        -> listOf(
+      else               -> listOf(
         itemCol, barcodeCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol, valorUnitarioCol, valorTotalCol
-                           )
+                                  )
     }
   }
 
@@ -243,6 +243,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   private fun titleBuider(): ComponentBuilder<*, *> {
     return when (notaSaida.tipo) {
       "PED" -> titleBuiderPedido()
+      "AJT" -> titleBuiderPedido()
       "66"  -> titleBuiderNota66()
       else  -> titleBuiderNota01()
     }
@@ -333,7 +334,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
 
       text("OBSERVAÇÕES:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
-      if (notaSaida.tipo == "66" || notaSaida.tipo == "PED") text(notaSaida.obsPedido)
+      if (notaSaida.tipo == "66" || notaSaida.tipo == "PED" || notaSaida.tipo == "AJT") text(notaSaida.obsPedido)
     }
   }
 
@@ -342,13 +343,13 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   }
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return if (notaSaida.tipo == "66" || notaSaida.tipo == "PED") listOf(
+    return if (notaSaida.tipo == "66" || notaSaida.tipo == "PED" || notaSaida.tipo == "AJT") listOf(
       sbt.text("Total R$", valorUnitarioCol),
       sbt.sum(valorTotalCol),
       sbt.sum(ipiCol),
       sbt.sum(vstCol),
       sbt.sum(valorTotalIpiCol),
-                                                                        )
+                                                                                                   )
     else listOf(
       sbt.text("Total R$", valorUnitarioCol),
       sbt.sum(valorTotalCol),
@@ -366,7 +367,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         item = index++
       }
     }
-    val pageOrientation = if ((notaSaida.tipo == "66" || notaSaida.tipo == "PED") && resumida) PORTRAIT else LANDSCAPE
+    val pageOrientation =
+      if ((notaSaida.tipo == "66" || notaSaida.tipo == "PED" || notaSaida.tipo == "AJT") && resumida) PORTRAIT else LANDSCAPE
     return report().title(titleBuider()).setTemplate(Templates.reportTemplate).columns(* colunms).columnGrid(* colunms)
       .setDataSource(itens).summary(sumaryBuild()).setPageFormat(A4, pageOrientation).setPageMargin(margin(28))
       .summary(pageFooterBuilder()).subtotalsAtSummary(* subtotalBuilder().toTypedArray())
