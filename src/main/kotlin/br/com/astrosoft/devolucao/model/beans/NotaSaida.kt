@@ -2,10 +2,8 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.saci
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.ENT
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.PED
-import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
 import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
@@ -57,6 +55,7 @@ class NotaSaida(
     return when (tipo) {
       "PED" -> saci.produtosPedido(this)
       "ENT" -> saci.produtosEntrada(this)
+      "AJT" -> saci.produtosAjuste(this)
       else  -> saci.produtosNotaSaida(this)
     }
   }
@@ -108,19 +107,20 @@ class NotaSaida(
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
 
-    fun updateNotasDevolucao(serie: Serie, pago66: SimNao, pago01: SimNao, coleta66: SimNao, remessaConserto: SimNao) {
+    fun updateNotasDevolucao(filtro: IFiltro) {
       val user = AppConfig.user as? UserSaci
       val loja = if (user?.admin == true) 0 else user?.storeno ?: 0
-      val notas = when (serie) {
+      val notas = when (filtro.serie) {
         PED  -> saci.pedidosDevolucao()
         ENT  -> saci.entradaDevolucao()
-        else -> saci.notasDevolucao(serie)
+        AJT  -> saci.ajusteGarantia()
+        else -> saci.notasDevolucao(filtro.serie)
       }
       val grupos = notas.asSequence().filter { it.loja == loja || loja == 0 }
-        .filter { pago66 == NONE || it.serie66Pago == pago66.value }
-        .filter { pago01 == NONE || it.serie01Pago == pago01.value }
-        .filter { coleta66 == NONE || it.serie01Coleta == coleta66.value }
-        .filter { remessaConserto == NONE || it.remessaConserto == remessaConserto.value }
+        .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
+        .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
+        .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
+        .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
         .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
