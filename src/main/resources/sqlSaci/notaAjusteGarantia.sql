@@ -7,15 +7,12 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       V.no                                                              AS vendno,
        N.issuedate,
        N.eordno,
        O.date                                                            AS pedidoDate,
-       C.no                                                              AS custno,
-       C.name                                                            AS fornecedorNome,
-       C.email                                                           AS email,
-       V.auxLong4                                                        AS fornecedorSap,
        N.grossamt / 100                                                  AS valor,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
+		       -1) * 1                                           AS custnoObs,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -46,10 +43,6 @@ FROM sqldados.nf              AS N
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN sqldados.eordrk   AS OBS
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
-  LEFT JOIN sqldados.custp    AS C
-	      ON C.no = N.custno
-  LEFT JOIN sqldados.vend     AS V
-	      ON C.cpf_cgc = V.cgc
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.remarks LIKE 'AJUSTE GARANTIA%'
@@ -83,11 +76,11 @@ SELECT N.storeno                                                                
        CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                                      AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')                                             AS fatura,
        CAST(N.issuedate AS DATE)                                                      AS dataNota,
-       IFNULL(N.custno, 0)                                                            AS custno,
-       IFNULL(N.fornecedorNome, '')                                                   AS fornecedor,
-       IFNULL(N.email, '')                                                            AS email,
-       N.fornecedorSap                                                                AS fornecedorSap,
-       N.vendno                                                                       AS vendno,
+       IFNULL(C.no, 0)                                                                AS custno,
+       IFNULL(C.name, '')                                                             AS fornecedor,
+       IFNULL(V.email, '')                                                            AS email,
+       V.auxLong4                                                                     AS fornecedorSap,
+       V.no                                                                           AS vendno,
        IFNULL(R.rmk, '')                                                              AS rmk,
        SUM(N.valor)                                                                   AS valor,
        IFNULL(obsNota, '')                                                            AS obsNota,
@@ -98,7 +91,7 @@ SELECT N.storeno                                                                
        serie01Coleta                                                                  AS serie01Coleta,
        serie66Pago                                                                    AS serie66Pago,
        remessaConserto                                                                AS remessaConserto,
-       remarks                                                                        AS remarks,
+       N.remarks                                                                      AS remarks,
        baseIcms                                                                       AS baseIcms,
        valorIcms                                                                      AS valorIcms,
        baseIcmsSubst                                                                  AS baseIcmsSubst,
@@ -117,13 +110,16 @@ FROM TNF                        AS N
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS R
 	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
   LEFT JOIN  TDUP               AS D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
+  LEFT JOIN  sqldados.custp     AS C
+	       ON C.no = N.custnoObs
+  LEFT JOIN  sqldados.vend      AS V
+	       ON C.cpf_cgc = V.cgc
+  LEFT JOIN  sqldados.nfvendRmk AS RV
+	       ON RV.vendno = V.no AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
-  AND N.fornecedorNome IS NOT NULL
 GROUP BY loja, pdv, transacao, dataNota, custno
