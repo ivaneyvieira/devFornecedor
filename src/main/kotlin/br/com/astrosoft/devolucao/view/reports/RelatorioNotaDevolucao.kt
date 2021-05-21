@@ -216,6 +216,29 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
     }
   }
 
+  private fun titleBuiderAjuste(): ComponentBuilder<*, *> {
+    return verticalBlock {
+      horizontalList {
+        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+          this.setStyle(fieldFontGrande)
+        }
+      }
+      horizontalList {
+        val dataAtual = LocalDate.now().format()
+        val horaAtual = LocalTime.now().format()
+        val custno = notaSaida.custno
+        val fornecedor = notaSaida.fornecedor
+        val vendno = notaSaida.vendno
+        val nota = notaSaida.nota
+        val dataNota = notaSaida.dataNota.format()
+        val fornecedorSap = notaSaida.fornecedorSap
+
+        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NDF $nota - $dataNota", LEFT)
+        text("$dataAtual-$horaAtual", RIGHT, 100)
+      }
+    }
+  }
+
   private fun titleBuiderNota01(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
@@ -243,7 +266,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   private fun titleBuider(): ComponentBuilder<*, *> {
     return when (notaSaida.tipo) {
       "PED" -> titleBuiderPedido()
-      "AJT" -> titleBuiderPedido()
+      "AJT" -> titleBuiderAjuste()
       "66"  -> titleBuiderNota66()
       else  -> titleBuiderNota01()
     }
