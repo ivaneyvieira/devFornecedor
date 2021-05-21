@@ -233,7 +233,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         val dataNota = notaSaida.dataNota.format()
         val fornecedorSap = notaSaida.fornecedorSap
 
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NDF $nota - $dataNota", LEFT)
+        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NFA $nota - $dataNota", LEFT)
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
     }
