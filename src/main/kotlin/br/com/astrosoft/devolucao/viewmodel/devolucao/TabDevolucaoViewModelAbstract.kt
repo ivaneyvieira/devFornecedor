@@ -31,9 +31,7 @@ abstract class TabDevolucaoViewModelAbstract(val viewModel: DevolucaoViewModel) 
 
   private fun listFornecedores(): List<Fornecedor> {
     subView.setFiltro("")
-    NotaSaida.updateNotasDevolucao(
-      subView.serie, subView.pago66, subView.pago01, subView.coleta01, subView.remessaConserto
-                                  )
+    NotaSaida.updateNotasDevolucao(subView)
     return NotaSaida.findFornecedores()
   }
 
@@ -175,16 +173,19 @@ enum class Serie(val value: String) {
   Serie66("66"),
   PED("PED"),
   ENT("ENT"),
+  AJT("AJT"),
   VAZIO("")
 }
 
-interface ITabNota : ITabView {
+interface IFiltro {
   val serie: Serie
   val pago66: SimNao
   val pago01: SimNao
   val coleta01: SimNao
   val remessaConserto: SimNao
+}
 
+interface ITabNota : ITabView, IFiltro {
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)

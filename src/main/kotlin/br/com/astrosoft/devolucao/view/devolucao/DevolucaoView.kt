@@ -23,6 +23,7 @@ class DevolucaoView : ViewLayout<DevolucaoViewModel>(), IDevolucaoView {
   override val tabNotaSerie01 = TabNotaSerie01(viewModel.tabNotaSerie01ViewModel)
   override val tabNotaSerie01Pago = TabNotaSerie01Pago(viewModel.tabNotaSerie01PagoViewModel)
   override val tabNotaSerie01Coleta = TabNotaSerie01Coleta(viewModel.tabNotaSerie01ColetaViewModel)
+  override val tabAjusteGarantia = TabAjusteGarantia(viewModel.tabAjusteGarantiaViewModel)
   override val tabEmailRecebido = TabEmailRecebido(viewModel.tabEmailRecebidoViewModel)
 
   override fun isAccept(user: IUser): Boolean {

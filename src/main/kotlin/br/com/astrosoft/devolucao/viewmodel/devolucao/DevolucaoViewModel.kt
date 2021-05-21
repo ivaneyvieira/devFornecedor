@@ -15,6 +15,7 @@ class DevolucaoViewModel(view: IDevolucaoView) : ViewModel<IDevolucaoView>(view)
   val tabNotaSerie01ColetaViewModel = TabNotaSerie01ColetaViewModel(this)
   val tabNotaRemessaConsertoViewModel = TabNotaRemessaConsertoViewModel(this)
   val tabPedidoViewModel = TabPedidoViewModel(this)
+  val tabAjusteGarantiaViewModel = TabAjusteGarantiaViewModel(this)
   val tabEntradaViewModel = TabEntradaViewModel(this)
   val tabEmailRecebidoViewModel = TabEmailRecebidoViewModel(this)
 
@@ -27,6 +28,7 @@ class DevolucaoViewModel(view: IDevolucaoView) : ViewModel<IDevolucaoView>(view)
     view.tabNotaSerie01Coleta,
     view.tabEmailRecebido,
     view.tabNotaRemessaConserto,
+    view.tabAjusteGarantia,
     view.tabEntrada
                                  )
 }
@@ -38,6 +40,7 @@ interface IDevolucaoView : IView {
   val tabNotaSerie01Pago: ITabNotaSerie01Pago
   val tabNotaSerie01Coleta: ITabNotaSerie01Coleta
   val tabNotaRemessaConserto: ITabNotaRemessaConserto
+  val tabAjusteGarantia: ITabAjusteGarantia
   val tabPedido: ITabPedido
   val tabEntrada: ITabEntrada
   val tabEmailRecebido: ITabEmailRecebido

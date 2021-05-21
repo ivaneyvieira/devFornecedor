@@ -58,6 +58,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class)
   }
 
+  fun ajusteGarantia(): List<NotaSaida> {
+    val sql = "/sqlSaci/notaAjusteGarantia.sql"
+    return query(sql, NotaSaida::class)
+  }
+
   fun produtosPedido(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
     val sql = "/sqlSaci/produtosPedido.sql"
     return query(sql, ProdutosNotaSaida::class) {
@@ -74,6 +79,18 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, ProdutosNotaSaida::class) {
       addOptionalParameter("loja", notaSaida.loja)
       addOptionalParameter("invno", notaSaida.transacao)
+    }.map { produto ->
+      produto.nota = notaSaida
+      produto
+    }
+  }
+
+  fun produtosAjuste(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
+    val sql = "/sqlSaci/produtosAjuste.sql"
+    return query(sql, ProdutosNotaSaida::class) {
+      addOptionalParameter("loja", notaSaida.loja)
+      addOptionalParameter("pdv", notaSaida.pdv)
+      addOptionalParameter("transacao", notaSaida.transacao)
     }.map { produto ->
       produto.nota = notaSaida
       produto
