@@ -7,46 +7,30 @@ import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.IViewModelUpdate
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
-class DevolucaoViewModel(view: IDevolucaoView) : ViewModel<IDevolucaoView>(view) {
-  val tabNotaDevolucaoViewModel = TabNotaSerie66ViewModel(this)
-  val tabNota66PagoViewModel = TabNotaSerie66PagoViewModel(this)
+class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<IDevolucao01View>(view) {
   val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
   val tabNotaSerie01PagoViewModel = TabNotaSerie01PagoViewModel(this)
   val tabNotaSerie01ColetaViewModel = TabNotaSerie01ColetaViewModel(this)
   val tabNotaRemessaConsertoViewModel = TabNotaRemessaConsertoViewModel(this)
   val tabPedidoViewModel = TabPedidoViewModel(this)
   val tabAjusteGarantiaViewModel = TabAjusteGarantiaViewModel(this)
-  val tabEntradaViewModel = TabEntradaViewModel(this)
-  val tabEmailRecebidoViewModel = TabEmailRecebidoViewModel(this)
 
   override fun listTab() = listOf(
     view.tabPedido,
-    view.tabNotaSerie66,
-    view.tabNotaSerie66Pago,
     view.tabNotaSerie01,
     view.tabNotaSerie01Pago,
     view.tabNotaSerie01Coleta,
-    view.tabEmailRecebido,
     view.tabNotaRemessaConserto,
     view.tabAjusteGarantia,
-    view.tabEntrada
                                  )
 }
 
-interface IDevolucaoView : IView {
-  val tabNotaSerie66: ITabNotaSerie66
-  val tabNotaSerie66Pago: ITabNotaSerie66Pago
+interface IDevolucao01View : IDevolucaoAbstractView {
   val tabNotaSerie01: ITabNotaSerie01
   val tabNotaSerie01Pago: ITabNotaSerie01Pago
   val tabNotaSerie01Coleta: ITabNotaSerie01Coleta
   val tabNotaRemessaConserto: ITabNotaRemessaConserto
   val tabAjusteGarantia: ITabAjusteGarantia
   val tabPedido: ITabPedido
-  val tabEntrada: ITabEntrada
-  val tabEmailRecebido: ITabEmailRecebido
 }
 
-interface IEmailView : IViewModelUpdate {
-  fun listEmail(fornecedor: Fornecedor?): List<String>
-  fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>)
-}

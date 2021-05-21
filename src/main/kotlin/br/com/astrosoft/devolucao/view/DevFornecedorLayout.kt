@@ -2,7 +2,8 @@ package br.com.astrosoft.devolucao.view
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
-import br.com.astrosoft.devolucao.view.devolucao.DevolucaoView
+import br.com.astrosoft.devolucao.view.devolucao.Devolucao01View
+import br.com.astrosoft.devolucao.view.devolucao.Devolucao66View
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
 import br.com.astrosoft.devolucao.view.teste.AssinaturaView
 import com.github.mvysny.karibudsl.v10.button
@@ -66,7 +67,11 @@ class DevFornecedorLayout : AppLayout() {
         orientation = Tabs.Orientation.VERTICAL
         tab {
           this.icon(FORM)
-          routerLink(text = "Devolução", viewType = DevolucaoView::class)
+          routerLink(text = "Devolução Série 1", viewType = Devolucao01View::class)
+        }
+        tab {
+          this.icon(FORM)
+          routerLink(text = "Devolução Série 66", viewType = Devolucao66View::class)
         }
 
         tab {
