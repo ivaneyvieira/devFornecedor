@@ -574,13 +574,14 @@ class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
 
-      val strTemplate = """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+      val strTemplate =
+        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div><b>OBS</b>: [[item.obs]]</div>
           |</div>""".trimMargin()
       this.setItemDetailsRenderer(
         TemplateRenderer.of<Parcela?>(strTemplate).withProperty("obs", Parcela::observacao)
                                  )
-      listParcelas.forEach {parcela ->
+      listParcelas.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }
     }
@@ -607,13 +608,14 @@ class DlgParcelas(val viewModel: TabDevolucaoViewModelAbstract) {
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
 
-      val strTemplate = """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+      val strTemplate =
+        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div><b>OBS</b>: [[item.obs]]</div>
           |</div>""".trimMargin()
       this.setItemDetailsRenderer(
         TemplateRenderer.of<Pedido?>(strTemplate).withProperty("obs", Pedido::observacao)
                                  )
-      listPedidos.forEach {parcela ->
+      listPedidos.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }
     }

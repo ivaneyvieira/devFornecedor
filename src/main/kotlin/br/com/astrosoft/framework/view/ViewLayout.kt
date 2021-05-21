@@ -75,8 +75,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
     ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton(
       {
         execYes()
-      },
-      ButtonOption.caption("Sim")
+      }, ButtonOption.caption("Sim")
                                                                                             )
       .withNoButton({ execNo() }, ButtonOption.caption("Não")).open()
   }
