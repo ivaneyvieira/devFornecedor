@@ -87,21 +87,19 @@ class NotaSaida(
     val gmail = MailGMail()
     val numero = if (tipo == "PED") pedido.toString() else nota.split("/")[0]
     return gmail.listEmail(Todos, numero).map { msg: EmailMessage ->
-      EmailDB(
-        storeno = loja,
-        pdvno = pdv,
-        xano = transacao,
-        data = msg.data.toLocalDate(),
-        hora = msg.data.toLocalTime(),
-        idEmail = 0,
-        messageID = msg.messageID,
-        email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
-        assunto = msg.subject,
-        msg = msg.content().messageTxt,
-        planilha = "N",
-        relatorio = "N",
-        anexos = "N"
-             )
+      EmailDB(storeno = loja,
+              pdvno = pdv,
+              xano = transacao,
+              data = msg.data.toLocalDate(),
+              hora = msg.data.toLocalTime(),
+              idEmail = 0,
+              messageID = msg.messageID,
+              email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
+              assunto = msg.subject,
+              msg = msg.content().messageTxt,
+              planilha = "N",
+              relatorio = "N",
+              anexos = "N")
     }
   }
 
@@ -118,24 +116,24 @@ class NotaSaida(
         FIN  -> saci.notaFinanceiro()
         else -> saci.notasDevolucao(filtro.serie)
       }
-      val grupos = notas.asSequence().filter { it.loja == loja || loja == 0 }
-        .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
-        .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
-        .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
-        .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
-        .groupBy { it.chaveFornecedor() }
+      val grupos =
+              notas.asSequence()
+                .filter { it.loja == loja || loja == 0 }
+                .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
+                .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
+                .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
+                .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
+                .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
-        Fornecedor(
-          entry.key.custno,
-          entry.key.fornecedor,
-          entry.key.vendno,
-          entry.key.fornecedorSap,
-          entry.key.email,
-          entry.key.tipo,
-          entry.key.obs,
-          entry.value
-                  )
+        Fornecedor(entry.key.custno,
+                   entry.key.fornecedor,
+                   entry.key.vendno,
+                   entry.key.fornecedorSap,
+                   entry.key.email,
+                   entry.key.tipo,
+                   entry.key.obs,
+                   entry.value)
       })
     }
 

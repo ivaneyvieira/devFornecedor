@@ -38,11 +38,11 @@ import com.vaadin.flow.theme.lumo.Lumo
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
-@PWA(
-  name = AppConfig.title, shortName = AppConfig.shortName, iconPath = AppConfig.iconPath, enableInstallPrompt = false
-    )
-@JsModule("./styles/shared-styles.js")
-class DevFornecedorLayout : AppLayout(), RouterLayout, BeforeEnterObserver {
+@PWA(name = AppConfig.title,
+     shortName = AppConfig.shortName,
+     iconPath = AppConfig.iconPath,
+     enableInstallPrompt = false)
+@JsModule("./styles/shared-styles.js") class DevFornecedorLayout : AppLayout(), RouterLayout, BeforeEnterObserver {
   init {
     isDrawerOpened = true
     navbar {

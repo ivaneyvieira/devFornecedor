@@ -17,8 +17,7 @@ import com.vaadin.flow.theme.lumo.Lumo
 @PageTitle("Login")
 @BodySize(width = "100vw", height = "100vh")
 @Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes")
-@Theme(value = Lumo::class, variant = Lumo.DARK)
-class LoginView : KComposite(), BeforeEnterObserver {
+@Theme(value = Lumo::class, variant = Lumo.DARK) class LoginView : KComposite(), BeforeEnterObserver {
 
   override fun beforeEnter(event: BeforeEnterEvent) {
     if (SecurityUtils.isUserLoggedIn) {
@@ -37,7 +36,8 @@ class LoginView : KComposite(), BeforeEnterObserver {
         addLoginListener { e ->
           if (!SecurityUtils.login(e.username, e.password)) {
             isError = true
-          } else navigateToView(AppConfig.mainClass)
+          }
+          else navigateToView(AppConfig.mainClass)
         }
       }
     }

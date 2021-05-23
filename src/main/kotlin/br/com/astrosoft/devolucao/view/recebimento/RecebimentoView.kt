@@ -10,9 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(layout = DevFornecedorLayout::class)
-@PageTitle("Recebimento")
-@CssImport("./styles/gridTotal.css")
+@Route(layout = DevFornecedorLayout::class) @PageTitle("Recebimento") @CssImport("./styles/gridTotal.css")
 class RecebimentoView : ViewLayout<RecebimentoViewModel>(), IRecebimentoView {
   override val viewModel = RecebimentoViewModel(this)
   override val tabNotaPendente = TabNotaPendente(viewModel.tabNotaPendenteViewModel)

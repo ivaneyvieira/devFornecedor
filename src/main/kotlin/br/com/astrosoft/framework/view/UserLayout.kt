@@ -26,9 +26,7 @@ import org.vaadin.crudui.form.AbstractCrudFormFactory
 abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>() {
   abstract fun createGrid(): GridCrud<B>
   abstract fun columns(): List<String>
-  abstract fun formCrud(
-    operation: CrudOperation?, domainObject: B?, readOnly: Boolean, binder: Binder<B>
-                       ): Component
+  abstract fun formCrud(operation: CrudOperation?, domainObject: B?, readOnly: Boolean, binder: Binder<B>): Component
 
   override fun isAccept(user: IUser) = user.admin
 
@@ -46,9 +44,7 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
                        { user: B? -> viewModel.delete(user) })
   }
 
-  private fun layoutCrud(
-    operation: CrudOperation?, domainObject: B?, readOnly: Boolean, binder: Binder<B>
-                        ): Component {
+  private fun layoutCrud(operation: CrudOperation?, domainObject: B?, readOnly: Boolean, binder: Binder<B>): Component {
     return VerticalLayout().apply {
       isSpacing = false
       isMargin = false
@@ -74,13 +70,11 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
 
 class UserCrudFormFactory<B : IUser>(private val createForm: (CrudOperation?, B?, Boolean, Binder<B>) -> Component) :
   AbstractCrudFormFactory<B>() {
-  override fun buildNewForm(
-    operation: CrudOperation?,
-    domainObject: B?,
-    readOnly: Boolean,
-    cancelButtonClickListener: ComponentEventListener<ClickEvent<Button>>?,
-    operationButtonClickListener: ComponentEventListener<ClickEvent<Button>>?
-                           ): Component {
+  override fun buildNewForm(operation: CrudOperation?,
+                            domainObject: B?,
+                            readOnly: Boolean,
+                            cancelButtonClickListener: ComponentEventListener<ClickEvent<Button>>?,
+                            operationButtonClickListener: ComponentEventListener<ClickEvent<Button>>?): Component {
     val binder = Binder(domainObject?.javaClass)
     return VerticalLayout().apply {
       isSpacing = false
@@ -112,8 +106,8 @@ class UserCrudFormFactory<B : IUser>(private val createForm: (CrudOperation?, B?
   override fun buildCaption(operation: CrudOperation?, domainObject: B?): String {
     return operation?.let { crudOperation ->
       when (crudOperation) {
-        READ -> "Consulta"
-        ADD -> "Adiciona"
+        READ   -> "Consulta"
+        ADD    -> "Adiciona"
         UPDATE -> "Atualiza"
         DELETE -> "Remove"
       }
