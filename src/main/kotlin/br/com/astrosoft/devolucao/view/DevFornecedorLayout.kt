@@ -6,6 +6,9 @@ import br.com.astrosoft.devolucao.view.devolucao.Devolucao01View
 import br.com.astrosoft.devolucao.view.devolucao.Devolucao66View
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
 import br.com.astrosoft.devolucao.view.teste.AssinaturaView
+import br.com.astrosoft.framework.session.LoginView
+import br.com.astrosoft.framework.session.SecurityUtils
+import br.com.astrosoft.framework.session.Session
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.drawer
 import com.github.mvysny.karibudsl.v10.drawerToggle
@@ -26,10 +29,12 @@ import com.vaadin.flow.component.dependency.JsModule
 import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.page.Push
 import com.vaadin.flow.component.tabs.Tabs
+import com.vaadin.flow.router.BeforeEnterEvent
+import com.vaadin.flow.router.BeforeEnterObserver
+import com.vaadin.flow.router.RouterLayout
 import com.vaadin.flow.server.PWA
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
-import org.springframework.security.core.context.SecurityContextHolder
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
@@ -37,7 +42,7 @@ import org.springframework.security.core.context.SecurityContextHolder
   name = AppConfig.title, shortName = AppConfig.shortName, iconPath = AppConfig.iconPath, enableInstallPrompt = false
     )
 @JsModule("./styles/shared-styles.js")
-class DevFornecedorLayout : AppLayout() {
+class DevFornecedorLayout : AppLayout(), RouterLayout, BeforeEnterObserver {
   init {
     isDrawerOpened = true
     navbar {
@@ -45,10 +50,10 @@ class DevFornecedorLayout : AppLayout() {
       h3(AppConfig.title)
       horizontalLayout {
         isExpand = true
-      } //anchor("logout", "Sair")
+      }
       button("Sair") {
         onLeftClick {
-          SecurityContextHolder.clearContext()
+          Session.current.close()
           ui.ifPresent {
             it.session.close()
             it.navigate("")
@@ -95,6 +100,12 @@ class DevFornecedorLayout : AppLayout() {
           routerLink(text = "Assinatura", viewType = AssinaturaView::class)
         }
       }
+    }
+  }
+
+  override fun beforeEnter(event: BeforeEnterEvent) {
+    if (!SecurityUtils.isUserLoggedIn) {
+      event.rerouteTo(LoginView::class.java)
     }
   }
 }

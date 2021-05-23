@@ -21,7 +21,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     maps[LocalDate::class.java] = LocalDateConverter()
     maps[LocalTime::class.java] = LocalSqlTimeConverter()
     maps[ByteArray::class.java] = ByteArrayConverter()
-    this.sql2o = Sql2o( url,  username,  password, NoQuirks(maps))
+    this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
   }
 
   private fun registerDriver(driver: String) {

@@ -1,12 +1,5 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.EmailGmail
-import br.com.astrosoft.devolucao.model.beans.Fornecedor
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
-import br.com.astrosoft.framework.viewmodel.IView
-import br.com.astrosoft.framework.viewmodel.IViewModelUpdate
-import br.com.astrosoft.framework.viewmodel.ViewModel
-
 class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<IDevolucao01View>(view) {
   val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
   val tabNotaSerie01PagoViewModel = TabNotaSerie01PagoViewModel(this)

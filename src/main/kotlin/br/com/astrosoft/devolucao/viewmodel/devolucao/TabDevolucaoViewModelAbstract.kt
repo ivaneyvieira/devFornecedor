@@ -9,7 +9,8 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import org.apache.poi.ss.formula.functions.T
 
-abstract class TabDevolucaoViewModelAbstract<T: IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) : IEmailView {
+abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
+  IEmailView {
   protected abstract val subView: ITabNota
 
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
