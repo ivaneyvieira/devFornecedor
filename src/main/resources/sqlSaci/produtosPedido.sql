@@ -27,7 +27,9 @@ DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD (
   PRIMARY KEY (prdno, grade)
 )
-SELECT codigo AS prdno, grade, SUM(qtde) AS qtde
+SELECT codigo    AS prdno,
+       grade,
+       SUM(qtde) AS qtde
 FROM T_PEDIDO
 GROUP BY codigo, grade;
 
@@ -35,7 +37,10 @@ DROP TEMPORARY TABLE IF EXISTS T_PRD_ULT;
 CREATE TEMPORARY TABLE T_PRD_ULT (
   PRIMARY KEY (invno, prdno, grade)
 )
-SELECT prdno, grade, MAX(invno) AS invno, MAX(IF(P.qtty >= T_PRD.qtde, invno, NULL)) AS invnoQ
+SELECT prdno,
+       grade,
+       MAX(invno)                                 AS invno,
+       MAX(IF(P.qtty >= T_PRD.qtde, invno, NULL)) AS invnoQ
 FROM sqldados.inv          AS I
   INNER JOIN sqldados.iprd AS P
 	       USING (invno)

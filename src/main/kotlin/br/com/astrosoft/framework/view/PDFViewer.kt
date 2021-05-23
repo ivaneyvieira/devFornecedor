@@ -5,7 +5,8 @@ import com.vaadin.flow.component.HasSize
 import com.vaadin.flow.component.Tag
 import com.vaadin.flow.server.StreamResource
 
-@Tag("object") class PDFViewer private constructor() : Component(), HasSize {
+@Tag("object")
+class PDFViewer private constructor() : Component(), HasSize {
   constructor(resource: StreamResource?) : this() {
     element.setAttribute("data", resource)
   }

@@ -1,11 +1,11 @@
 package br.com.astrosoft.devolucao.view
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.devolucao.Devolucao01View
 import br.com.astrosoft.devolucao.view.devolucao.Devolucao66View
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
 import br.com.astrosoft.devolucao.view.teste.AssinaturaView
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.session.LoginView
 import br.com.astrosoft.framework.session.SecurityUtils
 import br.com.astrosoft.framework.session.Session
@@ -32,22 +32,18 @@ import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.router.BeforeEnterEvent
 import com.vaadin.flow.router.BeforeEnterObserver
 import com.vaadin.flow.router.RouterLayout
-import com.vaadin.flow.server.PWA
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
-@PWA(name = AppConfig.title,
-     shortName = AppConfig.shortName,
-     iconPath = AppConfig.iconPath,
-     enableInstallPrompt = false)
-@JsModule("./styles/shared-styles.js") class DevFornecedorLayout : AppLayout(), RouterLayout, BeforeEnterObserver {
+@JsModule("./styles/shared-styles.js")
+class DevFornecedorLayout : AppLayout(), RouterLayout, BeforeEnterObserver {
   init {
     isDrawerOpened = true
     navbar {
       drawerToggle()
-      h3(AppConfig.title)
+      h3(Config.title)
       horizontalLayout {
         isExpand = true
       }
@@ -63,8 +59,8 @@ import com.vaadin.flow.theme.lumo.Lumo
     }
     drawer {
       verticalLayout {
-        label("Versão ${AppConfig.version}")
-        label(AppConfig.user?.login)
+        label("Versão ${Config.version}")
+        label(Config.user?.login)
       }
       hr()
 
@@ -90,12 +86,12 @@ import com.vaadin.flow.theme.lumo.Lumo
         }
 
         tab {
-          this.isEnabled = AppConfig.isAdmin
+          this.isEnabled = Config.isAdmin
           this.icon(USER)
           routerLink(text = "Usuário", viewType = UsuarioView::class)
         }
         tab {
-          this.isEnabled = AppConfig.isAdmin
+          this.isEnabled = Config.isAdmin
           this.icon(SIGN_IN)
           routerLink(text = "Assinatura", viewType = AssinaturaView::class)
         }

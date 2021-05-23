@@ -1,7 +1,7 @@
 SELECT storeno,
        pdvno,
        xano,
-       cast(date AS DATE) AS date,
+       CAST(date AS DATE) AS date,
        nome,
        file
 FROM sqldados.nfdevFile

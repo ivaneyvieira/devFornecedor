@@ -1,9 +1,9 @@
 package br.com.astrosoft.devolucao.viewmodel.agenda
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.IViewModelUpdate
@@ -15,7 +15,7 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel) : IVie
   protected abstract val subView: ITabAgenda
 
   override fun updateView() = viewModel.exec {
-    val user = AppConfig.user as? UserSaci ?: fail("Usuário não logado")
+    val user = Config.user as? UserSaci ?: fail("Usuário não logado")
     val loja = if (user.admin) 0 else user.storeno
     val filtro = subView.filtro()
     subView.updateGrid(listAgenda(subView.agendado, subView.recebido, filtro, loja))

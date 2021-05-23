@@ -35,13 +35,15 @@ object SystemUtils {
     }
   }
 
-  @Throws(IOException::class) private fun toBufferedImage(imagem: ByteArray?): BufferedImage? {
+  @Throws(IOException::class)
+  private fun toBufferedImage(imagem: ByteArray?): BufferedImage? {
     if (imagem == null) return null
     val inputStream = ByteArrayInputStream(imagem)
     return ImageIO.read(inputStream)
   }
 
-  @Throws(IOException::class) private fun toByteArray(image: BufferedImage): ByteArray? {
+  @Throws(IOException::class)
+  private fun toByteArray(image: BufferedImage): ByteArray? {
     val baos = ByteArrayOutputStream()
     ImageIO.write(image, "jpg", baos)
     baos.flush()
@@ -83,16 +85,17 @@ object SystemUtils {
     return readFile(file, Charset.defaultCharset())
   }
 
-  @Throws(IOException::class) fun readFile(filename: String, encoding: Charset): String {
+  @Throws(IOException::class)
+  fun readFile(filename: String, encoding: Charset): String {
     val resource = SystemUtils::class.java.getResource(filename) ?: throw IOException()
     val path = Paths.get(resource.toURI())
     val encoded = Files.readAllBytes(path)
     return String(encoded, encoding)
   }
 
-  private fun hashString(type: String, input: String): String {
+  private fun hashString(input: String): String {
     val hexChar = "0123456789ABCDEF"
-    val bytes = MessageDigest.getInstance(type).digest(input.toByteArray())
+    val bytes = MessageDigest.getInstance("MD5").digest(input.toByteArray())
     val result = StringBuilder(bytes.size * 2)
 
     bytes.forEach {
@@ -105,7 +108,7 @@ object SystemUtils {
   }
 
   fun md5(text: String): String {
-    return hashString("MD5", text)
+    return hashString(text)
   }
 }
 
