@@ -12,7 +12,7 @@ object Defs {
 plugins {
   kotlin("jvm") version "1.5.0"
   war
-  id("com.vaadin") version "0.14.3.7"
+  id("com.vaadin") version "0.14.6.0"
 }
 
 defaultTasks("clean", "build")
