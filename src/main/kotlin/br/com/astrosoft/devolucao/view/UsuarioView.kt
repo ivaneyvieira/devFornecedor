@@ -61,17 +61,13 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           binder.bind(this, UserSaci::storeno.name)
         }
         formLayout {
-          h4("Devolução") {
+          h4("Devolução Série 1") {
             colspan = 2
           }
 
           checkBox("Pedido") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedido.name)
-          }
-          checkBox("Nota série 66") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::nota66.name)
           }
           checkBox("Nota série 1") {
             isReadOnly = readOnly
@@ -81,21 +77,39 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota01Coleta.name)
           }
+          checkBox("Remessa de Conserto") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::remessaConserto.name)
+          }
+          checkBox("Ajuste Garantia") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantia.name)
+          }
+          checkBox("Financeiro") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaFinanceiro.name)
+          }
+        }
+        formLayout {
+          h4("Devolução Série 66") {
+            colspan = 2
+          }
+
+          checkBox("Nota série 66") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::nota66.name)
+          }
           checkBox("Nota série 66 pago") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota66Pago.name)
-          }
-          checkBox("Email Recebido") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::emailRecebido.name)
           }
           checkBox("Retorno 66") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entrada.name)
           }
-          checkBox("Remessa de Conserto") {
+          checkBox("Email Recebido") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::remessaConserto.name)
+            binder.bind(this, UserSaci::emailRecebido.name)
           }
         }
         formLayout {

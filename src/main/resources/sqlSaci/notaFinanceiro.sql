@@ -4,16 +4,14 @@ CREATE TEMPORARY TABLE T_VEND (
 )
 SELECT vendno
 FROM sqldados.ords
-WHERE storeno = 4
-  AND remarks LIKE '%DESC%'
+WHERE remarks LIKE '%DESC%'
   AND amt > 0
 UNION
 SELECT inv.vendno
 FROM sqldados.invxa
   INNER JOIN sqldados.inv
 	       USING (invno)
-WHERE inv.storeno = 4
-  AND invxa.remarks LIKE '%DESC%'
+WHERE invxa.remarks LIKE '%DESC%'
   AND invxa.paiddate = 0
   AND invxa.amtdue > 0;
 
@@ -83,6 +81,8 @@ FROM sqldados.nf               AS N
 	       ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
+  AND N.nfse = 1
+  AND N.tipo = 2
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
