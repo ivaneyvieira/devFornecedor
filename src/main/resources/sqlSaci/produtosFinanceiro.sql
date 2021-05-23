@@ -78,6 +78,7 @@ FROM sqldados.iprd           AS P
 	       USING (prdno)
 GROUP BY prdno, grade;
 
+
 SELECT loja,
        pdv,
        transacao,
