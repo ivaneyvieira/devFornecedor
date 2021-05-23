@@ -13,7 +13,7 @@ class UserSaci : IUser {
   var bitAcesso: Int = 0
   var storeno: Int = 0
   var prntno: Int = 0
-  var impressora: String = ""
+  var impressora: String? = ""
   override var ativo by DelegateAuthorized(0)
   var nota01 by DelegateAuthorized(1)
   var nota66 by DelegateAuthorized(2)
