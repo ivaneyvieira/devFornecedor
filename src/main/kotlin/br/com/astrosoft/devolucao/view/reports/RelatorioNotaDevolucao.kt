@@ -28,7 +28,7 @@ import java.util.*
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   val codigoCol: TextColumnBuilder<String> =
     col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT) //this.setPattern("000000")
+      this.setHorizontalTextAlignment(RIGHT)
       this.setFixedWidth(40)
     }
   val refForCol: TextColumnBuilder<String> =
@@ -141,9 +141,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when (notaSaida.tipo) {
-      "66", "PED", "AJT" -> if (resumida) listOf(
+      "66", "PED", "AJT", "FIN" -> if (resumida) listOf(
         itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol
-                                                )
+                                                       )
       else listOf(
         itemCol,
         barcodeCol,
@@ -160,9 +160,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         vstCol,
         valorTotalIpiCol
                  )
-      else               -> listOf(
+      else                      -> listOf(
         itemCol, barcodeCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol, valorUnitarioCol, valorTotalCol
-                                  )
+                                         )
     }
   }
 
@@ -211,6 +211,29 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
           "$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota",
           LEFT
             )
+        text("$dataAtual-$horaAtual", RIGHT, 100)
+      }
+    }
+  }
+
+  private fun titleBuilderFinanceiro(): ComponentBuilder<*, *> {
+    return verticalBlock {
+      horizontalList {
+        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+          this.setStyle(fieldFontGrande)
+        }
+      }
+      horizontalList {
+        val dataAtual = LocalDate.now().format()
+        val horaAtual = LocalTime.now().format()
+        val custno = notaSaida.custno
+        val fornecedor = notaSaida.fornecedor
+        val vendno = notaSaida.vendno
+        val nota = notaSaida.nota
+        val dataNota = notaSaida.dataNota.format()
+        val fornecedorSap = notaSaida.fornecedorSap
+
+        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NFA $nota - $dataNota", LEFT)
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
     }
@@ -267,6 +290,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
     return when (notaSaida.tipo) {
       "PED" -> titleBuiderPedido()
       "AJT" -> titleBuiderAjuste()
+      "FIN" -> titleBuilderFinanceiro()
       "66"  -> titleBuiderNota66()
       else  -> titleBuiderNota01()
     }
@@ -357,7 +381,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
 
       text("OBSERVAÇÕES:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
-      if (notaSaida.tipo == "66" || notaSaida.tipo == "PED" || notaSaida.tipo == "AJT") text(notaSaida.obsPedido)
+      if (notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) text(notaSaida.obsPedido)
     }
   }
 
@@ -366,13 +390,13 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   }
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return if (notaSaida.tipo == "66" || notaSaida.tipo == "PED" || notaSaida.tipo == "AJT") listOf(
+    return if (notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) listOf(
       sbt.text("Total R$", valorUnitarioCol),
       sbt.sum(valorTotalCol),
       sbt.sum(ipiCol),
       sbt.sum(vstCol),
       sbt.sum(valorTotalIpiCol),
-                                                                                                   )
+                                                                          )
     else listOf(
       sbt.text("Total R$", valorUnitarioCol),
       sbt.sum(valorTotalCol),
@@ -390,8 +414,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         item = index++
       }
     }
-    val pageOrientation =
-      if ((notaSaida.tipo == "66" || notaSaida.tipo == "PED" || notaSaida.tipo == "AJT") && resumida) PORTRAIT else LANDSCAPE
+    val pageOrientation = if ((notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) && resumida) PORTRAIT
+    else LANDSCAPE
     return report().title(titleBuider()).setTemplate(Templates.reportTemplate).columns(* colunms).columnGrid(* colunms)
       .setDataSource(itens).summary(sumaryBuild()).setPageFormat(A4, pageOrientation).setPageMargin(margin(28))
       .summary(pageFooterBuilder()).subtotalsAtSummary(* subtotalBuilder().toTypedArray())
