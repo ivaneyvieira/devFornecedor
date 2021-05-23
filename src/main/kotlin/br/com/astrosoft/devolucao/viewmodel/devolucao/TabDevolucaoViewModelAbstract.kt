@@ -176,6 +176,7 @@ enum class Serie(val value: String) {
   PED("PED"),
   ENT("ENT"),
   AJT("AJT"),
+  FIN("FIN"),
   VAZIO("")
 }
 

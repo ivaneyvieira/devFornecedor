@@ -56,6 +56,7 @@ class NotaSaida(
       "PED" -> saci.produtosPedido(this)
       "ENT" -> saci.produtosEntrada(this)
       "AJT" -> saci.produtosAjuste(this)
+      "FIN" -> saci.produtosFinanceiro(this)
       else  -> saci.produtosNotaSaida(this)
     }
   }
@@ -114,6 +115,7 @@ class NotaSaida(
         PED  -> saci.pedidosDevolucao()
         ENT  -> saci.entradaDevolucao()
         AJT  -> saci.ajusteGarantia()
+        FIN  -> saci.notaFinanceiro()
         else -> saci.notasDevolucao(filtro.serie)
       }
       val grupos = notas.asSequence().filter { it.loja == loja || loja == 0 }

@@ -23,7 +23,7 @@ class Devolucao66View : ViewLayout<Devolucao66ViewModel>(), IDevolucao66View {
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.menuDevolucao
+    return userSaci.menuDevolucao66
   }
 
   init {

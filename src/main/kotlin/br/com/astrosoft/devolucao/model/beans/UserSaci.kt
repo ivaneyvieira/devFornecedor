@@ -28,8 +28,9 @@ class UserSaci : IUser {
   var nota01Coleta by DelegateAuthorized(11)
   var remessaConserto by DelegateAuthorized(12)
   var ajusteGarantia by DelegateAuthorized(13)
-  val menuDevolucao =
-    nota01 || nota66 || pedido || nota66Pago || emailRecebido || entrada || nota01Coleta || remessaConserto
+  var notaFinanceiro by DelegateAuthorized(14)
+  val menuDevolucao01 = nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro
+  val menuDevolucao66 = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento = notaPendente
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
   override val admin
