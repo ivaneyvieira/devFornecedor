@@ -1,10 +1,10 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
@@ -107,7 +107,7 @@ class NotaSaida(
     private val fornecedores = mutableListOf<Fornecedor>()
 
     fun updateNotasDevolucao(filtro: IFiltro) {
-      val user = AppConfig.user as? UserSaci
+      val user = Config.user as? UserSaci
       val loja = if (user?.admin == true) 0 else user?.storeno ?: 0
       val notas = when (filtro.serie) {
         PED  -> saci.pedidosDevolucao()

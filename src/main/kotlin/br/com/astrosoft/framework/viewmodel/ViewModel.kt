@@ -1,6 +1,6 @@
 package br.com.astrosoft.framework.viewmodel
 
-import br.com.astrosoft.AppConfig
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.view.log
 
 abstract class ViewModel<V : IView>(val view: V) {
@@ -8,7 +8,7 @@ abstract class ViewModel<V : IView>(val view: V) {
   protected abstract fun listTab(): List<ITabView>
 
   fun tabsAuthorized() = listTab().filter {
-    val user = AppConfig.user ?: return@filter false
+    val user = Config.user ?: return@filter false
     it.isAuthorized(user)
   }
 }

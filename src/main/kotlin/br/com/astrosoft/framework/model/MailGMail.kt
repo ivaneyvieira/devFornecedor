@@ -1,6 +1,5 @@
 package br.com.astrosoft.framework.model
 
-import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.toLocalDate
 import br.com.astrosoft.framework.util.toLocalDateTime
 import com.sun.mail.imap.IMAPFolder

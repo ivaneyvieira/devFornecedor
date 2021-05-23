@@ -1,6 +1,6 @@
 package br.com.astrosoft.framework.session
 
-import br.com.astrosoft.AppConfig
+import br.com.astrosoft.framework.model.Config
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.login.LoginForm
 import com.vaadin.flow.component.login.LoginI18n
@@ -17,11 +17,12 @@ import com.vaadin.flow.theme.lumo.Lumo
 @PageTitle("Login")
 @BodySize(width = "100vw", height = "100vh")
 @Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes")
-@Theme(value = Lumo::class, variant = Lumo.DARK) class LoginView : KComposite(), BeforeEnterObserver {
+@Theme(value = Lumo::class, variant = Lumo.DARK)
+class LoginView : KComposite(), BeforeEnterObserver {
 
   override fun beforeEnter(event: BeforeEnterEvent) {
     if (SecurityUtils.isUserLoggedIn) {
-      navigateToView(AppConfig.mainClass)
+      navigateToView(Config.mainClass)
     }
   }
 
@@ -37,7 +38,7 @@ import com.vaadin.flow.theme.lumo.Lumo
           if (!SecurityUtils.login(e.username, e.password)) {
             isError = true
           }
-          else navigateToView(AppConfig.mainClass)
+          else navigateToView(Config.mainClass)
         }
       }
     }
@@ -45,12 +46,12 @@ import com.vaadin.flow.theme.lumo.Lumo
 
   private fun loginI18n() = LoginI18n.createDefault().apply {
     this.form.username = "Usuário"
-    this.form.title = AppConfig.title
+    this.form.title = Config.title
     this.form.submit = "Entrar"
     this.form.password = "Senha"
     this.form.forgotPassword = ""
     this.errorMessage.title = "Usuário/senha inválidos"
     this.errorMessage.message = "Confira seu usuário e senha e tente novamente."
-    this.additionalInformation = "Versão ${AppConfig.version}"
+    this.additionalInformation = "Versão ${Config.version}"
   }
 }

@@ -1,10 +1,10 @@
 package br.com.astrosoft.devolucao.model
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
+import br.com.astrosoft.framework.model.Config.appName
+import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
-import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 
@@ -14,7 +14,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/userSenha.sql"
     return query(sql, UserSaci::class) {
       addParameter("login", login)
-      addParameter("appName", AppConfig.appName)
+      addParameter("appName", appName)
     }.firstOrNull()
   }
 
@@ -22,7 +22,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/userSenha.sql"
     return query(sql, UserSaci::class) {
       addParameter("login", "TODOS")
-      addParameter("appName", AppConfig.appName)
+      addParameter("appName", appName)
     }
   }
 
@@ -37,7 +37,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("login", user.login)
       addOptionalParameter("bitAcesso", user.bitAcesso)
       addOptionalParameter("loja", user.storeno)
-      addOptionalParameter("appName", AppConfig.appName)
+      addOptionalParameter("appName", appName)
     }
   }
 

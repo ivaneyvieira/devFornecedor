@@ -1,9 +1,9 @@
 package br.com.astrosoft.devolucao.view.teste
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.teste.AssinaturaViewModel
 import br.com.astrosoft.devolucao.viewmodel.teste.IAssinaturaView
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout
 import com.github.mvysny.karibudsl.v10.*
@@ -13,13 +13,15 @@ import com.vaadin.flow.router.Route
 import de.f0rce.signaturepad.SignaturePad
 
 
-@Route(layout = DevFornecedorLayout::class) @PageTitle("Assinatura") @CssImport("./styles/gridTotal.css")
+@Route(layout = DevFornecedorLayout::class)
+@PageTitle("Assinatura")
+@CssImport("./styles/gridTotal.css")
 class AssinaturaView : ViewLayout<AssinaturaViewModel>(), IAssinaturaView {
   override val viewModel: AssinaturaViewModel
     get() = AssinaturaViewModel(this)
 
   override fun isAccept(user: IUser): Boolean {
-    return AppConfig.user?.admin == true
+    return Config.user?.admin == true
   }
 
   init {

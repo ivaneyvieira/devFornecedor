@@ -1,5 +1,7 @@
 package br.com.astrosoft.framework.view
 
+import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.Config
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -7,7 +9,8 @@ import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 import javax.servlet.annotation.WebListener
 
-@WebListener class Bootstrap : ServletContextListener {
+@WebListener
+class Bootstrap : ServletContextListener {
   override fun contextDestroyed(sce: ServletContextEvent?) {
     log?.info("Shutting down")
     log?.info("Destroying VaadinOnKotlin")
@@ -21,6 +24,10 @@ import javax.servlet.annotation.WebListener
     val fileName = System.getenv("EBEAN_PROPS") ?: "$home/ebean.properties"
     System.setProperty("ebean.props.file", fileName)
     println("##################### $fileName")
+
+    Config.findUser = { username ->
+      saci.findUser(username)
+    }
   }
 }
 

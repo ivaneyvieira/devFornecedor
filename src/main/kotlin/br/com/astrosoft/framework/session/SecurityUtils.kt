@@ -1,11 +1,12 @@
 package br.com.astrosoft.framework.session
 
-import br.com.astrosoft.AppConfig
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 
 object SecurityUtils {
   fun login(username: String?, password: String?): Boolean {
-    val user = AppConfig.findUser(username) ?: return false
+    username ?: return false
+    val user = Config.findUser(username) ?: return false
     return if (user.senha == password) {
       Session[IUser::class] = user
       true

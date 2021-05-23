@@ -319,7 +319,8 @@ fun Component.background(color: SolidColor) {
 }
 
 class TabClick(s: String?) : Tab(s) {
-  @DomEvent("click") class ClickTabEvent(source: Tab?, fromClient: Boolean) : ComponentEvent<Tab?>(source, fromClient)
+  @DomEvent("click")
+  class ClickTabEvent(source: Tab?, fromClient: Boolean) : ComponentEvent<Tab?>(source, fromClient)
 
   fun addClickListener(listener: ComponentEventListener<ClickTabEvent?>?): Registration {
     return addListener(ClickTabEvent::class.java, listener)

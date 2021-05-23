@@ -1,4 +1,4 @@
-select storeno,
+SELECT storeno,
        pdvno,
        xano,
        idEmail,
@@ -11,7 +11,7 @@ select storeno,
        planilha,
        relatorio,
        anexos
-from sqldados.nfdevEmail       AS NE
-  inner join sqldados.devEmail AS E
+FROM sqldados.nfdevEmail       AS NE
+  INNER JOIN sqldados.devEmail AS E
 	       USING (idEmail)
 WHERE data >= 20201230

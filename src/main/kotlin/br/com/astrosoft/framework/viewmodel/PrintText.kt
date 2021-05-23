@@ -1,7 +1,7 @@
 package br.com.astrosoft.framework.viewmodel
 
+import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.util.CupsUtils
-import br.com.astrosoft.framework.util.DB
 import br.com.astrosoft.framework.util.lpad
 import br.com.astrosoft.framework.util.rpad
 import java.io.File
