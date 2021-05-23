@@ -20,7 +20,8 @@ fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
       if (pedidoInicial == null) {
         pedidoInicial = pedido
         grade.select(pedido)
-      } else {
+      }
+      else {
         if (pedidoFinal == null) {
           val itens = list(grade)
           pedidoFinal = pedido
@@ -32,12 +33,14 @@ fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
           }
           pedidoFinal = null
           pedidoInicial = null
-        } else {
+        }
+        else {
           pedidoFinal = null
           pedidoInicial = null
         }
       }
-    } else {
+    }
+    else {
       pedidoFinal = null
       pedidoInicial = null
     }

@@ -10,9 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(layout = DevFornecedorLayout::class)
-@PageTitle("Devolução")
-@CssImport("./styles/gridTotal.css")
+@Route(layout = DevFornecedorLayout::class) @PageTitle("Devolução") @CssImport("./styles/gridTotal.css")
 class Devolucao66View : ViewLayout<Devolucao66ViewModel>(), IDevolucao66View {
   override val viewModel: Devolucao66ViewModel = Devolucao66ViewModel(this)
 

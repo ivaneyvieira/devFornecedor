@@ -10,10 +10,9 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(layout = DevFornecedorLayout::class)
-@PageTitle("Agenda")
-@CssImport("./styles/gridTotal.css")
-class AgendaView : ViewLayout<AgendaViewModel>(), IAgendaView {
+@Route(layout = DevFornecedorLayout::class) @PageTitle("Agenda") @CssImport("./styles/gridTotal.css") class AgendaView :
+  ViewLayout<AgendaViewModel>(),
+  IAgendaView {
   override val viewModel: AgendaViewModel = AgendaViewModel(this)
 
   override fun isAccept(user: IUser): Boolean {

@@ -34,7 +34,10 @@ import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KProperty1
 
-abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLeaveObserver, BeforeEnterObserver,
+abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(),
+                                               IView,
+                                               BeforeLeaveObserver,
+                                               BeforeEnterObserver,
                                                AfterNavigationObserver {
   abstract val viewModel: VM
 
@@ -72,12 +75,15 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   }
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
-    ConfirmDialog.createQuestion().withCaption("Confirmação").withMessage(msg).withYesButton(
-      {
-        execYes()
-      }, ButtonOption.caption("Sim")
-                                                                                            )
-      .withNoButton({ execNo() }, ButtonOption.caption("Não")).open()
+    ConfirmDialog.createQuestion()
+      .withCaption("Confirmação")
+      .withMessage(msg)
+      .withYesButton({
+                       execYes()
+                     },
+                     ButtonOption.caption("Sim"))
+      .withNoButton({ execNo() }, ButtonOption.caption("Não"))
+      .open()
   }
 
   override fun beforeLeave(event: BeforeLeaveEvent?) {
@@ -95,9 +101,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
     }*/
   }
 
-  override fun afterNavigation(
-    event: AfterNavigationEvent?
-                              ) { //   loginForm.isOpened = LoginService.isLogged() == false
+  override fun afterNavigation(event: AfterNavigationEvent?) { //   loginForm.isOpened = LoginService.isLogged() == false
   }
 
   fun VerticalLayout.form(title: String, componentes: KFormLayout.() -> Unit = {}) {
@@ -123,13 +127,11 @@ fun (@VaadinDsl TabSheet).selectedChange(onEvent: (event: SelectedChangeEvent) -
   addSelectedChangeListener { event -> onEvent(event) }
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(
-  iconButton: VaadinIcon,
-  tooltip: String? = null,
-  execButton: (T) -> Unit = {},
-  configIcon: (Icon, T) -> Unit = { _, _ -> },
-  block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                  ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
+                                                   tooltip: String? = null,
+                                                   execButton: (T) -> Unit = {},
+                                                   configIcon: (Icon, T) -> Unit = { _, _ -> },
+                                                   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return addComponentColumn { bean ->
     Icon(iconButton).apply {
       configIcon(this, bean)
@@ -147,13 +149,11 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(
   }
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(
-  iconButton: VaadinIcon,
-  tooltip: String? = null,
-  header: String? = null,
-  configIcon: (Icon, T) -> Unit = { _, _ -> },
-  execButton: (T) -> Unit = {}
-                                                  ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
+                                                   tooltip: String? = null,
+                                                   header: String? = null,
+                                                   configIcon: (Icon, T) -> Unit = { _, _ -> },
+                                                   execButton: (T) -> Unit = {}): Grid.Column<T> {
   return addColumnButton(iconButton, tooltip, execButton, configIcon, block = {
     this.setHeader(header)
     this.isAutoWidth = false
@@ -173,9 +173,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
   }
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(
-  property: KProperty1<T, String?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                  ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(property: KProperty1<T, String?>,
+                                                   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property)
   column.isAutoWidth = true
   if (column.key == null) column.key = property.name
@@ -184,9 +183,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnBool(
-  property: KProperty1<T, Boolean?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnBool(property: KProperty1<T, Boolean?>,
+                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addComponentColumn { bean ->
     val boleanValue = property.get(bean) ?: false
     if (boleanValue) VaadinIcon.CHECK_CIRCLE_O.create()
@@ -199,9 +197,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnBool(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(
-  property: KProperty1<T, LocalDate?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                     ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(property: KProperty1<T, LocalDate?>,
+                                                      block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property, renderer = LocalDateRenderer(property, "dd/MM/yyyy"))
   column.isAutoWidth = true
   if (column.key == null) column.key = property.name
@@ -216,9 +213,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnDate(
-  property: KProperty1<T, Date?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnDate(property: KProperty1<T, Date?>,
+                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property, renderer = TextRenderer { bean ->
     val date = property.get(bean)
     date.format()
@@ -232,9 +228,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnDate(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalTime(
-  property: KProperty1<T, LocalTime?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                     ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalTime(property: KProperty1<T, LocalTime?>,
+                                                      block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property, TextRenderer { bean ->
     val hora = property.get(bean)
     hora.format()
@@ -246,9 +241,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalTime(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnTime(
-  property: KProperty1<T, Time?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnTime(property: KProperty1<T, Time?>,
+                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property, TextRenderer { bean ->
     val hora = property.get(bean)
     hora.format()
@@ -265,12 +259,11 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnTime(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(
-  property: KProperty1<T, LocalDateTime?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                         ): Grid.Column<T> {
-  val column = this.addColumnFor(
-    property, renderer = LocalDateTimeRenderer(property, "dd/MM/yyyy hh:mm:ss")
-                                ) //column.width = "8em"
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(property: KProperty1<T, LocalDateTime?>,
+                                                          block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
+  val column =
+          this.addColumnFor(property,
+                            renderer = LocalDateTimeRenderer(property, "dd/MM/yyyy hh:mm:ss")) //column.width = "8em"
   if (column.key == null) column.key = property.name
   column.isAutoWidth = true
   column.left()
@@ -285,9 +278,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(
-  property: KProperty1<T, Double?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                                  ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(property: KProperty1<T, Double?>,
+                                                   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00")))
   column.isAutoWidth = true
   if (column.key == null) column.key = property.name
@@ -296,9 +288,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(
   return column
 }
 
-fun <T : Any> (@VaadinDsl Grid<T>).addColumnInt(
-  property: KProperty1<T, Int?>, block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
-                                               ): Grid.Column<T> {
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnInt(property: KProperty1<T, Int?>,
+                                                block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property)
   if (column.key == null) column.key = property.name
   column.isAutoWidth = true
@@ -328,8 +319,7 @@ fun Component.background(color: SolidColor) {
 }
 
 class TabClick(s: String?) : Tab(s) {
-  @DomEvent("click")
-  class ClickTabEvent(source: Tab?, fromClient: Boolean) : ComponentEvent<Tab?>(source, fromClient)
+  @DomEvent("click") class ClickTabEvent(source: Tab?, fromClient: Boolean) : ComponentEvent<Tab?>(source, fromClient)
 
   fun addClickListener(listener: ComponentEventListener<ClickTabEvent?>?): Registration {
     return addListener(ClickTabEvent::class.java, listener)
@@ -338,28 +328,27 @@ class TabClick(s: String?) : Tab(s) {
 
 fun DatePicker.localePtBr() {
   this.locale = Locale("pt-br")
-  this.i18n = DatePickerI18n().setWeek("semana").setCalendar("calendário").setClear("apagar").setToday("hoje")
-    .setCancel("cancelar").setFirstDayOfWeek(1).setMonthNames(
-      listOf(
-        "janeiro",
-        "fevereiro",
-        "março",
-        "abril",
-        "maio",
-        "junho",
-        "julho",
-        "agosto",
-        "setembro",
-        "outubro",
-        "novembro",
-        "dezembro"
-            )
-                                                             ).setWeekdays(
-      listOf(
-        "domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"
-            )
-                                                                          )
-    .setWeekdaysShort(listOf("dom", "seg", "ter", "qua", "qui", "sex", "sab"))
+  this.i18n =
+          DatePickerI18n().setWeek("semana")
+            .setCalendar("calendário")
+            .setClear("apagar")
+            .setToday("hoje")
+            .setCancel("cancelar")
+            .setFirstDayOfWeek(1)
+            .setMonthNames(listOf("janeiro",
+                                  "fevereiro",
+                                  "março",
+                                  "abril",
+                                  "maio",
+                                  "junho",
+                                  "julho",
+                                  "agosto",
+                                  "setembro",
+                                  "outubro",
+                                  "novembro",
+                                  "dezembro"))
+            .setWeekdays(listOf("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"))
+            .setWeekdaysShort(listOf("dom", "seg", "ter", "qua", "qui", "sex", "sab"))
 }
 
 fun <T> ListDataProvider<T>.updateItens(itens: List<T>) {

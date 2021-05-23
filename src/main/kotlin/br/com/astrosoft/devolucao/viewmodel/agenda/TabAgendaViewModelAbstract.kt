@@ -22,14 +22,15 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel) : IVie
   }
 
   private fun listAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja: Int) =
-    Agenda.listaAgenda(agendado, recebido, filtro, loja)
+          Agenda.listaAgenda(agendado, recebido, filtro, loja)
 
   fun salvaAgendamento(bean: AgendaUpdate?) = viewModel.exec {
     bean ?: fail("Agendamento inválido")
-    val newbean = if (bean.dataRecbedor == null && !bean.recebedor.isNullOrEmpty()) bean.copy(
-      dataRecbedor = LocalDate.now(), horaRecebedor = LocalTime.now().format()
-                                                                                             )
-    else bean
+    val newbean =
+            if (bean.dataRecbedor == null && !bean.recebedor.isNullOrEmpty()) bean.copy(dataRecbedor = LocalDate.now(),
+                                                                                        horaRecebedor = LocalTime.now()
+                                                                                          .format())
+            else bean
     newbean.save()
     updateView()
   }

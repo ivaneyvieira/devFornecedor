@@ -34,9 +34,7 @@ class MailGMail {
     debug = false
   }
 
-  fun sendMail(
-    to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()
-              ): Boolean {
+  fun sendMail(to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()): Boolean {
     try {
       val message = createMessage(to, subject)
       val multPart = MimeMultipart().apply {
@@ -97,7 +95,7 @@ class MailGMail {
     val toSplit = toList.split(",").toList().map { it.trim() }
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
     val iaTo =
-      arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
+            arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
     toSplit.forEachIndexed { index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
@@ -134,13 +132,11 @@ class MailGMail {
           if (subjectSearch == "") it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
           else it.subject?.contains(subjectSearch) ?: false
         }.mapNotNull { message ->
-          EmailMessage(
-            messageID = (message as? IMAPMessage)?.messageID ?: "",
-            subject = message.subject ?: "",
-            data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-            from = message.from.toList(),
-            to = message.allRecipients.toList()
-                      )
+          EmailMessage(messageID = (message as? IMAPMessage)?.messageID ?: "",
+                       subject = message.subject ?: "",
+                       data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+                       from = message.from.toList(),
+                       to = message.allRecipients.toList())
         }
       }
     } catch (e: AuthenticationFailedException) {
@@ -217,7 +213,8 @@ private fun getTextFromMimeMultipart(mimeMultipart: MimeMultipart): String {
             ${bodyPart.content}
             """.trimIndent()
       break // without break same text appears twice in my tests
-    } else if (bodyPart.content is MimeMultipart) {
+    }
+    else if (bodyPart.content is MimeMultipart) {
       result += getTextFromMimeMultipart(bodyPart.content as MimeMultipart)
     }
   }
@@ -230,14 +227,14 @@ class GmailAuthenticator(val username: String, val password: String) : Authentic
   }
 }
 
-data class EmailMessage(
-  val messageID: String, val subject: String, val data: LocalDateTime, val from: List<Address>, val to: List<Address>
-                       ) {
+data class EmailMessage(val messageID: String,
+                        val subject: String,
+                        val data: LocalDateTime,
+                        val from: List<Address>,
+                        val to: List<Address>) {
   fun content(): Content {
     val gmail = MailGMail()
-    return gmail.listMessageContent(GamilFolder.Todos, messageID).firstOrNull() ?: Content(
-      "", emptyList()
-                                                                                          )
+    return gmail.listMessageContent(GamilFolder.Todos, messageID).firstOrNull() ?: Content("", emptyList())
   }
 }
 
@@ -255,7 +252,5 @@ class FileAttach(val nome: String, val bytes: ByteArray) {
 }
 
 enum class GamilFolder(val path: String) {
-  Enviados("[Gmail]/E-mails enviados"),
-  Recebidos("INBOX"),
-  Todos("[Gmail]/Todos os e-mails")
+  Enviados("[Gmail]/E-mails enviados"), Recebidos("INBOX"), Todos("[Gmail]/Todos os e-mails")
 }

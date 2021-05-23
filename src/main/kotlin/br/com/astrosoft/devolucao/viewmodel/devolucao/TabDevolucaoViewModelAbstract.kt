@@ -89,15 +89,15 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     val filesReport = createReports(gmail, notas)
     val filesPlanilha = createPlanilha(gmail, notas)
     val filesAnexo = createAnexos(gmail, notas)
-    val enviadoComSucesso = mail.sendMail(
-      gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo
-                                         )
+    val enviadoComSucesso =
+            mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->
         nota.salvaEmail(gmail, idEmail)
       }
-    } else fail("Erro ao enviar e-mail")
+    }
+    else fail("Erro ao enviar e-mail")
   }
 
   private fun createAnexos(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
@@ -165,19 +165,11 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 }
 
 enum class SimNao(val value: String) {
-  SIM("S"),
-  NAO("N"),
-  NONE("")
+  SIM("S"), NAO("N"), NONE("")
 }
 
 enum class Serie(val value: String) {
-  Serie01("1"),
-  Serie66("66"),
-  PED("PED"),
-  ENT("ENT"),
-  AJT("AJT"),
-  FIN("FIN"),
-  VAZIO("")
+  Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), AJT("AJT"), FIN("FIN"), VAZIO("")
 }
 
 interface IFiltro {

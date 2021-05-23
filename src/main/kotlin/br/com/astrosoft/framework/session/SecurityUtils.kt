@@ -9,7 +9,8 @@ object SecurityUtils {
     return if (user.senha == password) {
       Session[IUser::class] = user
       true
-    } else {
+    }
+    else {
       Session.current.close()
       false
     }

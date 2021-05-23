@@ -31,9 +31,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
-  protected fun <T : Any> query(
-    file: String, classes: KClass<T>, lambda: QueryHandle = {}
-                               ): List<T> {
+  protected fun <T : Any> query(file: String, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
     val statements = toStratments(file)
     if (statements.isEmpty()) return emptyList()
     val lastIndex = statements.lastIndex
@@ -46,9 +44,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
-  private fun <T : Any> querySQL(
-    con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}
-                                ): List<T> {
+  private fun <T : Any> querySQL(con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
     val query = con.createQuery(sql)
     query.lambda()
     println(sql)

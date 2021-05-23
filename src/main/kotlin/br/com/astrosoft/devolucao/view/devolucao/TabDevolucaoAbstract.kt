@@ -70,7 +70,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
-  TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
+  TabPanelGrid<Fornecedor>(Fornecedor::class),
+  ITabNota {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -353,17 +354,15 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   private lateinit var chkRelatorioResumido: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
   private var gmail: EmailGmail
-    get() = EmailGmail(
-      email = cmbEmail.value ?: "",
-      assunto = edtAssunto.value ?: "",
-      msg = { rteMessage.value ?: "" },
-      msgHtml = rteMessage.value ?: "",
-      planilha = if (chkPlanilha.value) "S" else "N",
-      relatorio = if (chkRelatorio.value) "S" else "N",
-      relatorioResumido = if (chkRelatorioResumido.value) "S" else "N",
-      anexos = if (chkAnexos.value) "S" else "N",
-      messageID = ""
-                      )
+    get() = EmailGmail(email = cmbEmail.value ?: "",
+                       assunto = edtAssunto.value ?: "",
+                       msg = { rteMessage.value ?: "" },
+                       msgHtml = rteMessage.value ?: "",
+                       planilha = if (chkPlanilha.value) "S" else "N",
+                       relatorio = if (chkRelatorio.value) "S" else "N",
+                       relatorioResumido = if (chkRelatorioResumido.value) "S" else "N",
+                       anexos = if (chkAnexos.value) "S" else "N",
+                       messageID = "")
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto
@@ -504,13 +503,8 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
-      if (serie == PED || serie == AJT) sort(
-        listOf(
-          GridSortOrder(
-            getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING
-                       )
-              )
-                                            )
+      if (serie == PED || serie == AJT) sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido),
+                                                                  SortDirection.ASCENDING)))
       else sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
     }
   }
@@ -579,12 +573,10 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
 
       val strTemplate =
-        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+              """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div><b>OBS</b>: [[item.obs]]</div>
           |</div>""".trimMargin()
-      this.setItemDetailsRenderer(
-        TemplateRenderer.of<Parcela?>(strTemplate).withProperty("obs", Parcela::observacao)
-                                 )
+      this.setItemDetailsRenderer(TemplateRenderer.of<Parcela?>(strTemplate).withProperty("obs", Parcela::observacao))
       listParcelas.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }
@@ -613,12 +605,10 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
 
       val strTemplate =
-        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+              """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div><b>OBS</b>: [[item.obs]]</div>
           |</div>""".trimMargin()
-      this.setItemDetailsRenderer(
-        TemplateRenderer.of<Pedido?>(strTemplate).withProperty("obs", Pedido::observacao)
-                                 )
+      this.setItemDetailsRenderer(TemplateRenderer.of<Pedido?>(strTemplate).withProperty("obs", Pedido::observacao))
       listPedidos.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }

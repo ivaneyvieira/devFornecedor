@@ -83,11 +83,8 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
       }
     }
 
-    sort(
-      listOf(
-        GridSortOrder(getColumnBy(Agenda::data), ASCENDING), GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)
-            )
-        )
+    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
+                GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
   }
 
   override fun updateComponent() {
