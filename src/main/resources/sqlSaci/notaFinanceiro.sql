@@ -6,6 +6,7 @@ SELECT vendno
 FROM sqldados.ords
 WHERE remarks LIKE '%DESC%'
   AND amt > 0
+  AND date >= 20190101
 UNION
 SELECT inv.vendno
 FROM sqldados.invxa
