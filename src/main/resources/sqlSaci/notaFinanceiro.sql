@@ -13,7 +13,8 @@ FROM sqldados.invxa
 	       USING (invno)
 WHERE invxa.remarks LIKE '%DESC%'
   AND invxa.paiddate = 0
-  AND invxa.amtdue > 0;
+  AND invxa.amtdue > 0
+  AND invxa.duedate > 20210101;
 
 DROP TEMPORARY TABLE IF EXISTS T_FORNECEDOR;
 CREATE TEMPORARY TABLE T_FORNECEDOR (
