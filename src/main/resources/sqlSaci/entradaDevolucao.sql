@@ -48,7 +48,8 @@ SELECT N.storeno                                    AS loja,
        ''                                           AS obsPedido,
        'ENT'                                        AS tipo,
        IFNULL(RV.rmk, '')                           AS rmkVend,
-       IFNULL(X.nfekey, '')                         AS chave
+       IFNULL(X.nfekey, '')                         AS chave,
+       'NF ENTRADA'                                 AS natureza
 FROM sqldados.inv               AS N
   LEFT JOIN  sqldados.invnfe    AS X
 	       USING (invno)

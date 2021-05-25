@@ -66,7 +66,9 @@ SELECT prdno                                                        AS codigo,
        CAST(I.issue_date AS DATE)                                   AS dateInv,
        P.fob / 100                                                  AS valorUnitInv,
        SUM(qtty / 1000)                                             AS quantInv,
-       IFNULL(X.nfekey, '')                                         AS chaveUlt
+       IFNULL(X.nfekey, '')                                         AS chaveUlt,
+       cstIcms                                                      AS cst,
+       cfop
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -90,6 +92,8 @@ SELECT loja,
        valorTotal,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2)                           AS ipi,
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2)                            AS vst,
+       cst                                                                       AS cst,
+       cfop                                                                      AS cfop,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2) +
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) AS valorTotalIpi,
        barcode,

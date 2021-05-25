@@ -40,8 +40,11 @@ SELECT N.storeno,
        N.ipi_amt / 100                                                                         AS valorIpi,
        grossamt / 100                                                                          AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
-       IFNULL(X.nfekey, '')                                                                    AS chave
+       IFNULL(X.nfekey, '')                                                                    AS chave,
+       IFNULL(OP.name, '')                                                                     AS natureza
 FROM sqldados.nf              AS N
+  LEFT JOIN sqldados.natop    AS OP
+	      ON OP.no = N.natopno
   LEFT JOIN sqldados.nfes     AS X
 	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.nfdevRmk AS R
@@ -120,7 +123,8 @@ SELECT N.storeno                                                                
        N.obsPedido                                                                    AS obsPedido,
        N.nfse                                                                         AS tipo,
        IFNULL(RV.rmk, '')                                                             AS rmkVend,
-       chave                                                                          AS chave
+       chave                                                                          AS chave,
+       natureza                                                                       AS natureza
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno

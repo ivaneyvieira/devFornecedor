@@ -14,8 +14,12 @@ SELECT X.storeno                       AS loja,
        IFNULL(B.barcode, P.barcode)    AS barcode,
        P.mfno_ref                      AS refFor,
        TRIM(MID(P.name, 37, 3))        AS un,
-       P.taxno                         AS st
+       P.taxno                         AS st,
+       X2.cst                          AS cst,
+       X2.cfo1                         AS cfop
 FROM sqldados.xaprd          AS X
+  LEFT JOIN  sqldados.xaprd2 AS X2
+	       USING (storeno, pdvno, xano, prdno, grade)
   LEFT JOIN  sqldados.prp    AS I
 	       ON I.storeno = 10 AND I.prdno = X.prdno
   LEFT JOIN  sqldados.prdbar AS B
@@ -90,6 +94,8 @@ SELECT loja,
        valorTotal,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2)                           AS ipi,
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2)                            AS vst,
+       cst,
+       cfop,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2) +
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) AS valorTotalIpi,
        barcode,

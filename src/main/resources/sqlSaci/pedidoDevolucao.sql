@@ -156,8 +156,11 @@ SELECT E.storeno                          AS loja,
        TRIM(IFNULL(OBS.remarks__480, '')) AS obsPedido,
        'PED'                              AS tipo,
        IFNULL(RV.rmk, '')                 AS rmkVend,
-       ''                                 AS chave
+       ''                                 AS chave,
+       'PEDIDO DE COMPRA'                 AS natureza
 FROM sqldados.eord             AS E
+  LEFT JOIN sqldados.ords      AS O
+	      ON O.no = E.ordno AND O.storeno = E.storeno
   LEFT JOIN sqldados.eordrk    AS OBS
 	      ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
   LEFT JOIN sqldados.store     AS S

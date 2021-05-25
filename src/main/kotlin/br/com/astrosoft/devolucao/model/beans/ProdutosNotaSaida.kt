@@ -29,6 +29,8 @@ class ProdutosNotaSaida(
   val vst: Double,
   val valorTotalIpi: Double,
   val chaveUlt: String?,
+  val cst: String,
+  val cfop: String,
                        ) {
   var item: Int = 0
   val dateInvDate
