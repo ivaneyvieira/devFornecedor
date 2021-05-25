@@ -67,6 +67,7 @@ SELECT N.storeno,
        grossamt / 100                                                    AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido,
        IFNULL(X.nfekey, '')                                              AS chave,
+       natopno,
        F.*
 FROM sqldados.nf               AS N
   INNER JOIN T_FORNECEDOR      AS F
@@ -143,8 +144,11 @@ SELECT N.storeno                                                                
        N.obsPedido                                                                    AS obsPedido,
        'FIN'                                                                          AS tipo,
        IFNULL(RV.rmk, '')                                                             AS rmkVend,
-       chave                                                                          AS chave
+       chave                                                                          AS chave,
+       IFNULL(OP.name, '')                                                            AS natureza
 FROM TNF                        AS N
+  LEFT JOIN  sqldados.natop     AS OP
+	       ON OP.no = N.natopno
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS R
@@ -155,4 +159,6 @@ FROM TNF                        AS N
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
-GROUP BY loja, pdv, transacao, dataNota, custno
+GROUP BY loja, pdv, transacao, dataNota, custno;
+
+

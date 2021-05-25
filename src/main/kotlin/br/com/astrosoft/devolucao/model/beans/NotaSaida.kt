@@ -50,6 +50,7 @@ class NotaSaida(
   val tipo: String,
   val rmkVend: String,
   val chave: String,
+  val natureza: String,
                ) {
   fun listaProdutos(): List<ProdutosNotaSaida> {
     return when (tipo) {

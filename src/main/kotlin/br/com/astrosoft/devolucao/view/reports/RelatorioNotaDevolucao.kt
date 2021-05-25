@@ -93,6 +93,18 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
             this.setHorizontalTextAlignment(CENTER)
             this.setFixedWidth(80)
           }
+
+  val cstCol: TextColumnBuilder<String> = col.column("CST", ProdutosNotaSaida::cst.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(25)
+  }
+
+  val cfopCol: TextColumnBuilder<String> = col.column("CFOP", ProdutosNotaSaida::cfop.name, type.stringType()).apply {
+    this.setHorizontalTextAlignment(CENTER)
+    this.setFixedWidth(25)
+  }
+
+
   val unCol: TextColumnBuilder<String> = col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(30)
@@ -161,6 +173,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
                                           codigoCol,
                                           descricaoCol,
                                           gradeCol,
+                                          cstCol,
+                                          cfopCol,
                                           unCol,
                                           qtdeCol,
                                           valorUnitarioCol,
@@ -265,7 +279,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   private fun titleBuiderNota01(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+        text("ENGECOPI ${notaSaida.sigla} - ${notaSaida.natureza}", CENTER).apply {
           this.setStyle(fieldFontGrande)
         }
       }
