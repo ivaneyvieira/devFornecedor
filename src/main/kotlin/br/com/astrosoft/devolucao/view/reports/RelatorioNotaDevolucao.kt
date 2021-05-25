@@ -279,9 +279,12 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
   private fun titleBuiderNota01(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
-        text("ENGECOPI ${notaSaida.sigla} - ${notaSaida.natureza}", CENTER).apply {
+        text("Natureza: ${notaSaida.natureza}", LEFT)
+        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
           this.setStyle(fieldFontGrande)
+          this.setFixedWidth(120)
         }
+        text("", RIGHT)
       }
       horizontalList {
         val dataAtual = LocalDate.now().format()
@@ -294,7 +297,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, val resumida: Boolean) {
         val fatura = notaSaida.fatura
         val fornecedorSap = notaSaida.fornecedorSap
 
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NDF $nota - $dataNota   DUP $fatura", LEFT)
+        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NFD $nota - $dataNota   DUP $fatura", LEFT)
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
     }
