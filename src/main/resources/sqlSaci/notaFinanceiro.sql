@@ -159,6 +159,6 @@ FROM TNF                        AS N
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
-GROUP BY loja, pdv, transacao, dataNota, custno;
+GROUP BY loja, pdv, transacao, dataNota, custno
 
 
