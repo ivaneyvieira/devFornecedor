@@ -1,9 +1,13 @@
-package br.com.astrosoft.devolucao.view.reports
+package br.com.astrosoft.devolucao.model.reports
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
-import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontGrande
-import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontNormal
-import br.com.astrosoft.devolucao.view.reports.Templates.fieldFontNormalCol
+import br.com.astrosoft.framework.model.reports.Templates
+import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
+import br.com.astrosoft.framework.model.reports.Templates.fieldFontNormal
+import br.com.astrosoft.framework.model.reports.Templates.fieldFontNormalCol
+import br.com.astrosoft.framework.model.reports.horizontalList
+import br.com.astrosoft.framework.model.reports.text
+import br.com.astrosoft.framework.model.reports.verticalBlock
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
@@ -17,32 +21,36 @@ import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
-class RelatorioFornecedor(val notas: List<NotaSaida>, val labelTitle: String) {
-  val lojaCol = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
+class RelatorioFornecedor(val notas: List<NotaSaida>, private val labelTitle: String) {
+  private val lojaCol: TextColumnBuilder<Int> = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(40)
   }
 
-  val dataNotaCol = col.column("Data", NotaSaida::dataNotaString.name, type.stringType()).apply {
-    this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(60)
-  }
+  private val dataNotaCol: TextColumnBuilder<String> =
+          col.column("Data", NotaSaida::dataNotaString.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(60)
+          }
 
-  val notaInvCol = col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
-    this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(60)
-  }
+  private val notaInvCol: TextColumnBuilder<String> =
+          col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(60)
+          }
 
-  val faturaCol = col.column("Fatura", NotaSaida::fatura.name, type.stringType()).apply {
-    this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(60)
-  }
+  private val faturaCol: TextColumnBuilder<String> =
+          col.column("Fatura", NotaSaida::fatura.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(60)
+          }
 
-  val valorCol = col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
-    this.setPattern("#,##0.00")
-    this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(100)
-  }
+  private val valorCol: TextColumnBuilder<Double> =
+          col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
+            this.setPattern("#,##0.00")
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(100)
+          }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(lojaCol, dataNotaCol, notaInvCol, faturaCol, valorCol)

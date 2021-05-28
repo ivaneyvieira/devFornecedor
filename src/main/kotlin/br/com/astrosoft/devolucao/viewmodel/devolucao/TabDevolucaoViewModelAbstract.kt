@@ -2,12 +2,11 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
-import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
+import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.framework.model.FileAttach
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
-import org.apache.poi.ss.formula.functions.T
 
 abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
   IEmailView {
