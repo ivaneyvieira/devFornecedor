@@ -1,4 +1,4 @@
-package br.com.astrosoft.devolucao.view.reports
+package br.com.astrosoft.framework.model.reports
 
 import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.DynamicReports.template

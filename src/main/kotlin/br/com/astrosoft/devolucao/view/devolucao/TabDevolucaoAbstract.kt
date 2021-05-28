@@ -1,6 +1,8 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
+import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
@@ -31,8 +33,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumn
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaRepresentante
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaTelefone
-import br.com.astrosoft.devolucao.view.reports.RelatorioFornecedor
-import br.com.astrosoft.devolucao.view.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.util.format
