@@ -331,6 +331,36 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun saveFornecedorSap(fornecedores: FornecedorSap) {
+    val sql = "/sqlSaci/saveFornecedorSap.sql"
+    script(sql) {
+      addOptionalParameter("codigo", fornecedores.codigo)
+      addOptionalParameter("nome", fornecedores.nome)
+    }
+    fornecedores.notas.forEach { nota ->
+      saveNotaSap(fornecedores.codigo, nota)
+    }
+  }
+
+  fun listNotaSap(filtro: String): List<NotaDevolucaoSap> {
+    val sql = "/sqlSaci/listNotaSap.sql"
+    return query(sql, NotaDevolucaoSap::class){
+      addOptionalParameter("filtro", filtro)
+    }
+  }
+
+  private fun saveNotaSap(codigoFor: Int, nota: NotaDevolucaoSap) {
+    val sql = "/sqlSaci/saveNotaSap.sql"
+    script(sql) {
+      addOptionalParameter("codigoFor", codigoFor)
+      addOptionalParameter("numero", nota.numero)
+      addOptionalParameter("storeno", nota.storeno)
+      addOptionalParameter("dataLancamento", nota.dataLancamento)
+      addOptionalParameter("dataVencimento", nota.dataVencimento)
+      addOptionalParameter("saldo", nota.saldo)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
