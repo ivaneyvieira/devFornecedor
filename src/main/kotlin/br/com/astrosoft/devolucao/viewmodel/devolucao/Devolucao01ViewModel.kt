@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
+import br.com.astrosoft.devolucao.view.devolucao.TabConferenciaSap
+
 class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<IDevolucao01View>(view) {
   val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
   val tabNotaSerie01PagoViewModel = TabNotaSerie01PagoViewModel(this)
@@ -8,6 +10,7 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
   val tabPedidoViewModel = TabPedidoViewModel(this)
   val tabAjusteGarantiaViewModel = TabAjusteGarantiaViewModel(this)
   val tabNotaFinanceiroViewModel = TabNotaFinanceiroViewModel(this)
+  val tabConferenciaSap = TabConferenciaSapViewModel(this)
 
   override fun listTab() = listOf(
     view.tabPedido,
@@ -17,6 +20,7 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
     view.tabNotaRemessaConserto,
     view.tabAjusteGarantia,
     view.tabNotaFinanceiro,
+    view.tabConferenciaSap
                                  )
 }
 
@@ -28,5 +32,6 @@ interface IDevolucao01View : IDevolucaoAbstractView {
   val tabAjusteGarantia: ITabAjusteGarantia
   val tabPedido: ITabPedido
   val tabNotaFinanceiro: ITabNotaFinanceiro
+  val tabConferenciaSap: ITabConferenciaSap
 }
 

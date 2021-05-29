@@ -77,6 +77,11 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return this
   }
 
+  fun Query.addOptionalParameter(name: String, value: LocalDate?): Query {
+    if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
+    return this
+  }
+
   fun Query.addOptionalParameter(name: String, value: ByteArray?): Query {
     if (this.paramNameToIdxMap.containsKey(name)) this.addParameter(name, value)
     return this
