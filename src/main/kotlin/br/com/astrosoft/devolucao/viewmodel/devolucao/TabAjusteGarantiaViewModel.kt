@@ -12,7 +12,7 @@ interface ITabAjusteGarantia : ITabNota {
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao
-    get() = SimNao.NONE
+    get() = SimNao.NAO
   override val coleta01: SimNao
     get() = SimNao.NONE
   override val remessaConserto: SimNao

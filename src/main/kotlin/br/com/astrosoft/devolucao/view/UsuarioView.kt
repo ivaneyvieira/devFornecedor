@@ -88,6 +88,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::notaFinanceiro.name)
           }
+          checkBox("Sap x Saci") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::conferenciaSap.name)
+          }
         }
         formLayout {
           h4("Devolução Série 66") {

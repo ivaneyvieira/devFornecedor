@@ -63,7 +63,6 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.renderer.TemplateRenderer
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
-import org.apache.poi.ss.formula.functions.T
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
@@ -89,7 +88,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       DlgNota(viewModel).showDialogNota(fornecedor, serie)
     }
     addColumnButton(MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
-      DlgParcelas(viewModel).showDialogParcela(fornecedor)
+      DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
     }
     addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
@@ -526,18 +525,20 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
 }
 
 class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
-  fun showDialogParcela(fornecedor: Fornecedor?) {
+  fun showDialogParcela(fornecedor: Fornecedor?, serie : Serie) {
     fornecedor ?: return
 
-    val listNotas = fornecedor.parcelasFornecedor()
-    val listPedidos = fornecedor.pedidosFornecedor()
+    val listParcelas = fornecedor.parcelasFornecedor()
+    val listPedidos = fornecedor.pedidosFornecedor().filter {
+      if(serie == FIN) it.observacao != "" else true
+    }
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridNota = createGridParcelas(listNotas, "Títulos a Vencer")
+      val gridParcela = createGridParcelas(listParcelas, "Títulos a Vencer")
       val gridPedido = createGridPedidos(listPedidos, "Pedidos de Compra Pendentes")
 
       HorizontalLayout().apply {
         setSizeFull()
-        addAndExpand(gridNota, gridPedido)
+        addAndExpand(gridParcela, gridPedido)
       }
     }
     form.open()
