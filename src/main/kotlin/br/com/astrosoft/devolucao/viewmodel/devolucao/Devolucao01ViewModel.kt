@@ -1,7 +1,5 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.view.devolucao.TabConferenciaSap
-
 class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<IDevolucao01View>(view) {
   val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
   val tabNotaSerie01PagoViewModel = TabNotaSerie01PagoViewModel(this)
@@ -12,16 +10,14 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
   val tabNotaFinanceiroViewModel = TabNotaFinanceiroViewModel(this)
   val tabConferenciaSap = TabConferenciaSapViewModel(this)
 
-  override fun listTab() = listOf(
-    view.tabPedido,
-    view.tabNotaSerie01,
-    view.tabNotaSerie01Pago,
-    view.tabNotaSerie01Coleta,
-    view.tabNotaRemessaConserto,
-    view.tabAjusteGarantia,
-    view.tabNotaFinanceiro,
-    view.tabConferenciaSap
-                                 )
+  override fun listTab() = listOf(view.tabPedido,
+                                  view.tabNotaSerie01,
+                                  view.tabNotaSerie01Pago,
+                                  view.tabNotaSerie01Coleta,
+                                  view.tabNotaRemessaConserto,
+                                  view.tabAjusteGarantia,
+                                  view.tabNotaFinanceiro,
+                                  view.tabConferenciaSap)
 }
 
 interface IDevolucao01View : IDevolucaoAbstractView {

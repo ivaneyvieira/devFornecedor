@@ -344,7 +344,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun listNotaSap(filtro: String): List<NotaDevolucaoSap> {
     val sql = "/sqlSaci/listNotaSap.sql"
-    return query(sql, NotaDevolucaoSap::class){
+    return query(sql, NotaDevolucaoSap::class) {
       addOptionalParameter("filtro", filtro)
     }
   }

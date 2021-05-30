@@ -3,7 +3,7 @@ CREATE TABLE vendSap (
   codigo          Int,
   nome            varchar(100),
   quantidadeNotas Int,
-  PRIMARY KEY(codigo)
+  PRIMARY KEY (codigo)
 );
 
 DROP TABLE nfSap;

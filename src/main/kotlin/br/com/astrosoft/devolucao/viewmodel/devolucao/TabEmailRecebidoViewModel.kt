@@ -16,8 +16,11 @@ class TabEmailRecebidoViewModel(val viewModel: Devolucao66ViewModel) : IEmailVie
     subView.updateGrid(listEmailRecebido())
   }
 
-  private fun listEmailRecebido() =
-          EmailDB.listEmailRecebidos().sortedWith(compareByDescending<EmailDB> { it.data }.thenByDescending { it.hora })
+  private fun listEmailRecebido() = EmailDB.listEmailRecebidos().sortedWith(compareByDescending<EmailDB> {
+    it.data
+  }.thenByDescending {
+    it.hora
+  })
 
   override fun listEmail(fornecedor: Fornecedor?): List<String> = emptyList()
 

@@ -12,7 +12,6 @@ import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import de.f0rce.signaturepad.SignaturePad
 
-
 @Route(layout = DevFornecedorLayout::class)
 @PageTitle("Assinatura")
 @CssImport("./styles/gridTotal.css")

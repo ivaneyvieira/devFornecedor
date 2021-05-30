@@ -1,6 +1,9 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
@@ -62,10 +65,10 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
     }
   }
 
-  private fun HasComponents.uploadFileXls(): Pair<MultiFileMemoryBuffer, Upload>  {
+  private fun HasComponents.uploadFileXls(): Pair<MultiFileMemoryBuffer, Upload> {
     val buffer = MultiFileMemoryBuffer()
-    val upload = Upload(buffer)
-    //upload.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    val upload =
+            Upload(buffer) //upload.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     val uploadButton = Button("Planilha SAP")
     upload.uploadButton = uploadButton
     upload.isAutoUpload = true
@@ -79,7 +82,6 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
     add(upload)
     return Pair(buffer, upload)
   }
-
 
   override fun Grid<FornecedorSap>.gridPanel() {
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->

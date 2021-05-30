@@ -525,12 +525,12 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
 }
 
 class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
-  fun showDialogParcela(fornecedor: Fornecedor?, serie : Serie) {
+  fun showDialogParcela(fornecedor: Fornecedor?, serie: Serie) {
     fornecedor ?: return
 
     val listParcelas = fornecedor.parcelasFornecedor()
     val listPedidos = fornecedor.pedidosFornecedor().filter {
-      if(serie == FIN) it.observacao != "" else true
+      if (serie == FIN) it.observacao != "" else true
     }
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
       val gridParcela = createGridParcelas(listParcelas, "Títulos a Vencer")
