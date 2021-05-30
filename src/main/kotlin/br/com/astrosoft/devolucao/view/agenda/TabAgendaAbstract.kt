@@ -38,7 +38,7 @@ import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : TabPanelGrid<Agenda>(Agenda::class),
-                                                                              ITabAgenda {
+        ITabAgenda {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() { //Falta definir o filtro

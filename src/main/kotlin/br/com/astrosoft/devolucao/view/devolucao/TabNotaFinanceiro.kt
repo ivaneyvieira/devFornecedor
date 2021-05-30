@@ -7,7 +7,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaFinanceiroViewModel
 import br.com.astrosoft.framework.model.IUser
 
 class TabNotaFinanceiro(viewModel: TabNotaFinanceiroViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel),
-                                                                 ITabNotaFinanceiro {
+        ITabNotaFinanceiro {
   override val label: String
     get() = "Financeiro"
 

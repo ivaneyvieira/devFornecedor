@@ -9,7 +9,7 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
 abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
-  IEmailView {
+        IEmailView {
   protected abstract val subView: ITabNota
 
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {

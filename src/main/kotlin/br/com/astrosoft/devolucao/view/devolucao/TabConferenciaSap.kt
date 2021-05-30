@@ -44,7 +44,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
 import java.io.File
 
 class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGrid<FornecedorSap>(FornecedorSap::class),
-                                                                     ITabConferenciaSap {
+        ITabConferenciaSap {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() {

@@ -34,11 +34,8 @@ import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KProperty1
 
-abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(),
-                                               IView,
-                                               BeforeLeaveObserver,
-                                               BeforeEnterObserver,
-                                               AfterNavigationObserver {
+abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLeaveObserver, BeforeEnterObserver,
+        AfterNavigationObserver {
   abstract val viewModel: VM
 
   init {

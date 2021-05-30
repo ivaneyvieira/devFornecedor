@@ -69,7 +69,7 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
 }
 
 class UserCrudFormFactory<B : IUser>(private val createForm: (CrudOperation?, B?, Boolean, Binder<B>) -> Component) :
-  AbstractCrudFormFactory<B>() {
+        AbstractCrudFormFactory<B>() {
   override fun buildNewForm(operation: CrudOperation?,
                             domainObject: B?,
                             readOnly: Boolean,

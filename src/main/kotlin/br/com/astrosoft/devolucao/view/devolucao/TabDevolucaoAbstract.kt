@@ -69,8 +69,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
-  TabPanelGrid<Fornecedor>(Fornecedor::class),
-  ITabNota {
+        TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() {

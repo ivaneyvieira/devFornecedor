@@ -6,7 +6,7 @@ import br.com.astrosoft.devolucao.viewmodel.agenda.TabAgendaViewModelNaoAgendada
 import br.com.astrosoft.framework.model.IUser
 
 class TabAgendaNaoAgendada(viewModel: TabAgendaViewModelNaoAgendada) : TabAgendaAbstract(viewModel),
-                                                                       ITabAgendaNaoAgendada {
+        ITabAgendaNaoAgendada {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.agendaNaoAgendada == true
