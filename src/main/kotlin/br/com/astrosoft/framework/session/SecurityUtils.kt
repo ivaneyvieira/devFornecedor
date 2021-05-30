@@ -6,7 +6,7 @@ import br.com.astrosoft.framework.model.IUser
 object SecurityUtils {
   fun login(username: String?, password: String?): Boolean {
     username ?: return false
-    val user = Config.findUser(username) ?: return false
+    val user = Config.userUtilImpl.findUser(username) ?: return false
     return if (user.senha == password) {
       Session[IUser::class] = user
       true

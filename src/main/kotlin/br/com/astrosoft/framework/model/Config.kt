@@ -31,8 +31,6 @@ object Config {
   val shortName = prop.getProperty("shortName")
   val iconPath = prop.getProperty("iconPath")
 
-  lateinit var findUser: (String) -> IUser?
-
   val version: String
     get() {
       val arquivo = "/versao.txt"
@@ -43,4 +41,5 @@ object Config {
 
   @Suppress("UNCHECKED_CAST")
   val mainClass: KClass<Component> = Class.forName(prop.getProperty("mainClass")).kotlin as KClass<Component>
+  val userUtilImpl: IUserUtil = Class.forName(prop.getProperty("userUtilImpl")).newInstance() as IUserUtil
 }

@@ -19,8 +19,9 @@ import org.vaadin.crudui.crud.impl.GridCrud
 class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override val viewModel = UsuarioViewModel(this)
 
-  override fun columns() =
-          listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
+  override fun columns(): List<String> {
+    return listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
+  }
 
   override fun createGrid() = GridCrud(UserSaci::class.java)
 
