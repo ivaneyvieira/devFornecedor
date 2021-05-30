@@ -7,7 +7,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaSerie66PagoViewMode
 import br.com.astrosoft.framework.model.IUser
 
 class TabNotaSerie66Pago(viewModel: TabNotaSerie66PagoViewModel) : TabDevolucaoAbstract<IDevolucao66View>(viewModel),
-                                                                   ITabNotaSerie66Pago {
+        ITabNotaSerie66Pago {
   override val label: String
     get() = "Notas Pagas"
 
