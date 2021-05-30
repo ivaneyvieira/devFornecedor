@@ -12,7 +12,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
-
 class PlanilhaDevolucaoSap(val filename: String) {
   private lateinit var linhas: List<Row>
   private var posicao = 0

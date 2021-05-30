@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.framework.viewmodel.ITabView
-import br.com.astrosoft.framework.viewmodel.exec
 import br.com.astrosoft.framework.viewmodel.fail
 
 class TabConferenciaSapViewModel(val viewModel: Devolucao01ViewModel) {
@@ -23,7 +22,7 @@ class TabConferenciaSapViewModel(val viewModel: Devolucao01ViewModel) {
   }
 }
 
-interface ITabConferenciaSap: ITabView {
+interface ITabConferenciaSap : ITabView {
   fun filtro(): String
   fun updateGrid(itens: List<FornecedorSap>)
 }
