@@ -1,7 +1,5 @@
 package br.com.astrosoft.framework.view
 
-import br.com.astrosoft.devolucao.model.saci
-import br.com.astrosoft.framework.model.Config
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -24,10 +22,6 @@ class Bootstrap : ServletContextListener {
     val fileName = System.getenv("EBEAN_PROPS") ?: "$home/ebean.properties"
     System.setProperty("ebean.props.file", fileName)
     println("##################### $fileName")
-
-    Config.findUser = { username ->
-      saci.findUser(username)
-    }
   }
 }
 
