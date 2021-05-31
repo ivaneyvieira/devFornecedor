@@ -14,4 +14,22 @@ CREATE TABLE nfSap (
   dataVencimento DATE,
   saldo          DECIMAL(13, 4),
   PRIMARY KEY (codigoFor, numero)
+);
+
+DROP TABLE vendSap;
+CREATE TABLE vendSap (
+  codigo INT,
+  nome   VARCHAR(100),
+  PRIMARY KEY (codigo)
+);
+
+DROP TABLE nfSap;
+CREATE TABLE nfSap (
+  codigoFor      INT,
+  storeno        INT,
+  numero         VARCHAR(20),
+  dataLancamento DATE,
+  dataVencimento DATE,
+  saldo          DECIMAL(13, 4),
+  PRIMARY KEY (codigoFor, numero)
 )
