@@ -23,6 +23,7 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.list
 import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.h3
 import com.github.mvysny.karibudsl.v10.textField
@@ -30,6 +31,7 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.Grid.SelectionMode.SINGLE
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -41,6 +43,7 @@ import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.apache.poi.ss.formula.functions.T
 import java.io.File
 
 class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGrid<FornecedorSap>(FornecedorSap::class),
@@ -119,10 +122,18 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
     fornecedor ?: return
 
     val listNotasSap = fornecedor.notas
-    val listNotasSaci = fornecedor.notasSaci(listNotasSap)
+    val listNotasSaci = fornecedor.notasSaci()
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridNota = createGridSap(listNotasSap, "Notas SAP")
       val gridPedido = createGridSaci(listNotasSaci, "Notas Saci")
+      val gridNota = createGridSap(listNotasSap, "Notas SAP")
+      gridNota.onSelect { nota ->
+        val notaSaida = listNotasSaci.firstOrNull { it.nota == nota?.nfSaci }
+        gridPedido.selectRow(notaSaida)
+      }
+      gridPedido.onSelect { nota ->
+        val notaSaida = listNotasSap.firstOrNull { it.nfSaci == nota?.nota }
+        gridNota.selectRow(notaSaida)
+      }
 
       HorizontalLayout().apply {
         setSizeFull()
@@ -132,13 +143,13 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
     form.open()
   }
 
-  private fun createGridSap(listParcelas: List<NotaDevolucaoSap>, label: String): VerticalLayout {
+  private fun createGridSap(listParcelas: List<NotaDevolucaoSap>, label: String): GridLabel<NotaDevolucaoSap> {
     val gridDetail = Grid(NotaDevolucaoSap::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
-      setSelectionMode(Grid.SelectionMode.MULTI)
+      setSelectionMode(SINGLE)
       setItems(listParcelas)
 
       notaSapLoja()
@@ -153,19 +164,16 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
         this.setDetailsVisible(parcela, true)
       }
     }
-    return VerticalLayout().apply {
-      this.h3(label)
-      this.addAndExpand(grid)
-    }
+    return GridLabel(grid, label)
   }
 
-  private fun createGridSaci(listPedidos: List<NotaSaida>, label: String): VerticalLayout {
+  private fun createGridSaci(listPedidos: List<NotaSaida>, label: String): GridLabel<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
-      setSelectionMode(Grid.SelectionMode.MULTI)
+      setSelectionMode(SINGLE)
       setItems(listPedidos)
 
       notaLoja()
@@ -176,14 +184,34 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
 
-
       listPedidos.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }
+
     }
-    return VerticalLayout().apply {
-      this.h3(label)
-      this.addAndExpand(grid)
+    return GridLabel(grid, label)
+  }
+}
+
+class GridLabel<T : Any>(val grid: Grid<T>, label: String) : VerticalLayout() {
+  fun selectRow(notaSaida: T?) {
+    if (notaSaida != null) {
+      grid.select(notaSaida)
+      val list = list(grid)
+      val index = list.indexOf(notaSaida)
+      if (index >= 0) grid.scrollToIndex(index)
     }
+    else grid.deselectAll()
+  }
+
+  fun onSelect(selectBlock: (T?) -> Unit) {
+    grid.addSelectionListener {
+      if (it.isFromClient) selectBlock(it.allSelectedItems.firstOrNull())
+    }
+  }
+
+  init {
+    this.h3(label)
+    this.addAndExpand(grid)
   }
 }

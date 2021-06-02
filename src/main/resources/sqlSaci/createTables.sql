@@ -9,6 +9,7 @@ CREATE TABLE vendSap (
 DROP TABLE nfSap;
 CREATE TABLE nfSap (
   codigoFor      Int,
+  storeno        INT,
   numero         varchar(20),
   dataLancamento Date,
   dataVencimento DATE,
