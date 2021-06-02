@@ -10,14 +10,15 @@ SELECT codigoFor,
        saldo,
        IFNULL(nf.grossamt / 100, 0.00)             AS saldoSaci
 FROM sqldados.vendSap       AS V
-  INNER JOIN sqldados.nfSap    N
+  INNER JOIN sqldados.nfSap AS N
 	       ON V.codigo = N.codigoFor
   INNER JOIN sqldados.vend  AS VS
 	       ON VS.auxLong4 = V.codigo
   INNER JOIN sqldados.custp AS C
 	       ON C.cpf_cgc = VS.cgc
   INNER JOIN sqldados.nf
-	       ON (nf.storeno = N.storeno AND nf.nfno = N.numero * 1 AND nf.nfse = '1')
+	       ON (nf.storeno = N.storeno AND nf.nfno = N.numero * 1 AND nf.nfse = '1' AND
+		   nf.custno = C.no)
 WHERE (V.nome LIKE CONCAT('%', :filtro, '%') OR :filtro = '')
    OR (V.codigo LIKE CONCAT(:filtro, '%') OR :filtro = '')
 UNION
