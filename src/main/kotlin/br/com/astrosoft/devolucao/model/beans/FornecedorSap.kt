@@ -9,9 +9,9 @@ data class FornecedorSap(val codigo: Int,
                          val nome: String,
                          val quantidadeNotas: Int,
                          val notas: List<NotaDevolucaoSap>) {
-  fun notasSaci(listaNotaSap: List<NotaDevolucaoSap>): List<NotaSaida> {
+  fun notasSaci(): List<NotaSaida> {
     return saci.notasDevolucao(Serie.Serie01).filter { nota ->
-      listaNotaSap.find { it.storeno == nota.loja && "${it.numero}/1" == nota.nota } != null
+      nota.serie01Pago == "N"
     }
   }
 
