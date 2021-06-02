@@ -1,18 +1,18 @@
 SELECT codigoFor,
-       V.nome                          AS nomeFor,
-       VS.no                           AS vendno,
-       C.no                            AS custno,
+       V.nome                                      AS nomeFor,
+       VS.no                                       AS vendno,
+       C.no                                        AS custno,
        N.storeno,
-       CONCAT(nf.nfno, '/', nf.nfse)   AS nfSaci,
+       CAST(CONCAT(nf.nfno, '/', nf.nfse) AS CHAR) AS nfSaci,
        numero,
        dataLancamento,
        dataVencimento,
        saldo,
-       IFNULL(nf.grossamt / 100, 0.00) AS saldoSaci
-FROM sqldados.vendSap      AS V
-  INNER JOIN sqldados.nfSap   N
+       IFNULL(nf.grossamt / 100, 0.00)             AS saldoSaci
+FROM sqldados.vendSap       AS V
+  INNER JOIN sqldados.nfSap    N
 	       ON V.codigo = N.codigoFor
-  INNER JOIN sqldados.vend AS VS
+  INNER JOIN sqldados.vend  AS VS
 	       ON VS.auxLong4 = V.codigo
   INNER JOIN sqldados.custp AS C
 	       ON C.cpf_cgc = VS.cgc
@@ -22,16 +22,16 @@ WHERE (V.nome LIKE CONCAT('%', :filtro, '%') OR :filtro = '')
   AND (V.codigo LIKE CONCAT(:filtro, '%') OR :filtro = '')
 UNION
 SELECT codigoFor,
-       V.nome                          AS nomeFor,
-       VS.no                           AS vendno,
-       C.no                            AS custno,
+       V.nome                                      AS nomeFor,
+       VS.no                                       AS vendno,
+       C.no                                        AS custno,
        N.storeno,
-       CONCAT(nf.nfno, '/', nf.nfse)   AS nfSaci,
+       CAST(CONCAT(nf.nfno, '/', nf.nfse) AS CHAR) AS nfSaci,
        numero,
        dataLancamento,
        dataVencimento,
        saldo,
-       IFNULL(nf.grossamt / 100, 0.00) AS saldoSaci
+       IFNULL(nf.grossamt / 100, 0.00)             AS saldoSaci
 FROM sqldados.vendSap       AS V
   INNER JOIN sqldados.nfSap    N
 	       ON V.codigo = N.codigoFor

@@ -279,6 +279,11 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(property: KProperty1<T, Doubl
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   val column = this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00")))
   column.isAutoWidth = true
+  column.setComparator { a, b ->
+    val dataA = property.get(a) ?: Double.MIN_VALUE
+    val dataB = property.get(b) ?: Double.MIN_VALUE
+    dataA.compareTo(dataB)
+  }
   if (column.key == null) column.key = property.name
   column.right()
   column.block()
@@ -290,6 +295,11 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnInt(property: KProperty1<T, Int?>,
   val column = this.addColumnFor(property)
   if (column.key == null) column.key = property.name
   column.isAutoWidth = true
+  column.setComparator { a, b ->
+    val dataA = property.get(a) ?: Int.MIN_VALUE
+    val dataB = property.get(b) ?: Int.MIN_VALUE
+    dataA.compareTo(dataB)
+  }
   column.right()
   column.block()
   return column

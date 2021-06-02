@@ -160,7 +160,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
 
-      sort(listOf(GridSortOrder(getColumnBy(NotaDevolucaoSap::nfSaci), SortDirection.ASCENDING)))
+      //sort(listOf(GridSortOrder(getColumnBy(NotaDevolucaoSap::nfSaci), SortDirection.ASCENDING)))
 
       listParcelas.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
@@ -187,7 +187,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
 
-      sort(listOf(GridSortOrder(getColumnBy(NotaSaida::nota), SortDirection.ASCENDING)))
+      //sort(listOf(GridSortOrder(getColumnBy(NotaSaida::nota), SortDirection.ASCENDING)))
 
       listPedidos.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
