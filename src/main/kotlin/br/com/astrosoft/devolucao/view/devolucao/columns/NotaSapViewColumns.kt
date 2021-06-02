@@ -16,6 +16,10 @@ object NotaSapViewColumns {
     this.setHeader("Nota")
   }
 
+  fun Grid<NotaDevolucaoSap>.notaSapNotaSaci() = addColumnString(NotaDevolucaoSap::nfSaci) {
+    this.setHeader("Nota Saci")
+  }
+
   fun Grid<NotaDevolucaoSap>.notaSapData() = addColumnLocalDate(NotaDevolucaoSap::dataLancamento) {
     this.setHeader("Data")
   }

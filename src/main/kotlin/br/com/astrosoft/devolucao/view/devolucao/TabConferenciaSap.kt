@@ -1,19 +1,18 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.FornecedorSap
-import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
-import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSapViewColumns.notaSapData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSapViewColumns.notaSapLoja
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSapViewColumns.notaSapNotaSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSapViewColumns.notaSapNumero
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSapViewColumns.notaSapTotal
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabConferenciaSap
@@ -124,8 +123,8 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
     val listNotasSap = fornecedor.notas
     val listNotasSaci = fornecedor.notasSaci()
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridPedido = createGridSaci(listNotasSaci, "Notas Saci")
       val gridNota = createGridSap(listNotasSap, "Notas SAP")
+      val gridPedido = createGridSaci(listNotasSaci, "Notas Saci")
       gridNota.onSelect { nota ->
         val notaSaida = listNotasSaci.firstOrNull { it.nota == nota?.nfSaci }
         gridPedido.selectRow(notaSaida)
@@ -154,11 +153,14 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
 
       notaSapLoja()
       notaSapNumero()
+      notaSapNotaSaci()
       notaSapData()
       notaSapTotal().apply {
         val totalPedido = listParcelas.sumOf { it.saldo }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
+
+      sort(listOf(GridSortOrder(getColumnBy(NotaDevolucaoSap::nfSaci), SortDirection.ASCENDING)))
 
       listParcelas.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
@@ -178,11 +180,14 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
 
       notaLoja()
       notaNota()
+      notaFatura()
       notaDataNota()
       notaValor().apply {
         val totalPedido = listPedidos.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
+
+      sort(listOf(GridSortOrder(getColumnBy(NotaSaida::nota), SortDirection.ASCENDING)))
 
       listPedidos.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
