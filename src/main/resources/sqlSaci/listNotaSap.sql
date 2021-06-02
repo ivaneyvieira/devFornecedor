@@ -19,7 +19,7 @@ FROM sqldados.vendSap       AS V
   INNER JOIN sqldados.nf
 	       ON (nf.storeno = N.storeno AND nf.nfno = N.numero * 1 AND nf.nfse = '1')
 WHERE (V.nome LIKE CONCAT('%', :filtro, '%') OR :filtro = '')
-  AND (V.codigo LIKE CONCAT(:filtro, '%') OR :filtro = '')
+   OR (V.codigo LIKE CONCAT(:filtro, '%') OR :filtro = '')
 UNION
 SELECT codigoFor,
        V.nome                                      AS nomeFor,
@@ -44,5 +44,5 @@ FROM sqldados.vendSap       AS V
 		   SUBSTRING_INDEX(MID(nf.remarks, POSITION('SAP' IN nf.remarks) + 3, 100), ' ',
 				   1) = N.numero AND nf.nfse = '1' AND nf.custno = C.no)
 WHERE (V.nome LIKE CONCAT('%', :filtro, '%') OR :filtro = '')
-  AND (V.codigo LIKE CONCAT(:filtro, '%') OR :filtro = '')
+   OR (V.codigo LIKE CONCAT(:filtro, '%') OR :filtro = '')
 
