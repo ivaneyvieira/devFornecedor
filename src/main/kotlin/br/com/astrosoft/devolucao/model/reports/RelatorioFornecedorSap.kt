@@ -13,7 +13,9 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
+import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
+import net.sf.dynamicreports.report.constant.GroupHeaderLayout
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
@@ -22,9 +24,14 @@ import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
-class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labelTitle: String) {
+class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>) {
+  private val labelTitleCol: TextColumnBuilder<String> =
+          col.column("", NotaDevolucaoSap::labelTitle.name, type.stringType()).apply{
+            setHeight(50)
+          }
+
   private val lojaCol: TextColumnBuilder<Int> =
-          col.column("loja", NotaDevolucaoSap::storeno.name, type.integerType()).apply {
+          col.column("Loja", NotaDevolucaoSap::storeno.name, type.integerType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(40)
           }
@@ -60,9 +67,6 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labe
           this.setStyle(fieldFontGrande)
         }
       }
-      horizontalList { //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
-        text(labelTitle, LEFT, largura)
-      }
     }
   }
 
@@ -70,25 +74,34 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labe
     return cmp.verticalList()
   }
 
-  private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
+  private fun subtotalBuilder(label: String): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", notaInvCol),
+      sbt.text(label, notaInvCol),
       sbt.sum(valorCol),
                  )
   }
 
   fun makeReport(): JasperReportBuilder {
+    val itemGroup = grp.group(labelTitleCol)
+      .setTitleWidth(0)
+      .setHeaderLayout(GroupHeaderLayout.VALUE)
+      .showColumnHeaderAndFooter()
+
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
+      .setShowColumnTitle(false)
       .columns(* colunms)
       .columnGrid(* colunms)
-      .setDataSource(notas)
+      .groupBy(itemGroup)
+      .addGroupFooter(itemGroup, cmp.text(""))
+      .setDataSource(notas.sortedWith (compareBy({ it.codigoFor }, { it.dataLancamento })))
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+      .subtotalsAtGroupFooter(itemGroup, * subtotalBuilder("Total R$").toTypedArray())
+      .subtotalsAtSummary(* subtotalBuilder("Total Geral").toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
       .setColumnStyle(fieldFontNormal)
@@ -96,24 +109,13 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labe
   }
 
   companion object {
-    fun processaRelatorio(fornecedores: List<FornecedorSap>): ByteArray {
-      val printList = fornecedores.map { fornecedorSap ->
-        val notas = fornecedorSap.notas
-        val labelTitle = fornecedorSap.labelTitle
-        RelatorioFornecedorSap(notas, labelTitle).makeReport().toJasperPrint()
-      }
-      val exporter = JRPdfExporter()
-      val out = ByteArrayOutputStream()
-      exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
-
-      exporter.exporterOutput = SimpleOutputStreamExporterOutput(out)
-
-      exporter.exportReport()
-      return out.toByteArray()
+    fun processaRelatorioFornecedor(fornecedores: List<FornecedorSap>): ByteArray {
+      val notas = fornecedores.flatMap { it.notas }
+      return processaRelatorioNota(notas)
     }
 
-    fun processaRelatorio(notas: List<NotaDevolucaoSap>, labelTitle: String): ByteArray {
-      val printList = listOf(RelatorioFornecedorSap(notas, labelTitle).makeReport().toJasperPrint())
+    fun processaRelatorioNota(notas: List<NotaDevolucaoSap>): ByteArray {
+      val printList = listOf(RelatorioFornecedorSap(notas).makeReport().toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()
       exporter.setExporterInput(SimpleExporterInput.getInstance(printList))

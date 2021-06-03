@@ -109,7 +109,7 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
   }
 
   override fun imprimeRelatorio(fornecedores: List<FornecedorSap>) {
-    val report = RelatorioFornecedorSap.processaRelatorio(fornecedores)
+    val report = RelatorioFornecedorSap.processaRelatorioFornecedor(fornecedores)
     val chave = "DevFornecedorSap"
     SubWindowPDF(chave, report).open()
   }

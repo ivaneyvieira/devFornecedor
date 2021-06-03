@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasSap
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
@@ -28,8 +29,10 @@ class TabSapViewModel(val viewModel: Devolucao01ViewModel) {
     subView.imprimeRelatorio(fornecedores)
   }
 
-  fun geraPlanilha(notas: List<FornecedorSap>): ByteArray? {
-    TODO("Not yet implemented")
+  fun geraPlanilha(fornecedores: List<FornecedorSap>): ByteArray? {
+    val planilha = PlanilhaNotasSap()
+    val notas = fornecedores.flatMap { it.notas }
+    return planilha.grava(notas)
   }
 }
 
