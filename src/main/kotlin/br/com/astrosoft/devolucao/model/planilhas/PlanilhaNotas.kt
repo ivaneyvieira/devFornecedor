@@ -51,7 +51,7 @@ class PlanilhaNotas {
         val headers = campos.map { it.header }
         row(headers, headerStyle)
         listaNotas.flatMap { it.listaProdutos() }.sortedBy { it.loja }.forEach { produto ->
-          val valores = campos.map { it.produceVakue(produto) }
+          val valores = campos.map { it.produceValue(produto) }
           row(valores, rowStyle)
         }
       }

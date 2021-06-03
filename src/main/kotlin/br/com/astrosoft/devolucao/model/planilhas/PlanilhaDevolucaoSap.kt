@@ -130,11 +130,3 @@ enum class ETipoLinha {
   FORNECEDOR, NOTA_DEVOLUCAO, NOTA_OUTRAS, CABECALHO, VAZIO
 }
 
-/*
-fun main() {
-  val planilhaDevolucaoSap = PlanilhaDevolucaoSap("/home/ivaneyvieira/Dropbox/engecopi/notas.xlsx")
-  planilhaDevolucaoSap.read().forEach { f ->
-    println(f)
-  }
-}
- */

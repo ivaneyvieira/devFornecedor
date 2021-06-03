@@ -112,7 +112,7 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
   }
 
   override fun imprimeRelatorioSap(notas: List<NotaDevolucaoSap>, labelTitle: String) {
-    val report = RelatorioFornecedorSap.processaRelatorio(notas, labelTitle)
+    val report = RelatorioFornecedorSap.processaRelatorioNota(notas)
     val chave = "DevFornecedorSap"
     SubWindowPDF(chave, report).open()
   }

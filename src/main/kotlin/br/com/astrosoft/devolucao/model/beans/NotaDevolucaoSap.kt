@@ -16,4 +16,7 @@ class NotaDevolucaoSap(val codigoFor: Int,
                        val saldoSaci: Double = 0.00) {
   val dataLancamentoStr: String
     get() = dataLancamento.format()
+
+  val labelTitle
+    get() = "DEV FORNECEDOR: ${this.custno} ${this.nomeFor} (${this.vendno}) FOR SAP ${this.codigoFor}"
 }
