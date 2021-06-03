@@ -1,6 +1,9 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
@@ -30,7 +33,7 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.Grid.SelectionMode.SINGLE
+import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -124,7 +127,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
     val listNotasSaci = fornecedor.notasSaci()
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
       val gridNota = createGridSap(listNotasSap, "Notas SAP")
-      val gridPedido = createGridSaci(listNotasSaci, "Notas Saci")
+      val gridPedido = createGridSaci(listNotasSaci, "Notas Saci")/*
       gridNota.onSelect { nota ->
         val notaSaida = listNotasSaci.firstOrNull { it.nota == nota?.nfSaci }
         gridPedido.selectRow(notaSaida)
@@ -133,7 +136,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
         val notaSaida = listNotasSap.firstOrNull { it.nfSaci == nota?.nota }
         gridNota.selectRow(notaSaida)
       }
-
+*/
       HorizontalLayout().apply {
         setSizeFull()
         addAndExpand(gridNota, gridPedido)
@@ -148,7 +151,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
-      setSelectionMode(SINGLE)
+      setSelectionMode(MULTI)
       setItems(listParcelas)
 
       notaSapLoja()
@@ -175,7 +178,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
-      setSelectionMode(SINGLE)
+      setSelectionMode(MULTI)
       setItems(listPedidos)
 
       notaLoja()
