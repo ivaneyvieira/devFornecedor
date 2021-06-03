@@ -30,8 +30,9 @@ class UserSaci : IUser {
   var ajusteGarantia by DelegateAuthorized(13)
   var notaFinanceiro by DelegateAuthorized(14)
   var conferenciaSap by DelegateAuthorized(15)
+  var sap by DelegateAuthorized(16)
   val menuDevolucao01 =
-          nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap
+          nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
   val menuDevolucao66 = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento = notaPendente
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida

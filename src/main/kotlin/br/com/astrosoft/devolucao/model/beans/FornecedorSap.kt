@@ -16,7 +16,9 @@ data class FornecedorSap(val codigo: Int,
     }
   }
 
+  val primeiroData get() = notas.mapNotNull { it.dataLancamento }.minByOrNull { it }
   val ultimaData get() = notas.mapNotNull { it.dataLancamento }.maxByOrNull { it }
+  val saldoTotal get() = notas.map { it.saldo }.sumOf { it }
 
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.nome} (${this.vendno}) FOR SAP ${this.codigo}"
