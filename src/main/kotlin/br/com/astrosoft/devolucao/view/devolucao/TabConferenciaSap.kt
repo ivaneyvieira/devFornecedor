@@ -4,6 +4,8 @@ import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
+import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
@@ -22,13 +24,8 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabConferenciaSap
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabConferenciaSapViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.SubWindowForm
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.list
-import com.github.mvysny.karibudsl.v10.getColumnBy
-import com.github.mvysny.karibudsl.v10.h3
-import com.github.mvysny.karibudsl.v10.textField
+import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
@@ -36,7 +33,8 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
-import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
+import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
@@ -89,7 +87,7 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
   }
 
   override fun Grid<FornecedorSap>.gridPanel() {
-    addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
+    addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
       DlgNotaSapSaci(viewModel).showDialogNota(fornecedor)
     }
 
@@ -104,6 +102,18 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
   override fun filtro(): String {
     return if (this::edtFiltro.isInitialized) edtFiltro.value ?: ""
     else ""
+  }
+
+  override fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String) {
+    val report = RelatorioFornecedor.processaRelatorio(notas, labelTitle)
+    val chave = "DevFornecedor"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimeRelatorioSap(notas: List<NotaDevolucaoSap>, labelTitle: String) {
+    val report = RelatorioFornecedorSap.processaRelatorio(notas, labelTitle)
+    val chave = "DevFornecedorSap"
+    SubWindowPDF(chave, report).open()
   }
 
   override fun isAuthorized(user: IUser): Boolean {
@@ -169,7 +179,15 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
         this.setDetailsVisible(parcela, true)
       }
     }
-    return GridLabel(grid, label)
+    return GridLabel(grid, label) {
+      button("Relatório") {
+        icon = PRINT.create()
+        onLeftClick {
+          val notas = grid.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirRelatorioSap(notas, label)
+        }
+      }
+    }
   }
 
   private fun createGridSaci(listPedidos: List<NotaSaida>, label: String): GridLabel<NotaSaida> {
@@ -197,11 +215,20 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
       }
 
     }
-    return GridLabel(grid, label)
+    return GridLabel(grid, label) {
+      button("Relatório") {
+        icon = PRINT.create()
+        onLeftClick {
+          val notas = grid.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirRelatorio(notas, label)
+        }
+      }
+    }
   }
 }
 
-class GridLabel<T : Any>(val grid: Grid<T>, label: String) : VerticalLayout() {
+class GridLabel<T : Any>(val grid: Grid<T>, label: String, val toolbar: HorizontalLayout.() -> Unit = {}) :
+        VerticalLayout() {
   fun selectRow(notaSaida: T?) {
     if (notaSaida != null) {
       grid.select(notaSaida)
@@ -219,7 +246,14 @@ class GridLabel<T : Any>(val grid: Grid<T>, label: String) : VerticalLayout() {
   }
 
   init {
-    this.h3(label)
+    this.horizontalLayout {
+      setWidthFull()
+      this.h3(label) {
+        isExpand = true
+      }
+      this.toolbar()
+    }
+
     this.addAndExpand(grid)
   }
 }
