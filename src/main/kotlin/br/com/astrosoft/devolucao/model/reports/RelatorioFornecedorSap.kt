@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
+import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
@@ -22,10 +23,11 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labelTitle: String) {
-  private val lojaCol: TextColumnBuilder<Int> = col.column("loja", NotaDevolucaoSap::storeno.name, type.integerType()).apply {
-    this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(40)
-  }
+  private val lojaCol: TextColumnBuilder<Int> =
+          col.column("loja", NotaDevolucaoSap::storeno.name, type.integerType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(40)
+          }
 
   private val dataNotaCol: TextColumnBuilder<String> =
           col.column("Data", NotaDevolucaoSap::dataLancamentoStr.name, type.stringType()).apply {
@@ -38,8 +40,6 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labe
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
           }
-
-
 
   private val valorCol: TextColumnBuilder<Double> =
           col.column("Valor", NotaDevolucaoSap::saldo.name, type.doubleType()).apply {
@@ -96,9 +96,24 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>, private val labe
   }
 
   companion object {
+    fun processaRelatorio(fornecedores: List<FornecedorSap>): ByteArray {
+      val printList = fornecedores.map { fornecedorSap ->
+        val notas = fornecedorSap.notas
+        val labelTitle = fornecedorSap.labelTitle
+        RelatorioFornecedorSap(notas, labelTitle).makeReport().toJasperPrint()
+      }
+      val exporter = JRPdfExporter()
+      val out = ByteArrayOutputStream()
+      exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
+
+      exporter.exporterOutput = SimpleOutputStreamExporterOutput(out)
+
+      exporter.exportReport()
+      return out.toByteArray()
+    }
+
     fun processaRelatorio(notas: List<NotaDevolucaoSap>, labelTitle: String): ByteArray {
-      val report = RelatorioFornecedorSap(notas, labelTitle).makeReport()
-      val printList = listOf(report.toJasperPrint())
+      val printList = listOf(RelatorioFornecedorSap(notas, labelTitle).makeReport().toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()
       exporter.setExporterInput(SimpleExporterInput.getInstance(printList))

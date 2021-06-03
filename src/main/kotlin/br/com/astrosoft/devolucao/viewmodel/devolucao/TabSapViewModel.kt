@@ -1,8 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorSap
-import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
@@ -23,24 +21,20 @@ class TabSapViewModel(val viewModel: Devolucao01ViewModel) {
     updateView()
   }
 
-  fun imprimirRelatorio(notas: List<NotaSaida>, labelTitle: String) = viewModel.exec {
-    notas.ifEmpty {
-      fail("Não nenhuma nota selecionada")
+  fun imprimirRelatorio(fornecedores: List<FornecedorSap>) = viewModel.exec {
+    fornecedores.ifEmpty {
+      fail("Não nenhum fornecedor selecionado")
     }
-    subView.imprimeRelatorio(notas, labelTitle)
+    subView.imprimeRelatorio(fornecedores)
   }
 
-  fun imprimirRelatorioSap(notas: List<NotaDevolucaoSap>, labelTitle: String) = viewModel.exec {
-    notas.ifEmpty {
-      fail("Não nenhuma nota selecionada")
-    }
-    subView.imprimeRelatorioSap(notas, labelTitle)
+  fun geraPlanilha(notas: List<FornecedorSap>): ByteArray? {
+    TODO("Not yet implemented")
   }
 }
 
 interface ITabSap : ITabView {
   fun filtro(): String
   fun updateGrid(itens: List<FornecedorSap>)
-  fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String)
-  fun imprimeRelatorioSap(notas: List<NotaDevolucaoSap>, labelTitle: String)
+  fun imprimeRelatorio(fornecedores: List<FornecedorSap>)
 }

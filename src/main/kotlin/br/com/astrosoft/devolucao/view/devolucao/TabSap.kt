@@ -25,24 +25,28 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.*
+import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.getColumnBy
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
-import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
-import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
-import com.vaadin.flow.component.upload.FileRejectedEvent
-import com.vaadin.flow.component.upload.Upload
-import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode
-import java.io.File
+import com.vaadin.flow.data.value.ValueChangeMode.*
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(FornecedorSap::class), ITabSap {
   private lateinit var edtFiltro: TextField
@@ -50,14 +54,37 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "400px"
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = TIMEOUT
       addValueChangeListener {
         viewModel.updateView()
       }
     }
+    button("Relatório") {
+      icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val fornecedores = itensSelecionados()
+        viewModel.imprimirRelatorio(fornecedores)
+      }
+    }
+    this.add(buttonPlanilha {
+      itensSelecionados()
+    })
+  }
+
+  private fun buttonPlanilha(notas: () -> List<FornecedorSap>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    }
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    return "notas$textTime.xlsx"
   }
 
   override fun Grid<FornecedorSap>.gridPanel() {
+    setSelectionMode(MULTI)
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
       DlgNotaPainelSapSaci(viewModel).showDialogNota(fornecedor)
     }
@@ -67,7 +94,11 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
     fornecedorNome()
     fornecedorPrimeiraData()
     fornecedorUltimaData()
-    fornecedorSaldoTotal()
+    val totalCol = fornecedorSaldoTotal()
+    this.dataProvider.addDataProviderListener {
+      val totalPedido = listBeans().sumOf { it.saldoTotal }.format()
+      totalCol.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+    }
 
     sort(listOf(GridSortOrder(getColumnBy(FornecedorSap::nome), SortDirection.ASCENDING)))
   }
@@ -77,14 +108,8 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
     else ""
   }
 
-  override fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String) {
-    val report = RelatorioFornecedor.processaRelatorio(notas, labelTitle)
-    val chave = "DevFornecedor"
-    SubWindowPDF(chave, report).open()
-  }
-
-  override fun imprimeRelatorioSap(notas: List<NotaDevolucaoSap>, labelTitle: String) {
-    val report = RelatorioFornecedorSap.processaRelatorio(notas, labelTitle)
+  override fun imprimeRelatorio(fornecedores: List<FornecedorSap>) {
+    val report = RelatorioFornecedorSap.processaRelatorio(fornecedores)
     val chave = "DevFornecedorSap"
     SubWindowPDF(chave, report).open()
   }
