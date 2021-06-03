@@ -3,7 +3,7 @@ SELECT codigoFor,
        vendno,
        custno,
        storeno,
-       MAX(nfSaci) AS nfSaci,
+       MAX(IFNULL(nfSaci, '')) AS nfSaci,
        numero,
        dataLancamento,
        dataVencimento,
@@ -51,7 +51,7 @@ FROM (SELECT codigoFor,
 		     ON VS.auxLong4 = V.codigo
 	INNER JOIN sqldados.custp AS C
 		     ON C.cpf_cgc = VS.cgc
-	INNER JOIN sqldados.nf
+	LEFT JOIN sqldados.nf
 		     ON (nf.storeno = N.storeno AND
 			 SUBSTRING_INDEX(MID(nf.remarks, POSITION('SAP' IN nf.remarks) + 3, 100),
 					 ' ', 1) = N.numero AND nf.nfse = '1' AND nf.custno = C.no)
