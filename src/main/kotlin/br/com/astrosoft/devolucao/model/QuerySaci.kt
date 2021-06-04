@@ -331,6 +331,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun deleteFornecedorSap() {
+    val sql = "/sqlSaci/deleteFornecedorSap.sql"
+    script(sql)
+  }
+
   fun saveFornecedorSap(fornecedores: FornecedorSap) {
     val sql = "/sqlSaci/saveFornecedorSap.sql"
     script(sql) {

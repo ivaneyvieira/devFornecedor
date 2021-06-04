@@ -18,6 +18,8 @@ import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageType.A4
+import net.sf.dynamicreports.report.constant.TextAdjust
+import net.sf.dynamicreports.report.constant.TextAdjust.*
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
@@ -27,7 +29,7 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   private val codigoSapCol: TextColumnBuilder<Int> = col.column("Codigo SAP", FornecedorSap::codigo.name, type
     .integerType())
     .apply {
-    this.setHorizontalTextAlignment(RIGHT)
+    this.setHorizontalTextAlignment(CENTER)
       this.setFixedWidth(50)
       this.setPattern("0")
   }
@@ -43,15 +45,16 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   private val nomeFornecedorCol: TextColumnBuilder<String> =
           col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
+            this.setTextAdjust(CUT_TEXT)
           }
 
   private val dataPrimeiraNotaCol: TextColumnBuilder<String> =
-          col.column("Primeira Data", FornecedorSap::primeiroDataStr.name, type.stringType()).apply {
+          col.column("Inicio", FornecedorSap::primeiroDataStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(70)
           }
   private val dataUltimaNotaCol: TextColumnBuilder<String> =
-          col.column("Primeira Data", FornecedorSap::primeiroDataStr.name, type.stringType()).apply {
+          col.column("Fim", FornecedorSap::primeiroDataStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(70)
           }
@@ -95,7 +98,7 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
       .columnGrid(* colunms)
-      .setDataSource(fornecedores)
+      .setDataSource(fornecedores.sortedBy { it.nome })
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
