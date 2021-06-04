@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaDevolucaoSap
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
+import br.com.astrosoft.framework.util.format
 
 data class FornecedorSap(val codigo: Int,
                          val vendno: Int = 0,
@@ -19,6 +20,8 @@ data class FornecedorSap(val codigo: Int,
   val primeiroData get() = notas.mapNotNull { it.dataLancamento }.minByOrNull { it }
   val ultimaData get() = notas.mapNotNull { it.dataLancamento }.maxByOrNull { it }
   val saldoTotal get() = notas.map { it.saldo }.sumOf { it }
+  val primeiroDataStr get() = primeiroData.format()
+  val ultimaDataStr get() = ultimaData.format()
 
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.nome} (${this.vendno}) FOR SAP ${this.codigo}"
