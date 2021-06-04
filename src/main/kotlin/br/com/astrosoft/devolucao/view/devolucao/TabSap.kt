@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorSap
+import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorSapResumido
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
@@ -66,7 +67,17 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
         viewModel.imprimirRelatorio(fornecedores)
       }
     }
+    button("Relatório Resumido") {
+      icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val fornecedores = itensSelecionados()
+        viewModel.imprimirRelatorioResumido(fornecedores)
+      }
+    }
     this.add(buttonPlanilha {
+      itensSelecionados()
+    })
+    this.add(buttonPlanilhaResumo {
       itensSelecionados()
     })
   }
@@ -74,6 +85,12 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
   private fun buttonPlanilha(notas: () -> List<FornecedorSap>): LazyDownloadButton {
     return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
       ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    }
+  }
+
+  private fun buttonPlanilhaResumo(notas: () -> List<FornecedorSap>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha Resumo", FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilhaResumo(notas()))
     }
   }
 
@@ -111,6 +128,12 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
   override fun imprimeRelatorio(fornecedores: List<FornecedorSap>) {
     val report = RelatorioFornecedorSap.processaRelatorioFornecedor(fornecedores)
     val chave = "DevFornecedorSap"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimeRelatorioResumido(fornecedores: List<FornecedorSap>) {
+    val report = RelatorioFornecedorSapResumido.processaRelatorio(fornecedores)
+    val chave = "DevFornecedorSapResumo"
     SubWindowPDF(chave, report).open()
   }
 

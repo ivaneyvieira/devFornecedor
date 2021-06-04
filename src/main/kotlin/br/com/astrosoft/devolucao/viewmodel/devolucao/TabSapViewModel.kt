@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorSap
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasSap
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -29,10 +30,22 @@ class TabSapViewModel(val viewModel: Devolucao01ViewModel) {
     subView.imprimeRelatorio(fornecedores)
   }
 
-  fun geraPlanilha(fornecedores: List<FornecedorSap>): ByteArray? {
+  fun imprimirRelatorioResumido(fornecedores: List<FornecedorSap>) = viewModel.exec {
+    fornecedores.ifEmpty {
+      fail("Não nenhum fornecedor selecionado")
+    }
+    subView.imprimeRelatorioResumido(fornecedores)
+  }
+
+  fun geraPlanilha(fornecedores: List<FornecedorSap>): ByteArray {
     val planilha = PlanilhaNotasSap()
     val notas = fornecedores.flatMap { it.notas }
     return planilha.grava(notas)
+  }
+
+  fun geraPlanilhaResumo(fornecedores: List<FornecedorSap>): ByteArray {
+    val planilha = PlanilhaFornecedorSap()
+    return planilha.grava(fornecedores)
   }
 }
 
@@ -40,4 +53,5 @@ interface ITabSap : ITabView {
   fun filtro(): String
   fun updateGrid(itens: List<FornecedorSap>)
   fun imprimeRelatorio(fornecedores: List<FornecedorSap>)
+  fun imprimeRelatorioResumido(fornecedores: List<FornecedorSap>)
 }
