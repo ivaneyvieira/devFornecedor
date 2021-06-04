@@ -30,6 +30,7 @@ data class FornecedorSap(val codigo: Int,
     fun loadSheet(filename: String) {
       val planilhaDevolucaoSap = PlanilhaDevolucaoSap(filename)
       val fornecedores = planilhaDevolucaoSap.read()
+      saci.deleteFornecedorSap()
       fornecedores.forEach { fornecedor ->
         saci.saveFornecedorSap(fornecedor)
       }
