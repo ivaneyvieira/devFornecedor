@@ -2,9 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorSap
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorSapResumido
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
@@ -26,8 +24,7 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
-import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.*
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -42,8 +39,7 @@ import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
-import com.vaadin.flow.data.value.ValueChangeMode
-import com.vaadin.flow.data.value.ValueChangeMode.*
+import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.time.LocalDateTime

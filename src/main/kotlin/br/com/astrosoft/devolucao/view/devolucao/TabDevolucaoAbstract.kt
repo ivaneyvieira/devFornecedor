@@ -2,7 +2,9 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
+import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorResumido
 import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
+import br.com.astrosoft.devolucao.model.reports.RelatorioNotaFornecedor
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
@@ -11,7 +13,9 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emai
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileDescricao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
@@ -52,6 +56,7 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -80,9 +85,49 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         viewModel.updateFiltro()
       }
     }
+    button("Relatório") {
+      icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val fornecedores = itensSelecionados()
+        viewModel.imprimirRelatorioFornecedor(fornecedores.flatMap { it.notas })
+      }
+    }
+    button("Relatório Resumido") {
+      icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val fornecedores = itensSelecionados()
+        viewModel.imprimirRelatorioResumido(fornecedores)
+      }
+    }
+    this.add(buttonPlanilha {
+      itensSelecionados()
+    })
+    this.add(buttonPlanilhaResumo {
+      itensSelecionados()
+    })
+  }
+
+  private fun buttonPlanilha(fornecedores: () -> List<Fornecedor>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
+      val notas = fornecedores().flatMap { it.notas }
+      ByteArrayInputStream(viewModel.geraPlanilha(notas))
+    }
+  }
+
+  private fun buttonPlanilhaResumo(fornecedores: () -> List<Fornecedor>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha Resumo", FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilhaResumo(fornecedores()))
+    }
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    return "notas$textTime.xlsx"
   }
 
   override fun Grid<Fornecedor>.gridPanel() {
+    setSelectionMode(MULTI)
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
       DlgNota(viewModel).showDialogNota(fornecedor, serie)
     }
@@ -95,10 +140,16 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") { fornecedor ->
       DlgFornecedor().showDialogRepresentante(fornecedor)
     }
-    fornecedorUltimaData()
     if (serie != ENT) fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
+    fornecedorPrimeiraData()
+    fornecedorUltimaData()
+    val totalCol = fornecedorValorTotal()
+    this.dataProvider.addDataProviderListener {
+      val totalPedido = listBeans().sumOf { it.valorTotal }.format()
+      totalCol.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+    }
 
     sort(listOf(GridSortOrder(getColumnBy(Fornecedor::fornecedor), SortDirection.ASCENDING)))
   }
@@ -124,8 +175,20 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     SubWindowPDF(chave, report).open()
   }
 
-  override fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String) {
-    val report = RelatorioFornecedor.processaRelatorio(notas, labelTitle)
+  override fun imprimirRelatorioFornecedor(notas: List<NotaSaida>) {
+    val report = RelatorioFornecedor.processaRelatorio(notas)
+    val chave = "DevFornecedor"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimirRelatorio(notas: List<NotaSaida>) {
+    val report = RelatorioNotaFornecedor.processaRelatorio(notas)
+    val chave = "DevFornecedor"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>) {
+    val report = RelatorioFornecedorResumido.processaRelatorio(fornecedores)
     val chave = "DevFornecedor"
     SubWindowPDF(chave, report).open()
   }
@@ -451,7 +514,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           icon = PRINT.create()
           onLeftClick {
             val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirRelatorio(notas, "${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})")
+            viewModel.imprimirRelatorio(notas)
           }
         }
       }

@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorResumo
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
 import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.framework.model.FileAttach
@@ -14,16 +15,23 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
     notas.ifEmpty {
-      fail("Não nenhuma nota selecionada")
+      fail("Nenhuma nota foi selecionada")
     }
     subView.imprimeSelecionados(notas, resumida)
   }
 
-  fun imprimirRelatorio(notas: List<NotaSaida>, labelTitle: String) = viewModel.exec {
+  fun imprimirRelatorioFornecedor(notas: List<NotaSaida>) = viewModel.exec {
     notas.ifEmpty {
-      fail("Não nenhuma nota selecionada")
+      fail("Nenhuma nota foi selecionada")
     }
-    subView.imprimeRelatorio(notas, labelTitle)
+    subView.imprimirRelatorioFornecedor(notas)
+  }
+
+  fun imprimirRelatorio(notas: List<NotaSaida>) = viewModel.exec {
+    notas.ifEmpty {
+      fail("Nenhuma nota foi selecionada") //TODO Fazer isso sessível ao contexto
+    }
+    subView.imprimirRelatorio(notas)
   }
 
   override fun updateView() = viewModel.exec {
@@ -70,7 +78,6 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   fun geraPlanilha(notas: List<NotaSaida>): ByteArray {
     val planilha = PlanilhaNotas()
-
     return planilha.grava(notas)
   }
 
@@ -161,6 +168,18 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
       forn.saveRmkVend()
     }
   }
+
+  fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>) = viewModel.exec {
+    fornecedores.ifEmpty {
+      fail("Nenhuma fornecedor foi selecionada")
+    }
+    subView.imprimirRelatorioResumido(fornecedores)
+  }
+
+  fun geraPlanilhaResumo(fornecedores: List<Fornecedor>): ByteArray? {
+    val planilha = PlanilhaFornecedorResumo()
+    return planilha.grava(fornecedores)
+  }
 }
 
 enum class SimNao(val value: String) {
@@ -183,7 +202,9 @@ interface ITabNota : ITabView, IFiltro {
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)
-  fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String)
+  fun imprimirRelatorioFornecedor(notas: List<NotaSaida>)
+  fun imprimirRelatorio(notas: List<NotaSaida>)
+  fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
   fun filtro(): String

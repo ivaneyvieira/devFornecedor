@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.util.format
 
 class Fornecedor(
   val custno: Int,
@@ -18,9 +19,24 @@ class Fornecedor(
 
   fun pedidosFornecedor() = saci.listPedidosFornecedor(vendno)
 
-  val ultimaData = notas.maxOf { nota ->
-    if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
-  }
+  val ultimaData
+    get() = notas.maxOf { nota ->
+      if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
+    }
+
+  val primeiraData
+    get() = notas.minOf { nota ->
+      if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
+    }
+
+  val ultimaDataStr
+    get() = ultimaData.format()
+
+  val primeiraDataStr
+    get() = primeiraData.format()
+
+  val valorTotal
+    get() = notas.sumOf { it.valor }
 
   fun listEmail(): List<String> {
     val list = listRepresentantes().map {

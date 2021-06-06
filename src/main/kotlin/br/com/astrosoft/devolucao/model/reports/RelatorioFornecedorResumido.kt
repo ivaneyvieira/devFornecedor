@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontNormal
@@ -24,8 +24,8 @@ import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
-class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
-  private val codigoSapCol: TextColumnBuilder<Int> = col.column("Codigo SAP", FornecedorSap::codigo.name, type
+class RelatorioFornecedorResumido(val fornecedores: List<Fornecedor>) {
+  private val codigoSapCol: TextColumnBuilder<Int> = col.column("Codigo SAP", Fornecedor::fornecedorSap.name, type
     .integerType())
     .apply {
     this.setHorizontalTextAlignment(CENTER)
@@ -33,7 +33,7 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
       this.setPattern("0")
   }
 
-  private val codigoSaciCol: TextColumnBuilder<Int> = col.column("Codigo Saci", FornecedorSap::vendno.name, type
+  private val codigoSaciCol: TextColumnBuilder<Int> = col.column("Codigo Saci", Fornecedor::vendno.name, type
     .integerType())
     .apply {
       this.setHorizontalTextAlignment(RIGHT)
@@ -42,24 +42,25 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
     }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
-          col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {
+          col.column("Fornecedor", Fornecedor::fornecedor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setTextAdjust(CUT_TEXT)
           }
 
   private val dataPrimeiraNotaCol: TextColumnBuilder<String> =
-          col.column("Inicio", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
+          col.column("Inicio", Fornecedor::primeiraDataStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(70)
           }
+
   private val dataUltimaNotaCol: TextColumnBuilder<String> =
-          col.column("Fim", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
+          col.column("Fim", Fornecedor::primeiraDataStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(70)
           }
 
   private val saldoCol: TextColumnBuilder<Double> =
-          col.column("Saldo Total", FornecedorSap::saldoTotal.name, type.doubleType()).apply {
+          col.column("Saldo Total", Fornecedor::valorTotal.name, type.doubleType()).apply {
             this.setPattern("#,##0.00")
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(80)
@@ -109,8 +110,8 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   }
 
   companion object {
-    fun processaRelatorio(fornecedores: List<FornecedorSap>): ByteArray {
-      val report = RelatorioFornecedorSapResumido(fornecedores).makeReport()
+    fun processaRelatorio(fornecedores: List<Fornecedor>): ByteArray {
+      val report = RelatorioFornecedorResumido(fornecedores).makeReport()
       val printList = listOf(report.toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()

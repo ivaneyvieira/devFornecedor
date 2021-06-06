@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.model.reports
 
+
+import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
@@ -12,7 +14,9 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
+import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
+import net.sf.dynamicreports.report.constant.GroupHeaderLayout
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
@@ -21,26 +25,26 @@ import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
-class RelatorioFornecedor(val notas: List<NotaSaida>, private val labelTitle: String) {
-  private val lojaCol: TextColumnBuilder<Int> = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
-    this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(40)
-  }
+class RelatorioFornecedor(val notas: List<NotaSaida>) {
+  private val labelTitleCol: TextColumnBuilder<String> =
+          col.column("", NotaSaida::labelTitle.name, type.stringType()).apply{
+            setHeight(50)
+          }
+
+  private val lojaCol: TextColumnBuilder<Int> =
+          col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(40)
+          }
 
   private val dataNotaCol: TextColumnBuilder<String> =
-          col.column("Data", NotaSaida::dataNotaString.name, type.stringType()).apply {
+          col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
           }
 
   private val notaInvCol: TextColumnBuilder<String> =
-          col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(60)
-          }
-
-  private val faturaCol: TextColumnBuilder<String> =
-          col.column("Fatura", NotaSaida::fatura.name, type.stringType()).apply {
+          col.column("Nota", NotaSaida::numeroNotaPedido.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
           }
@@ -53,7 +57,7 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, private val labelTitle: St
           }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(lojaCol, dataNotaCol, notaInvCol, faturaCol, valorCol)
+    return listOf(lojaCol, dataNotaCol, notaInvCol, valorCol)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
@@ -64,9 +68,6 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, private val labelTitle: St
           this.setStyle(fieldFontGrande)
         }
       }
-      horizontalList { //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
-        text(labelTitle, LEFT, largura)
-      }
     }
   }
 
@@ -74,25 +75,34 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, private val labelTitle: St
     return cmp.verticalList()
   }
 
-  private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
+  private fun subtotalBuilder(label: String): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", faturaCol),
+      sbt.text(label, notaInvCol),
       sbt.sum(valorCol),
                  )
   }
 
   fun makeReport(): JasperReportBuilder {
+    val itemGroup = grp.group(labelTitleCol)
+      .setTitleWidth(0)
+      .setHeaderLayout(GroupHeaderLayout.VALUE)
+      .showColumnHeaderAndFooter()
+
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
+      .setShowColumnTitle(false)
       .columns(* colunms)
       .columnGrid(* colunms)
-      .setDataSource(notas)
+      .groupBy(itemGroup)
+      .addGroupFooter(itemGroup, cmp.text(""))
+      .setDataSource(notas.sortedWith (compareBy({ it.custno }, { it.dataNota })))
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+      .subtotalsAtGroupFooter(itemGroup, * subtotalBuilder("Total R$").toTypedArray())
+      .subtotalsAtSummary(* subtotalBuilder("Total Geral").toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
       .setColumnStyle(fieldFontNormal)
@@ -100,9 +110,8 @@ class RelatorioFornecedor(val notas: List<NotaSaida>, private val labelTitle: St
   }
 
   companion object {
-    fun processaRelatorio(notas: List<NotaSaida>, labelTitle: String): ByteArray {
-      val report = RelatorioFornecedor(notas, labelTitle).makeReport()
-      val printList = listOf(report.toJasperPrint())
+    fun processaRelatorio(notas: List<NotaSaida>): ByteArray {
+      val printList = listOf(RelatorioFornecedor(notas).makeReport().toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()
       exporter.setExporterInput(SimpleExporterInput.getInstance(printList))

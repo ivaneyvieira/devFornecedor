@@ -4,8 +4,8 @@ import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.devolucao.model.beans.NotaDevolucaoSap
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorSap
+import br.com.astrosoft.devolucao.model.reports.RelatorioNotaFornecedor
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
@@ -106,7 +106,7 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
   }
 
   override fun imprimeRelatorio(notas: List<NotaSaida>, labelTitle: String) {
-    val report = RelatorioFornecedor.processaRelatorio(notas, labelTitle)
+    val report = RelatorioNotaFornecedor.processaRelatorio(notas)
     val chave = "DevFornecedor"
     SubWindowPDF(chave, report).open()
   }

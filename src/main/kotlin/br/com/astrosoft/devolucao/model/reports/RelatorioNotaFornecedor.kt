@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontNormal
@@ -13,68 +13,60 @@ import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
-import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
+import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
-import net.sf.dynamicreports.report.constant.TextAdjust.*
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
-class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
-  private val codigoSapCol: TextColumnBuilder<Int> = col.column("Codigo SAP", FornecedorSap::codigo.name, type
-    .integerType())
-    .apply {
-    this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(50)
-      this.setPattern("0")
+class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
+  private val lojaCol: TextColumnBuilder<Int> = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
+    this.setHorizontalTextAlignment(RIGHT)
+    this.setFixedWidth(40)
   }
 
-  private val codigoSaciCol: TextColumnBuilder<Int> = col.column("Codigo Saci", FornecedorSap::vendno.name, type
-    .integerType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-      this.setPattern("0")
-    }
-
-  private val nomeFornecedorCol: TextColumnBuilder<String> =
-          col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(CUT_TEXT)
-          }
-
-  private val dataPrimeiraNotaCol: TextColumnBuilder<String> =
-          col.column("Inicio", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
+  private val dataNotaCol: TextColumnBuilder<String> =
+          col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(70)
-          }
-  private val dataUltimaNotaCol: TextColumnBuilder<String> =
-          col.column("Fim", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(70)
+            this.setFixedWidth(60)
           }
 
-  private val saldoCol: TextColumnBuilder<Double> =
-          col.column("Saldo Total", FornecedorSap::saldoTotal.name, type.doubleType()).apply {
+  private val notaInvCol: TextColumnBuilder<String> =
+          col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(60)
+          }
+
+  private val faturaCol: TextColumnBuilder<String> =
+          col.column("Fatura", NotaSaida::fatura.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(60)
+          }
+
+  private val valorCol: TextColumnBuilder<Double> =
+          col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
             this.setPattern("#,##0.00")
             this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(80)
+            this.setFixedWidth(100)
           }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(codigoSaciCol, codigoSapCol, nomeFornecedorCol, dataPrimeiraNotaCol, dataUltimaNotaCol, saldoCol)
+    return listOf(lojaCol, dataNotaCol, notaInvCol, faturaCol, valorCol)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
+    val largura = 40 + 60 + 60 + 60 + 100
     return verticalBlock {
       horizontalList {
-        text("FORNECEDOR", CENTER).apply {
+        text("FORNECEDOR", CENTER, largura).apply {
           this.setStyle(fieldFontGrande)
         }
+      }
+      val labelTitle = notas.firstOrNull()?.labelTitle ?: ""
+      horizontalList { //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
+        text(labelTitle, LEFT, largura)
       }
     }
   }
@@ -85,19 +77,19 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", dataUltimaNotaCol),
-      sbt.sum(saldoCol),
+      sbt.text("Total R$", faturaCol),
+      sbt.sum(valorCol),
                  )
   }
 
   fun makeReport(): JasperReportBuilder {
     val colunms = columnBuilder().toTypedArray()
-    val pageOrientation = LANDSCAPE
+    val pageOrientation = PORTRAIT
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
       .columnGrid(* colunms)
-      .setDataSource(fornecedores)
+      .setDataSource(notas)
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
@@ -109,8 +101,8 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   }
 
   companion object {
-    fun processaRelatorio(fornecedores: List<FornecedorSap>): ByteArray {
-      val report = RelatorioFornecedorSapResumido(fornecedores).makeReport()
+    fun processaRelatorio(notas: List<NotaSaida>): ByteArray {
+      val report = RelatorioNotaFornecedor(notas).makeReport()
       val printList = listOf(report.toJasperPrint())
       val exporter = JRPdfExporter()
       val out = ByteArrayOutputStream()
@@ -123,4 +115,3 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
     }
   }
 }
-
