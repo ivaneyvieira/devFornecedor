@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
@@ -19,7 +20,15 @@ object FornecedorViewColumns {
     this.setHeader("Fornecedor")
   }
 
+  fun Grid<Fornecedor>.fornecedorPrimeiraData() = addColumnLocalDate(Fornecedor::primeiraData) {
+    this.setHeader("Primeira Data")
+  }
+
   fun Grid<Fornecedor>.fornecedorUltimaData() = addColumnLocalDate(Fornecedor::ultimaData) {
     this.setHeader("Ultima Data")
+  }
+
+  fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valorTotal) {
+    this.setHeader("Valor Total")
   }
 }

@@ -62,8 +62,13 @@ class NotaSaida(
     }
   }
 
-  val dataNotaString
-    get() = dataNota.format()
+  val dataNotaStr
+    get() = (if (tipo == "PED") dataPedido else dataNota).format()
+  val numeroNotaPedido
+    get() = if (tipo == "PED") pedido.toString() else nota
+
+  val labelTitle
+    get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
 
   val valorNota
     get() = if (tipo == "1") valor else listaProdutos().sumOf { it.valorTotalIpi }

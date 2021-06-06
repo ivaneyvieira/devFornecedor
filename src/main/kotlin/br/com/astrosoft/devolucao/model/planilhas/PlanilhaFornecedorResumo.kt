@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.planilhas
 
+import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
@@ -11,18 +12,18 @@ import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 
-class PlanilhaFornecedorSap {
-  private val campos: List<Campo<*, FornecedorSap>> =
+class PlanilhaFornecedorResumo {
+  private val campos: List<Campo<*, Fornecedor>> =
           listOf(
             CampoInt("Código Saci") { vendno },
-            CampoInt("Código SAP") { codigo },
-            CampoString("Fornecedor") { nome },
+            CampoInt("Código SAP") { fornecedorSap },
+            CampoString("Fornecedor") { fornecedor },
             CampoString("Primeira Data") { primeiraDataStr },
             CampoString("Ultima Data") { ultimaDataStr },
-            CampoNumber("Saldo") { saldoTotal },
-            )
+            CampoNumber("Saldo") { valorTotal },
+                )
 
-  fun grava(listaNotas: List<FornecedorSap>): ByteArray {
+  fun grava(listaNotas: List<Fornecedor>): ByteArray {
     val wb = workbook {
       val headerStyle = cellStyle("Header") {
         fillForegroundColor = IndexedColors.GREY_25_PERCENT.index
@@ -35,7 +36,7 @@ class PlanilhaFornecedorSap {
       val stNotas = sheet("Notas SAP") {
         val headers = campos.map { it.header }
         row(headers, headerStyle)
-        listaNotas.sortedBy { it.codigo }.forEach { nota ->
+        listaNotas.sortedBy { it.vendno }.forEach { nota ->
           val valores = campos.map { it.produceValue(nota) }
           row(valores, rowStyle)
         }

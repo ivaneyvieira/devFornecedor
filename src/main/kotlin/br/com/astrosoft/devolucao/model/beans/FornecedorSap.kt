@@ -20,7 +20,7 @@ data class FornecedorSap(val codigo: Int,
   val primeiroData get() = notas.mapNotNull { it.dataLancamento }.minByOrNull { it }
   val ultimaData get() = notas.mapNotNull { it.dataLancamento }.maxByOrNull { it }
   val saldoTotal get() = notas.map { it.saldo }.sumOf { it }
-  val primeiroDataStr get() = primeiroData.format()
+  val primeiraDataStr get() = primeiroData.format()
   val ultimaDataStr get() = ultimaData.format()
 
   val labelTitle
