@@ -31,6 +31,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, Loja::class)
   }
 
+  fun findLojaByCnpj(cnpj: String): Loja? {
+    val sql = "/sqlSaci/findLojaByCnpj.sql"
+    return query(sql, Loja::class) {
+      addOptionalParameter("cnpj", cnpj)
+    }.firstOrNull()
+  }
+
   fun updateUser(user: UserSaci) {
     val sql = "/sqlSaci/updateUser.sql"
     script(sql) {
@@ -352,6 +359,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaDevolucaoSap::class) {
       addOptionalParameter("filtro", filtro)
     }
+  }
+
+  fun findFornecedor(cnpj: String): FornecedorSaci? {
+    val sql = "/sqlSaci/findFornecedor.sql"
+    return query(sql, FornecedorSaci::class) {
+      addOptionalParameter("cnpj", cnpj)
+    }.firstOrNull()
   }
 
   private fun saveNotaSap(codigoFor: Int, nota: NotaDevolucaoSap) {

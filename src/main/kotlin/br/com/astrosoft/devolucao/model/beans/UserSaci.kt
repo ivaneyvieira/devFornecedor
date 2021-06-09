@@ -31,11 +31,13 @@ class UserSaci : IUser {
   var notaFinanceiro by DelegateAuthorized(14)
   var conferenciaSap by DelegateAuthorized(15)
   var sap by DelegateAuthorized(16)
+  var entradaNdd by DelegateAuthorized(17)
   val menuDevolucao01 =
           nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
   val menuDevolucao66 = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento = notaPendente
   val menuAgenda = agendaAgendada || agendaNaoAgendada || agendaRecebida
+  val menuEntrada = entradaNdd
   override val admin
     get() = login == "ADM"
 

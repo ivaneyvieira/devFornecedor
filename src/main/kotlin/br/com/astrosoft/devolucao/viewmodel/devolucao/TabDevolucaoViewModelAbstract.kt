@@ -15,21 +15,21 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
     notas.ifEmpty {
-      fail("Nenhuma nota foi selecionada")
+      fail("Nenhuma item foi selecionado")
     }
     subView.imprimeSelecionados(notas, resumida)
   }
 
   fun imprimirRelatorioFornecedor(notas: List<NotaSaida>) = viewModel.exec {
     notas.ifEmpty {
-      fail("Nenhuma nota foi selecionada")
+      fail("Nenhuma item foi selecionado")
     }
     subView.imprimirRelatorioFornecedor(notas)
   }
 
   fun imprimirRelatorio(notas: List<NotaSaida>) = viewModel.exec {
     notas.ifEmpty {
-      fail("Nenhuma nota foi selecionada") //TODO Fazer isso sessível ao contexto
+      fail("Nenhuma item foi selecionado")
     }
     subView.imprimirRelatorio(notas)
   }
