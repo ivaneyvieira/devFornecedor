@@ -33,4 +33,30 @@ CREATE TABLE nfSap (
   dataVencimento DATE,
   saldo          DECIMAL(13, 4),
   PRIMARY KEY (codigoFor, numero)
-)
+);
+
+
+DROP TABLE sqldados.notasNdd;
+CREATE TABLE sqldados.notasNdd (
+  id                 int,
+  numero             int,
+  serie              int,
+  dataEmissao        date,
+  cnpjEmitente       varchar(20),
+  cnpjDestinatario   varchar(20),
+  ieEmitente         varchar(14),
+  ieDestinatario     varchar(14),
+  baseCalculoIcms    decimal(18, 2),
+  baseCalculoSt      decimal(18, 2),
+  valorTotalProdutos decimal(18, 2),
+  valorTotalIcms     decimal(18, 2),
+  valorTotalSt       decimal(18, 2),
+  baseCalculoIssqn   decimal(18, 2),
+  chave              varchar(50),
+  status             int,
+  xmlAut             longtext,
+  xmlCancelado       longtext,
+  xmlNfe             longtext,
+  xmlDadosAdicionais longtext,
+  PRIMARY KEY (id)
+);

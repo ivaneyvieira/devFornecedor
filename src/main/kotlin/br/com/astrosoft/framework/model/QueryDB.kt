@@ -58,6 +58,14 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
+  protected fun script(file: String, lambda: List<QueryHandle>) {
+    val stratments = toStratments(file)
+    transaction { con ->
+      scriptSQL(con, stratments, lambda)
+    }
+  }
+
+
   fun toStratments(file: String): List<String> {
     return if (file.startsWith("/")) readFile(file).split(";").filter { it.isNotBlank() || it.isNotEmpty() }
     else listOf(file)
@@ -69,6 +77,17 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
       query.lambda()
       query.executeUpdate()
       println(sql)
+    }
+  }
+
+  private fun scriptSQL(con: Connection, stratments: List<String>, lambda: List<QueryHandle>) {
+    stratments.forEach { sql ->
+      val query = con.createQuery(sql)
+      lambda.forEach { lamb ->
+        query.lamb()
+        query.executeUpdate()
+        println(sql)
+      }
     }
   }
 
@@ -97,7 +116,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return this
   }
 
-  private fun <T> transaction(block: (Connection) -> T): T {
+  protected fun <T> transaction(block: (Connection) -> T): T {
     return sql2o.beginTransaction().use { con ->
       val ret = block(con)
       con.commit()

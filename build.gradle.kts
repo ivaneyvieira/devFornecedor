@@ -76,6 +76,10 @@ dependencies {
   implementation("com.flowingcode.addons:font-awesome-iron-iconset:2.1.2")
   implementation("org.vaadin.haijian:exporter:3.0.1")
   implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+  implementation("com.beust:klaxon:5.5")
+  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.3")
+  //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
+
 
   implementation(kotlin("stdlib-jdk8"))
   

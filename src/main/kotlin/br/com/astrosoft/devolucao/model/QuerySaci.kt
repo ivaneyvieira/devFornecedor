@@ -7,6 +7,7 @@ import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
+import org.sql2o.Query
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -377,6 +378,42 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataLancamento", nota.dataLancamento)
       addOptionalParameter("dataVencimento", nota.dataVencimento)
       addOptionalParameter("saldo", nota.saldo)
+    }
+  }
+
+  fun saveNotaNdd(notas: List<NotaEntradaVO>) {
+    val sql = "/sqlSaci/saveNotaNdd.sql"
+    script(sql, notas.map { nota ->
+      { q: Query ->
+        q.addOptionalParameter("id", nota.id)
+        q.addOptionalParameter("numero", nota.numero)
+        q.addOptionalParameter("serie", nota.serie)
+        q.addOptionalParameter("dataEmissao", nota.dataEmissao)
+        q.addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
+        q.addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
+        q.addOptionalParameter("ieEmitente", nota.ieEmitente)
+        q.addOptionalParameter("ieDestinatario", nota.ieDestinatario)
+        q.addOptionalParameter("baseCalculoIcms", nota.baseCalculoIcms)
+        q.addOptionalParameter("baseCalculoSt", nota.baseCalculoSt)
+        q.addOptionalParameter("valorTotalProdutos", nota.valorTotalProdutos)
+        q.addOptionalParameter("valorTotalIcms", nota.valorTotalIcms)
+        q.addOptionalParameter("valorTotalSt", nota.valorTotalSt)
+        q.addOptionalParameter("baseCalculoIssqn", nota.baseCalculoIssqn)
+        q.addOptionalParameter("chave", nota.chave)
+        q.addOptionalParameter("status", nota.status)
+        q.addOptionalParameter("xmlAut", nota.xmlAut)
+        q.addOptionalParameter("xmlCancelado", nota.xmlCancelado)
+        q.addOptionalParameter("xmlNfe", nota.xmlNfe)
+        q.addOptionalParameter("xmlDadosAdicionais", nota.xmlDadosAdicionais)
+      }
+    })
+  }
+
+  fun notasEntrada(filtro: FiltroEntradaNdd): List<NotaEntradaNdd> {
+    val sql = "/sqlSaci/notasEntrada.sql"
+    return query(sql, NotaEntradaNdd::class) {
+      addOptionalParameter("filtro", filtro.query)
+      addOptionalParameter("tipo", filtro.tipo.toString())
     }
   }
 

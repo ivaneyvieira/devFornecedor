@@ -3,29 +3,19 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
+import java.time.LocalDateTime
+import kotlin.concurrent.thread
 
-data class FornecedorNdd(val cnpj: String, val notas: List<NotaEntradaNdd>) {
-
-  private val fornecedor: FornecedorSaci? by lazy {
-    saci.findFornecedor(cnpj)
-  }
-
+data class FornecedorNdd(val cnpj: String,
+                         val custno: Int,
+                         val nome: String,
+                         val vendno: Int,
+                         val fornecedorSap: Int,
+                         val email: String,
+                         val obs: String,
+                         val notas: List<NotaEntradaNdd>) {
   val labelTitle: String
-  get() = "FORNECEDOR: ${this.vendno} ${this.nome}"
-
-
-  val custno
-    get() = fornecedor?.custno ?: 0
-  val nome
-    get() = fornecedor?.fornecedor ?: ""
-  val vendno
-    get() = fornecedor?.vendno ?: 0
-  val fornecedorSap
-    get() = fornecedor?.fornecedorSap ?: 0
-  val email
-    get() = fornecedor?.email ?: ""
-  val obs
-    get() = fornecedor?.obs ?: ""
+    get() = "FORNECEDOR: ${this.vendno} ${this.nome}"
 
   val ultimaData
     get() = notas.mapNotNull { it.dataEmissao }.maxOrNull()
@@ -43,9 +33,42 @@ data class FornecedorNdd(val cnpj: String, val notas: List<NotaEntradaNdd>) {
     get() = notas.sumOf { it.baseCalculoIcms }
 
   companion object {
-    fun listFornecedores(filtro: String): List<FornecedorNdd> =
-            ndd.notasEntrada().groupBy { it.cnpjEmitente }.map { entry ->
-              FornecedorNdd(entry.key, entry.value)
-            }.filter { it.nome.contains(filtro) || it.vendno == filtro.toIntOrNull() }
+    private var datahoraUpdate = LocalDateTime.now().minusDays(1)
+
+    fun listFornecedores(filtro: FiltroEntradaNdd): List<FornecedorNdd> {
+      updateNotas()
+      return saci.notasEntrada(filtro).groupBy { it.cnpjEmitente }.mapNotNull { entry ->
+        val notas = entry.value
+        if (notas.isEmpty()) null
+        else {
+          val nota = notas.firstOrNull() ?: return@mapNotNull null
+          FornecedorNdd(nota.cnpjEmitente,
+                        nota.custno,
+                        nota.nome,
+                        nota.vendno,
+                        nota.fornecedorSap,
+                        nota.email,
+                        nota.obs,
+                        notas)
+        }
+      }
+    }
+
+    fun updateNotas() {
+      val agora = LocalDateTime.now()
+      if (agora > datahoraUpdate.plusMinutes(5)) {
+        thread(start = true) {
+          val notas = ndd.notasEntrada()
+          saci.saveNotaNdd(notas)
+          datahoraUpdate = agora
+        }
+      }
+    }
   }
+}
+
+data class FiltroEntradaNdd(val query: String, val tipo: ETipoNota)
+
+enum class ETipoNota {
+  RECEBER, RECEBIDO, TODOS
 }
