@@ -16,7 +16,8 @@ import com.vaadin.flow.router.Route
 class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val viewModel: EntradaViewModel = EntradaViewModel(this)
   override val tabEntradaNddViewModel = TabEntradaNdd(viewModel.tabEntradaNddViewModel)
-
+  override val tabEntradaNddReceberViewModel = TabEntradaNddReceber(viewModel.tabEntradaNddReceberViewModel)
+  override val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebido(viewModel.tabEntradaNddRecebidoViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
@@ -26,6 +27,5 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   init {
     addTabSheat(viewModel)
   }
-
 }
 

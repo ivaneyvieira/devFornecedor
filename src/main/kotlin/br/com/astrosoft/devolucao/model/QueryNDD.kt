@@ -9,9 +9,9 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 
 class QueryNDD : QueryDB(driver, url, username, password) {
-  fun notasEntrada(): List<NotaEntradaNdd> {
+  fun notasEntrada(): List<NotaEntradaVO> {
     val sql = "/sqlNDD/notasEntrada.sql"
-    return query(sql, NotaEntradaNdd::class)
+    return query(sql, NotaEntradaVO::class)
   }
 
   companion object {

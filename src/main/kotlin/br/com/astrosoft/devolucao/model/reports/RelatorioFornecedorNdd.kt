@@ -20,6 +20,7 @@ import net.sf.dynamicreports.report.constant.GroupHeaderLayout
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
+import net.sf.dynamicreports.report.constant.SplitType
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
@@ -97,7 +98,7 @@ class RelatorioFornecedorNdd(val notas: List<NotaEntradaNdd>) {
       .columnGrid(* colunms)
       .groupBy(itemGroup)
       .addGroupFooter(itemGroup, cmp.text(""))
-      .setDataSource(notas.sortedWith (compareBy({ it.fornecedor.vendno }, { it.dataEmissao })))
+      .setDataSource(notas.sortedWith (compareBy({ it.vendno }, { it.dataEmissao })))
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
@@ -107,6 +108,7 @@ class RelatorioFornecedorNdd(val notas: List<NotaEntradaNdd>) {
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
       .setColumnStyle(fieldFontNormal)
       .setColumnTitleStyle(fieldFontNormalCol)
+      .setDetailSplitType(SplitType.PREVENT)
   }
 
   companion object {
