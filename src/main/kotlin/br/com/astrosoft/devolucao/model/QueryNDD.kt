@@ -7,11 +7,14 @@ import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
+import java.time.LocalDate
 
 class QueryNDD : QueryDB(driver, url, username, password) {
   fun notasEntrada(): List<NotaEntradaVO> {
     val sql = "/sqlNDD/notasEntrada.sql"
-    return query(sql, NotaEntradaVO::class)
+    return query(sql, NotaEntradaVO::class){
+      addOptionalParameter("dataInicial", LocalDate.now().minusMonths(2))
+    }
   }
 
   companion object {

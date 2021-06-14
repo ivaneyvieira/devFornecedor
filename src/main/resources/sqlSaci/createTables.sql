@@ -36,13 +36,14 @@ CREATE TABLE nfSap (
 );
 
 
-DROP TABLE sqldados.notasNdd;
-CREATE TABLE sqldados.notasNdd (
+DROP TABLE sqldados.notasEntradaNdd;
+CREATE TABLE sqldados.notasEntradaNdd (
   id                 int,
   numero             int,
   serie              int,
   dataEmissao        date,
   cnpjEmitente       varchar(20),
+  nomeFornecedor     varchar(100),
   cnpjDestinatario   varchar(20),
   ieEmitente         varchar(14),
   ieDestinatario     varchar(14),
@@ -58,5 +59,9 @@ CREATE TABLE sqldados.notasNdd (
   xmlCancelado       longtext,
   xmlNfe             longtext,
   xmlDadosAdicionais longtext,
-  PRIMARY KEY (id)
+  ordno              int(10) NOT NULL DEFAULT 0,
+  PRIMARY KEY (id),
+  INDEX i1 (dataEmissao)
 );
+
+

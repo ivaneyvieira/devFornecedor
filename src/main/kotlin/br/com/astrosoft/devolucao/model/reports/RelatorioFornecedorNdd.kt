@@ -98,7 +98,7 @@ class RelatorioFornecedorNdd(val notas: List<NotaEntradaNdd>) {
       .columnGrid(* colunms)
       .groupBy(itemGroup)
       .addGroupFooter(itemGroup, cmp.text(""))
-      .setDataSource(notas.sortedWith (compareBy({ it.vendno }, { it.dataEmissao })))
+      .setDataSource(notas.sortedWith (compareBy({ it.codigoSaci }, { it.dataEmissao })))
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())

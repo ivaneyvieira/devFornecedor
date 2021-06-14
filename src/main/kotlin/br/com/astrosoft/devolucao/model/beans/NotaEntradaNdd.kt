@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.nfeXml.NfeFile
+import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
@@ -8,7 +9,7 @@ class NotaEntradaNdd(val id: Int,
                      val storeno: Int,
                      val custno: Int,
                      val nome: String,
-                     val vendno: Int,
+                     val codigoSaci: Int,
                      val fornecedorSap: Int,
                      val email: String,
                      val obs: String,
@@ -31,11 +32,16 @@ class NotaEntradaNdd(val id: Int,
                      val xmlCancelado: String,
                      val xmlNfe: String,
                      val xmlDadosAdicionais: String,
-                     val notaSaci: String) {
+                     val notaSaci: String,
+                     var ordno: Int) {
+  fun save() {
+    saci.saveNotaNddPedido(this)
+  }
+
   val notaFiscal
     get() = "$numero/$serie"
   val labelTitle
-    get() = "FORNECEDOR: ${this.vendno} ${this.nome}"
+    get() = "FORNECEDOR: ${this.codigoSaci} ${this.nome}"
   val dataEmissaoStr
     get() = dataEmissao.format()
   val nfeFile
