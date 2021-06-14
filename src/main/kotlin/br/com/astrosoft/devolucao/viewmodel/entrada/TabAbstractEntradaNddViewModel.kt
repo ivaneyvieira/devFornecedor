@@ -1,13 +1,11 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.ETipoNota
-import br.com.astrosoft.devolucao.model.beans.FiltroEntradaNdd
-import br.com.astrosoft.devolucao.model.beans.FornecedorNdd
-import br.com.astrosoft.devolucao.model.beans.FornecedorSap
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorNdd
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasNdd
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
+import java.time.LocalDate
 
 abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewModel>(val viewModel: EntradaViewModel) {
   abstract val subView: T
@@ -15,7 +13,9 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
 
   fun updateView() {
     val query: String = subView.query()
-    val filtro = FiltroEntradaNdd(query, tipoTab)
+    val dataInicial = subView.dataInicial() ?: LocalDate.of(2006, 1, 1)
+    val dataFinal = subView.dataFinal() ?: LocalDate.now()
+    val filtro = FiltroEntradaNdd(query, tipoTab, dataInicial, dataFinal)
     val resultList = FornecedorNdd.listFornecedores(filtro)
 
     subView.updateGrid(resultList)
@@ -51,10 +51,16 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
     val planilha = PlanilhaFornecedorNdd()
     return planilha.grava(fornecedores)
   }
+
+  fun salvaNotaEntrada(bean: NotaEntradaNdd?) = viewModel.exec {
+    bean?.save()
+  }
 }
 
 interface ITabAbstractEntradaNddViewModel : ITabView {
   fun query(): String
+  fun dataInicial(): LocalDate?
+  fun dataFinal(): LocalDate?
   fun updateGrid(itens: List<FornecedorNdd>)
   fun imprimeRelatorio(fornecedores: List<FornecedorNdd>)
   fun imprimeRelatorioResumido(fornecedores: List<FornecedorNdd>)

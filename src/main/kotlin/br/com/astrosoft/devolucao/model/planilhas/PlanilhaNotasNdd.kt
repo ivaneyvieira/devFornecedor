@@ -15,8 +15,8 @@ import java.io.ByteArrayOutputStream
 class PlanilhaNotasNdd {
   private val campos: List<Campo<*, NotaEntradaNdd>> =
           listOf(
-            CampoInt("Código") { vendno ?: 0},
-            CampoString("Nome Fornecedor") { nome ?: "" },
+            CampoInt("Código") { codigoSaci},
+            CampoString("Nome Fornecedor") { nome },
             CampoInt("Loja") { storeno },
             CampoString("Nota") { notaFiscal },
             CampoString("Data de Lancamento") { dataEmissao.format() },
@@ -37,7 +37,7 @@ class PlanilhaNotasNdd {
       val stNotas = sheet("Notas SAP") {
         val headers = campos.map { it.header }
         row(headers, headerStyle)
-        listaNotas.sortedBy { it.vendno }.forEach { nota ->
+        listaNotas.sortedBy { it.codigoSaci }.forEach { nota ->
           val valores = campos.map { it.produceValue(nota) }
           row(valores, rowStyle)
         }

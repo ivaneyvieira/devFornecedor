@@ -16,6 +16,10 @@ object NotaNddViewColumns {
     this.setHeader("Nota Saci")
   }
 
+  fun Grid<NotaEntradaNdd>.notaNumeroPedido() = addColumnInt(NotaEntradaNdd::ordno) {
+    this.setHeader("Pedido")
+  }
+
   fun Grid<NotaEntradaNdd>.notaData() = addColumnLocalDate(NotaEntradaNdd::dataEmissao) {
     this.setHeader("Data")
   }

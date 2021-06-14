@@ -390,6 +390,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         q.addOptionalParameter("serie", nota.serie)
         q.addOptionalParameter("dataEmissao", nota.dataEmissao)
         q.addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
+        q.addOptionalParameter("nomeFornecedor", nota.nomeFornecedor)
         q.addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
         q.addOptionalParameter("ieEmitente", nota.ieEmitente)
         q.addOptionalParameter("ieDestinatario", nota.ieDestinatario)
@@ -414,6 +415,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaEntradaNdd::class) {
       addOptionalParameter("filtro", filtro.query)
       addOptionalParameter("tipo", filtro.tipo.toString())
+      addOptionalParameter("dataInicial", filtro.dataInicial)
+      addOptionalParameter("dataFinal", filtro.dataFinal)
+    }
+  }
+
+  fun saveNotaNddPedido(nota: NotaEntradaNdd) {
+    val sql = "/sqlSaci/saveNotaNddPedido.sql"
+    script(sql) {
+      addOptionalParameter("id", nota.id)
+      addOptionalParameter("ordno", nota.ordno)
     }
   }
 

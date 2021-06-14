@@ -1,8 +1,5 @@
 package br.com.astrosoft.devolucao.model
 
-import br.com.astrosoft.devolucao.model.nfeXml.NfeFile
-import br.com.astrosoft.devolucao.model.saci
-import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class NotaEntradaVO(val id: Int,
@@ -10,6 +7,7 @@ class NotaEntradaVO(val id: Int,
                     val serie: Int,
                     val dataEmissao: LocalDate?,
                     val cnpjEmitente: String,
+                    val nomeFornecedor: String,
                     val cnpjDestinatario: String,
                     val ieEmitente: String,
                     val ieDestinatario: String,

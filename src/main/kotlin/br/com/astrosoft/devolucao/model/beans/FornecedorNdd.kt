@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
+import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
@@ -45,7 +46,7 @@ data class FornecedorNdd(val cnpj: String,
           FornecedorNdd(nota.cnpjEmitente,
                         nota.custno,
                         nota.nome,
-                        nota.vendno,
+                        nota.codigoSaci,
                         nota.fornecedorSap,
                         nota.email,
                         nota.obs,
@@ -67,7 +68,10 @@ data class FornecedorNdd(val cnpj: String,
   }
 }
 
-data class FiltroEntradaNdd(val query: String, val tipo: ETipoNota)
+data class FiltroEntradaNdd(val query: String,
+                            val tipo: ETipoNota,
+                            val dataInicial: LocalDate,
+                            val dataFinal: LocalDate)
 
 enum class ETipoNota {
   RECEBER, RECEBIDO, TODOS
