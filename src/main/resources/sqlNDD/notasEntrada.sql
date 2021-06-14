@@ -1,7 +1,7 @@
 SELECT OID                                                     AS id,
        IDE_NNF                                                 AS numero,
        IDE_SERIE                                               AS serie,
-       CAST(IDE_DEMI AS DATE)                                  AS dataEmissao,
+       IDE_DEMI                                                AS dataEmissao,
        EMIT_CNPJ                                               AS cnpjEmitente,
        CASE
 	 WHEN PATINDEX('%<xNome>%', XML_NFE) > 0 AND PATINDEX('%</xNome>%', XML_NFE) > 0
