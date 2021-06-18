@@ -61,7 +61,12 @@ CREATE TABLE sqldados.notasEntradaNdd (
   xmlDadosAdicionais longtext,
   ordno              int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
-  INDEX i1 (dataEmissao)
+  INDEX i1(dataEmissao)
 );
 
+ALTER TABLE sqldados.notasEntradaNdd
+  MODIFY COLUMN NUMERO VARCHAR(32);
+
+ALTER TABLE sqldados.notasEntradaNdd
+  MODIFY COLUMN SERIE VARCHAR(4);
 
