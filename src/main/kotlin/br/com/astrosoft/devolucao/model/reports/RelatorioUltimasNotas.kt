@@ -3,8 +3,8 @@ package br.com.astrosoft.devolucao.model.reports
 import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.TextAdjust
 
@@ -17,7 +17,7 @@ class RelatorioUltimasNotas(val notas: List<UltimaNotaEntrada>) : ReportBuild<Ul
     columnString(UltimaNotaEntrada::nfe, width = 50, aligment = CENTER, title = "NF")
     columnString(UltimaNotaEntrada::forn, width = 35, aligment = RIGHT, title = "Forn")
     columnString(UltimaNotaEntrada::prod, width = 45, aligment = CENTER, title = "Prod")
-    columnString(UltimaNotaEntrada::descricao, title = "Descrição"){
+    columnString(UltimaNotaEntrada::descricao, title = "Descrição") {
       this.setTextAdjust(TextAdjust.CUT_TEXT)
     }
     columnDouble(UltimaNotaEntrada::icmsn, width = 40)

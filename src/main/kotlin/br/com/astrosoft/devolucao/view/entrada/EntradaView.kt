@@ -4,7 +4,6 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.entrada.EntradaViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.IEntradaView
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabUltimasEntradasViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout
 import com.vaadin.flow.component.dependency.CssImport

@@ -8,9 +8,13 @@ import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
+import net.sf.dynamicreports.report.constant.Constants
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
+import net.sf.dynamicreports.report.constant.PageOrientation
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
+import net.sf.dynamicreports.report.constant.PageType
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.defaults.Defaults
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType
@@ -25,8 +29,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 import kotlin.reflect.KProperty1
-import br.com.astrosoft.framework.model.reports.Templates
-import net.sf.dynamicreports.report.constant.*
 
 abstract class ReportBuild<T> {
   private val localDateType = LocalDateType()

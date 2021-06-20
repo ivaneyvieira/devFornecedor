@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.viewmodel.entrada
 
 import br.com.astrosoft.devolucao.model.beans.ETipoNota
 import br.com.astrosoft.devolucao.model.beans.ETipoNota.RECEBER
-import br.com.astrosoft.devolucao.model.beans.ETipoNota.TODOS
 
 class TabEntradaNddReceberViewModel(viewModel: EntradaViewModel) :
         TabAbstractEntradaNddViewModel<ITabEntradaNddReceberViewModel>(viewModel) {

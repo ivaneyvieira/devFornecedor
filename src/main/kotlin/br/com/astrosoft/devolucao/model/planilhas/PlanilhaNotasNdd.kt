@@ -15,7 +15,7 @@ import java.io.ByteArrayOutputStream
 class PlanilhaNotasNdd {
   private val campos: List<Campo<*, NotaEntradaNdd>> =
           listOf(
-            CampoInt("Código") { codigoSaci},
+            CampoInt("Código") { codigoSaci },
             CampoString("Nome Fornecedor") { nome },
             CampoInt("Loja") { storeno },
             CampoString("Nota") { notaFiscal },

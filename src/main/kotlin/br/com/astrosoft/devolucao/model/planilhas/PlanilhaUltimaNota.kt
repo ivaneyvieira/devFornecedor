@@ -13,24 +13,24 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 
 class PlanilhaUltimaNota {
-  private val campos: List<Campo<*, UltimaNotaEntrada>> = listOf(
-    CampoInt("lj") { lj },
-    CampoInt("ni") { ni },
-    CampoString("data") { data.format() },
-    CampoString("nfe") { nfe },
-    CampoString("forn") { forn },
-    CampoString("prod") { prod },
-    CampoString("descricao") { descricao },
-    CampoNumber("icmsn") { icmsn },
-    CampoNumber("icmsp") { icmsp },
-    CampoNumber("ipin") { ipin },
-    CampoNumber("ipip") { ipip },
-    CampoString("cstn") { cstn },
-    CampoString("cstp") { cstp },
-    CampoNumber("mvan") { mvan },
-    CampoNumber("mvap") { mvap },
-    CampoString("ncmn") { ncmn },
-    CampoString("ncmp") { ncmp })
+  private val campos: List<Campo<*, UltimaNotaEntrada>> =
+          listOf(CampoInt("lj") { lj },
+                 CampoInt("ni") { ni },
+                 CampoString("data") { data.format() },
+                 CampoString("nfe") { nfe },
+                 CampoString("forn") { forn },
+                 CampoString("prod") { prod },
+                 CampoString("descricao") { descricao },
+                 CampoNumber("icmsn") { icmsn },
+                 CampoNumber("icmsp") { icmsp },
+                 CampoNumber("ipin") { ipin },
+                 CampoNumber("ipip") { ipip },
+                 CampoString("cstn") { cstn },
+                 CampoString("cstp") { cstp },
+                 CampoNumber("mvan") { mvan },
+                 CampoNumber("mvap") { mvap },
+                 CampoString("ncmn") { ncmn },
+                 CampoString("ncmp") { ncmp })
 
   fun grava(listaNotas: List<UltimaNotaEntrada>): ByteArray {
     val wb = workbook {

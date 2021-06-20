@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.viewmodel.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroUltimaNotaEntrada
 import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
-import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasNdd
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaUltimaNota
 import br.com.astrosoft.devolucao.model.reports.RelatorioUltimasNotas
 import br.com.astrosoft.framework.viewmodel.ITabView

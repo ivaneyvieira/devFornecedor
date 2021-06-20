@@ -57,7 +57,6 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
     else null
   }
 
-
   override fun imprimeRelatorio(fornecedores: List<FornecedorNdd>) {
     val report = RelatorioFornecedorNdd.processaRelatorioFornecedor(fornecedores)
     val chave = "DevFornecedorNdd"
