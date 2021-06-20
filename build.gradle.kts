@@ -88,7 +88,7 @@ dependencies {
   testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.16")
   testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.15")
   // https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core
-  implementation("net.sourceforge.dynamicreports:dynamicreports-core:6.11.1") {
+  implementation("net.sourceforge.dynamicreports:dynamicreports-core:6.12.1") {
     exclude(group = "com.lowagie", module = "itext")
   }
   // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts

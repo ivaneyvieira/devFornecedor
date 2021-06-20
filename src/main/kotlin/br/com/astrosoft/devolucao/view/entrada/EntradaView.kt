@@ -13,7 +13,7 @@ import com.vaadin.flow.router.Route
 
 @Route(layout = DevFornecedorLayout::class)
 @PageTitle("Devolução")
-@CssImport("./styles/gridTotal.css")
+@CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val viewModel: EntradaViewModel = EntradaViewModel(this)
   override val tabEntradaNddViewModel = TabEntradaNdd(viewModel.tabEntradaNddViewModel)

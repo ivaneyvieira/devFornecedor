@@ -22,28 +22,37 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabUltimasEntradasViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
+import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.comboBox
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.combobox.ComboBox
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val filtro : FiltroUltimaNotaEntrada) {
+@CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
+class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val filtro: FiltroUltimaNotaEntrada) {
   private lateinit var gridNota: Grid<UltimaNotaEntrada>
 
   fun show() {
     val listNotas = viewModel.findNotas(filtro)
     val form = SubWindowForm("Relatório", toolBar = {
-      this.comboDiferenca("CST"){
-        value = filtro.cst
-
-        this.addValueChangeListener {
-          filtro.cst = it.value
-          gridNota.setItems(viewModel.findNotas(filtro))
+      this.button("Relatório") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          viewModel.imprimeRelatorio(gridNota.selectedItems.toList())
         }
       }
-      this.comboDiferenca("ICMS"){
+      add(buttonPlanilha { gridNota.selectedItems.toList() })
+      this.comboDiferenca("ICMS") {
         value = filtro.icms
 
         this.addValueChangeListener {
@@ -51,7 +60,7 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
           gridNota.setItems(viewModel.findNotas(filtro))
         }
       }
-      this.comboDiferenca("IPI"){
+      this.comboDiferenca("IPI") {
         value = filtro.ipi
 
         this.addValueChangeListener {
@@ -59,7 +68,15 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
           gridNota.setItems(viewModel.findNotas(filtro))
         }
       }
-      this.comboDiferenca("MVA"){
+      this.comboDiferenca("CST") {
+        value = filtro.cst
+
+        this.addValueChangeListener {
+          filtro.cst = it.value
+          gridNota.setItems(viewModel.findNotas(filtro))
+        }
+      }
+      this.comboDiferenca("MVA") {
         value = filtro.mva
 
         this.addValueChangeListener {
@@ -67,7 +84,7 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
           gridNota.setItems(viewModel.findNotas(filtro))
         }
       }
-      this.comboDiferenca("NCM"){
+      this.comboDiferenca("NCM") {
         value = filtro.ncm
 
         this.addValueChangeListener {
@@ -85,6 +102,18 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
     form.open()
   }
 
+  private fun buttonPlanilha(notas: () -> List<UltimaNotaEntrada>): LazyDownloadButton {
+    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
+      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    }
+  }
+
+  private fun filename(): String {
+    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+    val textTime = LocalDateTime.now().format(sdf)
+    return "notas$textTime.xlsx"
+  }
+
   private fun createGrid(listParcelas: List<UltimaNotaEntrada>): Grid<UltimaNotaEntrada> {
     return Grid(UltimaNotaEntrada::class.java, false).apply {
       setSizeFull()
@@ -100,22 +129,27 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       notaForn()
       notaProd()
       notaDescricao()
-      notaIcmsn()
-      notaIcmsp()
-      notaIpin()
-      notaIpip()
-      notaCstn()
-      notaCstp()
-      notaMvan()
-      notaMvap()
-      notaNcmn()
-      notaNcmp()
+      notaIcmsn().marcaDiferenca { icmsDif == "N" }
+      notaIcmsp().marcaDiferenca { icmsDif == "N" }
+      notaIpin().marcaDiferenca { ipiDif == "N" }
+      notaIpip().marcaDiferenca { ipiDif == "N" }
+      notaCstn().marcaDiferenca { cstDif == "N" }
+      notaCstp().marcaDiferenca { cstDif == "N" }
+      notaMvan().marcaDiferenca { mvaDif == "N" }
+      notaMvap().marcaDiferenca { mvaDif == "N" }
+      notaNcmn().marcaDiferenca { ncmDif == "N" }
+      notaNcmp().marcaDiferenca { ncmDif == "N" }
     }
   }
 }
 
-private fun HasComponents.comboDiferenca(label: String, block: ComboBox<EDiferenca>.() -> Unit):
-ComboBox<EDiferenca> {
+fun Grid.Column<UltimaNotaEntrada>.marcaDiferenca(predicado : UltimaNotaEntrada.() -> Boolean) {
+  this.setClassNameGenerator {
+    if (it.predicado()) "marcaDiferenca" else null
+  }
+}
+
+private fun HasComponents.comboDiferenca(label: String, block: ComboBox<EDiferenca>.() -> Unit): ComboBox<EDiferenca> {
   return comboBox(label) {
     this.setItems(EDiferenca.values().toList())
     this.setItemLabelGenerator {
