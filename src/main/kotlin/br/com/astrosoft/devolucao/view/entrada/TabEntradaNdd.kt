@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabEntradaNddViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabEntradaNddViewModel
-import java.time.LocalDate
 
 class TabEntradaNdd(viewModel: TabEntradaNddViewModel) : TabAbstractEntradaNdd<ITabEntradaNddViewModel>(viewModel),
         ITabEntradaNddViewModel {

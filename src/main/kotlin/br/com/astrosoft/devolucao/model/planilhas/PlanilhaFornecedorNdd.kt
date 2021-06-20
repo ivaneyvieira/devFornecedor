@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream
 class PlanilhaFornecedorNdd {
   private val campos: List<Campo<*, FornecedorNdd>> =
           listOf(
-            CampoInt("Código Saci") { vendno  },
+            CampoInt("Código Saci") { vendno },
             CampoString("Fornecedor") { nome },
             CampoString("Primeira Data") { primeiraDataStr },
             CampoString("Ultima Data") { ultimaDataStr },

@@ -12,7 +12,6 @@ object FornecedorNddViewColumns {
     this.setHeader("Código Saci")
   }
 
-
   fun Grid<FornecedorNdd>.fornecedorNome() = addColumnString(FornecedorNdd::nome) {
     this.setHeader("Fornecedor")
   }

@@ -1,7 +1,6 @@
 package br.com.astrosoft.framework.model
 
 import br.com.astrosoft.framework.util.toLocalDate
-import org.bouncycastle.asn1.tsp.TimeStampReq
 import org.sql2o.converters.Converter
 import org.sql2o.converters.ConverterException
 import java.sql.Date

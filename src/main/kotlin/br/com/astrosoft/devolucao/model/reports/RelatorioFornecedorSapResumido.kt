@@ -13,33 +13,29 @@ import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageType.A4
-import net.sf.dynamicreports.report.constant.TextAdjust.*
+import net.sf.dynamicreports.report.constant.TextAdjust.CUT_TEXT
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
-  private val codigoSapCol: TextColumnBuilder<Int> = col.column("Codigo SAP", FornecedorSap::codigo.name, type
-    .integerType())
-    .apply {
-    this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(50)
-      this.setPattern("0")
-  }
+  private val codigoSapCol: TextColumnBuilder<Int> =
+          col.column("Codigo SAP", FornecedorSap::codigo.name, type.integerType()).apply {
+              this.setHorizontalTextAlignment(CENTER)
+              this.setFixedWidth(50)
+              this.setPattern("0")
+            }
 
-  private val codigoSaciCol: TextColumnBuilder<Int> = col.column("Codigo Saci", FornecedorSap::vendno.name, type
-    .integerType())
-    .apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-      this.setPattern("0")
-    }
+  private val codigoSaciCol: TextColumnBuilder<Int> =
+          col.column("Codigo Saci", FornecedorSap::vendno.name, type.integerType()).apply {
+              this.setHorizontalTextAlignment(RIGHT)
+              this.setFixedWidth(50)
+              this.setPattern("0")
+            }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
           col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {

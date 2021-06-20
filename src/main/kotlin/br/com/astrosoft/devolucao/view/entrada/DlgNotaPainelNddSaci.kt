@@ -11,13 +11,13 @@ import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewMod
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.integerFieldEditor
+import br.com.astrosoft.framework.view.withEditor
 import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import br.com.astrosoft.framework.view.withEditor
 
 class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
   fun showDialogNota(fornecedor: FornecedorNdd?) {

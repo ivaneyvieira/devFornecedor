@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorNdd
-import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaNdd
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
@@ -14,10 +13,10 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
-import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.GroupHeaderLayout
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.constant.SplitType
@@ -28,7 +27,7 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorNdd(val notas: List<NotaEntradaNdd>) {
   private val labelTitleCol: TextColumnBuilder<String> =
-          col.column("", NotaEntradaNdd::labelTitle.name, type.stringType()).apply{
+          col.column("", NotaEntradaNdd::labelTitle.name, type.stringType()).apply {
             setHeight(50)
           }
 
@@ -84,10 +83,11 @@ class RelatorioFornecedorNdd(val notas: List<NotaEntradaNdd>) {
   }
 
   fun makeReport(): JasperReportBuilder {
-    val itemGroup = grp.group(labelTitleCol)
-      .setTitleWidth(0)
-      .setHeaderLayout(GroupHeaderLayout.VALUE)
-      .showColumnHeaderAndFooter()
+    val itemGroup =
+            grp.group(labelTitleCol)
+              .setTitleWidth(0)
+              .setHeaderLayout(GroupHeaderLayout.VALUE)
+              .showColumnHeaderAndFooter()
 
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
@@ -98,7 +98,7 @@ class RelatorioFornecedorNdd(val notas: List<NotaEntradaNdd>) {
       .columnGrid(* colunms)
       .groupBy(itemGroup)
       .addGroupFooter(itemGroup, cmp.text(""))
-      .setDataSource(notas.sortedWith (compareBy({ it.codigoSaci }, { it.dataEmissao })))
+      .setDataSource(notas.sortedWith(compareBy({ it.codigoSaci }, { it.dataEmissao })))
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())

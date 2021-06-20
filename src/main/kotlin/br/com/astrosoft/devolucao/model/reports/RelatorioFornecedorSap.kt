@@ -13,10 +13,10 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
-import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.GroupHeaderLayout
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.jasperreports.engine.export.JRPdfExporter
@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>) {
   private val labelTitleCol: TextColumnBuilder<String> =
-          col.column("", NotaDevolucaoSap::labelTitle.name, type.stringType()).apply{
+          col.column("", NotaDevolucaoSap::labelTitle.name, type.stringType()).apply {
             setHeight(50)
           }
 
@@ -82,10 +82,11 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>) {
   }
 
   fun makeReport(): JasperReportBuilder {
-    val itemGroup = grp.group(labelTitleCol)
-      .setTitleWidth(0)
-      .setHeaderLayout(GroupHeaderLayout.VALUE)
-      .showColumnHeaderAndFooter()
+    val itemGroup =
+            grp.group(labelTitleCol)
+              .setTitleWidth(0)
+              .setHeaderLayout(GroupHeaderLayout.VALUE)
+              .showColumnHeaderAndFooter()
 
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
@@ -96,7 +97,7 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>) {
       .columnGrid(* colunms)
       .groupBy(itemGroup)
       .addGroupFooter(itemGroup, cmp.text(""))
-      .setDataSource(notas.sortedWith (compareBy({ it.codigoFor }, { it.dataLancamento })))
+      .setDataSource(notas.sortedWith(compareBy({ it.codigoFor }, { it.dataLancamento })))
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())

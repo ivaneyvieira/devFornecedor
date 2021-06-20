@@ -7,4 +7,4 @@ class FornecedorSaci(
   val fornecedorSap: Int,
   val email: String,
   var obs: String,
-                    ) {}
+                    )

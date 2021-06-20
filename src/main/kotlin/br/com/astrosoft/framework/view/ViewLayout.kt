@@ -67,7 +67,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
     ConfirmDialog.createInfo().withCaption("Informação").withMessage(msg).open()
   }
 
-  override fun showReport(chave: String, report: ByteArray){
+  override fun showReport(chave: String, report: ByteArray) {
     SubWindowPDF(chave, report).open()
   }
 

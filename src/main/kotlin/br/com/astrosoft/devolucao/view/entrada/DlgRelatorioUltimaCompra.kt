@@ -143,7 +143,7 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
   }
 }
 
-fun Grid.Column<UltimaNotaEntrada>.marcaDiferenca(predicado : UltimaNotaEntrada.() -> Boolean) {
+fun Grid.Column<UltimaNotaEntrada>.marcaDiferenca(predicado: UltimaNotaEntrada.() -> Boolean) {
   this.setClassNameGenerator {
     if (it.predicado()) "marcaDiferenca" else null
   }

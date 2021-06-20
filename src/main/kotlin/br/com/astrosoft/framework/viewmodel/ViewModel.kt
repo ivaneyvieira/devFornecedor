@@ -13,7 +13,7 @@ abstract class ViewModel<V : IView>(val view: V) {
   }
 
   fun showError(msg: String) = view.showError(msg)
-  fun showWarning(msg: String)  = view.showWarning(msg)
+  fun showWarning(msg: String) = view.showWarning(msg)
   fun showInformation(msg: String) = view.showInformation(msg)
   fun showReport(chave: String, report: ByteArray) = view.showReport(chave, report)
 }

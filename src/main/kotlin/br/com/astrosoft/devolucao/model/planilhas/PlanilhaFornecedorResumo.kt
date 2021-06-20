@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.planilhas
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
-import br.com.astrosoft.devolucao.model.beans.FornecedorSap
 import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
