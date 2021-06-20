@@ -21,23 +21,23 @@ GROUP BY prdnoRef;
 
 DROP TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
-SELECT iprd.storeno                                    AS lj,
-       inv.invno                                       AS ni,
-       CAST(inv.date AS DATE)                          AS data,
-       prd.mfno                                        AS forn,
-       iprd.prdno                                      AS prod,
-       TRIM(MID(prd.name, 1, 37))                      AS descricao,
-       spedprd.ncm                                     AS ncmp,
-       IFNULL(mfprd.ncm, '')                           AS ncmn,
-       iprd.lucroTributado / 100                       AS mvan,
-       IF(prd.taxno = 00, 0, prd.lucroTributado) / 100 AS mvap,
-       iprd.ipi / 100                                  AS ipin,
-       prp.ipi / 100                                   AS ipip,
-       iprd.icmsAliq / 100                             AS icmsn,
-       prp.dicm * (-1) / 100                           AS icmsp,
-       prd.taxno                                       AS cstp,
-       MID(iprd.cstIcms, 2, 3)                         AS cstn,
-       inv.nfname                                      AS nfe
+SELECT iprd.storeno                                                           AS lj,
+       inv.invno                                                              AS ni,
+       CAST(inv.date AS DATE)                                                 AS data,
+       prd.mfno                                                               AS forn,
+       iprd.prdno                                                             AS prod,
+       TRIM(MID(prd.name, 1, 37))                                             AS descricao,
+       spedprd.ncm                                                            AS ncmp,
+       IFNULL(mfprd.ncm, '')                                                  AS ncmn,
+       ROUND(iprd.lucroTributado / 100, 2)                                    AS mvan,
+       ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 2) AS mvap,
+       ROUND(iprd.ipi / 100, 2)                                               AS ipin,
+       ROUND(IFNULL(prp.ipi, 0) / 100, 2)                                     AS ipip,
+       ROUND(iprd.icmsAliq / 100, 2)                                          AS icmsn,
+       ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 2)                             AS icmsp,
+       prd.taxno                                                              AS cstp,
+       MID(iprd.cstIcms, 2, 3)                                                AS cstn,
+       inv.nfname                                                             AS nfe
 FROM sqldados.iprd
   LEFT JOIN sqldados.inv
 	      USING (invno)
@@ -59,8 +59,8 @@ WHERE inv.date BETWEEN @di AND @df
   AND cfo.name1 NOT LIKE 'TRANSF%'
   AND cfo.name1 NOT LIKE 'DEVOL%'
   AND cfo.name1 NOT LIKE '%BONIF%'
-  AND cfo.no NOT IN (2949, 2353)
-  AND cfo.no NOT IN (1949, 1353)
+  AND cfo.no NOT IN (2949, 2353, 2916)
+  AND cfo.no NOT IN (1949, 1353, 1916)
   AND (iprd.invno = @ni OR @ni = 0)
   AND (inv.nfname = @nf OR @nf = '')
   AND (prd.mfno = @vendno OR @vendno = 0)
@@ -71,11 +71,18 @@ GROUP BY inv.invno, iprd.prdno;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
 CREATE TEMPORARY TABLE sqldados.T_MAX (
-  PRIMARY KEY (Prod, NI)
+  PRIMARY KEY (Prod, NI, cstDif, icmsDif, ipiDif, mvaDif, ncmDif)
 )
-SELECT Prod, MAX(NI) AS NI
+SELECT Prod,
+       IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
+	  'N')                                               AS cstDif,
+       IF(ROUND(ICMSn * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
+       IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')   AS ipiDif,
+       IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')   AS mvaDif,
+       IF(NCMn = NCMn, 'S', 'N')                             AS ncmDif,
+       MAX(NI)                                               AS NI
 FROM sqldados.T_QUERY
-GROUP BY Prod;
+GROUP BY Prod, cstDif, icmsDif, ipiDif, mvaDif, ncmDif;
 
 SELECT lj,
        ni,
@@ -93,53 +100,19 @@ SELECT lj,
        mvan,
        mvap,
        ncmn,
-       ncmp
+       ncmp,
+       cstDif,
+       icmsDif,
+       ipiDif,
+       mvaDif,
+       ncmDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, NI)
-WHERE CASE @cst
-	WHEN 'S'
-	  THEN (CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn)
-	WHEN 'N'
-	  THEN NOT (CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn)
-	WHEN 'T'
-	  THEN TRUE
-	ELSE FALSE
-      END
-  AND CASE @icms
-	WHEN 'S'
-	  THEN ICMSn = ICMSp
-	WHEN 'N'
-	  THEN ICMSn != ICMSp
-	WHEN 'T'
-	  THEN TRUE
-	ELSE FALSE
-      END
-  AND CASE @ipi
-	WHEN 'S'
-	  THEN IPIn = IPIp
-	WHEN 'N'
-	  THEN IPIn != IPIp
-	WHEN 'T'
-	  THEN TRUE
-	ELSE FALSE
-      END
-  AND CASE @mva
-	WHEN 'S'
-	  THEN MVAn = MVAp
-	WHEN 'N'
-	  THEN MVAn != MVAp
-	WHEN 'T'
-	  THEN TRUE
-	ELSE FALSE
-      END
-  AND CASE @ncm
-	WHEN 'S'
-	  THEN (NCMn = NCMp)
-	WHEN 'N'
-	  THEN (NCMn != NCMp)
-	WHEN 'T'
-	  THEN TRUE
-	ELSE FALSE
-      END
+WHERE @cst = cstDif
+   OR @icms = icmsDif
+   OR @ipi = ipiDif
+   OR @mva = mvaDif
+   OR @ncm = ncmDif
+   OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T')
 

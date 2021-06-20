@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class UltimaNotaEntrada(val lj: Int,
@@ -19,7 +20,16 @@ class UltimaNotaEntrada(val lj: Int,
                         val mvan: Double,
                         val mvap: Double,
                         val ncmn: String,
-                        val ncmp: String) {
+                        val ncmp: String,
+                        val cstDif: String,
+                        val icmsDif: String,
+                        val ipiDif: String,
+                        val mvaDif: String,
+                        val ncmDif: String) {
+
+  val dataStr
+    get() = data.format()
+
   companion object {
     fun findAll(filtro: FiltroUltimaNotaEntrada) = saci.ultimasNotasEntrada(filtro)
   }

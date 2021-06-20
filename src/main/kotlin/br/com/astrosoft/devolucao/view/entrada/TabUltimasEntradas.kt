@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferenca.T
 import br.com.astrosoft.devolucao.model.beans.FiltroUltimaNotaEntrada
-import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabUltimasEntradasViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabUltimasEntradasViewModel
@@ -10,12 +9,14 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.datepicker.DatePicker
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
+@CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltimasEntradasViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
@@ -82,9 +83,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
   }
 
   override val label: String
-    get() = "Ultimas Entradas"
+    get() = "NF x Prec"
 
   override fun updateComponent() {
-
   }
 }

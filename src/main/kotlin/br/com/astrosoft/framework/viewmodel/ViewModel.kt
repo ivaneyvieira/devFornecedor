@@ -11,6 +11,11 @@ abstract class ViewModel<V : IView>(val view: V) {
     val user = Config.user ?: return@filter false
     it.isAuthorized(user)
   }
+
+  fun showError(msg: String) = view.showError(msg)
+  fun showWarning(msg: String)  = view.showWarning(msg)
+  fun showInformation(msg: String) = view.showInformation(msg)
+  fun showReport(chave: String, report: ByteArray) = view.showReport(chave, report)
 }
 
 fun exec(view: IView, block: () -> Unit) {
@@ -35,4 +40,5 @@ interface IView {
   fun showError(msg: String)
   fun showWarning(msg: String)
   fun showInformation(msg: String)
+  fun showReport(chave: String, report: ByteArray)
 }
