@@ -6,6 +6,7 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.provider.SortDirection.DESCENDING
+import org.apache.poi.ss.formula.functions.T
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.streams.toList
@@ -23,7 +24,7 @@ fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
       }
       else {
         if (pedidoFinal == null) {
-          val itens = list(grade)
+          val itens = grade.list()
           pedidoFinal = pedido
           val p1 = itens.indexOf(pedidoInicial!!)
           val p2 = itens.indexOf(pedidoFinal!!) + 1
@@ -47,10 +48,10 @@ fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
   }
 }
 
-fun <T : Any> list(grade: Grid<T>): List<T> {
-  val dataProvider = grade.dataProvider as ListDataProvider
+fun <T : Any> Grid<T>.list(): List<T> {
+  val dataProvider = this.dataProvider as ListDataProvider
   val filter = dataProvider.filter
-  val queryOrdem = comparator(grade)
+  val queryOrdem = this.comparator()
   return dataProvider.items.toList().filter {
     filter?.test(it) ?: true
   }.let { list ->
@@ -59,14 +60,13 @@ fun <T : Any> list(grade: Grid<T>): List<T> {
   }
 }
 
-fun <T : Any> comparator(grade: Grid<T>): Comparator<T>? {
-  if (grade.sortOrder.isEmpty()) return null
-  val sortOrder = grade.sortOrder
-  val classGrid = grade.beanType.kotlin
+fun <T : Any> Grid<T>.comparator(): Comparator<T>? {
+  if (sortOrder.isEmpty()) return null
+  val classGrid = this.beanType.kotlin
   return comparator(sortOrder, classGrid)
 }
 
-fun <T : Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>): Comparator<T> {
+private fun <T : Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>): Comparator<T> {
   return sortOrder.flatMap { gridSort ->
     val sortOrdem = gridSort.sorted.getSortOrder(gridSort.direction).toList()
     val propsBean = classGrid.members.toList().filterIsInstance<KProperty1<T, Comparable<*>>>()
@@ -88,4 +88,10 @@ fun <T : Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: KClass<T>
   }.reduce { acc, comparator ->
     acc.thenComparing(comparator)
   }
+}
+
+fun <T : Any> Grid<T>.selectedItemsSort(): List<T> {
+  val queryOrdem = this.comparator()
+  return if (queryOrdem == null) selectedItems.toList()
+  else selectedItems.sortedWith(queryOrdem)
 }
