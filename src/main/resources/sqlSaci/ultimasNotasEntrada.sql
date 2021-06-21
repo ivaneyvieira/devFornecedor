@@ -13,11 +13,14 @@ DO @ncm := :ncm;
 
 DROP TEMPORARY TABLE IF EXISTS T_NCM;
 CREATE TEMPORARY TABLE T_NCM (
-  PRIMARY KEY (prdnoRef)
+  PRIMARY KEY (prdnoRef),
+  ncm varchar(20)
 )
-SELECT DISTINCT prdnoRef, ncm
+SELECT DISTINCT prdnoRef, MID(MAX(CONCAT(LPAD(seqnoAuto, 20, '0'), ncm)), 21, 20) AS ncm
 FROM sqldados.mfprd
+WHERE ncm <> ''
 GROUP BY prdnoRef;
+
 
 DROP TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
@@ -28,7 +31,7 @@ SELECT iprd.storeno                                                           AS
        iprd.prdno                                                             AS prod,
        TRIM(MID(prd.name, 1, 37))                                             AS descricao,
        spedprd.ncm                                                            AS ncmp,
-       IFNULL(mfprd.ncm, '')                                                  AS ncmn,
+       IFNULL(mfprd.ncm, spedprd.ncm)                                         AS ncmn,
        ROUND(iprd.lucroTributado / 100, 2)                                    AS mvan,
        ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 2) AS mvap,
        ROUND(iprd.ipi / 100, 2)                                               AS ipin,
@@ -79,7 +82,7 @@ SELECT Prod,
        IF(ROUND(ICMSn * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
        IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')   AS ipiDif,
        IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')   AS mvaDif,
-       IF(NCMn = NCMn, 'S', 'N')                             AS ncmDif,
+       IF(NCMn = NCMp, 'S', 'N')                             AS ncmDif,
        MAX(NI)                                               AS NI
 FROM sqldados.T_QUERY
 GROUP BY Prod, cstDif, icmsDif, ipiDif, mvaDif, ncmDif;
