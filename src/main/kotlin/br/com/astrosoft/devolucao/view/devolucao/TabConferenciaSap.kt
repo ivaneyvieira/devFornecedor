@@ -224,7 +224,7 @@ class GridLabel<T : Any>(val grid: Grid<T>, label: String, val toolbar: Horizont
   fun selectRow(notaSaida: T?) {
     if (notaSaida != null) {
       grid.select(notaSaida)
-      val list = list(grid)
+      val list = grid.list()
       val index = list.indexOf(notaSaida)
       if (index >= 0) grid.scrollToIndex(index)
     }

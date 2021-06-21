@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroUltimaNotaEntrada
+import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaUltimaNota
 import br.com.astrosoft.devolucao.model.reports.RelatorioUltimasNotas
@@ -29,6 +30,10 @@ class TabUltimasEntradasViewModel(val viewModel: EntradaViewModel) {
   fun geraPlanilha(notas: List<UltimaNotaEntrada>): ByteArray {
     val planilha = PlanilhaUltimaNota()
     return planilha.grava(notas)
+  }
+
+  fun findLojas(): List<Loja> {
+    return Loja.allLojas().sortedBy { it.no }
   }
 }
 

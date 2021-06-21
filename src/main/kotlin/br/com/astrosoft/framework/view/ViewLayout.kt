@@ -26,11 +26,14 @@ import com.vaadin.flow.router.*
 import com.vaadin.flow.shared.Registration
 import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
+import org.vaadin.stefan.LazyDownloadButton
+import java.io.ByteArrayInputStream
 import java.sql.Time
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.reflect.KProperty1
 
@@ -72,7 +75,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   }
 
   fun showQuestion(msg: String, execYes: () -> Unit) {
-    showQuestion(msg, execYes, {})
+    showQuestion(msg, execYes)
   }
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
@@ -164,7 +167,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
   return addColumn {
-    val lista = list(this)
+    val lista = this.list()
     lista.indexOf(it) + 1
   }.apply {
     this.textAlign = END
@@ -367,4 +370,21 @@ fun <T> ListDataProvider<T>.updateItens(itens: List<T>) {
   this.items.clear() //  this.items.addAll(itens.sortedBy {it.hashCode()})
   this.items.addAll(itens)
   this.refreshAll()
+}
+
+@VaadinDsl
+fun (@VaadinDsl HasComponents).buttonPlanilha(text: String,
+                                              icon: Component,
+                                              chave: String,
+                                              blockByteArray: () -> ByteArray): LazyDownloadButton {
+  val lazyDownloadButton = LazyDownloadButton(text, icon, { filename(chave) }) {
+    ByteArrayInputStream(blockByteArray())
+  }
+  return init(lazyDownloadButton)
+}
+
+private fun filename(chave: String): String {
+  val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+  val textTime = LocalDateTime.now().format(sdf)
+  return "$chave$textTime.xlsx"
 }

@@ -2,12 +2,15 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferenca.T
 import br.com.astrosoft.devolucao.model.beans.FiltroUltimaNotaEntrada
+import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabUltimasEntradasViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabUltimasEntradasViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
+import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -24,20 +27,21 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
   private lateinit var edtFornecedor: IntegerField
   private lateinit var edtDataF: DatePicker
   private lateinit var edtDataI: DatePicker
-  private lateinit var edtLoja: IntegerField
+  private lateinit var edtLoja: ComboBox<Loja>
+  private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
 
   override fun setFIltro(filtro: FiltroUltimaNotaEntrada) {
-    edtLoja.value = filtro.storeno
+    edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
     edtDataI.value = filtro.di
     edtDataF.value = filtro.df
-    edtFornecedor.value = filtro.vendno
-    edtNi.value = filtro.ni
+    edtFornecedor.value = if (filtro.vendno == 0) null else filtro.vendno
+    edtNi.value = if (filtro.ni == 0) null else filtro.ni
     edtNota.value = filtro.nf
     edtProduto.value = filtro.prd
   }
 
   override fun getFiltro(): FiltroUltimaNotaEntrada {
-    return FiltroUltimaNotaEntrada(storeno = edtLoja.value ?: 0,
+    return FiltroUltimaNotaEntrada(storeno = edtLoja.value?.no ?: 0,
                                    di = edtDataI.value ?: LocalDate.now(),
                                    df = edtDataF.value ?: LocalDate.now(),
                                    vendno = edtFornecedor.value ?: 0,
@@ -57,9 +61,21 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
 
   override val createComponent = VerticalLayout().apply {
     horizontalLayout {
-      edtLoja = integerField("Loja")
-      edtDataI = datePicker("Data Inicial")
-      edtDataF = datePicker("Data Final")
+      edtLoja = comboBox("Loja") {
+        setItems(lojas.sortedBy { it.no })
+        setItemLabelGenerator {
+          if (it == null) "Todas as lojas"
+          else "${it.no} - ${it.sname}"
+        }
+        isAllowCustomValue = false
+        isClearButtonVisible = true
+      }
+      edtDataI = datePicker("Data Inicial") {
+        localePtBr()
+      }
+      edtDataF = datePicker("Data Final") {
+        localePtBr()
+      }
     }
     horizontalLayout {
       edtFornecedor = integerField("Fornecedor")

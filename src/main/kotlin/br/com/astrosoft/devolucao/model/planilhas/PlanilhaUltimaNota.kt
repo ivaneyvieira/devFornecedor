@@ -6,11 +6,13 @@ import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
 import br.com.astrosoft.framework.util.format
+import com.github.nwillc.poink.PSheet
 import com.github.nwillc.poink.workbook
 import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
+import java.time.LocalDate
 
 class PlanilhaUltimaNota {
   private val campos: List<Campo<*, UltimaNotaEntrada>> =
@@ -20,7 +22,7 @@ class PlanilhaUltimaNota {
                  CampoString("nfe") { nfe },
                  CampoString("forn") { forn },
                  CampoString("prod") { prod },
-                 CampoString("descricao") { descricao },
+                 CampoString("descrição") { descricao },
                  CampoNumber("icmsn") { icmsn },
                  CampoNumber("icmsp") { icmsp },
                  CampoNumber("ipin") { ipin },
@@ -39,15 +41,12 @@ class PlanilhaUltimaNota {
         fillPattern = FillPatternType.SOLID_FOREGROUND
         this.verticalAlignment = VerticalAlignment.TOP
       }
-      val rowStyle = cellStyle("Row") {
-        this.verticalAlignment = VerticalAlignment.TOP
-      }
+
       val stNotas = sheet("Notas SAP") {
         val headers = campos.map { it.header }
         row(headers, headerStyle)
         listaNotas.forEach { nota ->
-          val valores = campos.map { it.produceValue(nota) }
-          row(valores, rowStyle)
+          row(campos, nota)
         }
       }
 
@@ -58,5 +57,34 @@ class PlanilhaUltimaNota {
     val outBytes = ByteArrayOutputStream()
     wb.write(outBytes)
     return outBytes.toByteArray()
+  }
+}
+
+fun <T> PSheet.row(campos: List<Campo<*, T>>, bean: T) {
+  val row = this.createRow(this.physicalNumberOfRows)
+  val creationHelper = workbook.creationHelper
+
+  campos.forEachIndexed { index, campo ->
+    val cellValue = campo.produceValue(bean)
+    autoSizeColumn(index)
+    row.createCell(index).apply {
+      when (cellValue) {
+        is String    -> setCellValue(cellValue)
+        is Int       -> {
+          val style = workbook.createCellStyle()
+          style.dataFormat = creationHelper.createDataFormat().getFormat("0")
+          cellStyle = style
+          setCellValue(cellValue.toDouble())
+        }
+        is Number    -> {
+          val style = workbook.createCellStyle()
+          style.dataFormat = creationHelper.createDataFormat().getFormat("0.00")
+          cellStyle = style
+          setCellValue(cellValue.toDouble())
+        }
+        is LocalDate -> setCellValue(cellValue.format())
+        else         -> setCellValue(cellValue.toString())
+      }
+    }
   }
 }

@@ -13,10 +13,10 @@ import br.com.astrosoft.devolucao.viewmodel.entrada.ITabAbstractEntradaNddViewMo
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.DatePickerI18nPT_BR
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.localePtBr
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Html
@@ -91,7 +91,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
       value = LocalDate.now().minusMonths(6)
       isClearButtonVisible = true
       isAutoOpen = true
-      i18n = DatePickerI18nPT_BR()
+      localePtBr()
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -101,7 +101,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
       value = LocalDate.now()
       isClearButtonVisible = true
       isAutoOpen = true
-      i18n = DatePickerI18nPT_BR()
+      localePtBr()
       addValueChangeListener {
         viewModel.updateView()
       }

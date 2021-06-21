@@ -22,6 +22,8 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabUltimasEntradasViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.buttonPlanilha
+import br.com.astrosoft.framework.view.comparator
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.comboBox
@@ -33,10 +35,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import org.vaadin.stefan.LazyDownloadButton
-import java.io.ByteArrayInputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import br.com.astrosoft.framework.view.selectedItemsSort
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val filtro: FiltroUltimaNotaEntrada) {
@@ -48,10 +47,12 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       this.button("Relatório") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
-          viewModel.imprimeRelatorio(gridNota.selectedItems.toList())
+          viewModel.imprimeRelatorio(gridNota.selectedItemsSort())
         }
       }
-      add(buttonPlanilha { gridNota.selectedItems.toList() })
+      buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
+        viewModel.geraPlanilha(gridNota.selectedItemsSort())
+      }
       this.comboDiferenca("ICMS") {
         value = filtro.icms
 
@@ -100,18 +101,6 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       }
     }
     form.open()
-  }
-
-  private fun buttonPlanilha(notas: () -> List<UltimaNotaEntrada>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
-    }
-  }
-
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime = LocalDateTime.now().format(sdf)
-    return "notas$textTime.xlsx"
   }
 
   private fun createGrid(listParcelas: List<UltimaNotaEntrada>): Grid<UltimaNotaEntrada> {
