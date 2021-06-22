@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaUltimaNota
 import br.com.astrosoft.devolucao.model.reports.RelatorioUltimasNotas
+import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
@@ -14,11 +15,8 @@ class TabUltimasEntradasViewModel(val viewModel: EntradaViewModel) {
     get() = viewModel.view.tabUltimasEntradasViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
+    saci.queryUltimaNota(subView.getFiltro())
     subView.openRelatorio()
-  }
-
-  fun findNotas(filtro: FiltroUltimaNotaEntrada): List<UltimaNotaEntrada> {
-    return UltimaNotaEntrada.findAll(filtro)
   }
 
   fun imprimeRelatorio(listNotas: List<UltimaNotaEntrada>) = viewModel.exec {
