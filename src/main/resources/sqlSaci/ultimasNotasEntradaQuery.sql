@@ -21,9 +21,8 @@ FROM sqldados.mfprd
 WHERE ncm <> ''
 GROUP BY prdnoRef;
 
-
-DROP TABLE IF EXISTS sqldados.T_QUERY;
-CREATE TEMPORARY TABLE sqldados.T_QUERY
+DROP TABLE IF EXISTS sqldados.query1234567;
+CREATE TABLE sqldados.query1234567
 SELECT iprd.storeno                                                           AS lj,
        inv.invno                                                              AS ni,
        CAST(inv.date AS DATE)                                                 AS data,
@@ -70,52 +69,4 @@ WHERE inv.date BETWEEN @di AND @df
   AND vend.name NOT LIKE 'ENGECOPI%'
   AND (iprd.prdno LIKE @prd OR TRIM(@prd) LIKE '')
   AND NOT (prd.no BETWEEN 980000 AND 999999)
-GROUP BY inv.invno, iprd.prdno;
-
-DROP TABLE IF EXISTS sqldados.T_MAX;
-CREATE TEMPORARY TABLE sqldados.T_MAX (
-  PRIMARY KEY (Prod, NI, cstDif, icmsDif, ipiDif, mvaDif, ncmDif)
-)
-SELECT Prod,
-       IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
-	  'N')                                               AS cstDif,
-       IF(ROUND(ICMSn * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
-       IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')   AS ipiDif,
-       IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')   AS mvaDif,
-       IF(NCMn = NCMp, 'S', 'N')                             AS ncmDif,
-       MAX(NI)                                               AS NI
-FROM sqldados.T_QUERY
-GROUP BY Prod, cstDif, icmsDif, ipiDif, mvaDif, ncmDif;
-
-SELECT lj,
-       ni,
-       data,
-       nfe,
-       forn,
-       prod,
-       descricao,
-       icmsn,
-       icmsp,
-       ipin,
-       ipip,
-       cstn,
-       cstp,
-       mvan,
-       mvap,
-       ncmn,
-       ncmp,
-       cstDif,
-       icmsDif,
-       ipiDif,
-       mvaDif,
-       ncmDif
-FROM sqldados.T_QUERY
-  INNER JOIN sqldados.T_MAX
-	       USING (Prod, NI)
-WHERE @cst = cstDif
-   OR @icms = icmsDif
-   OR @ipi = ipiDif
-   OR @mva = mvaDif
-   OR @ncm = ncmDif
-   OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T')
-
+GROUP BY inv.invno, iprd.prdno

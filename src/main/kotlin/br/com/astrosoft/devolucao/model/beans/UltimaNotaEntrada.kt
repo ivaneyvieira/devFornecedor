@@ -29,10 +29,6 @@ class UltimaNotaEntrada(val lj: Int,
 
   val dataStr
     get() = data.format()
-
-  companion object {
-    fun findAll(filtro: FiltroUltimaNotaEntrada) = saci.ultimasNotasEntrada(filtro)
-  }
 }
 
 class FiltroUltimaNotaEntrada(val storeno: Int,

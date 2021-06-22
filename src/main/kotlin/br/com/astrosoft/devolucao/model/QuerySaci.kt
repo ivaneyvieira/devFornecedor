@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
+import br.com.astrosoft.framework.model.gridlazy.SortOrder
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
@@ -426,8 +427,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("id", nota.id)
       addOptionalParameter("ordno", nota.ordno)
     }
-  }
-
+  }/*
   fun ultimasNotasEntrada(filtro: FiltroUltimaNotaEntrada): List<UltimaNotaEntrada> {
     val sql = "/sqlSaci/ultimasNotasEntrada.sql"
     return query(sql, UltimaNotaEntrada::class) {
@@ -443,6 +443,68 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ipi", filtro.ipi.str)
       addOptionalParameter("mva", filtro.mva.str)
       addOptionalParameter("ncm", filtro.ncm.str)
+    }
+  }*/
+
+  fun queryUltimaNota(filter: FiltroUltimaNotaEntrada){
+    val sql = "/sqlSaci/ultimasNotasEntradaQuery.sql"
+    script(sql){
+      addOptionalParameter("storeno", filter.storeno)
+      addOptionalParameter("di", filter.di.toSaciDate())
+      addOptionalParameter("df", filter.df.toSaciDate())
+      addOptionalParameter("vendno", filter.vendno)
+      addOptionalParameter("ni", filter.ni)
+      addOptionalParameter("nf", filter.nf)
+      addOptionalParameter("prd", filter.prd)
+      addOptionalParameter("cst", filter.cst.str)
+      addOptionalParameter("icms", filter.icms.str)
+      addOptionalParameter("ipi", filter.ipi.str)
+      addOptionalParameter("mva", filter.mva.str)
+      addOptionalParameter("ncm", filter.ncm.str)
+    }
+  }
+
+  private fun <R : Any> filtroUltimaNota(filter: FiltroUltimaNotaEntrada,
+                                         sql: String,
+                                         complemento: String? = null,
+                                         result: (Query) -> R): R {
+    return querySerivce(sql, complemento, lambda = {
+      addOptionalParameter("storeno", filter.storeno)
+      addOptionalParameter("di", filter.di.toSaciDate())
+      addOptionalParameter("df", filter.df.toSaciDate())
+      addOptionalParameter("vendno", filter.vendno)
+      addOptionalParameter("ni", filter.ni)
+      addOptionalParameter("nf", filter.nf)
+      addOptionalParameter("prd", filter.prd)
+      addOptionalParameter("cst", filter.cst.str)
+      addOptionalParameter("icms", filter.icms.str)
+      addOptionalParameter("ipi", filter.ipi.str)
+      addOptionalParameter("mva", filter.mva.str)
+      addOptionalParameter("ncm", filter.ncm.str)
+    }, result = result)
+  }
+
+  fun countUltimaNota(filter: FiltroUltimaNotaEntrada): Int {
+    val sql = "/sqlSaci/ultimasNotasEntradaCount.sql"
+    return filtroUltimaNota(filter, sql) {
+      it.executeScalar(Int::class.java)
+    }
+  }
+
+  fun fetchUltimaNota(
+    filter: FiltroUltimaNotaEntrada,
+    offset: Int,
+    limit: Int,
+    sortOrders: List<SortOrder>,
+                     ): List<UltimaNotaEntrada> {
+    val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
+    val orderBy = if (sortOrders.isEmpty()) ""
+    else "ORDER BY " + sortOrders.joinToString(separator = ", ") { it.sql() }
+    val complemento = """
+      |$orderBy 
+      |LIMIT $limit OFFSET $offset""".trimMargin()
+    return filtroUltimaNota(filter, sql, complemento) {
+      it.executeAndFetch(UltimaNotaEntrada::class.java)
     }
   }
 

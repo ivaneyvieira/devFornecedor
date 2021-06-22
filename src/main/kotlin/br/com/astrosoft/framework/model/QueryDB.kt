@@ -44,6 +44,27 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
+  protected fun <R : Any> querySerivce(file: String,
+                                       complemento: String?,
+                                       lambda: QueryHandle = {},
+                                       result: (Query) -> R): R {
+    val statements = toStratments(file, complemento)
+    val lastIndex = statements.lastIndex
+    val query = statements[lastIndex]
+    val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
+    return transaction { con ->
+      scriptSQL(con, updates, lambda)
+      val q = querySQLResult(con, query, lambda)
+      result(q)
+    }
+  }
+
+  private fun querySQLResult(con: Connection, sql: String?, lambda: QueryHandle = {}): Query {
+    val query = con.createQuery(sql)
+    query.lambda()
+    return query
+  }
+
   private fun <T : Any> querySQL(con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
     val query = con.createQuery(sql)
     query.lambda()
@@ -65,9 +86,11 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
-  fun toStratments(file: String): List<String> {
-    return if (file.startsWith("/")) readFile(file).split(";").filter { it.isNotBlank() || it.isNotEmpty() }
-    else listOf(file)
+  fun toStratments(file: String, complemento: String? = null): List<String> {
+    val sql = if (file.startsWith("/")) readFile(file)
+    else file
+    val sqlComplemento = if (complemento == null) sql else "$sql\n$complemento"
+    return sqlComplemento.split(";").filter { it.isNotBlank() || it.isNotEmpty() }
   }
 
   private fun scriptSQL(con: Connection, stratments: List<String>, lambda: QueryHandle = {}) {
