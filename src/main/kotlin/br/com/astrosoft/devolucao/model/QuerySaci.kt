@@ -427,9 +427,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("id", nota.id)
       addOptionalParameter("ordno", nota.ordno)
     }
-  }/*
+  }
+
   fun ultimasNotasEntrada(filtro: FiltroUltimaNotaEntrada): List<UltimaNotaEntrada> {
-    val sql = "/sqlSaci/ultimasNotasEntrada.sql"
+    val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
     return query(sql, UltimaNotaEntrada::class) {
       addOptionalParameter("storeno", filtro.storeno)
       addOptionalParameter("di", filtro.di.toSaciDate())
@@ -444,7 +445,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("mva", filtro.mva.str)
       addOptionalParameter("ncm", filtro.ncm.str)
     }
-  }*/
+  }
 
   fun queryUltimaNota(filter: FiltroUltimaNotaEntrada){
     val sql = "/sqlSaci/ultimasNotasEntradaQuery.sql"

@@ -29,6 +29,10 @@ class UltimaNotaEntrada(val lj: Int,
 
   val dataStr
     get() = data.format()
+
+  companion object {
+    fun findNotas(filter: FiltroUltimaNotaEntrada) = saci.ultimasNotasEntrada(filter)
+  }
 }
 
 class FiltroUltimaNotaEntrada(val storeno: Int,
@@ -46,4 +50,29 @@ class FiltroUltimaNotaEntrada(val storeno: Int,
 
 enum class EDiferenca(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
+}
+
+data class UltimaNotaEntradaGrupo(val nomeGrupo: String, val nota: UltimaNotaEntrada) {
+  val lj = nota.lj
+  val ni = nota.ni
+  val dataStr = nota.dataStr
+  val nfe = nota.nfe
+  val forn = nota.forn
+  val prod = nota.prod
+  val descricao = nota.descricao
+  val icmsn = nota.icmsn
+  val icmsp = nota.icmsp
+  val ipin = nota.ipin
+  val ipip = nota.ipip
+  val cstn = nota.cstn
+  val cstp = nota.cstp
+  val mvan = nota.mvan
+  val mvap = nota.mvap
+  val ncmn = nota.ncmn
+  val ncmp = nota.ncmp
+  val cstDif = nota.cstDif
+  val icmsDif = nota.icmsDif
+  val ipiDif = nota.ipiDif
+  val mvaDif = nota.mvaDif
+  val ncmDif = nota.ncmDif
 }

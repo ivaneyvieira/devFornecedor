@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.UltimaNotaEntradaServiceQuery
 import br.com.astrosoft.devolucao.model.beans.EDiferenca
 import br.com.astrosoft.devolucao.model.beans.FiltroUltimaNotaEntrada
 import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
@@ -22,7 +21,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabUltimasEntradasViewModel
-import br.com.astrosoft.framework.model.gridlazy.SortOrder
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -36,42 +34,29 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider
-import com.vaadin.flow.data.provider.DataProvider
-import com.vaadin.flow.data.provider.Query
-import com.vaadin.flow.data.provider.SortDirection.DESCENDING
-import java.util.stream.Stream
+import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val filtro: FiltroUltimaNotaEntrada) {
   private lateinit var gridNota: Grid<UltimaNotaEntrada>
-  private val serviceQuery = UltimaNotaEntradaServiceQuery()
-  private val dataProviderGrid =
-          DataProvider.fromFilteringCallbacks(::fetchCallback, ::countCallback).withConfigurableFilter()
-
-  private fun fetchCallback(query: Query<UltimaNotaEntrada, FiltroUltimaNotaEntrada>?): Stream<UltimaNotaEntrada> {
-    val filter = query?.filter?.orElseGet(null) ?: return emptyList<UltimaNotaEntrada>().stream()
-    val offset = query.offset
-    val limit = query.limit
-    val sortOrders = query.sortOrders.orEmpty().map {
-      SortOrder(it.sorted, it.direction == DESCENDING)
-    }
-    return serviceQuery.fetch(filter, offset, limit, sortOrders).stream()
-  }
-
-  private fun countCallback(query: Query<UltimaNotaEntrada, FiltroUltimaNotaEntrada>?): Int {
-    val filter = query?.filter?.orElseGet { null } ?: return 0
-    return serviceQuery.count(filter)
-  }
+  private val dataProviderGrid = ListDataProvider<UltimaNotaEntrada>(mutableListOf())
 
   fun show() {
 
     val form = SubWindowForm("Relatório", toolBar = {
       this.button("Relatório") {
-        icon = VaadinIcon.PRINT.create()
+        icon = PRINT.create()
         onLeftClick {
           viewModel.imprimeRelatorio(gridNota.selectedItemsSort())
+        }
+      }
+      this.button("Relatório Resumo") {
+        icon = PRINT.create()
+        onLeftClick {
+          viewModel.imprimeRelatorioResumo(gridNota.selectedItemsSort())
         }
       }
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
@@ -82,7 +67,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
 
         this.addValueChangeListener {
           filtro.icms = it.value
-          dataProviderGrid.setFilter(filtro)
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
         }
       }
       this.comboDiferenca("IPI") {
@@ -90,7 +76,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
 
         this.addValueChangeListener {
           filtro.ipi = it.value
-          dataProviderGrid.setFilter(filtro)
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
         }
       }
       this.comboDiferenca("CST") {
@@ -98,7 +85,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
 
         this.addValueChangeListener {
           filtro.cst = it.value
-          dataProviderGrid.setFilter(filtro)
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
         }
       }
       this.comboDiferenca("MVA") {
@@ -106,7 +94,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
 
         this.addValueChangeListener {
           filtro.mva = it.value
-          dataProviderGrid.setFilter(filtro)
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
         }
       }
       this.comboDiferenca("NCM") {
@@ -114,12 +103,14 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
 
         this.addValueChangeListener {
           filtro.ncm = it.value
-          dataProviderGrid.setFilter(filtro)
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
         }
       }
     }) {
       gridNota = createGrid(dataProviderGrid)
-      dataProviderGrid.setFilter(filtro)
+      val list = viewModel.findNotas(filtro)
+      gridNota.setItems(list)
       HorizontalLayout().apply {
         setSizeFull()
         addAndExpand(gridNota)
@@ -128,7 +119,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
     form.open()
   }
 
-  private fun createGrid(dataProvider: ConfigurableFilterDataProvider<UltimaNotaEntrada, Void, FiltroUltimaNotaEntrada>): Grid<UltimaNotaEntrada> {
+  private fun createGrid(dataProvider: ListDataProvider<UltimaNotaEntrada>):
+          Grid<UltimaNotaEntrada> {
     return Grid(UltimaNotaEntrada::class.java, false).apply {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)
