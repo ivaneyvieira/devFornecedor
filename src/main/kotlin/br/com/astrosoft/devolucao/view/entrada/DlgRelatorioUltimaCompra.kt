@@ -33,10 +33,8 @@ import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
-import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.component.icon.VaadinIcon.*
+import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
@@ -119,8 +117,7 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
     form.open()
   }
 
-  private fun createGrid(dataProvider: ListDataProvider<UltimaNotaEntrada>):
-          Grid<UltimaNotaEntrada> {
+  private fun createGrid(dataProvider: ListDataProvider<UltimaNotaEntrada>): Grid<UltimaNotaEntrada> {
     return Grid(UltimaNotaEntrada::class.java, false).apply {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)

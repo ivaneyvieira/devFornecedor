@@ -3,7 +3,6 @@ package br.com.astrosoft.devolucao.model.reports
 import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntradaGrupo
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
-import br.com.astrosoft.framework.model.reports.Templates.columnTitleStyle
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.margin
 import net.sf.dynamicreports.report.builder.DynamicReports.stl
@@ -36,14 +35,11 @@ class RelatorioUltimasNotasGrupo(val notas: List<UltimaNotaEntradaGrupo>) : Repo
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setTop(20)))
       .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(20)))
-      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(20)))
-      //.setColumnTitleStyle(columnTitleStyle.setPadding(padding().setLeft(20)))
+      .setGroupStyle(stl.style()
+                       .setForegroundColor(Color.WHITE)
+                       .setPadding(padding().setLeft(20))) //.setColumnTitleStyle(columnTitleStyle.setPadding(padding().setLeft(20)))
       //.setDetailStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(20)))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(padding(20)))
-  }
-
-  override fun titleBuider(): ComponentBuilder<*, *> {
-    return super.titleBuider()
   }
 
   override fun labelTitleCol() = columnString(UltimaNotaEntradaGrupo::nomeGrupo)

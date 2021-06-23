@@ -25,17 +25,17 @@ import java.io.ByteArrayOutputStream
 class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   private val codigoSapCol: TextColumnBuilder<Int> =
           col.column("Codigo SAP", FornecedorSap::codigo.name, type.integerType()).apply {
-              this.setHorizontalTextAlignment(CENTER)
-              this.setFixedWidth(50)
-              this.setPattern("0")
-            }
+            this.setHorizontalTextAlignment(CENTER)
+            this.setFixedWidth(50)
+            this.setPattern("0")
+          }
 
   private val codigoSaciCol: TextColumnBuilder<Int> =
           col.column("Codigo Saci", FornecedorSap::vendno.name, type.integerType()).apply {
-              this.setHorizontalTextAlignment(RIGHT)
-              this.setFixedWidth(50)
-              this.setPattern("0")
-            }
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(50)
+            this.setPattern("0")
+          }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
           col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {
