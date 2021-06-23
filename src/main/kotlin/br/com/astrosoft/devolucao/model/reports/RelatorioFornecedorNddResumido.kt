@@ -25,10 +25,10 @@ import java.io.ByteArrayOutputStream
 class RelatorioFornecedorNddResumido(val fornecedores: List<FornecedorNdd>) {
   private val codigoSaciCol: TextColumnBuilder<Int> =
           col.column("Codigo Saci", FornecedorNdd::vendno.name, type.integerType()).apply {
-              this.setHorizontalTextAlignment(RIGHT)
-              this.setFixedWidth(50)
-              this.setPattern("0")
-            }
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(50)
+            this.setPattern("0")
+          }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
           col.column("Fornecedor", FornecedorNdd::nome.name, type.stringType()).apply {

@@ -17,9 +17,7 @@ import net.sf.dynamicreports.report.defaults.Defaults
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType
 import net.sf.dynamicreports.report.exception.DRException
 import net.sf.jasperreports.engine.JasperPrint
-import net.sf.jasperreports.engine.export.JRGraphics2DExporter
 import net.sf.jasperreports.engine.export.JRPdfExporter
-import net.sf.jasperreports.export.Graphics2DExporterOutput
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import org.apache.poi.ss.formula.functions.T
