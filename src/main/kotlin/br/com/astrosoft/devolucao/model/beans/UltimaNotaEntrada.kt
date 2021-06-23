@@ -52,7 +52,10 @@ enum class EDiferenca(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
 }
 
-data class UltimaNotaEntradaGrupo(val nomeGrupo: String, val nota: UltimaNotaEntrada) {
+data class UltimaNotaEntradaGrupo(val nomeGrupo: String,
+                                  val nota: UltimaNotaEntrada,
+                                  val valorNota: String,
+                                  val valorPrecificacao: String) {
   val lj = nota.lj
   val ni = nota.ni
   val dataStr = nota.dataStr
@@ -60,19 +63,4 @@ data class UltimaNotaEntradaGrupo(val nomeGrupo: String, val nota: UltimaNotaEnt
   val forn = nota.forn
   val prod = nota.prod
   val descricao = nota.descricao
-  val icmsn = nota.icmsn
-  val icmsp = nota.icmsp
-  val ipin = nota.ipin
-  val ipip = nota.ipip
-  val cstn = nota.cstn
-  val cstp = nota.cstp
-  val mvan = nota.mvan
-  val mvap = nota.mvap
-  val ncmn = nota.ncmn
-  val ncmp = nota.ncmp
-  val cstDif = nota.cstDif
-  val icmsDif = nota.icmsDif
-  val ipiDif = nota.ipiDif
-  val mvaDif = nota.mvaDif
-  val ncmDif = nota.ncmDif
 }

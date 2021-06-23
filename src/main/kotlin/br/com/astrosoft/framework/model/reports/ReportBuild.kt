@@ -110,7 +110,7 @@ abstract class ReportBuild<T> {
     return columnsList
   }
 
-  protected fun titleBuider(): ComponentBuilder<*, *> {
+  protected open fun titleBuider(): ComponentBuilder<*, *> {
     val largura = -1
     return verticalBlock {
       horizontalList {
