@@ -38,7 +38,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
           }
   private val descricaoCol: TextColumnBuilder<String> =
           col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(LEFT) //this.setFixedWidth(60 * 4)
+            this.setHorizontalTextAlignment(LEFT)
           }
   private val gradeCol: TextColumnBuilder<String> =
           col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
@@ -49,6 +49,12 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(25)
   }
+  private val invnoCol: TextColumnBuilder<Int> =
+          col.column("NI", ProdutosNotaSaida::invno.name, type.integerType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setPattern("0")
+            this.setFixedWidth(50)
+          }
   private val qtdeCol: TextColumnBuilder<Int> =
           col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
@@ -117,39 +123,51 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when (notaSaida.tipo) {
-      "66", "PED", "AJT", "FIN" -> if (resumida) listOf(itemCol,
-                                                        barcodeCol,
-                                                        refForCol,
-                                                        codigoCol,
-                                                        descricaoCol,
-                                                        gradeCol,
-                                                        unCol,
-                                                        qtdeCol)
-      else listOf(itemCol,
-                  barcodeCol,
-                  refForCol,
-                  codigoCol,
-                  descricaoCol,
-                  gradeCol,
-                  unCol,
-                  stCol,
-                  qtdeCol,
-                  valorUnitarioCol,
-                  valorTotalCol,
-                  ipiCol,
-                  vstCol,
-                  valorTotalIpiCol)
-      else                      -> listOf(itemCol,
-                                          barcodeCol,
-                                          codigoCol,
-                                          descricaoCol,
-                                          gradeCol,
-                                          cstCol,
-                                          cfopCol,
-                                          unCol,
-                                          qtdeCol,
-                                          valorUnitarioCol,
-                                          valorTotalCol)
+      "66", "AJT", "FIN" -> when {
+        resumida -> listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
+        else     -> listOf(itemCol,
+                           barcodeCol,
+                           refForCol,
+                           codigoCol,
+                           descricaoCol,
+                           gradeCol,
+                           unCol,
+                           stCol,
+                           qtdeCol,
+                           valorUnitarioCol,
+                           valorTotalCol,
+                           ipiCol,
+                           vstCol,
+                           valorTotalIpiCol)
+      }
+      "PED"              -> when {
+        resumida -> listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
+        else     -> listOf(invnoCol,
+                           refForCol,
+                           codigoCol,
+                           descricaoCol,
+                           gradeCol,
+                           unCol,
+                           cstCol,
+                           cfopCol,
+                           qtdeCol,
+                           valorUnitarioCol,
+                           valorTotalCol,
+                           ipiCol,
+                           vstCol,
+                           valorTotalIpiCol)
+      }
+      else               -> listOf(itemCol,
+                                   barcodeCol,
+                                   codigoCol,
+                                   descricaoCol,
+                                   gradeCol,
+                                   cstCol,
+                                   cfopCol,
+                                   unCol,
+                                   qtdeCol,
+                                   valorUnitarioCol,
+                                   valorTotalCol)
     }
   }
 

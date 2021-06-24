@@ -53,6 +53,21 @@ WHERE I.bits & POW(2, 4) = 0
   AND I.type = 0
 GROUP BY prdno, grade;
 
+DROP TEMPORARY TABLE IF EXISTS T_MFINV;
+CREATE TEMPORARY TABLE T_MFINV (
+  PRIMARY KEY (invno, prdno, grade)
+)
+SELECT I.invno,
+       P.prdnoRef AS prdno,
+       P.grade,
+       P.cst,
+       P.cfop
+FROM sqldados.mfinv         AS I
+  INNER JOIN sqldados.mfprd AS P
+	       ON P.mfinv_seqno = I.seqnoAuto
+WHERE invno <> 0
+GROUP BY I.invno, P.prdnoRef, P.grade;
+
 DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV (
   PRIMARY KEY (codigo, grade)
@@ -67,8 +82,8 @@ SELECT P.prdno                                                      AS codigo,
        P.fob / 100                                                  AS valorUnitInv,
        SUM(qtty / 1000)                                             AS quantInv,
        IFNULL(X.nfekey, '')                                         AS chaveUlt,
-       cstIcms                                                      AS cst,
-       cfop
+       IFNULL(M.cst, cstIcms)                                       AS cst,
+       IFNULL(M.cfop, P.cfop)                                       AS cfop
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -76,6 +91,8 @@ FROM sqldados.iprd           AS P
 	       USING (invno)
   INNER JOIN T_PRD_ULT       AS U
 	       ON P.invno = IFNULL(U.invnoQ, U.invno) AND P.prdno = U.prdno AND P.grade = U.grade
+  LEFT JOIN  T_MFINV         AS M
+	       ON P.invno = M.invno AND P.prdno = M.prdno AND M.grade = U.grade
   LEFT JOIN  sqldados.prdalq AS R
 	       ON R.prdno = P.prdno
 GROUP BY P.prdno, P.grade;
