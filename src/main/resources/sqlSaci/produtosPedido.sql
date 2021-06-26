@@ -83,10 +83,57 @@ SELECT P.prdno                                                      AS codigo,
        SUM(qtty / 1000)                                             AS quantInv,
        IFNULL(X.nfekey, '')                                         AS chaveUlt,
        IFNULL(M.cst, cstIcms)                                       AS cst,
-       IFNULL(M.cfop, P.cfop)                                       AS cfop
+       IFNULL(M.cfop, P.cfop)                                       AS cfopNota,
+       CASE IFNULL(R.form_label, '')
+	 WHEN 'NORMAL..'
+	   THEN CASE
+		  WHEN V.state IS NULL
+		    THEN 0
+		  WHEN V.state = 'PI'
+		    THEN 5202
+		  ELSE 6202
+		END
+	 WHEN 'SUBSTI00'
+	   THEN CASE
+		  WHEN V.state IS NULL
+		    THEN 0
+		  WHEN V.state = 'PI'
+		    THEN 5411
+		  ELSE 6411
+		END
+	 WHEN 'REDUZI88'
+	   THEN CASE
+		  WHEN V.state IS NULL
+		    THEN 0
+		  WHEN V.state = 'PI'
+		    THEN 5202
+		  ELSE 6202
+		END
+	 WHEN 'REDUZI56'
+	   THEN CASE
+		  WHEN V.state IS NULL
+		    THEN 0
+		  WHEN V.state = 'PI'
+		    THEN 5202
+		  ELSE 6202
+		END
+	 WHEN 'ISENTO..'
+	   THEN CASE
+		  WHEN V.state IS NULL
+		    THEN 0
+		  WHEN V.state = 'PI'
+		    THEN 5202
+		  ELSE 6202
+		END
+	 WHEN 'NAO_TRIB'
+	   THEN 0
+	 ELSE 0
+       END                                                          AS cfop
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
+  LEFT JOIN  sqldados.vend   AS V
+	       ON V.no = I.vendno
   LEFT JOIN  sqldados.invnfe AS X
 	       USING (invno)
   INNER JOIN T_PRD_ULT       AS U
