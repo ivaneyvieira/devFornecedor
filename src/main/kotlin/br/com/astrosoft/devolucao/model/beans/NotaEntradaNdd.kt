@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.ProdutoNotaEntradaVO
+import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.nfeXml.NfeFile
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
@@ -46,4 +48,11 @@ class NotaEntradaNdd(val id: Int,
     get() = dataEmissao.format()
   val nfeFile
     get() = NfeFile(xmlNfe)
+
+  fun produtosNfe() : ProdutoNotaEntradaVO? = ndd.produtosNotasEntrada(id)
+
+  fun produtosNotaEntradaNDD() : List<ProdutoNotaEntradaNddd>{
+    val produtosNfe = produtosNfe() ?: return emptyList()
+    return produtosNfe.produtosNotaEntradaNDD()
+  }
 }
