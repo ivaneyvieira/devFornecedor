@@ -12,6 +12,13 @@ class QueryNDD : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun produtosNotasEntrada(id: Int): ProdutoNotaEntradaVO? {
+    val sql = "/sqlNDD/notasEntrada.sql"
+    return query(sql, ProdutoNotaEntradaVO::class) {
+      addOptionalParameter("id", id)
+    }.firstOrNull()
+  }
+
   companion object {
     private val db = DB("ndd")
     internal val driver = db.driver
