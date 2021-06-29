@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notafiscal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31f612fe-1b29-40cf-bf8c-2296906e097c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<pageHeader>
+		<band height="100" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement x="0" y="0" width="278" height="100" uuid="40c8ed2f-29dc-4f02-b34e-0eed3d691a51">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+					<property name="com.jaspersoft.layout.grid.x" value="-1"/>
+					<property name="com.jaspersoft.layout.grid.y" value="-1"/>
+					<property name="com.jaspersoft.layout.grid.weight.x" value="2.0"/>
+					<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+					<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
+				</reportElement>
+			</frame>
+			<frame>
+				<reportElement x="278" y="0" width="139" height="100" uuid="3bf684cc-3532-4d8d-8a00-dd3a25f4c271">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+				</reportElement>
+			</frame>
+			<frame>
+				<reportElement x="417" y="0" width="138" height="100" uuid="79512ff3-e137-4bb7-b60d-dcbde4d7d90d">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+				</reportElement>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
