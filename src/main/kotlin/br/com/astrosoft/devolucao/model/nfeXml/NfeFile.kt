@@ -1,31 +1,21 @@
 package br.com.astrosoft.devolucao.model.nfeXml
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import com.fincatto.documentofiscal.nfe400.classes.nota.NFNota
+import com.fincatto.documentofiscal.utils.DFPersister
 
-class NfeFile(val xmlContent: String) {
-  fun emitente(): Emitente? {
-    val index1 = xmlContent.indexOf("<emit>") //<emit.*>((.|\n)*)<\/emit>
-    val index2 = xmlContent.indexOf("</emit>") + "</emit>".length
-    val xmlEmitente = xmlContent.substring(index1, index2)
+class NfeFile(xmlContent: String) {
 
-    val xmlMapper = XmlMapper(JacksonXmlModule().apply { setDefaultUseWrapper(false) }).apply {
-      enable(SerializationFeature.INDENT_OUTPUT)
-    }
+  private val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlContent)
 
-    val emitente: Emitente = xmlMapper.readValue(xmlEmitente, Emitente::class.java)
-    return emitente
+  fun print() {
+    print(nota)
   }
+}/*
+fun main() {
+  val file = File("nfe/nfe.xml")
+  val text = file.readText()
+  print(text)
+  val nota = NfeFile(text)
+  nota.print()
 }
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-data class Emitente(
-
-  val CNPJ: String,
-
-  val xNome: String,
-
-  val xFant: String,
-                   )
+ */
