@@ -49,7 +49,8 @@ class NotaEntradaNdd(val id: Int,
   val nfeFile
     get() = NfeFile(xmlNfe)
 
-  val produtosNfe: ProdutoNotaEntradaVO? by lazy { ndd.produtosNotasEntrada(id) }
+  val produtosNfe: ProdutoNotaEntradaVO?
+    get() = ndd.produtosNotasEntrada(id)
 
   fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
     val produtosNfe = produtosNfe ?: return emptyList()
