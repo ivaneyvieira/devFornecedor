@@ -13,7 +13,7 @@ class QueryNDD : QueryDB(driver, url, username, password) {
   }
 
   fun produtosNotasEntrada(id: Int): ProdutoNotaEntradaVO? {
-    val sql = "/sqlNDD/notasEntrada.sql"
+    val sql = "/sqlNDD/produtosNotaEntrada.sql"
     return query(sql, ProdutoNotaEntradaVO::class) {
       addOptionalParameter("id", id)
     }.firstOrNull()

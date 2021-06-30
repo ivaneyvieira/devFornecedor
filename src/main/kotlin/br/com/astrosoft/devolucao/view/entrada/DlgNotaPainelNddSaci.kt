@@ -10,6 +10,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaTo
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.integerFieldEditor
 import br.com.astrosoft.framework.view.withEditor
 import com.github.mvysny.karibudsl.v10.getColumnBy
@@ -17,6 +18,7 @@ import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
@@ -48,6 +50,10 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
         viewModel.salvaNotaEntrada(binder.bean)
         this.dataProvider.refreshItem(binder.bean)
       })
+
+      addColumnButton(iconButton = VaadinIcon.BULLETS, tooltip = "Produtos", header = "Prd") { nota ->
+        DlgProdutosNotaNdd(nota.produtosNotaEntradaNDD()).show()
+      }
 
       notaLoja()
       notaNotaSaci()
