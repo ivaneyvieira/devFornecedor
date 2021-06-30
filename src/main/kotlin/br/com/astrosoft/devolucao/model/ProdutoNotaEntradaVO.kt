@@ -8,11 +8,12 @@ import com.fincatto.documentofiscal.nfe400.classes.nota.NFNotaInfoItemProduto
 import com.fincatto.documentofiscal.utils.DFPersister
 
 class ProdutoNotaEntradaVO(val id: Int, val xmlNfe: String) {
-  val produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd> by lazy {
-    val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
-    val produtosNota = nota.info?.itens ?: emptyList()
-    produtosNota.mapNotNull(::mapProduto)
-  }
+  val produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd>
+    get() {
+      val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
+      val produtosNota = nota.info?.itens ?: emptyList()
+      return produtosNota.mapNotNull(::mapProduto)
+    }
 
   private fun mapProduto(item: NFNotaInfoItem): ProdutoNotaEntradaNdd {
     val produto: NFNotaInfoItemProduto? = item.produto
