@@ -49,10 +49,10 @@ class NotaEntradaNdd(val id: Int,
   val nfeFile
     get() = NfeFile(xmlNfe)
 
-  fun produtosNfe() : ProdutoNotaEntradaVO? = ndd.produtosNotasEntrada(id)
+  val produtosNfe: ProdutoNotaEntradaVO? by lazy { ndd.produtosNotasEntrada(id) }
 
-  fun produtosNotaEntradaNDD() : List<ProdutoNotaEntradaNddd>{
-    val produtosNfe = produtosNfe() ?: return emptyList()
-    return produtosNfe.produtosNotaEntradaNDD()
+  fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
+    val produtosNfe = produtosNfe ?: return emptyList()
+    return produtosNfe.produtosNotaEntradaNDD
   }
 }

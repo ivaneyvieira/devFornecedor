@@ -43,7 +43,6 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
   private val dataProviderGrid = ListDataProvider<UltimaNotaEntrada>(mutableListOf())
 
   fun show() {
-
     val form = SubWindowForm("Relatório", toolBar = {
       this.button("Relatório") {
         icon = PRINT.create()
