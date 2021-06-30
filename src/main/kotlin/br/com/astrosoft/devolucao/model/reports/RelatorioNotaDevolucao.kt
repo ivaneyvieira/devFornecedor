@@ -304,7 +304,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
   private fun sumaryBuild(): ComponentBuilder<*, *> {
     return verticalBlock {
-      if (notaSaida.tipo == "1") {
+      if (notaSaida.tipo in listOf("1", "PED")) {
         breakLine()
         val widitInicial = 110
         this.horizontalList {
