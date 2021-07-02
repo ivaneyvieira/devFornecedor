@@ -22,7 +22,7 @@
        'TERESINA'                                               AS cidadeEmitente,
        'PI'                                                     AS ufEmitente,
        '(86) 3301-6565'                                         AS telefoneEmitente,
-       '0'                                                      AS entradaSaida,
+       '1'                                                      AS entradaSaida,
        '120852'                                            AS numeroNota,
        '1'                                                      AS serieNota,
        '2215 1007 4836 5400 0596 5500 1000 1208 5210 0120 8527' AS chaveAcesso,
@@ -407,6 +407,19 @@ FROM dual]]>
 		<property name="com.jaspersoft.studio.field.name" value="informacoesComplementares"/>
 		<property name="com.jaspersoft.studio.field.label" value="informacoesComplementares"/>
 	</field>
+	<background>
+		<band height="802">
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="f11f1c4a-d751-4c47-8b89-0996b26f62fc">
+					<printWhenExpression><![CDATA[$F{entradaSaida}.equals("1")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+					<font size="200"/>
+				</textElement>
+				<text><![CDATA[Cópia]]></text>
+			</staticText>
+		</band>
+	</background>
 	<pageHeader>
 		<band height="450" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
