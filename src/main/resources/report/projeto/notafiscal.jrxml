@@ -410,7 +410,7 @@ FROM dual]]>
 	<background>
 		<band height="802">
 			<staticText>
-				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="f11f1c4a-d751-4c47-8b89-0996b26f62fc">
+				<reportElement mode="Transparent" x="2" y="0" width="551" height="802" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="f11f1c4a-d751-4c47-8b89-0996b26f62fc">
 					<printWhenExpression><![CDATA[$F{entradaSaida}.equals("1")]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
