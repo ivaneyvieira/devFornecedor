@@ -1,20 +1,27 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.framework.util.SystemUtils.readStream
 import br.com.astrosoft.devolucao.model.ItensNotaReport
-import net.sf.jasperreports.engine.JasperExportManager
-import net.sf.jasperreports.engine.JasperFillManager
+import br.com.astrosoft.framework.util.SystemUtils.readStream
+import net.sf.jasperreports.engine.*
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 
 object DanfeReport {
-  fun create(itens : List<ItensNotaReport>) : ByteArray {
-    val jasperFile = "/report/projeto/notafiscal.jasper"
-    val jasperInputStream = readStream(jasperFile)
+  private val jasperReport = compileReport()
+
+  fun create(itens: List<ItensNotaReport>): ByteArray {
+    val printReport = fillReport(itens)
+    return JasperExportManager.exportReportToPdf(printReport) ?: ByteArray(0)
+  }
+
+  private fun fillReport(itens: List<ItensNotaReport>): JasperPrint? {
     val parameter = hashMapOf<String, Any>()
     val collection = JRBeanCollectionDataSource(itens)
+    return JasperFillManager.fillReport(jasperReport, parameter, collection)
+  }
 
-    val print = JasperFillManager.fillReport(jasperInputStream, parameter, collection)
-
-    return JasperExportManager.exportReportToPdf(print) ?: ByteArray(0)
+  private fun compileReport(): JasperReport {
+    val jasperFile = "/report/projeto/notafiscal.jrxml"
+    val jasperInputStream = readStream(jasperFile)
+    return JasperCompileManager.compileReport(jasperInputStream)
   }
 }
