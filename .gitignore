@@ -31,3 +31,4 @@ webpack.config.js
 webpack.generated.js
 src/main/resources/report/.metadata/
 .metadata
+*.jasper
