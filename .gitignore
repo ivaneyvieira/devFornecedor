@@ -29,5 +29,5 @@ package-lock.json
 package.json
 webpack.config.js
 webpack.generated.js
-src/main/resources/report/.metadata
+src/main/resources/report/.metadata/
 .metadata
