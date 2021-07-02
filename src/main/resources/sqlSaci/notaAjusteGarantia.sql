@@ -1,3 +1,17 @@
+DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
+CREATE TEMPORARY TABLE T_CUST_VEND (
+  PRIMARY KEY (custno, vendno)
+)
+SELECT C.no       AS custno,
+       V.no       AS vendno,
+       V.auxLong4 AS fornecedorSap,
+       V.email,
+       C.name
+FROM sqldados.custp        AS C
+  INNER JOIN sqldados.vend AS V
+	       ON C.cpf_cgc = V.cgc;
+
+
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
   PRIMARY KEY (storeno, nfno, nfse)
@@ -12,7 +26,7 @@ SELECT N.storeno,
        O.date                                                            AS pedidoDate,
        N.grossamt / 100                                                  AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
-		       -1) * 1                                           AS custnoObs,
+		       -1) * 1                                           AS custVend,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -79,11 +93,11 @@ SELECT N.storeno                                 AS loja,
        CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
        CAST(N.issuedate AS DATE)                 AS dataNota,
-       IFNULL(C.no, 0)                           AS custno,
+       IFNULL(C.custno, 0)                       AS custno,
        IFNULL(C.name, '')                        AS fornecedor,
-       IFNULL(V.email, '')                       AS email,
-       V.auxLong4                                AS fornecedorSap,
-       V.no                                      AS vendno,
+       IFNULL(C.email, '')                       AS email,
+       C.fornecedorSap                           AS fornecedorSap,
+       C.vendno                                  AS vendno,
        IFNULL(R.rmk, '')                         AS rmk,
        SUM(N.valor)                              AS valor,
        IFNULL(obsNota, '')                       AS obsNota,
@@ -117,12 +131,10 @@ FROM TNF                        AS N
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  sqldados.custp     AS C
-	       ON C.no = N.custnoObs
-  LEFT JOIN  sqldados.vend      AS V
-	       ON C.cpf_cgc = V.cgc
+  LEFT JOIN  T_CUST_VEND        AS C
+	       ON C.custno = N.custVend OR C.vendno = N.custVend
   LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = V.no AND RV.tipo = N.nfse
+	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno
