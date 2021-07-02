@@ -3642,7 +3642,7 @@ BARRAS]]></text>
 						<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
 						<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 						<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
-						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$F{valorServicos}.intValue() != 0]]></printWhenExpression>
 					</reportElement>
 					<textElement verticalAlignment="Middle"/>
 					<text><![CDATA[CALCULO DO ISSQN]]></text>
@@ -3657,7 +3657,7 @@ BARRAS]]></text>
 						<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 						<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$F{valorServicos}.intValue() != 0]]></printWhenExpression>
 					</reportElement>
 					<frame>
 						<reportElement style="borderFrame" x="0" y="0" width="141" height="20" uuid="66c96b44-b58f-4d5d-946d-25e00ce9cb01">
