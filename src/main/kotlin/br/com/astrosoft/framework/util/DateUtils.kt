@@ -56,9 +56,34 @@ fun Date?.toLocalDate(): LocalDate? {
   return zdt.toLocalDate()
 }
 
+fun LocalDateTime?.formatTime(): String {
+  if (this == null) return ""
+  return TIME_FORMATTER.format(this)
+}
+
+fun LocalDateTime?.formatDate(): String {
+  if (this == null) return ""
+  return DATE_FORMATTER.format(this)
+}
+
 fun LocalDateTime?.format(): String {
   if (this == null) return ""
   return DATETIME_FORMATTER.format(this)
+}
+
+fun ZonedDateTime?.format(): String {
+  if (this == null) return ""
+  return DATETIME_FORMATTER.format(this)
+}
+
+fun ZonedDateTime?.formatTime(): String {
+  if (this == null) return ""
+  return TIME_FORMATTER.format(this)
+}
+
+fun ZonedDateTime?.formatDate(): String {
+  if (this == null) return ""
+  return DATE_FORMATTER.format(this)
 }
 
 fun Date?.format(): String {

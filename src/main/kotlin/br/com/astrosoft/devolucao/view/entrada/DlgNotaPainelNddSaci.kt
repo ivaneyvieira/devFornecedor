@@ -55,6 +55,10 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
         DlgProdutosNotaNdd(nota.produtosNotaEntradaNDD()).show()
       }
 
+      addColumnButton(iconButton = VaadinIcon.PRINT, tooltip = "Nota fiscal", header = "NF") { nota ->
+        viewModel.createDanfe(nota)
+      }
+
       notaLoja()
       notaNotaSaci()
       notaNumeroPedido().integerFieldEditor()
