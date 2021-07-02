@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.entrada
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorNdd
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasNdd
+import br.com.astrosoft.devolucao.model.reports.DanfeReport
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
@@ -54,6 +55,12 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
 
   fun salvaNotaEntrada(bean: NotaEntradaNdd?) = viewModel.exec {
     bean?.save()
+  }
+
+  fun createDanfe(nota: NotaEntradaNdd) {
+    val itensNotaReport = nota.itensNotaReport()
+    val report = DanfeReport.create(itensNotaReport)
+    viewModel.view.showReport("Danfee", report)
   }
 }
 

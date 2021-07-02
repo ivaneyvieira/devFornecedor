@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.ItensNotaReport
 import br.com.astrosoft.devolucao.model.ProdutoNotaEntradaVO
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.nfeXml.NfeFile
@@ -38,6 +39,10 @@ class NotaEntradaNdd(val id: Int,
                      var ordno: Int) {
   fun save() {
     saci.saveNotaNddPedido(this)
+  }
+
+  fun itensNotaReport(): List<ItensNotaReport> {
+    return produtosNfe?.itensNotaReport ?: emptyList()
   }
 
   val notaFiscal

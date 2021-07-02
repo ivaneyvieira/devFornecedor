@@ -59,6 +59,13 @@ object SystemUtils {
     return cl.getResourceAsStream(nameRet)
   }
 
+  fun readStream(file: String): InputStream? {
+    val resource = SystemUtils::class.java.getResource(file) ?: return null
+    val path = Paths.get(resource.toURI())
+    val encoded = Files.readAllBytes(path)
+    return ByteArrayInputStream(encoded)
+  }
+
   private fun resolveName(name: String?): String? {
     var nameRet = name
     if (nameRet == null) {

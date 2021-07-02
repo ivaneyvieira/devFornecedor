@@ -94,6 +94,7 @@ dependencies {
     exclude(group = "com.lowagie", module = "itext")
   }
   // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts
+  implementation("net.sf.jasperreports:jasperreports:6.16.0")
   implementation("net.sf.jasperreports:jasperreports-fonts:6.12.2")
   implementation("de.f0rce.signaturepad:signature-widget:2.0.0")
   
