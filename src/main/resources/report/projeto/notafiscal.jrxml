@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notafiscal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31f612fe-1b29-40cf-bf8c-2296906e097c">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BancoLocal"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DadosLocal"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="borderFrame">
 		<box>
@@ -14,6 +14,12 @@
 	<style name="fontValor" vTextAlign="Middle" fontSize="7">
 		<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="1"/>
 	</style>
+	<subDataset name="Dataset1" uuid="d7c6b282-2b8d-48e1-b81e-11dd80bc5598">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DadosLocal"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
 	<queryString>
 		<![CDATA[SELECT 'ENGECOPI COM MATS CONST LTDA (PK)'                      AS nomeEmitente,
        'AV PRESIDENTE KENNEDY, 1585'                            AS enderecoEmitente,
@@ -410,7 +416,7 @@ FROM dual]]>
 	<background>
 		<band height="802">
 			<staticText>
-				<reportElement mode="Transparent" x="2" y="0" width="551" height="802" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="f11f1c4a-d751-4c47-8b89-0996b26f62fc">
+				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="f11f1c4a-d751-4c47-8b89-0996b26f62fc">
 					<printWhenExpression><![CDATA[$F{entradaSaida}.equals("1")]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
