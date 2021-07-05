@@ -25,12 +25,12 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<UltimaNotaEntrada>.notaFornCad() = addColumnString(UltimaNotaEntrada::fornCad) {
-    this.setHeader("Forn Cad")
+    this.setHeader("F Cad")
   }
 
 
   fun Grid<UltimaNotaEntrada>.notaFornNota() = addColumnString(UltimaNotaEntrada::fornNota) {
-    this.setHeader("Forn Nota")
+    this.setHeader("F Nota")
   }
 
   fun Grid<UltimaNotaEntrada>.notaProd() = addColumnString(UltimaNotaEntrada::prod) {
@@ -47,6 +47,10 @@ object UltimaNotaEntradaColumns {
 
   fun Grid<UltimaNotaEntrada>.notaIcmsp() = addColumnDouble(UltimaNotaEntrada::icmsp) {
     this.setHeader("ICMS P")
+  }
+
+  fun Grid<UltimaNotaEntrada>.notaIcmsc() = addColumnDouble(UltimaNotaEntrada::icmsc) {
+    this.setHeader("ICMS C")
   }
 
   fun Grid<UltimaNotaEntrada>.notaRedIcms() = addColumnDouble(UltimaNotaEntrada::icmsd) {
