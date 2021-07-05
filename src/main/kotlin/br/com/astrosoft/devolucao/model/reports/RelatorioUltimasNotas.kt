@@ -15,7 +15,7 @@ class RelatorioUltimasNotas(val notas: List<UltimaNotaEntrada>) : ReportBuild<Ul
     columnInt(UltimaNotaEntrada::ni, width = 45, title = "NI")
     columnString(UltimaNotaEntrada::dataStr, width = 65, title = "Data")
     columnString(UltimaNotaEntrada::nfe, width = 50, aligment = CENTER, title = "NF")
-    columnString(UltimaNotaEntrada::forn, width = 35, aligment = RIGHT, title = "Forn")
+    columnString(UltimaNotaEntrada::fornCad, width = 35, aligment = RIGHT, title = "Forn")
     columnString(UltimaNotaEntrada::prod, width = 45, aligment = CENTER, title = "Prod")
     columnString(UltimaNotaEntrada::descricao, title = "Descrição") {
       this.setTextAdjust(TextAdjust.CUT_TEXT)
