@@ -68,8 +68,6 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
       }
 
-      //sort(listOf(GridSortOrder(getColumnBy(NotaDevolucaoSap::nfSaci), SortDirection.ASCENDING)))
-
       listParcelas.forEach { parcela ->
         setDetailsVisible(parcela, true)
       }

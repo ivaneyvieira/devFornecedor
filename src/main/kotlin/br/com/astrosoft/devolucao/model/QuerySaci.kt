@@ -509,6 +509,21 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun notaSaidaNDD(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
+    val sql = "/sqlSaci/notaSaida.sql"
+    val dataI = filtro.dataI?.toSaciDate() ?: 20000101
+    val dataF = filtro.dataF?.toSaciDate() ?: 30000101
+    return query(sql, NotaSaidaNdd::class) {
+      addOptionalParameter("loja", filtro.loja ?: 0)
+      addOptionalParameter("numero", filtro.numero ?: 0)
+      addOptionalParameter("serie", filtro.serie ?: "")
+      addOptionalParameter("dataI", dataI)
+      addOptionalParameter("dataF", dataF)
+      addOptionalParameter("codigoCliente", filtro.codigoCliente ?: 0)
+      addOptionalParameter("nomeCliente", filtro.nomeCliente ?: "")
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
