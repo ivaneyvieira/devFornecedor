@@ -13,6 +13,7 @@ class UltimaNotaEntrada(val lj: Int,
                         val descricao: String,
                         val icmsn: Double,
                         val icmsp: Double,
+                        val icmsc: Double,
                         val ipin: Double,
                         val ipip: Double,
                         val cstn: String,
@@ -26,7 +27,6 @@ class UltimaNotaEntrada(val lj: Int,
                         val ipiDif: String,
                         val mvaDif: String,
                         val ncmDif: String) {
-
   val dataStr
     get() = data.format()
 

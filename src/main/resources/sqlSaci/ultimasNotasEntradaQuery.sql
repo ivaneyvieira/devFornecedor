@@ -39,7 +39,8 @@ SELECT iprd.storeno                                                           AS
        ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 2)                             AS icmsp,
        prd.taxno                                                              AS cstp,
        MID(iprd.cstIcms, 2, 3)                                                AS cstn,
-       inv.nfname                                                             AS nfe
+       inv.nfname                                                             AS nfe,
+       ROUND(iprd.icms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2)         AS icmsc
 FROM sqldados.iprd
   LEFT JOIN sqldados.inv
 	      USING (invno)
@@ -103,6 +104,7 @@ SELECT lj,
        descricao,
        icmsn,
        icmsp,
+       icmsc,
        ipin,
        ipip,
        cstn,

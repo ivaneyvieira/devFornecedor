@@ -37,6 +37,9 @@ class NotaEntradaNdd(val id: Int,
                      val xmlDadosAdicionais: String,
                      val notaSaci: String,
                      var ordno: Int) {
+  val aliquotaICMSCalculo
+    get() = valorTotalIcms / valorTotalProdutos
+
   fun save() {
     saci.saveNotaNddPedido(this)
   }
