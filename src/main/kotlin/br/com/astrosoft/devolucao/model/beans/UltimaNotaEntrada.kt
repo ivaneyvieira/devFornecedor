@@ -8,7 +8,8 @@ class UltimaNotaEntrada(val lj: Int,
                         val ni: Int,
                         val data: LocalDate,
                         val nfe: String,
-                        val forn: String,
+                        val fornCad: String,
+                        val fornNota: String,
                         val prod: String,
                         val descricao: String,
                         val icmsn: Double,
@@ -39,6 +40,7 @@ class FiltroUltimaNotaEntrada(val storeno: Int,
                               val di: LocalDate,
                               val df: LocalDate,
                               val vendno: Int,
+                              val mfno: Int,
                               val ni: Int,
                               val nf: String,
                               val prd: String,
@@ -60,7 +62,8 @@ data class UltimaNotaEntradaGrupo(val nomeGrupo: String,
   val ni = nota.ni
   val dataStr = nota.dataStr
   val nfe = nota.nfe
-  val forn = nota.forn
+  val fornCad = nota.fornCad
+  val fornNota = nota.fornNota
   val prod = nota.prod
   val descricao = nota.descricao
 }

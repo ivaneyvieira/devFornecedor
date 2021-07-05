@@ -454,6 +454,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("di", filter.di.toSaciDate())
       addOptionalParameter("df", filter.df.toSaciDate())
       addOptionalParameter("vendno", filter.vendno)
+      addOptionalParameter("mfno", filter.mfno)
       addOptionalParameter("ni", filter.ni)
       addOptionalParameter("nf", filter.nf)
       addOptionalParameter("prd", filter.prd)

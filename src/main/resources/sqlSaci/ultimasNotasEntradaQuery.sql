@@ -2,6 +2,7 @@ DO @storeno := :storeno;
 DO @di := :di;
 DO @df := :df;
 DO @vendno := :vendno;
+DO @mfno := :mfno;
 DO @ni := :ni;
 DO @nf := :nf;
 DO @prd := LPAD(:prd, 16, ' ');
@@ -26,7 +27,8 @@ CREATE TEMPORARY TABLE sqldados.T_QUERY
 SELECT iprd.storeno                                                                 AS lj,
        inv.invno                                                                    AS ni,
        CAST(inv.date AS DATE)                                                       AS data,
-       prd.mfno                                                                     AS forn,
+       prd.mfno                                                                     AS fornCad,
+       inv.vendno                                                                   AS fornNota,
        iprd.prdno                                                                   AS prod,
        TRIM(MID(prd.name, 1, 37))                                                   AS descricao,
        spedprd.ncm                                                                  AS ncmp,
@@ -48,7 +50,7 @@ FROM sqldados.iprd
   LEFT JOIN sqldados.inv
 	      USING (invno)
   LEFT JOIN sqldados.vend
-	      ON (vend.no = inv.vendno)
+	      ON vend.no = inv.vendno
   LEFT JOIN sqldados.prd
 	      ON (prd.no = iprd.prdno)
   LEFT JOIN sqldados.prp
@@ -69,7 +71,8 @@ WHERE inv.date BETWEEN @di AND @df
   AND cfo.no NOT IN (1949, 1353, 1916)
   AND (iprd.invno = @ni OR @ni = 0)
   AND (inv.nfname = @nf OR @nf = '')
-  AND (vend.no = @vendno OR @vendno = 0)
+  AND (inv.vendno = @vendno OR @vendno = 0)
+  AND (prd.mfno = @mfno OR @mfno = 0)
   AND vend.name NOT LIKE 'ENGECOPI%'
   AND (iprd.prdno LIKE @prd OR TRIM(@prd) LIKE '')
   AND NOT (prd.no BETWEEN '          980000' AND '          999999')
@@ -102,7 +105,8 @@ SELECT lj,
        ni,
        data,
        nfe,
-       forn,
+       fornCad,
+       fornNota,
        prod,
        descricao,
        icmsn,

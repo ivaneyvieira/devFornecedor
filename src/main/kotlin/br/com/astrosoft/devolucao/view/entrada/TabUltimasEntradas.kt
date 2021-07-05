@@ -24,7 +24,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
-  private lateinit var edtFornecedor: IntegerField
+  private lateinit var edtFornecedorCad: IntegerField
+  private lateinit var edtFornecedorNota: IntegerField
   private lateinit var edtDataF: DatePicker
   private lateinit var edtDataI: DatePicker
   private lateinit var edtLoja: ComboBox<Loja>
@@ -34,7 +35,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
     edtDataI.value = filtro.di
     edtDataF.value = filtro.df
-    edtFornecedor.value = if (filtro.vendno == 0) null else filtro.vendno
+    edtFornecedorCad.value = if (filtro.mfno == 0) null else filtro.mfno
+    edtFornecedorNota.value = if (filtro.vendno == 0) null else filtro.vendno
     edtNi.value = if (filtro.ni == 0) null else filtro.ni
     edtNota.value = filtro.nf
     edtProduto.value = filtro.prd
@@ -44,7 +46,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
     return FiltroUltimaNotaEntrada(storeno = edtLoja.value?.no ?: 0,
                                    di = edtDataI.value ?: LocalDate.now(),
                                    df = edtDataF.value ?: LocalDate.now(),
-                                   vendno = edtFornecedor.value ?: 0,
+                                   vendno = edtFornecedorNota.value ?: 0,
+                                   mfno = edtFornecedorCad.value ?: 0,
                                    ni = edtNi.value ?: 0,
                                    nf = edtNota.value ?: "",
                                    prd = edtProduto.value ?: "",
@@ -78,7 +81,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
       }
     }
     horizontalLayout {
-      edtFornecedor = integerField("Fornecedor")
+      edtFornecedorCad = integerField("Fornecedor Cad.")
+      edtFornecedorNota = integerField("Fornecedor Nota")
       edtNi = integerField("NI")
       edtNota = textField("Nota Fiscal")
       edtProduto = textField("Produto")
