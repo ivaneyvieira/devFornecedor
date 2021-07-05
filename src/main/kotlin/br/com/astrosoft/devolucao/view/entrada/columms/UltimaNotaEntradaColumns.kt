@@ -44,6 +44,10 @@ object UltimaNotaEntradaColumns {
     this.setHeader("ICMS P")
   }
 
+  fun Grid<UltimaNotaEntrada>.notaIcmsc() = addColumnDouble(UltimaNotaEntrada::icmsc) {
+    this.setHeader("ICMS C")
+  }
+
   fun Grid<UltimaNotaEntrada>.notaIpin() = addColumnDouble(UltimaNotaEntrada::ipin) {
     this.setHeader("IPI N")
   }

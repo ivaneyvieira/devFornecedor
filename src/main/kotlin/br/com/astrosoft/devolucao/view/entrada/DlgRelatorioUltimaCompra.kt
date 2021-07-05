@@ -8,6 +8,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaForn
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsc
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
@@ -132,6 +133,7 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       notaProd()
       notaDescricao()
       notaIcmsn().marcaDiferenca { icmsDif == "N" }
+      notaIcmsc().marcaDiferenca { icmsDif == "N" }
       notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
       notaIpip().marcaDiferenca { ipiDif == "N" }
