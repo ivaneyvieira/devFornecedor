@@ -136,8 +136,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       notaProd()
       notaDescricao()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
-      notaIcmsc().marcaDiferenca { icmsDif == "N" }
       notaIcmsn().marcaDiferenca { icmsDif == "N" }
+      notaIcmsc().marcaDiferenca { icmsDif == "N" }
       notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
       notaIpip().marcaDiferenca { ipiDif == "N" }
