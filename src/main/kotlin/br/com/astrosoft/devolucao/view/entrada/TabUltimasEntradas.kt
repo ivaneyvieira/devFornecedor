@@ -10,6 +10,7 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dependency.CssImport
@@ -29,6 +30,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
   private lateinit var edtDataF: DatePicker
   private lateinit var edtDataI: DatePicker
   private lateinit var edtLoja: ComboBox<Loja>
+  private lateinit var edtUlmNota: Checkbox
   private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
 
   override fun setFIltro(filtro: FiltroUltimaNotaEntrada) {
@@ -40,6 +42,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
     edtNi.value = if (filtro.ni == 0) null else filtro.ni
     edtNota.value = filtro.nf
     edtProduto.value = filtro.prd
+    edtUlmNota.value = filtro.ultimaNota
   }
 
   override fun getFiltro(): FiltroUltimaNotaEntrada {
@@ -55,7 +58,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
                                    icms = T,
                                    ipi = T,
                                    mva = T,
-                                   ncm = T)
+                                   ncm = T,
+                                   ultimaNota = edtUlmNota.value ?: false)
   }
 
   override fun openRelatorio() {
@@ -79,6 +83,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
       edtDataF = datePicker("Data Final") {
         localePtBr()
       }
+      edtUlmNota = checkBox("Últimas Nota")
     }
     horizontalLayout {
       edtFornecedorCad = integerField("Fornecedor Cad.")

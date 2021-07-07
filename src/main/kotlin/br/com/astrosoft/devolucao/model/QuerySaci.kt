@@ -447,8 +447,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun queryUltimaNota(filter: FiltroUltimaNotaEntrada) {
-    val sql = "/sqlSaci/ultimasNotasEntradaQuery.sql"
+  fun queryUltimaNota(filter: FiltroUltimaNotaEntrada ) {
+    val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasEntradaQueryUtm.sql"
+    else "/sqlSaci/ultimasNotasEntradaQuery.sql"
     script(sql) {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
