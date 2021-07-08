@@ -199,7 +199,7 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val ncm: String
     get() = item.produto?.ncm ?: ""
   val cst: String
-    get() = item.produto?.codigoEspecificadorSituacaoTributaria ?: ""
+    get() = item.imposto?.ipi?.tributado?.situacaoTributaria?.codigo ?: ""
   val cfop: String
     get() = item.produto?.cfop ?: ""
   val unidade: String
