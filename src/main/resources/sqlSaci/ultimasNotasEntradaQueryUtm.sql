@@ -11,6 +11,7 @@ DO @icms := :icms;
 DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
+DO @rotulo := :rotulo;
 
 DROP TEMPORARY TABLE IF EXISTS T_NCM;
 CREATE TEMPORARY TABLE T_NCM (
@@ -53,6 +54,8 @@ FROM sqldados.iprd
 	      ON vend.no = inv.vendno
   LEFT JOIN sqldados.prd
 	      ON (prd.no = iprd.prdno)
+  LEFT JOIN sqldados.prdalq
+	      ON prdalq.prdno = prd.no
   LEFT JOIN sqldados.prp
 	      ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
   LEFT JOIN sqldados.cfo
@@ -76,6 +79,7 @@ WHERE inv.date BETWEEN @di AND @df
   AND vend.name NOT LIKE 'ENGECOPI%'
   AND (iprd.prdno LIKE @prd OR TRIM(@prd) LIKE '')
   AND NOT (prd.no BETWEEN '          980000' AND '          999999')
+  AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
 GROUP BY inv.invno, iprd.prdno;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
