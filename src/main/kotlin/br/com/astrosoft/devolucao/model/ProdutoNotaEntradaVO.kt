@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.ProdutoNotaEntradaNdd
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.formatDate
 import br.com.astrosoft.framework.util.formatTime
+import com.fincatto.documentofiscal.DFBase
 import com.fincatto.documentofiscal.nfe400.classes.NFModalidadeFrete
 import com.fincatto.documentofiscal.nfe400.classes.nota.*
 import com.fincatto.documentofiscal.utils.DFPersister
@@ -66,6 +67,11 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   private fun identificacao(): NFNotaInfoIdentificacao? = nota.info?.identificacao
   private fun icmsTotal(): NFNotaInfoICMSTotal? = nota.info?.total?.icmsTotal
   private fun issqnTotal(): NFNotaInfoISSQNTotal? = nota.info?.total?.issqnTotal
+  private fun icms(): DFBase? {
+    val root = item.imposto.icms
+    return root?.icms00 ?: root?.icms10 ?: root?.icms20 ?: root?.icms30 ?: root?.icms40 ?: root?.icms51 ?: root?.icms60
+           ?: root?.icms70 ?: root?.icms90
+  }
 
   val nomeEmitente: String
     get() = emitente()?.razaoSocial ?: ""
@@ -199,7 +205,7 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val ncm: String
     get() = item.produto?.ncm ?: ""
   val cst: String
-    get() = item.imposto?.ipi?.tributado?.situacaoTributaria?.codigo ?: ""
+    get() = icms().cst() ?: ""
   val cfop: String
     get() = item.produto?.cfop ?: ""
   val unidade: String
@@ -211,13 +217,13 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val valorTotalProduto: BigDecimal
     get() = item.produto?.valorTotalBruto.formatBigDecimal()
   val bcICMSProduto: BigDecimal
-    get() = item.imposto?.icms?.icms00?.valorBaseCalculo.formatBigDecimal()
+    get() = icms()?.valorBaseCalculo().formatBigDecimal()
   val vlICMSProduto: BigDecimal
-    get() = item.imposto?.icms?.icms00?.valorTributo.formatBigDecimal()
+    get() = icms()?.valorTributo().formatBigDecimal()
   val vlIPIProduto: BigDecimal
     get() = item.imposto?.ipi?.tributado?.valorTributo.formatBigDecimal()
   val aliqICMSProduto: BigDecimal
-    get() = item.imposto.icms?.icms00?.percentualAliquota.formatBigDecimal()
+    get() = icms()?.percentualAliquota().formatBigDecimal()
   val aliqIPIProduto: BigDecimal
     get() = item.imposto?.ipi?.tributado?.percentualAliquota.formatBigDecimal()
   val inscricaoMunicial: String
@@ -235,6 +241,64 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
       val infCpl = informacoesAdicionais.informacoesComplementaresInteresseContribuinte ?: ""
       return "$infAdFisco\n$infCpl".trim().replace("^[\\s]*\n".toRegex(), "")
     }
+}
+
+private fun DFBase?.percentualAliquota(): String? {
+  this ?: return null
+  return when (this) {
+    is NFNotaInfoItemImpostoICMS00 -> this.percentualAliquota
+    is NFNotaInfoItemImpostoICMS10 -> this.percentualAliquota
+    is NFNotaInfoItemImpostoICMS20 -> this.percentualAliquota
+    is NFNotaInfoItemImpostoICMS51 -> this.percentualICMS
+    is NFNotaInfoItemImpostoICMS60 -> this.percentualAliquotaICMSSTSuportadaConsumidorFinal
+    is NFNotaInfoItemImpostoICMS70 -> this.percentualAliquota
+    is NFNotaInfoItemImpostoICMS90 -> this.percentualAliquota
+    else                           -> null
+  }
+}
+
+private fun DFBase?.valorTributo(): String? {
+  this ?: return null
+  return when (this) {
+    is NFNotaInfoItemImpostoICMS00 -> this.valorTributo
+    is NFNotaInfoItemImpostoICMS10 -> this.valorTributo
+    is NFNotaInfoItemImpostoICMS20 -> this.valorTributo
+    is NFNotaInfoItemImpostoICMS51 -> this.valorICMSOperacao
+    is NFNotaInfoItemImpostoICMS60 -> this.valorICMSSTRetido
+    is NFNotaInfoItemImpostoICMS70 -> this.valorTributo
+    is NFNotaInfoItemImpostoICMS90 -> this.valorTributo
+    else                           -> null
+  }
+}
+
+private fun DFBase?.valorBaseCalculo(): String? {
+  this ?: return null
+  return when (this) {
+    is NFNotaInfoItemImpostoICMS00 -> this.valorBaseCalculo
+    is NFNotaInfoItemImpostoICMS10 -> this.valorBaseCalculo
+    is NFNotaInfoItemImpostoICMS20 -> this.valorBCICMS
+    is NFNotaInfoItemImpostoICMS30 -> this.valorBCICMSST
+    is NFNotaInfoItemImpostoICMS51 -> this.valorBCICMS
+    is NFNotaInfoItemImpostoICMS70 -> this.valorBC
+    is NFNotaInfoItemImpostoICMS90 -> this.valorBC
+    else                           -> null
+  }
+}
+
+private fun DFBase?.cst(): String? {
+  this ?: return null
+  return when (this) {
+    is NFNotaInfoItemImpostoICMS00 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS10 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS20 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS30 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS40 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS51 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS60 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS70 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    is NFNotaInfoItemImpostoICMS90 -> this.origem?.codigo + this.situacaoTributaria?.codigo
+    else                           -> null
+  }
 }
 
 private fun String?.formatInscricaoEstadual(): String {
