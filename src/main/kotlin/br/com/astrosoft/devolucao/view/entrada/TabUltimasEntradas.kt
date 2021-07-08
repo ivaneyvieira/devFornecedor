@@ -31,6 +31,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
   private lateinit var edtDataI: DatePicker
   private lateinit var edtLoja: ComboBox<Loja>
   private lateinit var edtUlmNota: Checkbox
+  private lateinit var edtRotulo: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
 
   override fun setFIltro(filtro: FiltroUltimaNotaEntrada) {
@@ -43,6 +44,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
     edtNota.value = filtro.nf
     edtProduto.value = filtro.prd
     edtUlmNota.value = filtro.ultimaNota
+    edtRotulo.value = filtro.rotulo
   }
 
   override fun getFiltro(): FiltroUltimaNotaEntrada {
@@ -59,7 +61,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
                                    ipi = T,
                                    mva = T,
                                    ncm = T,
-                                   ultimaNota = edtUlmNota.value ?: false)
+                                   ultimaNota = edtUlmNota.value ?: false,
+                                   rotulo = edtRotulo.value ?: "")
   }
 
   override fun openRelatorio() {
@@ -91,6 +94,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
       edtNi = integerField("NI")
       edtNota = textField("Nota Fiscal")
       edtProduto = textField("Produto")
+      edtRotulo = textField("Rótulo")
     }
     br()
     button("Relatório") {

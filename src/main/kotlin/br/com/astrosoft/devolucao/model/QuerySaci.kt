@@ -464,6 +464,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ipi", filter.ipi.str)
       addOptionalParameter("mva", filter.mva.str)
       addOptionalParameter("ncm", filter.ncm.str)
+      addOptionalParameter("rotulo", filter.rotulo)
     }
   }
 

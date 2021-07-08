@@ -50,7 +50,8 @@ class FiltroUltimaNotaEntrada(val storeno: Int,
                               var ipi: EDiferenca,
                               var mva: EDiferenca,
                               var ncm: EDiferenca,
-                              val ultimaNota: Boolean)
+                              val ultimaNota: Boolean,
+                              val rotulo: String)
 
 enum class EDiferenca(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
