@@ -50,7 +50,7 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<UltimaNotaEntrada>.notaIcmsc() = addColumnDouble(UltimaNotaEntrada::icmsc) {
-    this.setHeader("ICMS C")
+    this.setHeader("ICMS R")
   }
 
   fun Grid<UltimaNotaEntrada>.notaRedIcms() = addColumnDouble(UltimaNotaEntrada::icmsd) {
