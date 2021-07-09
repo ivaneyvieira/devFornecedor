@@ -13,7 +13,8 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj1 AS C
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 1
+      :storeno = 1 AND
+      XML_NFE IS NOT NULL
 UNION ALL
 SELECT OID              AS id,
        XML_NFE          AS xmlNfe,
@@ -30,7 +31,8 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj2
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 2
+      :storeno = 2 AND
+      XML_NFE IS NOT NULL
 UNION ALL
 SELECT OID              AS id,
        XML_NFE          AS xmlNfe,
@@ -47,7 +49,8 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj03
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 3
+      :storeno = 3 AND
+      XML_NFE IS NOT NULL
 UNION ALL
 SELECT OID              AS id,
        XML_NFE          AS xmlNfe,
@@ -64,7 +67,8 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj04
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 4
+      :storeno = 4 AND
+      XML_NFE IS NOT NULL
 UNION ALL
 SELECT OID              AS id,
        XML_NFE          AS xmlNfe,
@@ -81,7 +85,8 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj05
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 5
+      :storeno = 5 AND
+      XML_NFE IS NOT NULL
 UNION ALL
 SELECT OID              AS id,
        XML_NFE          AS xmlNfe,
@@ -98,7 +103,8 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj06
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 6
+      :storeno = 6 AND
+      XML_NFE IS NOT NULL
 UNION ALL
 SELECT OID              AS id,
        XML_NFE          AS xmlNfe,
@@ -115,4 +121,5 @@ SELECT OID              AS id,
 FROM NDD_COLD.dbo.cold_lj07
 WHERE IDE_NNF = :numero AND
       IDE_SERIE = :serie AND
-      :storeno = 7
+      :storeno = 7 AND
+      XML_NFE IS NOT NULL
