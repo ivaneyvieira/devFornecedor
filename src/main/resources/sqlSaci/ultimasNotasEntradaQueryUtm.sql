@@ -119,11 +119,11 @@ SELECT lj,
        ncmn,
        ncmp,
        IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
-	  'N')                                               AS cstDif,
-       IF(ROUND(ICMSn * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
-       IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')   AS ipiDif,
-       IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')   AS mvaDif,
-       IF(NCMn = NCMp, 'S', 'N')                             AS ncmDif
+	  'N')                                                                       AS cstDif,
+       IF(ROUND(IF(CSTn = '20', ICMSc, ICMSn) * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
+       IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')                           AS ipiDif,
+       IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                           AS mvaDif,
+       IF(NCMn = NCMp, 'S', 'N')                                                     AS ncmDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, NI)
