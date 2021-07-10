@@ -32,6 +32,9 @@ class UltimaNotaEntrada(val lj: Int,
   val dataStr
     get() = data.format()
 
+  val difGeral
+    get() = cstDif == "N" || icmsDif == "N" || ipiDif == "N" || mvaDif == "N" || ncmDif == "N"
+
   companion object {
     fun findNotas(filter: FiltroUltimaNotaEntrada) = saci.ultimasNotasEntrada(filter)
   }
