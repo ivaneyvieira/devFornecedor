@@ -20,7 +20,6 @@ CREATE TEMPORARY TABLE T_NCM (
 )
 SELECT DISTINCT prdnoRef, MID(MAX(CONCAT(LPAD(seqnoAuto, 20, '0'), ncm)), 21, 20) AS ncm
 FROM sqldados.mfprd
-WHERE ncm <> ''
 GROUP BY prdnoRef;
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
