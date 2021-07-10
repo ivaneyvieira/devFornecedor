@@ -128,12 +128,12 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi()
+      notaNi().marcaDiferenca { true }
       notaData()
-      notaNfe()
+      notaNfe().marcaDiferenca { true }
       notaFornCad()
       notaFornNota()
-      notaProd()
+      notaProd().marcaDiferenca { true }
       notaDescricao()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
