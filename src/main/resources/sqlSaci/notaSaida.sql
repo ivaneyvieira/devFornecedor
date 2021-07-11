@@ -18,7 +18,7 @@ WHERE N.status <> 1
   AND (N.storeno = :loja)
   AND (N.nfno = :numero OR :numero = 0)
   AND (N.nfse = :serie OR :serie = '')
-  AND (N.nfse * 1 <= 10)
+  AND (N.nfse IN ('1', '3'))
   AND (N.issuedate BETWEEN :dataI AND :dataF)
   AND (N.custno = :codigoCliente OR :codigoCliente = 0)
   AND (C.name LIKE CONCAT('%', :nomeCliente, '%') OR :nomeCliente = '')

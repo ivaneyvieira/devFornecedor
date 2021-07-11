@@ -36,7 +36,19 @@ class UltimaNotaEntrada(val lj: Int,
     get() = cstDif == "N" || icmsDif == "N" || ipiDif == "N" || mvaDif == "N" || ncmDif == "N"
 
   companion object {
-    fun findNotas(filter: FiltroUltimaNotaEntrada) = saci.ultimasNotasEntrada(filter)
+    fun findNotas(filter: FiltroUltimaNotaEntrada) = saci.ultimasNotasEntrada(filter).filter {
+      it.filtroCaracter(filter.listaCaracter)
+    }
+  }
+}
+
+private fun UltimaNotaEntrada.filtroCaracter(listaCaracter: List<String>): Boolean {
+  return if (listaCaracter.isEmpty()) true
+  else {
+    val listBoolean = listaCaracter.map { character ->
+      !this.descricao.startsWith(character)
+    }
+    listBoolean.all { it }
   }
 }
 
@@ -54,7 +66,11 @@ class FiltroUltimaNotaEntrada(val storeno: Int,
                               var mva: EDiferenca,
                               var ncm: EDiferenca,
                               val ultimaNota: Boolean,
-                              val rotulo: String)
+                              val rotulo: String,
+                              val caraterInicial: String) {
+  val listaCaracter
+    get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
+}
 
 enum class EDiferenca(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
