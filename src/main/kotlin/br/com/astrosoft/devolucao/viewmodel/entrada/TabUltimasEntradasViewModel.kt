@@ -63,7 +63,7 @@ class TabUltimasEntradasViewModel(val viewModel: EntradaViewModel) {
 }
 
 interface ITabUltimasEntradasViewModel : ITabView {
-  fun setFIltro(filtro: FiltroUltimaNotaEntrada)
+  fun setFiltro(filtro: FiltroUltimaNotaEntrada)
   fun getFiltro(): FiltroUltimaNotaEntrada
   fun openRelatorio()
 }

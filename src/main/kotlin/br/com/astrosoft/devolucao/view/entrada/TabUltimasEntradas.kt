@@ -32,9 +32,10 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
   private lateinit var edtLoja: ComboBox<Loja>
   private lateinit var edtUlmNota: Checkbox
   private lateinit var edtRotulo: TextField
+  private lateinit var edtCaracter: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
 
-  override fun setFIltro(filtro: FiltroUltimaNotaEntrada) {
+  override fun setFiltro(filtro: FiltroUltimaNotaEntrada) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
     edtDataI.value = filtro.di
     edtDataF.value = filtro.df
@@ -45,11 +46,12 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
     edtProduto.value = filtro.prd
     edtUlmNota.value = filtro.ultimaNota
     edtRotulo.value = filtro.rotulo
+    edtCaracter.value = filtro.caraterInicial
   }
 
   override fun getFiltro(): FiltroUltimaNotaEntrada {
     return FiltroUltimaNotaEntrada(storeno = edtLoja.value?.no ?: 0,
-                                   di = edtDataI.value ?: LocalDate.now(),
+                                   di = edtDataI.value ?: LocalDate.of(2021, 1, 1),
                                    df = edtDataF.value ?: LocalDate.now(),
                                    vendno = edtFornecedorNota.value ?: 0,
                                    mfno = edtFornecedorCad.value ?: 0,
@@ -62,7 +64,8 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
                                    mva = T,
                                    ncm = T,
                                    ultimaNota = edtUlmNota.value ?: false,
-                                   rotulo = edtRotulo.value ?: "")
+                                   rotulo = edtRotulo.value ?: "",
+                                   caraterInicial = edtCaracter.value ?: "")
   }
 
   override fun openRelatorio() {
@@ -87,6 +90,9 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
         localePtBr()
       }
       edtUlmNota = checkBox("Últimas Nota")
+      edtCaracter = textField("Inibir Produto") {
+        placeholder = "Separado por ,"
+      }
     }
     horizontalLayout {
       edtFornecedorCad = integerField("Fornecedor Cad.")
@@ -103,7 +109,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
         viewModel.openDlgRelatorio()
       }
     }
-    setFIltro(getFiltro())
+    setFiltro(getFiltro())
   }
 
   override fun isAuthorized(user: IUser): Boolean {
