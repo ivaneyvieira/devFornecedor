@@ -20,6 +20,7 @@ WHERE N.status <> 1
   AND (N.nfse = :serie OR :serie = '')
   AND (N.nfse IN ('1', '3'))
   AND (N.issuedate BETWEEN :dataI AND :dataF)
+  AND (N.issuedate >= 20210101)
   AND (N.custno = :codigoCliente OR :codigoCliente = 0)
   AND (C.name LIKE CONCAT('%', :nomeCliente, '%') OR :nomeCliente = '')
 

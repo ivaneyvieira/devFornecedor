@@ -51,7 +51,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
 
   override fun getFiltro(): FiltroUltimaNotaEntrada {
     return FiltroUltimaNotaEntrada(storeno = edtLoja.value?.no ?: 0,
-                                   di = edtDataI.value ?: LocalDate.of(2021, 1, 1),
+                                   di = edtDataI.value ?: LocalDate.now(),
                                    df = edtDataF.value ?: LocalDate.now(),
                                    vendno = edtFornecedorNota.value ?: 0,
                                    mfno = edtFornecedorCad.value ?: 0,
