@@ -77,7 +77,7 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     }
     edtDataI = datePicker("Data Inicial") {
       localePtBr()
-      value = LocalDate.now().minusDays(60)
+      value = LocalDate.now()
       addValueChangeListener {
         viewModel.updateView()
       }
