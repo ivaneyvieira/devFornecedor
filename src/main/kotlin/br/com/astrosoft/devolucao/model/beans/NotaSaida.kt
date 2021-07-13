@@ -122,7 +122,8 @@ class NotaSaida(
 
     fun updateNotasDevolucao(filtro: IFiltro) {
       val user = Config.user as? UserSaci
-      val loja = if (user?.admin == true) 0 else user?.storeno ?: 0
+      val loja: Int = if (user?.admin == true) 0 else user?.storeno ?: 0
+
       val notas = when (filtro.serie) {
         PED  -> saci.pedidosDevolucao()
         ENT  -> saci.entradaDevolucao()
