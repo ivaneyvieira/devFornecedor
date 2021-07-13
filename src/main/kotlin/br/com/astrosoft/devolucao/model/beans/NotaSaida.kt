@@ -62,6 +62,8 @@ class NotaSaida(
     }
   }
 
+  val valorIpiProdutos
+    get() = if (tipo == "PED") listaProdutos().sumOf { it.valorIPI } else valorIpi
   val icmsSubstProduto
     get() = if (tipo == "PED") listaProdutos().sumOf { it.vst } else icmsSubst
   val baseIcmsSubstProduto
