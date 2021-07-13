@@ -52,7 +52,7 @@ FROM sqldados.inv          AS I
 WHERE I.bits & POW(2, 4) = 0
   AND I.storeno = 4
   AND I.auxShort13 & POW(2, 15) = 0
-  AND I.cfo NOT IN (1910, 2910, 1916, 2916, 1949, 2949)
+  AND I.cfo NOT IN (1916, 2916, 1949, 2949) /*1910, 2910 - bonificação,  */
   AND I.type = 0
 GROUP BY prdno, grade;
 
@@ -155,14 +155,14 @@ SELECT P.loja,
        P.codigo                                                           AS codigo,
        P.refFor                                                           AS refFor,
        P.descricao                                                        AS descricao,
-       N.grade                                                            AS grade,
+       P.grade                                                            AS grade,
        P.qtde                                                             AS qtde,
-       N.valorUnitInv                                                     AS valorUnitario,
-       P.qtde * N.valorUnitInv                                            AS valorTotal,
+       IFNULL(N.valorUnitInv, 0.00)                                       AS valorUnitario,
+       IFNULL(P.qtde * N.valorUnitInv, 0.00)                              AS valorTotal,
        IFNULL(P.ipiAliq * P.qtde * N.valorUnitInv, 0.00)                  AS ipi,
        IFNULL(P.stAliq * P.qtde * N.valorUnitInv, 0.00)                   AS vst,
        CAST(N.cst AS char)                                                AS cst,
-       cfop                                                               AS cfop,
+       IFNULL(N.cfop, '')                                                 AS cfop,
        IFNULL((P.ipiAliq + P.stAliq + 1) * P.qtde * N.valorUnitInv, 0.00) AS valorTotalIpi,
        P.barcode                                                          AS barcode,
        P.un                                                               AS un,
@@ -175,10 +175,14 @@ SELECT P.loja,
        N.dateInv                                                          AS dateInv,
        IFNULL(N.valorUnitInv, 0.00)                                       AS valorUnitInv,
        IFNULL(N.valorUnitInv, 0.00) * P.qtde                              AS valorTotalInv,
-       N.chaveUlt                                                         AS chaveUlt,
+       IFNULL(N.chaveUlt, '')                                             AS chaveUlt,
        P.ncm                                                              AS ncm,
-       N.icmsAliq                                                         AS icmsAliq,
-       N.ipiAliq                                                          AS ipiAliq
+       IFNULL(P.qtde * N.valorUnitInv, 0.00)                              AS baseICMS,
+       IFNULL(P.qtde * N.valorUnitInv * N.icmsAliq / 100, 0.00)           AS valorICMS,
+       IFNULL(P.qtde * N.valorUnitInv, 0.00)                              AS baseIPI,
+       IFNULL(P.qtde * N.valorUnitInv * N.ipiAliq / 100, 0.00)            AS valorIPI,
+       IFNULL(N.icmsAliq, 0.00)                                           AS icmsAliq,
+       IFNULL(N.ipiAliq, 0.00)                                            AS ipiAliq
 FROM T_PEDIDO     AS P
   LEFT JOIN T_INV AS N
 	      USING (codigo, grade)

@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toDate
 import java.time.LocalDate
 
@@ -31,9 +32,18 @@ class ProdutosNotaSaida(
   val chaveUlt: String?,
   val cst: String,
   val cfop: String,
+  val ncm: String,
+  val baseICMS: Double,
+  val valorICMS: Double,
+  val baseIPI: Double,
+  val valorIPI: Double,
+  val icmsAliq: Double,
+  val ipiAliq: Double,
                        ) {
   var item: Int = 0
   val dateInvDate
     get() = dateInv?.toDate()
+  val dateInvStr
+    get() = dateInv.format()
   var nota: NotaSaida? = null
 }
