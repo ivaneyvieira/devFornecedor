@@ -4,22 +4,20 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.framework.model.reports.*
 import br.com.astrosoft.framework.model.reports.Templates.fieldBorder
-import br.com.astrosoft.framework.model.reports.Templates.fieldFont
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
-import br.com.astrosoft.framework.model.reports.Templates.fieldFontTitle
 import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
+import net.sf.dynamicreports.report.builder.component.VerticalListBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
-import net.sf.dynamicreports.report.constant.TextAdjust
-import net.sf.dynamicreports.report.constant.TextAdjust.*
+import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
@@ -250,9 +248,12 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   private fun titleBuiderPedido(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
+        text("ENGECOPI ${notaSaida.sigla}", LEFT).apply {
           this.setStyle(fieldFontGrande)
         }
+      }
+      horizontalList {
+        text("Natureza da operação: ${notaSaida.natureza}", LEFT)
       }
       horizontalList {
         val dataAtual = LocalDate.now().format()
@@ -263,8 +264,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         val vendno = notaSaida.vendno
         val pedido = notaSaida.pedido
         val dataPedido = notaSaida.dataPedido.format()
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido", LEFT)
-        text("$dataAtual-$horaAtual", RIGHT, 100)
+        text("Fornecedor: $custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)", LEFT)
+        text("PED. $pedido - $dataPedido", RIGHT, 150)
       }
     }
   }
@@ -380,90 +381,196 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
   private fun sumaryBuild(): ComponentBuilder<*, *> {
     return verticalBlock {
-      if (notaSaida.tipo in listOf("1", "PED")) {
-        breakLine()
-        val widitInicial = 110
-        this.horizontalList {
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("BASE DE CÁLCULO DO ICMS", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.baseIcmsProdutos.format(), RIGHT) { this.setStyle(fieldFont) }
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR DO ICMS", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.valorIcmsProdutos.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("BASE DE CÁLCULO DO ICMS SUBSTITUIÇÃO", LEFT) {
-              this.setStyle(fieldFontTitle)
-            }
-            text(notaSaida.baseIcmsSubstProduto.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR ICMS SUBSTITUIÇÃO", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.icmsSubstProduto.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR TOTAL DOS PRODUTOS", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.valorTotalProduto.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial)
-          }
-        }
-        this.horizontalList {
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR DO FRETE", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.valorFrete.format(), RIGHT) { this.setStyle(fieldFont) }
-          }
-
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR DO SEGURO", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.valorSeguro.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial * 2 * 3 / 8)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("DESCONTO", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.valorDesconto.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial * 2 * 2 / 8)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR ICMS SUBSTITUIÇÃO", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.icmsSubst.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial * 2 * 3 / 8)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("OUTRAS DESPESAS ACESSÓRIAS", LEFT) { this.setStyle(fieldFontTitle) }
-            text(notaSaida.outrasDespesas.format(), RIGHT) { this.setStyle(fieldFont) }
-            setWidth(widitInicial)
-          }
-          this.verticalList {
-            setStyle(fieldBorder)
-            text("VALOR TOTAL DA NOTA", LEFT) {
-              this.setStyle(stl.style(fieldFontTitle).bold())
-            }
-            text(notaSaida.valorTotalProduto.format(), RIGHT) {
-              this.setStyle(stl.style(fieldFont).bold())
-            }
-            setWidth(widitInicial)
-          }
-        }
+      when (notaSaida.tipo) {
+        "1"   -> sumaryNota()
+        "PED" -> sumaryPedido()
       }
+
       breakLine()
 
-      text("OBSERVAÇÕES:", LEFT, 100)
+      text("Dados Adicionais:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
       if (notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) text(notaSaida.obsPedido)
+    }
+  }
+
+  private fun VerticalListBuilder.sumaryNota() {
+    breakLine()
+    this.horizontalList {
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("BASE DE CÁLCULO DO ICMS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.baseIcmsProdutos.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR DO ICMS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorIcmsProdutos.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("BASE DE CÁLCULO DO ICMS SUBSTITUIÇÃO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR ICMS SUBSTITUIÇÃO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.icmsSubstProduto.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR TOTAL DOS PRODUTOS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorTotalProduto.format(), RIGHT)
+      }
+    }
+    this.horizontalList {
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR DO FRETE", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorFrete.format(), RIGHT)
+      }
+
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR DO SEGURO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorSeguro.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("DESCONTO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorDesconto.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR ICMS SUBSTITUIÇÃO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.icmsSubst.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("OUTRAS DESPESAS ACESSÓRIAS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.outrasDespesas.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR TOTAL DA NOTA", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorTotalProduto.format(), RIGHT)
+      }
+    }
+  }
+
+  private fun VerticalListBuilder.sumaryPedido() {
+    breakLine()
+    this.horizontalList {
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("BASE DE CÁLCULO DO ICMS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.baseIcmsProdutos.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR DO ICMS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorIcmsProdutos.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("BASE DE CÁLCULO DO ICMS ST", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR ICMS ST", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.icmsSubstProduto.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR TOTAL DOS PRODUTOS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorTotalProduto.format(), RIGHT)
+      }
+    }
+    this.horizontalList {
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR DO FRETE", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorFrete.format(), RIGHT)
+      }
+
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR DO SEGURO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorSeguro.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("DESCONTO", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorDesconto.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("OUTRAS DESPESAS", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.outrasDespesas.format(), RIGHT)
+
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR IPI", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        text(notaSaida.valorIpiProdutos.format(), RIGHT)
+      }
+      this.verticalList {
+        setStyle(fieldBorder)
+        text("VALOR TOTAL DA NOTA", LEFT) {
+          this.setTextAdjust(SCALE_FONT)
+        }
+        val valorTotalNota = notaSaida.valorTotalProduto + notaSaida.valorIpiProdutos
+        text(valorTotalNota.format(), RIGHT)
+      }
     }
   }
 
@@ -472,23 +579,26 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   }
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return if (notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) listOf(
-      sbt.text("Total R$", valorUnitarioCol),
-      sbt.sum(valorTotalCol),
-      sbt.sum(baseICMSCol),
-      sbt.sum(valorICMSCol),
-      sbt.sum(valorIPICol),
-      sbt.sum(ipiCol),
-      sbt.sum(vstCol),
-      sbt.sum(valorTotalIpiCol),
-                                                                          )
-    else listOf(
-      sbt.text("Total R$", valorUnitarioCol),
-      sbt.sum(valorTotalCol),
-      sbt.sum(ipiCol),
-      sbt.sum(vstCol),
-      sbt.sum(valorTotalIpiCol),
-               )
+    return when (notaSaida.tipo) {
+      in listOf("PED")              -> emptyList()
+      in listOf("66", "AJT", "FIN") -> listOf(
+        sbt.text("Total R$", valorUnitarioCol),
+        sbt.sum(valorTotalCol),
+        sbt.sum(baseICMSCol),
+        sbt.sum(valorICMSCol),
+        sbt.sum(valorIPICol),
+        sbt.sum(ipiCol),
+        sbt.sum(vstCol),
+        sbt.sum(valorTotalIpiCol),
+                                             )
+      else                          -> listOf(
+        sbt.text("Total R$", valorUnitarioCol),
+        sbt.sum(valorTotalCol),
+        sbt.sum(ipiCol),
+        sbt.sum(vstCol),
+        sbt.sum(valorTotalIpiCol),
+                                             )
+    }
   }
 
   fun makeReport(): JasperReportBuilder? {
