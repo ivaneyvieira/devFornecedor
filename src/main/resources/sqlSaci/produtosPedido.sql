@@ -11,14 +11,17 @@ SELECT X.storeno                    AS loja,
        I.costdel3 / 10000           AS stAliq,
        IFNULL(B.barcode, P.barcode) AS barcode,
        TRIM(MID(P.name, 37, 3))     AS un,
-       P.taxno                      AS st
-FROM sqldados.eoprd          AS X
-  LEFT JOIN  sqldados.prp    AS I
+       P.taxno                      AS st,
+       IFNULL(S.ncm, '')            AS ncm
+FROM sqldados.eoprd           AS X
+  LEFT JOIN  sqldados.prp     AS I
 	       ON I.storeno = 10 AND I.prdno = X.prdno
-  LEFT JOIN  sqldados.prdbar AS B
+  LEFT JOIN  sqldados.prdbar  AS B
 	       ON B.prdno = X.prdno AND B.grade = X.grade
-  INNER JOIN sqldados.prd    AS P
+  INNER JOIN sqldados.prd     AS P
 	       ON X.prdno = P.no
+  LEFT JOIN  sqldados.spedprd AS S
+	       ON S.prdno = X.prdno
 WHERE X.storeno = :loja
   AND X.ordno = :pedido
 GROUP BY X.storeno, X.ordno, X.prdno, X.grade;
@@ -128,7 +131,9 @@ SELECT P.prdno                                                      AS codigo,
 	 WHEN 'NAO_TRIB'
 	   THEN 0
 	 ELSE 0
-       END                                                          AS cfop
+       END                                                          AS cfop,
+       P.icmsAliq / 100                                             AS icmsAliq,
+       P.ipi / 100                                                  AS ipiAliq
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -170,7 +175,10 @@ SELECT P.loja,
        N.dateInv                                                          AS dateInv,
        IFNULL(N.valorUnitInv, 0.00)                                       AS valorUnitInv,
        IFNULL(N.valorUnitInv, 0.00) * P.qtde                              AS valorTotalInv,
-       N.chaveUlt                                                         AS chaveUlt
+       N.chaveUlt                                                         AS chaveUlt,
+       P.ncm                                                              AS ncm,
+       N.icmsAliq                                                         AS icmsAliq,
+       N.ipiAliq                                                          AS ipiAliq
 FROM T_PEDIDO     AS P
   LEFT JOIN T_INV AS N
 	      USING (codigo, grade)
