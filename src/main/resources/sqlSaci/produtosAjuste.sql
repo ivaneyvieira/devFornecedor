@@ -107,7 +107,14 @@ SELECT loja,
        dateInv                                                                   AS dateInv,
        IFNULL(valorUnitInv, 0.00)                                                AS valorUnitInv,
        IFNULL(valorUnitInv, 0.00) * qtde                                         AS valorTotalInv,
-       chaveUlt                                                                  AS chaveUlt
+       chaveUlt                                                                  AS chaveUlt,
+       ''                                                                        AS ncm,
+       0.00                                                                      AS baseICMS,
+       0.00                                                                      AS valorICMS,
+       0.00                                                                      AS baseIPI,
+       0.00                                                                      AS valorIPI,
+       0.00                                                                      AS icmsAliq,
+       0.00                                                                      AS ipiAliq
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)
