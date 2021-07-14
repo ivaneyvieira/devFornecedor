@@ -52,15 +52,23 @@ class NotaSaida(
   val chave: String,
   val natureza: String,
                ) {
+  private var produtos: List<ProdutosNotaSaida>? = null
+
   fun listaProdutos(): List<ProdutosNotaSaida> {
-    return when (tipo) {
-      "PED" -> saci.produtosPedido(this)
-      "ENT" -> saci.produtosEntrada(this)
-      "AJT" -> saci.produtosAjuste(this)
-      "FIN" -> saci.produtosFinanceiro(this)
-      else  -> saci.produtosNotaSaida(this)
+    if (produtos == null) {
+      produtos = when (tipo) {
+        "PED" -> saci.produtosPedido(this)
+        "ENT" -> saci.produtosEntrada(this)
+        "AJT" -> saci.produtosAjuste(this)
+        "FIN" -> saci.produtosFinanceiro(this)
+        else  -> saci.produtosNotaSaida(this)
+      }
     }
+    return produtos.orEmpty()
   }
+
+  val valorTotalNota
+    get() = icmsSubstProduto + valorFrete + valorSeguro - valorDesconto + valorTotalProduto + outrasDespesas + valorIpiProdutos
 
   val valorIpiProdutos
     get() = if (tipo == "PED") listaProdutos().sumOf { it.valorIPI } else valorIpi
