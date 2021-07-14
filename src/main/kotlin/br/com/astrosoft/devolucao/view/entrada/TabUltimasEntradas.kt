@@ -114,7 +114,7 @@ class TabUltimasEntradas(val viewModel: TabUltimasEntradasViewModel) : ITabUltim
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNdd == true
+    return username?.entradaNddNFPrec == true
   }
 
   override val label: String
