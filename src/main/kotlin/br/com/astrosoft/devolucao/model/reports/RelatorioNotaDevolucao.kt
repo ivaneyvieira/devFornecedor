@@ -11,12 +11,14 @@ import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
+import net.sf.dynamicreports.report.builder.component.TextFieldBuilder
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
+import net.sf.dynamicreports.report.constant.TextAdjust.CUT_TEXT
 import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
@@ -28,9 +30,9 @@ import java.time.LocalTime
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean) {
   private val codigoCol: TextColumnBuilder<String> =
           col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
+            this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
-            this.setFixedWidth(30)
+            this.setFixedWidth(35)
           }
   private val dataInvCol: TextColumnBuilder<String> =
           col.column("Emissão", ProdutosNotaSaida::dateInvStr.name, type.stringType()).apply {
@@ -59,7 +61,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   private val descricaoCol: TextColumnBuilder<String> =
           col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(SCALE_FONT)
+            this.setTextAdjust(CUT_TEXT)
           }
   private val gradeCol: TextColumnBuilder<String> =
           col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
@@ -489,89 +491,69 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
     this.horizontalList {
       this.verticalList {
         setStyle(fieldBorder)
-        text("BASE DE CÁLCULO DO ICMS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.baseIcmsProdutos.format(), RIGHT)
+        text("BASE DE CÁLCULO DO ICMS", LEFT).fonteSumarioImposto()
+        text(notaSaida.baseIcmsProdutos.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR DO ICMS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorIcmsProdutos.format(), RIGHT)
+        text("VALOR DO ICMS", LEFT).fonteSumarioImposto()
+        text(notaSaida.valorIcmsProdutos.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("BASE DE CÁLCULO DO ICMS ST", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT)
+        text("BASE DE CÁLCULO DO ICMS ST", LEFT).fonteSumarioImposto()
+        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR ICMS ST", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.icmsSubstProduto.format(), RIGHT)
+        text("VALOR ICMS ST", LEFT).fonteSumarioImposto()
+        text(notaSaida.icmsSubstProduto.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR TOTAL DOS PRODUTOS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorTotalProduto.format(), RIGHT)
+        text("VALOR TOTAL DOS PRODUTOS", LEFT).fonteSumarioImposto()
+        text(notaSaida.valorTotalProduto.format(), RIGHT).fonteSumarioImposto()
       }
     }
     this.horizontalList {
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR DO FRETE", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorFrete.format(), RIGHT)
+        text("VALOR DO FRETE", LEFT).fonteSumarioImposto()
+        text(notaSaida.valorFrete.format(), RIGHT).fonteSumarioImposto()
       }
 
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR DO SEGURO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorSeguro.format(), RIGHT)
-
+        text("VALOR DO SEGURO", LEFT).fonteSumarioImposto()
+        text(notaSaida.valorSeguro.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("DESCONTO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorDesconto.format(), RIGHT)
-
+        text("DESCONTO", LEFT).fonteSumarioImposto()
+        text(notaSaida.valorDesconto.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("OUTRAS DESPESAS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.outrasDespesas.format(), RIGHT)
-
+        text("OUTRAS DESPESAS", LEFT).fonteSumarioImposto()
+        text(notaSaida.outrasDespesas.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR IPI", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorIpiProdutos.format(), RIGHT)
+        text("VALOR IPI", LEFT).fonteSumarioImposto()
+        text(notaSaida.valorIpiProdutos.format(), RIGHT).fonteSumarioImposto()
       }
       this.verticalList {
         setStyle(fieldBorder)
-        text("VALOR TOTAL DA NOTA", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
+        text("VALOR TOTAL DA NOTA", LEFT).fonteSumarioImposto()
         val valorTotalNota = notaSaida.valorTotalProduto + notaSaida.valorIpiProdutos
-        text(valorTotalNota.format(), RIGHT)
+        text(valorTotalNota.format(), RIGHT).fonteSumarioImposto()
       }
     }
+  }
+
+  private fun TextFieldBuilder<String>.fonteSumarioImposto() {
+    this.setTextAdjust(SCALE_FONT)
+    this.setStyle(stl.style().setFontSize(8))
   }
 
   private fun pageFooterBuilder(): ComponentBuilder<*, *>? {
@@ -614,6 +596,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
+      .setColumnStyle(stl.style().setFontSize(7))
       .columnGrid(* colunms)
       .setDataSource(itens)
       .summary(sumaryBuild())
