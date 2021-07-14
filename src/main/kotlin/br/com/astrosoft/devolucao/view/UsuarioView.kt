@@ -138,12 +138,42 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
         }
         formLayout {
+          h4("Entrada") {
+            colspan = 2
+          }
+          checkBox("NDD") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaNdd.name)
+          }
+          checkBox("Receber") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaNddReceber.name)
+          }
+          checkBox("Recebido") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaNddRecebido.name)
+          }
+          checkBox("NF x Prec") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaNddNFPrec.name)
+          }
+        }
+        formLayout {
           h4("Recebimento") {
             colspan = 2
           }
           checkBox("Nota Pendente") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::notaPendente.name)
+          }
+        }
+        formLayout {
+          h4("Saída") {
+            colspan = 2
+          }
+          checkBox("NF Saída") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaSaida.name)
           }
         }
       }

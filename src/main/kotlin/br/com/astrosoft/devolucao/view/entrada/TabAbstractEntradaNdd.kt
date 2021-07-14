@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorNdd
-import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorNdd
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorNddResumido
 import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorCodigoSaci
@@ -11,7 +10,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabAbstractEntradaNddViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewModel
-import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -67,11 +65,6 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
     val report = RelatorioFornecedorNddResumido.processaRelatorio(fornecedores)
     val chave = "DevFornecedorNddResumo"
     SubWindowPDF(chave, report).open()
-  }
-
-  override fun isAuthorized(user: IUser): Boolean {
-    val username = user as? UserSaci
-    return username?.entradaNdd == true
   }
 
   override fun updateComponent() {

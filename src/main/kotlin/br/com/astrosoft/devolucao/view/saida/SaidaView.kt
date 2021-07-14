@@ -19,7 +19,7 @@ class SaidaView : ViewLayout<SaidaViewModel>(), ISaidaView {
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.menuEntrada
+    return userSaci.menuSaida
   }
 
   init {
