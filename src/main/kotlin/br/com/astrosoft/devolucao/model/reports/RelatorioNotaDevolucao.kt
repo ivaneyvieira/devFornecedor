@@ -492,61 +492,60 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
       this.verticalList {
         setStyle(fieldBorder)
         text("BASE DE CÁLCULO DO ICMS", LEFT).fonteSumarioImposto()
-        text(notaSaida.baseIcmsProdutos.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.baseIcmsProdutos.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR DO ICMS", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorIcmsProdutos.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorIcmsProdutos.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("BASE DE CÁLCULO DO ICMS ST", LEFT).fonteSumarioImposto()
-        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR ICMS ST", LEFT).fonteSumarioImposto()
-        text(notaSaida.icmsSubstProduto.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.icmsSubstProduto.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR TOTAL DOS PRODUTOS", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorTotalProduto.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorTotalProduto.format(), RIGHT)
       }
     }
     this.horizontalList {
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR DO FRETE", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorFrete.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorFrete.format(), RIGHT)
       }
 
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR DO SEGURO", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorSeguro.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorSeguro.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("DESCONTO", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorDesconto.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorDesconto.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("OUTRAS DESPESAS", LEFT).fonteSumarioImposto()
-        text(notaSaida.outrasDespesas.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.outrasDespesas.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR IPI", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorIpiProdutos.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorIpiProdutos.format(), RIGHT)
       }
       this.verticalList {
         setStyle(fieldBorder)
         text("VALOR TOTAL DA NOTA", LEFT).fonteSumarioImposto()
-        val valorTotalNota = notaSaida.valorTotalProduto + notaSaida.valorIpiProdutos
-        text(valorTotalNota.format(), RIGHT).fonteSumarioImposto()
+        text(notaSaida.valorTotalNota.format(), RIGHT)
       }
     }
   }
