@@ -86,18 +86,18 @@ DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV (
   PRIMARY KEY (codigo, grade)
 )
-SELECT P.prdno                                                      AS codigo,
+SELECT P.prdno                                      AS codigo,
        P.grade,
        P.invno,
        vendno,
-       IFNULL(R.form_label, '')                                     AS rotulo,
-       CAST(CONCAT(I.storeno, ' ', I.nfname, '/', I.invse) AS CHAR) AS notaInv,
-       CAST(I.issue_date AS DATE)                                   AS dateInv,
-       P.fob / 100                                                  AS valorUnitInv,
-       SUM(qtty / 1000)                                             AS quantInv,
-       IFNULL(X.nfekey, '')                                         AS chaveUlt,
-       IFNULL(M.cst, cstIcms)                                       AS cst,
-       IFNULL(M.cfop, P.cfop)                                       AS cfopNota,
+       IFNULL(R.form_label, '')                     AS rotulo,
+       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR) AS notaInv,
+       CAST(I.issue_date AS DATE)                   AS dateInv,
+       P.fob / 100                                  AS valorUnitInv,
+       SUM(qtty / 1000)                             AS quantInv,
+       IFNULL(X.nfekey, '')                         AS chaveUlt,
+       IFNULL(M.cst, cstIcms)                       AS cst,
+       IFNULL(M.cfop, P.cfop)                       AS cfopNota,
        CASE IFNULL(R.form_label, '')
 	 WHEN 'NORMAL..'
 	   THEN CASE
@@ -142,9 +142,9 @@ SELECT P.prdno                                                      AS codigo,
 	 WHEN 'NAO_TRIB'
 	   THEN 0
 	 ELSE 0
-       END                                                          AS cfop,
-       P.icmsAliq / 100                                             AS icmsAliq,
-       P.ipi / 100                                                  AS ipiAliq
+       END                                          AS cfop,
+       P.icmsAliq / 100                             AS icmsAliq,
+       P.ipi / 100                                  AS ipiAliq
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
