@@ -6,8 +6,7 @@ SELECT prdno                                                               AS co
        grade                                                               AS grade,
        CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefno)), 11, 20) AS char) AS refno
 FROM sqldados.prdref
-GROUP BY prdno, grade
-HAVING COUNT(*) > 1;
+GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_PEDIDO;
 CREATE TEMPORARY TABLE T_PEDIDO
