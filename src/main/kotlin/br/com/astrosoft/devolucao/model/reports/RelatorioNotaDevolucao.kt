@@ -347,7 +347,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   private fun titleBuiderNota01(): ComponentBuilder<*, *> {
     return verticalBlock {
       horizontalList {
-        text("Natureza: ${notaSaida.natureza}", LEFT)
+        text("Natureza: Devolução", LEFT)
         text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
           this.setStyle(fieldFontGrande)
           this.setFixedWidth(120)
