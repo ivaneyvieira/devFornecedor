@@ -110,7 +110,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   private fun buttonPlanilha(fornecedores: () -> List<Fornecedor>): LazyDownloadButton {
     return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
       val notas = fornecedores().flatMap { it.notas }
-      ByteArrayInputStream(viewModel.geraPlanilha(notas))
+      ByteArrayInputStream(viewModel.geraPlanilha(notas, serie))
     }
   }
 
@@ -499,7 +499,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-      this.add(buttonPlanilha {
+      this.add(buttonPlanilha(serie) {
         gridNota.asMultiSelect().selectedItems.toList()
       })
       button("Email") {
@@ -525,9 +525,9 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
     form.open()
   }
 
-  private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
+  private fun buttonPlanilha(serie: Serie, notas: () -> List<NotaSaida>): LazyDownloadButton {
     return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+      ByteArrayInputStream(viewModel.geraPlanilha(notas(), serie))
     }
   }
 
@@ -606,12 +606,13 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     form.open()
   }
 
-  private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+  /*
+    private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
+      return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
+        ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+      }
     }
-  }
-
+  */
   private fun filename(): String {
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
     val textTime = LocalDateTime.now().format(sdf)

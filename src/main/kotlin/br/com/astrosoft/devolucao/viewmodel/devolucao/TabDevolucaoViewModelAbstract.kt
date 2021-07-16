@@ -3,7 +3,9 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorResumo
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasPedidos
 import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.PED
 import br.com.astrosoft.framework.model.FileAttach
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.ITabView
@@ -76,9 +78,15 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     }
   }
 
-  fun geraPlanilha(notas: List<NotaSaida>): ByteArray {
-    val planilha = PlanilhaNotas()
-    return planilha.grava(notas)
+  fun geraPlanilha(notas: List<NotaSaida>, serie: Serie): ByteArray {
+    return if (serie == PED) {
+      val planilha = PlanilhaNotasPedidos()
+      planilha.grava(notas)
+    }
+    else {
+      val planilha = PlanilhaNotas()
+      planilha.grava(notas)
+    }
   }
 
   override fun listEmail(fornecedor: Fornecedor?): List<String> {
@@ -93,7 +101,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   override fun enviaEmail(gmail: EmailGmail, notas: List<NotaSaida>) = viewModel.exec {
     val mail = MailGMail()
     val filesReport = createReports(gmail, notas)
-    val filesPlanilha = createPlanilha(gmail, notas)
+    val filesPlanilha = createPlanilha(gmail, notas, subView.serie)
     val filesAnexo = createAnexos(gmail, notas)
     val enviadoComSucesso =
             mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
@@ -120,11 +128,11 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     }
   }
 
-  private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
+  private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>, serie: Serie): List<FileAttach> {
     return when (gmail.planilha) {
       "S"  -> {
         notas.map { nota ->
-          val planilha = geraPlanilha(listOf(nota))
+          val planilha = geraPlanilha(listOf(nota), serie)
           FileAttach("Planilha da Nota ${nota.nota.replace("/", "_")}.xlsx", planilha)
         }
       }
