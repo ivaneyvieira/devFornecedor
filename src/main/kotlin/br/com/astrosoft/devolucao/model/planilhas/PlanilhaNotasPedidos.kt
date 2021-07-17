@@ -6,7 +6,6 @@ import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
-import br.com.astrosoft.framework.util.format
 import com.github.nwillc.poink.workbook
 import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.IndexedColors
@@ -30,13 +29,17 @@ class PlanilhaNotasPedidos {
             CampoString("Unid") { un },
             CampoInt("Quant") { qtde },
             CampoNumber("V. Unit") { valorUnitario },
-            CampoNumber("V. Total") { valorTotalIpi },
-            CampoNumber("Valor ST") { vst },
+            CampoNumber("V. Total") { valorTotal },
             CampoNumber("B. Cálc. ICMS") { baseICMS },
+            CampoNumber("MVA") { valorMVA },
+            CampoNumber("B. Cálc. ST") { baseCalculoST },
+
+            CampoNumber("Valor ST") { valorST },
             CampoNumber("Valor ICMS") { valorICMS },
             CampoNumber("Valor IPI") { valorIPI },
             CampoNumber("Alíq. ICMS") { icmsAliq },
             CampoNumber("Alíq. IPI") { ipiAliq },
+            CampoNumber("V. Total") { valorTotalGeral },
                 )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
