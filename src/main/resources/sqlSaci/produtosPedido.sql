@@ -85,22 +85,23 @@ DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV (
   PRIMARY KEY (codigo, grade)
 )
-SELECT P.prdno                                         AS codigo,
+SELECT P.prdno                                                                          AS codigo,
        P.grade,
        P.invno,
        vendno,
-       IFNULL(R.form_label, '')                        AS rotulo,
-       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR)    AS notaInv,
-       CAST(I.issue_date AS DATE)                      AS dateInv,
-       P.fob4 / 10000                                  AS valorUnitInv,
-       SUM(qtty / 1000)                                AS quantInv,
-       IFNULL(X.nfekey, '')                            AS chaveUlt,
-       IFNULL(M.cst, cstIcms)                          AS cst,
-       IFNULL(M.cfop, P.cfop)                          AS cfopNota,
-       SUM(P.baseIcms / 100) / SUM(P.qtty / 1000)      AS baseICMSUnit,
-       SUM(P.baseIpi / 100) / SUM(P.qtty / 1000)       AS baseIPIUnit,
-       SUM(P.baseIcmsSubst / 100) / SUM(P.qtty / 1000) AS baseSTUnit,
-       SUM(P.icmsSubst / 100) / SUM(P.qtty / 1000)     AS valorSubstUnit,
+       IFNULL(R.form_label, '')                                                         AS rotulo,
+       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR)                                     AS notaInv,
+       CAST(I.issue_date AS DATE)                                                       AS dateInv,
+       P.fob4 / 10000                                                                   AS valorUnitInv,
+       SUM(qtty / 1000)                                                                 AS quantInv,
+       IFNULL(X.nfekey, '')                                                             AS chaveUlt,
+       IFNULL(M.cst, cstIcms)                                                           AS cst,
+       IFNULL(M.cfop, P.cfop)                                                           AS cfopNota,
+       IF(P.baseIcms = 0, (P.fob4 / 10000),
+	  SUM(P.baseIcms / 100) / SUM(P.qtty / 1000))                                   AS baseICMSUnit,
+       SUM(P.baseIpi / 100) / SUM(P.qtty / 1000)                                        AS baseIPIUnit,
+       SUM(P.baseIcmsSubst / 100) / SUM(P.qtty / 1000)                                  AS baseSTUnit,
+       SUM(P.icmsSubst / 100) / SUM(P.qtty / 1000)                                      AS valorSubstUnit,
        CASE IFNULL(R.form_label, '')
 	 WHEN 'NORMAL..'
 	   THEN CASE
@@ -145,9 +146,9 @@ SELECT P.prdno                                         AS codigo,
 	 WHEN 'NAO_TRIB'
 	   THEN 0
 	 ELSE 0
-       END                                             AS cfop,
-       P.icmsAliq / 100                                AS icmsAliq,
-       P.ipi / 100                                     AS ipiAliq
+       END                                                                              AS cfop,
+       P.icmsAliq / 100                                                                 AS icmsAliq,
+       P.ipi / 100                                                                      AS ipiAliq
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
