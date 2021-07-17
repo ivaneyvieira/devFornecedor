@@ -46,4 +46,15 @@ class ProdutosNotaSaida(
   val dateInvStr
     get() = dateInv.format()
   var nota: NotaSaida? = null
+
+  val baseCalculoST
+    get() = baseICMS
+  val valorMVA
+    get() = if ((baseICMS + valorIPI) == 0.00) 0.00 else baseCalculoST / (baseICMS + valorIPI)
+  val stAliq
+    get() = if (baseICMS == 0.00) 0.00 else vst / baseICMS
+  val valorST
+    get() = (baseCalculoST * stAliq) - valorIPI
+  val valorTotalGeral
+    get() = valorTotal + valorST + valorIPI
 }
