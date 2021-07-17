@@ -6,11 +6,13 @@ import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
+import com.github.nwillc.poink.PSheet
 import com.github.nwillc.poink.workbook
-import org.apache.poi.ss.usermodel.FillPatternType
-import org.apache.poi.ss.usermodel.IndexedColors
-import org.apache.poi.ss.usermodel.VerticalAlignment
+import org.apache.poi.ss.usermodel.*
 import java.io.ByteArrayOutputStream
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 class PlanilhaNotasPedidos {
   private val campos: List<Campo<*, ProdutosNotaSaida>> =
@@ -23,6 +25,7 @@ class PlanilhaNotasPedidos {
             CampoString("Ref do Fab") { refFor },
             CampoString("Código") { codigo },
             CampoString("Descrição") { descricao },
+            CampoString("Grade") { grade },
             CampoString("NCM") { ncm },
             CampoString("CST") { cst },
             CampoString("CFOP") { cfop },
@@ -32,7 +35,7 @@ class PlanilhaNotasPedidos {
             CampoNumber("V. Total") { valorTotal },
             CampoNumber("B. Cálc. ICMS") { baseICMS },
             CampoNumber("MVA") { valorMVA },
-            CampoNumber("B. Cálc. ST") { baseCalculoST },
+            CampoNumber("B. Cálc. ST") { baseSt },
 
             CampoNumber("Valor ST") { valorST },
             CampoNumber("Valor ICMS") { valorICMS },
