@@ -85,18 +85,22 @@ DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV (
   PRIMARY KEY (codigo, grade)
 )
-SELECT P.prdno                                      AS codigo,
+SELECT P.prdno                                         AS codigo,
        P.grade,
        P.invno,
        vendno,
-       IFNULL(R.form_label, '')                     AS rotulo,
-       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR) AS notaInv,
-       CAST(I.issue_date AS DATE)                   AS dateInv,
-       P.fob / 100                                  AS valorUnitInv,
-       SUM(qtty / 1000)                             AS quantInv,
-       IFNULL(X.nfekey, '')                         AS chaveUlt,
-       IFNULL(M.cst, cstIcms)                       AS cst,
-       IFNULL(M.cfop, P.cfop)                       AS cfopNota,
+       IFNULL(R.form_label, '')                        AS rotulo,
+       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR)    AS notaInv,
+       CAST(I.issue_date AS DATE)                      AS dateInv,
+       P.fob4 / 10000                                  AS valorUnitInv,
+       SUM(qtty / 1000)                                AS quantInv,
+       IFNULL(X.nfekey, '')                            AS chaveUlt,
+       IFNULL(M.cst, cstIcms)                          AS cst,
+       IFNULL(M.cfop, P.cfop)                          AS cfopNota,
+       SUM(P.baseIcms / 100) / SUM(P.qtty / 1000)      AS baseICMSUnit,
+       SUM(P.baseIpi / 100) / SUM(P.qtty / 1000)       AS baseIPIUnit,
+       SUM(P.baseIcmsSubst / 100) / SUM(P.qtty / 1000) AS baseSTUnit,
+       SUM(P.icmsSubst / 100) / SUM(P.qtty / 1000)     AS valorSubstUnit,
        CASE IFNULL(R.form_label, '')
 	 WHEN 'NORMAL..'
 	   THEN CASE
@@ -141,9 +145,9 @@ SELECT P.prdno                                      AS codigo,
 	 WHEN 'NAO_TRIB'
 	   THEN 0
 	 ELSE 0
-       END                                          AS cfop,
-       P.icmsAliq / 100                             AS icmsAliq,
-       P.ipi / 100                                  AS ipiAliq
+       END                                             AS cfop,
+       P.icmsAliq / 100                                AS icmsAliq,
+       P.ipi / 100                                     AS ipiAliq
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -170,9 +174,10 @@ SELECT P.loja,
        IFNULL(N.valorUnitInv, 0.00)                                       AS valorUnitario,
        IFNULL(P.qtde * N.valorUnitInv, 0.00)                              AS valorTotal,
        IFNULL(P.ipiAliq * P.qtde * N.valorUnitInv, 0.00)                  AS ipi,
-       IFNULL(P.stAliq * P.qtde * N.valorUnitInv, 0.00)                   AS vst,
-       IFNULL(CAST(LPAD(N.cst, 3, '0') AS char), '')                      AS cst,
-       CAST(IFNULL(N.cfop, '') AS char)                                   AS cfop,
+       IFNULL(P.qtde * N.baseSTUnit, 0.00)                                AS baseSt,
+       IFNULL(P.qtde * N.valorSubstUnit, 0.00)                            AS vst,
+       IFNULL(CAST(LPAD(N.cst, 3, '0') AS CHAR), '')                      AS cst,
+       CAST(IFNULL(N.cfop, '') AS CHAR)                                   AS cfop,
        IFNULL((P.ipiAliq + P.stAliq + 1) * P.qtde * N.valorUnitInv, 0.00) AS valorTotalIpi,
        P.barcode                                                          AS barcode,
        P.un                                                               AS un,
@@ -184,13 +189,13 @@ SELECT P.loja,
        IFNULL(N.notaInv, '')                                              AS notaInv,
        N.dateInv                                                          AS dateInv,
        IFNULL(N.valorUnitInv, 0.00)                                       AS valorUnitInv,
-       IFNULL(N.valorUnitInv, 0.00) * P.qtde                              AS valorTotalInv,
+       IFNULL(N.valorUnitInv * P.qtde, 0.00)                              AS valorTotalInv,
        IFNULL(N.chaveUlt, '')                                             AS chaveUlt,
        P.ncm                                                              AS ncm,
-       IFNULL(P.qtde * N.valorUnitInv, 0.00)                              AS baseICMS,
-       IFNULL(P.qtde * N.valorUnitInv * N.icmsAliq / 100, 0.00)           AS valorICMS,
-       IFNULL(P.qtde * N.valorUnitInv, 0.00)                              AS baseIPI,
-       IFNULL(P.qtde * N.valorUnitInv * N.ipiAliq / 100, 0.00)            AS valorIPI,
+       IFNULL(P.qtde * N.baseICMSUnit, 0.00)                              AS baseICMS,
+       IFNULL(P.qtde * N.baseICMSUnit * N.icmsAliq / 100, 0.00)           AS valorICMS,
+       IFNULL(P.qtde * N.baseIPIUnit, 0.00)                               AS baseIPI,
+       IFNULL(P.qtde * N.baseIPIUnit * N.ipiAliq / 100, 0.00)             AS valorIPI,
        IFNULL(N.icmsAliq, 0.00)                                           AS icmsAliq,
        IFNULL(N.ipiAliq, 0.00)                                            AS ipiAliq
 FROM T_PEDIDO     AS P
@@ -198,5 +203,3 @@ FROM T_PEDIDO     AS P
 	      USING (codigo, grade)
   LEFT JOIN T_REF AS R
 	      USING (codigo, grade)
-
-
