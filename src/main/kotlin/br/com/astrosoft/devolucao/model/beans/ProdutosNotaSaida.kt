@@ -51,7 +51,7 @@ class ProdutosNotaSaida(
   val valorMVA
     get() = if ((baseICMS + valorIPI) == 0.00) 0.00 else baseSt / (baseICMS + valorIPI)
   val valorST
-    get() = vst - valorIPI
+    get() = vst
   val valorTotalGeral
     get() = valorTotal + valorST + valorIPI
 }
