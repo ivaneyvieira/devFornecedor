@@ -40,6 +40,7 @@ class ProdutosNotaSaida(
   val valorIPI: Double,
   val icmsAliq: Double,
   val ipiAliq: Double,
+  val sefazOk: String,
                        ) {
   var item: Int = 0
   val dateInvDate
@@ -54,4 +55,9 @@ class ProdutosNotaSaida(
     get() = vst
   val valorTotalGeral
     get() = valorTotal + valorST + valorIPI
+  val invnoObs: String
+    get() {
+      val obs = if (sefazOk == "N") "*" else ""
+      return "$obs$invno"
+    }
 }

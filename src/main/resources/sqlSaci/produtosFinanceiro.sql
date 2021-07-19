@@ -68,7 +68,8 @@ SELECT prdno                                                        AS codigo,
        SUM(qtty / 1000)                                             AS quantInv,
        IFNULL(X.nfekey, '')                                         AS chaveUlt,
        cstIcms                                                      AS cst,
-       cfop
+       cfop,
+       IF(LENGTH(P.c1) < 30, 'N', 'S')                              AS sefazOk
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -116,7 +117,8 @@ SELECT loja,
        0.00                                                                      AS baseIPI,
        0.00                                                                      AS valorIPI,
        0.00                                                                      AS icmsAliq,
-       0.00                                                                      AS ipiAliq
+       0.00                                                                      AS ipiAliq,
+       sefazOk                                                                   AS sefazOk
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)

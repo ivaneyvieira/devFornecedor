@@ -73,8 +73,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(25)
   }
-  private val invnoCol: TextColumnBuilder<Int> =
-          col.column("NI", ProdutosNotaSaida::invno.name, type.integerType()).apply {
+  private val invnoCol: TextColumnBuilder<String> =
+          col.column("NI", ProdutosNotaSaida::invnoObs.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setTextAdjust(SCALE_FONT)
             this.setPattern("0")
