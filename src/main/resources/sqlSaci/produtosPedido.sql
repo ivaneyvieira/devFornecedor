@@ -148,7 +148,8 @@ SELECT P.prdno                                                                  
 	 ELSE 0
        END                                                                              AS cfop,
        P.icmsAliq / 100                                                                 AS icmsAliq,
-       P.ipi / 100                                                                      AS ipiAliq
+       P.ipi / 100                                                                      AS ipiAliq,
+       IF(LENGTH(P.c1) < 30, 'N', 'S')                                                  AS sefazOk
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -198,7 +199,8 @@ SELECT P.loja,
        IFNULL(P.qtde * N.baseIPIUnit, 0.00)                               AS baseIPI,
        IFNULL(P.qtde * N.baseIPIUnit * N.ipiAliq / 100, 0.00)             AS valorIPI,
        IFNULL(N.icmsAliq, 0.00)                                           AS icmsAliq,
-       IFNULL(N.ipiAliq, 0.00)                                            AS ipiAliq
+       IFNULL(N.ipiAliq, 0.00)                                            AS ipiAliq,
+       sefazOk                                                            AS sefazOk
 FROM T_PEDIDO     AS P
   LEFT JOIN T_INV AS N
 	      USING (codigo, grade)
