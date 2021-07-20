@@ -149,7 +149,7 @@ SELECT P.prdno                                                                  
        END                                                                              AS cfop,
        P.icmsAliq / 100                                                                 AS icmsAliq,
        P.ipi / 100                                                                      AS ipiAliq,
-       IF(LENGTH(P.c1) < 30, 'N', 'S')                                                  AS sefazOk
+       IF(LENGTH(P.c1) < 30 AND P.c1 <> '', 'N', 'S')                                   AS sefazOk
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
