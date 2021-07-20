@@ -70,7 +70,7 @@ SELECT prdno                                                        AS codigo,
        IFNULL(X.nfekey, '')                                         AS chaveUlt,
        cstIcms                                                      AS cst,
        cfop,
-       IF(LENGTH(P.c1) < 30, 'N', 'S')                              AS sefazOk
+       IF(LENGTH(P.c1) < 30 AND P.c1 <> '', 'N', 'S')               AS sefazOk
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
