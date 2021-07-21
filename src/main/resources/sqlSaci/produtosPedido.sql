@@ -14,6 +14,8 @@ SELECT X.storeno                    AS loja,
        X.ordno                      AS pedido,
        X.prdno                      AS codigo,
        P.mfno_ref                   AS refFor,
+       O.custno                     AS custno,
+       V.no                         AS vendno,
        TRIM(MID(P.name, 1, 37))     AS descricao,
        X.grade                      AS grade,
        ROUND(X.qtty / 1000)         AS qtde,
@@ -24,6 +26,14 @@ SELECT X.storeno                    AS loja,
        P.taxno                      AS st,
        IFNULL(S.ncm, '')            AS ncm
 FROM sqldados.eoprd           AS X
+  INNER JOIN sqldados.eord    AS O
+	       USING (storeno, ordno)
+  LEFT JOIN  sqldados.custp   AS C
+	       ON C.no = O.custno AND
+		  C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+			       709327, 108751)
+  LEFT JOIN  sqldados.vend    AS V
+	       ON C.cpf_cgc = V.cgc
   LEFT JOIN  sqldados.prp     AS I
 	       ON I.storeno = 10 AND I.prdno = X.prdno
   LEFT JOIN  sqldados.prdbar  AS B
@@ -185,7 +195,7 @@ SELECT P.loja,
        P.un                                                               AS un,
        P.st                                                               AS st,
        IFNULL(N.invno, 0)                                                 AS invno,
-       IFNULL(N.vendno, 0)                                                AS vendno,
+       IFNULL(IFNULL(P.vendno, N.vendno), 0)                              AS vendno,
        IFNULL(N.rotulo, '')                                               AS rotulo,
        ROUND(IFNULL(N.quantInv, 0.00))                                    AS quantInv,
        IFNULL(N.notaInv, '')                                              AS notaInv,
