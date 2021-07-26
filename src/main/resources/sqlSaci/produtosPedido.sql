@@ -216,3 +216,4 @@ FROM T_PEDIDO     AS P
 	      USING (codigo, grade)
   LEFT JOIN T_REF AS R
 	      USING (codigo, grade)
+
