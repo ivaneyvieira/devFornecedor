@@ -1,3 +1,5 @@
+DO @LOJA := :loja;
+
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
   PRIMARY KEY (storeno, nfno, nfse)
@@ -177,3 +179,4 @@ FROM sqldados.eord             AS E
 	      ON E.storeno = N.loja AND E.ordno = N.pedido
 WHERE E.paymno = 315
   AND N.loja IS NULL
+  AND (E.storeno = @LOJA OR @LOJA = 0)

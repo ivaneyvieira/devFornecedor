@@ -41,9 +41,9 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   }
 
   private fun listFornecedores(): List<Fornecedor> {
-    subView.setFiltro("")
+    subView.setFiltro(FiltroFornecedor(""))
     NotaSaida.updateNotasDevolucao(subView)
-    return NotaSaida.findFornecedores()
+    return NotaSaida.findFornecedores("")
   }
 
   fun editRmk(nota: NotaSaida) {
@@ -59,8 +59,9 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   }
 
   fun updateFiltro() {
-    val filtro: String = subView.filtro()
-    val resultList = NotaSaida.findFornecedores().filtro(filtro)
+    val filtro = subView.filtro()
+    NotaSaida.updateNotasDevolucao(subView)
+    val resultList = NotaSaida.findFornecedores(filtro.txt)
 
     subView.updateGrid(resultList)
   }
@@ -68,13 +69,6 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   fun deleteFile(file: NFFile?) = viewModel.exec {
     file?.apply {
       this.delete()
-    }
-  }
-
-  private fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
-    return this.filter {
-      val filtroNum = txt.toIntOrNull() ?: 0
-      it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txt, ignoreCase = true)
     }
   }
 
@@ -184,10 +178,12 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     subView.imprimirRelatorioResumido(fornecedores)
   }
 
-  fun geraPlanilhaResumo(fornecedores: List<Fornecedor>): ByteArray? {
+  fun geraPlanilhaResumo(fornecedores: List<Fornecedor>): ByteArray {
     val planilha = PlanilhaFornecedorResumo()
     return planilha.grava(fornecedores)
   }
+
+  fun findLojas(): List<Loja> = Loja.allLojas()
 }
 
 enum class SimNao(val value: String) {
@@ -204,6 +200,7 @@ interface IFiltro {
   val pago01: SimNao
   val coleta01: SimNao
   val remessaConserto: SimNao
+  fun filtro(): FiltroFornecedor
 }
 
 interface ITabNota : ITabView, IFiltro {
@@ -215,8 +212,8 @@ interface ITabNota : ITabView, IFiltro {
   fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)
-  fun filtro(): String
-  fun setFiltro(txt: String)
+  override fun filtro(): FiltroFornecedor
+  fun setFiltro(filtro: FiltroFornecedor)
   fun enviaEmail(notas: List<NotaSaida>)
   fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>)
   fun editRmkVend(fornecedor: Fornecedor, save: (Fornecedor) -> Unit)

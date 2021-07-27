@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.Loja.Companion.lojaZero
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorResumido
 import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
@@ -76,11 +77,27 @@ import java.time.format.DateTimeFormatter
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   private lateinit var edtFiltro: TextField
+  private lateinit var cmbLoja: ComboBox<Loja>
 
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
-      width = "400px"
+      width = "300px"
       valueChangeMode = TIMEOUT
+      addValueChangeListener {
+        viewModel.updateFiltro()
+      }
+    }
+    cmbLoja = comboBox("Loja") {
+      val lojas: List<Loja> = Loja.allLojas() + lojaZero
+      setItems(lojas.sortedBy { it.no })
+      setItemLabelGenerator {loja ->
+        val lojaValue = loja ?: lojaZero
+        "${lojaValue.no} - ${lojaValue.sname}"
+      }
+      isAllowCustomValue = false
+      isClearButtonVisible = true
+      value = lojaZero
+      isVisible = serie == PED
       addValueChangeListener {
         viewModel.updateFiltro()
       }
@@ -163,10 +180,11 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     else icon.color = ""
   }
 
-  override fun filtro() = edtFiltro.value ?: ""
+  override fun filtro() = FiltroFornecedor(txt = edtFiltro.value ?: "", loja = cmbLoja.value ?: lojaZero)
 
-  override fun setFiltro(txt: String) {
-    edtFiltro.value = txt
+  override fun setFiltro(filtro: FiltroFornecedor) {
+    edtFiltro.value = filtro.txt
+    cmbLoja.value = filtro.loja
   }
 
   override fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean) {
@@ -435,7 +453,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
     }
 
   init {
-    val fornecedor = NotaSaida.findFornecedores().firstOrNull { it.notas.containsAll(notas) }
+    val fornecedor = NotaSaida.findFornecedores("").firstOrNull { it.notas.containsAll(notas) }
     rteMessage = richEditor()
     setSizeFull()
     horizontalLayout {

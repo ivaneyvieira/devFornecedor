@@ -55,3 +55,5 @@ class Fornecedor(
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
 }
+
+data class FiltroFornecedor(val txt: String, val loja : Loja = Loja.lojaZero)
