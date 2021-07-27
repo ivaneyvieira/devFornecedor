@@ -133,9 +133,10 @@ class NotaSaida(
     fun updateNotasDevolucao(filtro: IFiltro) {
       val user = Config.user as? UserSaci
       val loja: Int = if (user?.admin == true) 0 else user?.storeno ?: 0
+      val filtroFornecedor = filtro.filtro()
 
       val notas = when (filtro.serie) {
-        PED  -> saci.pedidosDevolucao()
+        PED  -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
         ENT  -> saci.entradaDevolucao()
         AJT  -> saci.ajusteGarantia()
         FIN  -> saci.notaFinanceiro()
@@ -162,7 +163,18 @@ class NotaSaida(
       })
     }
 
-    fun findFornecedores() = fornecedores.toList()
+    fun findFornecedores(txt: String) = fornecedores.toList().filtro(txt)
+
+    private fun List<Fornecedor>.filtro(txt: String): List<Fornecedor> {
+      return this.filter {
+        val txtFiltro = txt.trim()
+        if (txtFiltro == "") true
+        else {
+          val filtroNum = txtFiltro.toIntOrNull() ?: 0
+          it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txtFiltro, ignoreCase = true)
+        }
+      }
+    }
   }
 }
 

@@ -57,9 +57,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun pedidosDevolucao(): List<NotaSaida> {
+  fun pedidosDevolucao(loja: Int): List<NotaSaida> {
     val sql = "/sqlSaci/pedidoDevolucao.sql"
-    return query(sql, NotaSaida::class)
+    return query(sql, NotaSaida::class){
+      addOptionalParameter("loja", loja)
+    }
   }
 
   fun entradaDevolucao(): List<NotaSaida> {
