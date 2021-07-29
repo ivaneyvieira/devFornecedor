@@ -59,7 +59,16 @@ fun <T : Any> Grid.Column<T>.integerFieldEditor(block: IntegerField.() -> Unit =
 }
 
 fun <T : Any> Grid.Column<T>.textFieldEditor(): Grid.Column<T> {
-  val component = textFieldComponente()
+  val grid = this.grid
+  val component = textFieldComponente()/*
+  component.addKeyPressListener {
+    if(it.key == Key.ENTER){
+      grid.editor.save()
+    }
+  }*/
+  component.element.addEventListener("keydown") { event ->
+    grid.editor.cancel()
+  }.filter = "event.key === 'Enter'";
   grid.editor.binder.forField(component).bind(this.key)
   this.editorComponent = component
   return this
