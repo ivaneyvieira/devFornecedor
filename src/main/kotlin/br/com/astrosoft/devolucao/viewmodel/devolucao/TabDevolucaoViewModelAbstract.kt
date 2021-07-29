@@ -184,6 +184,11 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   }
 
   fun findLojas(): List<Loja> = Loja.allLojas()
+
+  fun salvaDesconto(notaSaida: NotaSaida?) = viewModel.exec {
+    notaSaida ?: fail("Nenhuma nota selecionada")
+    NotaSaida.salvaDesconto(notaSaida)
+  }
 }
 
 enum class SimNao(val value: String) {

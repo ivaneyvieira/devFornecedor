@@ -51,6 +51,7 @@ class NotaSaida(
   val rmkVend: String,
   val chave: String,
   val natureza: String,
+  var chaveDesconto: String?,
                ) {
   private var produtos: List<ProdutosNotaSaida>? = null
 
@@ -174,6 +175,10 @@ class NotaSaida(
           it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(txtFiltro, ignoreCase = true)
         }
       }
+    }
+
+    fun salvaDesconto(notaSaida: NotaSaida) {
+      saci.salvaDesconto(notaSaida)
     }
   }
 }

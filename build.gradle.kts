@@ -60,7 +60,7 @@ dependencies {
   implementation("net.sourceforge.jtds:jtds:1.3.1")
   implementation("org.imgscalr:imgscalr-lib:4.2")
   implementation("com.jcraft:jsch:0.1.55")
-  implementation("org.cups4j:cups4j:0.7.6")
+  implementation("org.cups4j:cups4j:0.7.8")
   // https://mvnrepository.com/artifact/org.jsoup/jsoup
   implementation("org.jsoup:jsoup:1.13.1")
   

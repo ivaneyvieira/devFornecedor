@@ -19,6 +19,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileDescricao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaChaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
@@ -46,6 +47,7 @@ import br.com.astrosoft.framework.view.*
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
@@ -90,7 +92,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     cmbLoja = comboBox("Loja") {
       val lojas: List<Loja> = Loja.allLojas() + lojaZero
       setItems(lojas.sortedBy { it.no })
-      setItemLabelGenerator {loja ->
+      setItemLabelGenerator { loja ->
         val lojaValue = loja ?: lojaZero
         "${lojaValue.no} - ${lojaValue.sname}"
       }
@@ -561,7 +563,16 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       addThemeVariants(LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(MULTI)
-      setItems(listNotas) //
+      setItems(listNotas)
+      if (serie == Serie01) {
+        this.withEditor(NotaSaida::class, openEditor = { binder ->
+          (getColumnBy(NotaSaida::chaveDesconto).editorComponent as? Focusable<*>)?.focus()
+        }, closeEditor = { binder ->
+          viewModel.salvaDesconto(binder.bean)
+          this.dataProvider.refreshItem(binder.bean)
+        })
+      }
+
       addColumnButton(FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) { nota ->
         viewModel.editFile(nota)
       }
@@ -578,6 +589,9 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       notaDataNota()
       notaNota()
       notaFatura()
+      if (serie in listOf(Serie01, FIN)) {
+        notaChaveDesconto().textFieldEditor()
+      }
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
