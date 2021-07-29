@@ -121,7 +121,9 @@ SELECT N.storeno                                 AS loja,
        N.obsPedido                               AS obsPedido,
        'AJT'                                     AS tipo,
        IFNULL(RV.rmk, '')                        AS rmkVend,
-       chave                                     AS chave
+       chave                                     AS chave,
+       natureza                                  AS natureza,
+       ''                                        AS chaveDesconto
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno

@@ -1,3 +1,4 @@
+/*
 DROP TEMPORARY TABLE IF EXISTS T_VEND;
 CREATE TEMPORARY TABLE T_VEND (
   PRIMARY KEY (vendno)
@@ -15,7 +16,7 @@ FROM sqldados.invxa
 WHERE invxa.remarks LIKE '%DESC%'
   AND invxa.paiddate = 0
   AND invxa.amtdue > 0
-  AND invxa.duedate > 20210101;
+  AND invxa.duedate > 20210101*/
 
 DROP TEMPORARY TABLE IF EXISTS T_FORNECEDOR;
 CREATE TEMPORARY TABLE T_FORNECEDOR (
@@ -29,8 +30,8 @@ SELECT C.no       AS custno,
 FROM sqldados.custp        AS C
   INNER JOIN sqldados.vend AS V
 	       ON C.cpf_cgc = V.cgc
-  INNER JOIN T_VEND        AS T
-	       ON T.vendno = V.no
+/*  INNER JOIN T_VEND        AS T
+	       ON T.vendno = V.no*/
 GROUP BY custno;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
@@ -86,6 +87,7 @@ WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.nfse = 1
   AND N.tipo = 2
+  AND N.c6 <> ''
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
@@ -145,7 +147,8 @@ SELECT N.storeno                                                                
        'FIN'                                                                          AS tipo,
        IFNULL(RV.rmk, '')                                                             AS rmkVend,
        chave                                                                          AS chave,
-       IFNULL(OP.name, '')                                                            AS natureza
+       IFNULL(OP.name, '')                                                            AS natureza,
+       ''                                                                             AS chaveDesconto
 FROM TNF                        AS N
   LEFT JOIN  sqldados.natop     AS OP
 	       ON OP.no = N.natopno

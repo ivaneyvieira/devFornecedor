@@ -82,6 +82,7 @@ private fun textFieldComponente() = TextField().apply {
   this.valueChangeMode = ValueChangeMode.ON_CHANGE
   addThemeVariants(TextFieldVariant.LUMO_SMALL)
   this.isAutoselect = true
+  this.isClearButtonVisible = true
   setSizeFull()
 }
 

@@ -32,6 +32,10 @@ object NotaSaidaViewColumns {
     this.setHeader("Nota")
   }
 
+  fun Grid<NotaSaida>.notaChaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
+    this.setHeader("Desconto")
+  }
+
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
   }
