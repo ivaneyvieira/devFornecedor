@@ -33,7 +33,9 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.notaChaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
-    this.setHeader("Desconto")
+    this.setHeader("Obs Pgto")
+    this.isAutoWidth = false
+    this.width = "250px"
   }
 
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
