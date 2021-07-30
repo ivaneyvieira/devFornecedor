@@ -10,6 +10,8 @@ import com.vaadin.flow.component.grid.Grid
 object FornecedorViewColumns {
   fun Grid<Fornecedor>.fornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
     this.setHeader("Fornecedor")
+    this.isAutoWidth = false
+    this.width = "100px"
   }
 
   fun Grid<Fornecedor>.fornecedorCliente() = addColumnInt(Fornecedor::custno) {
@@ -18,6 +20,8 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.fornecedorNome() = addColumnString(Fornecedor::fornecedor) {
     this.setHeader("Fornecedor")
+    this.isAutoWidth = false
+    this.width = "150px"
   }
 
   fun Grid<Fornecedor>.fornecedorPrimeiraData() = addColumnLocalDate(Fornecedor::primeiraData) {
