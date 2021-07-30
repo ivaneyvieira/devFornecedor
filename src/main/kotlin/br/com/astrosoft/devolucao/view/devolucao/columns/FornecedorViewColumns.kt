@@ -21,7 +21,7 @@ object FornecedorViewColumns {
   fun Grid<Fornecedor>.fornecedorNome() = addColumnString(Fornecedor::fornecedor) {
     this.setHeader("Fornecedor")
     this.isAutoWidth = false
-    this.width = "250px"
+    this.width = "350px"
   }
 
   fun Grid<Fornecedor>.fornecedorPrimeiraData() = addColumnLocalDate(Fornecedor::primeiraData) {
@@ -34,6 +34,8 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.fornecedorChaveDesconto() = addColumnString(Fornecedor::chaveDesconto) {
     this.setHeader("Obs Pgto")
+    this.isAutoWidth = false
+    this.width = "200px"
   }
 
   fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valorTotal) {
