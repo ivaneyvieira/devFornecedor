@@ -29,6 +29,9 @@ class Fornecedor(
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
     }
 
+  val chaveDesconto
+    get() = notas.map { it.chaveDesconto }.distinct().joinToString(separator = "/")
+
   val ultimaDataStr
     get() = ultimaData.format()
 
@@ -56,4 +59,4 @@ class Fornecedor(
     get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
 }
 
-data class FiltroFornecedor(val txt: String, val loja : Loja = Loja.lojaZero)
+data class FiltroFornecedor(val txt: String, val loja: Loja = Loja.lojaZero)
