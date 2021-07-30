@@ -60,7 +60,6 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
-import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -106,14 +105,14 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       }
     }
     button("Relatório") {
-      icon = VaadinIcon.PRINT.create()
+      icon = PRINT.create()
       onLeftClick {
         val fornecedores = itensSelecionados()
         viewModel.imprimirRelatorioFornecedor(fornecedores.flatMap { it.notas })
       }
     }
     button("Relatório Resumido") {
-      icon = VaadinIcon.PRINT.create()
+      icon = PRINT.create()
       onLeftClick {
         val fornecedores = itensSelecionados()
         viewModel.imprimirRelatorioResumido(fornecedores)
@@ -635,8 +634,8 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       if (serie == FIN) it.observacao != "" else true
     }
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridParcela = createGridParcelas(listParcelas, "Títulos a Vencer")
-      val gridPedido = createGridPedidos(listPedidos, "Pedidos de Compra Pendentes")
+      val gridParcela = createGridParcelas(listParcelas )
+      val gridPedido = createGridPedidos(listPedidos)
 
       HorizontalLayout().apply {
         setSizeFull()
@@ -659,7 +658,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     return "notas$textTime.xlsx"
   }
 
-  private fun createGridParcelas(listParcelas: List<Parcela>, label: String): VerticalLayout {
+  private fun createGridParcelas(listParcelas: List<Parcela>): VerticalLayout {
     val gridDetail = Grid(Parcela::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -686,12 +685,12 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
     }
     return VerticalLayout().apply {
-      this.h3(label)
+      this.h3("Títulos a Vencer")
       this.addAndExpand(grid)
     }
   }
 
-  private fun createGridPedidos(listPedidos: List<Pedido>, label: String): VerticalLayout {
+  private fun createGridPedidos(listPedidos: List<Pedido>): VerticalLayout {
     val gridDetail = Grid(Pedido::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -718,7 +717,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
     }
     return VerticalLayout().apply {
-      this.h3(label)
+      this.h3("Pedidos de Compra Pendentes")
       this.addAndExpand(grid)
     }
   }
