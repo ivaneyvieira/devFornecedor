@@ -36,8 +36,7 @@ class RelatorioUltimasNotasGrupo(val notas: List<UltimaNotaEntradaGrupo>) : Repo
       .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(20)))
       .setGroupStyle(stl.style()
                        .setForegroundColor(Color.WHITE)
-                       .setPadding(padding().setLeft(20))) //.setColumnTitleStyle(columnTitleStyle.setPadding(padding().setLeft(20)))
-      //.setDetailStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(20)))
+                       .setPadding(padding().setLeft(20)))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(padding(20)))
   }
 
