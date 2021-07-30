@@ -28,7 +28,6 @@ object UltimaNotaEntradaColumns {
     this.setHeader("F Cad")
   }
 
-
   fun Grid<UltimaNotaEntrada>.notaFornNota() = addColumnString(UltimaNotaEntrada::fornNota) {
     this.setHeader("F Nota")
   }

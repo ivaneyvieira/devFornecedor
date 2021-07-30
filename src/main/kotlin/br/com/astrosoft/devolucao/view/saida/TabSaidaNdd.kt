@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.view.saida
 
 import br.com.astrosoft.devolucao.model.beans.FiltroNotaSaidaNdd
-import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.chaveNotaSaida
@@ -19,15 +18,16 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.localePtBr
-import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v10.datePicker
+import com.github.mvysny.karibudsl.v10.getColumnBy
+import com.github.mvysny.karibudsl.v10.integerField
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.Html
-import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection

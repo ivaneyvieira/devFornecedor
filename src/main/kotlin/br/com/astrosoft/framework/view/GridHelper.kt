@@ -68,7 +68,7 @@ fun <T : Any> Grid.Column<T>.textFieldEditor(): Grid.Column<T> {
   }*/
   component.element.addEventListener("keydown") { event ->
     grid.editor.cancel()
-  }.filter = "event.key === 'Enter'";
+  }.filter = "event.key === 'Enter'"
   grid.editor.binder.forField(component).bind(this.key)
   this.editorComponent = component
   return this
