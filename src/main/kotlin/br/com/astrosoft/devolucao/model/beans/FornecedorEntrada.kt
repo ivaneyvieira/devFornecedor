@@ -2,7 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 class FornecedorEntrada(val vendno: Int, val fornecedor: String, val notas: List<NotaEntrada>) {
   val ultimaData
-    get() = notas.maxOfOrNull { it.dataNota }
+    get() = notas.mapNotNull { it.dataNota }.maxOfOrNull { it }
 
   companion object {
     fun listFornecedores() =

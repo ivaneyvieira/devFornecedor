@@ -20,14 +20,14 @@ class Fornecedor(
   fun pedidosFornecedor() = saci.listPedidosFornecedor(vendno)
 
   val ultimaData
-    get() = notas.maxOf { nota ->
+    get() = notas.mapNotNull { nota ->
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
-    }
+    }.minOfOrNull { it }
 
   val primeiraData
-    get() = notas.minOf { nota ->
+    get() = notas.mapNotNull { nota ->
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
-    }
+    }.minOfOrNull { it }
 
   val chaveDesconto
     get() = notas.map { it.chaveDesconto }.distinct().joinToString(separator = "/")

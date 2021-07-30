@@ -30,8 +30,7 @@ val staging: Configuration by configurations.creating
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "1.8"
+    jvmTarget = "11"
   }
 }
 
@@ -56,6 +55,7 @@ dependencies {
   implementation("ch.qos.logback:logback-classic:1.2.3")
   implementation("org.slf4j:slf4j-api:1.7.30")
   implementation("org.sql2o:sql2o:1.6.0")
+  implementation("org.simpleflatmapper:sfm-sql2o:8.2.3")
   implementation("mysql:mysql-connector-java:5.1.48")
   implementation("net.sourceforge.jtds:jtds:1.3.1")
   implementation("org.imgscalr:imgscalr-lib:4.2")
@@ -83,7 +83,7 @@ dependencies {
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
 
-  implementation(kotlin("stdlib-jdk8"))
+  implementation(kotlin("stdlib"))
   
   implementation(kotlin("reflect"))
   // test support
