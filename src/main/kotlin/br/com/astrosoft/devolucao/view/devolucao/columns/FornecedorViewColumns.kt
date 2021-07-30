@@ -28,6 +28,10 @@ object FornecedorViewColumns {
     this.setHeader("Ultima Data")
   }
 
+  fun Grid<Fornecedor>.fornecedorChaveDesconto() = addColumnString(Fornecedor::chaveDesconto) {
+    this.setHeader("Obs Pgto")
+  }
+
   fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valorTotal) {
     this.setHeader("Valor Total")
   }

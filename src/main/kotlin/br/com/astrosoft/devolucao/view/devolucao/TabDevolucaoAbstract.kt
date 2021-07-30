@@ -11,6 +11,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emai
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailHora
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailTipo
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorChaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
@@ -162,8 +163,15 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     if (serie != ENT) fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
-    fornecedorPrimeiraData()
-    fornecedorUltimaData()
+
+    if (serie == FIN) {
+      fornecedorChaveDesconto()
+    }
+    else {
+      fornecedorPrimeiraData()
+      fornecedorUltimaData()
+    }
+
     val totalCol = fornecedorValorTotal()
     this.dataProvider.addDataProviderListener {
       val totalPedido = listBeans().sumOf { it.valorTotal }.format()
