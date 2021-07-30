@@ -21,7 +21,7 @@ object FornecedorViewColumns {
   fun Grid<Fornecedor>.fornecedorNome() = addColumnString(Fornecedor::fornecedor) {
     this.setHeader("Fornecedor")
     this.isAutoWidth = false
-    this.width = "150px"
+    this.width = "250px"
   }
 
   fun Grid<Fornecedor>.fornecedorPrimeiraData() = addColumnLocalDate(Fornecedor::primeiraData) {
