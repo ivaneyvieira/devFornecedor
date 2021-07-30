@@ -6,13 +6,11 @@ import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
-import com.github.nwillc.poink.PSheet
 import com.github.nwillc.poink.workbook
-import org.apache.poi.ss.usermodel.*
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.*
 
 class PlanilhaNotasPedidos {
   private val campos: List<Campo<*, ProdutosNotaSaida>> =

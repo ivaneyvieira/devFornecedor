@@ -59,7 +59,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun pedidosDevolucao(loja: Int): List<NotaSaida> {
     val sql = "/sqlSaci/pedidoDevolucao.sql"
-    return query(sql, NotaSaida::class){
+    return query(sql, NotaSaida::class) {
       addOptionalParameter("loja", loja)
     }
   }
@@ -74,8 +74,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class)
   }
 
-  fun notaFinanceiro(): List<NotaSaida> {
-    //val sql = "/sqlSaci/notaFinanceiro.sql"
+  fun notaFinanceiro(): List<NotaSaida> { //val sql = "/sqlSaci/notaFinanceiro.sql"
     //return query(sql, NotaSaida::class)
     return notasDevolucao(Serie.Serie01).filter { nota ->
       nota.chaveDesconto != ""
@@ -452,7 +451,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun queryUltimaNota(filter: FiltroUltimaNotaEntrada ) {
+  fun queryUltimaNota(filter: FiltroUltimaNotaEntrada) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasEntradaQueryUtm.sql"
     else "/sqlSaci/ultimasNotasEntradaQuery.sql"
     script(sql) {
@@ -534,7 +533,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun salvaDesconto(notaSaida: NotaSaida) {
     val sql = "/sqlSaci/notaSaidaUpdateDesconto.sql"
-    script(sql){
+    script(sql) {
       addOptionalParameter("loja", notaSaida.loja)
       addOptionalParameter("pdv", notaSaida.pdv)
       addOptionalParameter("transacao", notaSaida.transacao)
