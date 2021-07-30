@@ -163,7 +163,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorCliente()
     fornecedorNome()
 
-    if (serie == FIN) {
+    if (serie in listOf(FIN, Serie01)) {
       fornecedorChaveDesconto()
     }
     else {
