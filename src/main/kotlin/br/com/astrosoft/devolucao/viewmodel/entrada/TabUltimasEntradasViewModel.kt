@@ -32,7 +32,7 @@ class TabUltimasEntradasViewModel(val viewModel: EntradaViewModel) {
       UltimaNotaEntradaGrupo("Diferencas de CST", nota, nota.cstn, nota.cstp)
     }
     val icmsDifList = listNotas.filter { it.icmsDif == "N" }.map { nota ->
-      UltimaNotaEntradaGrupo("Diferencas de ICMS", nota, nota.icmsn.format(), nota.icmsp.format())
+      UltimaNotaEntradaGrupo("Diferencas de ICMS", nota, nota.icmsRN.format(), nota.icmsp.format())
     }
     val ipiDifList = listNotas.filter { it.ipiDif == "N" }.map { nota ->
       UltimaNotaEntradaGrupo("Diferencas de IPI", nota, nota.ipin.format(), nota.ipip.format())
