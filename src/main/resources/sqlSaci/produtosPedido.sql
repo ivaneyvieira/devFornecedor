@@ -178,7 +178,7 @@ GROUP BY P.prdno, P.grade;
 SELECT P.loja,
        0                                                                  AS pdv,
        0                                                                  AS transacao,
-       P.codigo                                                           AS codigo,
+       TRIM(P.codigo)                                                     AS codigo,
        IFNULL(R.refno, P.refFor)                                          AS refFor,
        P.descricao                                                        AS descricao,
        P.grade                                                            AS grade,

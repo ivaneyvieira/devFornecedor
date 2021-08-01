@@ -84,7 +84,7 @@ GROUP BY prdno, grade;
 SELECT loja,
        pdv,
        transacao,
-       codigo,
+       TRIM(codigo)                                                              AS codigo,
        refFor,
        descricao,
        grade,
