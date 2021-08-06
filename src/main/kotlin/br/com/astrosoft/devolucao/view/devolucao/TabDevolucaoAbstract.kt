@@ -28,6 +28,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNi
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaValor
@@ -667,6 +668,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       setSelectionMode(MULTI)
       setItems(listParcelas)
 
+      parcelaLoja()
       parcelaNi()
       parcelaNota()
       parcelaVencimento()

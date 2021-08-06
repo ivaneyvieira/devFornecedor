@@ -8,6 +8,10 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 object ParcelaViewColumns {
+  fun Grid<Parcela>.parcelaLoja() = addColumnInt(Parcela::loja) {
+    this.setHeader("Loja")
+  }
+
   fun Grid<Parcela>.parcelaNi() = addColumnInt(Parcela::ni) {
     this.setHeader("NI")
   }
