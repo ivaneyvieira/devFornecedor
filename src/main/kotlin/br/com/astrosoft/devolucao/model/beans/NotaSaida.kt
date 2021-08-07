@@ -78,37 +78,39 @@ class NotaSaida(
   var documentoPag: String
     get() {
       val chave = chaveDesconto?.uppercase() ?: ""
-      return when (tipoPag) {
-        "Desconto" -> chave.find(".+(NF [0-9]+).+")
-        "Deposito" -> chave.find("^Deposito (.+) [0-9]+\\/[0-9]+\\/[0-9]+$")
-        else       -> chave.find(".+(NF [0-9]+).+")
+      return when {
+        chave.contains("|") -> chave.split("|").getOrNull(1)?.trim() ?: ""
+        else                -> when (tipoPag) {
+          "Desconto" -> chave.find(".+NF ([0-9]+).+")
+          "Deposito" -> chave.find("^Deposito (.+) [0-9]+\\/[0-9]+\\/[0-9]+$")
+          else       -> chave.find(".+NF ([0-9]+).+")
+        }
       }
     }
     set(value) {
-      val preDoc = if (tipoPag == "Desconto") "NF " else ""
-      chaveDesconto =
-              "$tipoPag | $preDoc$value | $niPag | ${vencimentoPag.format()}"
+      chaveDesconto = "$tipoPag | $value | $niPag | ${vencimentoPag.format()}"
     }
 
   var niPag: String
     get() {
       val chave = chaveDesconto?.uppercase() ?: ""
-      return when (tipoPag) {
-        "Desconto" -> chave.find(".+(NI [0-9]+).+")
-        "Deposito" -> ""
-        else       -> chave.find(".+(NI [0-9]+).+")
+      return when {
+        chave.contains("|") -> chave.split("|").getOrNull(2)?.trim() ?: ""
+        else                -> when (tipoPag) {
+          "Desconto" -> chave.find(".+NI ([0-9]+).+")
+          "Deposito" -> ""
+          else       -> chave.find(".+NI ([0-9]+).+")
+        }
       }
     }
     set(value) {
-      val preNI = if (tipoPag == "Desconto") "NI " else ""
-      chaveDesconto =
-              "$tipoPag | $documentoPag | $preNI$value | ${vencimentoPag.format()}"
+      chaveDesconto = "$tipoPag | $documentoPag | $value | ${vencimentoPag.format()}"
     }
 
   var vencimentoPag: String
     get() {
       val chave = chaveDesconto?.uppercase() ?: ""
-      val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$")
+      val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$") ?: ""
       val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
       return try {
         LocalDate.parse(strData, dtf).format()
@@ -122,8 +124,7 @@ class NotaSaida(
       }
     }
     set(value) {
-      chaveDesconto =
-              "$tipoPag | $documentoPag | $niPag | $value"
+      chaveDesconto = "$tipoPag | $documentoPag | $niPag | $value"
     }
 
   private var produtos: List<ProdutosNotaSaida>? = null
@@ -274,8 +275,6 @@ class NotaSaida(
       saci.salvaDesconto(notaSaida)
     }
   }
-
-
 }
 
 data class ChaveFornecedor(
