@@ -38,6 +38,22 @@ object NotaSaidaViewColumns {
     this.width = "250px"
   }
 
+  fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
+    this.setHeader("Tipo")
+  }
+
+  fun Grid<NotaSaida>.documentoPagDesconto() = addColumnString(NotaSaida::documentoPag) {
+    this.setHeader("Documento")
+  }
+
+  fun Grid<NotaSaida>.niPagDesconto() = addColumnString(NotaSaida::niPag) {
+    this.setHeader("NI")
+  }
+
+  fun Grid<NotaSaida>.vencimentoPagDesconto() = addColumnString(NotaSaida::vencimentoPag) {
+    this.setHeader("Vencimento")
+  }
+
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
   }

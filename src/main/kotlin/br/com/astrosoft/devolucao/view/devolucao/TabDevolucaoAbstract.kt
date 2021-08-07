@@ -20,6 +20,8 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileDescricao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.documentoPagDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaChaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
@@ -28,6 +30,8 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tipoPagDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.vencimentoPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNi
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNota
@@ -574,7 +578,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       setItems(listNotas)
       if (serie == Serie01) {
         this.withEditor(NotaSaida::class, openEditor = { binder ->
-          (getColumnBy(NotaSaida::chaveDesconto).editorComponent as? Focusable<*>)?.focus()
+          (getColumnBy(NotaSaida::tipoPag).editorComponent as? Focusable<*>)?.focus()
         }, closeEditor = { binder ->
           viewModel.salvaDesconto(binder.bean)
           this.dataProvider.refreshItem(binder.bean)
@@ -598,7 +602,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       notaNota()
       notaFatura()
       if (serie in listOf(Serie01, FIN)) {
-        notaChaveDesconto().textFieldEditor()
+        tipoPagDesconto().textFieldEditor()
+        documentoPagDesconto().textFieldEditor()
+        niPagDesconto().textFieldEditor()
+        vencimentoPagDesconto().textFieldEditor()
       }
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
