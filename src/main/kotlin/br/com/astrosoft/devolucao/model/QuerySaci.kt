@@ -399,7 +399,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         q.addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
         q.addOptionalParameter("ieEmitente", nota.ieEmitente)
         q.addOptionalParameter("ieDestinatario", nota.ieDestinatario)
-        q.addOptionalParameter("baseCalculoIcms", nota.baseCalculoIcms)
+        q.addOptionalParameter("baseCalculoIcms", nota.valorNota ?: nota.baseCalculoIcms)
         q.addOptionalParameter("baseCalculoSt", nota.baseCalculoSt)
         q.addOptionalParameter("valorTotalProdutos", nota.valorTotalProdutos)
         q.addOptionalParameter("valorTotalIcms", nota.valorTotalIcms)
