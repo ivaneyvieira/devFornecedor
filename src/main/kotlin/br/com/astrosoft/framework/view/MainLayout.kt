@@ -19,7 +19,7 @@ import kotlin.reflect.KClass
 
 abstract class MainLayout : AppLayout(), RouterLayout, BeforeEnterObserver, PageConfigurator {
   init {
-    isDrawerOpened = true
+    isDrawerOpened = false
     navbar {
       drawerToggle()
       h3(Config.title)

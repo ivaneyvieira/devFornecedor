@@ -161,7 +161,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
   return addColumnButton(iconButton, tooltip, execButton, configIcon, block = {
     this.setHeader(header)
     this.isAutoWidth = false
-    this.width = "4em"
+    this.width = "3em"
   })
 }
 
