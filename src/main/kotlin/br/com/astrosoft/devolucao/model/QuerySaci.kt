@@ -393,7 +393,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         q.addOptionalParameter("id", nota.id)
         q.addOptionalParameter("numero", nota.numero)
         q.addOptionalParameter("serie", nota.serie)
-        q.addOptionalParameter("dataEmissao", nota.dataEmissao)
+        q.addOptionalParameter("dataEmissao", nota.dataEmissao?.toSaciDate() ?: 0)
         q.addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
         q.addOptionalParameter("nomeFornecedor", nota.nomeFornecedor)
         q.addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
