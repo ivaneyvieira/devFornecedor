@@ -9,7 +9,9 @@ import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
+import java.time.DateTimeException
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.mail.internet.InternetAddress
 
 class NotaSaida(
@@ -51,8 +53,79 @@ class NotaSaida(
   val rmkVend: String,
   val chave: String,
   val natureza: String,
-  var chaveDesconto: String?,
+  var chaveDesconto: String,
                ) {
+  fun String.find(regexStr: String): String {
+    val regex = regexStr.toRegex()
+    val find = regex.find(this)
+    val groups = find?.groupValues.orEmpty()
+    return groups.getOrNull(1) ?: ""
+  }
+
+  var tipoPag: String
+    get() {
+      val chave = chaveDesconto?.uppercase() ?: ""
+      return when {
+        chave.startsWith("DESC") -> "Desconto"
+        chave.startsWith("DEP")  -> "Deposito"
+        else                     -> chaveDesconto ?: ""
+      }
+    }
+    set(value) {
+      chaveDesconto = "$value | $documentoPag | $niPag | ${vencimentoPag.format()}"
+    }
+
+  var documentoPag: String
+    get() {
+      val chave = chaveDesconto?.uppercase() ?: ""
+      return when (tipoPag) {
+        "Desconto" -> chave.find(".+(NF [0-9]+).+")
+        "Deposito" -> chave.find("^Deposito (.+) [0-9]+\\/[0-9]+\\/[0-9]+$")
+        else       -> ""
+      }
+    }
+    set(value) {
+      val preDoc = if (tipoPag == "Desconto") "NF " else ""
+      chaveDesconto =
+              "$tipoPag | $preDoc$value | $niPag | ${vencimentoPag.format()}"
+    }
+
+  var niPag: String
+    get() {
+      val chave = chaveDesconto?.uppercase() ?: ""
+      return when (tipoPag) {
+        "Desconto" -> chave.find(".+(NI [0-9]+).+")
+        "Deposito" -> ""
+        else       -> ""
+      }
+    }
+    set(value) {
+      val preNI = if (tipoPag == "Desconto") "NI " else ""
+      chaveDesconto =
+              "$tipoPag | $documentoPag | $preNI$value | ${vencimentoPag.format()}"
+    }
+
+  var vencimentoPag: String
+    get() {
+      val chave = chaveDesconto?.uppercase() ?: ""
+      val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$")
+      val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+      return try {
+        LocalDate.parse(strData, dtf).format()
+      } catch (e: DateTimeException) {
+        val dtf2 = DateTimeFormatter.ofPattern("dd/MM/yy")
+        try {
+          LocalDate.parse(strData, dtf2).format()
+        } catch (e: DateTimeException) {
+          ""
+        }
+      }
+    }
+    set(value) {
+      chaveDesconto =
+              "$tipoPag | $documentoPag | $niPag | $value"
+    }
+
   private var produtos: List<ProdutosNotaSaida>? = null
 
   fun listaProdutos(): List<ProdutosNotaSaida> {
@@ -128,6 +201,26 @@ class NotaSaida(
     }
   }
 
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as NotaSaida
+
+    if (loja != other.loja) return false
+    if (pdv != other.pdv) return false
+    if (transacao != other.transacao) return false
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    var result = loja
+    result = 31 * result + pdv
+    result = 31 * result + transacao
+    return result
+  }
+
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()
 
@@ -181,6 +274,8 @@ class NotaSaida(
       saci.salvaDesconto(notaSaida)
     }
   }
+
+
 }
 
 data class ChaveFornecedor(
