@@ -53,7 +53,7 @@ class NotaSaida(
   val rmkVend: String,
   val chave: String,
   val natureza: String,
-  var chaveDesconto: String,
+  var chaveDesconto: String?,
                ) {
   fun String.find(regexStr: String): String {
     val regex = regexStr.toRegex()
@@ -68,7 +68,7 @@ class NotaSaida(
       return when {
         chave.startsWith("DESC") -> "Desconto"
         chave.startsWith("DEP")  -> "Deposito"
-        else                     -> chaveDesconto ?: ""
+        else                     -> chaveDesconto?.split(" ")?.getOrNull(0) ?: ""
       }
     }
     set(value) {
@@ -81,7 +81,7 @@ class NotaSaida(
       return when (tipoPag) {
         "Desconto" -> chave.find(".+(NF [0-9]+).+")
         "Deposito" -> chave.find("^Deposito (.+) [0-9]+\\/[0-9]+\\/[0-9]+$")
-        else       -> ""
+        else       -> chave.find(".+(NF [0-9]+).+")
       }
     }
     set(value) {
@@ -96,7 +96,7 @@ class NotaSaida(
       return when (tipoPag) {
         "Desconto" -> chave.find(".+(NI [0-9]+).+")
         "Deposito" -> ""
-        else       -> ""
+        else       -> chave.find(".+(NI [0-9]+).+")
       }
     }
     set(value) {

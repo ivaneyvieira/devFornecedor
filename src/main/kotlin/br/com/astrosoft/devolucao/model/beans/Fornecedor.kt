@@ -29,16 +29,17 @@ class Fornecedor(
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
     }
 
-  val chaveDesconto: String
-    get() {
-      val listObs = notas.mapNotNull { it.chaveDesconto }
-      return if (listObs.isEmpty()) ""
-      else {
-        val primeiro = listObs.firstOrNull()
-        val falta = if (listObs.size > 1) " ..." else ""
-        "$primeiro$falta"
-      }
-    }
+  val tipoPag: String
+    get() = notas.firstOrNull()?.tipoPag ?: ""
+
+  val documentoPag: String
+    get() = notas.firstOrNull()?.documentoPag ?: ""
+
+  val niPag: String
+    get() = notas.firstOrNull()?.niPag ?: ""
+
+  val vencimentoPag: String
+    get() = notas.firstOrNull()?.vencimentoPag ?: ""
 
   val ultimaDataStr
     get() = ultimaData.format()

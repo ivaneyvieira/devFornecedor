@@ -11,18 +11,20 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emai
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailHora
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailTipo
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorChaveDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.documentoPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.niPagDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tipoPagDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.vencimentoPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileDescricao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.documentoPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niPagDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaChaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
@@ -169,7 +171,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorNome()
 
     if (serie in listOf(FIN, Serie01)) {
-      fornecedorChaveDesconto()
+      tipoPagDesconto()
+      documentoPagDesconto()
+      niPagDesconto()
+      vencimentoPagDesconto()
     }
     else {
       fornecedorPrimeiraData()

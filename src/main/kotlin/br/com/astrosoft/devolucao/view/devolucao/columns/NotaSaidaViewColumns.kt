@@ -32,18 +32,12 @@ object NotaSaidaViewColumns {
     this.setHeader("Nota")
   }
 
-  fun Grid<NotaSaida>.notaChaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
-    this.setHeader("Obs Pgto")
-    this.isAutoWidth = false
-    this.width = "250px"
-  }
-
   fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
-    this.setHeader("Tipo")
+    this.setHeader("Obs Pgto")
   }
 
   fun Grid<NotaSaida>.documentoPagDesconto() = addColumnString(NotaSaida::documentoPag) {
-    this.setHeader("Documento")
+    this.setHeader("Nota")
   }
 
   fun Grid<NotaSaida>.niPagDesconto() = addColumnString(NotaSaida::niPag) {
