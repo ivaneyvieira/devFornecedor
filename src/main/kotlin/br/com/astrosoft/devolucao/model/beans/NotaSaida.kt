@@ -72,7 +72,7 @@ class NotaSaida(
       }
     }
     set(value) {
-      chaveDesconto = "$value | $documentoPag | $niPag | ${vencimentoPag.format()}"
+      setChave(value, documentoPag, niPag, vencimentoPag)
     }
 
   var documentoPag: String
@@ -88,7 +88,7 @@ class NotaSaida(
       }
     }
     set(value) {
-      chaveDesconto = "$tipoPag | $value | $niPag | ${vencimentoPag.format()}"
+      setChave(tipoPag, value, niPag, vencimentoPag)
     }
 
   var niPag: String
@@ -104,7 +104,7 @@ class NotaSaida(
       }
     }
     set(value) {
-      chaveDesconto = "$tipoPag | $documentoPag | $value | ${vencimentoPag.format()}"
+      setChave(tipoPag, documentoPag, value, vencimentoPag)
     }
 
   var vencimentoPag: String
@@ -124,8 +124,17 @@ class NotaSaida(
       }
     }
     set(value) {
-      chaveDesconto = "$tipoPag | $documentoPag | $niPag | $value"
+      setChave(tipoPag, documentoPag, niPag, value)
     }
+
+  private fun setChave(tipo: String, documento: String, ni: String, vencimento: String) {
+    val tipoTrim = tipo.trim()
+    val documentoTrim = documento.trim()
+    val niTrim = ni.trim()
+    val vencimentoTrim = vencimento.trim()
+    val tudo = tipoTrim + documentoTrim + niTrim + vencimentoTrim
+    chaveDesconto = if (tudo.isEmpty()) "" else "$tipoTrim | $documentoTrim | $niTrim | $vencimentoTrim"
+  }
 
   private var produtos: List<ProdutosNotaSaida>? = null
 
