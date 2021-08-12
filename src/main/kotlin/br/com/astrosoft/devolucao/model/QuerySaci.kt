@@ -541,6 +541,20 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun todasNotasEntradaQuery(filtro: FiltroNotaEntradaQuery): List<NotaEntradaQuery> {
+    val sql = "/sqlSaci/todasNotasEntradaQuery.sql"
+    return query(sql, NotaEntradaQuery::class) {
+      addOptionalParameter("storeno", filtro.storeno)
+      addOptionalParameter("di", filtro.di.toSaciDate())
+      addOptionalParameter("df", filtro.df.toSaciDate())
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("mfno", filtro.mfno)
+      addOptionalParameter("ni", filtro.ni)
+      addOptionalParameter("nf", filtro.nf)
+      addOptionalParameter("prd", filtro.prd)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
