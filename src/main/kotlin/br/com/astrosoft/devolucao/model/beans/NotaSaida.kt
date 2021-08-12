@@ -56,7 +56,7 @@ class NotaSaida(
   var chaveDesconto: String?,
                ) {
   fun String.find(regexStr: String): String {
-    val regex = regexStr.toRegex()
+    val regex = regexStr.toRegex(RegexOption.IGNORE_CASE)
     val find = regex.find(this)
     val groups = find?.groupValues.orEmpty()
     return groups.getOrNull(1) ?: ""
@@ -77,7 +77,7 @@ class NotaSaida(
 
   var documentoPag: String
     get() {
-      val chave = chaveDesconto?.uppercase() ?: ""
+      val chave = chaveDesconto ?: ""
       return when {
         chave.contains("|") -> chave.split("|").getOrNull(1)?.trim() ?: ""
         else                -> when (tipoPag) {
@@ -93,7 +93,7 @@ class NotaSaida(
 
   var niPag: String
     get() {
-      val chave = chaveDesconto?.uppercase() ?: ""
+      val chave = chaveDesconto ?: ""
       return when {
         chave.contains("|") -> chave.split("|").getOrNull(2)?.trim() ?: ""
         else                -> when (tipoPag) {
@@ -109,7 +109,7 @@ class NotaSaida(
 
   var vencimentoPag: String
     get() {
-      val chave = chaveDesconto?.uppercase() ?: ""
+      val chave = chaveDesconto ?: ""
       val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$") ?: ""
       val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
       return try {
