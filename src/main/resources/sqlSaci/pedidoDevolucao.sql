@@ -126,7 +126,7 @@ GROUP BY loja, pdv, transacao, dataNota, custno;
 SELECT E.storeno                          AS loja,
        S.sname                            AS sigla,
        IFNULL(N.pdv, 0)                   AS pdv,
-       IFNULL(N.transacao, 0)             AS transacao,
+       IFNULL(N.transacao, E.ordno)       AS transacao,
        E.ordno                            AS pedido,
        CAST(E.date AS DATE)               AS dataPedido,
        IFNULL(N.nota, 0)                  AS nota,
