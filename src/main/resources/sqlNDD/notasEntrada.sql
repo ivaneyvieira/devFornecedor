@@ -8,11 +8,6 @@ SELECT OID                                                     AS id,
                                PATINDEX('%</xNome>%', XML_NFE) - PATINDEX('%<xNome>%', XML_NFE) -
                                len('<xNome>'))
             ELSE '' END                                        AS nomeFornecedor,
-       cast(CASE WHEN PATINDEX('%<vNF>%', XML_NFE) > 0 AND PATINDEX('%</vNF>%', XML_NFE) > 0
-                     THEN SUBSTRING(XML_NFE, PATINDEX('%<vNF>%', XML_NFE) + LEN('<vNF>'),
-                                    PATINDEX('%</vNF>%', XML_NFE) - PATINDEX('%<vNF>%', XML_NFE) -
-                                    LEN('<vNF>'))
-                 ELSE null END AS decimal(18, 2))              as valorNota,
        DEST_CNPJ                                               AS cnpjDestinatario,
        EMIT_IE                                                 AS ieEmitente,
        DEST_IE                                                 AS ieDestinatario,

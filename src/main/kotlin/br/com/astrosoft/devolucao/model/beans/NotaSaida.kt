@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
@@ -171,6 +172,8 @@ class NotaSaida(
 
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
+  val labelTitle2
+    get() = "Fornecedor: ${this.vendno} / ${this.custno} - ${this.fornecedor} (SAP ${this.fornecedorSap})"
 
   val valorNota
     get() = if (tipo == "1") valor else listaProdutos().sumOf { it.valorTotalIpi }
@@ -230,6 +233,31 @@ class NotaSaida(
     result = 31 * result + transacao
     return result
   }
+
+  private var notaOrigem: NotaEntradaNdd? = null
+
+  fun findNotaOrigem() {
+    notaOrigem = null
+    val notaSpt = nota.split("/")
+    val numero = notaSpt.getOrNull(0)?.toIntOrNull() ?: return
+    val serie = notaSpt.getOrNull(1)?.toIntOrNull() ?: return
+    val notaSaida = ndd.produtosNotasSaida(storeno = loja, numero = numero, serie = serie) ?: return
+    val chaveRef = notaSaida.refNFe ?: return
+    notaOrigem = FornecedorNdd.findNota(chaveRef)
+  }
+
+  val transfortadora: String
+    get() = notaOrigem?.transfortadora ?: ""
+  val conhecimentoFrete: String
+    get() = notaOrigem?.conhecimentoFrete ?: ""
+  val dataNfOrigemStr: String
+    get() = notaOrigem?.dataEmissaoStr ?: ""
+  val nfOrigem: String
+    get() = notaOrigem?.notaFiscal ?: ""
+  val dataCteStr: String
+    get() =  ""
+  val obsOrigem: String
+    get() = notaOrigem?.obs ?: ""
 
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()

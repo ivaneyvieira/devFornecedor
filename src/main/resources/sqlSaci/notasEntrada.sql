@@ -1,11 +1,11 @@
 SELECT id,
-       IFNULL(S.no, 0)                  AS storeno,
-       IFNULL(C.no, 0)                  AS custno,
-       IFNULL(V.name, N.nomeFornecedor) AS nome,
-       IFNULL(V.no, 0)                  AS codigoSaci,
-       IFNULL(V.auxLong4, 0)            AS fornecedorSap,
-       IFNULL(V.email, '')              AS email,
-       IFNULL(V.remarks, '')            AS obs,
+       IFNULL(S.no, 0)                                              AS storeno,
+       IFNULL(C.no, 0)                                              AS custno,
+       IFNULL(V.name, N.nomeFornecedor)                             AS nome,
+       IFNULL(V.no, 0)                                              AS codigoSaci,
+       IFNULL(V.auxLong4, 0)                                        AS fornecedorSap,
+       IFNULL(V.email, '')                                          AS email,
+       IFNULL(V.remarks, '')                                        AS obs,
        numero,
        serie,
        dataEmissao,
@@ -25,8 +25,10 @@ SELECT id,
        xmlCancelado,
        xmlNfe,
        xmlDadosAdicionais,
-       IF(I.invno IS NULL, 'N', 'S')    AS notaSaci,
-       IFNULL(I.ordno, N.ordno)         AS ordno
+       IF(I.invno IS NULL, 'N', 'S')                                AS notaSaci,
+       IFNULL(I.ordno, N.ordno)                                     AS ordno,
+       IFNULL(T.name, '')                                           AS transfortadora,
+       IFNULL(CAST(IF(I.auxLong2 = 0, '', I.auxLong2) AS CHAR), '') AS conhecimentoFrete
 FROM sqldados.notasEntradaNdd AS N
   LEFT JOIN sqldados.vend     AS V
 	      ON V.cgc = N.cnpjEmitente
@@ -36,7 +38,10 @@ FROM sqldados.notasEntradaNdd AS N
 	      ON C.cpf_cgc = N.cnpjDestinatario
   LEFT JOIN sqldados.inv      AS I
 	      ON I.storeno = S.no AND I.nfname = N.numero AND I.invse = N.serie AND I.vendno = V.no
+  LEFT JOIN sqldados.carr     AS T
+	      ON T.no = I.carrno
 WHERE dataEmissao BETWEEN :dataInicial AND :dataFinal
+  AND (chave = CONCAT('NFe', :chave) OR :chave = '')
 HAVING CASE :tipo
 	 WHEN 'RECEBER'
 	   THEN notaSaci = 'N'
@@ -45,5 +50,6 @@ HAVING CASE :tipo
 	 WHEN 'TODOS'
 	   THEN TRUE
 	 ELSE FALSE
-       END AND (nome LIKE CONCAT(:filtro, '%') OR codigoSaci = (:filtro * 1) OR :filtro = '')
+       END
+   AND (nome LIKE CONCAT(:filtro, '%') OR codigoSaci = (:filtro * 1) OR :filtro = '')
 

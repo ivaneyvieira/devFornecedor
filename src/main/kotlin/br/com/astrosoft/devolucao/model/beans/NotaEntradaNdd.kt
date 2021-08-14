@@ -36,7 +36,9 @@ class NotaEntradaNdd(val id: Int,
                      val xmlNfe: String,
                      val xmlDadosAdicionais: String,
                      val notaSaci: String,
-                     var ordno: Int) {
+                     var ordno: Int,
+                     val transfortadora: String,
+                     val conhecimentoFrete: String) {
   val aliquotaICMSCalculo
     get() = valorTotalIcms / valorTotalProdutos
 
