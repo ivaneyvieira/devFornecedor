@@ -31,7 +31,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val dataNotaCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(65)
+            this.setFixedWidth(55)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -45,7 +45,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val transfortadoraCol: TextColumnBuilder<String> =
           col.column("Transportadora", NotaSaida::transfortadora.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
-            this.setFixedWidth(220)
+            this.setFixedWidth(180)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -59,14 +59,14 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val dataNfOrigemStrCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNfOrigemStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(65)
+            this.setFixedWidth(55)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val nfOrigemCol: TextColumnBuilder<String> =
           col.column("Nota", NotaSaida::nfOrigem.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(65)
+            this.setFixedWidth(60)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -143,7 +143,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal.setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnStyle(fieldFontNormal.setFontSize(8).setPadding(stl.padding().setRight(4).setLeft(4)))
       .setColumnTitleStyle(fieldFontNormalCol)
   }
 
