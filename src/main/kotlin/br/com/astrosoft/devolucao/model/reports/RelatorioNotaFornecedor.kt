@@ -12,6 +12,7 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
+import net.sf.dynamicreports.report.builder.style.Styles
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation
@@ -20,6 +21,7 @@ import net.sf.dynamicreports.report.constant.TextAdjust
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
+import java.awt.Color
 import java.io.ByteArrayOutputStream
 
 class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
@@ -45,7 +47,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val transfortadoraCol: TextColumnBuilder<String> =
           col.column("Transportadora", NotaSaida::transfortadora.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
-            this.setFixedWidth(180)
+            this.setFixedWidth(200)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -89,11 +91,14 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       horizontalList {
         text("Devoluções para Fornecedores", CENTER).apply {
           this.setStyle(fieldFontGrande)
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
       }
       val labelTitle = notas.firstOrNull()?.labelTitle2 ?: ""
       horizontalList {
-        text(labelTitle, LEFT)
+        text(labelTitle, LEFT){
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
       }
     }
   }
@@ -104,8 +109,12 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", obsNotaCol),
-      sbt.sum(valorCol),
+      sbt.text("Total R$", obsNotaCol).apply {
+        this.setStyle(stl.style().setForegroundColor(Color.WHITE).setTopBorder(stl.pen1Point()))
+      },
+      sbt.sum(valorCol).apply {
+        this.setStyle(stl.style().setForegroundColor(Color.WHITE).setTopBorder(stl.pen1Point()))
+      },
                  )
   }
 
@@ -143,8 +152,13 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal.setFontSize(8).setPadding(stl.padding().setRight(4).setLeft(4)))
-      .setColumnTitleStyle(fieldFontNormalCol)
+      .setColumnStyle(fieldFontNormal.setForegroundColor(Color.WHITE).setFontSize(8).setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
+      .setPageMargin(margin(0))
+      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
+      .setGroupStyle(stl.style()
+                       .setForegroundColor(Color.WHITE))
+      .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }
 
   companion object {
