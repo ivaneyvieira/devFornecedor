@@ -22,7 +22,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
 class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
-  private val lojaCol: TextColumnBuilder<Int> = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
+  private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(30)
   }
@@ -40,14 +40,15 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
           }
 
   private val transfortadoraCol: TextColumnBuilder<String> =
-          col.column("Transp", NotaSaida::transfortadora.name, type.stringType()).apply {
+          col.column("Transportadora", NotaSaida::transfortadora.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
+            this.setFixedWidth(220)
           }
 
   private val conhecimentoFreteCol: TextColumnBuilder<String> =
           col.column("CTe", NotaSaida::conhecimentoFrete.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(40)
+            this.setFixedWidth(60)
           }
 
   private val dataNfOrigemStrCol: TextColumnBuilder<String> =
@@ -57,7 +58,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
           }
 
   private val nfOrigemCol: TextColumnBuilder<String> =
-          col.column("NF Origem", NotaSaida::nfOrigem.name, type.stringType()).apply {
+          col.column("Nota", NotaSaida::nfOrigem.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(65)
           }
@@ -68,8 +69,8 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
             this.setFixedWidth(60)
           }
 
-  private val obsOrigemCol: TextColumnBuilder<String> =
-          col.column("Obs", NotaSaida::obsOrigem.name, type.stringType()).apply {
+  private val obsNotaCol: TextColumnBuilder<String> =
+          col.column("Motivo", NotaSaida::remarks.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
           }
 
@@ -79,21 +80,6 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
           }
-
-  private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(
-      lojaCol,
-      dataNotaCol,
-      notaInvCol,
-      valorCol,
-      nfOrigemCol,
-      dataNfOrigemStrCol,
-      transfortadoraCol,
-      conhecimentoFreteCol,
-      dataCteStrCol,
-      obsOrigemCol,
-                 )
-  }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
     return verticalBlock {
@@ -115,21 +101,36 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
-      //      sbt.text("Total R$", faturaCol),
+      sbt.text("Total R$", obsNotaCol),
       sbt.sum(valorCol),
                  )
   }
 
   fun makeReport(): JasperReportBuilder {
-    val colunms = columnBuilder().toTypedArray()
+    val grupoOrigem =
+            grid.titleGroup("Dados da Nota Fiscal de Origem",
+                            dataNfOrigemStrCol,
+                            nfOrigemCol,
+                            conhecimentoFreteCol,
+                            transfortadoraCol)
+    val grupoDevolucao =
+            grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol, obsNotaCol, valorCol)
     val pageOrientation = PageOrientation.LANDSCAPE
     notas.forEach {
       it.findNotaOrigem()
     }
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
-      .columns(* colunms)
-      .columnGrid(* colunms)
+      .columns(dataNfOrigemStrCol,
+               nfOrigemCol,
+               conhecimentoFreteCol,
+               transfortadoraCol,
+               lojaCol,
+               dataNotaCol,
+               notaInvCol,
+               obsNotaCol,
+               valorCol)
+      .columnGrid(grupoOrigem, grupoDevolucao)
       .setDataSource(notas)
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
