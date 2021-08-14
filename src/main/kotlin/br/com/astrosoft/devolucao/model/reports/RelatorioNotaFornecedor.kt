@@ -16,6 +16,7 @@ import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation
 import net.sf.dynamicreports.report.constant.PageType.A4
+import net.sf.dynamicreports.report.constant.TextAdjust
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
@@ -24,54 +25,55 @@ import java.io.ByteArrayOutputStream
 class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(30)
+    this.setFixedWidth(35)
   }
 
   private val dataNotaCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(60)
+            this.setFixedWidth(65)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val notaInvCol: TextColumnBuilder<String> =
           col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val transfortadoraCol: TextColumnBuilder<String> =
           col.column("Transportadora", NotaSaida::transfortadora.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setFixedWidth(220)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val conhecimentoFreteCol: TextColumnBuilder<String> =
           col.column("CTe", NotaSaida::conhecimentoFrete.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val dataNfOrigemStrCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNfOrigemStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(60)
+            this.setFixedWidth(65)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val nfOrigemCol: TextColumnBuilder<String> =
           col.column("Nota", NotaSaida::nfOrigem.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(65)
-          }
-
-  private val dataCteStrCol: TextColumnBuilder<String> =
-          col.column("Data", NotaSaida::dataCteStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(60)
+            this.setFixedWidth(65)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val obsNotaCol: TextColumnBuilder<String> =
           col.column("Motivo", NotaSaida::remarks.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private val valorCol: TextColumnBuilder<Double> =
@@ -79,6 +81,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
             this.setPattern("#,##0.00")
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(60)
+            this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
@@ -114,7 +117,9 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
                             conhecimentoFreteCol,
                             transfortadoraCol)
     val grupoDevolucao =
-            grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol, obsNotaCol, valorCol)
+            grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol,
+                            obsNotaCol,
+                            valorCol)
     val pageOrientation = PageOrientation.LANDSCAPE
     notas.forEach {
       it.findNotaOrigem()
@@ -138,7 +143,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal)
+      .setColumnStyle(fieldFontNormal.setPadding(stl.padding().setRight(4).setLeft(4)))
       .setColumnTitleStyle(fieldFontNormalCol)
   }
 
