@@ -14,7 +14,7 @@ import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
-import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
+import net.sf.dynamicreports.report.constant.PageOrientation
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
@@ -24,12 +24,12 @@ import java.io.ByteArrayOutputStream
 class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val lojaCol: TextColumnBuilder<Int> = col.column("loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
-    this.setFixedWidth(40)
+    this.setFixedWidth(30)
   }
 
   private val dataNotaCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
+            this.setHorizontalTextAlignment(CENTER)
             this.setFixedWidth(60)
           }
 
@@ -39,34 +39,72 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
             this.setFixedWidth(60)
           }
 
-  private val faturaCol: TextColumnBuilder<String> =
-          col.column("Fatura", NotaSaida::fatura.name, type.stringType()).apply {
+  private val transfortadoraCol: TextColumnBuilder<String> =
+          col.column("Transp", NotaSaida::transfortadora.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(LEFT)
+          }
+
+  private val conhecimentoFreteCol: TextColumnBuilder<String> =
+          col.column("CTe", NotaSaida::conhecimentoFrete.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(40)
+          }
+
+  private val dataNfOrigemStrCol: TextColumnBuilder<String> =
+          col.column("Data", NotaSaida::dataNfOrigemStr.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(CENTER)
             this.setFixedWidth(60)
+          }
+
+  private val nfOrigemCol: TextColumnBuilder<String> =
+          col.column("NF Origem", NotaSaida::nfOrigem.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(RIGHT)
+            this.setFixedWidth(65)
+          }
+
+  private val dataCteStrCol: TextColumnBuilder<String> =
+          col.column("Data", NotaSaida::dataCteStr.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(CENTER)
+            this.setFixedWidth(60)
+          }
+
+  private val obsOrigemCol: TextColumnBuilder<String> =
+          col.column("Obs", NotaSaida::obsOrigem.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(LEFT)
           }
 
   private val valorCol: TextColumnBuilder<Double> =
           col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
             this.setPattern("#,##0.00")
             this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(100)
+            this.setFixedWidth(60)
           }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(lojaCol, dataNotaCol, notaInvCol, faturaCol, valorCol)
+    return listOf(
+      lojaCol,
+      dataNotaCol,
+      notaInvCol,
+      valorCol,
+      nfOrigemCol,
+      dataNfOrigemStrCol,
+      transfortadoraCol,
+      conhecimentoFreteCol,
+      dataCteStrCol,
+      obsOrigemCol,
+                 )
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
-    val largura = 40 + 60 + 60 + 60 + 100
     return verticalBlock {
       horizontalList {
-        text("FORNECEDOR", CENTER, largura).apply {
+        text("Devoluções para Fornecedores", CENTER).apply {
           this.setStyle(fieldFontGrande)
         }
       }
-      val labelTitle = notas.firstOrNull()?.labelTitle ?: ""
-      horizontalList { //"${fornecedor.custno} ${fornecedor.fornecedor} (${fornecedor.vendno})"
-        text(labelTitle, LEFT, largura)
+      val labelTitle = notas.firstOrNull()?.labelTitle2 ?: ""
+      horizontalList {
+        text(labelTitle, LEFT)
       }
     }
   }
@@ -77,14 +115,17 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", faturaCol),
+      //      sbt.text("Total R$", faturaCol),
       sbt.sum(valorCol),
                  )
   }
 
   fun makeReport(): JasperReportBuilder {
     val colunms = columnBuilder().toTypedArray()
-    val pageOrientation = PORTRAIT
+    val pageOrientation = PageOrientation.LANDSCAPE
+    notas.forEach {
+      it.findNotaOrigem()
+    }
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)

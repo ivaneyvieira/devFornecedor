@@ -422,6 +422,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("tipo", filtro.tipo.toString())
       addOptionalParameter("dataInicial", filtro.dataInicial)
       addOptionalParameter("dataFinal", filtro.dataFinal)
+      addOptionalParameter("chave", filtro.chave)
     }
   }
 
