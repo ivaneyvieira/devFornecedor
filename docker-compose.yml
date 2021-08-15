@@ -1,7 +1,7 @@
 version: "3"
 services:
   engecopi:
-    image: tomcat:8
+    image: tomcat:11
     container_name: eng_dev_fornecedor
     ports:
       - "8020:8080"
