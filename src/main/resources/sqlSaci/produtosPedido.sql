@@ -107,8 +107,8 @@ SELECT P.prdno                                                                  
        IFNULL(X.nfekey, '')                                                             AS chaveUlt,
        IFNULL(M.cst, cstIcms)                                                           AS cst,
        IFNULL(M.cfop, P.cfop)                                                           AS cfopNota,
-       IF(P.baseIcms = 0, (P.fob4 / 10000),
-	  SUM(P.baseIcms / 100) / SUM(P.qtty / 1000))                                   AS baseICMSUnit,
+       IF(P.baseIcms = 0, (P.fob4 / 10000), SUM(P.baseIcms / 100) /
+					    SUM(P.qtty / 1000))                         AS baseICMSUnit,
        SUM(P.baseIpi / 100) / SUM(P.qtty / 1000)                                        AS baseIPIUnit,
        SUM(P.baseIcmsSubst / 100) / SUM(P.qtty / 1000)                                  AS baseSTUnit,
        SUM(P.icmsSubst / 100) / SUM(P.qtty / 1000)                                      AS valorSubstUnit,
@@ -178,7 +178,7 @@ GROUP BY P.prdno, P.grade;
 SELECT P.loja,
        0                                                                  AS pdv,
        0                                                                  AS transacao,
-       P.codigo                                                           AS codigo,
+       TRIM(P.codigo)                                                     AS codigo,
        IFNULL(R.refno, P.refFor)                                          AS refFor,
        P.descricao                                                        AS descricao,
        P.grade                                                            AS grade,
@@ -210,7 +210,7 @@ SELECT P.loja,
        IFNULL(P.qtde * N.baseIPIUnit * N.ipiAliq / 100, 0.00)             AS valorIPI,
        IFNULL(N.icmsAliq, 0.00)                                           AS icmsAliq,
        IFNULL(N.ipiAliq, 0.00)                                            AS ipiAliq,
-       sefazOk                                                            AS sefazOk
+       IFNULL(sefazOk, '')                                                AS sefazOk
 FROM T_PEDIDO     AS P
   LEFT JOIN T_INV AS N
 	      USING (codigo, grade)

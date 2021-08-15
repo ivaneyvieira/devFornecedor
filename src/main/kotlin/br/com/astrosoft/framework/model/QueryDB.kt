@@ -1,6 +1,7 @@
 package br.com.astrosoft.framework.model
 
 import br.com.astrosoft.framework.util.SystemUtils.readFile
+import org.simpleflatmapper.sql2o.SfmResultSetHandlerFactoryBuilder
 import org.sql2o.Connection
 import org.sql2o.Query
 import org.sql2o.Sql2o
@@ -59,14 +60,21 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
+  private fun Connection.createQueryConfig(sql: String?): Query {
+    val query = createQuery(sql)
+    query.isAutoDeriveColumnNames = true
+    query.resultSetHandlerFactoryBuilder = SfmResultSetHandlerFactoryBuilder()
+    return query
+  }
+
   private fun querySQLResult(con: Connection, sql: String?, lambda: QueryHandle = {}): Query {
-    val query = con.createQuery(sql)
+    val query = con.createQueryConfig(sql)
     query.lambda()
     return query
   }
 
   private fun <T : Any> querySQL(con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
-    val query = con.createQuery(sql)
+    val query = con.createQueryConfig(sql)
     query.lambda()
     println(sql)
     return query.executeAndFetch(classes.java)
@@ -95,7 +103,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
 
   private fun scriptSQL(con: Connection, stratments: List<String>, lambda: QueryHandle = {}) {
     stratments.forEach { sql ->
-      val query = con.createQuery(sql)
+      val query = con.createQueryConfig(sql)
       query.lambda()
       query.executeUpdate()
       println(sql)
@@ -104,7 +112,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
 
   private fun scriptSQL(con: Connection, stratments: List<String>, lambda: List<QueryHandle>) {
     stratments.forEach { sql ->
-      val query = con.createQuery(sql)
+      val query = con.createQueryConfig(sql)
       lambda.forEach { lamb ->
         query.lamb()
         query.executeUpdate()
