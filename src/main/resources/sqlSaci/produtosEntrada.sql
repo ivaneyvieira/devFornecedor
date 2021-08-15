@@ -85,7 +85,7 @@ GROUP BY prdno, grade;
 SELECT loja,
        0                                                 AS pdv,
        0                                                 AS transacao,
-       codigo,
+       TRIM(codigo)                                      AS codigo,
        refFor,
        descricao,
        grade,
@@ -95,8 +95,8 @@ SELECT loja,
        IFNULL(ipiAliq * valorTotal, 0.00)                AS ipi,
        0.00                                              AS baseSt,
        IFNULL(stAliq * valorTotal, 0.00)                 AS vst,
-       cst                                               AS cst,
-       cfop                                              AS cfop,
+       IFNULL(T_INV.cst, '')                             AS cst,
+       IFNULL(T_INV.cfop, '')                            AS cfop,
        IFNULL((ipiAliq + stAliq + 1) * valorTotal, 0.00) AS valorTotalIpi,
        barcode,
        un,
@@ -117,7 +117,7 @@ SELECT loja,
        0.00                                              AS valorIPI,
        0.00                                              AS icmsAliq,
        0.00                                              AS ipiAliq,
-       sefazOk                                           AS sefazOk
+       IFNULL(sefazOk, '')                               AS sefazOk
 FROM T_PEDIDO
   LEFT JOIN T_INV
 	      USING (codigo, grade)

@@ -15,8 +15,8 @@ SELECT X.storeno                       AS loja,
        P.mfno_ref                      AS refFor,
        TRIM(MID(P.name, 37, 3))        AS un,
        P.taxno                         AS st,
-       X2.cst                          AS cst,
-       X2.cfo1                         AS cfop
+       IFNULL(X2.cst, '')              AS cst,
+       IFNULL(X2.cfo1, '')             AS cfop
 FROM sqldados.xaprd          AS X
   LEFT JOIN  sqldados.xaprd2 AS X2
 	       USING (storeno, pdvno, xano, prdno, grade)
@@ -85,7 +85,7 @@ GROUP BY prdno, grade;
 SELECT loja,
        pdv,
        transacao,
-       codigo,
+       TRIM(codigo)                                                              AS codigo,
        refFor,
        descricao,
        grade,
@@ -95,8 +95,8 @@ SELECT loja,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2)                           AS ipi,
        0.00                                                                      AS baseSt,
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2)                            AS vst,
-       cst,
-       cfop,
+       T_NF.cst,
+       T_NF.cfop,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2) +
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) AS valorTotalIpi,
        barcode,
@@ -110,7 +110,15 @@ SELECT loja,
        dateInv                                                                   AS dateInv,
        IFNULL(valorUnitInv, 0.00)                                                AS valorUnitInv,
        IFNULL(valorUnitInv, 0.00) * qtde                                         AS valorTotalInv,
-       chaveUlt                                                                  AS chaveUlt
+       chaveUlt                                                                  AS chaveUlt,
+       ''                                                                        AS ncm,
+       0.00                                                                      AS baseICMS,
+       0.00                                                                      AS valorICMS,
+       0.00                                                                      AS baseIPI,
+       0.00                                                                      AS valorIPI,
+       0.00                                                                      AS icmsAliq,
+       0.00                                                                      AS ipiAliq,
+       ''                                                                        AS sefazOk
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)
