@@ -29,8 +29,17 @@ class Fornecedor(
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
     }.minOfOrNull { it }
 
-  val chaveDesconto
-    get() = notas.map { it.chaveDesconto }.distinct().joinToString(separator = "/")
+  val tipoPag: String
+    get() = notas.firstOrNull()?.tipoPag ?: ""
+
+  val documentoPag: String
+    get() = notas.firstOrNull()?.documentoPag ?: ""
+
+  val niPag: String
+    get() = notas.firstOrNull()?.niPag ?: ""
+
+  val vencimentoPag: String
+    get() = notas.firstOrNull()?.vencimentoPag ?: ""
 
   val ultimaDataStr
     get() = ultimaData.format()

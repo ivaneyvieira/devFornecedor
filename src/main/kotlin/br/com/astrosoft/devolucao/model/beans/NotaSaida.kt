@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
@@ -9,7 +10,9 @@ import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
+import java.time.DateTimeException
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.mail.internet.InternetAddress
 
 class NotaSaida(
@@ -53,6 +56,87 @@ class NotaSaida(
   val natureza: String,
   var chaveDesconto: String?,
                ) {
+  fun String.find(regexStr: String): String {
+    val regex = regexStr.toRegex(RegexOption.IGNORE_CASE)
+    val find = regex.find(this)
+    val groups = find?.groupValues.orEmpty()
+    return groups.getOrNull(1) ?: ""
+  }
+
+  var tipoPag: String
+    get() {
+      val chave = chaveDesconto?.uppercase() ?: ""
+      return when {
+        chave.startsWith("DESC") -> "Desconto"
+        chave.startsWith("DEP")  -> "Deposito"
+        else                     -> chaveDesconto?.split(" ")?.getOrNull(0) ?: ""
+      }
+    }
+    set(value) {
+      setChave(value, documentoPag, niPag, vencimentoPag)
+    }
+
+  var documentoPag: String
+    get() {
+      val chave = chaveDesconto ?: ""
+      return when {
+        chave.contains("|") -> chave.split("|").getOrNull(1)?.trim() ?: ""
+        else                -> when (tipoPag) {
+          "Desconto" -> chave.find(".+NF ([0-9]+).+")
+          "Deposito" -> chave.find("^Deposito (.+) [0-9]+\\/[0-9]+\\/[0-9]+$")
+          else       -> chave.find(".+NF ([0-9]+).+")
+        }
+      }
+    }
+    set(value) {
+      setChave(tipoPag, value, niPag, vencimentoPag)
+    }
+
+  var niPag: String
+    get() {
+      val chave = chaveDesconto ?: ""
+      return when {
+        chave.contains("|") -> chave.split("|").getOrNull(2)?.trim() ?: ""
+        else                -> when (tipoPag) {
+          "Desconto" -> chave.find(".+NI ([0-9]+).+")
+          "Deposito" -> ""
+          else       -> chave.find(".+NI ([0-9]+).+")
+        }
+      }
+    }
+    set(value) {
+      setChave(tipoPag, documentoPag, value, vencimentoPag)
+    }
+
+  var vencimentoPag: String
+    get() {
+      val chave = chaveDesconto ?: ""
+      val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$") ?: ""
+      val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+      return try {
+        LocalDate.parse(strData, dtf).format()
+      } catch (e: DateTimeException) {
+        val dtf2 = DateTimeFormatter.ofPattern("dd/MM/yy")
+        try {
+          LocalDate.parse(strData, dtf2).format()
+        } catch (e: DateTimeException) {
+          ""
+        }
+      }
+    }
+    set(value) {
+      setChave(tipoPag, documentoPag, niPag, value)
+    }
+
+  private fun setChave(tipo: String, documento: String, ni: String, vencimento: String) {
+    val tipoTrim = tipo.trim()
+    val documentoTrim = documento.trim()
+    val niTrim = ni.trim()
+    val vencimentoTrim = vencimento.trim()
+    val tudo = tipoTrim + documentoTrim + niTrim + vencimentoTrim
+    chaveDesconto = if (tudo.isEmpty()) "" else "$tipoTrim | $documentoTrim | $niTrim | $vencimentoTrim"
+  }
+
   private var produtos: List<ProdutosNotaSaida>? = null
 
   fun listaProdutos(): List<ProdutosNotaSaida> {
@@ -88,6 +172,8 @@ class NotaSaida(
 
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
+  val labelTitle2
+    get() = "Fornecedor: ${this.vendno} / ${this.custno} - ${this.fornecedor} (SAP ${this.fornecedorSap})"
 
   val valorNota
     get() = if (tipo == "1") valor else listaProdutos().sumOf { it.valorTotalIpi }
@@ -127,6 +213,51 @@ class NotaSaida(
               anexos = "N")
     }
   }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as NotaSaida
+
+    if (loja != other.loja) return false
+    if (pdv != other.pdv) return false
+    if (transacao != other.transacao) return false
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    var result = loja
+    result = 31 * result + pdv
+    result = 31 * result + transacao
+    return result
+  }
+
+  private var notaOrigem: NotaEntradaNdd? = null
+
+  fun findNotaOrigem() {
+    notaOrigem = null
+    val notaSpt = nota.split("/")
+    val numero = notaSpt.getOrNull(0)?.toIntOrNull() ?: return
+    val serie = notaSpt.getOrNull(1)?.toIntOrNull() ?: return
+    val notaSaida = ndd.produtosNotasSaida(storeno = loja, numero = numero, serie = serie) ?: return
+    val chaveRef = notaSaida.refNFe ?: return
+    notaOrigem = FornecedorNdd.findNota(chaveRef)
+  }
+
+  val transfortadora: String
+    get() = notaOrigem?.transfortadora ?: ""
+  val conhecimentoFrete: String
+    get() = notaOrigem?.conhecimentoFrete ?: ""
+  val dataNfOrigemStr: String
+    get() = notaOrigem?.dataEmissaoStr ?: ""
+  val nfOrigem: String
+    get() = notaOrigem?.notaFiscal ?: ""
+  val dataCteStr: String
+    get() =  ""
+  val obsOrigem: String
+    get() = notaOrigem?.obs ?: ""
 
   companion object {
     private val fornecedores = mutableListOf<Fornecedor>()

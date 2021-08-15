@@ -87,7 +87,7 @@ WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.nfse = 1
   AND N.tipo = 2
-  AND N.c6 <> ''
+  AND (N.c6 <> '')
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;

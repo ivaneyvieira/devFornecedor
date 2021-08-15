@@ -393,13 +393,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         q.addOptionalParameter("id", nota.id)
         q.addOptionalParameter("numero", nota.numero)
         q.addOptionalParameter("serie", nota.serie)
-        q.addOptionalParameter("dataEmissao", nota.dataEmissao)
+        q.addOptionalParameter("dataEmissao", nota.dataEmissao?.toSaciDate() ?: 0)
         q.addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
         q.addOptionalParameter("nomeFornecedor", nota.nomeFornecedor)
         q.addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
         q.addOptionalParameter("ieEmitente", nota.ieEmitente)
         q.addOptionalParameter("ieDestinatario", nota.ieDestinatario)
-        q.addOptionalParameter("baseCalculoIcms", nota.baseCalculoIcms)
+        q.addOptionalParameter("baseCalculoIcms", nota.valorNota ?: nota.baseCalculoIcms)
         q.addOptionalParameter("baseCalculoSt", nota.baseCalculoSt)
         q.addOptionalParameter("valorTotalProdutos", nota.valorTotalProdutos)
         q.addOptionalParameter("valorTotalIcms", nota.valorTotalIcms)
@@ -422,6 +422,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("tipo", filtro.tipo.toString())
       addOptionalParameter("dataInicial", filtro.dataInicial)
       addOptionalParameter("dataFinal", filtro.dataFinal)
+      addOptionalParameter("chave", filtro.chave)
     }
   }
 
@@ -538,6 +539,20 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("pdv", notaSaida.pdv)
       addOptionalParameter("transacao", notaSaida.transacao)
       addOptionalParameter("chaveDesconto", notaSaida.chaveDesconto)
+    }
+  }
+
+  fun todasNotasEntradaQuery(filtro: FiltroNotaEntradaQuery): List<NotaEntradaQuery> {
+    val sql = "/sqlSaci/todasNotasEntradaQuery.sql"
+    return query(sql, NotaEntradaQuery::class) {
+      addOptionalParameter("storeno", filtro.storeno)
+      addOptionalParameter("di", filtro.di.toSaciDate())
+      addOptionalParameter("df", filtro.df.toSaciDate())
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("mfno", filtro.mfno)
+      addOptionalParameter("ni", filtro.ni)
+      addOptionalParameter("nf", filtro.nf)
+      addOptionalParameter("prd", filtro.prd)
     }
   }
 

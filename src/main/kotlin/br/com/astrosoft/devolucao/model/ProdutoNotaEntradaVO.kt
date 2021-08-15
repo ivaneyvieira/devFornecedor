@@ -11,10 +11,13 @@ import com.fincatto.documentofiscal.utils.DFPersister
 import org.apache.commons.lang3.StringUtils
 import java.math.BigDecimal
 
-class ProdutoNotaEntradaVO(val id: Int,
-                           val xmlNfe: String,
-                           val numeroProtocolo: String,
-                           val dataHoraRecebimento: String) {
+class ProdutoNotaEntradaVO(
+  val id: Int,
+  val xmlNfe: String,
+  val numeroProtocolo: String,
+  val dataHoraRecebimento: String,
+  val refNFe: String?,
+                          ) {
   val produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd>
     get() {
       val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)

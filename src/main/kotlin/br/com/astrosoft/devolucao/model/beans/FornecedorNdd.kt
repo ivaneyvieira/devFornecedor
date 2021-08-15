@@ -36,6 +36,16 @@ data class FornecedorNdd(val cnpj: String,
   companion object {
     private var datahoraUpdate = LocalDateTime.now().minusDays(1)
 
+    fun findNota(chave: String): NotaEntradaNdd? {
+      return saci.notasEntrada(FiltroEntradaNdd(
+        query = "",
+        tipo = ETipoNota.TODOS,
+        dataInicial = LocalDate.of(2000, 1, 1),
+        dataFinal = LocalDate.now(),
+        chave = chave,
+                                               )).firstOrNull()
+    }
+
     fun listFornecedores(filtro: FiltroEntradaNdd): List<FornecedorNdd> {
       updateNotas()
       return saci.notasEntrada(filtro).groupBy { it.cnpjEmitente }.mapNotNull { entry ->
@@ -68,10 +78,13 @@ data class FornecedorNdd(val cnpj: String,
   }
 }
 
-data class FiltroEntradaNdd(val query: String,
-                            val tipo: ETipoNota,
-                            val dataInicial: LocalDate,
-                            val dataFinal: LocalDate)
+data class FiltroEntradaNdd(
+  val query: String,
+  val tipo: ETipoNota,
+  val dataInicial: LocalDate,
+  val dataFinal: LocalDate,
+  val chave: String = "",
+                           )
 
 enum class ETipoNota {
   RECEBER, RECEBIDO, TODOS
