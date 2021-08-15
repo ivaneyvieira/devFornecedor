@@ -30,7 +30,7 @@ val staging: Configuration by configurations.creating
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "1.8"
   }
 }
 
