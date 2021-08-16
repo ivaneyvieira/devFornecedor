@@ -28,12 +28,13 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(35)
+    this.setTextAdjust(TextAdjust.SCALE_FONT)
   }
 
   private val dataNotaCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(55)
+            this.setFixedWidth(60)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -47,7 +48,6 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val transfortadoraCol: TextColumnBuilder<String> =
           col.column("Transportadora", NotaSaida::transfortadora.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
-            this.setFixedWidth(200)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -61,7 +61,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val dataNfOrigemStrCol: TextColumnBuilder<String> =
           col.column("Data", NotaSaida::dataNfOrigemStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(55)
+            this.setFixedWidth(60)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
 
@@ -76,6 +76,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
           col.column("Motivo", NotaSaida::remarks.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
+            //this.setFixedWidth(200)
           }
 
   private val valorCol: TextColumnBuilder<Double> =
@@ -85,6 +86,11 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
             this.setFixedWidth(60)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
+
+  private val emptyColumnValues = col.emptyColumn().apply {
+    this.setFixedWidth(10)
+    this.setTextAdjust(TextAdjust.SCALE_FONT)
+  }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
     return verticalBlock {
@@ -96,7 +102,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       }
       val labelTitle = notas.firstOrNull()?.labelTitle2 ?: ""
       horizontalList {
-        text(labelTitle, LEFT){
+        text("    $labelTitle", LEFT) {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
       }
@@ -126,16 +132,21 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
                             conhecimentoFreteCol,
                             transfortadoraCol)
     val grupoDevolucao =
-            grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol,
+            grid.titleGroup("Dados da Nota Fiscal de Devolução",
+                            lojaCol,
+                            dataNotaCol,
+                            notaInvCol,
                             obsNotaCol,
-                            valorCol)
+                            valorCol
+                            )
     val pageOrientation = PageOrientation.LANDSCAPE
     notas.forEach {
       it.findNotaOrigem()
     }
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
-      .columns(dataNfOrigemStrCol,
+      .columns(emptyColumnValues,
+               dataNfOrigemStrCol,
                nfOrigemCol,
                conhecimentoFreteCol,
                transfortadoraCol,
@@ -144,7 +155,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
                notaInvCol,
                obsNotaCol,
                valorCol)
-      .columnGrid(grupoOrigem, grupoDevolucao)
+      .columnGrid(emptyColumnValues, grupoOrigem, grupoDevolucao, emptyColumnValues)
       .setDataSource(notas)
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
@@ -152,12 +163,13 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal.setForegroundColor(Color.WHITE).setFontSize(8).setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnStyle(fieldFontNormal.setForegroundColor(Color.WHITE)
+                        .setFontSize(8)
+                        .setPadding(stl.padding().setRight(4).setLeft(4)))
       .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
-      .setGroupStyle(stl.style()
-                       .setForegroundColor(Color.WHITE))
+      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }
 
