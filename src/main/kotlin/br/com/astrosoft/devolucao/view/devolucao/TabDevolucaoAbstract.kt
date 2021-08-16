@@ -582,7 +582,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       setSelectionMode(MULTI)
       setItems(listNotas)
       if (serie == Serie01) {
-        this.withEditor(NotaSaida::class, openEditor = { binder ->
+        this.withEditor(NotaSaida::class, openEditor = { _ ->
           (getColumnBy(NotaSaida::tipoPag).editorComponent as? Focusable<*>)?.focus()
         }, closeEditor = { binder ->
           viewModel.salvaDesconto(binder.bean)

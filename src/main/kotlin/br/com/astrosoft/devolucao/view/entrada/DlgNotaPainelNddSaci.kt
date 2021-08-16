@@ -44,7 +44,7 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
 
-      this.withEditor(NotaEntradaNdd::class, openEditor = { binder ->
+      this.withEditor(NotaEntradaNdd::class, openEditor = { _ ->
         (getColumnBy(NotaEntradaNdd::ordno).editorComponent as? Focusable<*>)?.focus()
       }, closeEditor = { binder ->
         viewModel.salvaNotaEntrada(binder.bean)

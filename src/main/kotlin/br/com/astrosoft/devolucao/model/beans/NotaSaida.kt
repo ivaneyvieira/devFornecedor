@@ -111,7 +111,7 @@ class NotaSaida(
   var vencimentoPag: String
     get() {
       val chave = chaveDesconto ?: ""
-      val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$") ?: ""
+      val strData = chave.find("^.+ ([0-9]+\\/[0-9]+\\/[0-9]+)$")
       val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
       return try {
         LocalDate.parse(strData, dtf).format()

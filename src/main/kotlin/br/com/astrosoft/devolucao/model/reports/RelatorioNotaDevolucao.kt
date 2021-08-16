@@ -258,8 +258,6 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         text("Natureza da operação: ${notaSaida.natureza}", LEFT)
       }
       horizontalList {
-        val dataAtual = LocalDate.now().format()
-        val horaAtual = LocalTime.now().format()
         val custno = notaSaida.custno
         val fornecedor = notaSaida.fornecedor
         val fornecedorSap = notaSaida.fornecedorSap
