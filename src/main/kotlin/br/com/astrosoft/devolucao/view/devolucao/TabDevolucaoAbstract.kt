@@ -61,6 +61,7 @@ import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.combobox.ComboBox
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.grid.GridSortOrder
@@ -83,6 +84,7 @@ import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   private lateinit var edtFiltro: TextField
@@ -512,6 +514,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   }
 }
 
+@CssImport("./styles/gridTotal.css")
 class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   fun showDialogNota(fornecedor: Fornecedor?, serie: Serie) {
     fornecedor ?: return
@@ -607,10 +610,18 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       notaNota()
       notaFatura()
       if (serie in listOf(Serie01, FIN)) {
-        tipoPagDesconto().textFieldEditor()
-        documentoPagDesconto().textFieldEditor()
-        niPagDesconto().textFieldEditor()
-        vencimentoPagDesconto().textFieldEditor()
+        tipoPagDesconto().textFieldEditor().apply {
+          this.setClassNameGenerator { "marcaDiferenca" }
+        }
+        documentoPagDesconto().textFieldEditor().apply {
+          this.setClassNameGenerator { "marcaDiferenca" }
+        }
+        niPagDesconto().textFieldEditor().apply {
+          this.setClassNameGenerator { "marcaDiferenca" }
+        }
+        vencimentoPagDesconto().textFieldEditor().apply {
+          this.setClassNameGenerator { "marcaDiferenca" }
+        }
       }
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()

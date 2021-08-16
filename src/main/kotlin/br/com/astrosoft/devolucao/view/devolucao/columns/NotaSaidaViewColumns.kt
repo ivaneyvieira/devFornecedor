@@ -34,18 +34,22 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
     this.setHeader("Obs Pgto")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<NotaSaida>.documentoPagDesconto() = addColumnString(NotaSaida::documentoPag) {
     this.setHeader("Nota")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<NotaSaida>.niPagDesconto() = addColumnString(NotaSaida::niPag) {
     this.setHeader("NI")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<NotaSaida>.vencimentoPagDesconto() = addColumnString(NotaSaida::vencimentoPag) {
     this.setHeader("Vencimento")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
