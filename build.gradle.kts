@@ -10,7 +10,7 @@ object Defs {
 }
 
 plugins {
-  kotlin("jvm") version "1.5.0"
+  kotlin("jvm") version "1.5.21"
   war
   id("com.vaadin") version "0.14.6.0"
 }
@@ -36,7 +36,7 @@ tasks.withType<KotlinCompile> {
 
 group = "devolucao"
 version = "1.0"
-java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+//java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
   // Vaadin-on-Kotlin dependency, includes Vaadin
