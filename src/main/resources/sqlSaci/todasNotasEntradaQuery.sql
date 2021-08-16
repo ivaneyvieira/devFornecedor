@@ -33,52 +33,49 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
 
-SELECT iprd.storeno                                                                 AS lj,
-       inv.invno                                                                    AS ni,
-       CAST(inv.date AS DATE)                                                       AS data,
-       prd.mfno                                                                     AS fornCad,
-       inv.vendno                                                                   AS fornNota,
-       TRIM(iprd.prdno)                                                             AS prod,
-       TRIM(MID(prd.name, 1, 37))                                                   AS descricao,
-       ROUND(iprd.lucroTributado / 100, 2)                                          AS mvan,
-       ROUND(iprd.lucroTributado * (iprd.baseIcms / 100) / 100, 2)                  AS mvanv,
-       ROUND(iprd.ipi / 100, 2)                                                     AS ipin,
-       ROUND(iprd.ipi * (iprd.baseIpi / 100) / 100, 2)                              AS ipinv,
-       IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.icms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL)     AS icmsc,
-       IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.icms * 100.00 * (iprd.baseIcms / 100) / (iprd.fob * (iprd.qtty / 1000)), 2),
-	  NULL)                                                                     AS icmscv,
-       ROUND(iprd.icmsAliq / 100, 2)                                                AS icmsn,
-       ROUND(iprd.icmsAliq * (iprd.baseIcms / 100) / 100, 2)                        AS icmsnv,
-       MID(iprd.cstIcms, 2, 3)                                                      AS cstn,
-       inv.nfname                                                                   AS nfe,
-       IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
-       IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.baseIcms * 100.00 * (iprd.baseIcms / 100) / (iprd.fob * (iprd.qtty / 1000)),
-		2), NULL)                                                           AS icmsdv
-FROM sqldados.iprd
-  INNER JOIN sqldados.inv
+SELECT D.storeno                                    AS lj,
+       I.invno                                      AS ni,
+       CAST(I.date AS DATE)                         AS data,
+       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR) AS nfe,
+       P.mfno                                       AS fornCad,
+       I.vendno                                     AS fornNota,
+       TRIM(D.prdno)                                AS prod,
+       TRIM(MID(P.name, 1, 37))                     AS descricao,
+       IFNULL(S.ncm, '')                            AS ncm,
+       P.taxno                                      AS cst,
+       D.cfop                                       AS cfop,
+       TRIM(MID(P.name, 38, 3))                     AS un,
+       D.qtty / 1000                                AS quant,
+       D.fob / 100                                  AS valorUnit,
+       (D.qtty / 1000) * (D.fob / 100)              AS valorTotal,
+       D.baseIcms / 100                             AS baseIcms,
+       D.ipiAmt / 100                               AS valorIPI,
+       D.ipi / 100                                  AS aliqIpi,
+       D.icmsAliq / 100                             AS aliqIcms
+FROM sqldados.iprd            AS D
+  INNER JOIN sqldados.inv     AS I
 	       USING (invno)
-  INNER JOIN T_VEND AS vend
-	       ON vend.no = inv.vendno
-  INNER JOIN T_PRD  AS prd
-	       ON (prd.no = iprd.prdno)
-  INNER JOIN sqldados.cfo
-	       ON (cfo.no = iprd.cfop)
-WHERE inv.date BETWEEN @di AND @df
-  AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
-  AND (iprd.storeno = @storeno OR @storeno = 0)
-  AND cfo.name1 NOT LIKE 'TRANSF%'
-  AND cfo.name1 NOT LIKE 'DEVOL%'
-  AND cfo.name1 NOT LIKE '%BONIF%'
-  AND cfo.no NOT IN (2949, 2353, 2916)
-  AND cfo.no NOT IN (1949, 1353, 1916)
-  AND (iprd.invno = @ni OR @ni = 0)
-  AND (inv.nfname = @nf OR @nf = '')
-  AND (inv.vendno = @vendno OR @vendno = 0)
-  AND (iprd.prdno = @prd OR @CODIGO = '')
-GROUP BY inv.invno, iprd.prdno
+  INNER JOIN T_VEND           AS V
+	       ON V.no = I.vendno
+  INNER JOIN T_PRD            AS P
+	       ON (P.no = D.prdno)
+  INNER JOIN sqldados.cfo     AS C
+	       ON (C.no = D.cfop)
+  LEFT JOIN  sqldados.spedprd AS S
+	       ON (S.prdno = P.no)
+WHERE I.date BETWEEN @di AND @df
+  AND D.storeno IN (1, 2, 3, 4, 5, 6, 7)
+  AND (D.storeno = @storeno OR @storeno = 0)
+  AND C.name1 NOT LIKE 'TRANSF%'
+  AND C.name1 NOT LIKE 'DEVOL%'
+  AND C.name1 NOT LIKE '%BONIF%'
+  AND C.no NOT IN (2949, 2353, 2916)
+  AND C.no NOT IN (1949, 1353, 1916)
+  AND (D.invno = @ni OR @ni = 0)
+  AND (I.nfname = @nf OR @nf = '')
+  AND (I.vendno = @vendno OR @vendno = 0)
+  AND (D.prdno = @prd OR @CODIGO = '')
+GROUP BY D.invno, D.prdno
+ORDER BY prod, data
 
 
