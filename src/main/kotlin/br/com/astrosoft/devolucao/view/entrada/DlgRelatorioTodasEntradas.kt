@@ -1,43 +1,25 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaQuery
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryCstn
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryAliqIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryAliqIpi
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryCfop
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryCst
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryData
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryDescricao
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryFornCad
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryFornNota
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryIcmsn
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryIcmsp
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryIcmsr
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryIpin
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryIpip
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryLoja
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryMvan
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryMvap
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryNcm
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryNi
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryProd
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryRedIcms
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornCad
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsp
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsr
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpip
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvan
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvap
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmp
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryQuant
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryUn
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryValorIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryValorIpi
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryValorTotal
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryValorUnit
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabTodasEntradasViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import com.vaadin.flow.component.dependency.CssImport
@@ -79,15 +61,17 @@ class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val li
       notaQueryFornNota()
       notaQueryProd()
       notaQueryDescricao()
-      notaQueryRedIcms()
-      notaQueryIcmsr()
-      notaQueryIcmsn()
-      notaQueryIcmsp()
-      notaQueryIpin()
-      notaQueryIpip()
-      notaQueryCstn()
-      notaQueryMvan()
-      notaQueryMvap()
+      notaQueryNcm()
+      notaQueryCst()
+      notaQueryCfop()
+      notaQueryUn()
+      notaQueryQuant()
+      notaQueryValorUnit()
+      notaQueryValorTotal()
+      notaQueryValorIcms()
+      notaQueryValorIpi()
+      notaQueryAliqIpi()
+      notaQueryAliqIcms()
     }
   }
 }
