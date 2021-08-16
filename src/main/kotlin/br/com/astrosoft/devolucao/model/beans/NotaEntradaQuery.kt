@@ -22,6 +22,7 @@ class NotaEntradaQuery(
   val baseIcms: Double,
   val valorIPI: Double,
   val aliqIpi: Double,
+  val valorIcms: Double,
   val aliqIcms: Double,
                       ) {
   companion object {

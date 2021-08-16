@@ -68,7 +68,7 @@ object NotaEntradaQueryColumns {
     this.setHeader("Valor Total")
   }
 
-  fun Grid<NotaEntradaQuery>.notaQueryValorIcms() = addColumnDouble(NotaEntradaQuery::baseIcms) {
+  fun Grid<NotaEntradaQuery>.notaQueryBaseIcms() = addColumnDouble(NotaEntradaQuery::baseIcms) {
     this.setHeader("B Calc ICMS")
   }
 
@@ -78,6 +78,10 @@ object NotaEntradaQueryColumns {
 
   fun Grid<NotaEntradaQuery>.notaQueryAliqIpi() = addColumnDouble(NotaEntradaQuery::aliqIpi) {
     this.setHeader("Aliq IPI")
+  }
+
+  fun Grid<NotaEntradaQuery>.notaQueryValorIcms() = addColumnDouble(NotaEntradaQuery::valorIcms) {
+    this.setHeader("Valor ICMS")
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryAliqIcms() = addColumnDouble(NotaEntradaQuery::aliqIcms) {

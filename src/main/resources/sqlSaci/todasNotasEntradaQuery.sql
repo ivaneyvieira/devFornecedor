@@ -42,7 +42,7 @@ SELECT D.storeno                                    AS lj,
        TRIM(D.prdno)                                AS prod,
        TRIM(MID(P.name, 1, 37))                     AS descricao,
        IFNULL(S.ncm, '')                            AS ncm,
-       P.taxno                                      AS cst,
+       D.cstIcms                                    AS cst,
        D.cfop                                       AS cfop,
        TRIM(MID(P.name, 38, 3))                     AS un,
        D.qtty / 1000                                AS quant,
@@ -50,8 +50,9 @@ SELECT D.storeno                                    AS lj,
        (D.qtty / 1000) * (D.fob / 100)              AS valorTotal,
        D.baseIcms / 100                             AS baseIcms,
        D.ipiAmt / 100                               AS valorIPI,
-       D.ipi / 100                                  AS aliqIpi,
-       D.icmsAliq / 100                             AS aliqIcms
+       IF(D.baseIpi = 0, 0.00, D.ipi / 100)         AS aliqIpi,
+       D.icms / 100                                 AS valorIcms,
+       IF(D.baseIcms = 0, 0.00, D.icmsAliq / 100)   AS aliqIcms
 FROM sqldados.iprd            AS D
   INNER JOIN sqldados.inv     AS I
 	       USING (invno)

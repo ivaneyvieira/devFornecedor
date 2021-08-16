@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaQuery
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryAliqIcms
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryAliqIpi
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryBaseIcms
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryCfop
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryCst
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryData
@@ -68,9 +69,10 @@ class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val li
       notaQueryQuant()
       notaQueryValorUnit()
       notaQueryValorTotal()
-      notaQueryValorIcms()
+      notaQueryBaseIcms()
       notaQueryValorIpi()
       notaQueryAliqIpi()
+      notaQueryValorIcms()
       notaQueryAliqIcms()
     }
   }
