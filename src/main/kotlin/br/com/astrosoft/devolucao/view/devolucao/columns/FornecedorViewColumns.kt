@@ -6,6 +6,7 @@ import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 
 object FornecedorViewColumns {
@@ -31,18 +32,22 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.tipoPagDesconto() = addColumnString(Fornecedor::tipoPag) {
     this.setHeader("Obs Pgto")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<Fornecedor>.documentoPagDesconto() = addColumnString(Fornecedor::documentoPag) {
     this.setHeader("Nota")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<Fornecedor>.niPagDesconto() = addColumnString(Fornecedor::niPag) {
     this.setHeader("NI")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<Fornecedor>.vencimentoPagDesconto() = addColumnString(Fornecedor::vencimentoPag) {
     this.setHeader("Vencimento")
+    this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valorTotal) {

@@ -9,7 +9,7 @@ import com.vaadin.flow.component.grid.Grid
 
 object NotaEntradaQueryColumns {
   fun Grid<NotaEntradaQuery>.notaQueryLoja() = addColumnInt(NotaEntradaQuery::lj) {
-    this.setHeader("Loja")
+    this.setHeader("Lj")
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryNi() = addColumnInt(NotaEntradaQuery::ni) {
@@ -56,8 +56,8 @@ object NotaEntradaQueryColumns {
     this.setHeader("UN")
   }
 
-  fun Grid<NotaEntradaQuery>.notaQueryQuant() = addColumnDouble(NotaEntradaQuery::quant) {
-    this.setHeader("Quantidade")
+  fun Grid<NotaEntradaQuery>.notaQueryQuant() = addColumnInt(NotaEntradaQuery::quant) {
+    this.setHeader("Quant")
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryValorUnit() = addColumnDouble(NotaEntradaQuery::valorUnit) {

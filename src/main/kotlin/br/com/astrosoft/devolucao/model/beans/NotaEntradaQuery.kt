@@ -16,7 +16,7 @@ class NotaEntradaQuery(
   val cst: String,
   val cfop: String,
   val un: String,
-  val quant: Double,
+  val quant: Int,
   val valorUnit: Double,
   val valorTotal: Double,
   val baseIcms: Double,
