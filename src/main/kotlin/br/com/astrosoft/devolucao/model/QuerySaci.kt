@@ -77,7 +77,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun notaFinanceiro(): List<NotaSaida> { //val sql = "/sqlSaci/notaFinanceiro.sql"
     //return query(sql, NotaSaida::class)
     return notasDevolucao(Serie.Serie01).filter { nota ->
-      nota.chaveDesconto != ""
+      nota.chaveDesconto?.trim() != ""
     }
   }
 
