@@ -30,6 +30,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tipoPagDesconto
@@ -608,7 +609,12 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       notaPedido()
       notaDataNota()
       notaNota()
-      notaFatura()
+      if (serie in listOf(AJP)) {
+        notaObservacao()
+      }
+      else {
+        notaFatura()
+      }
       if (serie in listOf(Serie01, FIN)) {
         tipoPagDesconto().textFieldEditor().apply {
           this.setClassNameGenerator { "marcaDiferenca" }
@@ -658,7 +664,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       if (serie == FIN) it.observacao != "" else true
     }
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridParcela = createGridParcelas(listParcelas )
+      val gridParcela = createGridParcelas(listParcelas)
       val gridPedido = createGridPedidos(listPedidos)
 
       HorizontalLayout().apply {

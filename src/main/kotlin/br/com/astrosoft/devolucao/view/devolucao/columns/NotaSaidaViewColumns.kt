@@ -56,6 +56,10 @@ object NotaSaidaViewColumns {
     this.setHeader("Fatura")
   }
 
+  fun Grid<NotaSaida>.notaObservacao() = addColumnString(NotaSaida::remarks) {
+    this.setHeader("Obs")
+  }
+
   fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
     this.setHeader("Data")
   }
