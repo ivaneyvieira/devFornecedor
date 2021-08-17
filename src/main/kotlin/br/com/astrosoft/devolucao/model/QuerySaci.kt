@@ -69,9 +69,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class)
   }
 
-  fun ajusteGarantia(): List<NotaSaida> {
+  fun ajusteGarantia(pago: Boolean): List<NotaSaida> {
     val sql = "/sqlSaci/notaAjusteGarantia.sql"
-    return query(sql, NotaSaida::class)
+    return query(sql, NotaSaida::class) {
+      this.addOptionalParameter("pago", if (pago) "S" else "N")
+    }
   }
 
   fun notaFinanceiro(): List<NotaSaida> { //val sql = "/sqlSaci/notaFinanceiro.sql"

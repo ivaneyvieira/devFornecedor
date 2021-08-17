@@ -85,6 +85,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::ajusteGarantia.name)
           }
+          checkBox("Ajuste Garantia Pago") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantiaPago.name)
+          }
           checkBox("Financeiro") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::notaFinanceiro.name)
