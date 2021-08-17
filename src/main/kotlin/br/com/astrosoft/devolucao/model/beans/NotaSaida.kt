@@ -145,6 +145,7 @@ class NotaSaida(
         "PED" -> saci.produtosPedido(this)
         "ENT" -> saci.produtosEntrada(this)
         "AJT" -> saci.produtosAjuste(this)
+        "AJP" -> saci.produtosAjuste(this)
         "FIN" -> saci.produtosFinanceiro(this)
         else  -> saci.produtosNotaSaida(this)
       }

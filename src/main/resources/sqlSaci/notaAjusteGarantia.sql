@@ -1,4 +1,5 @@
 DO @OBS_LIKE := IF(:pago = 'S', 'AJUSTE PAGO%', 'AJUSTE GARANTIA%');
+DO @TIPO_NOTA := IF(:pago = 'S', 'AJP', 'AJT');
 
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
 CREATE TEMPORARY TABLE T_CUST_VEND (
@@ -12,7 +13,6 @@ SELECT C.no       AS custno,
 FROM sqldados.custp        AS C
   INNER JOIN sqldados.vend AS V
 	       ON C.cpf_cgc = V.cgc;
-
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -121,7 +121,7 @@ SELECT N.storeno                                 AS loja,
        valorIpi                                  AS valorIpi,
        valorTotal                                AS valorTotal,
        N.obsPedido                               AS obsPedido,
-       'AJT'                                     AS tipo,
+       @TIPO_NOTA                                AS tipo,
        IFNULL(RV.rmk, '')                        AS rmkVend,
        chave                                     AS chave,
        natureza                                  AS natureza,
