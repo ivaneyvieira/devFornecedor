@@ -36,6 +36,7 @@ class UserSaci : IUser {
   var entradaNddRecebido by DelegateAuthorized(19)
   var entradaNddNFPrec by DelegateAuthorized(20)
   var notaSaida by DelegateAuthorized(21)
+  var ajusteGarantiaPago by DelegateAuthorized(22)
   val menuDevolucao01
     get() = nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
   val menuDevolucao66

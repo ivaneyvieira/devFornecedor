@@ -1,3 +1,5 @@
+DO @OBS_LIKE := IF(:pago = 'S', 'AJUSTE PAGO%', 'AJUSTE GARANTIA%');
+
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
 CREATE TEMPORARY TABLE T_CUST_VEND (
   PRIMARY KEY (custno, vendno)
@@ -62,7 +64,7 @@ FROM sqldados.nf              AS N
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.remarks LIKE 'AJUSTE GARANTIA%'
+  AND N.remarks LIKE @OBS_LIKE
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
