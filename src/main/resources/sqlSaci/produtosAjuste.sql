@@ -94,8 +94,8 @@ SELECT loja,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2)                           AS ipi,
        0.00                                                                      AS baseSt,
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2)                            AS vst,
-       cst                                                                       AS cst,
-       cfop                                                                      AS cfop,
+       IFNULL(cst, '')                                                           AS cst,
+       IFNULL(cfop, 0)                                                           AS cfop,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2) +
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) AS valorTotalIpi,
        barcode,
@@ -109,7 +109,7 @@ SELECT loja,
        dateInv                                                                   AS dateInv,
        IFNULL(valorUnitInv, 0.00)                                                AS valorUnitInv,
        IFNULL(valorUnitInv, 0.00) * qtde                                         AS valorTotalInv,
-       chaveUlt                                                                  AS chaveUlt,
+       IFNULL(chaveUlt, '')                                                      AS chaveUlt,
        ''                                                                        AS ncm,
        0.00                                                                      AS baseICMS,
        0.00                                                                      AS valorICMS,
@@ -117,7 +117,7 @@ SELECT loja,
        0.00                                                                      AS valorIPI,
        0.00                                                                      AS icmsAliq,
        0.00                                                                      AS ipiAliq,
-       sefazOk                                                                   AS sefazOk
+       IFNULL(sefazOk, '')                                                       AS sefazOk
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)
