@@ -37,11 +37,14 @@ FROM sqldados.notasEntradaNdd AS N
   LEFT JOIN sqldados.custp    AS C
 	      ON C.cpf_cgc = N.cnpjDestinatario
   LEFT JOIN sqldados.inv      AS I
-	      ON I.storeno = S.no AND I.nfname = N.numero AND I.invse = N.serie AND I.vendno = V.no
+	      ON I.storeno = S.no AND I.nfname * 1 = N.numero * 1 AND I.invse = N.serie AND
+		 I.vendno = V.no
   LEFT JOIN sqldados.carr     AS T
 	      ON T.no = I.carrno
 WHERE dataEmissao BETWEEN :dataInicial AND :dataFinal
   AND (chave = CONCAT('NFe', :chave) OR :chave = '')
+  AND (IFNULL(V.name, N.nomeFornecedor) LIKE CONCAT(:filtro, '%') OR
+       IFNULL(V.no, 0) = (:filtro * 1) OR :filtro = '')
 HAVING CASE :tipo
 	 WHEN 'RECEBER'
 	   THEN notaSaci = 'N'
@@ -51,5 +54,4 @@ HAVING CASE :tipo
 	   THEN TRUE
 	 ELSE FALSE
        END
-   AND (nome LIKE CONCAT(:filtro, '%') OR codigoSaci = (:filtro * 1) OR :filtro = '')
 
