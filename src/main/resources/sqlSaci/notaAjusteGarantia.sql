@@ -1,5 +1,5 @@
 DO @PAGO := :pago;
-DO @OBS_LIKE := IF(@PAGO = 'S', 'AJUSTE PAGO%', 'AJUSTE GARANTIA%');
+DO @OBS_REGEXP := IF(@PAGO = 'S', '^AJUSTE (GARANTIA )?PAGO.*$', '^AJUSTE GARANTIA.*$');
 DO @TIPO_NOTA := IF(@PAGO = 'S', 'AJP', 'AJT');
 
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
@@ -67,7 +67,7 @@ FROM sqldados.nf              AS N
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.remarks LIKE @OBS_LIKE
+  AND N.remarks REGEXP @OBS_REGEXP
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;

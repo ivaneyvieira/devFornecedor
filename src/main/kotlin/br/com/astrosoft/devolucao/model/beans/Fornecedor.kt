@@ -29,17 +29,20 @@ class Fornecedor(
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
     }.minOfOrNull { it }
 
+  private val notaObs
+    get() = notas.sortedBy { it.dataNota }.lastOrNull { !it.chaveDesconto.isNullOrBlank() }
+
   val tipoPag: String
-    get() = notas.firstOrNull()?.tipoPag ?: ""
+    get() = notaObs?.tipoPag ?: ""
 
   val documentoPag: String
-    get() = notas.firstOrNull()?.documentoPag ?: ""
+    get() = notaObs?.documentoPag ?: ""
 
   val niPag: String
-    get() = notas.firstOrNull()?.niPag ?: ""
+    get() = notaObs?.niPag ?: ""
 
   val vencimentoPag: String
-    get() = notas.firstOrNull()?.vencimentoPag ?: ""
+    get() = notaObs?.vencimentoPag ?: ""
 
   val ultimaDataStr
     get() = ultimaData.format()
