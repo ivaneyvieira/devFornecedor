@@ -1,23 +1,3 @@
-/*
-DROP TEMPORARY TABLE IF EXISTS T_VEND;
-CREATE TEMPORARY TABLE T_VEND (
-  PRIMARY KEY (vendno)
-)
-SELECT vendno
-FROM sqldados.ords
-WHERE remarks LIKE '%DESC%'
-  AND amt > 0
-  AND date >= 20190101
-UNION
-SELECT inv.vendno
-FROM sqldados.invxa
-  INNER JOIN sqldados.inv
-	       USING (invno)
-WHERE invxa.remarks LIKE '%DESC%'
-  AND invxa.paiddate = 0
-  AND invxa.amtdue > 0
-  AND invxa.duedate > 20210101*/
-
 DROP TEMPORARY TABLE IF EXISTS T_FORNECEDOR;
 CREATE TEMPORARY TABLE T_FORNECEDOR (
   PRIMARY KEY (custno)
@@ -74,6 +54,7 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
        N.c6                                                                                    AS chaveDesconto,
+       N.c5                                                                                    AS observacaoAuxiliar,
        natopno,
        F.*
 FROM sqldados.nf               AS N
@@ -154,7 +135,8 @@ SELECT N.storeno                                 AS loja,
        IFNULL(RV.rmk, '')                        AS rmkVend,
        chave                                     AS chave,
        IFNULL(OP.name, '')                       AS natureza,
-       N.chaveDesconto                           AS chaveDesconto
+       N.chaveDesconto                           AS chaveDesconto,
+       N.observacaoAuxiliar                      AS observacaoAuxiliar
 FROM TNF                        AS N
   LEFT JOIN  sqldados.natop     AS OP
 	       ON OP.no = N.natopno

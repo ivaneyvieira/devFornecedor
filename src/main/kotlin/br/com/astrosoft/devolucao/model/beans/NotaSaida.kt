@@ -15,47 +15,46 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.mail.internet.InternetAddress
 
-class NotaSaida(
-  val loja: Int,
-  val sigla: String,
-  val pdv: Int,
-  val transacao: Int,
-  val pedido: Int,
-  val dataPedido: LocalDate?,
-  val nota: String,
-  val fatura: String,
-  val dataNota: LocalDate?,
-  val custno: Int,
-  val fornecedor: String,
-  val email: String,
-  val vendno: Int,
-  val fornecedorSap: Int,
-  var rmk: String,
-  val valor: Double,
-  val obsNota: String,
-  val serie01Rejeitada: String,
-  val serie01Pago: String,
-  val serie01Coleta: String,
-  val serie66Pago: String,
-  val remessaConserto: String,
-  val remarks: String,
-  val baseIcms: Double = 0.00,
-  val valorIcms: Double = 0.00,
-  val baseIcmsSubst: Double = 0.00,
-  val icmsSubst: Double = 0.00,
-  val valorFrete: Double = 0.00,
-  val valorSeguro: Double = 0.00,
-  val valorDesconto: Double = 0.00,
-  val outrasDespesas: Double = 0.00,
-  val valorIpi: Double = 0.00,
-  val valorTotal: Double = 0.00,
-  val obsPedido: String,
-  val tipo: String,
-  val rmkVend: String,
-  val chave: String,
-  val natureza: String,
-  var chaveDesconto: String?,
-               ) {
+class NotaSaida(val loja: Int,
+                val sigla: String,
+                val pdv: Int,
+                val transacao: Int,
+                val pedido: Int,
+                val dataPedido: LocalDate?,
+                val nota: String,
+                val fatura: String,
+                val dataNota: LocalDate?,
+                val custno: Int,
+                val fornecedor: String,
+                val email: String,
+                val vendno: Int,
+                val fornecedorSap: Int,
+                var rmk: String,
+                val valor: Double,
+                val obsNota: String,
+                val serie01Rejeitada: String,
+                val serie01Pago: String,
+                val serie01Coleta: String,
+                val serie66Pago: String,
+                val remessaConserto: String,
+                val remarks: String,
+                val baseIcms: Double = 0.00,
+                val valorIcms: Double = 0.00,
+                val baseIcmsSubst: Double = 0.00,
+                val icmsSubst: Double = 0.00,
+                val valorFrete: Double = 0.00,
+                val valorSeguro: Double = 0.00,
+                val valorDesconto: Double = 0.00,
+                val outrasDespesas: Double = 0.00,
+                val valorIpi: Double = 0.00,
+                val valorTotal: Double = 0.00,
+                val obsPedido: String,
+                val tipo: String,
+                val rmkVend: String,
+                val chave: String,
+                val natureza: String,
+                var chaveDesconto: String?,
+                var observacaoAuxiliar: String?) {
   fun String.find(regexStr: String): String {
     val regex = regexStr.toRegex(RegexOption.IGNORE_CASE)
     val find = regex.find(this)
@@ -256,7 +255,7 @@ class NotaSaida(
   val nfOrigem: String
     get() = notaOrigem?.notaFiscal ?: ""
   val dataCteStr: String
-    get() =  ""
+    get() = ""
   val obsOrigem: String
     get() = notaOrigem?.obs ?: ""
 

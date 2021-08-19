@@ -184,7 +184,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     val totalCol = fornecedorValorTotal()
     this.dataProvider.addDataProviderListener {
       val totalPedido = listBeans().sumOf { it.valorTotal }.format()
-      totalCol.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+      totalCol.setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
     }
 
     sort(listOf(GridSortOrder(getColumnBy(Fornecedor::fornecedor), SortDirection.ASCENDING)))
@@ -470,7 +470,7 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto
-      rteMessage.value = htmlToText(value.msg()) //rteMessage.sanitizeHtml(value.msg.htmlFormat(), SanitizeType.none)
+      rteMessage.value = htmlToText(value.msg())
       chkPlanilha.value = value.planilha == "S"
       chkRelatorio.value = value.relatorio == "S"
       chkRelatorioResumido.value = value.relatorioResumido == "S"
@@ -617,8 +617,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
 
       notaLoja()
-      notaDataPedido()
-      notaPedido()
+      if (serie !in listOf(Serie01, FIN)) {
+        notaDataPedido()
+        notaPedido()
+      }
       notaDataNota()
       notaNota()
       if (serie in listOf(AJP)) {
@@ -643,7 +645,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
-        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+        setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
       if (serie == PED || serie == AJT) sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido),
                                                                   SortDirection.ASCENDING)))

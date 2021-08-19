@@ -159,7 +159,9 @@ SELECT E.storeno                          AS loja,
        'PED'                              AS tipo,
        IFNULL(RV.rmk, '')                 AS rmkVend,
        ''                                 AS chave,
-       'PEDIDO DE COMPRA'                 AS natureza
+       'PEDIDO DE COMPRA'                 AS natureza,
+       ''                                 AS chaveDesconto,
+       ''                                 AS observacaoAuxiliar
 FROM sqldados.eord             AS E
   LEFT JOIN sqldados.ords      AS O
 	      ON O.no = E.ordno AND O.storeno = E.storeno
