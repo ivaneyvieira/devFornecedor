@@ -107,6 +107,9 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract) : VerticalLayout
     textField("Recebedor") {
       bind(binder).bind(AgendaUpdate::recebedor)
     }
+    textField("CTe") {
+      bind(binder).bind(AgendaUpdate::conhecimento)
+    }
   }
 
   fun edtAgendamento(agenda: Agenda) {

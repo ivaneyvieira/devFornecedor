@@ -213,7 +213,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   }
 
   override fun imprimeNotaFornecedor(notas: List<NotaSaida>, resumida: Boolean) {
-    val report = RelatorioNotaDevFornecedor.processaRelatorio(notas, resumida)
+    val report = RelatorioNotaDevFornecedor.processaRelatorio(notas)
     val chave = "DevReportVend"
     SubWindowPDF(chave, report).open()
   }

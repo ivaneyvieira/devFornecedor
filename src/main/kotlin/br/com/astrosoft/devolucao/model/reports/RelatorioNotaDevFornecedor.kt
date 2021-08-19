@@ -16,7 +16,6 @@ import net.sf.dynamicreports.report.builder.component.VerticalListBuilder
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
-import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.constant.TextAdjust.CUT_TEXT
 import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
@@ -27,7 +26,7 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, private val resumida: Boolean) {
+class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
   private val codigoCol: TextColumnBuilder<String> =
           col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
@@ -190,49 +189,43 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, private val resumida:
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when (notaSaida.tipo) {
-      "66", "AJT", "FIN" -> when {
-        resumida -> listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
-        else     -> listOf(
-          itemCol,
-          barcodeCol,
-          refForCol,
-          codigoCol,
-          descricaoCol,
-          gradeCol,
-          unCol,
-          stCol,
-          qtdeCol,
-          valorUnitarioCol,
-          valorTotalCol,
-          ipiCol,
-          vstCol,
-          valorTotalIpiCol,
-                          )
-      }
-      "PED"              -> when {
-        resumida -> listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
-        else     -> listOf(
-          invnoCol,
-          dataInvCol,
-          notaInvCol,
-          refForCol,
-          codigoCol,
-          descricaoCol,
-          gradeCol,
-          ncmInvCol,
-          cstCol,
-          cfopCol,
-          unCol,
-          qtdeCol,
-          valorUnitarioCol,
-          valorTotalCol,
-          baseICMSCol,
-          valorICMSCol,
-          valorIPICol,
-          aliqICMSCol,
-          aliqIPICol,
-                          )
-      }
+      "66", "AJT", "FIN" -> listOf(
+        itemCol,
+        barcodeCol,
+        refForCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        unCol,
+        stCol,
+        qtdeCol,
+        valorUnitarioCol,
+        valorTotalCol,
+        ipiCol,
+        vstCol,
+        valorTotalIpiCol,
+                                  )
+      "PED"              -> listOf(
+        invnoCol,
+        dataInvCol,
+        notaInvCol,
+        refForCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        ncmInvCol,
+        cstCol,
+        cfopCol,
+        unCol,
+        qtdeCol,
+        valorUnitarioCol,
+        valorTotalCol,
+        baseICMSCol,
+        valorICMSCol,
+        valorIPICol,
+        aliqICMSCol,
+        aliqIPICol,
+                                  )
       else               -> listOf(itemCol,
                                    barcodeCol,
                                    codigoCol,
@@ -588,8 +581,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, private val resumida:
         item = index++
       }
     }
-    val pageOrientation = if ((notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) && resumida) PORTRAIT
-    else LANDSCAPE
+    val pageOrientation = LANDSCAPE
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
@@ -606,9 +598,9 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, private val resumida:
   }
 
   companion object {
-    fun processaRelatorio(listNota: List<NotaSaida>, resumida: Boolean = false): ByteArray {
+    fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {
       val printList = listNota.map { nota ->
-        val report = RelatorioNotaDevFornecedor(nota, resumida).makeReport()
+        val report = RelatorioNotaDevFornecedor(nota).makeReport()
         report?.toJasperPrint()
       }
       val exporter = JRPdfExporter()
