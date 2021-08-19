@@ -31,12 +31,12 @@ object FornecedorViewColumns {
   }
 
   fun Grid<Fornecedor>.tipoPagDesconto() = addColumnString(Fornecedor::tipoPag) {
-    this.setHeader("Obs Pgto")
+    this.setHeader("Obs Pgto1")
     this.setClassNameGenerator { "marcaDiferenca" }
   }
 
   fun Grid<Fornecedor>.documentoPagDesconto() = addColumnString(Fornecedor::documentoPag) {
-    this.setHeader("Nota")
+    this.setHeader("Obs Pgto2")
     this.setClassNameGenerator { "marcaDiferenca" }
   }
 
