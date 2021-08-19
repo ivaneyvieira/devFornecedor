@@ -18,21 +18,19 @@ class ProdutoNotaEntradaVO(
   val dataHoraRecebimento: String,
   val refNFe: String?,
                           ) {
-  val produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd>
-    get() {
-      val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
-      val produtosNota = nota.info?.itens ?: emptyList()
-      return produtosNota.mapNotNull(::mapProduto)
-    }
+  fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
+    val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
+    val produtosNota = nota.info?.itens ?: emptyList()
+    return produtosNota.mapNotNull(::mapProduto)
+  }
 
-  val itensNotaReport: List<ItensNotaReport>
-    get() {
-      val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
-      val data = dataHoraRecebimento.split("T").getOrNull(0) ?: ""
-      val hora = dataHoraRecebimento.split("T").getOrNull(1)?.split("-")?.getOrNull(0) ?: ""
-      val dataFormat = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4)
-      return mapReport(nota, "$numeroProtocolo $dataFormat $hora")
-    }
+  fun itensNotaReport(): List<ItensNotaReport> {
+    val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
+    val data = dataHoraRecebimento.split("T").getOrNull(0) ?: ""
+    val hora = dataHoraRecebimento.split("T").getOrNull(1)?.split("-")?.getOrNull(0) ?: ""
+    val dataFormat = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4)
+    return mapReport(nota, "$numeroProtocolo $dataFormat $hora")
+  }
 
   private fun mapProduto(item: NFNotaInfoItem): ProdutoNotaEntradaNdd {
     val produto: NFNotaInfoItemProduto? = item.produto
@@ -41,7 +39,7 @@ class ProdutoNotaEntradaVO(
                                  codBarra = produto?.codigoDeBarras ?: "",
                                  descricao = produto?.descricao ?: "",
                                  ncm = produto?.ncm ?: "",
-                                 cst = produto?.codigoEspecificadorSituacaoTributaria ?: "",
+                                 cst = item.icms().cst() ?: "",
                                  cfop = produto?.cfop ?: "",
                                  un = produto?.unidadeComercial ?: "",
                                  quantidade = produto?.quantidadeComercial?.toDoubleOrNull() ?: 0.00,
@@ -70,11 +68,6 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   private fun identificacao(): NFNotaInfoIdentificacao? = nota.info?.identificacao
   private fun icmsTotal(): NFNotaInfoICMSTotal? = nota.info?.total?.icmsTotal
   private fun issqnTotal(): NFNotaInfoISSQNTotal? = nota.info?.total?.issqnTotal
-  private fun icms(): DFBase? {
-    val root = item.imposto.icms
-    return root?.icms00 ?: root?.icms10 ?: root?.icms20 ?: root?.icms30 ?: root?.icms40 ?: root?.icms51 ?: root?.icms60
-           ?: root?.icms70 ?: root?.icms90
-  }
 
   val nomeEmitente: String
     get() = emitente()?.razaoSocial ?: ""
@@ -208,7 +201,7 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val ncm: String
     get() = item.produto?.ncm ?: ""
   val cst: String
-    get() = icms().cst() ?: ""
+    get() = item.icms().cst() ?: ""
   val cfop: String
     get() = item.produto?.cfop ?: ""
   val unidade: String
@@ -220,13 +213,13 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val valorTotalProduto: BigDecimal
     get() = item.produto?.valorTotalBruto.formatBigDecimal()
   val bcICMSProduto: BigDecimal
-    get() = icms()?.valorBaseCalculo().formatBigDecimal()
+    get() = item.icms()?.valorBaseCalculo().formatBigDecimal()
   val vlICMSProduto: BigDecimal
-    get() = icms()?.valorTributo().formatBigDecimal()
+    get() = item.icms()?.valorTributo().formatBigDecimal()
   val vlIPIProduto: BigDecimal
     get() = item.imposto?.ipi?.tributado?.valorTributo.formatBigDecimal()
   val aliqICMSProduto: BigDecimal
-    get() = icms()?.percentualAliquota().formatBigDecimal()
+    get() = item.icms()?.percentualAliquota().formatBigDecimal()
   val aliqIPIProduto: BigDecimal
     get() = item.imposto?.ipi?.tributado?.percentualAliquota.formatBigDecimal()
   val inscricaoMunicial: String
@@ -244,6 +237,12 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
       val infCpl = informacoesAdicionais.informacoesComplementaresInteresseContribuinte ?: ""
       return "$infAdFisco\n$infCpl".trim().replace("^[\\s]*\n".toRegex(), "")
     }
+}
+
+private fun NFNotaInfoItem.icms(): DFBase? {
+  val root = this.imposto.icms
+  return root?.icms00 ?: root?.icms10 ?: root?.icms20 ?: root?.icms30 ?: root?.icms40 ?: root?.icms51 ?: root?.icms60
+         ?: root?.icms70 ?: root?.icms90
 }
 
 private fun DFBase?.percentualAliquota(): String? {

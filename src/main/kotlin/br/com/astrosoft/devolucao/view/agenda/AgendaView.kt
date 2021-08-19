@@ -22,7 +22,7 @@ class AgendaView : ViewLayout<AgendaViewModel>(), IAgendaView {
   }
 
   override val tabAgendaAgendada = TabAgendaAgendada(viewModel.tabAgendadaVMAgendada)
-  override val tabAgendaNaoAgendada = TabAgendaNaoAgendada(viewModel.tabAgendadaVMNaoAgendada)
+  override val tabAgendaNaoAgendada = TabAgendaPreEntrada(viewModel.tabAgendadaVMNaoAgendada)
   override val tabAgendaRecebida = TabAgendaRecebida(viewModel.tabAgendadaVMRecebida)
 
   init {

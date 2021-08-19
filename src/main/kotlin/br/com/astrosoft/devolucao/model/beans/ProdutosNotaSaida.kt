@@ -10,6 +10,7 @@ class ProdutosNotaSaida(
   val transacao: Int,
   val codigo: String,
   val refFor: String,
+  val refName: String,
   val descricao: String,
   val grade: String,
   val qtde: Int,

@@ -22,7 +22,7 @@ class NotaSaidaNdd(val loja: Int,
   }
 
   fun itensNotaReport(): List<ItensNotaReport> {
-    return produtosNDD()?.itensNotaReport ?: emptyList()
+    return produtosNDD()?.itensNotaReport() ?: emptyList()
   }
 
   companion object {

@@ -47,7 +47,7 @@ class NotaEntradaNdd(val id: Int,
   }
 
   fun itensNotaReport(): List<ItensNotaReport> {
-    return produtosNfe?.itensNotaReport ?: emptyList()
+    return produtosNfe()?.itensNotaReport() ?: emptyList()
   }
 
   val notaFiscal
@@ -59,11 +59,10 @@ class NotaEntradaNdd(val id: Int,
   val nfeFile
     get() = NfeFile(xmlNfe)
 
-  val produtosNfe: ProdutoNotaEntradaVO?
-    get() = ndd.produtosNotasEntrada(id)
+  fun produtosNfe(): ProdutoNotaEntradaVO? = ndd.produtosNotasEntrada(id)
 
   fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
-    val produtosNfe = produtosNfe ?: return emptyList()
-    return produtosNfe.produtosNotaEntradaNDD
+    val produtosNfe = produtosNfe() ?: return emptyList()
+    return produtosNfe.produtosNotaEntradaNDD()
   }
 }

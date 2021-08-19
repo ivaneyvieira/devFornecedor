@@ -7,6 +7,7 @@ data class AgendaUpdate(val invno: Int,
                         var data: LocalDate?,
                         var hora: String?,
                         var recebedor: String?,
+                        var conhecimento: String?,
                         val dataRecbedor: LocalDate?,
                         val horaRecebedor: String?) {
   fun save() {

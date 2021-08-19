@@ -15,6 +15,13 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
         IEmailView {
   protected abstract val subView: ITabNota
 
+  fun imprimirNotaFornecedor(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
+    notas.ifEmpty {
+      fail("Nenhuma item foi selecionado")
+    }
+    subView.imprimeNotaFornecedor(notas, resumida)
+  }
+
   fun imprimirNotaDevolucao(notas: List<NotaSaida>, resumida: Boolean = false) = viewModel.exec {
     notas.ifEmpty {
       fail("Nenhuma item foi selecionado")
@@ -212,6 +219,7 @@ interface ITabNota : ITabView, IFiltro {
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)
+  fun imprimeNotaFornecedor(notas: List<NotaSaida>, resumida: Boolean)
   fun imprimirRelatorioFornecedor(notas: List<NotaSaida>)
   fun imprimirRelatorio(notas: List<NotaSaida>)
   fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>)
