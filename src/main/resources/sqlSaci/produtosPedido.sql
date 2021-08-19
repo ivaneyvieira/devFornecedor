@@ -2,9 +2,10 @@ DROP TEMPORARY TABLE IF EXISTS T_REF;
 CREATE TEMPORARY TABLE T_REF (
   PRIMARY KEY (codigo, grade)
 )
-SELECT prdno                                                               AS codigo,
-       grade                                                               AS grade,
-       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefno)), 11, 20) AS char) AS refno
+SELECT prdno                                                                 AS codigo,
+       grade                                                                 AS grade,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefno)), 11, 20) AS char)   AS refno,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefname)), 11, 20) AS char) AS refname
 FROM sqldados.prdref
 GROUP BY prdno, grade;
 
@@ -180,6 +181,7 @@ SELECT P.loja,
        0                                                                  AS transacao,
        TRIM(P.codigo)                                                     AS codigo,
        IFNULL(R.refno, P.refFor)                                          AS refFor,
+       IFNULL(R.refname, P.descricao)                                     AS refName,
        P.descricao                                                        AS descricao,
        P.grade                                                            AS grade,
        P.qtde                                                             AS qtde,

@@ -2,10 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.beans.Loja.Companion.lojaZero
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedor
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorResumido
-import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
-import br.com.astrosoft.devolucao.model.reports.RelatorioNotaFornecedor
+import br.com.astrosoft.devolucao.model.reports.*
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailAssunto
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailData
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
@@ -212,6 +209,12 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   override fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean) {
     val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida)
     val chave = "DevReport"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimeNotaFornecedor(notas: List<NotaSaida>, resumida: Boolean) {
+    val report = RelatorioNotaDevFornecedor.processaRelatorio(notas, resumida)
+    val chave = "DevReportVend"
     SubWindowPDF(chave, report).open()
   }
 
@@ -529,6 +532,15 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         onLeftClick {
           val notas = gridNota.asMultiSelect().selectedItems.toList()
           viewModel.imprimirNotaDevolucao(notas)
+        }
+      }
+      if (serie == Serie01) {
+        button("Impressão Fornecedor") {
+          icon = PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirNotaFornecedor(notas)
+          }
         }
       }
       if (serie == Serie66 || serie == PED || serie == AJT) {
