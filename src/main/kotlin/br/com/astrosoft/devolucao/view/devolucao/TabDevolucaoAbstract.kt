@@ -590,7 +590,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       setItems(listNotas)
       if (serie == Serie01) {
         this.withEditor(NotaSaida::class, openEditor = { _ ->
-          (getColumnBy(NotaSaida::tipoPag).editorComponent as? Focusable<*>)?.focus()
+          (getColumnBy(NotaSaida::chaveDesconto).editorComponent as? Focusable<*>)?.focus()
         }, closeEditor = { binder ->
           viewModel.salvaDesconto(binder.bean)
           this.dataProvider.refreshItem(binder.bean)
