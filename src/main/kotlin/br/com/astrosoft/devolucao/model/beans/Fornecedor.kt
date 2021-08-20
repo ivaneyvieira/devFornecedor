@@ -35,18 +35,6 @@ class Fornecedor(
   val chaveDesconto: String
     get() = notaObs?.chaveDesconto ?: ""
 
-  val tipoPag: String
-    get() = notaObs?.tipoPag ?: ""
-
-  val documentoPag: String
-    get() = notaObs?.documentoPag ?: ""
-
-  val niPag: String
-    get() = notaObs?.niPag ?: ""
-
-  val vencimentoPag: String
-    get() = notaObs?.vencimentoPag ?: ""
-
   val ultimaDataStr
     get() = ultimaData.format()
 
