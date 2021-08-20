@@ -8,20 +8,16 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emai
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailEmail
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailHora
 import br.com.astrosoft.devolucao.view.devolucao.columns.EmailDBViewColumns.emailTipo
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.documentoPagDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.niPagDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tipoPagDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.vencimentoPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.devolucao.view.devolucao.columns.NFFileViewColumns.nfFileDescricao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.documentoPagDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niPagDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
@@ -30,8 +26,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tipoPagDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.vencimentoPagDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNi
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNota
@@ -171,10 +165,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorNome()
 
     if (serie in listOf(FIN, Serie01)) {
-      tipoPagDesconto()
-      documentoPagDesconto()
-      niPagDesconto()
-      vencimentoPagDesconto()
+      chaveDesconto()
     }
     else {
       fornecedorPrimeiraData()
@@ -630,16 +621,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaFatura()
       }
       if (serie in listOf(Serie01, FIN)) {
-        tipoPagDesconto().textFieldEditor().apply {
-          this.setClassNameGenerator { "marcaDiferenca" }
-        }
-        documentoPagDesconto().textFieldEditor().apply {
-          this.setClassNameGenerator { "marcaDiferenca" }
-        }
-        niPagDesconto().textFieldEditor().apply {
-          this.setClassNameGenerator { "marcaDiferenca" }
-        }
-        vencimentoPagDesconto().textFieldEditor().apply {
+        chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator { "marcaDiferenca" }
         }
       }
@@ -689,13 +671,6 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     form.open()
   }
 
-  /*
-    private fun buttonPlanilha(notas: () -> List<NotaSaida>): LazyDownloadButton {
-      return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
-        ByteArrayInputStream(viewModel.geraPlanilha(notas()))
-      }
-    }
-  */
   private fun filename(): String {
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
     val textTime = LocalDateTime.now().format(sdf)

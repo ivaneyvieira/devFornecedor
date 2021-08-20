@@ -32,6 +32,12 @@ object NotaSaidaViewColumns {
     this.setHeader("Nota")
   }
 
+  fun Grid<NotaSaida>.chaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
+    this.setHeader("Observação")
+    this.setClassNameGenerator { "marcaDiferenca" }
+  }
+
+  /*
   fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
     this.setHeader("Obs Pgto1")
     this.setClassNameGenerator { "marcaDiferenca" }
@@ -51,7 +57,7 @@ object NotaSaidaViewColumns {
     this.setHeader("Vencimento")
     this.setClassNameGenerator { "marcaDiferenca" }
   }
-
+*/
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
   }
