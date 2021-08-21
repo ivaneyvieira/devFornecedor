@@ -9,6 +9,7 @@ import br.com.astrosoft.framework.model.gridlazy.SortOrder
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
+import java.util.*
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -78,7 +79,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun notaFinanceiro(): List<NotaSaida> {
     return notasDevolucao(Serie.Serie01).filter { nota ->
-      nota.chaveDesconto?.trim() != ""
+      val chave = nota.chaveDesconto?.uppercase(Locale.getDefault()) ?: return@filter false
+      chave.contains("CREDITO NA CONTA") || chave.contains("DESCONTO NA NOTA") || chave.contains("DESCONTO NO TITULO") || chave.contains(
+        "REPOSICAO") || chave.contains("RETORNO")
     }
   }
 

@@ -53,7 +53,7 @@ SELECT N.storeno,
        grossamt / 100                                                                          AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
-       N.c6                                                                                    AS chaveDesconto,
+       CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto,
        N.c5                                                                                    AS observacaoAuxiliar,
        natopno,
        F.*
@@ -136,7 +136,7 @@ SELECT N.storeno                                 AS loja,
        chave                                     AS chave,
        IFNULL(OP.name, '')                       AS natureza,
        N.chaveDesconto                           AS chaveDesconto,
-       N.observacaoAuxiliar                      AS observacaoAuxiliar
+       ''                                        AS observacaoAuxiliar
 FROM TNF                        AS N
   LEFT JOIN  sqldados.natop     AS OP
 	       ON OP.no = N.natopno

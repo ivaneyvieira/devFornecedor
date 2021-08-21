@@ -42,8 +42,7 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
        IFNULL(OP.name, '')                                                                     AS natureza,
-       N.c6                                                                                    AS chaveDesconto,
-       N.c5                                                                                    AS observacaoAuxiliar
+       CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
@@ -128,7 +127,7 @@ SELECT N.storeno                                 AS loja,
        chave                                     AS chave,
        natureza                                  AS natureza,
        N.chaveDesconto                           AS chaveDesconto,
-       N.observacaoAuxiliar                      AS observacaoAuxiliar
+       ''                                        AS observacaoAuxiliar
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
