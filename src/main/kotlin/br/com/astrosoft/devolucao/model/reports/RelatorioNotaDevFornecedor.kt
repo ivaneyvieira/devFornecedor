@@ -2,17 +2,18 @@ package br.com.astrosoft.devolucao.model.reports
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
-import br.com.astrosoft.framework.model.reports.*
-import br.com.astrosoft.framework.model.reports.Templates.fieldBorder
+import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
+import br.com.astrosoft.framework.model.reports.horizontalList
+import br.com.astrosoft.framework.model.reports.text
+import br.com.astrosoft.framework.model.reports.verticalBlock
 import br.com.astrosoft.framework.util.format
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
-import net.sf.dynamicreports.report.builder.component.TextFieldBuilder
-import net.sf.dynamicreports.report.builder.component.VerticalListBuilder
+import net.sf.dynamicreports.report.builder.style.Styles
 import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
@@ -22,16 +23,15 @@ import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
+import java.awt.Color
 import java.io.ByteArrayOutputStream
-import java.time.LocalDate
-import java.time.LocalTime
 
 class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
   private val codigoCol: TextColumnBuilder<String> =
           col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
-            this.setFixedWidth(50)
+            this.setFixedWidth(100)
           }
   private val dataInvCol: TextColumnBuilder<String> =
           col.column("Emissão", ProdutosNotaSaida::dateInvStr.name, type.stringType()).apply {
@@ -49,7 +49,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
           col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
-            this.setFixedWidth(40)
+            this.setFixedWidth(50)
           }
   private val refForCol: TextColumnBuilder<String> =
           col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
@@ -84,7 +84,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
             this.setHorizontalTextAlignment(RIGHT)
             this.setTextAdjust(SCALE_FONT)
             this.setPattern("0")
-            this.setFixedWidth(35)
+            this.setFixedWidth(60)
           }
   private val itemCol: TextColumnBuilder<Int> =
           col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
@@ -184,366 +184,116 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
   private val unCol: TextColumnBuilder<String> =
           col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(30)
+            this.setFixedWidth(60)
+          }
+
+  private val ocorrenciaCol: TextColumnBuilder<String> =
+          col.column("Ocorrência", ProdutosNotaSaida::ocorrencia.name, type.stringType()).apply {
+            this.setHorizontalTextAlignment(CENTER)
+            this.setFixedWidth(300)
           }
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
-    return when (notaSaida.tipo) {
-      "66", "AJT", "FIN" -> listOf(
-        itemCol,
-        barcodeCol,
-        refForCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        unCol,
-        stCol,
-        qtdeCol,
-        valorUnitarioCol,
-        valorTotalCol,
-        ipiCol,
-        vstCol,
-        valorTotalIpiCol,
-                                  )
-      "PED"              -> listOf(
-        invnoCol,
-        dataInvCol,
-        notaInvCol,
-        refForCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        ncmInvCol,
-        cstCol,
-        cfopCol,
-        unCol,
-        qtdeCol,
-        valorUnitarioCol,
-        valorTotalCol,
-        baseICMSCol,
-        valorICMSCol,
-        valorIPICol,
-        aliqICMSCol,
-        aliqIPICol,
-                                  )
-      else               -> listOf(itemCol,
-                                   barcodeCol,
-                                   codigoCol,
-                                   descricaoCol,
-                                   gradeCol,
-                                   cstCol,
-                                   cfopCol,
-                                   unCol,
-                                   qtdeCol,
-                                   valorUnitarioCol,
-                                   valorTotalCol)
-    }
+    return listOf(
+      emptyCol(),
+      codigoCol,
+      descricaoCol,
+      ncmInvCol,
+      unCol,
+      qtdeCol,
+      ocorrenciaCol,
+      emptyCol(),
+                 )
   }
 
-  private fun titleBuiderPedido(): ComponentBuilder<*, *> {
-    return verticalBlock {
-      horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", LEFT).apply {
-          this.setStyle(fieldFontGrande)
-        }
-      }
-      horizontalList {
-        text("Natureza da operação: ${notaSaida.natureza}", LEFT)
-      }
-      horizontalList {
-        val custno = notaSaida.custno
-        val fornecedor = notaSaida.fornecedor
-        val fornecedorSap = notaSaida.fornecedorSap
-        val vendno = notaSaida.vendno
-        val pedido = notaSaida.pedido
-        val dataPedido = notaSaida.dataPedido.format()
-        text("Fornecedor: $custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)", LEFT)
-        text("PED. $pedido - $dataPedido", RIGHT, 150)
-      }
-    }
-  }
-
-  private fun titleBuiderNota66(): ComponentBuilder<*, *> {
-    return verticalBlock {
-      horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
-          this.setStyle(fieldFontGrande)
-        }
-      }
-      horizontalList {
-        val dataAtual = LocalDate.now().format()
-        val horaAtual = LocalTime.now().format()
-        val custno = notaSaida.custno
-        val fornecedor = notaSaida.fornecedor
-        val vendno = notaSaida.vendno
-        val pedido = notaSaida.pedido
-        val dataPedido = notaSaida.dataPedido.format()
-        val nota = notaSaida.nota
-        val dataNota = notaSaida.dataNota.format()
-        val fornecedorSap = notaSaida.fornecedorSap
-
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota",
-             LEFT)
-        text("$dataAtual-$horaAtual", RIGHT, 100)
-      }
-    }
-  }
-
-  private fun titleBuilderFinanceiro(): ComponentBuilder<*, *> {
-    return verticalBlock {
-      horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
-          this.setStyle(fieldFontGrande)
-        }
-      }
-      horizontalList {
-        val dataAtual = LocalDate.now().format()
-        val horaAtual = LocalTime.now().format()
-        val custno = notaSaida.custno
-        val fornecedor = notaSaida.fornecedor
-        val vendno = notaSaida.vendno
-        val nota = notaSaida.nota
-        val dataNota = notaSaida.dataNota.format()
-        val fornecedorSap = notaSaida.fornecedorSap
-
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NFA $nota - $dataNota", LEFT)
-        text("$dataAtual-$horaAtual", RIGHT, 100)
-      }
-    }
-  }
-
-  private fun titleBuiderAjuste(): ComponentBuilder<*, *> {
-    return verticalBlock {
-      horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
-          this.setStyle(fieldFontGrande)
-        }
-      }
-      horizontalList {
-        val dataAtual = LocalDate.now().format()
-        val horaAtual = LocalTime.now().format()
-        val custno = notaSaida.custno
-        val fornecedor = notaSaida.fornecedor
-        val vendno = notaSaida.vendno
-        val nota = notaSaida.nota
-        val dataNota = notaSaida.dataNota.format()
-        val fornecedorSap = notaSaida.fornecedorSap
-
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NFA $nota - $dataNota", LEFT)
-        text("$dataAtual-$horaAtual", RIGHT, 100)
-      }
-    }
-  }
-
-  private fun titleBuiderNota01(): ComponentBuilder<*, *> {
-    return verticalBlock {
-      horizontalList {
-        text("Natureza: Devolução", LEFT)
-        text("ENGECOPI ${notaSaida.sigla}", CENTER).apply {
-          this.setStyle(fieldFontGrande)
-          this.setFixedWidth(120)
-        }
-        text("", RIGHT)
-      }
-      horizontalList {
-        val dataAtual = LocalDate.now().format()
-        val horaAtual = LocalTime.now().format()
-        val custno = notaSaida.custno
-        val fornecedor = notaSaida.fornecedor
-        val vendno = notaSaida.vendno
-        val nota = notaSaida.nota
-        val dataNota = notaSaida.dataNota.format()
-        val fatura = notaSaida.fatura
-        val fornecedorSap = notaSaida.fornecedorSap
-
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   NFD $nota - $dataNota   DUP $fatura", LEFT)
-        text("$dataAtual-$horaAtual", RIGHT, 100)
-      }
-    }
+  private fun emptyCol() = col.emptyColumn().apply {
+    this.setFixedWidth(10)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
-    return when (notaSaida.tipo) {
-      "PED" -> titleBuiderPedido()
-      "AJT" -> titleBuiderAjuste()
-      "FIN" -> titleBuilderFinanceiro()
-      "66"  -> titleBuiderNota66()
-      else  -> titleBuiderNota01()
-    }
-  }
+    val notaOrigem = notaSaida.notaOrigem()
+    val notaOrigemNDD = notaOrigem?.itensNotaReport()?.firstOrNull()
+    val wdNF = 150
+    val wdCnpj = 150
+    val wdEmissao = 70
 
-  private fun sumaryBuild(): ComponentBuilder<*, *> {
     return verticalBlock {
-      when (notaSaida.tipo) {
-        "1"   -> sumaryNota()
-        "PED" -> sumaryPedido()
-      }
-
-      breakLine()
-
-      text("Dados Adicionais:", LEFT, 100)
-      text(notaSaida.obsNota, LEFT)
-      if (notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) text(notaSaida.obsPedido)
-    }
-  }
-
-  private fun VerticalListBuilder.sumaryNota() {
-    breakLine()
-    this.horizontalList {
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("BASE DE CÁLCULO DO ICMS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+      horizontalList {
+        text("Notificação de Irregularidade no Recebimento", CENTER).apply {
+          this.setStyle(fieldFontGrande)
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.baseIcmsProdutos.format(), RIGHT)
       }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR DO ICMS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+      horizontalList {
+        val nome = notaOrigemNDD?.nomeEmitente ?: ""
+        val cnpj = notaOrigemNDD?.cpnjEmitente ?: ""
+        val notaFiscal = notaOrigem?.notaFiscal ?: ""
+        val emissao = notaOrigem?.dataEmissao.format()
+        text("", LEFT, 10)
+        text("Fornecedor: $nome", LEFT).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.valorIcmsProdutos.format(), RIGHT)
+        text("CNPJ: $cnpj", LEFT, wdCnpj).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("NF de Origem: $notaFiscal", LEFT, wdNF).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("Emissão:", RIGHT, wdEmissao).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text(emissao, RIGHT, wdEmissao).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("", LEFT, 10)
       }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("BASE DE CÁLCULO DO ICMS SUBSTITUIÇÃO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+      horizontalList {
+        val nome = notaOrigemNDD?.nomeTransportadora ?: ""
+        val cnpj = notaOrigemNDD?.cnpjCPF ?: ""
+        val conhecimentoFrete = notaOrigem?.conhecimentoFrete
+        val emissao = ""
+        text("", LEFT, 10)
+        text("Transportadora: $nome", LEFT).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT)
+        text("CNPJ: $cnpj", LEFT, wdCnpj).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("Cte: $conhecimentoFrete", LEFT, wdNF).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("Emissão:", RIGHT, wdEmissao).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text(emissao, RIGHT, wdEmissao).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("", LEFT, 10)
       }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR ICMS SUBSTITUIÇÃO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+      horizontalList {
+        val nome = notaSaida.fornecedor
+        val cnpj = ""
+        val notaFiscal = notaSaida.nota
+        val emissao = notaSaida.dataNota.format()
+        text("", LEFT, 10)
+        text("Cliente: $nome", LEFT).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.icmsSubstProduto.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR TOTAL DOS PRODUTOS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+        text("CNPJ: $cnpj", LEFT, wdCnpj).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.valorTotalProduto.format(), RIGHT)
-      }
-    }
-    this.horizontalList {
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR DO FRETE", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+        text("NF Devolução: $notaFiscal", LEFT, wdNF).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.valorFrete.format(), RIGHT)
-      }
-
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR DO SEGURO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+        text("Emissão:", RIGHT, wdEmissao).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.valorSeguro.format(), RIGHT)
-
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("DESCONTO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
+        text(emissao, RIGHT, wdEmissao).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text(notaSaida.valorDesconto.format(), RIGHT)
-
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR ICMS SUBSTITUIÇÃO", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.icmsSubst.format(), RIGHT)
-
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("OUTRAS DESPESAS ACESSÓRIAS", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.outrasDespesas.format(), RIGHT)
-
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR TOTAL DA NOTA", LEFT) {
-          this.setTextAdjust(SCALE_FONT)
-        }
-        text(notaSaida.valorTotalProduto.format(), RIGHT)
+        text("", LEFT, 10)
       }
     }
-  }
-
-  private fun VerticalListBuilder.sumaryPedido() {
-    breakLine()
-    this.horizontalList {
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("BASE DE CÁLCULO DO ICMS", LEFT).fonteSumarioImposto()
-        text(notaSaida.baseIcmsProdutos.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR DO ICMS", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorIcmsProdutos.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("BASE DE CÁLCULO DO ICMS ST", LEFT).fonteSumarioImposto()
-        text(notaSaida.baseIcmsSubstProduto.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR ICMS ST", LEFT).fonteSumarioImposto()
-        text(notaSaida.icmsSubstProduto.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR TOTAL DOS PRODUTOS", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorTotalProduto.format(), RIGHT)
-      }
-    }
-    this.horizontalList {
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR DO FRETE", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorFrete.format(), RIGHT)
-      }
-
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR DO SEGURO", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorSeguro.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("DESCONTO", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorDesconto.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("OUTRAS DESPESAS", LEFT).fonteSumarioImposto()
-        text(notaSaida.outrasDespesas.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR IPI", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorIpiProdutos.format(), RIGHT)
-      }
-      this.verticalList {
-        setStyle(fieldBorder)
-        text("VALOR TOTAL DA NOTA", LEFT).fonteSumarioImposto()
-        text(notaSaida.valorTotalNota.format(), RIGHT)
-      }
-    }
-  }
-
-  private fun TextFieldBuilder<String>.fonteSumarioImposto() {
-    this.setTextAdjust(SCALE_FONT)
-    this.setStyle(stl.style().setFontSize(8))
   }
 
   private fun pageFooterBuilder(): ComponentBuilder<*, *>? {
@@ -551,26 +301,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
   }
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return when (notaSaida.tipo) {
-      in listOf("PED")              -> emptyList()
-      in listOf("66", "AJT", "FIN") -> listOf(
-        sbt.text("Total R$", valorUnitarioCol),
-        sbt.sum(valorTotalCol),
-        sbt.sum(baseICMSCol),
-        sbt.sum(valorICMSCol),
-        sbt.sum(valorIPICol),
-        sbt.sum(ipiCol),
-        sbt.sum(vstCol),
-        sbt.sum(valorTotalIpiCol),
-                                             )
-      else                          -> listOf(
-        sbt.text("Total R$", valorUnitarioCol),
-        sbt.sum(valorTotalCol),
-        sbt.sum(ipiCol),
-        sbt.sum(vstCol),
-        sbt.sum(valorTotalIpiCol),
-                                             )
-    }
+    return emptyList()
   }
 
   fun makeReport(): JasperReportBuilder? {
@@ -588,18 +319,26 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
       .setColumnStyle(stl.style().setFontSize(7))
       .columnGrid(* colunms)
       .setDataSource(itens)
-      .summary(sumaryBuild())
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setFontSize(8).setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .setColumnStyle(Templates.fieldFontNormal.setForegroundColor(Color.WHITE)
+                        .setFontSize(8)
+                        .setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnTitleStyle(Templates.fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
+      .setPageMargin(margin(0))
+      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
+      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE))
+      .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }
 
   companion object {
     fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {
       val printList = listNota.map { nota ->
+        nota.findNotaOrigem()
         val report = RelatorioNotaDevFornecedor(nota).makeReport()
         report?.toJasperPrint()
       }

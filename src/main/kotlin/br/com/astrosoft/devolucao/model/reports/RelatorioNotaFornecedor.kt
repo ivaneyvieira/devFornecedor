@@ -46,7 +46,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
           }
 
   private val transfortadoraCol: TextColumnBuilder<String> =
-          col.column("Transportadora", NotaSaida::transfortadora.name, type.stringType()).apply {
+          col.column("Transportadora", NotaSaida::transportadora.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setTextAdjust(TextAdjust.SCALE_FONT)
           }
