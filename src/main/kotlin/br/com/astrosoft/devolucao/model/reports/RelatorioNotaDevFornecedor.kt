@@ -17,8 +17,7 @@ import net.sf.dynamicreports.report.builder.style.Styles
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageType.A4
-import net.sf.dynamicreports.report.constant.TextAdjust.CUT_TEXT
-import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
+import net.sf.dynamicreports.report.constant.TextAdjust.*
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
@@ -60,12 +59,11 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
           col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
-            this.setFixedWidth(60)
           }
   private val descricaoCol: TextColumnBuilder<String> =
           col.column("Descrição", ProdutosNotaSaida::descricaoFornecedor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(CUT_TEXT)
+            this.setTextAdjust(STRETCH_HEIGHT)
           }
   private val gradeCol: TextColumnBuilder<String> =
           col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
