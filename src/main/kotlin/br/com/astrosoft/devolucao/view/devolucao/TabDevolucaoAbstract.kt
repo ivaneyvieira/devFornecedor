@@ -52,6 +52,8 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.checkbox.Checkbox
+import com.vaadin.flow.component.checkbox.CheckboxGroup
+import com.vaadin.flow.component.checkbox.CheckboxGroupVariant
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
@@ -71,6 +73,7 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.renderer.TemplateRenderer
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
+import org.claspina.confirmdialog.ConfirmDialog
 import org.vaadin.stefan.LazyDownloadButton
 import java.io.ByteArrayInputStream
 import java.time.LocalDateTime
@@ -203,8 +206,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     SubWindowPDF(chave, report).open()
   }
 
-  override fun imprimeNotaFornecedor(notas: List<NotaSaida>) {
-    val report = RelatorioNotaDevFornecedor.processaRelatorio(notas)
+  override fun imprimeNotaFornecedor(notas: List<NotaSaida>, ocorrencias: List<String>) {
+    val report = RelatorioNotaDevFornecedor.processaRelatorio(notas, ocorrencias)
     val chave = "DevReportVend"
     SubWindowPDF(chave, report).open()
   }
@@ -529,8 +532,22 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         button("Impressão Fornecedor") {
           icon = PRINT.create()
           onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirNotaFornecedor(notas)
+            val multList = CheckboxGroup<EOcorrencias>()
+            multList.setItems(EOcorrencias.values().toList().sortedBy { it.num })
+            multList.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL)
+            ConfirmDialog.createQuestion()
+              .withCaption("Lista de Ocorrência")
+              .withMessage(multList)
+              .withOkButton({
+                              val notas =
+                                      gridNota.asMultiSelect().selectedItems.toList()
+                              viewModel.imprimirNotaFornecedor(notas,
+                                                               multList.value.toList()
+                                                                 .sortedBy { it.num }
+                                                                 .map { it.descricao })
+                            })
+              .withCancelButton()
+              .open()
           }
         }
       }
@@ -758,3 +775,11 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
   }
 }
 
+enum class EOcorrencias(val num: Int, val descricao: String) {
+  AvariaTransporte(1, "Avaria no Transporte"),
+  AvariaFabrica(2, "Avaria de Fabrica"),
+  FaltaTransporte(3, "Falta no Transporte"),
+  FaltaFabrica(4, "Falta de Fabrica"),
+  ProdutoDesacordo(5, "Produto em Desacordo com o Pedido"),
+  DefeitoFabrica(6, "Defeito de Fabricação")
+}
