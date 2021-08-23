@@ -27,6 +27,10 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List<String>) {
   private val margem = 20
+  private val notaOrigem = notaSaida.notaOrigem()
+  private val produtosOrigemNDD = notaOrigem?.itensNotaReport().orEmpty()
+  private val notaOrigemNDD = produtosOrigemNDD.firstOrNull()
+
   private val codigoCol: TextColumnBuilder<String> =
           col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
@@ -45,6 +49,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
             this.setTextAdjust(SCALE_FONT)
             this.setFixedWidth(60)
           }
+
   private val ncmInvCol: TextColumnBuilder<String> =
           col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
@@ -58,7 +63,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
             this.setFixedWidth(60)
           }
   private val descricaoCol: TextColumnBuilder<String> =
-          col.column("Descrição", ProdutosNotaSaida::refName.name, type.stringType()).apply {
+          col.column("Descrição", ProdutosNotaSaida::descricaoFornecedor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setTextAdjust(CUT_TEXT)
           }
@@ -205,8 +210,6 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
-    val notaOrigem = notaSaida.notaOrigem()
-    val notaOrigemNDD = notaOrigem?.itensNotaReport()?.firstOrNull()
     val wdNF = 150
     val wdCnpj = 150
     val wdEmissao = 70
@@ -316,6 +319,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
     val colunms = columnBuilder().toTypedArray()
     var index = 1
     val itens = notaSaida.listaProdutos().sortedBy { it.codigo.toIntOrNull() ?: 0 }.map {
+      it.setProdutoNdd(produtosOrigemNDD)
       it.apply {
         item = index++
       }
