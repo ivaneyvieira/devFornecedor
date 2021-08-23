@@ -8,6 +8,7 @@ import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.model.gridlazy.SortOrder
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
+import org.apache.commons.lang3.StringUtils
 import org.sql2o.Query
 import java.util.*
 
@@ -80,8 +81,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun notaFinanceiro(): List<NotaSaida> {
     return notasDevolucao(Serie.Serie01).filter { nota ->
       val chave = nota.chaveDesconto?.uppercase(Locale.getDefault()) ?: return@filter false
-      chave.contains("CREDITO NA CONTA") || chave.contains("DESCONTO NA NOTA") || chave.contains("DESCONTO NO TITULO") || chave.contains(
-        "REPOSICAO") || chave.contains("RETORNO")
+      val chaveMaiuscula = StringUtils.stripAccents(chave).uppercase()
+      chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
+        "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO")
     }
   }
 
