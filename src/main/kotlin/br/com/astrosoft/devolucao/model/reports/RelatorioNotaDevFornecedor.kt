@@ -26,7 +26,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.awt.Color
 import java.io.ByteArrayOutputStream
 
-class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
+class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List<String>) {
   private val codigoCol: TextColumnBuilder<String> =
           col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
@@ -61,6 +61,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
           col.column("Descrição", ProdutosNotaSaida::refName.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setTextAdjust(CUT_TEXT)
+            this.setFixedWidth(400)
           }
   private val gradeCol: TextColumnBuilder<String> =
           col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
@@ -187,12 +188,6 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
             this.setFixedWidth(60)
           }
 
-  private val ocorrenciaCol: TextColumnBuilder<String> =
-          col.column("Ocorrência", ProdutosNotaSaida::ocorrencia.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(300)
-          }
-
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return listOf(
       emptyCol(),
@@ -201,13 +196,11 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
       ncmInvCol,
       unCol,
       qtdeCol,
-      ocorrenciaCol,
       emptyCol(),
                  )
   }
 
-  private fun emptyCol() = col.emptyColumn().apply {
-    this.setFixedWidth(10)
+  private fun emptyCol() = col.emptyColumn().apply { //this.setFixedWidth(10)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
@@ -220,9 +213,11 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
     return verticalBlock {
       horizontalList {
         text("Notificação de Irregularidade no Recebimento", CENTER).apply {
-          this.setStyle(fieldFontGrande)
-          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+          this.setStyle(fieldFontGrande.setForegroundColor(Color.WHITE))
         }
+      }
+      horizontalList {
+        text("")
       }
       horizontalList {
         val nome = notaOrigemNDD?.nomeEmitente ?: ""
@@ -271,8 +266,8 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
         text("", LEFT, 10)
       }
       horizontalList {
-        val nome = notaSaida.fornecedor
-        val cnpj = ""
+        val nome = notaOrigemNDD?.nomeDestinatario ?: ""
+        val cnpj = notaOrigemNDD?.cnpjCpfDestinatario ?: ""
         val notaFiscal = notaSaida.nota
         val emissao = notaSaida.dataNota.format()
         text("", LEFT, 10)
@@ -293,15 +288,27 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
         }
         text("", LEFT, 10)
       }
+
     }
   }
 
   private fun pageFooterBuilder(): ComponentBuilder<*, *>? {
-    return cmp.verticalList()
-  }
-
-  private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
-    return emptyList()
+    return verticalBlock{
+      horizontalList {
+        text("")
+      }
+      horizontalList {
+        text("", LEFT, 10)
+        text("Ocorrências: ", LEFT).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+          this.setFixedWidth(100)
+        }
+        text(ocorrencias.joinToString(", "), LEFT).apply {
+          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+        }
+        text("", LEFT, 10)
+      }
+    }
   }
 
   fun makeReport(): JasperReportBuilder? {
@@ -322,13 +329,13 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setFontSize(8).setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
       .setColumnStyle(Templates.fieldFontNormal.setForegroundColor(Color.WHITE)
                         .setFontSize(8)
-                        .setPadding(stl.padding().setRight(4).setLeft(4)))
-      .setColumnTitleStyle(Templates.fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
+                        .setPadding(stl.padding()
+                                      .setRight(4)
+                                      .setLeft(4))) // .setColumnTitleStyle(Templates.fieldFontNormalCol.setForegroundColor(Color.BLACK))
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
       .setGroupStyle(stl.style().setForegroundColor(Color.WHITE))
@@ -336,10 +343,10 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida) {
   }
 
   companion object {
-    fun processaRelatorio(listNota: List<NotaSaida>): ByteArray {
+    fun processaRelatorio(listNota: List<NotaSaida>, ocorrencias: List<String>): ByteArray {
       val printList = listNota.map { nota ->
         nota.findNotaOrigem()
-        val report = RelatorioNotaDevFornecedor(nota).makeReport()
+        val report = RelatorioNotaDevFornecedor(nota, ocorrencias).makeReport()
         report?.toJasperPrint()
       }
       val exporter = JRPdfExporter()
