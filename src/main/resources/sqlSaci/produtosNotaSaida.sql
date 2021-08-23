@@ -25,18 +25,21 @@ SELECT X.storeno                       AS loja,
        I.costdel3 / 10000              AS stAliq,
        IFNULL(B.barcode, P.barcode)    AS barcode,
        P.mfno_ref                      AS refFor,
+       IFNULL(S.ncm, '')               AS ncm,
        TRIM(MID(P.name, 37, 3))        AS un,
        P.taxno                         AS st,
        IFNULL(X2.cst, '')              AS cst,
        IFNULL(X2.cfo1, '')             AS cfop
-FROM sqldados.xaprd          AS X
-  LEFT JOIN  sqldados.xaprd2 AS X2
+FROM sqldados.xaprd           AS X
+  LEFT JOIN  sqldados.xaprd2  AS X2
 	       USING (storeno, pdvno, xano, prdno, grade)
-  LEFT JOIN  sqldados.prp    AS I
+  LEFT JOIN  sqldados.prp     AS I
 	       ON I.storeno = 10 AND I.prdno = X.prdno
-  LEFT JOIN  sqldados.prdbar AS B
+  LEFT JOIN  sqldados.prdbar  AS B
 	       ON B.prdno = X.prdno AND B.grade = X.grade
-  INNER JOIN sqldados.prd    AS P
+  LEFT JOIN  sqldados.spedprd AS S
+	       ON X.prdno = S.prdno
+  INNER JOIN sqldados.prd     AS P
 	       ON X.prdno = P.no
 WHERE X.storeno = :loja
   AND X.pdvno = :pdv
@@ -112,7 +115,7 @@ SELECT loja,
        T_NF.cfop,
        TRUNCATE(IFNULL(ipiAliq * valorTotal, 0.00), 2) +
        TRUNCATE(IFNULL(stAliq * valorTotal, 0.00), 2) + IFNULL(valorTotal, 0.00) AS valorTotalIpi,
-       barcode,
+       TRIM(barcode)                                                             AS barcode,
        un,
        st,
        IFNULL(invno, 0)                                                          AS invno,
@@ -124,7 +127,7 @@ SELECT loja,
        IFNULL(valorUnitInv, 0.00)                                                AS valorUnitInv,
        IFNULL(valorUnitInv, 0.00) * qtde                                         AS valorTotalInv,
        chaveUlt                                                                  AS chaveUlt,
-       ''                                                                        AS ncm,
+       T_NF.ncm                                                                  AS ncm,
        0.00                                                                      AS baseICMS,
        0.00                                                                      AS valorICMS,
        0.00                                                                      AS baseIPI,
