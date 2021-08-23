@@ -14,7 +14,6 @@ import net.sf.dynamicreports.report.builder.column.ColumnBuilder
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.style.Styles
-import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageType.A4
@@ -27,6 +26,7 @@ import java.awt.Color
 import java.io.ByteArrayOutputStream
 
 class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List<String>) {
+  private val margem = 20
   private val codigoCol: TextColumnBuilder<String> =
           col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
@@ -43,13 +43,13 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
           col.column("NF", ProdutosNotaSaida::notaInv.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
-            this.setFixedWidth(40)
+            this.setFixedWidth(60)
           }
   private val ncmInvCol: TextColumnBuilder<String> =
           col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
-            this.setFixedWidth(50)
+            this.setFixedWidth(70)
           }
   private val refForCol: TextColumnBuilder<String> =
           col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
@@ -61,7 +61,6 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
           col.column("Descrição", ProdutosNotaSaida::refName.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
             this.setTextAdjust(CUT_TEXT)
-            this.setFixedWidth(400)
           }
   private val gradeCol: TextColumnBuilder<String> =
           col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
@@ -167,7 +166,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
   private val barcodeCol: TextColumnBuilder<String> =
           col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(80)
+            this.setFixedWidth(100)
           }
 
   private val cstCol: TextColumnBuilder<String> =
@@ -192,6 +191,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
     return listOf(
       emptyCol(),
       codigoCol,
+      barcodeCol,
       descricaoCol,
       ncmInvCol,
       unCol,
@@ -200,7 +200,8 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
                  )
   }
 
-  private fun emptyCol() = col.emptyColumn().apply { //this.setFixedWidth(10)
+  private fun emptyCol() = col.emptyColumn().apply {
+    this.setFixedWidth(margem)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
@@ -224,7 +225,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
         val cnpj = notaOrigemNDD?.cpnjEmitente ?: ""
         val notaFiscal = notaOrigem?.notaFiscal ?: ""
         val emissao = notaOrigem?.dataEmissao.format()
-        text("", LEFT, 10)
+        text("", LEFT, margem)
         text("Fornecedor: $nome", LEFT).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
@@ -240,14 +241,14 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
         text(emissao, RIGHT, wdEmissao).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text("", LEFT, 10)
+        text("", LEFT, margem)
       }
       horizontalList {
         val nome = notaOrigemNDD?.nomeTransportadora ?: ""
         val cnpj = notaOrigemNDD?.cnpjCPF ?: ""
         val conhecimentoFrete = notaOrigem?.conhecimentoFrete
         val emissao = ""
-        text("", LEFT, 10)
+        text("", LEFT, margem)
         text("Transportadora: $nome", LEFT).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
@@ -263,14 +264,14 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
         text(emissao, RIGHT, wdEmissao).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text("", LEFT, 10)
+        text("", LEFT, margem)
       }
       horizontalList {
         val nome = notaOrigemNDD?.nomeDestinatario ?: ""
         val cnpj = notaOrigemNDD?.cnpjCpfDestinatario ?: ""
         val notaFiscal = notaSaida.nota
         val emissao = notaSaida.dataNota.format()
-        text("", LEFT, 10)
+        text("", LEFT, margem)
         text("Cliente: $nome", LEFT).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
@@ -286,19 +287,19 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
         text(emissao, RIGHT, wdEmissao).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text("", LEFT, 10)
+        text("", LEFT, margem)
       }
 
     }
   }
 
   private fun pageFooterBuilder(): ComponentBuilder<*, *>? {
-    return verticalBlock{
+    return verticalBlock {
       horizontalList {
         text("")
       }
       horizontalList {
-        text("", LEFT, 10)
+        text("", LEFT, margem)
         text("Ocorrências: ", LEFT).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
           this.setFixedWidth(100)
@@ -306,7 +307,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
         text(ocorrencias.joinToString(", "), LEFT).apply {
           this.setStyle(stl.style().setForegroundColor(Color.WHITE))
         }
-        text("", LEFT, 10)
+        text("", LEFT, margem)
       }
     }
   }
@@ -323,21 +324,24 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
     return report().title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
-      .setColumnStyle(stl.style().setFontSize(7))
       .columnGrid(* colunms)
       .setDataSource(itens)
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
-      .setSubtotalStyle(stl.style().setFontSize(8).setPadding(2).setTopBorder(stl.pen1Point()))
-      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .setSummaryStyle(stl.style().setFontSize(10))
+      .setDetailStyle(stl.style().setFontSize(10))
+      .setSubtotalStyle(stl.style().setFontSize(10).setPadding(2).setTopBorder(stl.pen1Point()))
+      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(10)))
       .setColumnStyle(Templates.fieldFontNormal.setForegroundColor(Color.WHITE)
-                        .setFontSize(8)
-                        .setPadding(stl.padding()
-                                      .setRight(4)
-                                      .setLeft(4))) // .setColumnTitleStyle(Templates.fieldFontNormalCol.setForegroundColor(Color.BLACK))
+                        .setFontSize(10)
+                        .setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnTitleStyle(Templates.fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
       .setPageMargin(margin(0))
-      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
+      .setTitleStyle(stl.style()
+                       .setFontSize(10)
+                       .setForegroundColor(Color.WHITE)
+                       .setPadding(Styles.padding().setTop(20)))
       .setGroupStyle(stl.style().setForegroundColor(Color.WHITE))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }
