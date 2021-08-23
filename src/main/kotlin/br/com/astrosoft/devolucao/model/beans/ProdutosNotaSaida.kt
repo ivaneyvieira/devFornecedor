@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.ItensNotaReport
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toDate
 import java.time.LocalDate
@@ -43,6 +44,16 @@ class ProdutosNotaSaida(
   val ipiAliq: Double,
   val sefazOk: String,
                        ) {
+  private val produtosNDD = mutableListOf<ItensNotaReport>()
+
+  fun setProdutoNdd(produtosNDD: List<ItensNotaReport>) {
+    this.produtosNDD.clear()
+    this.produtosNDD.addAll(produtosNDD)
+  }
+
+  val descricaoFornecedor
+    get() = produtosNDD.firstOrNull { it.codigo == refFor }?.descricao ?: refName
+
   var item: Int = 0
   val dateInvDate
     get() = dateInv?.toDate()
