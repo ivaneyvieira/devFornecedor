@@ -10,9 +10,7 @@ import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
-import java.time.DateTimeException
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.mail.internet.InternetAddress
 
 class NotaSaida(val loja: Int,
@@ -155,18 +153,23 @@ class NotaSaida(val loja: Int,
 
   private var notaOrigem: NotaEntradaNdd? = null
 
-  fun findNotaOrigem() {
+  fun findNotaOrigem(): NotaEntradaNdd? {
     notaOrigem = null
     val notaSpt = nota.split("/")
-    val numero = notaSpt.getOrNull(0)?.toIntOrNull() ?: return
-    val serie = notaSpt.getOrNull(1)?.toIntOrNull() ?: return
-    val notaSaida = ndd.produtosNotasSaida(storeno = loja, numero = numero, serie = serie) ?: return
-    val chaveRef = notaSaida.refNFe ?: return
+    val numero = notaSpt.getOrNull(0)?.toIntOrNull() ?: return null
+    val serie = notaSpt.getOrNull(1)?.toIntOrNull() ?: return null
+    val notaSaida = ndd.produtosNotasSaida(storeno = loja, numero = numero, serie = serie) ?: return null
+    val chaveRef = notaSaida.refNFe ?: return null
     notaOrigem = FornecedorNdd.findNota(chaveRef)
+    return notaOrigem
   }
 
-  val transfortadora: String
-    get() = notaOrigem?.transfortadora ?: ""
+  fun notaOrigem(): NotaEntradaNdd? {
+    return notaOrigem ?: findNotaOrigem()
+  }
+
+  val transportadora: String
+    get() = notaOrigem?.transportadora ?: ""
   val conhecimentoFrete: String
     get() = notaOrigem?.conhecimentoFrete ?: ""
   val dataNfOrigemStr: String
