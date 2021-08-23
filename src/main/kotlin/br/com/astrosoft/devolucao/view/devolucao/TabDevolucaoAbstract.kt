@@ -535,6 +535,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
             val multList = CheckboxGroup<EOcorrencias>()
             multList.setItems(EOcorrencias.values().toList().sortedBy { it.num })
             multList.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL)
+            multList.setItemLabelGenerator { it.descricao }
             ConfirmDialog.createQuestion()
               .withCaption("Lista de Ocorrência")
               .withMessage(multList)
