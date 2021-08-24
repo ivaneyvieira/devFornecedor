@@ -160,7 +160,7 @@ SELECT E.storeno                          AS loja,
        IFNULL(RV.rmk, '')                 AS rmkVend,
        ''                                 AS chave,
        'PEDIDO DE COMPRA'                 AS natureza,
-       ''                                 AS chaveDesconto,
+       CONCAT(E.c4, E.c5)                 AS chaveDesconto,
        ''                                 AS observacaoAuxiliar
 FROM sqldados.eord             AS E
   LEFT JOIN sqldados.ords      AS O
@@ -169,7 +169,7 @@ FROM sqldados.eord             AS E
 	      ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
   LEFT JOIN sqldados.store     AS S
 	      ON S.no = E.storeno
-  LEFT JOIN sqldados.custp     AS C
+  INNER JOIN sqldados.custp     AS C
 	      ON C.no = E.custno AND
 		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
 			      709327, 108751)

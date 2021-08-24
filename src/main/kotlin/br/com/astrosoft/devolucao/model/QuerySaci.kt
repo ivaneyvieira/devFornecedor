@@ -540,6 +540,22 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   }
 
   fun salvaDesconto(notaSaida: NotaSaida) {
+    if(notaSaida.tipo == "PED")
+      salvaDescontoPed(notaSaida)
+    else
+    salvaDescontoNota(notaSaida)
+  }
+
+  private fun salvaDescontoPed(notaSaida: NotaSaida) {
+    val sql = "/sqlSaci/notaSaidaUpdateDescontoPed.sql"
+    script(sql) {
+      addOptionalParameter("loja", notaSaida.loja)
+      addOptionalParameter("pedido", notaSaida.pedido)
+      addOptionalParameter("chaveDesconto", notaSaida.chaveDesconto)
+    }
+  }
+
+  private fun salvaDescontoNota(notaSaida: NotaSaida) {
     val sql = "/sqlSaci/notaSaidaUpdateDesconto.sql"
     script(sql) {
       addOptionalParameter("loja", notaSaida.loja)

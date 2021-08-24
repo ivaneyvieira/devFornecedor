@@ -167,7 +167,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorCliente()
     fornecedorNome()
 
-    if (serie in listOf(FIN, Serie01)) {
+    if (serie in listOf(FIN, Serie01, PED)) {
       chaveDesconto()
     }
     else {
@@ -606,7 +606,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       isMultiSort = false
       setSelectionMode(MULTI)
       setItems(listNotas)
-      if (serie == Serie01) {
+      if (serie in listOf(Serie01, PED)) {
         this.withEditor(NotaSaida::class, openEditor = { _ ->
           (getColumnBy(NotaSaida::chaveDesconto).editorComponent as? Focusable<*>)?.focus()
         }, closeEditor = { binder ->
@@ -638,7 +638,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       else {
         notaFatura()
       }
-      if (serie in listOf(Serie01, FIN)) {
+      if (serie in listOf(Serie01, FIN, PED)) {
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator { "marcaDiferenca" }
         }
