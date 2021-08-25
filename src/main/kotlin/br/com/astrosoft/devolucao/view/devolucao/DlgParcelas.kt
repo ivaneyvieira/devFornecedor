@@ -150,7 +150,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
     }
     return VerticalLayout().apply {
-      this.h3("Notas Recebidas")
+      this.h3("Notas a Receber")
       this.addAndExpand(grid)
     }
   }
