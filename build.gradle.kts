@@ -4,13 +4,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
   const val vaadinonkotlin_version = "1.0.7"
-  const val vaadin10_version = "14.6.1"
-  const val kotlin_version = "1.5.0"
+  const val vaadin10_version = "14.6.8"
+  const val kotlin_version = "1.5.30"
   const val vaadin_plugin = "0.14.6.0"
 }
 
 plugins {
-  kotlin("jvm") version "1.5.21"
+  kotlin("jvm") version "1.5.30"
   war
   id("com.vaadin") version "0.14.6.0"
 }
@@ -86,16 +86,13 @@ dependencies {
   implementation(kotlin("stdlib"))
   
   implementation(kotlin("reflect"))
-  // test support
-  testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.16")
-  testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.15")
   // https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core
   implementation("net.sourceforge.dynamicreports:dynamicreports-core:6.12.1") {
     exclude(group = "com.lowagie", module = "itext")
   }
   // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts
-  implementation("net.sf.jasperreports:jasperreports:6.16.0")
-  implementation("net.sf.jasperreports:jasperreports-fonts:6.12.2")
+  implementation("net.sf.jasperreports:jasperreports:6.17.0")
+  implementation("net.sf.jasperreports:jasperreports-fonts:6.17.0")
   implementation("de.f0rce.signaturepad:signature-widget:2.0.0")
   
   implementation("com.lowagie:itext:2.1.7")

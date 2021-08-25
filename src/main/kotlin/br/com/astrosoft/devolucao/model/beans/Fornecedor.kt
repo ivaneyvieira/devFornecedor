@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
+import java.time.LocalDate
 
 class Fornecedor(
   val custno: Int,
@@ -56,6 +57,15 @@ class Fornecedor(
 
   fun saveRmkVend() {
     saci.saveRmkVend(this)
+  }
+
+  fun notasNaoRecebidasFornecedor(): List<NotaEntradaNdd> {
+    val filtro =
+            FiltroEntradaNdd(query = vendno.toString(),
+                             tipo = ETipoNota.RECEBER,
+                             dataInicial = LocalDate.of(2021, 1, 1),
+                             dataFinal = LocalDate.now())
+    return saci.notasEntrada(filtro)
   }
 
   val labelTitle
