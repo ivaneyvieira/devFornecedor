@@ -40,13 +40,13 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     val listNotasNaorecebidas = fornecedor.notasNaoRecebidasFornecedor()
 
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridParcela = createGridParcelas(listParcelas)
+      val gridTitulo = createGridTitulos(listParcelas)
       val gridPedido = createGridPedidos(listPedidos)
-      val gridEntradas = createGridEntradas(listNotasNaorecebidas)
+      val gridNotaEntradas = createGridNotaEntradas(listNotasNaorecebidas)
 
       HorizontalLayout().apply {
         setSizeFull()
-        addAndExpand(gridEntradas, gridParcela, gridPedido)
+        addAndExpand(gridPedido, gridNotaEntradas, gridTitulo)
       }
     }
     form.open()
@@ -58,7 +58,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     return "notas$textTime.xlsx"
   }
 
-  private fun createGridParcelas(listParcelas: List<Parcela>): VerticalLayout {
+  private fun createGridTitulos(listParcelas: List<Parcela>): VerticalLayout {
     val gridDetail = Grid(Parcela::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -86,7 +86,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
     }
     return VerticalLayout().apply {
-      this.h3("Títulos a Vencer")
+      this.h3("Títulos a Pagar")
       this.addAndExpand(grid)
     }
   }
@@ -123,7 +123,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     }
   }
 
-  private fun createGridEntradas(listEntradas: List<NotaEntradaNdd>): VerticalLayout {
+  private fun createGridNotaEntradas(listEntradas: List<NotaEntradaNdd>): VerticalLayout {
     val gridDetail = Grid(NotaEntradaNdd::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -141,7 +141,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
 
       val strTemplate =
               """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
-          |<div><b>Fatura</b>: [[item.fatura]]</div>
+          |<div>[[item.fatura]]</div>
           |</div>""".trimMargin()
       this.setItemDetailsRenderer(TemplateRenderer.of<NotaEntradaNdd?>(strTemplate)
                                     .withProperty("fatura", NotaEntradaNdd::linhaFatura))
