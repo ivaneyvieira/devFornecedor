@@ -46,6 +46,18 @@ class NotaEntradaNdd(val id: Int,
     saci.saveNotaNddPedido(this)
   }
 
+  val linhaFatura : String
+    get()  {
+      val notaReport = itensNotaReport().firstOrNull() ?: return ""
+      return notaReport.faturaDuplicata
+    }
+
+  val valorNota : Double
+    get()  {
+      val notaReport = itensNotaReport().firstOrNull() ?: return 0.00
+      return notaReport.vlNota.toDouble()
+    }
+
   fun itensNotaReport(): List<ItensNotaReport> {
     return produtosNfe()?.itensNotaReport() ?: emptyList()
   }

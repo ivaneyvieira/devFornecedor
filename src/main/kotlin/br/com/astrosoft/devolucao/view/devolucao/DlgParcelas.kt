@@ -1,9 +1,9 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.Fornecedor
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
-import br.com.astrosoft.devolucao.model.beans.Parcela
-import br.com.astrosoft.devolucao.model.beans.Pedido
+import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotasEntradaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotasEntradaViewColumns.pedidoData
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotasEntradaViewColumns.pedidoNumero
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNi
 import br.com.astrosoft.devolucao.view.devolucao.columns.ParcelaViewColumns.parcelaNota
@@ -37,20 +37,22 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     val listPedidos = fornecedor.pedidosFornecedor().filter {
       if (serie == Serie.FIN) it.observacao != "" else true
     }
+    val listNotasNaorecebidas = fornecedor.notasNaoRecebidasFornecedor()
 
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
       val gridParcela = createGridParcelas(listParcelas)
       val gridPedido = createGridPedidos(listPedidos)
+      val gridEntradas = createGridEntradas(listNotasNaorecebidas)
 
       HorizontalLayout().apply {
         setSizeFull()
-        addAndExpand(gridParcela, gridPedido)
+        addAndExpand(gridEntradas, gridParcela, gridPedido)
       }
     }
     form.open()
   }
 
-  private fun filename(): String {
+  fun filename(): String {
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
     val textTime = LocalDateTime.now().format(sdf)
     return "notas$textTime.xlsx"
@@ -71,7 +73,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       parcelaVencimento()
       parcelaValor().apply {
         val totalPedido = listParcelas.sumOf { it.valor }.format()
-        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+        setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
 
       val strTemplate =
@@ -103,7 +105,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       pedidoData()
       pedidoTotal().apply {
         val totalPedido = listPedidos.sumOf { it.total }.format()
-        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
+        setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
 
       val strTemplate =
@@ -117,6 +119,38 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     }
     return VerticalLayout().apply {
       this.h3("Pedidos de Compra Pendentes")
+      this.addAndExpand(grid)
+    }
+  }
+
+  private fun createGridEntradas(listEntradas: List<NotaEntradaNdd>): VerticalLayout {
+    val gridDetail = Grid(NotaEntradaNdd::class.java, false)
+    val grid = gridDetail.apply {
+      setSizeFull()
+      addThemeVariants(GridVariant.LUMO_COMPACT)
+      isMultiSort = false
+      setSelectionMode(Grid.SelectionMode.MULTI)
+      setItems(listEntradas)
+
+      pedidoNumero()
+      pedidoData()
+      notaValor().apply {
+        val total = listEntradas.sumOf { it.valorNota }.format()
+        setFooter(Html("<b><font size=4>${total}</font></b>"))
+      }
+
+      val strTemplate =
+              """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+          |<div><b>Fatura</b>: [[item.fatura]]</div>
+          |</div>""".trimMargin()
+      this.setItemDetailsRenderer(TemplateRenderer.of<NotaEntradaNdd?>(strTemplate)
+                                    .withProperty("fatura", NotaEntradaNdd::linhaFatura))
+      listEntradas.forEach { parcela ->
+        this.setDetailsVisible(parcela, true)
+      }
+    }
+    return VerticalLayout().apply {
+      this.h3("Notas Recebidas")
       this.addAndExpand(grid)
     }
   }
