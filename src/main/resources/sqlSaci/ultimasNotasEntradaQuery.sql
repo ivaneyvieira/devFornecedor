@@ -14,6 +14,17 @@ DO @mva := :mva;
 DO @ncm := :ncm;
 DO @rotulo := :rotulo;
 
+DROP TEMPORARY TABLE IF EXISTS T_MFPRD;
+CREATE TEMPORARY TABLE T_MFPRD (
+  PRIMARY KEY (prdno, grade)
+)
+SELECT prdnoRef                                                           AS prdno,
+       grade,
+       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(barcode))), 11, 100) AS barcode
+FROM sqldados.mfprd
+WHERE TRIM(prdnoRef) <> ''
+GROUP BY prdnoRef, grade;
+
 DROP TEMPORARY TABLE IF EXISTS T_NCM;
 CREATE TEMPORARY TABLE T_NCM (
   PRIMARY KEY (prdnoRef),
@@ -37,6 +48,7 @@ CREATE TEMPORARY TABLE T_PRD (
 )
 SELECT no,
        name,
+       barcode,
        mfno,
        taxno,
        lucroTributado
@@ -72,21 +84,27 @@ SELECT iprd.storeno                                                           AS
        inv.nfname                                                             AS nfe,
        IF(baseIcms = 0, 0.00, IF(MID(iprd.cstIcms, 2, 3) = '20',
 				 ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2),
-				 NULL))                                       AS icmsd
+				 NULL))                                       AS icmsd,
+       TRIM(IFNULL(B.barcode, prd.barcode))                                   AS barcodep,
+       TRIM(IFNULL(M.barcode, ''))                                            AS barcoden
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
-  INNER JOIN T_VEND AS vend
+  INNER JOIN T_VEND          AS vend
 	       ON vend.no = inv.vendno
-  INNER JOIN T_PRD  AS prd
+  INNER JOIN T_PRD           AS prd
 	       ON (prd.no = iprd.prdno)
+  LEFT JOIN  sqldados.prdbar AS B
+	       USING (prdno, grade)
+  LEFT JOIN  T_MFPRD         AS M
+	       USING (prdno, grade)
   LEFT JOIN  sqldados.prp
 	       ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
   INNER JOIN sqldados.cfo
 	       ON (cfo.no = iprd.cfop)
   LEFT JOIN  sqldados.spedprd
 	       ON (spedprd.prdno = prd.no)
-  LEFT JOIN  T_NCM  AS mfprd
+  LEFT JOIN  T_NCM           AS mfprd
 	       ON (iprd.prdno = mfprd.prdnoRef)
 WHERE inv.date BETWEEN @di AND @df
   AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
@@ -113,6 +131,7 @@ SELECT Prod,
        IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')                           AS ipiDif,
        IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                           AS mvaDif,
        IF(NCMn = NCMp, 'S', 'N')                                                     AS ncmDif,
+       IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif,
        MAX(NI)                                                                       AS NI
 FROM sqldados.T_QUERY
 GROUP BY Prod, cstDif, icmsDif, ipiDif, mvaDif, ncmDif;
@@ -123,7 +142,8 @@ CREATE TABLE sqldados.query1234567 (
   INDEX (icmsDif),
   INDEX (ipiDif),
   INDEX (mvaDif),
-  INDEX (ncmDif)
+  INDEX (ncmDif),
+  INDEX (barcodeDif)
 )
 SELECT lj,
        ni,
@@ -149,7 +169,10 @@ SELECT lj,
        icmsDif,
        ipiDif,
        mvaDif,
-       ncmDif
+       ncmDif,
+       barcodep,
+       barcoden,
+       barcodeDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, NI)

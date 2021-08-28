@@ -441,9 +441,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun ultimasNotasEntrada(filtro: FiltroUltimaNotaEntrada): List<UltimaNotaEntrada> {
+  fun ultimasNfPrec(filtro: FiltroNfPrecEntrada): List<NfPrecEntrada> {
     val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
-    return query(sql, UltimaNotaEntrada::class) {
+    return query(sql, NfPrecEntrada::class) {
       addOptionalParameter("storeno", filtro.storeno)
       addOptionalParameter("di", filtro.di.toSaciDate())
       addOptionalParameter("df", filtro.df.toSaciDate())
@@ -456,10 +456,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ipi", filtro.ipi.str)
       addOptionalParameter("mva", filtro.mva.str)
       addOptionalParameter("ncm", filtro.ncm.str)
+      addOptionalParameter("barcode", filtro.barcode.str)
     }
   }
 
-  fun queryUltimaNota(filter: FiltroUltimaNotaEntrada) {
+  fun queryNfPrec(filter: FiltroNfPrecEntrada) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasEntradaQueryUtm.sql"
     else "/sqlSaci/ultimasNotasEntradaQuery.sql"
     script(sql) {
@@ -476,14 +477,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ipi", filter.ipi.str)
       addOptionalParameter("mva", filter.mva.str)
       addOptionalParameter("ncm", filter.ncm.str)
+      addOptionalParameter("barcode", filter.barcode.str)
       addOptionalParameter("rotulo", filter.rotulo)
     }
   }
 
-  private fun <R : Any> filtroUltimaNota(filter: FiltroUltimaNotaEntrada,
-                                         sql: String,
-                                         complemento: String? = null,
-                                         result: (Query) -> R): R {
+  private fun <R : Any> filtroNfPrec(filter: FiltroNfPrecEntrada,
+                                     sql: String,
+                                     complemento: String? = null,
+                                     result: (Query) -> R): R {
     return querySerivce(sql, complemento, lambda = {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
@@ -497,30 +499,31 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ipi", filter.ipi.str)
       addOptionalParameter("mva", filter.mva.str)
       addOptionalParameter("ncm", filter.ncm.str)
+      addOptionalParameter("barcode", filter.barcode.str)
     }, result = result)
   }
 
-  fun countUltimaNota(filter: FiltroUltimaNotaEntrada): Int {
+  fun countNfPrec(filter: FiltroNfPrecEntrada): Int {
     val sql = "/sqlSaci/ultimasNotasEntradaCount.sql"
-    return filtroUltimaNota(filter, sql) {
+    return filtroNfPrec(filter, sql) {
       it.executeScalar(Int::class.java)
     }
   }
 
-  fun fetchUltimaNota(
-    filter: FiltroUltimaNotaEntrada,
+  fun fetchNfPrec(
+    filter: FiltroNfPrecEntrada,
     offset: Int,
     limit: Int,
     sortOrders: List<SortOrder>,
-                     ): List<UltimaNotaEntrada> {
+                 ): List<NfPrecEntrada> {
     val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
     val orderBy = if (sortOrders.isEmpty()) ""
     else "ORDER BY " + sortOrders.joinToString(separator = ", ") { it.sql() }
     val complemento = """
       |$orderBy 
       |LIMIT $limit OFFSET $offset""".trimMargin()
-    return filtroUltimaNota(filter, sql, complemento) {
-      it.executeAndFetch(UltimaNotaEntrada::class.java)
+    return filtroNfPrec(filter, sql, complemento) {
+      it.executeAndFetch(NfPrecEntrada::class.java)
     }
   }
 

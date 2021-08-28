@@ -10,6 +10,7 @@ DO @icms := :icms;
 DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
+DO @barcode := :barcode;
 
 SELECT lj,
        ni,
@@ -35,12 +36,16 @@ SELECT lj,
        icmsDif,
        ipiDif,
        mvaDif,
-       ncmDif
+       ncmDif,
+       barcodep,
+       barcoden,
+       barcodeDif
 FROM sqldados.query1234567
 WHERE @cst = cstDif
    OR @icms = icmsDif
    OR @ipi = ipiDif
    OR @mva = mvaDif
    OR @ncm = ncmDif
-   OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T')
+   OR @barcode = barcodeDif
+   OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T' AND @barcode = 'T')
 

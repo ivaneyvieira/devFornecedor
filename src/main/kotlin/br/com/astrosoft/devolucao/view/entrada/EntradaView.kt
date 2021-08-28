@@ -18,7 +18,7 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val tabEntradaNddViewModel = TabEntradaNdd(viewModel.tabEntradaNddViewModel)
   override val tabEntradaNddReceberViewModel = TabEntradaNddReceber(viewModel.tabEntradaNddReceberViewModel)
   override val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebido(viewModel.tabEntradaNddRecebidoViewModel)
-  override val tabUltimasEntradasViewModel = TabUltimasEntradas(viewModel.tabUltimasEntradasViewModel)
+  override val tabNfPrecViewModel = TabNfPrec(viewModel.tabNfPrecViewModel)
   override val tabTodasEntradasViewModel = TabTodasEntradas(viewModel.tabTodasEntradasViewModel)
 
   override fun isAccept(user: IUser): Boolean {

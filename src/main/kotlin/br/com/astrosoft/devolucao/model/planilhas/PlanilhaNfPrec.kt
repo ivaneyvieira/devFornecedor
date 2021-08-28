@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model.planilhas
 
-import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
@@ -14,8 +14,8 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 
-class PlanilhaUltimaNota {
-  private val campos: List<Campo<*, UltimaNotaEntrada>> =
+class PlanilhaNfPrec {
+  private val campos: List<Campo<*, NfPrecEntrada>> =
           listOf(CampoInt("lj") { lj },
                  CampoInt("ni") { ni },
                  CampoString("data") { data.format() },
@@ -35,7 +35,7 @@ class PlanilhaUltimaNota {
                  CampoString("ncmn") { ncmn },
                  CampoString("ncmp") { ncmp })
 
-  fun grava(listaNotas: List<UltimaNotaEntrada>): ByteArray {
+  fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {
       val headerStyle = cellStyle("Header") {
         fillForegroundColor = IndexedColors.GREY_25_PERCENT.index
