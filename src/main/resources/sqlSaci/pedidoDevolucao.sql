@@ -123,62 +123,62 @@ WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno;
 
-SELECT E.storeno                          AS loja,
-       S.sname                            AS sigla,
-       IFNULL(N.pdv, 0)                   AS pdv,
-       IFNULL(N.transacao, E.ordno)       AS transacao,
-       E.ordno                            AS pedido,
-       CAST(E.date AS DATE)               AS dataPedido,
-       IFNULL(N.nota, 0)                  AS nota,
-       IFNULL(N.fatura, 0)                AS fatura,
-       N.dataNota                         AS dataNota,
-       E.custno                           AS custno,
-       IFNULL(C.name, '')                 AS fornecedor,
-       IFNULL(C.email, '')                AS email,
-       IFNULL(V.no, 0)                    AS vendno,
-       IFNULL(V.auxLong4, 0)              AS fornecedorSap,
-       IFNULL(N.rmk, '')                  AS rmk,
-       IFNULL(N.valor, E.amount / 100)    AS valor,
-       IFNULL(N.obsNota, '')              AS obsNota,
-       IFNULL(N.serie01Rejeitada, '')     AS serie01Rejeitada,
-       IFNULL(N.serie01Pago, '')          AS serie01Pago,
-       IFNULL(N.serie01Coleta, '')        AS serie01Coleta,
-       IFNULL(N.serie66Pago, '')          AS serie66Pago,
-       IFNULL(N.remessaConserto, '')      AS remessaConserto,
-       IFNULL(N.remarks, '')              AS remarks,
-       IFNULL(N.baseIcms, 0.00)           AS baseIcms,
-       IFNULL(N.valorIcms, 0.00)          AS valorIcms,
-       IFNULL(N.baseIcmsSubst, 0.00)      AS baseIcmsSubst,
-       IFNULL(N.icmsSubst, 0.00)          AS icmsSubst,
-       IFNULL(N.valorFrete, 0.00)         AS valorFrete,
-       IFNULL(N.valorSeguro, 0.00)        AS valorSeguro,
-       IFNULL(N.outrasDespesas, 0.00)     AS outrasDespesas,
-       IFNULL(N.valorIpi, 0.00)           AS valorIpi,
-       IFNULL(N.valorTotal, 0.00)         AS valorTotal,
-       TRIM(IFNULL(OBS.remarks__480, '')) AS obsPedido,
-       'PED'                              AS tipo,
-       IFNULL(RV.rmk, '')                 AS rmkVend,
-       ''                                 AS chave,
-       'PEDIDO DE COMPRA'                 AS natureza,
-       CONCAT(E.c4, E.c5)                 AS chaveDesconto,
-       ''                                 AS observacaoAuxiliar
-FROM sqldados.eord             AS E
-  LEFT JOIN sqldados.ords      AS O
-	      ON O.no = E.ordno AND O.storeno = E.storeno
-  LEFT JOIN sqldados.eordrk    AS OBS
-	      ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
-  LEFT JOIN sqldados.store     AS S
-	      ON S.no = E.storeno
+SELECT E.storeno                                      AS loja,
+       S.sname                                        AS sigla,
+       IFNULL(N.pdv, 0)                               AS pdv,
+       IFNULL(N.transacao, E.ordno)                   AS transacao,
+       E.ordno                                        AS pedido,
+       CAST(E.date AS DATE)                           AS dataPedido,
+       IFNULL(N.nota, 0)                              AS nota,
+       IFNULL(N.fatura, 0)                            AS fatura,
+       N.dataNota                                     AS dataNota,
+       E.custno                                       AS custno,
+       IFNULL(C.name, '')                             AS fornecedor,
+       IFNULL(C.email, '')                            AS email,
+       IFNULL(V.no, 0)                                AS vendno,
+       IFNULL(V.auxLong4, 0)                          AS fornecedorSap,
+       IFNULL(N.rmk, '')                              AS rmk,
+       IFNULL(N.valor, E.amount / 100)                AS valor,
+       IFNULL(N.obsNota, '')                          AS obsNota,
+       IFNULL(N.serie01Rejeitada, '')                 AS serie01Rejeitada,
+       IF(CONCAT(E.c4, E.c5) LIKE '%PAGO%', 'S', 'N') AS serie01Pago,
+       IFNULL(N.serie01Coleta, '')                    AS serie01Coleta,
+       IFNULL(N.serie66Pago, '')                      AS serie66Pago,
+       IFNULL(N.remessaConserto, '')                  AS remessaConserto,
+       IFNULL(N.remarks, '')                          AS remarks,
+       IFNULL(N.baseIcms, 0.00)                       AS baseIcms,
+       IFNULL(N.valorIcms, 0.00)                      AS valorIcms,
+       IFNULL(N.baseIcmsSubst, 0.00)                  AS baseIcmsSubst,
+       IFNULL(N.icmsSubst, 0.00)                      AS icmsSubst,
+       IFNULL(N.valorFrete, 0.00)                     AS valorFrete,
+       IFNULL(N.valorSeguro, 0.00)                    AS valorSeguro,
+       IFNULL(N.outrasDespesas, 0.00)                 AS outrasDespesas,
+       IFNULL(N.valorIpi, 0.00)                       AS valorIpi,
+       IFNULL(N.valorTotal, 0.00)                     AS valorTotal,
+       TRIM(IFNULL(OBS.remarks__480, ''))             AS obsPedido,
+       'PED'                                          AS tipo,
+       IFNULL(RV.rmk, '')                             AS rmkVend,
+       ''                                             AS chave,
+       'PEDIDO DE COMPRA'                             AS natureza,
+       CONCAT(E.c4, E.c5)                             AS chaveDesconto,
+       ''                                             AS observacaoAuxiliar
+FROM sqldados.eord              AS E
+  LEFT JOIN  sqldados.ords      AS O
+	       ON O.no = E.ordno AND O.storeno = E.storeno
+  LEFT JOIN  sqldados.eordrk    AS OBS
+	       ON OBS.storeno = E.storeno AND OBS.ordno = E.ordno
+  LEFT JOIN  sqldados.store     AS S
+	       ON S.no = E.storeno
   INNER JOIN sqldados.custp     AS C
-	      ON C.no = E.custno AND
-		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
-			      709327, 108751)
-  LEFT JOIN sqldados.vend      AS V
-	      ON C.cpf_cgc = V.cgc
-  LEFT JOIN sqldados.nfvendRmk AS RV
-	      ON RV.vendno = V.no AND RV.tipo = 'PED'
-  LEFT JOIN T_NOTA             AS N
-	      ON E.storeno = N.loja AND E.ordno = N.pedido
+	       ON C.no = E.custno AND
+		  C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+			       709327, 108751)
+  LEFT JOIN  sqldados.vend      AS V
+	       ON C.cpf_cgc = V.cgc
+  LEFT JOIN  sqldados.nfvendRmk AS RV
+	       ON RV.vendno = V.no AND RV.tipo = 'PED'
+  LEFT JOIN  T_NOTA             AS N
+	       ON E.storeno = N.loja AND E.ordno = N.pedido
 WHERE E.paymno = 315
   AND N.loja IS NULL
   AND (E.storeno = @LOJA OR @LOJA = 0)

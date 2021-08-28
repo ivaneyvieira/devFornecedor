@@ -28,6 +28,7 @@ import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant
 import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
@@ -42,7 +43,7 @@ import java.time.format.DateTimeFormatter
 
 @CssImport("./styles/gridTotal.css")
 class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
-  fun showDialogNota(fornecedor: Fornecedor?, serie: Serie) {
+  fun showDialogNota(fornecedor: Fornecedor?, serie: Serie, onClose: (Dialog) -> Unit = {}) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
@@ -109,7 +110,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-    }) {
+    }, onClose = onClose) {
       gridNota = createGridNotas(listNotas, serie)
       gridNota
     }
