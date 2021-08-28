@@ -1,8 +1,10 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferenca
-import br.com.astrosoft.devolucao.model.beans.FiltroUltimaNotaEntrada
-import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
+import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcoden
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodep
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
@@ -23,7 +25,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabUltimasEntradasViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -41,9 +43,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val filtro: FiltroUltimaNotaEntrada) {
-  private lateinit var gridNota: Grid<UltimaNotaEntrada>
-  private val dataProviderGrid = ListDataProvider<UltimaNotaEntrada>(mutableListOf())
+class DlgRelatorioUltimaCompra(val viewModel: TabNfPrecViewModel, val filtro: FiltroNfPrecEntrada) {
+  private lateinit var gridNota: Grid<NfPrecEntrada>
+  private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -107,6 +109,15 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
           gridNota.setItems(list)
         }
       }
+      this.comboDiferenca("Código de Barras") {
+        value = filtro.barcode
+
+        this.addValueChangeListener {
+          filtro.barcode = it.value
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
+        }
+      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       val list = viewModel.findNotas(filtro)
@@ -119,8 +130,8 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
     form.open()
   }
 
-  private fun createGrid(dataProvider: ListDataProvider<UltimaNotaEntrada>): Grid<UltimaNotaEntrada> {
-    return Grid(UltimaNotaEntrada::class.java, false).apply {
+  private fun createGrid(dataProvider: ListDataProvider<NfPrecEntrada>): Grid<NfPrecEntrada> {
+    return Grid(NfPrecEntrada::class.java, false).apply {
       setSizeFull()
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
@@ -145,13 +156,15 @@ class DlgRelatorioUltimaCompra(val viewModel: TabUltimasEntradasViewModel, val f
       notaCstp().marcaDiferenca { cstDif == "N" }
       notaMvan().marcaDiferenca { mvaDif == "N" }
       notaMvap().marcaDiferenca { mvaDif == "N" }
+      notaBarcoden().marcaDiferenca { barcodeDif == "N" }
+      notaBarcodep().marcaDiferenca { barcodeDif == "N" }
       notaNcmn().marcaDiferenca { ncmDif == "N" }
       notaNcmp().marcaDiferenca { ncmDif == "N" }
     }
   }
 }
 
-fun Grid.Column<UltimaNotaEntrada>.marcaDiferenca(predicado: UltimaNotaEntrada.() -> Boolean) {
+fun Grid.Column<NfPrecEntrada>.marcaDiferenca(predicado: NfPrecEntrada.() -> Boolean) {
   this.setClassNameGenerator {
     if (it.predicado()) "marcaDiferenca" else null
   }

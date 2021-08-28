@@ -10,6 +10,7 @@ DO @icms := :icms;
 DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
+DO @barcode := :barcode;
 
 SELECT COUNT(*)
 FROM sqldados.query1234567
@@ -18,5 +19,6 @@ WHERE @cst = cstDif
    OR @ipi = ipiDif
    OR @mva = mvaDif
    OR @ncm = ncmDif
-   OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T')
+   OR @barcode = barcodeDif
+   OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T' AND @barcode = 'T')
 

@@ -18,7 +18,9 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
+import com.github.mvysny.karibudsl.v10.flexGrow
 import com.github.mvysny.karibudsl.v10.h3
+import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
@@ -40,13 +42,11 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     val listNotasNaorecebidas = fornecedor.notasNaoRecebidasFornecedor()
 
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridTitulo = createGridTitulos(listParcelas)
-      val gridPedido = createGridPedidos(listPedidos)
-      val gridNotaEntradas = createGridNotaEntradas(listNotasNaorecebidas)
-
       HorizontalLayout().apply {
         setSizeFull()
-        addAndExpand(gridPedido, gridNotaEntradas, gridTitulo)
+        createGridPedidos(listPedidos, 3.0)
+        createGridNotaEntradas(listNotasNaorecebidas, 6.0)
+        createGridTitulos(listParcelas, 3.0)
       }
     }
     form.open()
@@ -58,7 +58,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     return "notas$textTime.xlsx"
   }
 
-  private fun createGridTitulos(listParcelas: List<Parcela>): VerticalLayout {
+  private fun HorizontalLayout.createGridTitulos(listParcelas: List<Parcela>, flex: Double): VerticalLayout {
     val gridDetail = Grid(Parcela::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -85,13 +85,14 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
         this.setDetailsVisible(parcela, true)
       }
     }
-    return VerticalLayout().apply {
+    return verticalLayout {
+      this.flexGrow = flex
       this.h3("Títulos a Pagar")
       this.addAndExpand(grid)
     }
   }
 
-  private fun createGridPedidos(listPedidos: List<Pedido>): VerticalLayout {
+  private fun HorizontalLayout.createGridPedidos(listPedidos: List<Pedido>, flex: Double): VerticalLayout {
     val gridDetail = Grid(Pedido::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -117,13 +118,15 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
         this.setDetailsVisible(parcela, true)
       }
     }
-    return VerticalLayout().apply {
+    return verticalLayout() {
+      this.flexGrow = flex
       this.h3("Pedidos de Compra Pendentes")
       this.addAndExpand(grid)
     }
   }
 
-  private fun createGridNotaEntradas(listEntradas: List<NotaEntradaNdd>): VerticalLayout {
+  private fun HorizontalLayout.createGridNotaEntradas(listEntradas: List<NotaEntradaNdd>,
+                                                      flex: Double): VerticalLayout {
     val gridDetail = Grid(NotaEntradaNdd::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -149,7 +152,8 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
         this.setDetailsVisible(parcela, true)
       }
     }
-    return VerticalLayout().apply {
+    return verticalLayout {
+      this.flexGrow = flex
       this.h3("Notas a Receber")
       this.addAndExpand(grid)
     }

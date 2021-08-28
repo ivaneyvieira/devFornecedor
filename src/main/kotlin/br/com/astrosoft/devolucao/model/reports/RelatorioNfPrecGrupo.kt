@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntradaGrupo
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
@@ -13,18 +13,18 @@ import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
 
-class RelatorioUltimasNotasGrupo(val notas: List<UltimaNotaEntradaGrupo>) : ReportBuild<UltimaNotaEntradaGrupo>() {
+class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>) : ReportBuild<NfPrecEntradaGrupo>() {
   init {
-    columnString(UltimaNotaEntradaGrupo::dataStr, width = 80, title = "Data")
-    columnString(UltimaNotaEntradaGrupo::nfe, width = 80, aligment = CENTER, title = "NF")
-    columnString(UltimaNotaEntradaGrupo::prod, width = 60, aligment = CENTER, title = "Prod")
-    columnString(UltimaNotaEntradaGrupo::descricao, title = "Descrição", width = 180) {
+    columnString(NfPrecEntradaGrupo::dataStr, width = 80, title = "Data")
+    columnString(NfPrecEntradaGrupo::nfe, width = 80, aligment = CENTER, title = "NF")
+    columnString(NfPrecEntradaGrupo::prod, width = 60, aligment = CENTER, title = "Prod")
+    columnString(NfPrecEntradaGrupo::descricao, title = "Descrição", width = 180) {
       this.setTextAdjust(TextAdjust.SCALE_FONT)
     }
-    columnString(UltimaNotaEntradaGrupo::valorNota, title = "NF", width = 80, aligment = RIGHT) {
+    columnString(NfPrecEntradaGrupo::valorNota, title = "NF", width = 80, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW))
     }
-    columnString(UltimaNotaEntradaGrupo::valorPrecificacao, title = "Prec", width = 80, aligment = RIGHT) {
+    columnString(NfPrecEntradaGrupo::valorPrecificacao, title = "Prec", width = 80, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW))
     }
   }
@@ -40,7 +40,7 @@ class RelatorioUltimasNotasGrupo(val notas: List<UltimaNotaEntradaGrupo>) : Repo
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(padding(20)))
   }
 
-  override fun labelTitleCol() = columnString(UltimaNotaEntradaGrupo::nomeGrupo)
+  override fun labelTitleCol() = columnString(NfPrecEntradaGrupo::nomeGrupo)
 
   override val propriedades =
           PropriedadeRelatorio(titulo = "NF x Precificação",
@@ -48,11 +48,11 @@ class RelatorioUltimasNotasGrupo(val notas: List<UltimaNotaEntradaGrupo>) : Repo
                                color = Color.WHITE,
                                pageOrientation = PORTRAIT)
 
-  override fun listDataSource(): List<UltimaNotaEntradaGrupo> = notas
+  override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 
   companion object {
-    fun processaRelatorio(notas: List<UltimaNotaEntradaGrupo>): ByteArray {
-      val report = RelatorioUltimasNotasGrupo(notas).makeReport()
+    fun processaRelatorio(notas: List<NfPrecEntradaGrupo>): ByteArray {
+      val report = RelatorioNfPrecGrupo(notas).makeReport()
       val printList = listOf(report.toJasperPrint())
       return renderReport(printList)
     }

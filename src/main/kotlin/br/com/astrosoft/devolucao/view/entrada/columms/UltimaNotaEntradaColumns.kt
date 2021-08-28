@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada.columms
 
-import br.com.astrosoft.devolucao.model.beans.UltimaNotaEntrada
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
@@ -8,83 +8,92 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 object UltimaNotaEntradaColumns {
-  fun Grid<UltimaNotaEntrada>.notaLoja() = addColumnInt(UltimaNotaEntrada::lj) {
+  fun Grid<NfPrecEntrada>.notaLoja() = addColumnInt(NfPrecEntrada::lj) {
     this.setHeader("Loja")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaNi() = addColumnInt(UltimaNotaEntrada::ni) {
+  fun Grid<NfPrecEntrada>.notaNi() = addColumnInt(NfPrecEntrada::ni) {
     this.setHeader("NI")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaData() = addColumnLocalDate(UltimaNotaEntrada::data) {
+  fun Grid<NfPrecEntrada>.notaData() = addColumnLocalDate(NfPrecEntrada::data) {
     this.setHeader("Data")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaNfe() = addColumnString(UltimaNotaEntrada::nfe) {
+  fun Grid<NfPrecEntrada>.notaNfe() = addColumnString(NfPrecEntrada::nfe) {
     this.setHeader("Nfe")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaFornCad() = addColumnString(UltimaNotaEntrada::fornCad) {
+  fun Grid<NfPrecEntrada>.notaFornCad() = addColumnString(NfPrecEntrada::fornCad) {
     this.setHeader("F Cad")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaFornNota() = addColumnString(UltimaNotaEntrada::fornNota) {
+  fun Grid<NfPrecEntrada>.notaFornNota() = addColumnString(NfPrecEntrada::fornNota) {
     this.setHeader("F Nota")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaProd() = addColumnString(UltimaNotaEntrada::prod) {
+  fun Grid<NfPrecEntrada>.notaProd() = addColumnString(NfPrecEntrada::prod) {
     this.setHeader("Prod")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaDescricao() = addColumnString(UltimaNotaEntrada::descricao) {
+  fun Grid<NfPrecEntrada>.notaDescricao() = addColumnString(NfPrecEntrada::descricao) {
     this.setHeader("Descrição")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaIcmsn() = addColumnDouble(UltimaNotaEntrada::icmsn) {
+  fun Grid<NfPrecEntrada>.notaIcmsn() = addColumnDouble(NfPrecEntrada::icmsn) {
     this.setHeader("ICMS N")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaIcmsp() = addColumnDouble(UltimaNotaEntrada::icmsp) {
+  fun Grid<NfPrecEntrada>.notaIcmsp() = addColumnDouble(NfPrecEntrada::icmsp) {
     this.setHeader("ICMS P")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaIcmsr() = addColumnDouble(UltimaNotaEntrada::icmsc) {
+  fun Grid<NfPrecEntrada>.notaIcmsr() = addColumnDouble(NfPrecEntrada::icmsc) {
     this.setHeader("ICMS R")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaRedIcms() = addColumnDouble(UltimaNotaEntrada::icmsd) {
+  fun Grid<NfPrecEntrada>.notaRedIcms() = addColumnDouble(NfPrecEntrada::icmsd) {
     this.setHeader("Red %")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaIpin() = addColumnDouble(UltimaNotaEntrada::ipin) {
+  fun Grid<NfPrecEntrada>.notaIpin() = addColumnDouble(NfPrecEntrada::ipin) {
     this.setHeader("IPI N")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaIpip() = addColumnDouble(UltimaNotaEntrada::ipip) {
+  fun Grid<NfPrecEntrada>.notaIpip() = addColumnDouble(NfPrecEntrada::ipip) {
     this.setHeader("IPI P")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaCstn() = addColumnString(UltimaNotaEntrada::cstn) {
+  fun Grid<NfPrecEntrada>.notaCstn() = addColumnString(NfPrecEntrada::cstn) {
     this.setHeader("CST N")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaCstp() = addColumnString(UltimaNotaEntrada::cstp) {
+  fun Grid<NfPrecEntrada>.notaCstp() = addColumnString(NfPrecEntrada::cstp) {
     this.setHeader("CST P")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaMvan() = addColumnDouble(UltimaNotaEntrada::mvan) {
+  fun Grid<NfPrecEntrada>.notaMvan() = addColumnDouble(NfPrecEntrada::mvan) {
     this.setHeader("MVA N")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaMvap() = addColumnDouble(UltimaNotaEntrada::mvap) {
+  fun Grid<NfPrecEntrada>.notaMvap() = addColumnDouble(NfPrecEntrada::mvap) {
     this.setHeader("MVA P")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaNcmn() = addColumnString(UltimaNotaEntrada::ncmn) {
+  fun Grid<NfPrecEntrada>.notaBarcodep() = addColumnString(NfPrecEntrada::barcodep) {
+    this.setHeader("Barras P")
+  }
+
+  fun Grid<NfPrecEntrada>.notaBarcoden() = addColumnString(NfPrecEntrada::barcoden) {
+    this.setHeader("Barras N")
+  }
+
+  fun Grid<NfPrecEntrada>.notaNcmn() = addColumnString(NfPrecEntrada::ncmn) {
     this.setHeader("NCM N")
   }
 
-  fun Grid<UltimaNotaEntrada>.notaNcmp() = addColumnString(UltimaNotaEntrada::ncmp) {
+
+  fun Grid<NfPrecEntrada>.notaNcmp() = addColumnString(NfPrecEntrada::ncmp) {
     this.setHeader("NCM P")
   }
 }
