@@ -9,6 +9,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 class SubWindowForm(
   protected val labelTitle: String,
   val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
+  val onClose: (Dialog) -> Unit = {},
   val blockForm: () -> Component,
                    ) : Dialog() {
   init {
@@ -23,7 +24,8 @@ class SubWindowForm(
         button("Fechar") {
           icon = VaadinIcon.CLOSE.create()
           onLeftClick {
-            close()
+            onClose(this@SubWindowForm)
+            this@SubWindowForm.close()
           }
         }
         toolBar(this@SubWindowForm)
