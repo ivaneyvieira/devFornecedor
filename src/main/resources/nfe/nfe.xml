@@ -1,270 +1,377 @@
 <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-  <infNFe versao="4.00" Id="NFe21210810560844000140550010000382421000355498">
+  <infNFe versao="4.00" Id="NFe35210810446252000100550010000105061000083511">
     <ide>
-      <cUF>21</cUF>
-      <cNF>00035549</cNF>
-      <natOp>Venda de producao do estabelecimento em operacao com produto</natOp>
+      <cUF>35</cUF>
+      <cNF>00008351</cNF>
+      <natOp>VENDA</natOp>
       <mod>55</mod>
       <serie>1</serie>
-      <nNF>38242</nNF>
-      <dhEmi>2021-08-24T14:23:40-03:00</dhEmi>
-      <dhSaiEnt>2021-08-24T14:23:40-03:00</dhSaiEnt>
+      <nNF>10506</nNF>
+      <dhEmi>2021-08-03T09:31:55-03:00</dhEmi>
       <tpNF>1</tpNF>
       <idDest>2</idDest>
-      <cMunFG>2111300</cMunFG>
-      <tpImp>1</tpImp>
+      <cMunFG>3523404</cMunFG>
+      <tpImp>2</tpImp>
       <tpEmis>1</tpEmis>
-      <cDV>8</cDV>
+      <cDV>1</cDV>
       <tpAmb>1</tpAmb>
       <finNFe>1</finNFe>
       <indFinal>0</indFinal>
-      <indPres>3</indPres>
-      <indIntermed>0</indIntermed>
+      <indPres>0</indPres>
       <procEmi>0</procEmi>
-      <verProc>6.1.1.157</verProc>
+      <verProc>FTP400B4</verProc>
     </ide>
     <emit>
-      <CNPJ>10560844000140</CNPJ>
-      <xNome>Rejuntamix Ind Com Argamassas Maranhao</xNome>
-      <xFant>Rejuntamix - Ma</xFant>
+      <CNPJ>10446252000100</CNPJ>
+      <xNome>METALURGICA ITATIBA EIRELI</xNome>
+      <xFant>METALURGICA ITATIBA EIRELI</xFant>
       <enderEmit>
-        <xLgr>AV ENGENHEIRO EMILIANO MACIEIRA</xLgr>
-        <nro>638</nro>
-        <xCpl>A</xCpl>
-        <xBairro>Pedrinhas</xBairro>
-        <cMun>2111300</cMun>
-        <xMun>SAO LUIS</xMun>
-        <UF>MA</UF>
-        <CEP>65095603</CEP>
+        <xLgr>RODOVIA ENGENHEIRO CONSTANCIO CINTRA</xLgr>
+        <nro>KM 78.2</nro>
+        <xBairro>PINHAL</xBairro>
+        <cMun>3523404</cMun>
+        <xMun>ITATIBA</xMun>
+        <UF>SP</UF>
+        <CEP>13255846</CEP>
         <cPais>1058</cPais>
-        <xPais>Brasil</xPais>
-        <fone>9820167750</fone>
+        <xPais>BRASIL</xPais>
+        <fone>1145941356</fone>
       </enderEmit>
-      <IE>123106079</IE>
+      <IE>382152683113</IE>
       <CRT>3</CRT>
     </emit>
     <dest>
       <CNPJ>07483654000405</CNPJ>
-      <xNome>Engecopi Comercio De Materiais De Construcao Ltda</xNome>
+      <xNome>ENGECOPI COM.DE MATERIAIS DE CONSTRUCOES LTDA</xNome>
       <enderDest>
-        <xLgr>R MAGALHAES FILHO 2001</xLgr>
-        <nro>0</nro>
-        <xBairro>Margues</xBairro>
+        <xLgr>RUA MAGALHAES FILHO</xLgr>
+        <nro>2001</nro>
+        <xBairro>MARQUES</xBairro>
         <cMun>2211001</cMun>
         <xMun>TERESINA</xMun>
         <UF>PI</UF>
         <CEP>64002450</CEP>
         <cPais>1058</cPais>
-        <xPais>Brasil</xPais>
-        <fone>8632171758</fone>
+        <xPais>BRASIL</xPais>
+        <fone>8631316565</fone>
       </enderDest>
       <indIEDest>1</indIEDest>
       <IE>194459969</IE>
-      <email>engecopi.nfe@engecopi.com.br</email>
+      <email>ENGECOPI.NFE@ENGECOPI.COM.BR</email>
     </dest>
+    <autXML>
+      <CNPJ>05982804000157</CNPJ>
+    </autXML>
     <det nItem="1">
       <prod>
-        <cProd>5880</cProd>
-        <cEAN>7908086500175</cEAN>
-        <xProd>COLAMIX PORCELANATO TOP 10 CINZA 15Kg</xProd>
-        <NCM>38245000</NCM>
-        <CEST>1000200</CEST>
-        <CFOP>6401</CFOP>
-        <uCom>UN</uCom>
-        <qCom>600.0000</qCom>
-        <vUnCom>17.0400000000</vUnCom>
-        <vProd>10224.00</vProd>
-        <cEANTrib>7908086500175</cEANTrib>
-        <uTrib>UN</uTrib>
-        <qTrib>600.0000</qTrib>
-        <vUnTrib>17.0400000000</vUnTrib>
+        <cProd>305 PRETO P1</cProd>
+        <cEAN>7898937198517</cEAN>
+        <xProd>SUPORTE PARA BOTIJAO</xProd>
+        <NCM>73269090</NCM>
+        <CFOP>6101</CFOP>
+        <uCom>PC</uCom>
+        <qCom>120.0000</qCom>
+        <vUnCom>22.6100000000</vUnCom>
+        <vProd>2713.20</vProd>
+        <cEANTrib>7898937198517</cEANTrib>
+        <uTrib>PC</uTrib>
+        <qTrib>120.0000</qTrib>
+        <vUnTrib>22.6100000000</vUnTrib>
         <indTot>1</indTot>
       </prod>
       <imposto>
-        <vTotTrib>2891.31</vTotTrib>
         <ICMS>
-          <ICMS10>
+          <ICMS00>
             <orig>0</orig>
-            <CST>10</CST>
+            <CST>00</CST>
             <modBC>3</modBC>
-            <vBC>10224.00</vBC>
-            <pICMS>12.00</pICMS>
-            <vICMS>1226.88</vICMS>
-            <modBCST>4</modBCST>
-            <pMVAST>44.88</pMVAST>
-            <vBCST>14812.53</vBCST>
-            <pICMSST>17.00</pICMSST>
-            <vICMSST>1291.25</vICMSST>
-            <vBCFCPST>14812.53</vBCFCPST>
-            <pFCPST>1.00</pFCPST>
-            <vFCPST>148.13</vFCPST>
-          </ICMS10>
+            <vBC>2713.20</vBC>
+            <pICMS>7.0000</pICMS>
+            <vICMS>189.92</vICMS>
+          </ICMS00>
         </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPITrib>
+            <CST>50</CST>
+            <vBC>2713.20</vBC>
+            <pIPI>5.0000</pIPI>
+            <vIPI>135.66</vIPI>
+          </IPITrib>
+        </IPI>
         <PIS>
           <PISAliq>
             <CST>01</CST>
-            <vBC>10224.00</vBC>
-            <pPIS>0.65</pPIS>
-            <vPIS>66.46</vPIS>
+            <vBC>2713.20</vBC>
+            <pPIS>1.6500</pPIS>
+            <vPIS>44.77</vPIS>
           </PISAliq>
         </PIS>
         <COFINS>
           <COFINSAliq>
             <CST>01</CST>
-            <vBC>10224.00</vBC>
-            <pCOFINS>3.00</pCOFINS>
-            <vCOFINS>306.72</vCOFINS>
+            <vBC>2713.20</vBC>
+            <pCOFINS>7.6000</pCOFINS>
+            <vCOFINS>206.20</vCOFINS>
           </COFINSAliq>
         </COFINS>
       </imposto>
-      <infAdProd>Base de Calculo FCP ST : 14812,53 Aliquota FCP ST : 1,00 Valor FCP ST : 148,13
-      </infAdProd>
     </det>
     <det nItem="2">
       <prod>
-        <cProd>8876</cProd>
-        <cEAN>7908086500236</cEAN>
-        <xProd>REBOCOMIX 15Kg</xProd>
-        <NCM>38245000</NCM>
-        <CEST>1000200</CEST>
-        <CFOP>6401</CFOP>
-        <uCom>UN</uCom>
-        <qCom>400.0000</qCom>
-        <vUnCom>9.6600000000</vUnCom>
-        <vProd>3864.00</vProd>
-        <cEANTrib>7908086500236</cEANTrib>
-        <uTrib>UN</uTrib>
-        <qTrib>400.0000</qTrib>
-        <vUnTrib>9.6600000000</vUnTrib>
+        <cProd>304 MINI BRANCO</cProd>
+        <cEAN>SEM GTIN</cEAN>
+        <xProd>SUPORTE MINI COM RODAS</xProd>
+        <NCM>73269090</NCM>
+        <CFOP>6101</CFOP>
+        <uCom>PC</uCom>
+        <qCom>12.0000</qCom>
+        <vUnCom>97.7000000000</vUnCom>
+        <vProd>1172.40</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>PC</uTrib>
+        <qTrib>12.0000</qTrib>
+        <vUnTrib>97.7000000000</vUnTrib>
         <indTot>1</indTot>
       </prod>
       <imposto>
-        <vTotTrib>1092.73</vTotTrib>
         <ICMS>
-          <ICMS10>
+          <ICMS00>
             <orig>0</orig>
-            <CST>10</CST>
+            <CST>00</CST>
             <modBC>3</modBC>
-            <vBC>3864.00</vBC>
-            <pICMS>12.00</pICMS>
-            <vICMS>463.68</vICMS>
-            <modBCST>4</modBCST>
-            <pMVAST>44.88</pMVAST>
-            <vBCST>5598.16</vBCST>
-            <pICMSST>17.00</pICMSST>
-            <vICMSST>488.01</vICMSST>
-            <vBCFCPST>5598.16</vBCFCPST>
-            <pFCPST>1.00</pFCPST>
-            <vFCPST>55.98</vFCPST>
-          </ICMS10>
+            <vBC>1172.40</vBC>
+            <pICMS>7.0000</pICMS>
+            <vICMS>82.07</vICMS>
+          </ICMS00>
         </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPITrib>
+            <CST>50</CST>
+            <vBC>1172.40</vBC>
+            <pIPI>5.0000</pIPI>
+            <vIPI>58.62</vIPI>
+          </IPITrib>
+        </IPI>
         <PIS>
           <PISAliq>
             <CST>01</CST>
-            <vBC>3864.00</vBC>
-            <pPIS>0.65</pPIS>
-            <vPIS>25.12</vPIS>
+            <vBC>1172.40</vBC>
+            <pPIS>1.6500</pPIS>
+            <vPIS>19.34</vPIS>
           </PISAliq>
         </PIS>
         <COFINS>
           <COFINSAliq>
             <CST>01</CST>
-            <vBC>3864.00</vBC>
-            <pCOFINS>3.00</pCOFINS>
-            <vCOFINS>115.92</vCOFINS>
+            <vBC>1172.40</vBC>
+            <pCOFINS>7.6000</pCOFINS>
+            <vCOFINS>89.10</vCOFINS>
           </COFINSAliq>
         </COFINS>
       </imposto>
-      <infAdProd>Base de Calculo FCP ST : 5598,16 Aliquota FCP ST : 1,00 Valor FCP ST : 55,98
-      </infAdProd>
+    </det>
+    <det nItem="3">
+      <prod>
+        <cProd>304 MINI CROMADO</cProd>
+        <cEAN>SEM GTIN</cEAN>
+        <xProd>SUPORTE MINI COM RODAS</xProd>
+        <NCM>73269090</NCM>
+        <CFOP>6101</CFOP>
+        <uCom>PC</uCom>
+        <qCom>12.0000</qCom>
+        <vUnCom>110.6400000000</vUnCom>
+        <vProd>1327.68</vProd>
+        <cEANTrib>SEM GTIN</cEANTrib>
+        <uTrib>PC</uTrib>
+        <qTrib>12.0000</qTrib>
+        <vUnTrib>110.6400000000</vUnTrib>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <ICMS>
+          <ICMS00>
+            <orig>0</orig>
+            <CST>00</CST>
+            <modBC>3</modBC>
+            <vBC>1327.68</vBC>
+            <pICMS>7.0000</pICMS>
+            <vICMS>92.94</vICMS>
+          </ICMS00>
+        </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPITrib>
+            <CST>50</CST>
+            <vBC>1327.68</vBC>
+            <pIPI>5.0000</pIPI>
+            <vIPI>66.38</vIPI>
+          </IPITrib>
+        </IPI>
+        <PIS>
+          <PISAliq>
+            <CST>01</CST>
+            <vBC>1327.68</vBC>
+            <pPIS>1.6500</pPIS>
+            <vPIS>21.91</vPIS>
+          </PISAliq>
+        </PIS>
+        <COFINS>
+          <COFINSAliq>
+            <CST>01</CST>
+            <vBC>1327.68</vBC>
+            <pCOFINS>7.6000</pCOFINS>
+            <vCOFINS>100.90</vCOFINS>
+          </COFINSAliq>
+        </COFINS>
+      </imposto>
+    </det>
+    <det nItem="4">
+      <prod>
+        <cProd>305 BRANCO P1</cProd>
+        <cEAN>7898937198500</cEAN>
+        <xProd>SUPORTE PARA BOTIJAO</xProd>
+        <NCM>73269090</NCM>
+        <CFOP>6101</CFOP>
+        <uCom>PC</uCom>
+        <qCom>24.0000</qCom>
+        <vUnCom>22.6100000000</vUnCom>
+        <vProd>542.64</vProd>
+        <cEANTrib>7898937198500</cEANTrib>
+        <uTrib>PC</uTrib>
+        <qTrib>24.0000</qTrib>
+        <vUnTrib>22.6100000000</vUnTrib>
+        <indTot>1</indTot>
+      </prod>
+      <imposto>
+        <ICMS>
+          <ICMS00>
+            <orig>0</orig>
+            <CST>00</CST>
+            <modBC>3</modBC>
+            <vBC>542.64</vBC>
+            <pICMS>7.0000</pICMS>
+            <vICMS>37.98</vICMS>
+          </ICMS00>
+        </ICMS>
+        <IPI>
+          <cEnq>999</cEnq>
+          <IPITrib>
+            <CST>50</CST>
+            <vBC>542.64</vBC>
+            <pIPI>5.0000</pIPI>
+            <vIPI>27.13</vIPI>
+          </IPITrib>
+        </IPI>
+        <PIS>
+          <PISAliq>
+            <CST>01</CST>
+            <vBC>542.64</vBC>
+            <pPIS>1.6500</pPIS>
+            <vPIS>8.95</vPIS>
+          </PISAliq>
+        </PIS>
+        <COFINS>
+          <COFINSAliq>
+            <CST>01</CST>
+            <vBC>542.64</vBC>
+            <pCOFINS>7.6000</pCOFINS>
+            <vCOFINS>41.24</vCOFINS>
+          </COFINSAliq>
+        </COFINS>
+      </imposto>
     </det>
     <total>
       <ICMSTot>
-        <vBC>14088.00</vBC>
-        <vICMS>1690.56</vICMS>
+        <vBC>5755.92</vBC>
+        <vICMS>402.91</vICMS>
         <vICMSDeson>0.00</vICMSDeson>
-        <vFCPUFDest>0.00</vFCPUFDest>
-        <vICMSUFDest>0.00</vICMSUFDest>
-        <vICMSUFRemet>0.00</vICMSUFRemet>
         <vFCP>0.00</vFCP>
-        <vBCST>20410.69</vBCST>
-        <vST>1779.26</vST>
-        <vFCPST>204.11</vFCPST>
+        <vBCST>0.00</vBCST>
+        <vST>0.00</vST>
+        <vFCPST>0.00</vFCPST>
         <vFCPSTRet>0.00</vFCPSTRet>
-        <vProd>14088.00</vProd>
+        <vProd>5755.92</vProd>
         <vFrete>0.00</vFrete>
         <vSeg>0.00</vSeg>
         <vDesc>0.00</vDesc>
         <vII>0.00</vII>
-        <vIPI>0.00</vIPI>
+        <vIPI>287.79</vIPI>
         <vIPIDevol>0.00</vIPIDevol>
-        <vPIS>91.58</vPIS>
-        <vCOFINS>422.64</vCOFINS>
+        <vPIS>94.97</vPIS>
+        <vCOFINS>437.44</vCOFINS>
         <vOutro>0.00</vOutro>
-        <vNF>16071.37</vNF>
-        <vTotTrib>3984.04</vTotTrib>
+        <vNF>6043.71</vNF>
       </ICMSTot>
     </total>
     <transp>
-      <modFrete>0</modFrete>
+      <modFrete>1</modFrete>
+      <transporta>
+        <CNPJ>12062320000155</CNPJ>
+        <xNome>TRANS VMC TRANSPORTES EIRELI - ME</xNome>
+        <IE>796016805112</IE>
+        <xEnder>AV.PAPA JOAO PAULO I, 687 - GP.4 - VL.AEROPORTO</xEnder>
+        <xMun>GUARULHOS</xMun>
+        <UF>SP</UF>
+      </transporta>
       <vol>
-        <qVol>1000</qVol>
-        <esp>VOLUMES</esp>
-        <marca>REJUNTAMIX</marca>
-        <nVol>1000</nVol>
-        <pesoL>15000.000</pesoL>
-        <pesoB>15000.000</pesoB>
+        <qVol>16</qVol>
+        <pesoL>144.768</pesoL>
+        <pesoB>153.288</pesoB>
       </vol>
     </transp>
     <cobr>
       <fat>
-        <nFat>38242</nFat>
-        <vOrig>16071.37</vOrig>
-        <vDesc>0.00</vDesc>
-        <vLiq>16071.37</vLiq>
+        <nFat>10506</nFat>
+        <vOrig>6043.72</vOrig>
+        <vDesc>0.01</vDesc>
+        <vLiq>6043.71</vLiq>
       </fat>
       <dup>
         <nDup>001</nDup>
-        <dVenc>2021-09-10</dVenc>
-        <vDup>16071.37</vDup>
+        <dVenc>2021-08-18</dVenc>
+        <vDup>6043.71</vDup>
       </dup>
     </cobr>
     <pag>
       <detPag>
-        <indPag>1</indPag>
         <tPag>15</tPag>
-        <vPag>16071.37</vPag>
+        <vPag>6043.71</vPag>
       </detPag>
     </pag>
     <infAdic>
-      <infCpl>"ENGECOPI MF 401284, (FAVOR CONFERIR A MERCADORIA NO ATO DA ENTREGA . NAO ACEITAMOS
-        RECLAMACOES POSTERIORES.). Valor FCP ST: 204.11"
+      <infCpl>Representante: JOAO MORAES| Cliente: ENGECOPI| Tel.Transp: 11 2218-2033| Pedido: 8351|
+        Seu Pedido: 401102|
       </infCpl>
-      <obsCont xCampo="Observacoes">
-        <xTexto>"Prazo 14 DIAS., Pagamento BOLETO BANCARIO"</xTexto>
-      </obsCont>
     </infAdic>
+    <infRespTec>
+      <CNPJ>05982804000157</CNPJ>
+      <xContato>Marco Chagas</xContato>
+      <email>suporte@brascomm.net.br</email>
+      <fone>1149018000</fone>
+    </infRespTec>
   </infNFe>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
       <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
       <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-      <Reference URI="#NFe21210810560844000140550010000382421000355498">
+      <Reference URI="#NFe35210810446252000100550010000105061000083511">
         <Transforms>
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
           <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-        <DigestValue>hnkKWQts2ggZa65oe6EDau4y3Xk=</DigestValue>
+        <DigestValue>8vTG53mXkmY2763z8DERDsmHV9o=</DigestValue>
       </Reference>
     </SignedInfo>
     <SignatureValue>
-      DzCLP7DqpAAJz+3LhM4d4rT3JPb3Kr/GNN3OdVCLxKoza4KYHvxKDNu6QVII5df+y0BAwX0MBbGOc5QeVkCgdu7a0K5QYz0LF8oXA3wQPmZoHEt7Q9NsSzeo61wJz+sVLbhxpqZKu/pZUs4e57AqOmrwSZYURSci2DxKxkcShaYW0H/sJgLg2Nmt0lVtm2nIBX2tBBH3EY5a9dD9FCLlcWpWSgPQBvu6bX0QI88h/8KzM6XeZvZqG5DZ6jEYEfO7A6GZnecEj2OVKURvPtgPVQgrR9HldO5rMs/Y05vBYcRBKyzSXHrwabPBgBbeJZxQGlV05ZlZcB4pm8ygA8ScPw==
+      M1qEnnMpkzvxflXCJFL7d9W+maNdev/lrVFOWQgSlGeYzhf62sdTdqZrYC5GWnih/bcggFEeWvbI6zujPRCBvSxATemiXQyRbljA3sz+vqtN0hpu8NhYo+k5+3SnkhCBTXHcAx7Iw4Q+S+JQhjB3inCrYxusiOzGJuQ3F7P1FSkbcoFGbI8U2QkL5Q24Tweug7xpT9Wc+YvHeYgYa1iXuZq989glF90j+LD2XuctqM29CJutrrktvyBfTEECokAKaRq993rPlXCZgHimmwZ95hEF/VwdiNmNnyUefBpwgiTyE2WnyuyhyeYbuIx17NaLDTvWZAyACl48Cv4AQqVi9A==
     </SignatureValue>
     <KeyInfo>
       <X509Data>
         <X509Certificate>
-          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
+          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
         </X509Certificate>
       </X509Data>
     </KeyInfo>
