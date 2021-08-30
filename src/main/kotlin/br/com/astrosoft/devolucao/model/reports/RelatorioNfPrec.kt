@@ -19,7 +19,7 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
     columnString(NfPrecEntrada::descricao, title = "Descrição") {
       this.setTextAdjust(TextAdjust.CUT_TEXT)
     }
-    if(fiscal) {
+    if (fiscal) {
       columnDouble(NfPrecEntrada::icmsn, width = 40)
       columnDouble(NfPrecEntrada::icmsp, width = 40)
       columnDouble(NfPrecEntrada::ipin, width = 40)
@@ -28,9 +28,10 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
       columnString(NfPrecEntrada::cstp, width = 30, aligment = CENTER)
       columnDouble(NfPrecEntrada::mvan, width = 40)
       columnDouble(NfPrecEntrada::mvap, width = 40)
-    }else {
-      columnString(NfPrecEntrada::grade, width = 60, aligment = CENTER)
-      columnString(NfPrecEntrada::refPrdn, width = 60, aligment = CENTER)
+    }
+    else {
+      columnString(NfPrecEntrada::grade, width = 50, aligment = CENTER)
+      columnString(NfPrecEntrada::refPrdn, width = 50, aligment = CENTER)
       columnString(NfPrecEntrada::refPrdp, width = 60, aligment = CENTER)
       columnString(NfPrecEntrada::barcoden, width = 60, aligment = CENTER)
       columnString(NfPrecEntrada::barcodep, width = 60, aligment = CENTER)
@@ -40,7 +41,10 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
   }
 
   override val propriedades =
-          PropriedadeRelatorio(titulo = "NF x Precificação", subTitulo = "", pageOrientation = LANDSCAPE)
+          PropriedadeRelatorio(titulo = "NF x Precificação",
+                               subTitulo = "",
+                               detailFonteSize = 8,
+                               pageOrientation = LANDSCAPE)
 
   override fun listDataSource(): List<NfPrecEntrada> = notas
 
