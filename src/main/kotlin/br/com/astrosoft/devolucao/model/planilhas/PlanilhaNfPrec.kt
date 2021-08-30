@@ -42,6 +42,7 @@ class PlanilhaNfPrec(val fiscal: Boolean) {
                       CampoString("forn Nota") { fornNota },
                       CampoString("prod") { prod },
                       CampoString("descrição") { descricao },
+                      CampoString("grade") { grade },
                       CampoString("refn") { refPrdn },
                       CampoString("refp") { refPrdp },
                       CampoString("barrasn") { barcoden },

@@ -40,6 +40,10 @@ object UltimaNotaEntradaColumns {
     this.setHeader("Descrição")
   }
 
+  fun Grid<NfPrecEntrada>.notaGrade() = addColumnString(NfPrecEntrada::grade) {
+    this.setHeader("Grade")
+  }
+
   fun Grid<NfPrecEntrada>.notaIcmsn() = addColumnDouble(NfPrecEntrada::icmsn) {
     this.setHeader("ICMS N")
   }

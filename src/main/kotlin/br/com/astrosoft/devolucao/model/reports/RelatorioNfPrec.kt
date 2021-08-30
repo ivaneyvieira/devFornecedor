@@ -29,10 +29,11 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
       columnDouble(NfPrecEntrada::mvan, width = 40)
       columnDouble(NfPrecEntrada::mvap, width = 40)
     }else {
-      columnString(NfPrecEntrada::refPrdn, width = 80, aligment = CENTER)
-      columnString(NfPrecEntrada::refPrdp, width = 80, aligment = CENTER)
-      columnString(NfPrecEntrada::barcoden, width = 80, aligment = CENTER)
-      columnString(NfPrecEntrada::barcodep, width = 80, aligment = CENTER)
+      columnString(NfPrecEntrada::grade, width = 60, aligment = CENTER)
+      columnString(NfPrecEntrada::refPrdn, width = 60, aligment = CENTER)
+      columnString(NfPrecEntrada::refPrdp, width = 60, aligment = CENTER)
+      columnString(NfPrecEntrada::barcoden, width = 60, aligment = CENTER)
+      columnString(NfPrecEntrada::barcodep, width = 60, aligment = CENTER)
       columnString(NfPrecEntrada::ncmn, width = 60, aligment = CENTER)
       columnString(NfPrecEntrada::ncmp, width = 60, aligment = CENTER)
     }

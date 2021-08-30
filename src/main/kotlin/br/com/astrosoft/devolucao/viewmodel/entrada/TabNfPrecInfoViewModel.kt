@@ -38,7 +38,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
       NfPrecEntradaGrupo("Diferenças de NCM", nota, nota.ncmn, nota.ncmp)
     }
     val listaRelatorio = refPrdDifList + barCodeDifList + ncmDifList
-    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio)
+    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, false)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
 

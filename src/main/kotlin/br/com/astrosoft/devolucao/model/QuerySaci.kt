@@ -481,6 +481,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("barcode", filter.barcode.str)
       addOptionalParameter("refPrd", filter.refPrd.str)
       addOptionalParameter("rotulo", filter.rotulo)
+      addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
     }
   }
 
@@ -546,10 +547,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   }
 
   fun salvaDesconto(notaSaida: NotaSaida) {
-    if(notaSaida.tipo == "PED")
-      salvaDescontoPed(notaSaida)
-    else
-    salvaDescontoNota(notaSaida)
+    if (notaSaida.tipo == "PED") salvaDescontoPed(notaSaida)
+    else salvaDescontoNota(notaSaida)
   }
 
   private fun salvaDescontoPed(notaSaida: NotaSaida) {

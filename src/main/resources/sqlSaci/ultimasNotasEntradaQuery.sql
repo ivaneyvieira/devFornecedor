@@ -13,6 +13,7 @@ DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
 DO @rotulo := :rotulo;
+DO @comGrade := :comGrade;
 
 DROP TEMPORARY TABLE IF EXISTS T_MFPRD;
 CREATE TEMPORARY TABLE T_MFPRD (
@@ -69,6 +70,7 @@ SELECT iprd.storeno                                                           AS
        prd.mfno                                                               AS fornCad,
        inv.vendno                                                             AS fornNota,
        iprd.prdno                                                             AS prod,
+       IF(@comGrade = 'S', iprd.grade, '')                                    AS grade,
        TRIM(MID(prd.name, 1, 37))                                             AS descricao,
        spedprd.ncm                                                            AS ncmp,
        IFNULL(mfprd.ncm, spedprd.ncm)                                         AS ncmn,
@@ -122,13 +124,14 @@ WHERE inv.date BETWEEN @di AND @df
   AND (inv.nfname = @nf OR @nf = '')
   AND (inv.vendno = @vendno OR @vendno = 0)
   AND (iprd.prdno = @prd OR @CODIGO = '')
-GROUP BY inv.invno, iprd.prdno;
+GROUP BY inv.invno, iprd.prdno, grade;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
 CREATE TEMPORARY TABLE sqldados.T_MAX (
-  PRIMARY KEY (Prod, NI, cstDif, icmsDif, ipiDif, mvaDif, ncmDif)
+  PRIMARY KEY (Prod, grade, NI, cstDif, icmsDif, ipiDif, mvaDif, ncmDif)
 )
 SELECT Prod,
+       grade,
        IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
 	  'N')                                                                       AS cstDif,
        IF(ROUND(IF(CSTn = '20', ICMSc, ICMSn) * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
@@ -139,7 +142,7 @@ SELECT Prod,
        IF(refPrdp = refPrdn, 'S', 'N')                                               AS refPrdDif,
        MAX(NI)                                                                       AS NI
 FROM sqldados.T_QUERY
-GROUP BY Prod, cstDif, icmsDif, ipiDif, mvaDif, ncmDif;
+GROUP BY Prod, grade, cstDif, icmsDif, ipiDif, mvaDif, ncmDif, barcodeDif, refPrdDif;
 
 DROP TABLE IF EXISTS sqldados.query1234567;
 CREATE TABLE sqldados.query1234567 (
@@ -157,6 +160,7 @@ SELECT lj,
        fornCad,
        fornNota,
        TRIM(prod) AS prod,
+       grade,
        descricao,
        icmsn,
        icmsc,
@@ -183,4 +187,4 @@ SELECT lj,
        refPrdDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
-	       USING (Prod, NI)
+	       USING (Prod, grade, NI)

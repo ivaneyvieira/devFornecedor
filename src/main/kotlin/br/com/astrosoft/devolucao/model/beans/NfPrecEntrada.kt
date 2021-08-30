@@ -12,6 +12,7 @@ class NfPrecEntrada(
   val fornCad: String,
   val fornNota: String,
   val prod: String,
+  val grade: String,
   val descricao: String,
   val icmsn: Double,
   val icmsp: Double,
@@ -63,24 +64,27 @@ private fun NfPrecEntrada.filtroCaracter(listaCaracter: List<String>): Boolean {
   }
 }
 
-class FiltroNfPrecEntrada(val storeno: Int,
-                          val di: LocalDate,
-                          val df: LocalDate,
-                          val vendno: Int,
-                          val mfno: Int,
-                          val ni: Int,
-                          val nf: String,
-                          val prd: String,
-                          var cst: EDiferenca,
-                          var icms: EDiferenca,
-                          var ipi: EDiferenca,
-                          var mva: EDiferenca,
-                          var ncm: EDiferenca,
-                          var barcode: EDiferenca,
-                          var refPrd: EDiferenca,
-                          val ultimaNota: Boolean,
-                          val rotulo: String,
-                          val caraterInicial: String) {
+class FiltroNfPrecEntrada(
+  val storeno: Int,
+  val di: LocalDate,
+  val df: LocalDate,
+  val vendno: Int,
+  val mfno: Int,
+  val ni: Int,
+  val nf: String,
+  val prd: String,
+  var cst: EDiferenca,
+  var icms: EDiferenca,
+  var ipi: EDiferenca,
+  var mva: EDiferenca,
+  var ncm: EDiferenca,
+  var barcode: EDiferenca,
+  var refPrd: EDiferenca,
+  val ultimaNota: Boolean,
+  val rotulo: String,
+  val caraterInicial: String,
+  val comGrade: Boolean,
+                         ) {
   val listaCaracter
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
 }
@@ -101,4 +105,5 @@ data class NfPrecEntradaGrupo(val nomeGrupo: String,
   val fornNota = nota.fornNota
   val prod = nota.prod
   val descricao = nota.descricao
+  val grade = nota.grade
 }

@@ -67,7 +67,8 @@ class TabNfPrec(val viewModel: TabNfPrecViewModel) : ITabNfPrecViewModel, ITabPa
                                refPrd = T,
                                ultimaNota = edtUlmNota.value ?: false,
                                rotulo = edtRotulo.value ?: "",
-                               caraterInicial = edtCaracter.value ?: "")
+                               caraterInicial = edtCaracter.value ?: "",
+                               comGrade = false)
   }
 
   override fun openRelatorio() {
