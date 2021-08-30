@@ -4,7 +4,9 @@ import br.com.astrosoft.devolucao.model.beans.EDiferenca.T
 import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecInfoViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecInfoViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
@@ -21,7 +23,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabNfPrec(val viewModel: TabNfPrecViewModel) : ITabNfPrecViewModel, ITabPanel {
+class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -71,7 +73,7 @@ class TabNfPrec(val viewModel: TabNfPrecViewModel) : ITabNfPrecViewModel, ITabPa
   }
 
   override fun openRelatorio() {
-    DlgRelatorioNfPrec(viewModel, getFiltro()).show()
+    DlgRelatorioNfPrecInfo(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -116,11 +118,11 @@ class TabNfPrec(val viewModel: TabNfPrecViewModel) : ITabNfPrecViewModel, ITabPa
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddNFPrec == true
+    return username?.entradaNddNFPrecInfo == true
   }
 
   override val label: String
-    get() = "NF x Prec Fiscal"
+    get() = "NF x Prec Info"
 
   override fun updateComponent() {
   }

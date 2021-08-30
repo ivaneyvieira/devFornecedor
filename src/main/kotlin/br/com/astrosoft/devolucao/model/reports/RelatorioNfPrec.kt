@@ -8,8 +8,7 @@ import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.TextAdjust
 
-class RelatorioNfPrec(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntrada>() {
-
+class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : ReportBuild<NfPrecEntrada>() {
   init {
     columnInt(NfPrecEntrada::lj, width = 20, aligment = CENTER, title = "Lj")
     columnInt(NfPrecEntrada::ni, width = 45, title = "NI")
@@ -20,16 +19,23 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntrad
     columnString(NfPrecEntrada::descricao, title = "Descrição") {
       this.setTextAdjust(TextAdjust.CUT_TEXT)
     }
-    columnDouble(NfPrecEntrada::icmsn, width = 40)
-    columnDouble(NfPrecEntrada::icmsp, width = 40)
-    columnDouble(NfPrecEntrada::ipin, width = 40)
-    columnDouble(NfPrecEntrada::ipip, width = 40)
-    columnString(NfPrecEntrada::cstn, width = 30, aligment = CENTER)
-    columnString(NfPrecEntrada::cstp, width = 30, aligment = CENTER)
-    columnDouble(NfPrecEntrada::mvan, width = 40)
-    columnDouble(NfPrecEntrada::mvap, width = 40)
-    columnString(NfPrecEntrada::ncmn, width = 55, aligment = CENTER)
-    columnString(NfPrecEntrada::ncmp, width = 55, aligment = CENTER)
+    if(fiscal) {
+      columnDouble(NfPrecEntrada::icmsn, width = 40)
+      columnDouble(NfPrecEntrada::icmsp, width = 40)
+      columnDouble(NfPrecEntrada::ipin, width = 40)
+      columnDouble(NfPrecEntrada::ipip, width = 40)
+      columnString(NfPrecEntrada::cstn, width = 30, aligment = CENTER)
+      columnString(NfPrecEntrada::cstp, width = 30, aligment = CENTER)
+      columnDouble(NfPrecEntrada::mvan, width = 40)
+      columnDouble(NfPrecEntrada::mvap, width = 40)
+    }else {
+      columnString(NfPrecEntrada::refPrdn, width = 80, aligment = CENTER)
+      columnString(NfPrecEntrada::refPrdp, width = 80, aligment = CENTER)
+      columnString(NfPrecEntrada::barcoden, width = 80, aligment = CENTER)
+      columnString(NfPrecEntrada::barcodep, width = 80, aligment = CENTER)
+      columnString(NfPrecEntrada::ncmn, width = 60, aligment = CENTER)
+      columnString(NfPrecEntrada::ncmp, width = 60, aligment = CENTER)
+    }
   }
 
   override val propriedades =
@@ -38,8 +44,8 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntrad
   override fun listDataSource(): List<NfPrecEntrada> = notas
 
   companion object {
-    fun processaRelatorio(notas: List<NfPrecEntrada>): ByteArray {
-      val report = RelatorioNfPrec(notas).makeReport()
+    fun processaRelatorio(notas: List<NfPrecEntrada>, fiscal: Boolean): ByteArray {
+      val report = RelatorioNfPrec(notas, fiscal).makeReport()
       val printList = listOf(report.toJasperPrint())
       return renderReport(printList)
     }

@@ -20,10 +20,12 @@ CREATE TEMPORARY TABLE T_MFPRD (
 )
 SELECT prdnoRef                                                           AS prdno,
        grade,
-       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(barcode))), 11, 100) AS barcode
+       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(barcode))), 11, 100) AS barcode,
+       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(prdno))), 11, 100)   AS refPrd
 FROM sqldados.mfprd
 WHERE TRIM(prdnoRef) <> ''
 GROUP BY prdnoRef, grade;
+
 
 DROP TEMPORARY TABLE IF EXISTS T_NCM;
 CREATE TEMPORARY TABLE T_NCM (
@@ -49,6 +51,7 @@ CREATE TEMPORARY TABLE T_PRD (
 SELECT no,
        name,
        barcode,
+       mfno_ref AS refPrd,
        mfno,
        taxno,
        lucroTributado
@@ -85,7 +88,9 @@ SELECT iprd.storeno                                                             
        IF(MID(iprd.cstIcms, 2, 3) = '20',
 	  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
        TRIM(IFNULL(B.barcode, prd.barcode))                                         AS barcodep,
-       TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden
+       TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
+       TRIM(IFNULL(prd.refPrd, ''))                                                 AS refPrdp,
+       TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -164,7 +169,10 @@ SELECT lj,
        IF(NCMn = NCMp, 'S', 'N')                                                     AS ncmDif,
        barcodep,
        barcoden,
-       IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif
+       IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif,
+       refPrdn,
+       refPrdp,
+       IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, NI)

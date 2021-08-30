@@ -9,6 +9,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabEntradaNddReceberViewModel = TabEntradaNddReceberViewModel(this)
   val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebidoViewModel(this)
   val tabNfPrecViewModel = TabNfPrecViewModel(this)
+  val tabNfPrecInfoViewModel = TabNfPrecInfoViewModel(this)
   val tabTodasEntradasViewModel = TabTodasEntradasViewModel(this)
 
   override fun listTab() = listOf(
@@ -16,6 +17,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabEntradaNddReceberViewModel,
     view.tabEntradaNddRecebidoViewModel,
     view.tabNfPrecViewModel,
+    view.tabNfPrecInfoViewModel,
     view.tabTodasEntradasViewModel,
                                  )
 }
@@ -25,6 +27,7 @@ interface IEntradaView : IView {
   val tabEntradaNddRecebidoViewModel: ITabEntradaNddRecebidoViewModel
   val tabEntradaNddReceberViewModel: ITabEntradaNddReceberViewModel
   val tabNfPrecViewModel: ITabNfPrecViewModel
+  val tabNfPrecInfoViewModel: ITabNfPrecInfoViewModel
   val tabTodasEntradasViewModel: ITabTodasEntradasViewModel
 }
 

@@ -37,6 +37,7 @@ class UserSaci : IUser {
   var entradaNddNFPrec by DelegateAuthorized(20)
   var notaSaida by DelegateAuthorized(21)
   var ajusteGarantiaPago by DelegateAuthorized(22)
+  var entradaNddNFPrecInfo by DelegateAuthorized(23)
   val menuDevolucao01
     get() = nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
   val menuDevolucao66
@@ -46,7 +47,7 @@ class UserSaci : IUser {
   val menuAgenda
     get() = agendaAgendada || agendaNaoAgendada || agendaRecebida
   val menuEntrada
-    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec
+    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo
   val menuSaida
     get() = notaSaida
   override val admin

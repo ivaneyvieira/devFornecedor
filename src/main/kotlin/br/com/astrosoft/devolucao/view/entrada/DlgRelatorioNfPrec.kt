@@ -43,7 +43,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioUltimaCompra(val viewModel: TabNfPrecViewModel, val filtro: FiltroNfPrecEntrada) {
+class DlgRelatorioNfPrec(val viewModel: TabNfPrecViewModel, val filtro: FiltroNfPrecEntrada) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
@@ -100,24 +100,6 @@ class DlgRelatorioUltimaCompra(val viewModel: TabNfPrecViewModel, val filtro: Fi
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("NCM") {
-        value = filtro.ncm
-
-        this.addValueChangeListener {
-          filtro.ncm = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferenca("Código de Barras") {
-        value = filtro.barcode
-
-        this.addValueChangeListener {
-          filtro.barcode = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       val list = viewModel.findNotas(filtro)
@@ -156,17 +138,7 @@ class DlgRelatorioUltimaCompra(val viewModel: TabNfPrecViewModel, val filtro: Fi
       notaCstp().marcaDiferenca { cstDif == "N" }
       notaMvan().marcaDiferenca { mvaDif == "N" }
       notaMvap().marcaDiferenca { mvaDif == "N" }
-      notaBarcoden().marcaDiferenca { barcodeDif == "N" }
-      notaBarcodep().marcaDiferenca { barcodeDif == "N" }
-      notaNcmn().marcaDiferenca { ncmDif == "N" }
-      notaNcmp().marcaDiferenca { ncmDif == "N" }
     }
-  }
-}
-
-fun Grid.Column<NfPrecEntrada>.marcaDiferenca(predicado: NfPrecEntrada.() -> Boolean) {
-  this.setClassNameGenerator {
-    if (it.predicado()) "marcaDiferenca" else null
   }
 }
 
