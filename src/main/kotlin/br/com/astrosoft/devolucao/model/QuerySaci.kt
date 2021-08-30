@@ -457,6 +457,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("mva", filtro.mva.str)
       addOptionalParameter("ncm", filtro.ncm.str)
       addOptionalParameter("barcode", filtro.barcode.str)
+      addOptionalParameter("refPrd", filtro.refPrd.str)
     }
   }
 
@@ -478,6 +479,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("mva", filter.mva.str)
       addOptionalParameter("ncm", filter.ncm.str)
       addOptionalParameter("barcode", filter.barcode.str)
+      addOptionalParameter("refPrd", filter.refPrd.str)
       addOptionalParameter("rotulo", filter.rotulo)
     }
   }
@@ -500,6 +502,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("mva", filter.mva.str)
       addOptionalParameter("ncm", filter.ncm.str)
       addOptionalParameter("barcode", filter.barcode.str)
+      addOptionalParameter("refPrd", filter.refPrd.str)
     }, result = result)
   }
 

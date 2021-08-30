@@ -20,7 +20,8 @@ CREATE TEMPORARY TABLE T_MFPRD (
 )
 SELECT prdnoRef                                                           AS prdno,
        grade,
-       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(barcode))), 11, 100) AS barcode
+       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(barcode))), 11, 100) AS barcode,
+       MID(MAX(CONCAT(LPAD(seqnoAuto, 10, '0'), TRIM(prdno))), 11, 100)   AS refPrd
 FROM sqldados.mfprd
 WHERE TRIM(prdnoRef) <> ''
 GROUP BY prdnoRef, grade;
@@ -51,7 +52,8 @@ SELECT no,
        barcode,
        mfno,
        taxno,
-       lucroTributado
+       lucroTributado,
+       mfno_ref AS refPrd
 FROM sqldados.prd
   LEFT JOIN sqldados.prdalq
 	      ON prdalq.prdno = prd.no
@@ -86,7 +88,9 @@ SELECT iprd.storeno                                                           AS
 				 ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2),
 				 NULL))                                       AS icmsd,
        TRIM(IFNULL(B.barcode, prd.barcode))                                   AS barcodep,
-       TRIM(IFNULL(M.barcode, ''))                                            AS barcoden
+       TRIM(IFNULL(M.barcode, ''))                                            AS barcoden,
+       TRIM(IFNULL(prd.refPrd, ''))                                           AS refPrdp,
+       TRIM(IFNULL(M.refPrd, ''))                                             AS refPrdn
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -132,6 +136,7 @@ SELECT Prod,
        IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                           AS mvaDif,
        IF(NCMn = NCMp, 'S', 'N')                                                     AS ncmDif,
        IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif,
+       IF(refPrdp = refPrdn, 'S', 'N')                                               AS refPrdDif,
        MAX(NI)                                                                       AS NI
 FROM sqldados.T_QUERY
 GROUP BY Prod, cstDif, icmsDif, ipiDif, mvaDif, ncmDif;
@@ -172,7 +177,10 @@ SELECT lj,
        ncmDif,
        barcodep,
        barcoden,
-       barcodeDif
+       barcodeDif,
+       refPrdp,
+       refPrdn,
+       refPrdDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, NI)

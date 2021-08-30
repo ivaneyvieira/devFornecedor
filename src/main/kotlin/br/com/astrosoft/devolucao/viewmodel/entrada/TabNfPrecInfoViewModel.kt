@@ -12,9 +12,9 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabNfPrecViewModel(val viewModel: EntradaViewModel) {
+class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
   val subView
-    get() = viewModel.view.tabNfPrecViewModel
+    get() = viewModel.view.tabNfPrecInfoViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro())
@@ -23,30 +23,27 @@ class TabNfPrecViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorio(listNotas: List<NfPrecEntrada>) = viewModel.exec {
     if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
-    val relatorio = RelatorioNfPrec.processaRelatorio(listNotas, true)
+    val relatorio = RelatorioNfPrec.processaRelatorio(listNotas, false)
     viewModel.showReport("nfPrecificacao", relatorio)
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val cstDifList = listNotas.filter { it.cstDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de CST", nota, nota.cstn, nota.cstp)
+    val refPrdDifList = listNotas.filter { it.refPrdDif == "N" }.map { nota ->
+      NfPrecEntradaGrupo("Diferenças de Ref", nota, nota.refPrdn, nota.refPrdp)
     }
-    val icmsDifList = listNotas.filter { it.icmsDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de ICMS", nota, nota.icmsRN.format(), nota.icmsp.format())
+    val barCodeDifList = listNotas.filter { it.barcodeDif == "N" }.map { nota ->
+      NfPrecEntradaGrupo("Diferenças de Barras", nota, nota.barcoden, nota.barcodep)
     }
-    val ipiDifList = listNotas.filter { it.ipiDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de IPI", nota, nota.ipin.format(), nota.ipip.format())
+    val ncmDifList = listNotas.filter { it.ncmDif == "N" }.map { nota ->
+      NfPrecEntradaGrupo("Diferenças de NCM", nota, nota.ncmn, nota.ncmp)
     }
-    val mvaDifList = listNotas.filter { it.mvaDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de MVA", nota, nota.mvan.format(), nota.mvap.format())
-    }
-    val listaRelatorio = icmsDifList + ipiDifList + cstDifList + mvaDifList
+    val listaRelatorio = refPrdDifList + barCodeDifList + ncmDifList
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
 
   fun geraPlanilha(notas: List<NfPrecEntrada>): ByteArray {
-    val planilha = PlanilhaNfPrec(true)
+    val planilha = PlanilhaNfPrec(false)
     return planilha.grava(notas)
   }
 
@@ -59,7 +56,7 @@ class TabNfPrecViewModel(val viewModel: EntradaViewModel) {
   }
 }
 
-interface ITabNfPrecViewModel : ITabView {
+interface ITabNfPrecInfoViewModel : ITabView {
   fun setFiltro(filtro: FiltroNfPrecEntrada)
   fun getFiltro(): FiltroNfPrecEntrada
   fun openRelatorio()
