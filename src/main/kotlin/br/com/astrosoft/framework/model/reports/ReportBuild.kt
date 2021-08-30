@@ -48,7 +48,7 @@ abstract class ReportBuild<T> {
                            block: TextColumnBuilder<V>.() -> Unit = {}): TextColumnBuilder<V> =
           col.column(if (oculto) "" else if (title == "") prop.name else title, prop.name, dataType).apply {
             this.setHorizontalTextAlignment(aligment)
-            if (width > 0) this.setFixedWidth(width)
+            if (width > 0) this.setFixedWidth(width) else this.setMinHeight(0)
             if (pattern != "") this.setPattern(pattern)
             block()
 
@@ -113,8 +113,7 @@ abstract class ReportBuild<T> {
     return verticalBlock {
       horizontalList {
         text(propriedades.titulo, HorizontalTextAlignment.CENTER, largura).apply {
-          this.setStyle(Templates.fieldFontGrande)
-          this.setStyle(stl.style().setForegroundColor(propriedades.color))
+          this.setStyle(stl.style(Templates.fieldFontGrande).setForegroundColor(propriedades.color))
         }
       }
       if (propriedades.subTitulo != "") {
@@ -152,8 +151,9 @@ abstract class ReportBuild<T> {
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(Templates.fieldFontNormal)
-      .setColumnTitleStyle(Templates.fieldFontNormalCol)
+      .setColumnStyle(stl.style()
+                        .setFontSize(propriedades.detailFonteSize)) //.setColumnTitleStyle(stl.style().setFontSize(propriedades.detailFonteSize))
+      .setDetailStyle(stl.style().setFontSize(propriedades.detailFonteSize))
       .apply {
         if (itemGroup != null) this.groupBy(itemGroup).addGroupFooter(itemGroup, cmp.text("")).setShowColumnTitle(false)
       }
@@ -208,6 +208,7 @@ open class LocalDateType : AbstractDataType<LocalDate, LocalDate>() {
 
 data class PropriedadeRelatorio(val titulo: String,
                                 val subTitulo: String,
+                                val detailFonteSize: Int = 10,
                                 val color: Color = Color.BLACK,
                                 val pageOrientation: PageOrientation = PORTRAIT,
                                 val pageType: PageType = A4)
