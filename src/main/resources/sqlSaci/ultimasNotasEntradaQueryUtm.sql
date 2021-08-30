@@ -13,6 +13,7 @@ DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
 DO @rotulo := :rotulo;
+DO @comGrade := :comGrade;
 
 DROP TEMPORARY TABLE IF EXISTS T_MFPRD;
 CREATE TEMPORARY TABLE T_MFPRD (
@@ -70,7 +71,7 @@ SELECT iprd.storeno                                                             
        prd.mfno                                                                     AS fornCad,
        inv.vendno                                                                   AS fornNota,
        iprd.prdno                                                                   AS prod,
-       iprd.grade                                                                   AS grade,
+       IF(@comGrade = 'S', iprd.grade, '')                                          AS grade,
        TRIM(MID(prd.name, 1, 37))                                                   AS descricao,
        spedprd.ncm                                                                  AS ncmp,
        IFNULL(mfprd.ncm, spedprd.ncm)                                               AS ncmn,
@@ -126,11 +127,13 @@ GROUP BY inv.invno, iprd.prdno, iprd.grade;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
 CREATE TEMPORARY TABLE sqldados.T_MAX (
-  PRIMARY KEY (Prod, NI)
+  PRIMARY KEY (Prod, grade, NI)
 )
-SELECT Prod, MAX(NI) AS NI
+SELECT Prod,
+       grade,
+       MAX(NI) AS NI
 FROM sqldados.T_QUERY
-GROUP BY Prod;
+GROUP BY Prod, grade;
 
 DROP TABLE IF EXISTS sqldados.query1234567;
 CREATE TABLE sqldados.query1234567 (
@@ -148,6 +151,7 @@ SELECT lj,
        fornCad,
        fornNota,
        prod,
+       grade,
        descricao,
        icmsn,
        icmsc,
@@ -175,5 +179,5 @@ SELECT lj,
        IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
-	       USING (Prod, NI)
+	       USING (Prod, grade, NI)
 

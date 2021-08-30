@@ -5,9 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecInfoViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecInfoViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -69,7 +67,8 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
                                refPrd = T,
                                ultimaNota = edtUlmNota.value ?: false,
                                rotulo = edtRotulo.value ?: "",
-                               caraterInicial = edtCaracter.value ?: "")
+                               caraterInicial = edtCaracter.value ?: "",
+                               comGrade = true)
   }
 
   override fun openRelatorio() {

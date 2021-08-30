@@ -41,7 +41,7 @@ class TabNfPrecViewModel(val viewModel: EntradaViewModel) {
       NfPrecEntradaGrupo("Diferenças de MVA", nota, nota.mvan.format(), nota.mvap.format())
     }
     val listaRelatorio = icmsDifList + ipiDifList + cstDifList + mvaDifList
-    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio)
+    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
 

@@ -13,13 +13,19 @@ import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
 
-class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>) : ReportBuild<NfPrecEntradaGrupo>() {
+class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal : Boolean) : ReportBuild<NfPrecEntradaGrupo>
+  () {
   init {
     columnString(NfPrecEntradaGrupo::dataStr, width = 80, title = "Data")
     columnString(NfPrecEntradaGrupo::nfe, width = 80, aligment = CENTER, title = "NF")
     columnString(NfPrecEntradaGrupo::prod, width = 60, aligment = CENTER, title = "Prod")
     columnString(NfPrecEntradaGrupo::descricao, title = "Descrição", width = 180) {
       this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
+    if(!fiscal){
+      columnString(NfPrecEntradaGrupo::grade, title = "Grade", width = 60) {
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
     }
     columnString(NfPrecEntradaGrupo::valorNota, title = "NF", width = 80, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW))
@@ -51,8 +57,8 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>) : ReportBuild<Nf
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 
   companion object {
-    fun processaRelatorio(notas: List<NfPrecEntradaGrupo>): ByteArray {
-      val report = RelatorioNfPrecGrupo(notas).makeReport()
+    fun processaRelatorio(notas: List<NfPrecEntradaGrupo>, fiscal : Boolean): ByteArray {
+      val report = RelatorioNfPrecGrupo(notas, fiscal).makeReport()
       val printList = listOf(report.toJasperPrint())
       return renderReport(printList)
     }
