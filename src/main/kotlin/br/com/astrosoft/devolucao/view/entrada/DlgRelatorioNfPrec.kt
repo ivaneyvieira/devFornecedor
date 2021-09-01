@@ -121,12 +121,12 @@ class DlgRelatorioNfPrec(val viewModel: TabNfPrecViewModel, val filtro: FiltroNf
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi().marcaDiferenca { difGeral }
+      notaNi().marcaDiferenca { difGeral(true) }
       notaData()
-      notaNfe().marcaDiferenca { difGeral }
+      notaNfe().marcaDiferenca { difGeral(true) }
       notaFornCad()
       notaFornNota()
-      notaProd().marcaDiferenca { difGeral }
+      notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
