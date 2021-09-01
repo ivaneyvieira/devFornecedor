@@ -15,7 +15,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
         IEmailView {
   protected abstract val subView: ITabNota
 
-  fun imprimirNotaFornecedor(notas: List<NotaSaida>, ocorrencias : List<String> ) = viewModel.exec {
+  fun imprimirNotaFornecedor(notas: List<NotaSaida>, ocorrencias: List<String>) = viewModel.exec {
     notas.ifEmpty {
       fail("Nenhuma item foi selecionado")
     }
@@ -203,7 +203,7 @@ enum class SimNao(val value: String) {
 }
 
 enum class Serie(val value: String) {
-  Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), AJT("AJT"), AJP("AJP"), FIN("FIN"), VAZIO("")
+  Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), DES("DES"), AJT("AJT"), AJP("AJP"), FIN("FIN"), VAZIO("")
 }
 
 interface IFiltro {
@@ -219,7 +219,7 @@ interface ITabNota : ITabView, IFiltro {
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)
-  fun imprimeNotaFornecedor(notas: List<NotaSaida>, ocorrencias : List<String>)
+  fun imprimeNotaFornecedor(notas: List<NotaSaida>, ocorrencias: List<String>)
   fun imprimirRelatorioFornecedor(notas: List<NotaSaida>)
   fun imprimirRelatorio(notas: List<NotaSaida>)
   fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>)

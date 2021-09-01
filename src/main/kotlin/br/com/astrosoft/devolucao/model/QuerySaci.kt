@@ -71,6 +71,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class)
   }
 
+  fun descontoDevolucao(): List<NotaSaida> {
+    val sql = "/sqlSaci/descontoDevolucao.sql"
+    return query(sql, NotaSaida::class)
+  }
+
   fun ajusteGarantia(pago: Boolean): List<NotaSaida> {
     val sql = "/sqlSaci/notaAjusteGarantia.sql"
     return query(sql, NotaSaida::class) {
