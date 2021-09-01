@@ -60,6 +60,7 @@ class NotaSaida(val loja: Int,
       produtos = when (tipo) {
         "PED" -> saci.produtosPedido(this)
         "ENT" -> saci.produtosEntrada(this)
+        "DES" -> emptyList()
         "AJT" -> saci.produtosAjuste(this)
         "AJP" -> saci.produtosAjuste(this)
         "FIN" -> saci.produtosFinanceiro(this)
@@ -192,6 +193,7 @@ class NotaSaida(val loja: Int,
       val notas = when (filtro.serie) {
         PED  -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
         ENT  -> saci.entradaDevolucao()
+        DES  -> saci.entradaDevolucao()
         AJT  -> saci.ajusteGarantia(false)
         AJP  -> saci.ajusteGarantia(true)
         FIN  -> saci.notaFinanceiro()
