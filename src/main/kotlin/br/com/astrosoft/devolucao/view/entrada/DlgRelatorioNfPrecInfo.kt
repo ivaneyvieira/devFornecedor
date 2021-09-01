@@ -105,12 +105,12 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi().marcaDiferenca { difGeral }
+      notaNi().marcaDiferenca { difGeral(false) }
       notaData()
-      notaNfe().marcaDiferenca { difGeral }
+      notaNfe().marcaDiferenca { difGeral(false) }
       notaFornCad()
       notaFornNota()
-      notaProd().marcaDiferenca { difGeral }
+      notaProd().marcaDiferenca { difGeral(false) }
       notaDescricao()
       notaGrade()
       notaRefPrdn().marcaDiferenca { refPrdDif == "N" }

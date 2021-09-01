@@ -41,8 +41,8 @@ class NfPrecEntrada(
   val dataStr
     get() = data.format()
 
-  val difGeral
-    get() = cstDif == "N" || icmsDif == "N" || ipiDif == "N" || mvaDif == "N" || ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N"
+  fun difGeral(fiscal: Boolean) = if (fiscal) cstDif == "N" || icmsDif == "N" || ipiDif == "N" || mvaDif == "N"
+  else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N"
 
   val icmsRN
     get() = icmsc ?: icmsn
