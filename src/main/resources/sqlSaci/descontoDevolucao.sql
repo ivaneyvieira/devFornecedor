@@ -74,7 +74,7 @@ FROM TINV                       AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS R
-	       ON N.storeno = R.storeno AND R.pdvno = 9999 AND N.invno = R.xano
+	       ON N.storeno = R.storeno AND R.pdvno = 9997 AND N.invno = R.xano
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = N.vendno AND RV.tipo = N.invse
   INNER JOIN TVEND              AS V
