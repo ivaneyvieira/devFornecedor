@@ -71,9 +71,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class)
   }
 
-  fun descontoDevolucao(): List<NotaSaida> {
+  fun descontoDevolucao(filtro: FiltroFornecedor): List<NotaEntradaDesconto> {
     val sql = "/sqlSaci/descontoDevolucao.sql"
-    return query(sql, NotaSaida::class)
+    return query(sql, NotaEntradaDesconto::class) {
+      addOptionalParameter("filtro", filtro.txt)
+      addOptionalParameter("loja", filtro.loja.no)
+    }
   }
 
   fun ajusteGarantia(pago: Boolean): List<NotaSaida> {
