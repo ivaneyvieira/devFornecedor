@@ -7,12 +7,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewC
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoValorTotal
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
@@ -41,7 +35,7 @@ class TabDesconto(val viewModel: TabDescontoViewModel) : TabPanelGrid<Fornecedor
   }
 
   override fun filtro(): FiltroFornecedor {
-    return FiltroFornecedor(txt = edtFiltro.value ?: "", loja = Loja.lojaZero)
+    return FiltroFornecedor(query = edtFiltro.value ?: "", loja = Loja.lojaZero)
   }
 
   override fun isAuthorized(user: IUser): Boolean {

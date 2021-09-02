@@ -153,10 +153,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     else icon.color = ""
   }
 
-  override fun filtro() = FiltroFornecedor(txt = edtFiltro.value ?: "", loja = cmbLoja.value ?: lojaZero)
+  override fun filtro() = FiltroFornecedor(query = edtFiltro.value ?: "", loja = cmbLoja.value ?: lojaZero)
 
   override fun setFiltro(filtro: FiltroFornecedor) {
-    edtFiltro.value = filtro.txt
+    edtFiltro.value = filtro.query
     cmbLoja.value = filtro.loja
   }
 

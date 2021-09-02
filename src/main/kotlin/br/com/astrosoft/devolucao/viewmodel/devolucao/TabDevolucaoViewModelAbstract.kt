@@ -68,7 +68,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   fun updateFiltro() {
     val filtro = subView.filtro()
     NotaSaida.updateNotasDevolucao(subView)
-    val resultList = NotaSaida.findFornecedores(filtro.txt)
+    val resultList = NotaSaida.findFornecedores(filtro.query)
 
     subView.updateGrid(resultList)
   }
