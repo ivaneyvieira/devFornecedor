@@ -1,3 +1,7 @@
+DO @LOJA := :loja;
+DO @FILTRO := :filtro;
+DO @FILTRO_INT := IF(TRIM(@FILTRO) REGEXP '^[0-9]+$', TRIM(@FILTRO) * 1, 0);
+
 DROP TEMPORARY TABLE IF EXISTS TVEND;
 CREATE TEMPORARY TABLE TVEND (
   PRIMARY KEY (vendno)
@@ -11,13 +15,17 @@ FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
 WHERE V.name NOT LIKE 'ENGECOPI%'
+  AND ((V.name LIKE CONCAT('%', @FILTRO, '%') OR @FILTRO = '') OR
+       (C.no = @FILTRO_INT OR @FILTRO_INT = 0) OR (V.no = @FILTRO_INT OR @FILTRO_INT = 0))
 GROUP BY V.no;
 
 DROP TEMPORARY TABLE IF EXISTS TINV;
 CREATE TEMPORARY TABLE TINV (
   PRIMARY KEY (invno)
 )
-SELECT I.*
+SELECT I.*,
+       SUM(X.amtdue)  AS valor,
+       SUM(X.amtpaid) AS pagamento
 FROM sqldados.inv           AS I
   INNER JOIN sqldados.invxa AS X
 	       USING (invno)
@@ -27,58 +35,24 @@ WHERE X.amtdue > X.amtpaid
   AND X.duedate >= 20200101
   AND I.invse = '1'
   AND (I.bits & POW(2, 4) = 0)
+  AND (I.storeno IN (1, 2, 3, 4, 5, 6))
+  AND (I.storeno = @LOJA OR @LOJA = 0)
 GROUP BY I.invno;
 
 SELECT N.storeno                                    AS loja,
-       S.sname                                      AS sigla,
-       9997                                         AS pdv,
-       N.invno                                      AS transacao,
+       N.invno                                      AS ni,
        N.ordno                                      AS pedido,
-       CAST(NULL AS DATE)                           AS dataPedido,
        CAST(CONCAT(N.nfname, '/', N.invse) AS CHAR) AS nota,
-       ''                                           AS fatura,
        CAST(N.issue_date AS DATE)                   AS dataNota,
+       CAST(N.date AS DATE)                         AS dataEntrada,
+       N.vendno                                     AS vendno,
        V.custno                                     AS custno,
        IFNULL(V.fornecedorNome, '')                 AS fornecedor,
-       V.email                                      AS email,
-       V.fornecedorSap                              AS fornecedorSap,
-       N.vendno                                     AS vendno,
-       IFNULL(R.rmk, '')                            AS rmk,
-       SUM(N.grossamt / 100)                        AS valor,
+       N.valor / 100                                AS valor,
+       (N.valor - N.pagamento) / 100                AS desconto,
+       N.pagamento / 100                            AS pagamento,
        IFNULL(N.remarks, '')                        AS obsNota,
-       'N'                                          AS serie01Rejeitada,
-       'N'                                          AS serie01Pago,
-       'N'                                          AS serie01Coleta,
-       'N'                                          AS serie66Pago,
-       'N'                                          AS remessaConserto,
-       remarks                                      AS remarks,
-       0                                            AS baseIcms,
-       0                                            AS valorIcms,
-       0                                            AS baseIcmsSubst,
-       0                                            AS icmsSubst,
-       0                                            AS valorFrete,
-       0                                            AS valorSeguro,
-       0                                            AS outrasDespesas,
-       0                                            AS valorIpi,
-       0                                            AS valorTotal,
-       ''                                           AS obsPedido,
-       'DES'                                        AS tipo,
-       IFNULL(RV.rmk, '')                           AS rmkVend,
-       IFNULL(X.nfekey, '')                         AS chave,
-       'NF ENTRADA'                                 AS natureza,
-       ''                                           AS chaveDesconto,
-       ''                                           AS observacaoAuxiliar
-FROM TINV                       AS N
-  LEFT JOIN  sqldados.invnfe    AS X
-	       USING (invno)
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS R
-	       ON N.storeno = R.storeno AND R.pdvno = 9997 AND N.invno = R.xano
-  LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = N.vendno AND RV.tipo = N.invse
-  INNER JOIN TVEND              AS V
+       ''                                           AS chaveDesconto
+FROM TINV          AS N
+  INNER JOIN TVEND AS V
 	       ON N.vendno = V.vendno
-  INNER JOIN sqldados.eord      AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.ordno AND O.paymno = 316
-GROUP BY loja, pdv, transacao, dataNota, custno
