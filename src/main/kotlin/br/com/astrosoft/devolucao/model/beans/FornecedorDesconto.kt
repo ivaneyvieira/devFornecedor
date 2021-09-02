@@ -24,9 +24,9 @@ class FornecedorDesconto(
     get() = notas.sumOf { it.valor }
 
   companion object {
-    fun findAll(filtro: FiltroFornecedor) = saci.descontoDevolucao(filtro).groupBy { it.vendno }.mapNotNull {
-      val nota = it.value.firstOrNull() ?: return@mapNotNull null
-      FornecedorDesconto(vendno = nota.vendno, custno = nota.custno, fornecedor = nota.fornecedor, notas = it.value)
+    fun findAll(filtro: FiltroFornecedor) = saci.descontoDevolucao(filtro).groupBy { it.vendno }.mapNotNull {ent ->
+      val nota = ent.value.firstOrNull() ?: return@mapNotNull null
+      FornecedorDesconto(vendno = nota.vendno, custno = nota.custno, fornecedor = nota.fornecedor, notas = ent.value)
     }
   }
 
