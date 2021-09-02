@@ -72,4 +72,4 @@ class Fornecedor(
     get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
 }
 
-data class FiltroFornecedor(val txt: String, val loja: Loja = Loja.lojaZero)
+data class FiltroFornecedor(val query: String, val loja: Loja = Loja.lojaZero)

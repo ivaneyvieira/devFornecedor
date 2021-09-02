@@ -9,7 +9,7 @@ class TabDescontoViewModel(val viewModel: Devolucao01ViewModel) {
     get() = viewModel.view.tabDesconto
 
   fun updateView() = viewModel.exec {
-    val filtro = FiltroFornecedor(txt = "")
+    val filtro = FiltroFornecedor(query = "")
     val list = FornecedorDesconto.findAll(filtro)
     subView.updateGrid(list)
   }
