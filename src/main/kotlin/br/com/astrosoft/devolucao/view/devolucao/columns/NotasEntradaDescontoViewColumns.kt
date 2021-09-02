@@ -24,8 +24,12 @@ object NotasEntradaDescontoViewColumns {
     this.setHeader("Emissão")
   }
 
-  fun Grid<NotaEntradaDesconto>.notaDescontoDataEnbtrada() = addColumnLocalDate(NotaEntradaDesconto::dataEntrada) {
+  fun Grid<NotaEntradaDesconto>.notaDescontoDataEntrada() = addColumnLocalDate(NotaEntradaDesconto::dataEntrada) {
     this.setHeader("Entrada")
+  }
+
+  fun Grid<NotaEntradaDesconto>.notaDescontoDataVencimento() = addColumnLocalDate(NotaEntradaDesconto::vencimento) {
+    this.setHeader("Vencimento")
   }
 
   fun Grid<NotaEntradaDesconto>.notaDescontoValorNota() = addColumnDouble(NotaEntradaDesconto::valor) {
@@ -42,5 +46,7 @@ object NotasEntradaDescontoViewColumns {
 
   fun Grid<NotaEntradaDesconto>.notaDescontoObs() = addColumnString(NotaEntradaDesconto::obsNota) {
     this.setHeader("Observação")
+    this.isAutoWidth = false
+    this.setWidth("40em")
   }
 }
