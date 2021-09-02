@@ -6,7 +6,11 @@ DROP TEMPORARY TABLE IF EXISTS TVEND;
 CREATE TEMPORARY TABLE TVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no AS vendno, C.no AS custno, V.name AS fornecedorNome, V.email, V.auxLong4 AS fornecedorSap
+SELECT V.no       AS vendno,
+       C.no       AS custno,
+       V.name     AS fornecedorNome,
+       V.email,
+       V.auxLong4 AS fornecedorSap
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
@@ -19,7 +23,10 @@ DROP TEMPORARY TABLE IF EXISTS TINV;
 CREATE TEMPORARY TABLE TINV (
   PRIMARY KEY (invno)
 )
-SELECT I.*, SUM(X.amtpaid) AS pagamento, TRIM(GROUP_CONCAT(DISTINCT X.remarks SEPARATOR ' ')) xObs
+SELECT I.*,
+       SUM(X.amtpaid)  AS pagamento,
+       MAX(X.duedate)  AS vencimento,
+       TRIM(X.remarks) AS xObs
 FROM sqldados.inv           AS I
   INNER JOIN sqldados.invxa AS X
 	       USING (invno)
@@ -39,6 +46,7 @@ SELECT N.storeno                                    AS loja,
        N.ordno                                      AS pedido,
        CAST(CONCAT(N.nfname, '/', N.invse) AS CHAR) AS nota,
        CAST(N.issue_date AS DATE)                   AS dataNota,
+       CAST(N.vencimento AS DATE)                   AS vencimento,
        CAST(N.date AS DATE)                         AS dataEntrada,
        N.vendno                                     AS vendno,
        V.custno                                     AS custno,
