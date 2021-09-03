@@ -72,7 +72,7 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
   }
 
   override fun openRelatorio() {
-    DlgRelatorioNfPrec(viewModel, getFiltro()).show()
+    DlgRelatorioNfPrecFiscal(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
