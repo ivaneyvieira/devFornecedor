@@ -23,9 +23,13 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.n
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaQueryColumns.notaQueryValorUnit
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabTodasEntradasViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.selectedItemsSort
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
@@ -35,7 +39,14 @@ class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val li
   private val dataProviderGrid = ListDataProvider<NotaEntradaQuery>(mutableListOf())
 
   fun show() {
-    val form = SubWindowForm("Relatório") {
+    val form = SubWindowForm("Relatório", toolBar = {
+      this.button("Relatório") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          viewModel.imprimeRelatorio(gridNota.selectedItemsSort())
+        }
+      }
+    }) {
       gridNota = createGrid(dataProviderGrid)
       gridNota.setItems(list)
       HorizontalLayout().apply {

@@ -16,7 +16,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabEntradaNddViewModel,
     view.tabEntradaNddReceberViewModel,
     view.tabEntradaNddRecebidoViewModel,
-    view.tabNfPrecViewModel,
+    view.tabNfPrecFiscalViewModel,
     view.tabNfPrecInfoViewModel,
     view.tabTodasEntradasViewModel,
                                  )
@@ -26,7 +26,7 @@ interface IEntradaView : IView {
   val tabEntradaNddViewModel: ITabEntradaNddViewModel
   val tabEntradaNddRecebidoViewModel: ITabEntradaNddRecebidoViewModel
   val tabEntradaNddReceberViewModel: ITabEntradaNddReceberViewModel
-  val tabNfPrecViewModel: ITabNfPrecFiscalViewModel
+  val tabNfPrecFiscalViewModel: ITabNfPrecFiscalViewModel
   val tabNfPrecInfoViewModel: ITabNfPrecInfoViewModel
   val tabTodasEntradasViewModel: ITabTodasEntradasViewModel
 }

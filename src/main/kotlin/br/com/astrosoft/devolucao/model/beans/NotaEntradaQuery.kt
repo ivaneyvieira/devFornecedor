@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class NotaEntradaQuery(
@@ -24,7 +25,12 @@ class NotaEntradaQuery(
   val aliqIpi: Double,
   val valorIcms: Double,
   val aliqIcms: Double,
+  val aliqIpiP: Double,
+  val aliqIcmsP: Double,
                       ) {
+  val dataStr
+    get() = data.format()
+
   companion object {
     fun findNotas(filter: FiltroNotaEntradaQuery) = saci.todasNotasEntradaQuery(filter).filter {
       it.filtroCaracter(filter.listaCaracter)
