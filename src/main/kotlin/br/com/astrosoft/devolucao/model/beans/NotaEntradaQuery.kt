@@ -49,7 +49,7 @@ data class FiltroNotaEntradaQuery(val storeno: Int,
                                   val mfno: Int,
                                   val ni: Int,
                                   val nf: String,
-                                  val prd: String,
+                                  val listaProdutos: String,
                                   val caraterInicial: String) {
   val listaCaracter
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }

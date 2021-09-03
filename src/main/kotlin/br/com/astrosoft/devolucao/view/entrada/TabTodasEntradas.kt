@@ -40,20 +40,20 @@ class TabTodasEntradas(val viewModel: TabTodasEntradasViewModel) : ITabTodasEntr
     edtFornecedorNota.value = if (filtro.vendno == 0) null else filtro.vendno
     edtNi.value = if (filtro.ni == 0) null else filtro.ni
     edtNota.value = filtro.nf
-    edtProduto.value = filtro.prd
+    edtProduto.value = filtro.listaProdutos
     edtCaracter.value = filtro.caraterInicial
   }
 
   override fun getFiltro(): FiltroNotaEntradaQuery {
     return FiltroNotaEntradaQuery(storeno = edtLoja.value?.no ?: 0,
-                                   di = edtDataI.value ?: LocalDate.now(),
-                                   df = edtDataF.value ?: LocalDate.now(),
-                                   vendno = edtFornecedorNota.value ?: 0,
-                                   mfno = edtFornecedorCad.value ?: 0,
-                                   ni = edtNi.value ?: 0,
-                                   nf = edtNota.value ?: "",
-                                   prd = edtProduto.value ?: "",
-                                   caraterInicial = edtCaracter.value ?: "")
+                                  di = edtDataI.value ?: LocalDate.now(),
+                                  df = edtDataF.value ?: LocalDate.now(),
+                                  vendno = edtFornecedorNota.value ?: 0,
+                                  mfno = edtFornecedorCad.value ?: 0,
+                                  ni = edtNi.value ?: 0,
+                                  nf = edtNota.value ?: "",
+                                  listaProdutos = edtProduto.value ?: "",
+                                  caraterInicial = edtCaracter.value ?: "")
   }
 
   override fun openRelatorio(list: List<NotaEntradaQuery>) {
@@ -86,7 +86,11 @@ class TabTodasEntradas(val viewModel: TabTodasEntradasViewModel) : ITabTodasEntr
       edtFornecedorNota = integerField("Fornecedor Nota")
       edtNi = integerField("NI")
       edtNota = textField("Nota Fiscal")
-      edtProduto = textField("Produto")
+    }
+    horizontalLayout {
+      edtProduto = textField("Lista de Produto") {
+        this.width = "600px"
+      }
     }
     br()
     button("Relatório") {

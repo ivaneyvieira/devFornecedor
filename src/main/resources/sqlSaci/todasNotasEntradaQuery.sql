@@ -5,8 +5,7 @@ DO @vendno := :vendno;
 DO @mfno := :mfno;
 DO @ni := :ni;
 DO @nf := :nf;
-DO @prd := LPAD(:prd, 16, ' ');
-DO @CODIGO := :prd;
+DO @listaProdutos := TRIM(:listaProdutos);
 DO @rotulo := '';
 
 DROP TEMPORARY TABLE IF EXISTS T_VEND;
@@ -75,7 +74,7 @@ WHERE I.date BETWEEN @di AND @df
   AND (D.invno = @ni OR @ni = 0)
   AND (I.nfname = @nf OR @nf = '')
   AND (I.vendno = @vendno OR @vendno = 0)
-  AND (D.prdno = @prd OR @CODIGO = '')
+  AND (FIND_IN_SET(TRIM(D.prdno), @listaProdutos) > 0 OR @listaProdutos = '')
 GROUP BY D.invno, D.prdno
 ORDER BY prod, data
 
