@@ -39,7 +39,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioNfPrec(val viewModel: TabNfPrecFiscalViewModel, val filtro: FiltroNfPrecEntrada) {
+class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filtro: FiltroNfPrecEntrada) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
