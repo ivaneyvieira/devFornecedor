@@ -14,7 +14,7 @@ import br.com.astrosoft.framework.viewmodel.fail
 
 class TabNfPrecFiscalViewModel(val viewModel: EntradaViewModel) {
   val subView
-    get() = viewModel.view.tabNfPrecViewModel
+    get() = viewModel.view.tabNfPrecFiscalViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro())

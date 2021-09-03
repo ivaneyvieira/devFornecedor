@@ -51,7 +51,9 @@ SELECT D.storeno                                    AS lj,
        D.ipiAmt / 100                               AS valorIPI,
        IF(D.baseIpi = 0, 0.00, D.ipi / 100)         AS aliqIpi,
        D.icms / 100                                 AS valorIcms,
-       IF(D.baseIcms = 0, 0.00, D.icmsAliq / 100)   AS aliqIcms
+       IF(D.baseIcms = 0, 0.00, D.icmsAliq / 100)   AS aliqIcms,
+       PP.ipi / 100                                 AS aliqIpiP,
+       PP.icm / 100                                 AS aliqIcmsP
 FROM sqldados.iprd            AS D
   INNER JOIN sqldados.inv     AS I
 	       USING (invno)
@@ -63,6 +65,8 @@ FROM sqldados.iprd            AS D
 	       ON (C.no = D.cfop)
   LEFT JOIN  sqldados.spedprd AS S
 	       ON (S.prdno = P.no)
+  LEFT JOIN  sqldados.prp     AS PP
+	       ON (PP.prdno = P.no AND PP.storeno = 10)
 WHERE I.date BETWEEN @di AND @df
   AND D.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (D.storeno = @storeno OR @storeno = 0)
