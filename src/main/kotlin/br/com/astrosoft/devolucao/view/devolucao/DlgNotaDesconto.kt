@@ -64,13 +64,7 @@ class DlgNotaDesconto(val viewModel: TabDescontoViewModel) {
         setFooter(Html("<b><font size=4>${total}</font></b>"))
       }
 
-      notaDescontoObs()/*  this.addColumn(TemplateRenderer.of<NotaEntradaDesconto>("<div>[[item.obsFormat1]]<br>[[item.obsFormat2]]</div>")
-                       .withProperty("obsFormat1", NotaEntradaDesconto::obsFormat1)
-                       .withProperty("obsFormat2", NotaEntradaDesconto::obsFormat2))
-        .setHeader("Observação")
-        .setWidth("20em")
-    }
-  }*/
+      notaDescontoObs()
     }
   }
 }

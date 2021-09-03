@@ -588,7 +588,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("mfno", filtro.mfno)
       addOptionalParameter("ni", filtro.ni)
       addOptionalParameter("nf", filtro.nf)
-      addOptionalParameter("prd", filtro.prd)
+      addOptionalParameter("listaProdutos", filtro.listaProdutos)
     }
   }
 
