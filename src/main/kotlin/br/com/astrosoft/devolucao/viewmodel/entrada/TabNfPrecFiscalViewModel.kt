@@ -12,7 +12,7 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabNfPrecViewModel(val viewModel: EntradaViewModel) {
+class TabNfPrecFiscalViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabNfPrecViewModel
 
@@ -59,7 +59,7 @@ class TabNfPrecViewModel(val viewModel: EntradaViewModel) {
   }
 }
 
-interface ITabNfPrecViewModel : ITabView {
+interface ITabNfPrecFiscalViewModel : ITabView {
   fun setFiltro(filtro: FiltroNfPrecEntrada)
   fun getFiltro(): FiltroNfPrecEntrada
   fun openRelatorio()
