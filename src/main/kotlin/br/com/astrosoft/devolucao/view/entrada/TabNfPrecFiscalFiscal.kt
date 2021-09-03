@@ -4,8 +4,8 @@ import br.com.astrosoft.devolucao.model.beans.EDiferenca.T
 import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecFiscalViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecFiscalViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -21,7 +21,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabNfPrec(val viewModel: TabNfPrecViewModel) : ITabNfPrecViewModel, ITabPanel {
+class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPrecFiscalViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField

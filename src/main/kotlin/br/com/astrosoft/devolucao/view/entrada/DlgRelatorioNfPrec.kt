@@ -3,8 +3,6 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.EDiferenca
 import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcoden
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodep
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
@@ -19,13 +17,11 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvan
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvap
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecFiscalViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -43,7 +39,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioNfPrec(val viewModel: TabNfPrecViewModel, val filtro: FiltroNfPrecEntrada) {
+class DlgRelatorioNfPrec(val viewModel: TabNfPrecFiscalViewModel, val filtro: FiltroNfPrecEntrada) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
