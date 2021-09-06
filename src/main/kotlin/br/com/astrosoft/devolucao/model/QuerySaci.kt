@@ -52,10 +52,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun notasDevolucao(serie: Serie): List<NotaSaida> {
+  fun notasDevolucao(serie: Serie, vendno : Int = 0): List<NotaSaida> {
     val sql = "/sqlSaci/notaDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("serie", serie.value)
+      addOptionalParameter("vendno", vendno)
     }
   }
 
