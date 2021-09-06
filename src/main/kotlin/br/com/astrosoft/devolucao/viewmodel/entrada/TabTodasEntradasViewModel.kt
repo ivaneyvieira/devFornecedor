@@ -33,7 +33,7 @@ class TabTodasEntradasViewModel(val viewModel: EntradaViewModel) {
               nt.grupo("CST", nt.cstn, nt.cstp)
             }
             val grupoIpi = listNotas.map { nt ->
-              nt.grupo("IPI", nt.aliqIpi.format(), nt.aliqIcmsP.format())
+              nt.grupo("IPI", nt.aliqIpi.format(), nt.aliqIpiP.format())
             }
             val grupoIcms = listNotas.map { nt ->
               nt.grupo("ICMS", nt.aliqIcms.format(), nt.aliqIcmsP.format())
