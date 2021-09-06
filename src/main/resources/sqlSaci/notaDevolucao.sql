@@ -1,4 +1,5 @@
 DO @SERIE := :serie;
+DO @VENDNO := :vendno;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -66,6 +67,7 @@ WHERE (N.nfse = @SERIE OR (@SERIE = '' AND (N.nfse IN ('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.tipo = 2
+  AND (V.no = @VENDNO OR @VENDNO = 0)
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;

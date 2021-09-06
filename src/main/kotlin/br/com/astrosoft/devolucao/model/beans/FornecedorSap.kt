@@ -11,9 +11,13 @@ data class FornecedorSap(val codigo: Int,
                          val nome: String,
                          val quantidadeNotas: Int,
                          val notas: List<NotaDevolucaoSap>) {
-  fun notasSaci(): List<NotaSaida> {
-    return saci.notasDevolucao(Serie.Serie01).filter { nota ->
-      nota.serie01Pago == "N" && nota.vendno == vendno
+  private val notasSaci = calculaNotasSaci()
+
+  fun notasSaci() = notasSaci
+
+  private fun calculaNotasSaci(): List<NotaSaida> {
+    return saci.notasDevolucao(Serie.Serie01, vendno).filter { nota ->
+      nota.serie01Pago == "N"
     }
   }
 
@@ -22,6 +26,10 @@ data class FornecedorSap(val codigo: Int,
   val saldoTotal get() = notas.map { it.saldo }.sumOf { it }
   val primeiraDataStr get() = primeiroData.format()
   val ultimaDataStr get() = ultimaData.format()
+
+  val totalSap get() = notas.map { it.saldo }.sumOf { it }
+  val totalSaci get() = notasSaci.map { it.valorNota }.sumOf { it }
+  val diferenca get() = totalSap - totalSaci
 
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.nome} (${this.vendno}) FOR SAP ${this.codigo}"

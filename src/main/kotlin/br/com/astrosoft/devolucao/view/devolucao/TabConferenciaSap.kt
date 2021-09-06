@@ -10,6 +10,9 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumn
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorCodigoSap
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorUltimaData
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorValorDiferenca
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorValorSaci
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorSapViewColumns.fornecedorValorSap
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabConferenciaSap
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabConferenciaSapViewModel
 import br.com.astrosoft.framework.model.IUser
@@ -82,7 +85,11 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
     fornecedorCodigoSaci()
     fornecedorCodigoSap()
     fornecedorNome()
-    fornecedorUltimaData()
+    fornecedorUltimaData(
+                              )
+    fornecedorValorSap()
+    fornecedorValorSaci()
+    fornecedorValorDiferenca()
 
     sort(listOf(GridSortOrder(getColumnBy(FornecedorSap::nome), SortDirection.ASCENDING)))
   }

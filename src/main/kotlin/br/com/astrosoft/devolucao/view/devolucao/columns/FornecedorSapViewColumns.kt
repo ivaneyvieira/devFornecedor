@@ -31,4 +31,16 @@ object FornecedorSapViewColumns {
   fun Grid<FornecedorSap>.fornecedorSaldoTotal() = addColumnDouble(FornecedorSap::saldoTotal) {
     this.setHeader("Saldo Total")
   }
+
+  fun Grid<FornecedorSap>.fornecedorValorSap() = addColumnDouble(FornecedorSap::totalSap) {
+    this.setHeader("V SAP")
+  }
+
+  fun Grid<FornecedorSap>.fornecedorValorSaci() = addColumnDouble(FornecedorSap::totalSaci) {
+    this.setHeader("V SACI")
+  }
+
+  fun Grid<FornecedorSap>.fornecedorValorDiferenca() = addColumnDouble(FornecedorSap::diferenca) {
+    this.setHeader("DIF")
+  }
 }
