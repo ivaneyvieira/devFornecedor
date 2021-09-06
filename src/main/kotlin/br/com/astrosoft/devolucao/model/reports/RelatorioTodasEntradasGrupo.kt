@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaQueryGrupo
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
@@ -19,7 +18,7 @@ class RelatorioTodasEntradasGrupo(val notas: List<NotaEntradaQueryGrupo>) : Repo
     columnString(NotaEntradaQueryGrupo::nfe, width = 50, aligment = CENTER, title = "NF")
     columnInt(NotaEntradaQueryGrupo::fornCad, width = 40, aligment = CENTER, title = "F Cad")
     columnString(NotaEntradaQueryGrupo::prod, width = 45, aligment = CENTER, title = "Prod")
-    columnString(NotaEntradaQueryGrupo::descricao, title = "Descrição"){
+    columnString(NotaEntradaQueryGrupo::descricao, width = 280, title = "Descrição") {
       this.setTextAdjust(TextAdjust.SCALE_FONT)
     }
     columnString(NotaEntradaQueryGrupo::valorNota, width = 40, aligment = CENTER, title = "Nota")
