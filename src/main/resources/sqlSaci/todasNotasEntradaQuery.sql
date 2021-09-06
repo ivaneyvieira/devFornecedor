@@ -32,29 +32,30 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
 
-SELECT D.storeno                                    AS lj,
-       I.invno                                      AS ni,
-       CAST(I.date AS DATE)                         AS data,
-       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR) AS nfe,
-       P.mfno                                       AS fornCad,
-       I.vendno                                     AS fornNota,
-       TRIM(D.prdno)                                AS prod,
-       TRIM(MID(P.name, 1, 37))                     AS descricao,
-       IFNULL(S.ncm, '')                            AS ncm,
-       MID(D.cstIcms, 2, 3)                         AS cstn,
-       P.taxno                                      AS cstp,
-       D.cfop                                       AS cfop,
-       TRIM(MID(P.name, 38, 3))                     AS un,
-       D.qtty / 1000                                AS quant,
-       D.fob / 100                                  AS valorUnit,
-       (D.qtty / 1000) * (D.fob / 100)              AS valorTotal,
-       D.baseIcms / 100                             AS baseIcms,
-       D.ipiAmt / 100                               AS valorIPI,
-       IF(D.baseIpi = 0, 0.00, D.ipi / 100)         AS aliqIpi,
-       D.icms / 100                                 AS valorIcms,
-       IF(D.baseIcms = 0, 0.00, D.icmsAliq / 100)   AS aliqIcms,
-       PP.ipi / 100                                 AS aliqIpiP,
-       IFNULL(PP.dicm, 0) * (-1) / 100              AS aliqIcmsP
+SELECT D.storeno                                                                         AS lj,
+       I.invno                                                                           AS ni,
+       CAST(I.date AS DATE)                                                              AS data,
+       CAST(CONCAT(I.nfname, '/', I.invse) AS CHAR)                                      AS nfe,
+       P.mfno                                                                            AS fornCad,
+       I.vendno                                                                          AS fornNota,
+       TRIM(D.prdno)                                                                     AS prod,
+       TRIM(MID(P.name, 1, 37))                                                          AS descricao,
+       IFNULL(S.ncm, '')                                                                 AS ncm,
+       IF((taxno = '06' AND MID(D.cstIcms, 2, 3) = '10') OR
+	  (taxno = '06' AND MID(D.cstIcms, 2, 3) = '60'), P.taxno, MID(D.cstIcms, 2, 3)) AS cstn,
+       P.taxno                                                                           AS cstp,
+       D.cfop                                                                            AS cfop,
+       TRIM(MID(P.name, 38, 3))                                                          AS un,
+       D.qtty / 1000                                                                     AS quant,
+       D.fob / 100                                                                       AS valorUnit,
+       (D.qtty / 1000) * (D.fob / 100)                                                   AS valorTotal,
+       D.baseIcms / 100                                                                  AS baseIcms,
+       D.ipiAmt / 100                                                                    AS valorIPI,
+       IF(D.baseIpi = 0, 0.00, D.ipi / 100)                                              AS aliqIpi,
+       D.icms / 100                                                                      AS valorIcms,
+       IF(D.baseIcms = 0, 0.00, D.icmsAliq / 100)                                        AS aliqIcms,
+       PP.ipi / 100                                                                      AS aliqIpiP,
+       IFNULL(PP.dicm, 0) * (-1) / 100                                                   AS aliqIcmsP
 FROM sqldados.iprd            AS D
   INNER JOIN sqldados.inv     AS I
 	       USING (invno)
