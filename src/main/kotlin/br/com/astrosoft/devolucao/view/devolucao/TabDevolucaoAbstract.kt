@@ -48,7 +48,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       width = "300px"
       valueChangeMode = TIMEOUT
       addValueChangeListener {
-        viewModel.updateFiltro()
+        viewModel.updateView()
       }
     }
     cmbLoja = comboBox("Loja") {
@@ -63,7 +63,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       value = lojaZero
       isVisible = serie == PED
       addValueChangeListener {
-        viewModel.updateFiltro()
+        viewModel.updateView()
       }
     }
     button("Relatório") {
@@ -102,6 +102,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   }
 
   private fun filename(): String {
+    //TODO Tira isso daqui
     val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
     val textTime = LocalDateTime.now().format(sdf)
     return "notas$textTime.xlsx"
