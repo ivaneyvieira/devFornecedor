@@ -48,9 +48,8 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   }
 
   private fun listFornecedores(): List<Fornecedor> {
-    subView.setFiltro(FiltroFornecedor(""))
     NotaSaida.updateNotasDevolucao(subView)
-    return NotaSaida.findFornecedores("")
+    return NotaSaida.findFornecedores(subView.filtro().query)
   }
 
   fun editRmk(nota: NotaSaida) {
@@ -63,14 +62,6 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     subView.editFile(nota) { nfFile ->
       nfFile.saveFile()
     }
-  }
-
-  fun updateFiltro() {
-    val filtro = subView.filtro()
-    NotaSaida.updateNotasDevolucao(subView)
-    val resultList = NotaSaida.findFornecedores(filtro.query)
-
-    subView.updateGrid(resultList)
   }
 
   fun deleteFile(file: NFFile?) = viewModel.exec {
