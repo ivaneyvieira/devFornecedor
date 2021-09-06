@@ -110,7 +110,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(MULTI)
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      DlgNota(viewModel).showDialogNota(fornecedor, serie){
+      DlgNota(viewModel).showDialogNota(fornecedor, serie) {
         viewModel.updateView()
       }
     }
