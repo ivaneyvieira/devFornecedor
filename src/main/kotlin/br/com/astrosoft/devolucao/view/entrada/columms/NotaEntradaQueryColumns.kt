@@ -44,7 +44,7 @@ object NotaEntradaQueryColumns {
     this.setHeader("NCM")
   }
 
-  fun Grid<NotaEntradaQuery>.notaQueryCst() = addColumnString(NotaEntradaQuery::cst) {
+  fun Grid<NotaEntradaQuery>.notaQueryCst() = addColumnString(NotaEntradaQuery::cstn) {
     this.setHeader("CST")
   }
 
