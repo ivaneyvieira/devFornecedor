@@ -14,7 +14,8 @@ class NotaEntradaQuery(
   val prod: String,
   val descricao: String,
   val ncm: String,
-  val cst: String,
+  val cstn: String,
+  val cstp: String,
   val cfop: String,
   val un: String,
   val quant: Int,
@@ -31,11 +32,57 @@ class NotaEntradaQuery(
   val dataStr
     get() = data.format()
 
+  fun grupo(descricaoGrupo: String, valorNota: String, valorProduto: String): NotaEntradaQueryGrupo {
+    return NotaEntradaQueryGrupo(
+      lj,
+      ni,
+      data,
+      dataStr,
+      nfe,
+      fornCad,
+      fornNota,
+      prod,
+      descricao,
+      ncm,
+      cfop,
+      un,
+      quant,
+      valorUnit,
+      valorTotal,
+      baseIcms,
+      descricaoGrupo,
+      valorNota,
+      valorProduto,
+                                )
+  }
+
   companion object {
     fun findNotas(filter: FiltroNotaEntradaQuery) = saci.todasNotasEntradaQuery(filter).filter {
       it.filtroCaracter(filter.listaCaracter)
     }
   }
+}
+
+class NotaEntradaQueryGrupo(val lj: Int,
+                            val ni: Int,
+                            val data: LocalDate,
+                            val dataStr: String,
+                            val nfe: String,
+                            val fornCad: Int,
+                            val fornNota: Int,
+                            val prod: String,
+                            val descricao: String,
+                            val ncm: String,
+                            val cfop: String,
+                            val un: String,
+                            val quant: Int,
+                            val valorUnit: Double,
+                            val valorTotal: Double,
+                            val baseIcms: Double,
+                            val descricaoGrupo: String,
+                            val valorNota: String,
+                            val valorProduto: String) {
+
 }
 
 private fun NotaEntradaQuery.filtroCaracter(listaCaracter: List<String>): Boolean {

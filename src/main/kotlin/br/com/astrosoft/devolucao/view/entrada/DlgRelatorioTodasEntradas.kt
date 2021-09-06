@@ -25,7 +25,9 @@ import br.com.astrosoft.devolucao.viewmodel.entrada.TabTodasEntradasViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.selectedItemsSort
 import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.checkBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
@@ -35,6 +37,9 @@ import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val list: List<NotaEntradaQuery>) {
+  private lateinit var checkCst : Checkbox
+  private lateinit var checkIcms : Checkbox
+  private lateinit var checkIpi : Checkbox
   private lateinit var gridNota: Grid<NotaEntradaQuery>
   private val dataProviderGrid = ListDataProvider<NotaEntradaQuery>(mutableListOf())
 
@@ -43,9 +48,15 @@ class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val li
       this.button("Relatório") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
-          viewModel.imprimeRelatorio(gridNota.selectedItemsSort())
+          val markCst = checkCst.value ?: false
+          val markIpi = checkIpi.value ?: false
+          val markIcms = checkIcms.value ?: false
+          viewModel.imprimeRelatorio(gridNota.selectedItemsSort(), markCst, markIpi, markIcms)
         }
       }
+      checkCst = checkBox("CST")
+      checkIpi = checkBox("IPI")
+      checkIcms = checkBox("ICMS")
     }) {
       gridNota = createGrid(dataProviderGrid)
       gridNota.setItems(list)
