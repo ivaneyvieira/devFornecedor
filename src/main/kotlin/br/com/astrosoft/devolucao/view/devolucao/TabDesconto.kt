@@ -1,13 +1,17 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroFornecedor
+import br.com.astrosoft.devolucao.model.beans.FornecedorDesconto
+import br.com.astrosoft.devolucao.model.beans.Loja
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorDescontoViewColumns.fornecedorDescontoValorTotal
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabDesconto
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDescontoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid

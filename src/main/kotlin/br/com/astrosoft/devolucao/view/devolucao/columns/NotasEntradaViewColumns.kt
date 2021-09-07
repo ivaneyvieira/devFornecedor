@@ -1,9 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaNdd
-import br.com.astrosoft.devolucao.model.beans.Pedido
 import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid

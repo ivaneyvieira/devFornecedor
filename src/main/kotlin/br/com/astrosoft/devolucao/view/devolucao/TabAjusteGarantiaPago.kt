@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAjusteGarantia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAjusteGarantiaPago
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAjusteGarantiaPagoViewModel
 import br.com.astrosoft.framework.model.IUser

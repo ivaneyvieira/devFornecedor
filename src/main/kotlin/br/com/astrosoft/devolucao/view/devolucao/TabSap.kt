@@ -17,7 +17,7 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -32,10 +32,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
-import org.vaadin.stefan.LazyDownloadButton
-import java.io.ByteArrayInputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(FornecedorSap::class), ITabSap {
   private lateinit var edtFiltro: TextField
@@ -62,30 +58,12 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
         viewModel.imprimirRelatorioResumido(fornecedores)
       }
     }
-    this.add(buttonPlanilha {
-      itensSelecionados()
-    })
-    this.add(buttonPlanilhaResumo {
-      itensSelecionados()
-    })
-  }
-
-  private fun buttonPlanilha(notas: () -> List<FornecedorSap>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha", FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    this.lazyDownloadButtonXlsx("Planilha", "planilha") {
+      viewModel.geraPlanilha(itensSelecionados())
     }
-  }
-
-  private fun buttonPlanilhaResumo(notas: () -> List<FornecedorSap>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha Resumo", FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilhaResumo(notas()))
+    this.lazyDownloadButtonXlsx("Planilha Resumo", "planilhaResumo") {
+      viewModel.geraPlanilhaResumo(itensSelecionados())
     }
-  }
-
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime = LocalDateTime.now().format(sdf)
-    return "notas$textTime.xlsx"
   }
 
   override fun Grid<FornecedorSap>.gridPanel() {

@@ -11,11 +11,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabAbstractEntradaNddViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewModel
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.SubWindowPDF
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.localePtBr
-import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.datepicker.DatePicker
@@ -27,8 +23,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode
-import org.vaadin.stefan.LazyDownloadButton
-import java.io.ByteArrayInputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -114,23 +108,11 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
         viewModel.imprimirRelatorioResumido(fornecedores)
       }
     }
-    this.add(buttonPlanilha {
-      itensSelecionados()
-    })
-    this.add(buttonPlanilhaResumo {
-      itensSelecionados()
-    })
-  }
-
-  private fun buttonPlanilha(notas: () -> List<FornecedorNdd>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas()))
+    this.lazyDownloadButtonXlsx("Planilha", "planilha"){
+      viewModel.geraPlanilha(itensSelecionados())
     }
-  }
-
-  private fun buttonPlanilhaResumo(notas: () -> List<FornecedorNdd>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha Resumo", FontAwesome.Solid.FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilhaResumo(notas()))
+    this.lazyDownloadButtonXlsx("Planilha", "planilhaResumo"){
+      viewModel.geraPlanilhaResumo(itensSelecionados())
     }
   }
 
