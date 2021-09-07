@@ -19,15 +19,14 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.list
-import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v10.getColumnBy
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload

@@ -18,7 +18,6 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
-import com.vaadin.flow.data.renderer.TemplateRenderer
 
 class DlgNotaDesconto(val viewModel: TabDescontoViewModel) {
   fun showDialogNota(fornecedor: FornecedorDesconto?) {

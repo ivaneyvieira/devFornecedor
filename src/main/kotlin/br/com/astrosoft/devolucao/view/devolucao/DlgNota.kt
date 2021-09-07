@@ -15,11 +15,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.SubWindowForm
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.textFieldEditor
-import br.com.astrosoft.framework.view.withEditor
-import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -36,10 +32,6 @@ import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 import org.claspina.confirmdialog.ConfirmDialog
-import org.vaadin.stefan.LazyDownloadButton
-import java.io.ByteArrayInputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @CssImport("./styles/gridTotal.css")
 class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
@@ -91,9 +83,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-      this.add(buttonPlanilha(serie) {
-        gridNota.asMultiSelect().selectedItems.toList()
-      })
+      this.lazyDownloadButtonXlsx("Planilha", "planilha") {
+        val notas = gridNota.asMultiSelect().selectedItems.toList()
+        viewModel.geraPlanilha(notas, serie)
+      }
       button("Email") {
         icon = VaadinIcon.ENVELOPE_O.create()
         onLeftClick {
@@ -115,18 +108,6 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       gridNota
     }
     form.open()
-  }
-
-  private fun buttonPlanilha(serie: Serie, notas: () -> List<NotaSaida>): LazyDownloadButton {
-    return LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), ::filename) {
-      ByteArrayInputStream(viewModel.geraPlanilha(notas(), serie))
-    }
-  }
-
-  private fun filename(): String {
-    val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-    val textTime = LocalDateTime.now().format(sdf)
-    return "notas$textTime.xlsx"
   }
 
   private fun createGridNotas(listNotas: List<NotaSaida>, serie: Serie): Grid<NotaSaida> {
