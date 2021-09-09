@@ -13,6 +13,7 @@ import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewMod
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
