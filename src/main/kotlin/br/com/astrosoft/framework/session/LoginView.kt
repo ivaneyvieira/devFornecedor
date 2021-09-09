@@ -2,7 +2,7 @@ package br.com.astrosoft.framework.session
 
 import br.com.astrosoft.framework.model.Config
 import com.github.mvysny.karibudsl.v10.*
-import com.vaadin.flow.component.UI
+import com.github.mvysny.kaributools.navigateTo
 import com.vaadin.flow.component.login.LoginForm
 import com.vaadin.flow.component.login.LoginI18n
 import com.vaadin.flow.component.page.BodySize
@@ -23,7 +23,7 @@ class LoginView : KComposite(), BeforeEnterObserver {
 
   override fun beforeEnter(event: BeforeEnterEvent) {
     if (SecurityUtils.isUserLoggedIn) {
-      UI.getCurrent().navigate(Config.mainClass.java)
+      navigateTo(Config.mainClass)
     }
   }
 
@@ -39,7 +39,9 @@ class LoginView : KComposite(), BeforeEnterObserver {
           if (!SecurityUtils.login(e.username, e.password)) {
             isError = true
           }
-          else UI.getCurrent().navigate (Config.mainClass.java)
+          else {
+            navigateTo(Config.mainClass)
+          }
         }
       }
     }
