@@ -17,8 +17,8 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstr
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.checkbox.CheckboxGroup

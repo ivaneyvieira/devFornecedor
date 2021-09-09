@@ -20,6 +20,7 @@ import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.dependency.CssImport

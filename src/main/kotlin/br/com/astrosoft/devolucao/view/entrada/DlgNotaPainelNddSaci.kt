@@ -13,7 +13,7 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.integerFieldEditor
 import br.com.astrosoft.framework.view.withEditor
-import com.github.mvysny.karibudsl.v10.getColumnBy
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid

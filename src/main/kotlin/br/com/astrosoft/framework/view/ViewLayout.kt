@@ -5,6 +5,7 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.charts.model.style.SolidColor
 import com.vaadin.flow.component.datepicker.DatePicker
@@ -179,12 +180,12 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(property: KProperty1<T, String?>,
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property)
-  column.isAutoWidth = true
-  if (column.key == null) column.key = property.name
-  column.left()
-  column.block()
-  return column
+  return this.addColumnFor(property) {
+    this.isAutoWidth = true
+    if (this.key == null) this.key = property.name
+    this.left()
+    this.block()
+  }
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnBool(property: KProperty1<T, Boolean?>,
@@ -203,113 +204,108 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnBool(property: KProperty1<T, Boolean
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(property: KProperty1<T, LocalDate?>,
                                                       block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property, renderer = LocalDateRenderer(property, "dd/MM/yyyy"))
-  column.isAutoWidth = true
-  if (column.key == null) column.key = property.name
-  column.left()
-  column.setComparator { a, b ->
-    val dataA = property.get(a) ?: LocalDate.of(1900, 1, 1)
-    val dataB = property.get(b) ?: LocalDate.of(1900, 1, 1)
-    dataA.compareTo(dataB)
+  return this.addColumnFor(property, renderer = LocalDateRenderer(property, "dd/MM/yyyy")) {
+    this.isAutoWidth = true
+    if (this.key == null) this.key = property.name
+    this.left()
+    this.setComparator { a, b ->
+      val dataA = property.get(a) ?: LocalDate.of(1900, 1, 1)
+      val dataB = property.get(b) ?: LocalDate.of(1900, 1, 1)
+      dataA.compareTo(dataB)
+    }
+    this.block()
   }
-  column.block()
-
-  return column
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnDate(property: KProperty1<T, Date?>,
                                                  block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property, renderer = TextRenderer { bean ->
+  return this.addColumnFor(property, renderer = TextRenderer { bean ->
     val date = property.get(bean)
     date.format()
-  })
-  column.isAutoWidth = true
-  if (column.key == null) column.key = property.name
-  column.left()
+  }) {
+    this.isAutoWidth = true
+    if (this.key == null) this.key = property.name
+    this.left()
 
-  column.block()
-
-  return column
+    this.block()
+  }
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalTime(property: KProperty1<T, LocalTime?>,
                                                       block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property, TextRenderer { bean ->
+  return this.addColumnFor(property, TextRenderer { bean ->
     val hora = property.get(bean)
     hora.format()
-  })
-  column.isAutoWidth = true
-  if (column.key == null) column.key = property.name
-  column.left()
-  column.block()
-  return column
+  }) {
+    this.isAutoWidth = true
+    if (this.key == null) this.key = property.name
+    this.left()
+    this.block()
+  }
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnTime(property: KProperty1<T, Time?>,
                                                  block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property, TextRenderer { bean ->
+  return this.addColumnFor(property, TextRenderer { bean ->
     val hora = property.get(bean)
     hora.format()
-  })
-  column.isAutoWidth = true
-  if (column.key == null) column.key = property.name
-  column.left()
-  column.setComparator { a, b ->
-    val dataA = property.get(a) ?: Time(0)
-    val dataB = property.get(b) ?: Time(0)
-    dataA.compareTo(dataB)
+  }) {
+    this.isAutoWidth = true
+    if (this.key == null) this.key = property.name
+    this.left()
+    this.setComparator { a, b ->
+      val dataA = property.get(a) ?: Time(0)
+      val dataB = property.get(b) ?: Time(0)
+      dataA.compareTo(dataB)
+    }
+    this.block()
   }
-  column.block()
-  return column
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(property: KProperty1<T, LocalDateTime?>,
                                                           block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column =
-          this.addColumnFor(property,
-                            renderer = LocalDateTimeRenderer(property, "dd/MM/yyyy hh:mm:ss")) //column.width = "8em"
-  if (column.key == null) column.key = property.name
-  column.isAutoWidth = true
-  column.left()
-  column.setComparator { a, b ->
-    val dataA = property.get(a) ?: LocalDateTime.MIN
-    val dataB = property.get(b) ?: LocalDateTime.MIN
-    dataA.compareTo(dataB)
+  return this.addColumnFor(property, renderer = LocalDateTimeRenderer(property, "dd/MM/yyyy hh:mm:ss")) {
+    if (this.key == null) this.key = property.name
+    this.isAutoWidth = true
+    this.left()
+    this.setComparator { a, b ->
+      val dataA = property.get(a) ?: LocalDateTime.MIN
+      val dataB = property.get(b) ?: LocalDateTime.MIN
+      dataA.compareTo(dataB)
+    }
+
+    this.block()
   }
-
-  column.block()
-
-  return column
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(property: KProperty1<T, Double?>,
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00")))
-  column.isAutoWidth = true
-  column.setComparator { a, b ->
-    val dataA = property.get(a) ?: Double.MIN_VALUE
-    val dataB = property.get(b) ?: Double.MIN_VALUE
-    dataA.compareTo(dataB)
+  return this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00"))) {
+    this.isAutoWidth = true
+    this.setComparator { a, b ->
+      val dataA = property.get(a) ?: Double.MIN_VALUE
+      val dataB = property.get(b) ?: Double.MIN_VALUE
+      dataA.compareTo(dataB)
+    }
+    if (this.key == null) this.key = property.name
+    this.right()
+    this.block()
   }
-  if (column.key == null) column.key = property.name
-  column.right()
-  column.block()
-  return column
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnInt(property: KProperty1<T, Int?>,
                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  val column = this.addColumnFor(property)
-  if (column.key == null) column.key = property.name
-  column.isAutoWidth = true
-  column.setComparator { a, b ->
-    val dataA = property.get(a) ?: Int.MIN_VALUE
-    val dataB = property.get(b) ?: Int.MIN_VALUE
-    dataA.compareTo(dataB)
+  return this.addColumnFor(property) {
+    if (this.key == null) this.key = property.name
+    this.isAutoWidth = true
+    this.setComparator { a, b ->
+      val dataA = property.get(a) ?: Int.MIN_VALUE
+      val dataB = property.get(b) ?: Int.MIN_VALUE
+      dataA.compareTo(dataB)
+    }
+    this.right()
+    this.block()
   }
-  column.right()
-  column.block()
-  return column
 }
 
 fun <T : Any> (@VaadinDsl Grid.Column<T>).right() {

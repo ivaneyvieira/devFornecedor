@@ -24,6 +24,8 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.fetchAll
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY
@@ -77,7 +79,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaVolume()
     agendaTotal().let { col ->
       this.dataProvider.addDataProviderListener {
-        val lista = this.dataProvider.getAll()
+        val lista = this.dataProvider.fetchAll()
         val total = lista.sumOf { it.total }.format()
         col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
       }

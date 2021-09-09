@@ -1,8 +1,8 @@
 package br.com.astrosoft.framework.view
 
-import com.github.mvysny.karibudsl.v10.getAll
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
+import com.github.mvysny.kaributools.fetchAll
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -40,7 +40,7 @@ abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : ITabPanel {
     dataProviderPanel.updateItens(itens)
   }
 
-  fun listBeans() = dataProviderPanel.getAll()
+  fun listBeans() = dataProviderPanel.fetchAll()
 
   fun itensSelecionados() = gridPanel.selectedItems.toList()
 }
