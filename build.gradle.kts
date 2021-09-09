@@ -11,8 +11,10 @@ object Defs {
 
 plugins {
   kotlin("jvm") version "1.5.30"
+  id("org.gretty") version "3.0.6"
   war
   id("com.vaadin") version "0.14.6.0"
+  id("com.google.cloud.tools.jib") version "3.0.0"
 }
 
 defaultTasks("clean", "build")
@@ -24,6 +26,11 @@ repositories {
   maven {
     url = uri("https://maven.vaadin.com/vaadin-addons")
   }
+}
+
+gretty {
+  contextPath = "/"
+  servletContainer = "jetty9.4"
 }
 
 val staging: Configuration by configurations.creating
@@ -105,4 +112,14 @@ dependencies {
 vaadin {
   pnpmEnable = false
   productionMode = false
+}
+
+jib {
+  from {
+    image = "jetty:9.4.40-jre11"
+  }
+  container {
+    appRoot = "/var/lib/jetty/webapps/ROOT"
+    user = "root" // otherwise we'll get https://github.com/appropriate/docker-jetty/issues/80
+  }
 }
