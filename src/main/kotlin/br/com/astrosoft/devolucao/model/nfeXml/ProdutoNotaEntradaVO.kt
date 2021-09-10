@@ -13,7 +13,7 @@ import java.math.BigDecimal
 
 class ProdutoNotaEntradaVO(
   val id: Int,
-  val xmlNfe: String,
+  val xmlNfe: String?,
   val numeroProtocolo: String,
   val dataHoraRecebimento: String,
   val refNFe: String?,
