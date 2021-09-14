@@ -10,7 +10,9 @@ import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
+import org.apache.commons.lang3.StringUtils
 import java.time.LocalDate
+import java.util.*
 import javax.mail.internet.InternetAddress
 
 class NotaSaida(val loja: Int,
@@ -67,6 +69,13 @@ class NotaSaida(val loja: Int,
       }
     }
     return produtos.orEmpty()
+  }
+
+  fun isObservacaoFinanceiro(): Boolean {
+    val chave = this.chaveDesconto?.uppercase(Locale.getDefault()) ?: return false
+    val chaveMaiuscula = StringUtils.stripAccents(chave).uppercase()
+    return chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
+      "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO")
   }
 
   val valorTotalNota

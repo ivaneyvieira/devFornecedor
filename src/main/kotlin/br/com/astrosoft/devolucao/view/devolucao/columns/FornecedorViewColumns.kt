@@ -30,30 +30,14 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.chaveDesconto() = addColumnString(Fornecedor::chaveDesconto) {
     this.setHeader("Observação")
-    this.setClassNameGenerator { "marcaDiferenca" }
+    this.setClassNameGenerator {
+      val nota = it.notaObs ?: return@setClassNameGenerator ""
+      if(nota.tipo != "1") return@setClassNameGenerator ""
+      if (nota.isObservacaoFinanceiro()) "marcaDiferenca"
+      else "marcaRed"
+    }
   }
 
-  /*
-    fun Grid<Fornecedor>.tipoPagDesconto() = addColumnString(Fornecedor::tipoPag) {
-      this.setHeader("Obs Pgto1")
-      this.setClassNameGenerator { "marcaDiferenca" }
-    }
-
-    fun Grid<Fornecedor>.documentoPagDesconto() = addColumnString(Fornecedor::documentoPag) {
-      this.setHeader("Obs Pgto2")
-      this.setClassNameGenerator { "marcaDiferenca" }
-    }
-
-    fun Grid<Fornecedor>.niPagDesconto() = addColumnString(Fornecedor::niPag) {
-      this.setHeader("NI")
-      this.setClassNameGenerator { "marcaDiferenca" }
-    }
-
-    fun Grid<Fornecedor>.vencimentoPagDesconto() = addColumnString(Fornecedor::vencimentoPag) {
-      this.setHeader("Vencimento")
-      this.setClassNameGenerator { "marcaDiferenca" }
-    }
-  */
   fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valorTotal) {
     this.setHeader("Valor Total")
   }

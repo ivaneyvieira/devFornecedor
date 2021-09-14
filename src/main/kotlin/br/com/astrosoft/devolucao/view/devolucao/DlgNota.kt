@@ -151,7 +151,11 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
         chaveDesconto().textFieldEditor().apply {
-          this.setClassNameGenerator { "marcaDiferenca" }
+          this.setClassNameGenerator {
+            val nota = it ?: return@setClassNameGenerator ""
+            if(nota.tipo != "1") return@setClassNameGenerator ""
+            if (nota.isObservacaoFinanceiro()) "marcaDiferenca" else "marcaRed"
+          }
         }
       }
       notaValor().apply {

@@ -89,10 +89,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun notaFinanceiro(): List<NotaSaida> {
     return notasDevolucao(Serie.Serie01).filter { nota ->
-      val chave = nota.chaveDesconto?.uppercase(Locale.getDefault()) ?: return@filter false
-      val chaveMaiuscula = StringUtils.stripAccents(chave).uppercase()
-      chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
-        "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO")
+      nota.isObservacaoFinanceiro()
     }
   }
 
