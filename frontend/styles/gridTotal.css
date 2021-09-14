@@ -4,7 +4,7 @@
 }
 
 [part~="cell"].marcaRed {
-    color: red;
+    color: #5b96e4;
     font-weight: bold;
 }
 
