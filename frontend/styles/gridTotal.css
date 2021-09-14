@@ -3,6 +3,11 @@
     font-weight: bold;
 }
 
+[part~="cell"].marcaRed {
+    color: red;
+    font-weight: bold;
+}
+
 [part~="cell"].destaque1 {
     background: hsla(214, 90%, 52%, 0.4);
 }

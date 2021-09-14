@@ -30,11 +30,14 @@ class Fornecedor(
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
     }.minOfOrNull { it }
 
-  private val notaObs
+  val notaObs
     get() = notas.sortedBy { it.dataNota }.lastOrNull { !it.chaveDesconto.isNullOrBlank() }
 
   val chaveDesconto: String
-    get() = notaObs?.chaveDesconto ?: ""
+    get() {
+      val nota = notaObs ?: return ""
+      return nota.chaveDesconto ?: ""
+    }
 
   val ultimaDataStr
     get() = ultimaData.format()
