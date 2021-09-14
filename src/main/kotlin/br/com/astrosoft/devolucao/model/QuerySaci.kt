@@ -522,7 +522,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       it.executeScalar(Int::class.java)
     }
   }
-
+/*
   fun fetchNfPrec(
     filter: FiltroNfPrecEntrada,
     offset: Int,
@@ -539,7 +539,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       it.executeAndFetch(NfPrecEntrada::class.java)
     }
   }
-
+*/
   fun notaSaidaNDD(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
     val sql = "/sqlSaci/notaSaida.sql"
     val dataI = filtro.dataI?.toSaciDate() ?: 20000101
