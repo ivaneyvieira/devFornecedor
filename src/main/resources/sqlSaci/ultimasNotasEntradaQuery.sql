@@ -126,24 +126,6 @@ WHERE inv.date BETWEEN @di AND @df
   AND (iprd.prdno = @prd OR @CODIGO = '')
 GROUP BY inv.invno, iprd.prdno, grade;
 
-DROP TABLE IF EXISTS sqldados.T_MAX;
-CREATE TEMPORARY TABLE sqldados.T_MAX (
-  PRIMARY KEY (Prod, grade, NI, cstDif, icmsDif, ipiDif, mvaDif, ncmDif)
-)
-SELECT Prod,
-       grade,
-       IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
-	  'N')                                                                       AS cstDif,
-       IF(ROUND(IF(CSTn = '20', ICMSc, ICMSn) * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
-       IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')                           AS ipiDif,
-       IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                           AS mvaDif,
-       IF(NCMn = NCMp, 'S', 'N')                                                     AS ncmDif,
-       IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif,
-       IF(refPrdp = refPrdn, 'S', 'N')                                               AS refPrdDif,
-       MAX(NI)                                                                       AS NI
-FROM sqldados.T_QUERY
-GROUP BY Prod, grade, cstDif, icmsDif, ipiDif, mvaDif, ncmDif, barcodeDif, refPrdDif;
-
 DROP TABLE IF EXISTS sqldados.query1234567;
 CREATE TABLE sqldados.query1234567 (
   INDEX (cstDif),
@@ -159,7 +141,7 @@ SELECT lj,
        nfe,
        fornCad,
        fornNota,
-       TRIM(prod) AS prod,
+       TRIM(prod)                                                                                AS prod,
        grade,
        descricao,
        icmsn,
@@ -174,17 +156,17 @@ SELECT lj,
        mvap,
        ncmn,
        ncmp,
-       cstDif,
-       icmsDif,
-       ipiDif,
-       mvaDif,
-       ncmDif,
+       IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
+	  'N')                                                                                   AS cstDif,
+       IF(ROUND(IF(CSTn = '20', ICMSc, ICMSn) * 100) = ROUND(ICMSp * 100), 'S',
+	  'N')                                                                                   AS icmsDif,
+       IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')                                       AS ipiDif,
+       IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                                       AS mvaDif,
+       IF(NCMn = NCMp, 'S', 'N')                                                                 AS ncmDif,
        barcodep,
        barcoden,
-       barcodeDif,
+       IF(barcodep = barcoden, 'S', 'N')                                                         AS barcodeDif,
        refPrdp,
        refPrdn,
-       refPrdDif
+       IF(refPrdp = refPrdn, 'S', 'N')                                                           AS refPrdDif
 FROM sqldados.T_QUERY
-  INNER JOIN sqldados.T_MAX
-	       USING (Prod, grade, NI)
