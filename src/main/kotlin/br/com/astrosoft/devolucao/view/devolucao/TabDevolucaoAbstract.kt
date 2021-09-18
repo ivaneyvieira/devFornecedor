@@ -107,6 +107,9 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorNome()
 
     if (serie in listOf(FIN, Serie01, PED)) {
+      if(serie in listOf(Serie01)){
+        fornecedorPrimeiraData()
+      }
       chaveDesconto()
     }
     else {
