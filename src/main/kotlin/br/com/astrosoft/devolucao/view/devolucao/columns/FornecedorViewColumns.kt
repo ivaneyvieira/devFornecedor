@@ -44,8 +44,9 @@ object FornecedorViewColumns {
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
-      val data = it.dataAgenda ?: return@setClassNameGenerator ""
-      if (data.isAfter(LocalDate.now())) "marcaDiferenca"
+      val nota = it.notaObs ?: return@setClassNameGenerator ""
+      if (nota.tipo != "1") return@setClassNameGenerator ""
+      if (nota.isObservacaoFinanceiro()) "marcaDiferenca"
       else "marcaRed"
     }
   }
