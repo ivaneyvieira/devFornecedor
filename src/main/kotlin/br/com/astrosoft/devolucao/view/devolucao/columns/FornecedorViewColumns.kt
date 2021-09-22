@@ -31,6 +31,8 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.chaveDesconto() = addColumnString(Fornecedor::chaveDesconto) {
     this.setHeader("Observação")
+    this.isAutoWidth = false
+    this.width = "30em"
     this.setClassNameGenerator {
       val nota = it.notaObs ?: return@setClassNameGenerator ""
       if (nota.tipo != "1") return@setClassNameGenerator ""
