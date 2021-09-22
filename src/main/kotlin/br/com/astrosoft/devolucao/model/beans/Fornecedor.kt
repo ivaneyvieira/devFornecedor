@@ -30,6 +30,11 @@ class Fornecedor(
       if (nota.tipo == "PED") nota.dataPedido else nota.dataNota
     }.minOfOrNull { it }
 
+  val dataAgenda
+    get() = notas.mapNotNull { nota ->
+      nota.dataAgenda
+    }.maxOfOrNull { it }
+
   val notaObs
     get() = notas.sortedBy { it.dataNota }.lastOrNull { !it.chaveDesconto.isNullOrBlank() }
 

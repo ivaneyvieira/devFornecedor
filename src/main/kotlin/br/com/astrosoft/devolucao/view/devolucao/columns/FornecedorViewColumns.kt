@@ -6,6 +6,7 @@ import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
+import java.time.LocalDate
 
 object FornecedorViewColumns {
   fun Grid<Fornecedor>.fornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
@@ -32,8 +33,17 @@ object FornecedorViewColumns {
     this.setHeader("Observação")
     this.setClassNameGenerator {
       val nota = it.notaObs ?: return@setClassNameGenerator ""
-      if(nota.tipo != "1") return@setClassNameGenerator ""
+      if (nota.tipo != "1") return@setClassNameGenerator ""
       if (nota.isObservacaoFinanceiro()) "marcaDiferenca"
+      else "marcaRed"
+    }
+  }
+
+  fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
+    this.setHeader("Agenda")
+    this.setClassNameGenerator {
+      val data = it.dataAgenda ?: return@setClassNameGenerator ""
+      if (data.isAfter(LocalDate.now())) "marcaDiferenca"
       else "marcaRed"
     }
   }

@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.beans.Loja.Companion.lojaZero
 import br.com.astrosoft.devolucao.model.reports.*
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.chaveDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
@@ -110,6 +111,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       if(serie in listOf(Serie01)){
         fornecedorPrimeiraData()
       }
+      dataAgendaDesconto()
       chaveDesconto()
     }
     else {

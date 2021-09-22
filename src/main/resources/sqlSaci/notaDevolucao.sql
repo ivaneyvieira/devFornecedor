@@ -43,7 +43,8 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
        IFNULL(OP.name, '')                                                                     AS natureza,
-       CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto
+       CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto,
+       CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
@@ -130,7 +131,8 @@ SELECT N.storeno                                                          AS loj
        chave                                                              AS chave,
        natureza                                                           AS natureza,
        IF(@PAGO = 'S', IFNULL(D.obsDup, ''), N.chaveDesconto)             AS chaveDesconto,
-       IFNULL(D.obsDup, '')                                               AS observacaoAuxiliar
+       IFNULL(D.obsDup, '')                                               AS observacaoAuxiliar,
+       dataAgenda                                                         AS dataAgenda
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
