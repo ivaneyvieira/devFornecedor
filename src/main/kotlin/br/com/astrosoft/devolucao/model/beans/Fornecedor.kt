@@ -31,12 +31,10 @@ class Fornecedor(
     }.minOfOrNull { it }
 
   val dataAgenda
-    get() = notas.mapNotNull { nota ->
-      nota.dataAgenda
-    }.maxOfOrNull { it }
+    get() = notaObs?.dataAgenda
 
   val notaObs
-    get() = notas.sortedBy { it.dataNota }.lastOrNull { !it.chaveDesconto.isNullOrBlank() }
+    get() = notas.sortedBy { it.dataNota }.firstOrNull { !it.chaveDesconto.isNullOrBlank() }
 
   val chaveDesconto: String
     get() {
