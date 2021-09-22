@@ -40,6 +40,8 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.dataAgendaDesconto() = addColumnLocalDate(NotaSaida::dataAgenda) {
     this.setHeader("Agenda")
+    this.isAutoWidth = false
+    this.width = "100px"
     this.setClassNameGenerator {
       val data = it.dataAgenda ?: return@setClassNameGenerator ""
       if (data.isAfter(LocalDate.now())) "marcaDiferenca"
