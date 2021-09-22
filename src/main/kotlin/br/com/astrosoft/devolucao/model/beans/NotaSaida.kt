@@ -54,7 +54,8 @@ class NotaSaida(val loja: Int,
                 val chave: String,
                 val natureza: String,
                 var chaveDesconto: String?,
-                var observacaoAuxiliar: String?) {
+                var observacaoAuxiliar: String?,
+                var dataAgenda: LocalDate?) {
   private var produtos: List<ProdutosNotaSaida>? = null
 
   fun listaProdutos(): List<ProdutosNotaSaida> {

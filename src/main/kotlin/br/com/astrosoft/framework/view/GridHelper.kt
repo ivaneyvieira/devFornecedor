@@ -1,5 +1,6 @@
 package br.com.astrosoft.framework.view
 
+import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.textfield.*
 import com.vaadin.flow.data.binder.Binder
@@ -60,12 +61,18 @@ fun <T : Any> Grid.Column<T>.integerFieldEditor(block: IntegerField.() -> Unit =
 
 fun <T : Any> Grid.Column<T>.textFieldEditor(): Grid.Column<T> {
   val grid = this.grid
-  val component = textFieldComponente()/*
-  component.addKeyPressListener {
-    if(it.key == Key.ENTER){
-      grid.editor.save()
-    }
-  }*/
+  val component = textFieldComponente()
+  component.element.addEventListener("keydown") { _ ->
+    grid.editor.cancel()
+  }.filter = "event.key === 'Enter'"
+  grid.editor.binder.forField(component).bind(this.key)
+  this.editorComponent = component
+  return this
+}
+
+fun <T : Any> Grid.Column<T>.dateFieldEditor(): Grid.Column<T> {
+  val grid = this.grid
+  val component = dateFieldComponente()
   component.element.addEventListener("keydown") { _ ->
     grid.editor.cancel()
   }.filter = "event.key === 'Enter'"
@@ -91,6 +98,13 @@ private fun textFieldComponente() = TextField().apply {
   this.valueChangeMode = ValueChangeMode.ON_CHANGE
   addThemeVariants(TextFieldVariant.LUMO_SMALL)
   this.isAutoselect = true
+  this.isClearButtonVisible = true
+  this.setWidthFull()
+  setSizeFull()
+}
+
+private fun dateFieldComponente() = DatePicker().apply {
+  this.localePtBr()
   this.isClearButtonVisible = true
   this.setWidthFull()
   setSizeFull()
