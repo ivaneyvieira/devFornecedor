@@ -76,7 +76,8 @@ class NotaSaida(val loja: Int,
     val chave = this.chaveDesconto?.uppercase(Locale.getDefault()) ?: return false
     val chaveMaiuscula = StringUtils.stripAccents(chave).uppercase()
     return chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
-      "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO")
+      "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO") || chaveMaiuscula.contains(
+      "DESC TITULO") || chaveMaiuscula.contains("CREDITO CONTA") || chaveMaiuscula.contains("CREDITO TITULO")
   }
 
   val valorTotalNota
