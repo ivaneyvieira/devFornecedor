@@ -174,6 +174,12 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     SubWindowPDF(chave, report).open()
   }
 
+  override fun imprimirRelatorioPedidos(notas: List<NotaSaida>) {
+    val report = RelatorioFornecedorPedido.processaRelatorio(notas)
+    val chave = "DevFornecedorNotas"
+    SubWindowPDF(chave, report).open()
+  }
+
   override fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
     DlgEditRmk().editRmk(nota, save)
   }

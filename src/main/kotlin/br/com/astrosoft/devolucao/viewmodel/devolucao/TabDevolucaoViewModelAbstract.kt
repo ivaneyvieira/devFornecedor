@@ -187,6 +187,13 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     notaSaida ?: fail("Nenhuma nota selecionada")
     NotaSaida.salvaDesconto(notaSaida)
   }
+
+  fun imprimirRelatorioPedidos(notas: List<NotaSaida>) = viewModel.exec {
+    notas.ifEmpty {
+      fail("Nenhuma fornecedor foi selecionada")
+    }
+    subView.imprimirRelatorioPedidos(notas)
+  }
 }
 
 enum class SimNao(val value: String) {
@@ -221,5 +228,6 @@ interface ITabNota : ITabView, IFiltro {
   fun enviaEmail(notas: List<NotaSaida>)
   fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>)
   fun editRmkVend(fornecedor: Fornecedor, save: (Fornecedor) -> Unit)
+  fun imprimirRelatorioPedidos(notas: List<NotaSaida>)
 }
 
