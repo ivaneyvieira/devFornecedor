@@ -41,14 +41,25 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      val captionImpressoa =
-              if (serie == Serie.Serie66 || serie == Serie.PED || serie == Serie.AJT) "Impressão Completa"
-              else "Impressão"
-      button(captionImpressoa) {
-        icon = VaadinIcon.PRINT.create()
-        onLeftClick {
-          val notas = gridNota.asMultiSelect().selectedItems.toList()
-          viewModel.imprimirNotaDevolucao(notas)
+      if(serie == Serie.PED){
+        button("Relatório Pedido") {
+          icon = VaadinIcon.PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirRelatorioPedidos(notas)
+          }
+        }
+      }
+      else {
+        val captionImpressoa =
+                if (serie == Serie.Serie66 || serie == Serie.AJT) "Impressão Completa"
+                else "Impressão"
+        button(captionImpressoa) {
+          icon = VaadinIcon.PRINT.create()
+          onLeftClick {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.imprimirNotaDevolucao(notas)
+          }
         }
       }
       if (serie == Serie.Serie01) {

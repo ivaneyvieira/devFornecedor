@@ -41,6 +41,10 @@ class PlanilhaNotasPedidos {
             CampoNumber("Alíq. ICMS") { icmsAliq },
             CampoNumber("Alíq. IPI") { ipiAliq },
             CampoNumber("V. Total") { valorTotalGeral },
+            CampoString("Chave") {
+              val size = chaveUlt?.length ?: return@CampoString ""
+              if (size > 6) chaveUlt.substring(0, 6) else ""
+            },
                 )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
