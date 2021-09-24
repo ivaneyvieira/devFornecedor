@@ -108,7 +108,6 @@ class NotaSaida(val loja: Int,
   val valorNota
     get() = when (tipo) {
       "1"   -> valor
-      "PED" -> valor
       else  -> listaProdutos().sumOf { it.valorTotalIpi }
     }
   val valorTotalProduto: Double

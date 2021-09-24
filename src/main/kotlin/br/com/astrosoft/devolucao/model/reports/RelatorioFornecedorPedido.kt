@@ -51,7 +51,7 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
           }
 
   private val valorCol: TextColumnBuilder<Double> =
-          col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
+          col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
             this.setPattern("#,##0.00")
             this.setHorizontalTextAlignment(RIGHT)
             this.setFixedWidth(100)
