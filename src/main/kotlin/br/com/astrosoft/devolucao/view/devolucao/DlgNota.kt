@@ -41,7 +41,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
     lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      if(serie == Serie.PED){
+      if (serie == Serie.PED) {
         button("Relatório Pedido") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -50,18 +50,18 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-      else {
-        val captionImpressoa =
-                if (serie == Serie.Serie66 || serie == Serie.AJT) "Impressão Completa"
-                else "Impressão"
-        button(captionImpressoa) {
-          icon = VaadinIcon.PRINT.create()
-          onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirNotaDevolucao(notas)
-          }
+
+      val captionImpressoa =
+              if (serie == Serie.Serie66 || serie == Serie.PED || serie == Serie.AJT) "Impressão Completa"
+              else "Impressão"
+      button(captionImpressoa) {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirNotaDevolucao(notas)
         }
       }
+
       if (serie == Serie.Serie01) {
         button("Impressão Fornecedor") {
           icon = VaadinIcon.PRINT.create()
@@ -166,7 +166,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator {
             val nota = it ?: return@setClassNameGenerator ""
-            if(nota.tipo != "1") return@setClassNameGenerator ""
+            if (nota.tipo != "1") return@setClassNameGenerator ""
             if (nota.isObservacaoFinanceiro()) "marcaDiferenca" else "marcaRed"
           }
         }

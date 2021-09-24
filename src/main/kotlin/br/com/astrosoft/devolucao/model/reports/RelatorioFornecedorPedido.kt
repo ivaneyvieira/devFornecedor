@@ -27,7 +27,7 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
   private val labelTitleCol: TextColumnBuilder<String> =
-          col.column("", NotaSaida::labelTitle.name, type.stringType()).apply {
+          col.column("", NotaSaida::labelTitlePedido.name, type.stringType()).apply {
             setHeight(50)
           }
 
@@ -63,7 +63,7 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
     val largura = 40 + 60 + 60 + 60 + 100
     return verticalBlock {
       horizontalList {
-        text("PEDIDO", CENTER, largura).apply {
+        text("PEDIDO DEVOLUÇÃO FORNECEDOR", CENTER, largura).apply {
           this.setStyle(fieldFontGrande.setForegroundColor(Color.WHITE))
         }
       }
@@ -101,8 +101,8 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())
-      .subtotalsAtGroupFooter(itemGroup, * subtotalBuilder("Total R$").toTypedArray())
-      .subtotalsAtSummary(* subtotalBuilder("Total Geral").toTypedArray())
+      //.subtotalsAtGroupFooter(itemGroup, * subtotalBuilder("Total R$").toTypedArray())
+      //.subtotalsAtSummary(* subtotalBuilder("Total Geral").toTypedArray())
       .setSubtotalStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
       .setColumnStyle(fieldFontNormal)
