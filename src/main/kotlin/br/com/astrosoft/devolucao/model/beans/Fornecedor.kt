@@ -49,7 +49,7 @@ class Fornecedor(
     get() = primeiraData.format()
 
   val valorTotal
-    get() = notas.sumOf { it.valorTotal }
+    get() = notas.sumOf { it.valorNota }
 
   fun listEmail(): List<String> {
     val list = listRepresentantes().map {
