@@ -106,7 +106,11 @@ class NotaSaida(val loja: Int,
     get() = "FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
 
   val valorNota
-    get() = if (tipo == "1") valor else listaProdutos().sumOf { it.valorTotalIpi }
+    get() = when (tipo) {
+      "1"   -> valor
+      "PED" -> valor
+      else  -> listaProdutos().sumOf { it.valorTotalIpi }
+    }
   val valorTotalProduto: Double
     get() = listaProdutos().sumOf {
       it.valorTotal
