@@ -53,7 +53,7 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valor) {
+  fun Grid<Fornecedor>.fornecedorValorTotal() = addColumnDouble(Fornecedor::valorTotal) {
     this.setHeader("Valor Total")
   }
 }
