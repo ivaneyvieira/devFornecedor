@@ -77,7 +77,8 @@ class NotaSaida(val loja: Int,
     val chaveMaiuscula = StringUtils.stripAccents(chave).uppercase()
     return chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
       "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO") || chaveMaiuscula.contains(
-      "DESC TITULO") || chaveMaiuscula.contains("CREDITO CONTA") || chaveMaiuscula.contains("CREDITO TITULO")
+      "DESC TITULO") || chaveMaiuscula.contains("CREDITO CONTA") || chaveMaiuscula.contains("CREDITO TITULO") || chaveMaiuscula.contains(
+      "CREDITO APLICADO")
   }
 
   val valorTotalNota
@@ -107,8 +108,8 @@ class NotaSaida(val loja: Int,
 
   val valorNota
     get() = when (tipo) {
-      "1"   -> valor
-      else  -> listaProdutos().sumOf { it.valorTotalIpi }
+      "1"  -> valor
+      else -> listaProdutos().sumOf { it.valorTotalIpi }
     }
   val valorTotalProduto: Double
     get() = listaProdutos().sumOf {
