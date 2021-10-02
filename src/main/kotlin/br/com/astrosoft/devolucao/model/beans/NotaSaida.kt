@@ -78,7 +78,7 @@ class NotaSaida(val loja: Int,
     return chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
       "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO") || chaveMaiuscula.contains(
       "DESC TITULO") || chaveMaiuscula.contains("CREDITO CONTA") || chaveMaiuscula.contains("CREDITO TITULO") || chaveMaiuscula.contains(
-      "CREDITO APLICADO")
+      "CREDITO APLICADO") || chaveMaiuscula.contains("CREDITO DUP")
   }
 
   val valorTotalNota
