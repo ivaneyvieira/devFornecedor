@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataAgendaDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataSituacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
@@ -12,6 +13,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
@@ -117,7 +119,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
 
       if (viewModel is TabNotaPendenteViewModel) {
         val cmbSituacao = comboBox<ESituacaoPendencia>("Situacao") {
-          setItems(ESituacaoPendencia.values().filter { !it.value.isNullOrBlank() })
+          setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
+          setItemLabelGenerator {
+            it.title
+          }
           isAutoOpen = true
           isClearButtonVisible = false
           isPreventInvalidInput = true
@@ -159,8 +164,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       addColumnButton(VaadinIcon.EDIT, "Editor", "Edt", ::configIconEdt) { nota ->
         viewModel.editRmk(nota)
       }
-      addColumnButton(VaadinIcon.ENVELOPE_O, "Editor", "Email", ::configMostraEmail) { nota ->
-        viewModel.mostrarEmailNota(nota)
+      if(viewModel !is TabNotaPendenteViewModel) {
+        addColumnButton(VaadinIcon.ENVELOPE_O, "Editor", "Email", ::configMostraEmail) { nota ->
+          viewModel.mostrarEmailNota(nota)
+        }
       }
 
       notaLoja()
@@ -175,6 +182,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       else {
         notaFatura()
+      }
+      if(viewModel is TabNotaPendenteViewModel){
+        dataSituacaoDesconto()
+        situacaoDesconto()
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
         dataAgendaDesconto().dateFieldEditor()

@@ -12,7 +12,7 @@ class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSub
       fail("Não foi selecionado nenhuma nota")
     }
     itens.forEach {nota ->
-      nota.situacao = situacao.value ?: ""
+      nota.situacao = situacao.valueStr ?: ""
       nota.dataSituacao = LocalDate.now()
       NotaSaida.salvaDesconto(nota)
     }

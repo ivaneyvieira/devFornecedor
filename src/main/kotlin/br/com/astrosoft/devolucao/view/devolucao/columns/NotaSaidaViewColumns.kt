@@ -49,6 +49,18 @@ object NotaSaidaViewColumns {
     }
   }
 
+  fun Grid<NotaSaida>.dataSituacaoDesconto() = addColumnLocalDate(NotaSaida::dataSituacao) {
+    this.setHeader("Data Sit")
+    this.isAutoWidth = false
+    this.width = "100px"
+  }
+
+  fun Grid<NotaSaida>.situacaoDesconto() = addColumnString(NotaSaida::situacao) {
+    this.setHeader("Situacao")
+    this.isAutoWidth = false
+    this.width = "100px"
+  }
+
   /*
   fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
     this.setHeader("Obs Pgto1")
