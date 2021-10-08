@@ -101,8 +101,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
     }
-    addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") { fornecedor ->
-      DlgFornecedor().showDialogRepresentante(fornecedor)
+    if(viewModel !is TabNotaPendenteViewModel) {
+      addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") { fornecedor ->
+        DlgFornecedor().showDialogRepresentante(fornecedor)
+      }
     }
     if (serie != ENT) fornecedorCodigo()
     fornecedorCliente()

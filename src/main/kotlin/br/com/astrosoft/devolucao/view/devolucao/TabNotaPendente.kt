@@ -12,7 +12,7 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, val situacao: ESituac
   override val label: String
     get() = situacao.title
   override val situacaoPendencia: String?
-    get() = situacao.value
+    get() = situacao.valueStr
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
