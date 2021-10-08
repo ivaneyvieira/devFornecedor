@@ -188,6 +188,15 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             binder.bind(this, UserSaci::notaSaida.name)
           }
         }
+        formLayout {
+          h4("Dev For Pendentes") {
+            colspan = 2
+          }
+          checkBox("Notas") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendente.name)
+          }
+        }
       }
     }
   }

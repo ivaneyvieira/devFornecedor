@@ -40,7 +40,7 @@ class DevolucaoPendenteView : ViewLayout<DevolucaoPendenteViewModel>(), IDevoluc
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.admin
+    return userSaci.forPendente
   }
 
   init {
