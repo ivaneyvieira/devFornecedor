@@ -16,6 +16,7 @@ class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSub
       nota.dataSituacao = LocalDate.now()
       NotaSaida.salvaDesconto(nota)
     }
+    subView.updateComponent()
   }
 
   override val subView: ITabNota
