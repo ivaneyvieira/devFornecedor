@@ -10,6 +10,8 @@ class TabNotaRemessaConserto(viewModel: TabNotaRemessaConsertoViewModel) :
         TabDevolucaoAbstract<IDevolucao01View>(viewModel), ITabNotaRemessaConserto {
   override val label: String
     get() = "Notas Conserto"
+  override val situacaoPendencia: String?
+    get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

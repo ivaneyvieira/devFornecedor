@@ -11,16 +11,17 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
+import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
-import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.comboBox
+import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.combobox.ComboBox
@@ -78,11 +79,11 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         viewModel.imprimirRelatorioResumido(fornecedores)
       }
     }
-    this.lazyDownloadButtonXlsx("Planilha", "planilha"){
+    this.lazyDownloadButtonXlsx("Planilha", "planilha") {
       val notas = itensSelecionados().flatMap { it.notas }
       viewModel.geraPlanilha(notas, serie)
     }
-    this.lazyDownloadButtonXlsx("Planilha Resumo", "planilhaResumo"){
+    this.lazyDownloadButtonXlsx("Planilha Resumo", "planilhaResumo") {
       viewModel.geraPlanilhaResumo(itensSelecionados())
     }
   }
@@ -108,7 +109,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorNome()
 
     if (serie in listOf(FIN, Serie01, PED)) {
-      if(serie in listOf(Serie01)){
+      if (serie in listOf(Serie01)) {
         fornecedorPrimeiraData()
       }
       dataAgendaDesconto()

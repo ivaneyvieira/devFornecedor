@@ -10,6 +10,8 @@ class TabPedidoPago(viewModel: TabPedidoPagoViewModel) : TabDevolucaoAbstract<ID
         ITabPedidoPago {
   override val label: String
     get() = "Pedido Pago"
+  override val situacaoPendencia: String?
+    get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

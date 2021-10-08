@@ -9,6 +9,8 @@ import br.com.astrosoft.framework.model.IUser
 class TabPedido(viewModel: TabPedidoViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel), ITabPedido {
   override val label: String
     get() = "Pedido"
+  override val situacaoPendencia: String?
+    get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
