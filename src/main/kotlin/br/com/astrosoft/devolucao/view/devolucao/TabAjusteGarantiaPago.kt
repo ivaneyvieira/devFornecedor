@@ -10,6 +10,8 @@ class TabAjusteGarantiaPago(viewModel: TabAjusteGarantiaPagoViewModel) : TabDevo
   (viewModel), ITabAjusteGarantiaPago {
   override val label: String
     get() = "Ajuste Gar Pago"
+  override val situacaoPendencia: String?
+    get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

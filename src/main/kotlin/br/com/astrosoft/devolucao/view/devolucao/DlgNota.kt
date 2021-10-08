@@ -12,12 +12,11 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
+import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
@@ -115,6 +114,22 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
+
+      if (viewModel is TabNotaPendenteViewModel) {
+        val cmbSituacao = comboBox<ESituacaoPendencia>("Situacao") {
+          setItems(ESituacaoPendencia.values().filter { !it.value.isNullOrBlank() })
+          isAutoOpen = true
+          isClearButtonVisible = false
+          isPreventInvalidInput = true
+        }
+        button("Muda situação") {
+          onLeftClick {
+            val itens = gridNota.selectedItems.toList()
+            viewModel.salvaSituacao(cmbSituacao.value, itens)
+          }
+        }
+      }
+
     }, onClose = onClose) {
       gridNota = createGridNotas(listNotas, serie)
       gridNota

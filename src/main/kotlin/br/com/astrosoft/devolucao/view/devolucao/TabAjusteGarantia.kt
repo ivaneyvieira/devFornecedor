@@ -10,6 +10,8 @@ class TabAjusteGarantia(viewModel: TabAjusteGarantiaViewModel) : TabDevolucaoAbs
         ITabAjusteGarantia {
   override val label: String
     get() = "Ajuste Garantia"
+  override val situacaoPendencia: String?
+    get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

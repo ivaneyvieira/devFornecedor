@@ -12,6 +12,8 @@ class TabNotaFinanceiro(viewModel: TabNotaFinanceiroViewModel) : TabDevolucaoAbs
         ITabNotaFinanceiro {
   override val label: String
     get() = "Financeiro"
+  override val situacaoPendencia: String?
+    get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

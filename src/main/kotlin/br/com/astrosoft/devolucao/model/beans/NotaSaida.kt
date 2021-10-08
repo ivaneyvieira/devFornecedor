@@ -10,6 +10,8 @@ import br.com.astrosoft.framework.model.EmailMessage
 import br.com.astrosoft.framework.model.GamilFolder.Todos
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.util.localDate
+import br.com.astrosoft.framework.util.toSaciDate
 import org.apache.commons.lang3.StringUtils
 import java.time.LocalDate
 import java.util.*
@@ -56,6 +58,27 @@ class NotaSaida(val loja: Int,
                 var chaveDesconto: String?,
                 var observacaoAuxiliar: String?,
                 var dataAgenda: LocalDate?) {
+  var dataSituacao: LocalDate?
+    get() {
+      val dataSaci = observacaoAuxiliar?.split(":")?.getOrNull(0)?.toIntOrNull()
+      return dataSaci?.localDate()
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val situacao = split?.getOrNull(1) ?: ""
+      val data = value?.toSaciDate()?.toString() ?: ""
+      observacaoAuxiliar = "$data:$situacao"
+    }
+  var situacao: String
+    get() {
+      return observacaoAuxiliar?.split(":")?.getOrNull(1) ?: ""
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      observacaoAuxiliar = "$data:$value"
+    }
+
   private var produtos: List<ProdutosNotaSaida>? = null
 
   fun listaProdutos(): List<ProdutosNotaSaida> {
@@ -78,7 +101,7 @@ class NotaSaida(val loja: Int,
     return chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
       "DESCONTO NO TITULO") || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO") || chaveMaiuscula.contains(
       "DESC TITULO") || chaveMaiuscula.contains("CREDITO CONTA") || chaveMaiuscula.contains("CREDITO TITULO") || chaveMaiuscula.contains(
-      "CREDITO APLICADO") || chaveMaiuscula.contains("CREDITO DUP")|| chaveMaiuscula.contains("BONIFICADA")
+      "CREDITO APLICADO") || chaveMaiuscula.contains("CREDITO DUP") || chaveMaiuscula.contains("BONIFICADA")
   }
 
   val valorTotalNota
@@ -213,6 +236,9 @@ class NotaSaida(val loja: Int,
         AJP  -> saci.ajusteGarantia(true)
         FIN  -> saci.notaFinanceiro()
         else -> saci.notasDevolucao(filtro.serie)
+      }.filter { nota ->
+        filtro.situacaoPendencia ?: return@filter true
+        nota.situacao == filtro.situacaoPendencia
       }
       val grupos =
               notas.asSequence()

@@ -47,7 +47,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     subView.updateGrid(listFornecedores())
   }
 
-  private fun listFornecedores(): List<Fornecedor> {
+  fun listFornecedores(): List<Fornecedor> {
     NotaSaida.updateNotasDevolucao(subView)
     return NotaSaida.findFornecedores(subView.filtro().query)
   }
@@ -210,6 +210,7 @@ interface IFiltro {
   val pago01: SimNao
   val coleta01: SimNao
   val remessaConserto: SimNao
+  val situacaoPendencia: String?
   fun filtro(): FiltroFornecedor
 }
 
