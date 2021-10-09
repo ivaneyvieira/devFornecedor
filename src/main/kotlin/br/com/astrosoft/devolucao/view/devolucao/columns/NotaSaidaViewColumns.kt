@@ -61,6 +61,12 @@ object NotaSaidaViewColumns {
     this.width = "100px"
   }
 
+  fun Grid<NotaSaida>.usuarioSituacao() = addColumnString(NotaSaida::usuarioSituacao) {
+    this.setHeader("Usuário")
+    this.isAutoWidth = false
+    this.width = "100px"
+  }
+
   /*
   fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
     this.setHeader("Obs Pgto1")

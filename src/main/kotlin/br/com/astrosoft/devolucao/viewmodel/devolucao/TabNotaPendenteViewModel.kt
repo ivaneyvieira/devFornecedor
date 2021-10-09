@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
 
@@ -12,8 +13,10 @@ class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSub
       fail("Não foi selecionado nenhuma nota")
     }
     itens.forEach {nota ->
+      val userSaci = Config.user?.login ?: ""
       nota.situacao = situacao.valueStr ?: ""
       nota.dataSituacao = LocalDate.now()
+      nota.usuarioSituacao = userSaci
       NotaSaida.salvaDesconto(nota)
     }
     subView.updateComponent()
