@@ -15,8 +15,10 @@ class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSub
     itens.forEach {nota ->
       val userSaci = Config.user?.login ?: ""
       nota.situacao = situacao.valueStr ?: ""
-      nota.dataSituacao = LocalDate.now()
-      nota.usuarioSituacao = userSaci
+      if(!situacao.valueStr.isNullOrBlank()){
+        nota.dataSituacao = LocalDate.now()
+        nota.usuarioSituacao = userSaci
+      }
       NotaSaida.salvaDesconto(nota)
     }
     subView.updateComponent()
