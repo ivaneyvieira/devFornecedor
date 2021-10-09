@@ -14,6 +14,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
@@ -184,6 +185,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaFatura()
       }
       if(viewModel is TabNotaPendenteViewModel){
+        usuarioSituacao()
         dataSituacaoDesconto()
         situacaoDesconto()
       }
