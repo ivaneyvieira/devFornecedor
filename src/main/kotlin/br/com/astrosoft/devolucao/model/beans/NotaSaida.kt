@@ -68,7 +68,8 @@ class NotaSaida(val loja: Int,
       val data = value?.toSaciDate()?.toString() ?: ""
       val situacao = split?.getOrNull(1) ?: ""
       val usuario = split?.getOrNull(2) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario"
+      val titulo = split?.getOrNull(3) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
     }
   var situacao: String
     get() {
@@ -79,7 +80,8 @@ class NotaSaida(val loja: Int,
       val data = split?.getOrNull(0) ?: ""
       val situacao = value
       val usuario = split?.getOrNull(2) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario"
+      val titulo = split?.getOrNull(3) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
     }
   var usuarioSituacao: String
     get() {
@@ -90,7 +92,20 @@ class NotaSaida(val loja: Int,
       val data = split?.getOrNull(0) ?: ""
       val situacao = split?.getOrNull(1) ?: ""
       val usuario = value
-      observacaoAuxiliar = "$data:$situacao:$usuario"
+      val titulo = split?.getOrNull(3) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
+    }
+  var tituloSituacao: String
+    get() {
+      return observacaoAuxiliar?.split(":")?.getOrNull(3) ?: ""
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = value
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
     }
 
   private var produtos: List<ProdutosNotaSaida>? = null

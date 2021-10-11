@@ -39,7 +39,7 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.dataAgendaDesconto() = addColumnLocalDate(NotaSaida::dataAgenda) {
-    this.setHeader("Agenda")
+    this.setHeader("Vencimento")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -63,6 +63,12 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.usuarioSituacao() = addColumnString(NotaSaida::usuarioSituacao) {
     this.setHeader("Usuário")
+    this.isAutoWidth = false
+    this.width = "100px"
+  }
+
+  fun Grid<NotaSaida>.tituloSituacao() = addColumnString(NotaSaida::tituloSituacao) {
+    this.setHeader("Título")
     this.isAutoWidth = false
     this.width = "100px"
   }
