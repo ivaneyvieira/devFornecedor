@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataAgendaDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataSituacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
@@ -190,12 +191,14 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         dataSituacaoDesconto()
         situacaoDesconto()
         tituloSituacao().textFieldEditor()
+        niSituacao().textFieldEditor()
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
         dataAgendaDesconto().dateFieldEditor()
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator {
             val nota = it ?: return@setClassNameGenerator ""
+            if(it.situacao == "CREDITO_APLICADO") return@setClassNameGenerator "marcaDiferenca"
             if (nota.tipo != "1") return@setClassNameGenerator ""
             if (nota.isObservacaoFinanceiro()) "marcaDiferenca" else "marcaRed"
           }
