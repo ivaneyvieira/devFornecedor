@@ -43,9 +43,16 @@ object NotaSaidaViewColumns {
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
+
+    this.setClassNameGenerator {
       val data = it.dataAgenda ?: return@setClassNameGenerator ""
-      if (data.isAfter(LocalDate.now())) "marcaDiferenca"
-      else "marcaRed"
+      when {
+        it.situacao == "CREDITO_APLICADO" -> "marcaDiferenca"
+        data.isAfter(LocalDate.now())     -> "marcaDiferenca"
+        else                              -> "marcaRed"
+      }
     }
   }
 
@@ -53,24 +60,45 @@ object NotaSaidaViewColumns {
     this.setHeader("Data Sit")
     this.isAutoWidth = false
     this.width = "100px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
   }
 
   fun Grid<NotaSaida>.situacaoDesconto() = addColumnString(NotaSaida::situacao) {
     this.setHeader("Situacao")
     this.isAutoWidth = false
-    this.width = "100px"
+    this.width = "150px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
   }
 
   fun Grid<NotaSaida>.usuarioSituacao() = addColumnString(NotaSaida::usuarioSituacao) {
     this.setHeader("Usuário")
     this.isAutoWidth = false
     this.width = "100px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
   }
 
   fun Grid<NotaSaida>.tituloSituacao() = addColumnString(NotaSaida::tituloSituacao) {
     this.setHeader("Título")
     this.isAutoWidth = false
     this.width = "100px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
+  }
+
+  fun Grid<NotaSaida>.niSituacao() = addColumnString(NotaSaida::niSituacao) {
+    this.setHeader("NI")
+    this.isAutoWidth = false
+    this.width = "100px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
   }
 
   /*

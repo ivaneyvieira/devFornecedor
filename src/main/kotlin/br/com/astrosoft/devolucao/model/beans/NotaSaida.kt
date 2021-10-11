@@ -69,7 +69,8 @@ class NotaSaida(val loja: Int,
       val situacao = split?.getOrNull(1) ?: ""
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = split?.getOrNull(3) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
+      val ni = split?.getOrNull(4) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
     }
   var situacao: String
     get() {
@@ -81,7 +82,8 @@ class NotaSaida(val loja: Int,
       val situacao = value
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = split?.getOrNull(3) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
+      val ni = split?.getOrNull(4) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
     }
   var usuarioSituacao: String
     get() {
@@ -93,7 +95,8 @@ class NotaSaida(val loja: Int,
       val situacao = split?.getOrNull(1) ?: ""
       val usuario = value
       val titulo = split?.getOrNull(3) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
+      val ni = split?.getOrNull(4) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
     }
   var tituloSituacao: String
     get() {
@@ -105,7 +108,21 @@ class NotaSaida(val loja: Int,
       val situacao = split?.getOrNull(1) ?: ""
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = value
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo"
+      val ni = split?.getOrNull(4) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
+    }
+  var niSituacao: String
+    get() {
+      return observacaoAuxiliar?.split(":")?.getOrNull(4) ?: ""
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = split?.getOrNull(3) ?: ""
+      val ni = value
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni"
     }
 
   private var produtos: List<ProdutosNotaSaida>? = null
