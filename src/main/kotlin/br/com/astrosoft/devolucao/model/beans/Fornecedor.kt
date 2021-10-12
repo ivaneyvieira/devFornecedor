@@ -51,6 +51,21 @@ class Fornecedor(
   val valorTotal
     get() = notas.sumOf { it.valor }
 
+  /********** Campos Situação ************/
+
+  val dataSituacao: LocalDate?
+    get() = notaObs?.dataSituacao
+  val situacao: String
+    get() = notaObs?.situacao ?: ""
+  val usuarioSituacao: String
+    get() = notaObs?.usuarioSituacao ?: ""
+  val tituloSituacao: String
+    get() = notaObs?.tituloSituacao ?: ""
+  val niSituacao: String
+    get() = notaObs?.niSituacao ?: ""
+
+  /********************************************/
+
   fun listEmail(): List<String> {
     val list = listRepresentantes().map {
       it.email
