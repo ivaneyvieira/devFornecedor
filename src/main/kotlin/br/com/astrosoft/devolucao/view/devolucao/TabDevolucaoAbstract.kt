@@ -5,19 +5,26 @@ import br.com.astrosoft.devolucao.model.beans.Loja.Companion.lojaZero
 import br.com.astrosoft.devolucao.model.reports.*
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataSituacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.niSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tituloSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataSituacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tituloSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.SubWindowPDF
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -101,7 +108,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
     }
-    if(viewModel !is TabNotaPendenteViewModel) {
+    if (this@TabDevolucaoAbstract !is TabNotaPendente) {
       addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") { fornecedor ->
         DlgFornecedor().showDialogRepresentante(fornecedor)
       }
@@ -113,6 +120,13 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     if (serie in listOf(FIN, Serie01, PED)) {
       if (serie in listOf(Serie01)) {
         fornecedorPrimeiraData()
+      }
+      if (this@TabDevolucaoAbstract is TabNotaPendente) {
+        usuarioSituacao()
+        dataSituacaoDesconto()
+        situacaoDesconto()
+        tituloSituacao()
+        niSituacao()
       }
       dataAgendaDesconto()
       chaveDesconto()
