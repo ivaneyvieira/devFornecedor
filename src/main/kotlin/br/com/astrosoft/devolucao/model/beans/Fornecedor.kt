@@ -34,7 +34,8 @@ class Fornecedor(
     get() = notaObs?.dataAgenda
 
   val notaObs
-    get() = notas.sortedBy { it.dataNota }.firstOrNull { !it.chaveDesconto.isNullOrBlank() }
+    get() = notas.sortedBy { it.dataNota }
+      .firstOrNull { !it.situacao.isNullOrBlank() || !it.chaveDesconto.isNullOrBlank() }
 
   val chaveDesconto: String
     get() {
@@ -57,10 +58,14 @@ class Fornecedor(
     get() = notaObs?.dataSituacao
   val situacao: String
     get() = notaObs?.situacao ?: ""
+  val situacaoStr: String
+    get() = notaObs?.situacaoStr ?: ""
   val usuarioSituacao: String
     get() = notaObs?.usuarioSituacao ?: ""
   val tituloSituacao: String
     get() = notaObs?.tituloSituacao ?: ""
+  val docSituacao: String
+    get() = notaObs?.docSituacao ?: ""
   val niSituacao: String
     get() = notaObs?.niSituacao ?: ""
 

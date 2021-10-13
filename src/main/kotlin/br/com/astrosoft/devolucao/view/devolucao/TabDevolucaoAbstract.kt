@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.model.reports.*
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataSituacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.docSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
@@ -125,6 +126,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         usuarioSituacao()
         dataSituacaoDesconto()
         situacaoDesconto()
+        docSituacao()
         tituloSituacao()
         niSituacao()
       }

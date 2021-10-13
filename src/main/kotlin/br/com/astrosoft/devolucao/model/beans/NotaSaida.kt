@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
@@ -70,7 +71,8 @@ class NotaSaida(val loja: Int,
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
+      val doc = split?.getOrNull(5) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
     }
   var situacao: String
     get() {
@@ -83,7 +85,8 @@ class NotaSaida(val loja: Int,
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
+      val doc = split?.getOrNull(5) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
     }
   var usuarioSituacao: String
     get() {
@@ -96,7 +99,8 @@ class NotaSaida(val loja: Int,
       val usuario = value
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
+      val doc = split?.getOrNull(5) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
     }
   var tituloSituacao: String
     get() {
@@ -109,7 +113,8 @@ class NotaSaida(val loja: Int,
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = value
       val ni = split?.getOrNull(4) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo$ni"
+      val doc = split?.getOrNull(5) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
     }
   var niSituacao: String
     get() {
@@ -122,7 +127,29 @@ class NotaSaida(val loja: Int,
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = split?.getOrNull(3) ?: ""
       val ni = value
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni"
+      val doc = split?.getOrNull(5) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+    }
+  var docSituacao: String
+    get() {
+      return observacaoAuxiliar?.split(":")?.getOrNull(5) ?: ""
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = split?.getOrNull(3) ?: ""
+      val ni = split?.getOrNull(4) ?: ""
+      val doc = value
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+    }
+
+  val situacaoStr: String
+    get() {
+      return ESituacaoPendencia.values().firstOrNull { sit ->
+        sit.valueStr == situacao
+      }?.descricao ?: situacao
     }
 
   private var produtos: List<ProdutosNotaSaida>? = null
