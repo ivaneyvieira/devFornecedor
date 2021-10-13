@@ -311,7 +311,7 @@ class NotaSaida(val loja: Int,
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->
         filtro.situacaoPendencia ?: return@filter true
-        nota.situacao == filtro.situacaoPendencia
+        nota.situacao == filtro.situacaoPendencia?.valueStr
       }
       val grupos =
               notas.asSequence()

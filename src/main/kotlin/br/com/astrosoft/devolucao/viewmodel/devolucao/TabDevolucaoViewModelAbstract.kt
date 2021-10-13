@@ -210,7 +210,7 @@ interface IFiltro {
   val pago01: SimNao
   val coleta01: SimNao
   val remessaConserto: SimNao
-  val situacaoPendencia: String?
+  val situacaoPendencia: ESituacaoPendencia?
   fun filtro(): FiltroFornecedor
 }
 

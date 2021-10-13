@@ -40,7 +40,8 @@ import com.vaadin.flow.data.provider.SortDirection
 import org.claspina.confirmdialog.ConfirmDialog
 
 @CssImport("./styles/gridTotal.css")
-class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
+class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>,
+                                          val situacao: ESituacaoPendencia?) {
   fun showDialogNota(fornecedor: Fornecedor?, serie: Serie, onClose: (Dialog) -> Unit = {}) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaSaida>
@@ -168,7 +169,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       addColumnButton(VaadinIcon.EDIT, "Editor", "Edt", ::configIconEdt) { nota ->
         viewModel.editRmk(nota)
       }
-      if(viewModel !is TabNotaPendenteViewModel) {
+      if (viewModel !is TabNotaPendenteViewModel) {
         addColumnButton(VaadinIcon.ENVELOPE_O, "Editor", "Email", ::configMostraEmail) { nota ->
           viewModel.mostrarEmailNota(nota)
         }
@@ -187,20 +188,20 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       else {
         notaFatura()
       }
-      if(viewModel is TabNotaPendenteViewModel){
+      if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao()
         dataSituacaoDesconto()
         situacaoDesconto()
-        docSituacao().textFieldEditor()
-        tituloSituacao().textFieldEditor()
+        docSituacao(situacao).textFieldEditor()
+        tituloSituacao(situacao).textFieldEditor()
         niSituacao().textFieldEditor()
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
-        dataAgendaDesconto().dateFieldEditor()
+        dataAgendaDesconto(situacao).dateFieldEditor()
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator {
             val nota = it ?: return@setClassNameGenerator ""
-            if(it.situacao == "CREDITO_APLICADO") return@setClassNameGenerator "marcaDiferenca"
+            if (it.situacao == "CREDITO_APLICADO") return@setClassNameGenerator "marcaDiferenca"
             if (nota.tipo != "1") return@setClassNameGenerator ""
             if (nota.isObservacaoFinanceiro()) "marcaDiferenca" else "marcaRed"
           }

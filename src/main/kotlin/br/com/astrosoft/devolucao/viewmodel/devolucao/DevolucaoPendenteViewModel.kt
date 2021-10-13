@@ -70,17 +70,27 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
   val tabNotaPendenteRetorno: ITabNotaPendente
 }
 
-enum class ESituacaoPendencia(val title: String, val valueStr: String?, val descricao : String) {
-  BASE(title = "Base", valueStr = null, "Base"),
-  NOTA(title = "Nota", valueStr = "", "Nota"),
-  EMAIL(title = "E-mail", valueStr = "E-MAIL", "E-mail"),
-  TRANSITO(title = "Trânsito", valueStr = "TRANSITO", "Trânsito"),
-  FABRICA(title = "Fabrica", valueStr = "FABRICA", "Fábrica"),
-  CREDITO_CONCEDIDO(title = "Crédito Concedido", valueStr = "CREDITO_CONCEDIDO", "Consedido"),
-  CREDITO_APLICADO(title = "Crédito Aplicado", valueStr = "CREDITO_APLICADO", "Aplicado"),
-  CREDITO_AGUARDAR(title = "Crédito Aguardar", valueStr = "CREDITO_AGUARDAR", "Aguardar"),
-  CREDITO_CONTA(title = "Crédito Conta", valueStr = "CREDITO_CONTA", "Conta"),
-  BONIFICADA(title = "Bonificada", valueStr = "BONIFICADA", "Bonificado"),
-  REPOSICAO(title = "Reposição", valueStr = "REPOSICAO", "Reposição"),
-  RETORNO(title = "Retorno", valueStr = "RETORNO", "Retorno")
+enum class ESituacaoPendencia(val title: String,
+                              val valueStr: String?,
+                              val descricao: String,
+                              val docCol: String? = null,
+                              val numeroCol: String? = null,
+                              val dataCol: String? = null) {
+  BASE(title = "Base", valueStr = null, descricao = "Base"),
+  NOTA(title = "Nota", valueStr = "", descricao = "Nota"),
+  EMAIL(title = "E-mail", valueStr = "E-MAIL", descricao = "E-mail"),
+  TRANSITO(title = "Trânsito", valueStr = "TRANSITO", descricao = "Trânsito"),
+  FABRICA(title = "Fabrica", valueStr = "FABRICA", descricao = "Fábrica"),
+  CREDITO_CONCEDIDO(title = "Crédito Concedido", valueStr = "CREDITO_CONCEDIDO", descricao = "Consedido"),
+  CREDITO_APLICADO(title = "Crédito Aplicado",
+                   valueStr = "CREDITO_APLICADO",
+                   descricao = "Aplicado",
+                   docCol = "Doc",
+                   numeroCol = "Título",
+                   dataCol = "Vencimento"),
+  CREDITO_AGUARDAR(title = "Crédito Aguardar", valueStr = "CREDITO_AGUARDAR", descricao = "Aguardar"),
+  CREDITO_CONTA(title = "Crédito Conta", valueStr = "CREDITO_CONTA", descricao = "Conta"),
+  BONIFICADA(title = "Bonificada", valueStr = "BONIFICADA", descricao = "Bonificado"),
+  REPOSICAO(title = "Reposição", valueStr = "REPOSICAO", descricao = "Reposição"),
+  RETORNO(title = "Retorno", valueStr = "RETORNO", descricao = "Retorno")
 }

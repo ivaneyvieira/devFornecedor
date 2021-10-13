@@ -7,12 +7,13 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaPendente
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaPendenteViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabNotaPendente(viewModel: TabNotaPendenteViewModel, val situacao: ESituacaoPendencia) :
+class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao: ESituacaoPendencia) :
         TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
   override val label: String
     get() = situacao.title
-  override val situacaoPendencia: String?
-    get() = situacao.valueStr
+
+  override val situacaoPendencia
+    get() = situacao
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci ?: return false

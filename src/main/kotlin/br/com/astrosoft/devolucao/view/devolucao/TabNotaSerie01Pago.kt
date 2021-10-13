@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaSerie01Pago
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaSerie01PagoViewModel
@@ -10,7 +11,7 @@ class TabNotaSerie01Pago(viewModel: TabNotaSerie01PagoViewModel) : TabDevolucaoA
         ITabNotaSerie01Pago {
   override val label: String
     get() = "Notas Pagas"
-  override val situacaoPendencia: String?
+  override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
   override fun isAuthorized(user: IUser): Boolean {

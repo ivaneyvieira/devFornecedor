@@ -17,15 +17,15 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.n
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataSituacaoDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niSituacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tituloSituacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.*
+import br.com.astrosoft.framework.view.SubWindowPDF
+import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -99,7 +99,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(MULTI)
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      DlgNota(viewModel).showDialogNota(fornecedor, serie) {
+      DlgNota(viewModel, situacaoPendencia).showDialogNota(fornecedor, serie) {
         viewModel.updateView()
       }
     }
@@ -126,11 +126,11 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         usuarioSituacao()
         dataSituacaoDesconto()
         situacaoDesconto()
-        docSituacao()
-        tituloSituacao()
+        docSituacao(situacaoPendencia)
+        tituloSituacao(situacaoPendencia)
         niSituacao()
       }
-      dataAgendaDesconto()
+      dataAgendaDesconto(situacaoPendencia)
       chaveDesconto()
     }
     else {
