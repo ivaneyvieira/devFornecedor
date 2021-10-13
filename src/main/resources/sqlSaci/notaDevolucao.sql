@@ -43,8 +43,8 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
        IFNULL(OP.name, '')                                                                     AS natureza,
-       CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto,
-       CONCAT(N.c4, N.c3)                                                                      AS observacaoAuxiliar,
+       TRIM(CONCAT(N.c6, N.c5))                                                                AS chaveDesconto,
+       TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.natop    AS OP
