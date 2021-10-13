@@ -43,7 +43,7 @@ object FornecedorViewColumns {
   }
 
   fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
-    this.setHeader("Agenda")
+    this.setHeader("Data")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -67,10 +67,10 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacao) {
-    this.setHeader("Situacao")
+  fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacaoStr) {
+    this.setHeader("Crédito")
     this.isAutoWidth = false
-    this.width = "150px"
+    this.width = "100px"
     this.setClassNameGenerator {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
     }
@@ -85,8 +85,17 @@ object FornecedorViewColumns {
     }
   }
 
+  fun Grid<Fornecedor>.docSituacao() = addColumnString(Fornecedor::docSituacao) {
+    this.setHeader("Doc")
+    this.isAutoWidth = false
+    this.width = "100px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
+  }
+
   fun Grid<Fornecedor>.tituloSituacao() = addColumnString(Fornecedor::tituloSituacao) {
-    this.setHeader("Título")
+    this.setHeader("Número")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {

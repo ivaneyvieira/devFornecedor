@@ -39,7 +39,7 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.dataAgendaDesconto() = addColumnLocalDate(NotaSaida::dataAgenda) {
-    this.setHeader("Vencimento")
+    this.setHeader("Data")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -65,10 +65,10 @@ object NotaSaidaViewColumns {
     }
   }
 
-  fun Grid<NotaSaida>.situacaoDesconto() = addColumnString(NotaSaida::situacao) {
-    this.setHeader("Situacao")
+  fun Grid<NotaSaida>.situacaoDesconto() = addColumnString(NotaSaida::situacaoStr) {
+    this.setHeader("Crédito")
     this.isAutoWidth = false
-    this.width = "150px"
+    this.width = "100px"
     this.setClassNameGenerator {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
     }
@@ -83,8 +83,17 @@ object NotaSaidaViewColumns {
     }
   }
 
+  fun Grid<NotaSaida>.docSituacao() = addColumnString(NotaSaida::docSituacao) {
+    this.setHeader("Doc")
+    this.isAutoWidth = false
+    this.width = "100px"
+    this.setClassNameGenerator {
+      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+    }
+  }
+
   fun Grid<NotaSaida>.tituloSituacao() = addColumnString(NotaSaida::tituloSituacao) {
-    this.setHeader("Título")
+    this.setHeader("Número")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {

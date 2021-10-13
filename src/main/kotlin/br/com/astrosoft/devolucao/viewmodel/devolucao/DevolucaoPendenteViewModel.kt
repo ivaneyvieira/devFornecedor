@@ -70,17 +70,17 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
   val tabNotaPendenteRetorno: ITabNotaPendente
 }
 
-enum class ESituacaoPendencia(val title: String, val valueStr: String?) {
-  BASE(title = "Base", valueStr = null),
-  NOTA(title = "Nota", valueStr = ""),
-  EMAIL(title = "E-mail", valueStr = "E-MAIL"),
-  TRANSITO(title = "Trânsito", valueStr = "TRANSITO"),
-  FABRICA(title = "Fabrica", valueStr = "FABRICA"),
-  CREDITO_CONCEDIDO(title = "Crédito Concedido", valueStr = "CREDITO_CONCEDIDO"),
-  CREDITO_APLICADO(title = "Crédito Aplicado", valueStr = "CREDITO_APLICADO"),
-  CREDITO_AGUARDAR(title = "Crédito Aguardar", valueStr = "CREDITO_AGUARDAR"),
-  CREDITO_CONTA(title = "Crédito Conta", valueStr = "CREDITO_CONTA"),
-  BONIFICADA(title = "Bonificada", valueStr = "BONIFICADA"),
-  REPOSICAO(title = "Reposição", valueStr = "REPOSICAO"),
-  RETORNO(title = "Retorno", valueStr = "RETORNO")
+enum class ESituacaoPendencia(val title: String, val valueStr: String?, val descricao : String) {
+  BASE(title = "Base", valueStr = null, "Base"),
+  NOTA(title = "Nota", valueStr = "", "Nota"),
+  EMAIL(title = "E-mail", valueStr = "E-MAIL", "E-mail"),
+  TRANSITO(title = "Trânsito", valueStr = "TRANSITO", "Trânsito"),
+  FABRICA(title = "Fabrica", valueStr = "FABRICA", "Fábrica"),
+  CREDITO_CONCEDIDO(title = "Crédito Concedido", valueStr = "CREDITO_CONCEDIDO", "Consedido"),
+  CREDITO_APLICADO(title = "Crédito Aplicado", valueStr = "CREDITO_APLICADO", "Aplicado"),
+  CREDITO_AGUARDAR(title = "Crédito Aguardar", valueStr = "CREDITO_AGUARDAR", "Aguardar"),
+  CREDITO_CONTA(title = "Crédito Conta", valueStr = "CREDITO_CONTA", "Conta"),
+  BONIFICADA(title = "Bonificada", valueStr = "BONIFICADA", "Bonificado"),
+  REPOSICAO(title = "Reposição", valueStr = "REPOSICAO", "Reposição"),
+  RETORNO(title = "Retorno", valueStr = "RETORNO", "Retorno")
 }
