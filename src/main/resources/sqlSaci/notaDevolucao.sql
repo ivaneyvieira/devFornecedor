@@ -44,7 +44,7 @@ SELECT N.storeno,
        IFNULL(X.nfekey, '')                                                                    AS chave,
        IFNULL(OP.name, '')                                                                     AS natureza,
        CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto,
-       N.c4                                                                                    AS observacaoAuxiliar,
+       CONCAT(N.c4, N.c3)                                                                      AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.natop    AS OP
