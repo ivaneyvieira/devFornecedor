@@ -1,13 +1,12 @@
 package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
-import java.time.LocalDate
 
 object FornecedorViewColumns {
   fun Grid<Fornecedor>.fornecedorCodigo() = addColumnInt(Fornecedor::vendno) {
@@ -42,8 +41,8 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
-    this.setHeader("Data")
+  fun Grid<Fornecedor>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(Fornecedor::dataAgenda) {
+    this.setHeader(situacao?.dataCol ?: "Data")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -85,8 +84,8 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.docSituacao() = addColumnString(Fornecedor::docSituacao) {
-    this.setHeader("Doc")
+  fun Grid<Fornecedor>.docSituacao(situacao: ESituacaoPendencia?) = addColumnString(Fornecedor::docSituacao) {
+    this.setHeader(situacao?.docCol ?: "Doc")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -94,8 +93,8 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.tituloSituacao() = addColumnString(Fornecedor::tituloSituacao) {
-    this.setHeader("Número")
+  fun Grid<Fornecedor>.tituloSituacao(situacao: ESituacaoPendencia?) = addColumnString(Fornecedor::tituloSituacao) {
+    this.setHeader(situacao?.numeroCol ?: "Número")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -111,5 +110,4 @@ object FornecedorViewColumns {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
     }
   }
-
 }

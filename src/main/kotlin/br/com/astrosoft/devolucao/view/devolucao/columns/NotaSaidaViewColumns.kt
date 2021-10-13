@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
@@ -38,8 +39,8 @@ object NotaSaidaViewColumns {
     this.setClassNameGenerator { "marcaDiferenca" }
   }
 
-  fun Grid<NotaSaida>.dataAgendaDesconto() = addColumnLocalDate(NotaSaida::dataAgenda) {
-    this.setHeader("Data")
+  fun Grid<NotaSaida>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(NotaSaida::dataAgenda) {
+    this.setHeader(situacao?.dataCol ?: "Data")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -83,8 +84,8 @@ object NotaSaidaViewColumns {
     }
   }
 
-  fun Grid<NotaSaida>.docSituacao() = addColumnString(NotaSaida::docSituacao) {
-    this.setHeader("Doc")
+  fun Grid<NotaSaida>.docSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::docSituacao) {
+    this.setHeader(situacao?.docCol ?: "Doc")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -92,8 +93,8 @@ object NotaSaidaViewColumns {
     }
   }
 
-  fun Grid<NotaSaida>.tituloSituacao() = addColumnString(NotaSaida::tituloSituacao) {
-    this.setHeader("Número")
+  fun Grid<NotaSaida>.tituloSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::tituloSituacao) {
+    this.setHeader(situacao?.numeroCol ?: "Número")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -110,27 +111,6 @@ object NotaSaidaViewColumns {
     }
   }
 
-  /*
-  fun Grid<NotaSaida>.tipoPagDesconto() = addColumnString(NotaSaida::tipoPag) {
-    this.setHeader("Obs Pgto1")
-    this.setClassNameGenerator { "marcaDiferenca" }
-  }
-
-  fun Grid<NotaSaida>.documentoPagDesconto() = addColumnString(NotaSaida::documentoPag) {
-    this.setHeader("Obs Pgto2")
-    this.setClassNameGenerator { "marcaDiferenca" }
-  }
-
-  fun Grid<NotaSaida>.niPagDesconto() = addColumnString(NotaSaida::niPag) {
-    this.setHeader("NI")
-    this.setClassNameGenerator { "marcaDiferenca" }
-  }
-
-  fun Grid<NotaSaida>.vencimentoPagDesconto() = addColumnString(NotaSaida::vencimentoPag) {
-    this.setHeader("Vencimento")
-    this.setClassNameGenerator { "marcaDiferenca" }
-  }
-*/
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
   }
