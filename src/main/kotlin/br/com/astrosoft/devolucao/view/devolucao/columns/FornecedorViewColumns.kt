@@ -2,10 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object FornecedorViewColumns {
@@ -97,6 +94,7 @@ object FornecedorViewColumns {
     this.setHeader("Número")
     this.isAutoWidth = false
     this.width = "100px"
+    this.right()
     this.setClassNameGenerator {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
     }
@@ -106,6 +104,7 @@ object FornecedorViewColumns {
     this.setHeader("NI")
     this.isAutoWidth = false
     this.width = "100px"
+    this.right()
     this.setClassNameGenerator {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
     }

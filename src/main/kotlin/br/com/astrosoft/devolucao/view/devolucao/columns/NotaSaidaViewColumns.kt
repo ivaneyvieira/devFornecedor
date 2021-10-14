@@ -2,10 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 import java.time.LocalDate
 
@@ -85,7 +82,8 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.docSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::docSituacao) {
-    this.setHeader(situacao?.docCol ?: "Doc")
+    this.setHeader("Doc")
+    this.isVisible = (situacao?.docColRemove ?: false) == false
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -95,6 +93,7 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.tituloSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::tituloSituacao) {
     this.setHeader(situacao?.numeroCol ?: "Número")
+    this.right()
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -104,6 +103,7 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.niSituacao() = addColumnString(NotaSaida::niSituacao) {
     this.setHeader("NI")
+    this.right()
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
