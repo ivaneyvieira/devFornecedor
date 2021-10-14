@@ -41,8 +41,8 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(Fornecedor::dataAgenda) {
-    this.setHeader(situacao?.dataCol ?: "Data")
+  fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
+    this.setHeader("Data")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -84,8 +84,8 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.docSituacao(situacao: ESituacaoPendencia?) = addColumnString(Fornecedor::docSituacao) {
-    this.setHeader(situacao?.docCol ?: "Doc")
+  fun Grid<Fornecedor>.docSituacao() = addColumnString(Fornecedor::docSituacao) {
+    this.setHeader("Doc")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
@@ -93,8 +93,8 @@ object FornecedorViewColumns {
     }
   }
 
-  fun Grid<Fornecedor>.tituloSituacao(situacao: ESituacaoPendencia?) = addColumnString(Fornecedor::tituloSituacao) {
-    this.setHeader(situacao?.numeroCol ?: "Número")
+  fun Grid<Fornecedor>.tituloSituacao() = addColumnString(Fornecedor::tituloSituacao) {
+    this.setHeader("Número")
     this.isAutoWidth = false
     this.width = "100px"
     this.setClassNameGenerator {
