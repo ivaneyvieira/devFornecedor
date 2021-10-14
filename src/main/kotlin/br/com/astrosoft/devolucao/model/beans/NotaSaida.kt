@@ -72,7 +72,8 @@ class NotaSaida(val loja: Int,
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+      val nota = split?.getOrNull(6) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
     }
   var situacao: String
     get() {
@@ -86,7 +87,8 @@ class NotaSaida(val loja: Int,
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+      val nota = split?.getOrNull(6) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
     }
   var usuarioSituacao: String
     get() {
@@ -100,7 +102,8 @@ class NotaSaida(val loja: Int,
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+      val nota = split?.getOrNull(6) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
     }
   var tituloSituacao: String
     get() {
@@ -114,7 +117,8 @@ class NotaSaida(val loja: Int,
       val titulo = value
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+      val nota = split?.getOrNull(6) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
     }
   var niSituacao: String
     get() {
@@ -128,7 +132,8 @@ class NotaSaida(val loja: Int,
       val titulo = split?.getOrNull(3) ?: ""
       val ni = value
       val doc = split?.getOrNull(5) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+      val nota = split?.getOrNull(6) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
     }
   var docSituacao: String
     get() {
@@ -142,7 +147,23 @@ class NotaSaida(val loja: Int,
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
       val doc = value
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc"
+      val nota = split?.getOrNull(6) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+    }
+  var notaSituacao: String
+    get() {
+      return observacaoAuxiliar?.split(":")?.getOrNull(6) ?: ""
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = split?.getOrNull(3) ?: ""
+      val ni = split?.getOrNull(4) ?: ""
+      val doc = split?.getOrNull(4) ?: ""
+      val nota = value
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
     }
 
   val situacaoStr: String
