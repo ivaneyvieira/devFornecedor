@@ -21,7 +21,16 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
   }
 
   init {
-
+    val situacao = situacao()
+    situacao?.docCol?.let {
+      docCol.setHeader(it)
+    }
+    situacao?.numeroCol?.let {
+      tituloCOl.setHeader(it)
+    }
+    situacao?.dataCol?.let {
+      dataCol.setHeader(it)
+    }
   }
 }
 
