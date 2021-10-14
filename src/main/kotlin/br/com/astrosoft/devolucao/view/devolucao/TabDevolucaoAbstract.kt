@@ -47,6 +47,9 @@ import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
+  private lateinit var dataCol: Grid.Column<Fornecedor>
+  private lateinit var tituloCOl: Grid.Column<Fornecedor>
+  private lateinit var docCol: Grid.Column<Fornecedor>
   private lateinit var edtFiltro: TextField
   private lateinit var cmbLoja: ComboBox<Loja>
 
@@ -126,11 +129,11 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         usuarioSituacao()
         dataSituacaoDesconto()
         situacaoDesconto()
-        docSituacao(situacaoPendencia)
-        tituloSituacao(situacaoPendencia)
+       docCol= docSituacao(situacaoPendencia)
+       tituloCOl=  tituloSituacao(situacaoPendencia)
         niSituacao()
       }
-      dataAgendaDesconto(situacaoPendencia)
+      dataCol =dataAgendaDesconto(situacaoPendencia)
       chaveDesconto()
     }
     else {
