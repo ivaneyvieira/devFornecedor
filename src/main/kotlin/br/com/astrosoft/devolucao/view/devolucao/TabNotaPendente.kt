@@ -6,13 +6,14 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoPendenteView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaPendente
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaPendenteViewModel
 import br.com.astrosoft.framework.model.IUser
+import com.vaadin.flow.component.grid.Grid
 
-class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao: () -> ESituacaoPendencia?) :
+class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao: () -> ESituacaoPendencia) :
         TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
   override val label: String
-    get() = situacao()?.title ?: ""
+    get() = situacao().title
 
-  override val situacaoPendencia: ESituacaoPendencia?
+  override val situacaoPendencia: ESituacaoPendencia
     get() = situacao()
 
   override fun isAuthorized(user: IUser): Boolean {
@@ -22,15 +23,18 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
 
   init {
     val situacao = situacao()
-    situacao?.docColRemove?.let {
-      docCol.isVisible = !it
-    }
-    situacao?.numeroCol?.let {
-      tituloCOl.setHeader(it)
-    }
-    situacao?.dataCol?.let {
-      dataCol.setHeader(it)
-    }
+    situacaoCol.configCol(situacao.situacaoCol)
+    notaCol.configCol(situacao.notaCol)
+    niCol.configCol(situacao.niCol)
+    docCol.configCol(situacao.docCol)
+    tituloCol.configCol(situacao.numeroCol)
+    dataCol.configCol(situacao.dataCol)
   }
 }
 
+fun <T> Grid.Column<T>.configCol(head: String?) {
+  if (head != null) {
+    this.setHeader(head ?: "")
+    this.isVisible = head.isNotBlank()
+  }
+}

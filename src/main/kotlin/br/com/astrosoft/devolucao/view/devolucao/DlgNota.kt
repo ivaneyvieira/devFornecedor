@@ -14,6 +14,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tituloSituacao
@@ -190,11 +191,12 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao()
-        dataSituacaoDesconto()
-        situacaoDesconto()
+        dataSituacaoDesconto(situacao)
+        situacaoDesconto(situacao)
         docSituacao(situacao).textFieldEditor()
+        notaSituacao(situacao).textFieldEditor()
         tituloSituacao(situacao).textFieldEditor()
-        niSituacao().textFieldEditor()
+        niSituacao(situacao).textFieldEditor()
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
         dataAgendaDesconto(situacao).dateFieldEditor()

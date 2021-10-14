@@ -14,6 +14,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.niSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.notaSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
@@ -47,8 +48,11 @@ import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
+  protected lateinit var situacaoCol: Grid.Column<Fornecedor>
+  protected lateinit var notaCol: Grid.Column<Fornecedor>
+  protected lateinit var niCol: Grid.Column<Fornecedor>
   protected lateinit var dataCol: Grid.Column<Fornecedor>
-  protected lateinit var tituloCOl: Grid.Column<Fornecedor>
+  protected lateinit var tituloCol: Grid.Column<Fornecedor>
   protected lateinit var docCol: Grid.Column<Fornecedor>
   private lateinit var edtFiltro: TextField
   private lateinit var cmbLoja: ComboBox<Loja>
@@ -128,12 +132,13 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       if (this@TabDevolucaoAbstract is TabNotaPendente) {
         usuarioSituacao()
         dataSituacaoDesconto()
-        situacaoDesconto()
-       docCol= docSituacao()
-       tituloCOl=  tituloSituacao()
-        niSituacao()
+        situacaoCol = situacaoDesconto()
+        notaCol = notaSituacao()
+        docCol = docSituacao()
+        tituloCol = tituloSituacao()
+        niCol = niSituacao()
       }
-      dataCol =dataAgendaDesconto()
+      dataCol = dataAgendaDesconto()
       chaveDesconto()
     }
     else {

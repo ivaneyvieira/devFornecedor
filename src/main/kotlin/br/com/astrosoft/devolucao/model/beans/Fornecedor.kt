@@ -62,6 +62,8 @@ class Fornecedor(
     get() = notaObs?.situacaoStr ?: ""
   val usuarioSituacao: String
     get() = notaObs?.usuarioSituacao ?: ""
+  val notaSituacao: String
+    get() = notaObs?.notaSituacao ?: ""
   val tituloSituacao: String
     get() = notaObs?.tituloSituacao ?: ""
   val docSituacao: String
