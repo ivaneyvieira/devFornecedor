@@ -45,9 +45,9 @@ class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
     view.tabNotaPendenteEmail,
     view.tabNotaPendenteTransito,
     view.tabNotaPendenteFabrica,
+    view.tabNotaPendenteCAguardar,
     view.tabNotaPendenteCConcedido,
     view.tabNotaPendenteCAplicado,
-    view.tabNotaPendenteCAguardar,
     view.tabNotaPendenteCConta,
     view.tabNotaPendenteBonificada,
     view.tabNotaPendenteReposicao,
@@ -61,9 +61,9 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
   val tabNotaPendenteEmail: ITabNotaPendente
   val tabNotaPendenteTransito: ITabNotaPendente
   val tabNotaPendenteFabrica: ITabNotaPendente
+  val tabNotaPendenteCAguardar: ITabNotaPendente
   val tabNotaPendenteCConcedido: ITabNotaPendente
   val tabNotaPendenteCAplicado: ITabNotaPendente
-  val tabNotaPendenteCAguardar: ITabNotaPendente
   val tabNotaPendenteCConta: ITabNotaPendente
   val tabNotaPendenteBonificada: ITabNotaPendente
   val tabNotaPendenteReposicao: ITabNotaPendente
@@ -115,6 +115,12 @@ enum class ESituacaoPendencia(val title: String,
           docCol = "",
           numeroCol = "",
           niCol = ""),
+  CREDITO_AGUARDAR(title = "Crédito Aguardar",
+                   valueStr = "CREDITO_AGUARDAR",
+                   descricao = "Aguardar",
+                   docCol = "",
+                   niCol = "",
+                   numeroCol = "Tipo:L"),
   CREDITO_CONCEDIDO(title = "Crédito Concedido",
                     valueStr = "CREDITO_CONCEDIDO",
                     descricao = "Consedido",
@@ -125,12 +131,6 @@ enum class ESituacaoPendencia(val title: String,
                    docCol = "",
                    numeroCol = "Título",
                    dataCol = "Vencimento"),
-  CREDITO_AGUARDAR(title = "Crédito Aguardar",
-                   valueStr = "CREDITO_AGUARDAR",
-                   descricao = "Aguardar",
-                   docCol = "",
-                   niCol = "",
-                   numeroCol = "Tipo:L"),
   CREDITO_CONTA(title = "Crédito Conta",
                 valueStr = "CREDITO_CONTA",
                 descricao = "Conta",
