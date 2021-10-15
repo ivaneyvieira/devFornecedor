@@ -35,7 +35,7 @@ class Fornecedor(
 
   val notaObs
     get() = notas.sortedBy { it.dataNota }
-      .firstOrNull { !it.situacao.isNullOrBlank() || !it.chaveDesconto.isNullOrBlank() }
+      .firstOrNull()
 
   val chaveDesconto: String
     get() {
