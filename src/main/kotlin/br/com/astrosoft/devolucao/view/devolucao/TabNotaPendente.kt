@@ -6,6 +6,9 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoPendenteView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaPendente
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaPendenteViewModel
 import br.com.astrosoft.framework.model.IUser
+import br.com.astrosoft.framework.view.center
+import br.com.astrosoft.framework.view.left
+import br.com.astrosoft.framework.view.right
 import com.vaadin.flow.component.grid.Grid
 
 class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao: () -> ESituacaoPendencia) :
@@ -35,7 +38,7 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
       val columns = gridPanel.columns.toMutableList()
       val pNi = columns.indexOf(niCol)
       val pSit = columns.indexOf(docCol)
-      if (pNi >= 0 && pSit >=0) {
+      if (pNi >= 0 && pSit >= 0) {
         columns.removeAt(pNi)
         columns.add(pSit, niCol)
       }
@@ -44,9 +47,16 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
   }
 }
 
-fun <T> Grid.Column<T>.configCol(head: String?) {
+fun <T : Any> Grid.Column<T>.configCol(head: String?) {
   if (head != null) {
-    this.setHeader(head ?: "")
-    this.isVisible = head.isNotBlank()
+    val colHead = head.split(":").getOrNull(0) ?: ""
+    val aling = head.split(":").getOrNull(1) ?: ""
+    this.setHeader(colHead)
+    this.isVisible = colHead.isNotBlank()
+    when (aling) {
+      "L" -> this.left()
+      "R" -> this.right()
+      "C" -> this.center()
+    }
   }
 }
