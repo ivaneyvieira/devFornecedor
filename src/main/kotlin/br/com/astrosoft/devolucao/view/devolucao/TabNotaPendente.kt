@@ -43,6 +43,11 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
         columns.add(pSit, niCol)
       }
       gridPanel.setColumnOrder(columns)
+    }else if(situacao == ESituacaoPendencia.BASE){
+      niCol.isVisible = false
+      tituloCol.isVisible = false
+      docCol.isVisible = false
+      situacaoCol.setHeader("Situação")
     }
   }
 }
