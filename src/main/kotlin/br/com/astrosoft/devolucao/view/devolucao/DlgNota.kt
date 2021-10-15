@@ -191,7 +191,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao()
-        dataSituacaoDesconto(situacao)
+        dataSituacaoDesconto()
         situacaoDesconto(situacao)
         docSituacao(situacao).textFieldEditor()
         notaSituacao(situacao).textFieldEditor()
