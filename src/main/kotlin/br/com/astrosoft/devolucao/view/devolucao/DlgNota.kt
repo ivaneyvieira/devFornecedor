@@ -193,10 +193,18 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         usuarioSituacao(situacao)
         dataSituacaoDesconto(situacao)
         situacaoDesconto(situacao)
-        docSituacao(situacao).textFieldEditor()
-        notaSituacao(situacao).textFieldEditor()
-        tituloSituacao(situacao).textFieldEditor()
-        niSituacao(situacao).textFieldEditor()
+        if (situacao == ESituacaoPendencia.CREDITO_CONTA) {
+          niSituacao(situacao).textFieldEditor()
+          docSituacao(situacao).textFieldEditor()
+          notaSituacao(situacao).textFieldEditor()
+          tituloSituacao(situacao).textFieldEditor()
+        }
+        else {
+          docSituacao(situacao).textFieldEditor()
+          notaSituacao(situacao).textFieldEditor()
+          tituloSituacao(situacao).textFieldEditor()
+          niSituacao(situacao).textFieldEditor()
+        }
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
         dataAgendaDesconto(situacao).dateFieldEditor()
