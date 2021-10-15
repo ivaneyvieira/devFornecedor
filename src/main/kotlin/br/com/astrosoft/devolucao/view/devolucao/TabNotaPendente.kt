@@ -31,6 +31,16 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
     dataCol.configCol(situacao.dataCol)
     userCol.configCol(situacao.userCol)
     dataSitCol.configCol(situacao.dataSitCol)
+    if (situacao == ESituacaoPendencia.CREDITO_CONTA) {
+      val columns = gridPanel.columns.toMutableList()
+      val pNi = columns.indexOf(niCol)
+      val pSit = columns.indexOf(docCol)
+      if (pNi >= 0 && pSit >=0) {
+        columns.removeAt(pNi)
+        columns.add(pSit, niCol)
+      }
+      gridPanel.setColumnOrder(columns)
+    }
   }
 }
 
