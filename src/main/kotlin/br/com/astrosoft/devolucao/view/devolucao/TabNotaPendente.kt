@@ -29,6 +29,8 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
     docCol.configCol(situacao.docCol)
     tituloCol.configCol(situacao.numeroCol)
     dataCol.configCol(situacao.dataCol)
+    userCol.configCol(situacao.userCol)
+    dataSitCol.configCol(situacao.dataSitCol)
   }
 }
 

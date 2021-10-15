@@ -48,6 +48,8 @@ import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
+  protected lateinit var dataSitCol: Grid.Column<Fornecedor>
+  protected lateinit var userCol: Grid.Column<Fornecedor>
   protected lateinit var situacaoCol: Grid.Column<Fornecedor>
   protected lateinit var notaCol: Grid.Column<Fornecedor>
   protected lateinit var niCol: Grid.Column<Fornecedor>
@@ -130,8 +132,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         fornecedorPrimeiraData()
       }
       if (this@TabDevolucaoAbstract is TabNotaPendente) {
-        usuarioSituacao()
-        dataSituacaoDesconto()
+        userCol = usuarioSituacao()
+        dataSitCol = dataSituacaoDesconto()
         situacaoCol = situacaoDesconto()
         notaCol = notaSituacao()
         docCol = docSituacao()
