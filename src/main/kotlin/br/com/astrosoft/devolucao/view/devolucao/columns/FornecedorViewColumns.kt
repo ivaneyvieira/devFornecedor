@@ -54,14 +54,14 @@ object FornecedorViewColumns {
   }
 
   fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacaoStr) {
-    this.setHeader("Crédito")
+    this.setHeader("Situação")
     this.setClassNameGenerator {
       "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.notaSituacao() = addColumnString(Fornecedor::notaSituacao) {
-    this.setHeader("Nota")
+    this.setHeader("Aguardar")
     this.setClassNameGenerator {
       "marcaRed"
     }
