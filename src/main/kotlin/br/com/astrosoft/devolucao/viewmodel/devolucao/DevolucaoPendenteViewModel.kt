@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
+import com.github.mvysny.karibudsl.v10.beanValidationBinder
+
 class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
         DevolucaoAbstractViewModel<IDevolucaoPendenteView>(view) {
   val tabNotaPendenteBaseViewModel = TabNotaPendenteViewModel(this) {
@@ -124,6 +126,7 @@ enum class ESituacaoPendencia(val title: String,
   CREDITO_CONCEDIDO(title = "Crédito Concedido",
                     valueStr = "CREDITO_CONCEDIDO",
                     descricao = "Consedido",
+                    dataCol = "Previsão",
                     docCol = "Título",
                     numeroCol = ""),
   CREDITO_APLICADO(title = "Crédito Aplicado",
