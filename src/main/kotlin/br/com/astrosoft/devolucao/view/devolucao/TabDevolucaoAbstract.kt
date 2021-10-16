@@ -133,7 +133,9 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       }
       if (this@TabDevolucaoAbstract is TabNotaPendente) {
         userCol = usuarioSituacao()
-        dataSitCol = dataSituacaoDesconto()
+        dataSitCol = dataSituacaoDesconto().apply {
+          this.isVisible = false
+        }
         situacaoCol = situacaoDesconto()
         notaCol = notaSituacao()
         docCol = docSituacao()
