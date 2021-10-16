@@ -191,7 +191,9 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao(situacao)
-        dataSituacaoDesconto(situacao)
+        dataSituacaoDesconto(situacao).apply {
+          this.isVisible = false
+        }
         situacaoDesconto(situacao)
         if (situacao == ESituacaoPendencia.CREDITO_CONTA) {
           niSituacao(situacao).textFieldEditor()
@@ -210,10 +212,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         dataAgendaDesconto(situacao).dateFieldEditor()
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator {
-            val nota = it ?: return@setClassNameGenerator ""
-            if (it.situacao == "CREDITO_APLICADO") return@setClassNameGenerator "marcaDiferenca"
-            if (nota.tipo != "1") return@setClassNameGenerator ""
-            if (nota.isObservacaoFinanceiro()) "marcaDiferenca" else "marcaRed"
+            "marcaRed"
           }
         }
       }

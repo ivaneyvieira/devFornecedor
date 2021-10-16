@@ -34,7 +34,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.chaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
     this.setHeader("Observação")
-    this.setClassNameGenerator { "marcaDiferenca" }
+    this.setClassNameGenerator {
+      "marcaRed"
+    }
   }
 
   fun Grid<NotaSaida>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(NotaSaida::dataAgenda) {
@@ -44,28 +46,24 @@ object NotaSaidaViewColumns {
     }
 
     this.setClassNameGenerator {
-      val data = it.dataAgenda ?: return@setClassNameGenerator ""
-      when {
-        it.situacao == "CREDITO_APLICADO" -> "marcaDiferenca"
-        data.isAfter(LocalDate.now())     -> "marcaDiferenca"
-        else                              -> "marcaRed"
-      }
+      "marcaRed"
     }
+
     this.configCol(situacao?.dataCol)
   }
 
   fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate  (NotaSaida::dataSituacao) {
     this.setHeader("Data Sit")
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
     this.configCol(situacao?.dataSitCol)
   }
 
   fun Grid<NotaSaida>.situacaoDesconto(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::situacaoStr) {
-    this.setHeader("Crédito")
+    this.setHeader("Situação")
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
     this.configCol(situacao?.situacaoCol)
   }
@@ -73,17 +71,15 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.usuarioSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::usuarioSituacao) {
     this.setHeader("Usuário")
     this.configCol(situacao?.userCol)
-    //this.isAutoWidth = false
-    //this.width = "100px"
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
   }
 
   fun Grid<NotaSaida>.docSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::docSituacao) {
     this.setHeader("Doc")
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
     this.configCol(situacao?.docCol)
   }
@@ -91,7 +87,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaSituacao) {
     this.setHeader("Nota")
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
     this.configCol(situacao?.notaCol)
   }
@@ -100,7 +96,7 @@ object NotaSaidaViewColumns {
     this.setHeader("Número")
     this.right()
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
     this.configCol(situacao?.numeroCol)
   }
@@ -109,7 +105,7 @@ object NotaSaidaViewColumns {
     this.setHeader("NI")
     this.right()
     this.setClassNameGenerator {
-      if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
+      "marcaRed"
     }
     this.configCol(situacao?.niCol)
   }
