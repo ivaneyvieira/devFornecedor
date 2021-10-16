@@ -85,7 +85,7 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.notaSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaSituacao) {
-    this.setHeader("Nota")
+    this.setHeader("Aguardar")
     this.setClassNameGenerator {
       "marcaRed"
     }
