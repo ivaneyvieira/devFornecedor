@@ -94,7 +94,7 @@ SELECT iprd.storeno                                                           AS
        TRIM(IFNULL(prd.refPrd, ''))                                           AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                             AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                        AS fretep,
-       iprd.frete / 100                                                       AS freten
+       iprd.m6 / (iprd.fob * iprd.qtty / 1000)                                AS freten
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
