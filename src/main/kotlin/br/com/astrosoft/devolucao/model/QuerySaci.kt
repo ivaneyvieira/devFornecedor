@@ -464,6 +464,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ncm", filtro.ncm.str)
       addOptionalParameter("barcode", filtro.barcode.str)
       addOptionalParameter("refPrd", filtro.refPrd.str)
+      addOptionalParameter("frete", filtro.frete.str)
     }
   }
 
@@ -486,6 +487,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ncm", filter.ncm.str)
       addOptionalParameter("barcode", filter.barcode.str)
       addOptionalParameter("refPrd", filter.refPrd.str)
+      addOptionalParameter("frete", filter.frete.str)
       addOptionalParameter("rotulo", filter.rotulo)
       addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
     }
@@ -510,6 +512,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ncm", filter.ncm.str)
       addOptionalParameter("barcode", filter.barcode.str)
       addOptionalParameter("refPrd", filter.refPrd.str)
+      addOptionalParameter("frete", filter.frete.str)
     }, result = result)
   }
 

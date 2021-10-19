@@ -91,7 +91,9 @@ SELECT iprd.storeno                                                             
        TRIM(IFNULL(B.barcode, prd.barcode))                                         AS barcodep,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
        TRIM(IFNULL(prd.refPrd, ''))                                                 AS refPrdp,
-       TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn
+       TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
+       IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
+       iprd.frete / 100                                                             AS freten
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -176,7 +178,10 @@ SELECT lj,
        IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif,
        refPrdn,
        refPrdp,
-       IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif
+       IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif,
+       freten,
+       fretep,
+       IF(freten = fretep, 'S', 'N')                                                 AS freteDif
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, grade, NI)

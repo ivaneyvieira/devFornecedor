@@ -10,6 +10,7 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.*
+import com.lowagie.text.pdf.PdfAnnotation
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
@@ -65,6 +66,7 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
                                ncm = T,
                                barcode = T,
                                refPrd = T,
+                               frete = T,
                                ultimaNota = edtUlmNota.value ?: false,
                                rotulo = edtRotulo.value ?: "",
                                caraterInicial = edtCaracter.value ?: "",
