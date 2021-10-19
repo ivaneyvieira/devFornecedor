@@ -12,6 +12,7 @@ DO @mva := :mva;
 DO @ncm := :ncm;
 DO @barcode := :barcode;
 DO @refPrd := :refPrd;
+DO @frete := :frete;
 
 SELECT lj,
        ni,
@@ -44,7 +45,10 @@ SELECT lj,
        barcodeDif,
        refPrdp,
        refPrdn,
-       refPrdDif
+       refPrdDif,
+       freten,
+       fretep,
+       freteDif
 FROM sqldados.query1234567
 WHERE @cst = cstDif
    OR @icms = icmsDif
@@ -53,6 +57,7 @@ WHERE @cst = cstDif
    OR @ncm = ncmDif
    OR @barcode = barcodeDif
    OR @refPrd = refPrdDif
+   OR @frete = freteDif
    OR (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T' AND
-       @barcode = 'T' AND @refPrd = 'T')
+       @barcode = 'T' AND @refPrd = 'T' AND @frete = 'T')
 

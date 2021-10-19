@@ -37,12 +37,15 @@ class NfPrecEntrada(
   val refPrdp: String,
   val refPrdn: String,
   val refPrdDif: String,
+  val freten: Double,
+  val fretep: Double,
+  val freteDif: String,
                    ) {
   val dataStr
     get() = data.format()
 
   fun difGeral(fiscal: Boolean) = if (fiscal) cstDif == "N" || icmsDif == "N" || ipiDif == "N" || mvaDif == "N"
-  else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N"
+  else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N" || freteDif == "N"
 
   val icmsRN
     get() = icmsc ?: icmsn
@@ -80,6 +83,7 @@ class FiltroNfPrecEntrada(
   var ncm: EDiferenca,
   var barcode: EDiferenca,
   var refPrd: EDiferenca,
+  var frete: EDiferenca,
   val ultimaNota: Boolean,
   val rotulo: String,
   val caraterInicial: String,

@@ -25,6 +25,8 @@ class PlanilhaNfPrec(val fiscal: Boolean) {
             CampoString("forn Nota") { fornNota },
             CampoString("prod") { prod },
             CampoString("descrição") { descricao },
+            CampoNumber("freten") { freten },
+            CampoNumber("fretep") { fretep },
             CampoNumber("icmsn") { icmsn },
             CampoNumber("icmsp") { icmsp },
             CampoNumber("ipin") { ipin },
