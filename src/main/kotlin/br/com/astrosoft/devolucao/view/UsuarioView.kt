@@ -61,6 +61,59 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           binder.bind(this, UserSaci::storeno.name)
         }
         formLayout {
+          h4("Dev For Pendentes") {
+            colspan = 2
+          }
+          checkBox("Base") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteBASE.name)
+          }
+          checkBox("Nota") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteNOTA.name)
+          }
+          checkBox("E-mail") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteEMAIL.name)
+          }
+          checkBox("Trânsito") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteTRANSITO.name)
+          }
+          checkBox("Fábrica") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteFABRICA.name)
+          }
+          checkBox("Aguardar Crédito") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteCREDITO_AGUARDAR.name)
+          }
+          checkBox("Crédito Concedido") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteCREDITO_CONCEDIDO.name)
+          }
+          checkBox("Crédito Aplicado") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteCREDITO_APLICADO.name)
+          }
+          checkBox("Crédito Conta") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteCREDITO_CONTA.name)
+          }
+          checkBox("Bonificada") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteBONIFICADA.name)
+          }
+          checkBox("Reposição") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteREPOSICAO.name)
+          }
+          checkBox("Retorno") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteRETORNO.name)
+          }
+        }
+        formLayout {
           h4("Devolução Série 1") {
             colspan = 2
           }
@@ -188,17 +241,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             binder.bind(this, UserSaci::notaSaida.name)
           }
         }
-        formLayout {
-          h4("Dev For Pendentes") {
-            colspan = 2
-          }
-          checkBox("Notas") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendente.name)
-          }
-        }
+
       }
     }
   }
 }
+
 
