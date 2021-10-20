@@ -10,7 +10,7 @@ class UserSaci : IUser {
   var name: String = ""
   override var login: String = ""
   override var senha: String = ""
-  var bitAcesso: Int = 0
+  var bitAcesso: Long = 0
   var storeno: Int = 0
   var prntno: Int = 0
   var impressora: String? = ""
@@ -39,7 +39,22 @@ class UserSaci : IUser {
   var ajusteGarantiaPago by DelegateAuthorized(22)
   var entradaNddNFPrecInfo by DelegateAuthorized(23)
   var desconto by DelegateAuthorized(24)
-  var forPendente by DelegateAuthorized(25)
+  var forPendenteBASE by DelegateAuthorized(25)
+  var forPendenteNOTA by DelegateAuthorized(26)
+  var forPendenteEMAIL by DelegateAuthorized(27)
+  var forPendenteTRANSITO by DelegateAuthorized(28)
+  var forPendenteFABRICA by DelegateAuthorized(29)
+  var forPendenteCREDITO_AGUARDAR by DelegateAuthorized(30)
+  var forPendenteCREDITO_CONCEDIDO by DelegateAuthorized(31)
+  var forPendenteCREDITO_APLICADO by DelegateAuthorized(32)
+  var forPendenteCREDITO_CONTA by DelegateAuthorized(33)
+  var forPendenteBONIFICADA by DelegateAuthorized(34)
+  var forPendenteREPOSICAO by DelegateAuthorized(35)
+  var forPendenteRETORNO by DelegateAuthorized(36)
+
+  val forPendente
+    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO
+
   val menuDevolucao01
     get() = nota01 || pedido || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
   val menuDevolucao66
@@ -71,11 +86,11 @@ class UserSaci : IUser {
 }
 
 class DelegateAuthorized(numBit: Int) {
-  private val bit = 2.toDouble().pow(numBit).toInt()
+  private val bit = 2.toDouble().pow(numBit).toLong()
 
   operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
     thisRef ?: return false
-    return (thisRef.bitAcesso and bit) != 0 || thisRef.admin
+    return (thisRef.bitAcesso and bit) != 0L || thisRef.admin
   }
 
   operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean?) {
