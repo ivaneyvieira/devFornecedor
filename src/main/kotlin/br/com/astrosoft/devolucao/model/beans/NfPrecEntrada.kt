@@ -40,6 +40,7 @@ class NfPrecEntrada(
   val freten: Double,
   val fretep: Double,
   val freteDif: String,
+  val frete: Double,
                    ) {
   val dataStr
     get() = data.format()
