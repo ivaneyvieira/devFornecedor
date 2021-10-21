@@ -100,6 +100,10 @@ object UltimaNotaEntradaColumns {
     this.setHeader("Ref N")
   }
 
+  fun Grid<NfPrecEntrada>.notaFrete() = addColumnDouble(NfPrecEntrada::frete) {
+    this.setHeader("Frete$")
+  }
+
   fun Grid<NfPrecEntrada>.notaFretep() = addColumnDouble(NfPrecEntrada::fretep) {
     this.setHeader("Frete P")
   }

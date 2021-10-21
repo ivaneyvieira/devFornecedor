@@ -93,7 +93,8 @@ SELECT iprd.storeno                                                             
        TRIM(IFNULL(prd.refPrd, ''))                                                 AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
-       inv.freight * 100.00 / inv.grossamt                                          AS freten
+       inv.freight * 100.00 / inv.grossamt                                          AS freten,
+       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)            AS frete
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -181,7 +182,8 @@ SELECT lj,
        IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif,
        freten,
        fretep,
-       IF(freten = fretep, 'S', 'N')                                                 AS freteDif
+       IF(freten = fretep, 'S', 'N')                                                 AS freteDif,
+       frete
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX
 	       USING (Prod, grade, NI)

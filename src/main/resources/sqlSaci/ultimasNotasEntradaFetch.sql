@@ -48,7 +48,8 @@ SELECT lj,
        refPrdDif,
        freten,
        fretep,
-       freteDif
+       freteDif,
+       frete
 FROM sqldados.query1234567
 WHERE @cst = cstDif
    OR @icms = icmsDif
