@@ -41,4 +41,7 @@ ON DUPLICATE KEY UPDATE numero             = :numero,
 			xmlAut             = :xmlAut,
 			xmlCancelado       = :xmlCancelado,
 			xmlNfe             = :xmlNfe,
-			xmlDadosAdicionais = :xmlDadosAdicionais
+			xmlDadosAdicionais = :xmlDadosAdicionais;
+
+DELETE FROM sqldados.notasEntradaNdd
+WHERE id = :id AND :cancelado = 'S';

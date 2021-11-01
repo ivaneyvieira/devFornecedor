@@ -45,6 +45,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   override fun updateView() = viewModel.exec {
     subView.updateGrid(listFornecedores())
+    FornecedorNdd.updateNotas()
   }
 
   fun listFornecedores(): List<Fornecedor> {

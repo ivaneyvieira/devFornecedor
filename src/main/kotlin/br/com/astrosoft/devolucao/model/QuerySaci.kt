@@ -5,12 +5,9 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
-import br.com.astrosoft.framework.model.gridlazy.SortOrder
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
-import org.apache.commons.lang3.StringUtils
 import org.sql2o.Query
-import java.util.*
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -52,7 +49,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun notasDevolucao(serie: Serie, vendno : Int = 0): List<NotaSaida> {
+  fun notasDevolucao(serie: Serie, vendno: Int = 0): List<NotaSaida> {
     val sql = "/sqlSaci/notaDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("serie", serie.value)
@@ -405,6 +402,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       { q: Query ->
         q.addOptionalParameter("id", nota.id)
         q.addOptionalParameter("numero", nota.numero)
+        q.addOptionalParameter("cancelado", nota.cancelado)
         q.addOptionalParameter("serie", nota.serie)
         q.addOptionalParameter("dataEmissao", nota.dataEmissao?.toSaciDate() ?: 0)
         q.addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
@@ -522,24 +520,25 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       it.executeScalar(Int::class.java)
     }
   }
-/*
-  fun fetchNfPrec(
-    filter: FiltroNfPrecEntrada,
-    offset: Int,
-    limit: Int,
-    sortOrders: List<SortOrder>,
-                 ): List<NfPrecEntrada> {
-    val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
-    val orderBy = if (sortOrders.isEmpty()) ""
-    else "ORDER BY " + sortOrders.joinToString(separator = ", ") { it.sql() }
-    val complemento = """
-      |$orderBy 
-      |LIMIT $limit OFFSET $offset""".trimMargin()
-    return filtroNfPrec(filter, sql, complemento) {
-      it.executeAndFetch(NfPrecEntrada::class.java)
+
+  /*
+    fun fetchNfPrec(
+      filter: FiltroNfPrecEntrada,
+      offset: Int,
+      limit: Int,
+      sortOrders: List<SortOrder>,
+                   ): List<NfPrecEntrada> {
+      val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
+      val orderBy = if (sortOrders.isEmpty()) ""
+      else "ORDER BY " + sortOrders.joinToString(separator = ", ") { it.sql() }
+      val complemento = """
+        |$orderBy
+        |LIMIT $limit OFFSET $offset""".trimMargin()
+      return filtroNfPrec(filter, sql, complemento) {
+        it.executeAndFetch(NfPrecEntrada::class.java)
+      }
     }
-  }
-*/
+  */
   fun notaSaidaNDD(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
     val sql = "/sqlSaci/notaSaida.sql"
     val dataI = filtro.dataI?.toSaciDate() ?: 20000101

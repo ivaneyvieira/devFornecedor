@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 class NotaEntradaVO(val id: Int,
                     val numero: Int,
+                    val cancelado: String,
                     val serie: Int,
                     val dataEmissao: LocalDate?,
                     val cnpjEmitente: String,
