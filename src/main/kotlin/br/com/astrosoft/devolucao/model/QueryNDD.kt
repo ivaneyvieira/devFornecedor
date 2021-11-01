@@ -8,7 +8,7 @@ class QueryNDD : QueryDB(driver, url, username, password) {
   fun notasEntrada(): List<NotaEntradaVO> {
     val sql = "/sqlNDD/notasEntrada.sql"
     return query(sql, NotaEntradaVO::class) {
-      addOptionalParameter("dataInicial", LocalDate.now().minusMonths(2))
+      addOptionalParameter("dataInicial", LocalDate.now().minusMonths(7))
     }
   }
 

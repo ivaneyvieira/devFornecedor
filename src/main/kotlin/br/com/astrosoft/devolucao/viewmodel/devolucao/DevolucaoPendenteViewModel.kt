@@ -1,9 +1,10 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import com.github.mvysny.karibudsl.v10.beanValidationBinder
+import br.com.astrosoft.devolucao.model.beans.FornecedorNdd
 
 class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
         DevolucaoAbstractViewModel<IDevolucaoPendenteView>(view) {
+
   val tabNotaPendenteBaseViewModel = TabNotaPendenteViewModel(this) {
     view.tabNotaPendenteBase
   }
@@ -94,12 +95,7 @@ enum class ESituacaoPendencia(val title: String,
        numeroCol = "",
        niCol = "",
        dataCol = "Saída"),
-  EMAIL(title = "E-mail",
-        valueStr = "E-MAIL",
-        descricao = "E-mail",
-        docCol = "",
-        numeroCol = "",
-        niCol = ""),
+  EMAIL(title = "E-mail", valueStr = "E-MAIL", descricao = "E-mail", docCol = "", numeroCol = "", niCol = ""),
   TRANSITO(title = "Trânsito",
            valueStr = "TRANSITO",
            descricao = "Trânsito",
@@ -107,12 +103,7 @@ enum class ESituacaoPendencia(val title: String,
            docCol = "",
            numeroCol = "",
            niCol = ""),
-  FABRICA(title = "Fabrica",
-          valueStr = "FABRICA",
-          descricao = "Fábrica",
-          docCol = "",
-          numeroCol = "",
-          niCol = ""),
+  FABRICA(title = "Fabrica", valueStr = "FABRICA", descricao = "Fábrica", docCol = "", numeroCol = "", niCol = ""),
   CREDITO_AGUARDAR(title = "Aguardar Crédito",
                    valueStr = "CREDITO_AGUARDAR",
                    descricao = "Aguardar Crédito",
