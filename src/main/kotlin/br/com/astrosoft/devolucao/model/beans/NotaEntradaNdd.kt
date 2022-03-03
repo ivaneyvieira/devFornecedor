@@ -46,20 +46,20 @@ class NotaEntradaNdd(val id: Int,
     saci.saveNotaNddPedido(this)
   }
 
-  val linhaFatura : String
-    get()  {
+  val linhaFatura: String
+    get() {
       val notaReport = itensNotaReport().firstOrNull() ?: return ""
       return notaReport.faturaDuplicata
     }
 
-  val valorNota : Double
-    get()  {
+  val valorNota: Double
+    get() {
       val notaReport = itensNotaReport().firstOrNull() ?: return 0.00
       return notaReport.vlNota.toDouble()
     }
 
   fun itensNotaReport(): List<ItensNotaReport> {
-    return produtosNfe()?.itensNotaReport() ?: emptyList()
+    return produtosNfe?.itensNotaReport() ?: emptyList()
   }
 
   val notaFiscal
@@ -71,10 +71,17 @@ class NotaEntradaNdd(val id: Int,
   val nfeFile
     get() = NfeFile(xmlNfe)
 
-  fun produtosNfe(): ProdutoNotaEntradaVO? = ndd.produtosNotasEntrada(id)
-
-  fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
-    val produtosNfe = produtosNfe() ?: return emptyList()
-    return produtosNfe.produtosNotaEntradaNDD()
+  private val produtosNfe: ProdutoNotaEntradaVO? by lazy {
+    ndd.produtosNotasEntrada(id)
   }
+
+  val produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd> by lazy {
+    val produtosNfe = produtosNfe ?: return@lazy emptyList()
+    produtosNfe.produtosNotaEntradaNDD()
+  }
+
+  val temIPI
+    get() = produtosNotaEntradaNDD.any {
+      it.temIPI
+    }
 }

@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.devolucao.viewmodel.entrada.ETemIPI
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -15,6 +16,10 @@ data class FornecedorNdd(val cnpj: String,
                          val email: String,
                          val obs: String,
                          val notas: List<NotaEntradaNdd>) {
+  val temIPI: Boolean by lazy {
+    notas.any { it.temIPI }
+  }
+
   val labelTitle: String
     get() = "FORNECEDOR: ${this.vendno} ${this.nome}"
 
@@ -53,14 +58,20 @@ data class FornecedorNdd(val cnpj: String,
         if (notas.isEmpty()) null
         else {
           val nota = notas.firstOrNull() ?: return@mapNotNull null
-          FornecedorNdd(nota.cnpjEmitente,
-                        nota.custno,
-                        nota.nome,
-                        nota.codigoSaci,
-                        nota.fornecedorSap,
-                        nota.email,
-                        nota.obs,
-                        notas)
+          FornecedorNdd(cnpj = nota.cnpjEmitente,
+                        custno = nota.custno,
+                        nome = nota.nome,
+                        vendno = nota.codigoSaci,
+                        fornecedorSap = nota.fornecedorSap,
+                        email = nota.email,
+                        obs = nota.obs,
+                        notas = notas)
+        }
+      }.filter {
+        when(filtro.temIPI){
+          ETemIPI.TODOS -> true
+          ETemIPI.SIM   -> it.temIPI
+          ETemIPI.NAO   -> !it.temIPI
         }
       }
     }
@@ -78,13 +89,12 @@ data class FornecedorNdd(val cnpj: String,
   }
 }
 
-data class FiltroEntradaNdd(
-  val query: String,
-  val tipo: ETipoNota,
-  val dataInicial: LocalDate,
-  val dataFinal: LocalDate,
-  val chave: String = "",
-                           )
+data class FiltroEntradaNdd(val query: String,
+                            val tipo: ETipoNota,
+                            val dataInicial: LocalDate,
+                            val dataFinal: LocalDate,
+                            val chave: String = "",
+                            val temIPI: ETemIPI = ETemIPI.TODOS)
 
 enum class ETipoNota {
   RECEBER, RECEBIDO, TODOS

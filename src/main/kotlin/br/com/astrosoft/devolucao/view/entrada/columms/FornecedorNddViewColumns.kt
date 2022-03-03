@@ -1,10 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada.columms
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorNdd
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object FornecedorNddViewColumns {
@@ -22,6 +19,10 @@ object FornecedorNddViewColumns {
 
   fun Grid<FornecedorNdd>.fornecedorUltimaData() = addColumnLocalDate(FornecedorNdd::ultimaData) {
     this.setHeader("Ultima Data")
+  }
+
+  fun Grid<FornecedorNdd>.fornecedorTemIPI() = addColumnBool(FornecedorNdd::temIPI) {
+    this.setHeader("Tem IPI")
   }
 
   fun Grid<FornecedorNdd>.fornecedorSaldoTotal() = addColumnDouble(FornecedorNdd::valorTotal) {
