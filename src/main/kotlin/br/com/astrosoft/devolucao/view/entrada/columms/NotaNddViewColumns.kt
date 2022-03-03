@@ -1,10 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada.columms
 
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaNdd
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object NotaNddViewColumns {
@@ -22,6 +19,10 @@ object NotaNddViewColumns {
 
   fun Grid<NotaEntradaNdd>.notaData() = addColumnLocalDate(NotaEntradaNdd::dataEmissao) {
     this.setHeader("Data")
+  }
+
+  fun Grid<NotaEntradaNdd>.notaTemIPI() = addColumnBool(NotaEntradaNdd::temIPI) {
+    this.setHeader("Tem IPI")
   }
 
   fun Grid<NotaEntradaNdd>.notaTotal() = addColumnDouble(NotaEntradaNdd::baseCalculoIcms) {

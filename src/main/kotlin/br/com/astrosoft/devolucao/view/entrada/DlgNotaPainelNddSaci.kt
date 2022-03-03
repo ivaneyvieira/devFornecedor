@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaDa
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaNotaSaci
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaNumeroPedido
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaTemIPI
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaTotal
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewModel
 import br.com.astrosoft.framework.util.format
@@ -52,7 +53,7 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
       })
 
       addColumnButton(iconButton = VaadinIcon.BULLETS, tooltip = "Produtos", header = "Prd") { nota ->
-        DlgProdutosNotaNdd(nota.produtosNotaEntradaNDD()).show()
+        DlgProdutosNotaNdd(nota.produtosNotaEntradaNDD).show()
       }
 
       addColumnButton(iconButton = VaadinIcon.PRINT, tooltip = "Nota fiscal", header = "NF") { nota ->
@@ -63,6 +64,7 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
       notaNotaSaci()
       notaNumeroPedido().integerFieldEditor()
       notaData()
+      notaTemIPI()
       notaTotal().apply {
         val totalPedido = listParcelas.sumOf { it.baseCalculoIcms }.format()
         setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))

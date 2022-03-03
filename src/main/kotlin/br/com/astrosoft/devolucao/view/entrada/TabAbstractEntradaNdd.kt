@@ -7,7 +7,9 @@ import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorSaldoTotal
+import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorTemIPI
 import br.com.astrosoft.devolucao.view.entrada.columms.FornecedorNddViewColumns.fornecedorUltimaData
+import br.com.astrosoft.devolucao.viewmodel.entrada.ETemIPI
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabAbstractEntradaNddViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabAbstractEntradaNddViewModel
 import br.com.astrosoft.framework.util.format
@@ -15,6 +17,7 @@ import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
+import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
@@ -33,6 +36,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
   private lateinit var edtFiltro: TextField
   private lateinit var edtDataInicial: DatePicker
   private lateinit var edtDataFinal: DatePicker
+  private lateinit var cmbTemIPI: ComboBox<ETemIPI>
   abstract override val label: String
 
   override fun query(): String {
@@ -42,6 +46,11 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
 
   override fun dataInicial(): LocalDate? {
     return if (this::edtDataInicial.isInitialized) edtDataInicial.value
+    else null
+  }
+
+  override fun temIPI(): ETemIPI? {
+    return if (this::cmbTemIPI.isInitialized) cmbTemIPI.value
     else null
   }
 
@@ -76,7 +85,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
     }
 
     edtDataInicial = datePicker("Data Inicial") {
-      value = LocalDate.now().minusMonths(6)
+      value = LocalDate.now()//.minusMonths(6)
       isClearButtonVisible = true
       isAutoOpen = true
       localePtBr()
@@ -90,6 +99,19 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
       isClearButtonVisible = true
       isAutoOpen = true
       localePtBr()
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    cmbTemIPI = comboBox("Tem IPI") {
+      isAutoOpen = true
+      this.isAllowCustomValue = false
+      setItems(ETemIPI.values().toList())
+      setItemLabelGenerator {
+        it.descricao
+      }
+      value = ETemIPI.TODOS
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -109,10 +131,10 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
         viewModel.imprimirRelatorioResumido(fornecedores)
       }
     }
-    this.lazyDownloadButtonXlsx("Planilha", "planilha"){
+    this.lazyDownloadButtonXlsx("Planilha", "planilha") {
       viewModel.geraPlanilha(itensSelecionados())
     }
-    this.lazyDownloadButtonXlsx("Planilha", "planilhaResumo"){
+    this.lazyDownloadButtonXlsx("Planilha", "planilhaResumo") {
       viewModel.geraPlanilhaResumo(itensSelecionados())
     }
   }
@@ -133,6 +155,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
     fornecedorNome()
     fornecedorPrimeiraData()
     fornecedorUltimaData()
+    fornecedorTemIPI()
     val totalCol = fornecedorSaldoTotal()
     this.dataProvider.addDataProviderListener {
       val totalPedido = listBeans().sumOf { it.valorTotal }.format()

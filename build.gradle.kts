@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
   const val vaadinonkotlin_version = "1.1.0"
-  const val vaadin10_version = "14.6.8"
+  const val vaadin10_version = "14.6.4"
   const val kotlin_version = "1.5.30"
   const val vaadin_plugin = "0.14.6.0"
 }
@@ -14,7 +14,6 @@ plugins {
   id("org.gretty") version "3.0.6"
   war
   id("com.vaadin") version "0.14.6.0"
-  id("com.google.cloud.tools.jib") version "3.0.0"
 }
 
 defaultTasks("clean", "build")
@@ -110,16 +109,6 @@ dependencies {
 }
 
 vaadin {
-  pnpmEnable = false
-  productionMode = false
-}
-
-jib {
-  from {
-    image = "jetty:9.4.40-jre11"
-  }
-  container {
-    appRoot = "/var/lib/jetty/webapps/ROOT"
-    user = "root" // otherwise we'll get https://github.com/appropriate/docker-jetty/issues/80
-  }
+  pnpmEnable = true
+  productionMode = true
 }

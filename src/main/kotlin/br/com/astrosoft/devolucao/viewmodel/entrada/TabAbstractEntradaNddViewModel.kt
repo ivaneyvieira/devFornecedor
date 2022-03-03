@@ -16,7 +16,13 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
     val query: String = subView.query()
     val dataInicial = subView.dataInicial() ?: LocalDate.of(2006, 1, 1)
     val dataFinal = subView.dataFinal() ?: LocalDate.now()
-    val filtro = FiltroEntradaNdd(query, tipoTab, dataInicial, dataFinal)
+    val temIPI = subView.temIPI() ?: ETemIPI.TODOS
+    val filtro =
+            FiltroEntradaNdd(query = query,
+                             tipo = tipoTab,
+                             dataInicial = dataInicial,
+                             dataFinal = dataFinal,
+                             temIPI = temIPI)
     val resultList = FornecedorNdd.listFornecedores(filtro)
 
     subView.updateGrid(resultList)
@@ -66,9 +72,14 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
 
 interface ITabAbstractEntradaNddViewModel : ITabView {
   fun query(): String
+  fun temIPI(): ETemIPI?
   fun dataInicial(): LocalDate?
   fun dataFinal(): LocalDate?
   fun updateGrid(itens: List<FornecedorNdd>)
   fun imprimeRelatorio(fornecedores: List<FornecedorNdd>)
   fun imprimeRelatorioResumido(fornecedores: List<FornecedorNdd>)
+}
+
+enum class ETemIPI(val descricao: String) {
+  TODOS("Todos"), SIM("Sim"), NAO("Não")
 }
