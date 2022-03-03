@@ -32,3 +32,5 @@ webpack.generated.js
 src/main/resources/report/.metadata/
 .metadata
 *.jasper
+pnpm-lock.yaml
+pnpmfile.js
