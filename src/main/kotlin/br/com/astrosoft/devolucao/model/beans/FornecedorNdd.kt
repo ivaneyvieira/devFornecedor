@@ -53,7 +53,14 @@ data class FornecedorNdd(val cnpj: String,
 
     fun listFornecedores(filtro: FiltroEntradaNdd): List<FornecedorNdd> {
       updateNotas()
-      return saci.notasEntrada(filtro).groupBy { it.cnpjEmitente }.mapNotNull { entry ->
+      val notaFilter = saci.notasEntrada(filtro).filter {
+        when (filtro.temIPI) {
+          ETemIPI.TODOS -> true
+          ETemIPI.SIM   -> it.temIPI
+          ETemIPI.NAO   -> !it.temIPI
+        }
+      }
+      return notaFilter.groupBy { it.cnpjEmitente }.mapNotNull { entry ->
         val notas = entry.value
         if (notas.isEmpty()) null
         else {
@@ -66,12 +73,6 @@ data class FornecedorNdd(val cnpj: String,
                         email = nota.email,
                         obs = nota.obs,
                         notas = notas)
-        }
-      }.filter {
-        when(filtro.temIPI){
-          ETemIPI.TODOS -> true
-          ETemIPI.SIM   -> it.temIPI
-          ETemIPI.NAO   -> !it.temIPI
         }
       }
     }
