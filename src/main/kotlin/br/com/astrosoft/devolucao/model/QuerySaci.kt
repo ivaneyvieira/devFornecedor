@@ -431,8 +431,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaEntradaNdd::class) {
       addOptionalParameter("filtro", filtro.query)
       addOptionalParameter("tipo", filtro.tipo.toString())
-      addOptionalParameter("dataInicial", filtro.dataInicial)
-      addOptionalParameter("dataFinal", filtro.dataFinal)
+      addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
+      addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
       addOptionalParameter("chave", filtro.chave)
     }
   }
