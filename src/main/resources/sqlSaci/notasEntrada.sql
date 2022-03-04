@@ -28,7 +28,8 @@ SELECT id,
        IF(I.invno IS NULL, 'N', 'S')                                AS notaSaci,
        IFNULL(I.ordno, N.ordno)                                     AS ordno,
        IFNULL(TRIM(T.name), '')                                     AS transportadora,
-       IFNULL(CAST(IF(I.auxLong2 = 0, '', I.auxLong2) AS CHAR), '') AS conhecimentoFrete
+       IFNULL(CAST(IF(I.auxLong2 = 0, '', I.auxLong2) AS CHAR), '') AS conhecimentoFrete,
+       :temIPI                                                      AS temIPIS
 FROM sqldados.notasEntradaNdd AS N
   LEFT JOIN sqldados.vend     AS V
 	      ON V.cgc = N.cnpjEmitente

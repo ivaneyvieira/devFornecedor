@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.ProdutoNotaEntradaVO
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.nfeXml.NfeFile
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.devolucao.viewmodel.entrada.ETemIPI
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
@@ -38,7 +39,8 @@ class NotaEntradaNdd(val id: Int,
                      val notaSaci: String,
                      var ordno: Int,
                      val transportadora: String,
-                     val conhecimentoFrete: String) {
+                     val conhecimentoFrete: String,
+                     val temIPIS: String) {
   val aliquotaICMSCalculo
     get() = valorTotalIcms / valorTotalProdutos
 
@@ -77,7 +79,14 @@ class NotaEntradaNdd(val id: Int,
 
   val produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd> by lazy {
     val produtosNfe = produtosNfe ?: return@lazy emptyList()
-    produtosNfe.produtosNotaEntradaNDD()
+    return@lazy produtosNfe.produtosNotaEntradaNDD().filter {
+      when (temIPIS) {
+        ETemIPI.TODOS.toString() -> true
+        ETemIPI.SIM.toString()   -> it.temIPI
+        ETemIPI.NAO.toString()   -> !it.temIPI
+        else                     -> false
+      }
+    }
   }
 
   val temIPI
