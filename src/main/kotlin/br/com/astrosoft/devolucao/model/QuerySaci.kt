@@ -434,6 +434,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
       addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
       addOptionalParameter("chave", filtro.chave)
+      addOptionalParameter("temIPI", filtro.temIPI.toString())
     }
   }
 
