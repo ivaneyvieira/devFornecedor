@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.entrada
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorNdd
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasNdd
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaProdutosNdd
 import br.com.astrosoft.devolucao.model.reports.DanfeReport
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -67,6 +68,10 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
     val itensNotaReport = nota.itensNotaReport()
     val report = DanfeReport.create(itensNotaReport)
     viewModel.view.showReport("Danfee", report)
+  }
+
+  fun geraPlanilhaProduto(produtosNotaEntradaNDD: List<ProdutoNotaEntradaNdd>, labelTitleNota: String): ByteArray {
+    return PlanilhaProdutosNdd().grava(produtosNotaEntradaNDD, labelTitleNota)
   }
 }
 
