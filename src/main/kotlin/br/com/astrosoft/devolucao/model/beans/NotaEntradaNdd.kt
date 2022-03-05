@@ -68,6 +68,8 @@ class NotaEntradaNdd(val id: Int,
     get() = "$numero/$serie"
   val labelTitle
     get() = "FORNECEDOR: ${this.codigoSaci} ${this.nome}"
+  val labelTitleNota
+    get() = "FORNECEDOR: ${this.codigoSaci} ${this.nome} NF: $notaFiscal Data: ${dataEmissao.format()}"
   val dataEmissaoStr
     get() = dataEmissao.format()
   val nfeFile

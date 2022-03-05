@@ -16,14 +16,21 @@ import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.pr
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorUnitario
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class DlgProdutosNotaNdd(val produtos: List<ProdutoNotaEntradaNdd>) {
+class DlgProdutosNotaNdd(val produtos: List<ProdutoNotaEntradaNdd>, private val doPLanilha: () -> ByteArray) {
   private lateinit var gridNota: Grid<ProdutoNotaEntradaNdd>
   fun show() {
-    val form = SubWindowForm("Produtos") {
+    val form = SubWindowForm("Produtos", toolBar={
+      lazyDownloadButtonXlsx("Planilha", "planilhaProduto") {
+        doPLanilha()
+      }
+    }) {
       gridNota = createGrid()
 
       HorizontalLayout().apply {

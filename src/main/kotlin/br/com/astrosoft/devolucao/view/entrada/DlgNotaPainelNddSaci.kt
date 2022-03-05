@@ -20,6 +20,7 @@ import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.notification.Notification.show
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
@@ -53,7 +54,9 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
       })
 
       addColumnButton(iconButton = VaadinIcon.BULLETS, tooltip = "Produtos", header = "Prd") { nota ->
-        DlgProdutosNotaNdd(nota.produtosNotaEntradaNDD).show()
+        DlgProdutosNotaNdd(nota.produtosNotaEntradaNDD){
+          viewModel.geraPlanilhaProduto(nota.produtosNotaEntradaNDD, nota.labelTitleNota)
+        }.show()
       }
 
       addColumnButton(iconButton = VaadinIcon.PRINT, tooltip = "Nota fiscal", header = "NF") { nota ->
