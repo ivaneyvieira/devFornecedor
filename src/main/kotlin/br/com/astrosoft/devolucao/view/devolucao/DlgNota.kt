@@ -124,7 +124,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
 
       if (viewModel is TabNotaPendenteViewModel) {
-        val cmbSituacao = comboBox<ESituacaoPendencia>("Situacao") {
+        val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
           setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
           setItemLabelGenerator {
             it.title
@@ -140,7 +140,19 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-
+      else {
+        if (serie in listOf(Serie.PED)) {
+          val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
+            setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
+            setItemLabelGenerator {
+              it.title
+            }
+            isAutoOpen = true
+            isClearButtonVisible = false
+            isPreventInvalidInput = true
+          }
+        }
+      }
     }, onClose = onClose) {
       gridNota = createGridNotas(listNotas, serie)
       gridNota
@@ -182,12 +194,16 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaPedido()
       }
       notaDataNota()
-      notaNota()
+      if (serie !in listOf(Serie.PED)) {
+        notaNota()
+      }
       if (serie in listOf(Serie.AJP)) {
         notaObservacao()
       }
       else {
-        notaFatura()
+        if (serie !in listOf(Serie.PED)) {
+          notaFatura()
+        }
       }
       if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao(situacao)
@@ -209,6 +225,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
+        if (serie in listOf(Serie.PED)) {
+          usuarioSituacao(situacao)
+          situacaoDesconto(situacao)
+        }
         dataAgendaDesconto(situacao).dateFieldEditor()
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator {
