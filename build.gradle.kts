@@ -109,6 +109,6 @@ dependencies {
 }
 
 vaadin {
-  pnpmEnable = true
+  pnpmEnable = false
   productionMode = true
 }
