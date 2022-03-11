@@ -1,7 +1,5 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.FornecedorNdd
-
 class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
         DevolucaoAbstractViewModel<IDevolucaoPendenteView>(view) {
 
@@ -71,6 +69,12 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
   val tabNotaPendenteBonificada: ITabNotaPendente
   val tabNotaPendenteReposicao: ITabNotaPendente
   val tabNotaPendenteRetorno: ITabNotaPendente
+}
+
+enum class ESituacaoPedido(val valueStr: String, val descricao: String) {
+  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "Enviado E-mail"),
+  NFD_AUTOZ(valueStr = "PED_NFD_ATZ", descricao = "NFD Autorizada"),
+  AJUSTE_GARANTIA(valueStr = "PED_AJT_GAR", descricao = "Ajuste Garantia")
 }
 
 enum class ESituacaoPendencia(val title: String,

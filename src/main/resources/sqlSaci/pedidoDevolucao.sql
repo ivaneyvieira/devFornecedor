@@ -161,7 +161,7 @@ SELECT E.storeno                                      AS loja,
        ''                                             AS chave,
        'PEDIDO DE COMPRA'                             AS natureza,
        CONCAT(E.c4, E.c5)                             AS chaveDesconto,
-       ''                                             AS observacaoAuxiliar,
+       CONCAT(E.auxString, E.auxString2)              AS observacaoAuxiliar,
        CAST(IF(E.l11 = 0, NULL, E.l11) AS DATE)       AS dataAgenda
 FROM sqldados.eord              AS E
   LEFT JOIN  sqldados.ords      AS O

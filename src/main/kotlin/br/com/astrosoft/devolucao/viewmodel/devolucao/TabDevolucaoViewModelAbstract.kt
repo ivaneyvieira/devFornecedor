@@ -216,6 +216,7 @@ interface IFiltro {
 }
 
 interface ITabNota : ITabView, IFiltro {
+  fun updateNota()
   fun updateGrid(itens: List<Fornecedor>)
   fun itensSelecionados(): List<Fornecedor>
   fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean)

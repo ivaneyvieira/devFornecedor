@@ -43,9 +43,9 @@ import org.claspina.confirmdialog.ConfirmDialog
 @CssImport("./styles/gridTotal.css")
 class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>,
                                           val situacao: ESituacaoPendencia?) {
+  lateinit var gridNota: Grid<NotaSaida>
   fun showDialogNota(fornecedor: Fornecedor?, serie: Serie, onClose: (Dialog) -> Unit = {}) {
     fornecedor ?: return
-    lateinit var gridNota: Grid<NotaSaida>
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
       if (serie == Serie.PED) {
@@ -141,15 +141,22 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
       }
       else {
-        if (serie in listOf(Serie.PED)) {
-          val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
-            setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
+        if (viewModel is TabPedidoViewModel) {
+          val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
+            setItems(ESituacaoPedido.values().toList())
             setItemLabelGenerator {
-              it.title
+              it.descricao
             }
             isAutoOpen = true
             isClearButtonVisible = false
             isPreventInvalidInput = true
+          }
+
+          button("Muda situação") {
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
+            }
           }
         }
       }
@@ -168,7 +175,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
       if (serie in listOf(Serie.Serie01, Serie.PED)) {
-        this.withEditor(NotaSaida::class, openEditor = { _ ->
+        this.withEditor(NotaSaida::class, openEditor = {
           (getColumnBy(NotaSaida::chaveDesconto).editorComponent as? Focusable<*>)?.focus()
         }, closeEditor = { binder ->
           viewModel.salvaDesconto(binder.bean)
@@ -259,6 +266,10 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
   private fun configIconArq(icon: Icon, nota: NotaSaida) {
     if (nota.listFiles().isNotEmpty()) icon.color = "DarkGreen"
     else icon.color = ""
+  }
+
+  fun updateNota() {
+    gridNota.dataProvider.refreshAll()
   }
 }
 
