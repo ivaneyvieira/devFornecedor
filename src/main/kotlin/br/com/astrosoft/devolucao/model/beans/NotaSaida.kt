@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
@@ -168,9 +169,12 @@ class NotaSaida(val loja: Int,
 
   val situacaoStr: String
     get() {
-      return ESituacaoPendencia.values().firstOrNull { sit ->
+      return if (situacao == "") ""
+      else ESituacaoPendencia.values().firstOrNull { sit ->
         sit.valueStr == situacao
-      }?.descricao ?: situacao
+      }?.descricao ?: ESituacaoPedido.values().firstOrNull { sit ->
+        sit.valueStr == situacao
+      }?.descricao ?: ""
     }
 
   private var produtos: List<ProdutosNotaSaida>? = null

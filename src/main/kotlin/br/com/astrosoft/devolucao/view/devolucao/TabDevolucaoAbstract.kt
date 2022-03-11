@@ -48,6 +48,7 @@ import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
+  private var dlgNota: DlgNota<T>? = null
   protected lateinit var dataSitCol: Grid.Column<Fornecedor>
   protected lateinit var userCol: Grid.Column<Fornecedor>
   protected lateinit var situacaoCol: Grid.Column<Fornecedor>
@@ -108,7 +109,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(MULTI)
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      DlgNota(viewModel, situacaoPendencia).showDialogNota(fornecedor, serie) {
+      dlgNota = DlgNota(viewModel, situacaoPendencia)
+      dlgNota?.showDialogNota(fornecedor, serie) {
         viewModel.updateView()
       }
     }
@@ -229,6 +231,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
 
   override fun selecionaEmail(nota: NotaSaida, emails: List<EmailDB>) {
     DlgSelecionaEmail(viewModel).selecionaEmail(nota, emails)
+  }
+
+  override fun updateNota() {
+    dlgNota?.updateNota()
   }
 }
 
