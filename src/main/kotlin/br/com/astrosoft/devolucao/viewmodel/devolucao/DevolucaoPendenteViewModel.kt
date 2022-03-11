@@ -72,9 +72,10 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
 }
 
 enum class ESituacaoPedido(val valueStr: String, val descricao: String) {
-  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "Enviado E-mail"),
+  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "E-mail Enviado"),
   NFD_AUTOZ(valueStr = "PED_NFD_ATZ", descricao = "NFD Autorizada"),
-  AJUSTE_GARANTIA(valueStr = "PED_AJT_GAR", descricao = "Ajuste Garantia")
+  AJUSTE_GARANTIA(valueStr = "PED_AJT_GAR", descricao = "Ajuste Garantia"),
+  ASSISTENCIA(valueStr = "ASSISTENCIA", descricao = "Assistencia")
 }
 
 enum class ESituacaoPendencia(val title: String,
