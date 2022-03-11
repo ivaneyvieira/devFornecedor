@@ -34,8 +34,8 @@ class Fornecedor(
     get() = notaObs?.dataAgenda
 
   val notaObs
-    get() = notas.sortedBy { it.dataNota }
-      .firstOrNull()
+    get() = if (notas.any { it.observacaoAuxiliar.isNullOrBlank() }) null
+    else notas.sortedBy { it.dataNota }.firstOrNull()
 
   val chaveDesconto: String
     get() {
