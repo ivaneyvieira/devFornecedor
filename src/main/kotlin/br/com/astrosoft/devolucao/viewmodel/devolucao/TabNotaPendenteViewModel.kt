@@ -7,15 +7,15 @@ import java.time.LocalDate
 
 class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSubView: () -> ITabNota) :
         TabDevolucaoViewModelAbstract<IDevolucaoPendenteView>(viewModel) {
-  fun salvaSituacao(situacao: ESituacaoPendencia?, itens : List<NotaSaida>) = viewModel.exec{
+  fun salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")
     itens.ifEmpty {
       fail("Não foi selecionado nenhuma nota")
     }
-    itens.forEach {nota ->
+    itens.forEach { nota ->
       val userSaci = Config.user?.login ?: ""
       nota.situacao = situacao.valueStr ?: ""
-      if(!situacao.valueStr.isNullOrBlank()){
+      if (!situacao.valueStr.isNullOrBlank()) {
         nota.dataSituacao = LocalDate.now()
         nota.usuarioSituacao = userSaci
       }
