@@ -204,7 +204,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       if (serie !in listOf(Serie.PED)) {
         notaNota()
       }
-      if (serie in listOf(Serie.AJP)) {
+      if (serie in listOf(Serie.AJP, Serie.AJT)) {
         notaObservacao()
       }
       else {
@@ -247,9 +247,12 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      if (serie == Serie.PED || serie == Serie.AJT) sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido),
-                                                                              SortDirection.ASCENDING)))
-      else sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
+      if (serie in listOf(Serie.PED, Serie.AJT)) {
+        sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
+      }
+      else {
+        sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
+      }
     }
   }
 
