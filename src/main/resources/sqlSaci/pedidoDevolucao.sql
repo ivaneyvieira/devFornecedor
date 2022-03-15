@@ -159,7 +159,7 @@ SELECT E.storeno                                      AS loja,
        'PED'                                          AS tipo,
        IFNULL(RV.rmk, '')                             AS rmkVend,
        ''                                             AS chave,
-       'DEVOLUÇÔA'                                    AS natureza,
+       'DEVOLUÇÃO'                                    AS natureza,
        CONCAT(E.c4, E.c5)                             AS chaveDesconto,
        CONCAT(E.auxString, E.auxString2)              AS observacaoAuxiliar,
        CAST(IF(E.l11 = 0, NULL, E.l11) AS DATE)       AS dataAgenda
