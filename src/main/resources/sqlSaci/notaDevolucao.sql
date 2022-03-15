@@ -65,7 +65,8 @@ FROM sqldados.nf              AS N
 			      709327, 108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.nfse = @SERIE OR (@SERIE = '' AND (N.nfse IN ('1', '66'))))
+WHERE (N.nfse = @SERIE OR (N.remarks REGEXP '^AJUSTE GARANTIA.*$') OR (@SERIE = '' AND (N.nfse IN
+('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.tipo = 2
