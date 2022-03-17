@@ -11,6 +11,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNfAjuste
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
@@ -203,6 +204,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       notaDataNota()
       if (serie !in listOf(Serie.PED)) {
         notaNota()
+        notaNfAjuste()
       }
       if (serie in listOf(Serie.AJP, Serie.AJT)) {
         notaObservacao()
