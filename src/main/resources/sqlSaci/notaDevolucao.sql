@@ -1,20 +1,78 @@
 DO @SERIE := :serie;
 DO @VENDNO := :vendno;
 
-DROP TEMPORARY TABLE IF EXISTS TNFAVULSA;
-CREATE TEMPORARY TABLE TNFAVULSA (
-  PRIMARY KEY (vendno)
+DROP TEMPORARY TABLE IF EXISTS TNFA;
+CREATE TEMPORARY TABLE TNFA (
+  PRIMARY KEY (storeno, nfno, nfse)
 )
-SELECT P.mfno                                                           AS vendno,
-       CAST(GROUP_CONCAT(DISTINCT CONCAT(N.storeno, ' ', N.nfno, '/', N.nfse)) AS char) AS nfAjuste
+SELECT N.storeno,
+       N.pdvno,
+       N.xano,
+       N.nfno,
+       N.nfse,
+       P.mfno                                                                                  AS vendno,
+       N.issuedate,
+       N.eordno,
+       NULL                                                                                    AS pedidoDate,
+       C.no                                                                                    AS custno,
+       C.name                                                                                  AS fornecedorNome,
+       C.email                                                                                 AS email,
+       V.auxLong4                                                                              AS fornecedorSap,
+       N.grossamt / 100                                                                        AS valor,
+       CONCAT(TRIM(N.remarks), '\n',
+	      TRIM(IFNULL(R2.remarks__480, '')))                                               AS obsNota,
+       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S',
+	  'N')                                                                                 AS serie01Rejeitada,
+       IF((N.remarks LIKE '%PAGO%' || N.remarks LIKE '%RETORNO%') AND N.nfse = '1', 'S',
+	  'N')                                                                                 AS serie01Pago,
+       IF((N.remarks LIKE '%COLETA%') AND N.nfse = '1', 'S', 'N')                              AS serie01Coleta,
+       IF((N.remarks LIKE '%PAGO%' || N.remarks LIKE '%RETORNO%') AND N.nfse = '66', 'S',
+	  'N')                                                                                 AS serie66Pago,
+       IF((N.remarks LIKE '%REMESSA%CONSERTO%'), 'S', 'N')                                     AS remessaConserto,
+       TRIM(N.remarks)                                                                         AS remarks,
+       N.netamt / 100                                                                          AS baseIcms,
+       N.icms_amt / 100                                                                        AS valorIcms,
+       N.baseIcmsSubst / 100                                                                   AS baseIcmsSubst,
+       N.icmsSubst / 100                                                                       AS icmsSubst,
+       N.fre_amt / 100                                                                         AS valorFrete,
+       N.sec_amt / 100                                                                         AS valorSeguro,
+       N.discount / 100                                                                        AS valorDesconto,
+       0.00                                                                                    AS outrasDespesas,
+       N.ipi_amt / 100                                                                         AS valorIpi,
+       grossamt / 100                                                                          AS valorTotal,
+       ''                                                                                      AS obsPedido,
+       IFNULL(XML.nfekey, '')                                                                  AS chave,
+       IFNULL(OP.name, '')                                                                     AS natureza,
+       TRIM(CONCAT(N.c6, N.c5))                                                                AS chaveDesconto,
+       TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
+       CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
+       CAST(CONCAT(N.storeno, ' ', N.nfno, '/', N.nfse) AS CHAR)                               AS nfAjuste
 FROM sqldados.nf             AS N
+  LEFT JOIN  sqldados.natop  AS OP
+	       ON OP.no = N.natopno
+  LEFT JOIN  sqldados.nfrmk  AS R2
+	       USING (storeno, pdvno, xano)
+  LEFT JOIN  sqldados.nfes   AS XML
+	       USING (storeno, pdvno, xano)
   INNER JOIN sqldados.xaprd2 AS X
 	       USING (storeno, pdvno, xano)
   INNER JOIN sqldados.prd    AS P
 	       ON P.no = X.prdno
+  LEFT JOIN  sqldados.vend   AS V
+	       ON V.no = P.mfno
+  LEFT JOIN  sqldados.custp  AS C
+	       ON C.cpf_cgc = V.cgc
 WHERE N.remarks REGEXP '^AJUSTE GARANTIA.*$'
-  AND storeno IN (2, 3, 4, 5)
-  AND cfo = 5949
+  AND N.storeno IN (2, 3, 4, 5)
+  AND N.cfo = 5949
+GROUP BY N.storeno, N.nfno, N.nfse;
+
+DROP TEMPORARY TABLE IF EXISTS TNFAVULSA;
+CREATE TEMPORARY TABLE TNFAVULSA (
+  PRIMARY KEY (vendno)
+)
+SELECT vendno AS vendno, CAST(GROUP_CONCAT(DISTINCT nfAjuste) AS char) AS nfAjuste
+FROM TNFA
 GROUP BY vendno;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
@@ -90,7 +148,47 @@ WHERE (N.nfse = @SERIE OR (N.remarks REGEXP '^AJUSTE GARANTIA.*$') OR
   AND N.status <> 1
   AND N.tipo = 2
   AND (V.no = @VENDNO OR @VENDNO = 0)
-GROUP BY N.storeno, N.nfno, N.nfse;
+GROUP BY N.storeno, N.nfno, N.nfse
+UNION
+SELECT storeno,
+       pdvno,
+       xano,
+       nfno,
+       nfse,
+       vendno,
+       issuedate,
+       eordno,
+       pedidoDate,
+       custno,
+       fornecedorNome,
+       email,
+       fornecedorSap,
+       valor,
+       obsNota,
+       serie01Rejeitada,
+       serie01Pago,
+       serie01Coleta,
+       serie66Pago,
+       remessaConserto,
+       remarks,
+       baseIcms,
+       valorIcms,
+       baseIcmsSubst,
+       icmsSubst,
+       valorFrete,
+       valorSeguro,
+       valorDesconto,
+       outrasDespesas,
+       valorIpi,
+       valorTotal,
+       obsPedido,
+       chave,
+       natureza,
+       chaveDesconto,
+       observacaoAuxiliar,
+       dataAgenda,
+       nfAjuste
+FROM TNFA;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
 CREATE TEMPORARY TABLE TDUP (
