@@ -32,6 +32,10 @@ object NotaSaidaViewColumns {
     this.setHeader("Nota")
   }
 
+  fun Grid<NotaSaida>.notaNfAjuste() = addColumnString(NotaSaida::nfAjuste) {
+    this.setHeader("NF Ajuste")
+  }
+
   fun Grid<NotaSaida>.chaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
     this.setHeader("Observação")
     this.setClassNameGenerator {
