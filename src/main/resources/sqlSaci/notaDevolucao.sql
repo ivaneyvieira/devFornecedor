@@ -1,6 +1,22 @@
 DO @SERIE := :serie;
 DO @VENDNO := :vendno;
 
+DROP TEMPORARY TABLE IF EXISTS TNFAVULSA;
+CREATE TEMPORARY TABLE TNFAVULSA (
+  PRIMARY KEY (vendno)
+)
+SELECT P.mfno                                                           AS vendno,
+       CAST(GROUP_CONCAT(DISTINCT CONCAT(N.storeno, ' ', N.nfno, '/', N.nfse)) AS char) AS nfAjuste
+FROM sqldados.nf             AS N
+  INNER JOIN sqldados.xaprd2 AS X
+	       USING (storeno, pdvno, xano)
+  INNER JOIN sqldados.prd    AS P
+	       ON P.no = X.prdno
+WHERE N.remarks REGEXP '^AJUSTE GARANTIA.*$'
+  AND storeno IN (2, 3, 4, 5)
+  AND cfo = 5949
+GROUP BY vendno;
+
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
   PRIMARY KEY (storeno, nfno, nfse)
@@ -45,7 +61,8 @@ SELECT N.storeno,
        IFNULL(OP.name, '')                                                                     AS natureza,
        TRIM(CONCAT(N.c6, N.c5))                                                                AS chaveDesconto,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
-       CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda
+       CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
+       A.nfAjuste                                                                              AS nfAjuste
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
@@ -65,8 +82,10 @@ FROM sqldados.nf              AS N
 			      709327, 108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.nfse = @SERIE OR (N.remarks REGEXP '^AJUSTE GARANTIA.*$') OR (@SERIE = '' AND (N.nfse IN
-('1', '66'))))
+  LEFT JOIN TNFAVULSA         AS A
+	      ON A.vendno = V.no
+WHERE (N.nfse = @SERIE OR (N.remarks REGEXP '^AJUSTE GARANTIA.*$') OR
+       (@SERIE = '' AND (N.nfse IN ('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.tipo = 2
@@ -134,7 +153,8 @@ SELECT N.storeno                                                          AS loj
        natureza                                                           AS natureza,
        IF(@PAGO = 'S', IFNULL(D.obsDup, ''), N.chaveDesconto)             AS chaveDesconto,
        N.observacaoAuxiliar                                               AS observacaoAuxiliar,
-       dataAgenda                                                         AS dataAgenda
+       dataAgenda                                                         AS dataAgenda,
+       nfAjuste                                                           AS nfAjuste
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
