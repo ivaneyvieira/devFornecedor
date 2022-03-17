@@ -46,7 +46,7 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c6, N.c5))                                                                AS chaveDesconto,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
-       CAST(CONCAT(N.storeno, ' ', N.nfno, '/', N.nfse) AS CHAR)                               AS nfAjuste
+       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                                               AS nfAjuste
 FROM sqldados.nf             AS N
   LEFT JOIN  sqldados.natop  AS OP
 	       ON OP.no = N.natopno
@@ -66,14 +66,6 @@ WHERE N.remarks REGEXP '^AJUSTE GARANTIA.*$'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.cfo = 5949
 GROUP BY N.storeno, N.nfno, N.nfse;
-
-DROP TEMPORARY TABLE IF EXISTS TNFAVULSA;
-CREATE TEMPORARY TABLE TNFAVULSA (
-  PRIMARY KEY (vendno)
-)
-SELECT vendno AS vendno, CAST(GROUP_CONCAT(DISTINCT nfAjuste) AS char) AS nfAjuste
-FROM TNFA
-GROUP BY vendno;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -120,7 +112,7 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c6, N.c5))                                                                AS chaveDesconto,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
-       A.nfAjuste                                                                              AS nfAjuste
+       ''                                                                                      AS nfAjuste
 FROM sqldados.nf              AS N
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
@@ -140,8 +132,6 @@ FROM sqldados.nf              AS N
 			      709327, 108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-  LEFT JOIN TNFAVULSA         AS A
-	      ON A.vendno = V.no
 WHERE (N.nfse = @SERIE OR (N.remarks REGEXP '^AJUSTE GARANTIA.*$') OR
        (@SERIE = '' AND (N.nfse IN ('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
@@ -216,7 +206,7 @@ SELECT N.storeno                                                          AS loj
        N.xano                                                             AS transacao,
        N.eordno                                                           AS pedido,
        CAST(N.pedidoDate AS DATE)                                         AS dataPedido,
-       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                          AS nota,
+       CAST(IF(nfAjuste = '', CONCAT(N.nfno, '/', N.nfse), '') AS CHAR)   AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')                                 AS fatura,
        CAST(N.issuedate AS DATE)                                          AS dataNota,
        IFNULL(N.custno, 0)                                                AS custno,
