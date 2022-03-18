@@ -338,12 +338,12 @@ class NotaSaida(val loja: Int,
       }.filter { nota ->
         val situacaoPendencia = filtro.situacaoPendencia?.valueStr
         if (situacaoPendencia == null) {
-          val situacaoPedido = filtro.situacaoPedido?.valueStr
-          if (situacaoPedido == null) {
+          val situacaoPedido = filtro.situacaoPedido.map { it.valueStr }
+          if (situacaoPedido.isEmpty()) {
             true
           }
           else {
-            nota.situacao == situacaoPedido
+            nota.situacao in situacaoPedido
           }
         }
         else {
@@ -360,14 +360,14 @@ class NotaSaida(val loja: Int,
                 .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
-        Fornecedor(entry.key.custno,
-                   entry.key.fornecedor,
-                   entry.key.vendno,
-                   entry.key.fornecedorSap,
-                   entry.key.email,
-                   entry.key.tipo,
-                   entry.key.obs,
-                   entry.value)
+        Fornecedor(custno = entry.key.custno,
+                   fornecedor = entry.key.fornecedor,
+                   vendno = entry.key.vendno,
+                   fornecedorSap = entry.key.fornecedorSap,
+                   email = entry.key.email,
+                   tipo = entry.key.tipo,
+                   obs = entry.key.obs,
+                   notas = entry.value)
       })
     }
 

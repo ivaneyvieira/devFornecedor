@@ -10,8 +10,8 @@ class TabPedidoNFD(viewModel: TabPedidoNFDViewModel) : TabDevolucaoAbstract<IDev
     get() = "Ped NFD"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
-  override val situacaoPedido: ESituacaoPedido?
-    get() = ESituacaoPedido.NFD_AUTOZ
+  override val situacaoPedido
+    get() = listOf(ESituacaoPedido.NFD_AUTOZ)
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

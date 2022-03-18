@@ -241,7 +241,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     dlgNota?.updateNota()
   }
 
-  override val situacaoPedido: ESituacaoPedido?
-    get() = null
+  override val situacaoPedido: List<ESituacaoPedido>
+    get() = emptyList()
 }
 
