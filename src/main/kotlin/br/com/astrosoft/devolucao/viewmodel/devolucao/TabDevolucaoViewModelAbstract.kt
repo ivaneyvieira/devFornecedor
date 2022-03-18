@@ -212,6 +212,7 @@ interface IFiltro {
   val coleta01: SimNao
   val remessaConserto: SimNao
   val situacaoPendencia: ESituacaoPendencia?
+  val situacaoPedido: ESituacaoPedido?
   fun filtro(): FiltroFornecedor
 }
 
