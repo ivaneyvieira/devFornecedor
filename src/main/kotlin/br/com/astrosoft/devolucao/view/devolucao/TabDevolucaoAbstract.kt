@@ -18,6 +18,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.n
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
@@ -239,5 +240,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   override fun updateNota() {
     dlgNota?.updateNota()
   }
+
+  override val situacaoPedido: ESituacaoPedido?
+    get() = null
 }
 
