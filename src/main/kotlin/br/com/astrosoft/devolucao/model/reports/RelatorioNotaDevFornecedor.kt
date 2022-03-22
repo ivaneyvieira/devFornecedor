@@ -17,7 +17,8 @@ import net.sf.dynamicreports.report.builder.style.Styles
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageType.A4
-import net.sf.dynamicreports.report.constant.TextAdjust.*
+import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
+import net.sf.dynamicreports.report.constant.TextAdjust.STRETCH_HEIGHT
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput

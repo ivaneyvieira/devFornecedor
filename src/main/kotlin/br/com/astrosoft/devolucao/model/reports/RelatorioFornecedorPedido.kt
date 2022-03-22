@@ -14,7 +14,6 @@ import net.sf.dynamicreports.report.builder.column.Columns
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.builder.style.Styles
-import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder
 import net.sf.dynamicreports.report.constant.GroupHeaderLayout
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
@@ -79,7 +78,6 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
     return cmp.verticalList()
   }
 
-
   fun makeReport(): JasperReportBuilder {
     val itemGroup =
             grp.group(labelTitleCol)
@@ -105,7 +103,7 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
       .setColumnStyle(stl.style().setForegroundColor(Color.WHITE))
-      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setLeft(ESPACAMENTO +10)))
+      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setLeft(ESPACAMENTO + 10)))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
   }
 

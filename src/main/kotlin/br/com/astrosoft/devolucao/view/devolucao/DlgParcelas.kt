@@ -118,7 +118,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
         this.setDetailsVisible(parcela, true)
       }
     }
-    return verticalLayout() {
+    return verticalLayout {
       this.flexGrow = flex
       this.h3("Pedidos de Compra Pendentes")
       this.addAndExpand(grid)

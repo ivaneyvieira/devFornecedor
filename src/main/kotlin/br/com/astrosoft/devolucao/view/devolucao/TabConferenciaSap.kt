@@ -84,8 +84,7 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
     fornecedorCodigoSaci()
     fornecedorCodigoSap()
     fornecedorNome()
-    fornecedorUltimaData(
-                              )
+    fornecedorUltimaData()
     fornecedorValorSap()
     fornecedorValorSaci()
     fornecedorValorDiferenca()

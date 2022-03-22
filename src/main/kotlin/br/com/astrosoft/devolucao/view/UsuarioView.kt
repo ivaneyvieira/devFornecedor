@@ -245,7 +245,6 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             binder.bind(this, UserSaci::notaSaida.name)
           }
         }
-
       }
     }
   }

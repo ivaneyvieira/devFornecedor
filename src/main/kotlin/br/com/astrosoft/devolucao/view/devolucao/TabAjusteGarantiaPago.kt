@@ -7,8 +7,8 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAjusteGarantiaPago
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAjusteGarantiaPagoViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabAjusteGarantiaPago(viewModel: TabAjusteGarantiaPagoViewModel) : TabDevolucaoAbstract<IDevolucao01View>
-  (viewModel), ITabAjusteGarantiaPago {
+class TabAjusteGarantiaPago(viewModel: TabAjusteGarantiaPagoViewModel) :
+        TabDevolucaoAbstract<IDevolucao01View>(viewModel), ITabAjusteGarantiaPago {
   override val label: String
     get() = "Ajuste Gar Pago"
   override val situacaoPendencia: ESituacaoPendencia?

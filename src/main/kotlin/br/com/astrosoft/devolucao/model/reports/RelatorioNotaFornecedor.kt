@@ -75,8 +75,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private val obsNotaCol: TextColumnBuilder<String> =
           col.column("Motivo", NotaSaida::remarks.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-            //this.setFixedWidth(200)
+            this.setTextAdjust(TextAdjust.SCALE_FONT) //this.setFixedWidth(200)
           }
 
   private val valorCol: TextColumnBuilder<Double> =
@@ -132,13 +131,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
                             conhecimentoFreteCol,
                             transfortadoraCol)
     val grupoDevolucao =
-            grid.titleGroup("Dados da Nota Fiscal de Devolução",
-                            lojaCol,
-                            dataNotaCol,
-                            notaInvCol,
-                            obsNotaCol,
-                            valorCol
-                            )
+            grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol, obsNotaCol, valorCol)
     val pageOrientation = PageOrientation.LANDSCAPE
     notas.forEach {
       it.findNotaOrigem()

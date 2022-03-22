@@ -81,9 +81,7 @@ class NotaEntradaQueryGrupo(val lj: Int,
                             val baseIcms: Double,
                             val descricaoGrupo: String,
                             val valorNota: String,
-                            val valorProduto: String) {
-
-}
+                            val valorProduto: String)
 
 private fun NotaEntradaQuery.filtroCaracter(listaCaracter: List<String>): Boolean {
   return if (listaCaracter.isEmpty()) true
