@@ -130,10 +130,12 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota01.name)
           }
+          /*
           checkBox("Nota série 1 Coleta") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota01Coleta.name)
           }
+           */
           checkBox("Remessa de Conserto") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::remessaConserto.name)
