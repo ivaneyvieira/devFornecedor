@@ -117,15 +117,6 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           h4("Devolução Série 1") {
             colspan = 2
           }
-
-          checkBox("Pedido") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedido.name)
-          }
-          checkBox("Pedido NFD") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoNFD.name)
-          }
           checkBox("Nota série 1") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota01.name)
@@ -163,6 +154,24 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           checkBox("Desconto") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::desconto.name)
+          }
+        }
+        formLayout {
+          h4("Devolução Pedido") {
+            colspan = 2
+          }
+
+          checkBox("Pedido") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedido.name)
+          }
+          checkBox("Pedido NFD") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedidoNFD.name)
+          }
+          checkBox("Pedido Pago") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedidoPago.name)
           }
         }
         formLayout {
