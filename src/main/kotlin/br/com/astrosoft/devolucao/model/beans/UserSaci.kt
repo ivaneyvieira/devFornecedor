@@ -57,7 +57,9 @@ class UserSaci : IUser {
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO
 
   val menuDevolucao01
-    get() = nota01 || pedido || pedidoNFD || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
+    get() = nota01 || nota01Coleta || remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
+  val menuDevolucaoPedido
+    get() = pedido || pedidoNFD
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento

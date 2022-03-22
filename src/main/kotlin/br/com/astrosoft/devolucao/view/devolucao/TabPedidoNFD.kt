@@ -4,7 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.model.IUser
 
-class TabPedidoNFD(viewModel: TabPedidoNFDViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel),
+class TabPedidoNFD(viewModel: TabPedidoNFDViewModel) : TabDevolucaoAbstract<IDevolucaoPedidoView>(viewModel),
         ITabPedidoNFD {
   override val label: String
     get() = "Ped NFD"
