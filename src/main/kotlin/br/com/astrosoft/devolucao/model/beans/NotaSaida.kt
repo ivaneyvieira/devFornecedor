@@ -178,6 +178,9 @@ class NotaSaida(val loja: Int,
       }?.descricao ?: ""
     }
 
+  val situacaoPendencia
+    get() = ESituacaoPendencia.values().firstOrNull { it.valueStr == situacao }
+
   private var produtos: List<ProdutosNotaSaida>? = null
 
   fun listaProdutos(): List<ProdutosNotaSaida> {

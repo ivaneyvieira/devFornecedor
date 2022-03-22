@@ -39,7 +39,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.chaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
     this.setHeader("Observação")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
@@ -50,7 +50,7 @@ object NotaSaidaViewColumns {
     }
 
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
 
     this.configCol(situacao?.dataCol)
@@ -59,7 +59,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate  (NotaSaida::dataSituacao) {
     this.setHeader("Data Sit")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
     this.configCol(situacao?.dataSitCol)
   }
@@ -67,7 +67,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.situacaoDesconto(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::situacaoStr) {
     this.setHeader("Situação")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
     this.configCol(situacao?.situacaoCol)
   }
@@ -76,14 +76,14 @@ object NotaSaidaViewColumns {
     this.setHeader("Usuário")
     this.configCol(situacao?.userCol)
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
   fun Grid<NotaSaida>.docSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::docSituacao) {
     this.setHeader("Doc")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
     this.configCol(situacao?.docCol)
   }
@@ -91,7 +91,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaSituacao) {
     this.setHeader("Aguardar")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
     this.configCol(situacao?.notaCol)
   }
@@ -100,7 +100,7 @@ object NotaSaidaViewColumns {
     this.setHeader("Número")
     this.right()
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
     this.configCol(situacao?.numeroCol)
   }
@@ -109,7 +109,7 @@ object NotaSaidaViewColumns {
     this.setHeader("NI")
     this.right()
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
     this.configCol(situacao?.niCol)
   }
