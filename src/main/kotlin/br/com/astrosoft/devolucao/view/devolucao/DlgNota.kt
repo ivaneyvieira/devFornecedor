@@ -138,6 +138,9 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           onLeftClick {
             val itens = gridNota.selectedItems.toList()
             viewModel.salvaSituacao(cmbSituacao.value, itens)
+            itens.forEach {
+              gridNota.dataProvider.refreshItem(it)
+            }
           }
         }
       }
@@ -157,6 +160,9 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
               viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
             }
           }
         }
@@ -241,7 +247,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         dataAgendaDesconto(situacao).dateFieldEditor()
         chaveDesconto().textFieldEditor().apply {
           this.setClassNameGenerator {
-            "marcaRed"
+            it.situacaoPendencia?.cssCor
           }
         }
       }
