@@ -116,7 +116,6 @@ object UltimaNotaEntradaColumns {
     this.setHeader("NCM N")
   }
 
-
   fun Grid<NfPrecEntrada>.notaNcmp() = addColumnString(NfPrecEntrada::ncmp) {
     this.setHeader("NCM P")
   }

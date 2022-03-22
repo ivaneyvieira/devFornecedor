@@ -144,7 +144,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         docCol = docSituacao()
         tituloCol = tituloSituacao()
         niCol = niSituacao()
-      }else if(this@TabDevolucaoAbstract is TabPedido){
+      }
+      else if (this@TabDevolucaoAbstract is TabPedido) {
         userCol = usuarioSituacao()
         situacaoCol = situacaoDesconto()
       }

@@ -28,7 +28,6 @@ object FornecedorDescontoViewColumns {
     this.setHeader("Ultima Data")
   }
 
-
   fun Grid<FornecedorDesconto>.fornecedorDescontoValorTotal() = addColumnDouble(FornecedorDesconto::valorTotal) {
     this.setHeader("Valor Total")
   }

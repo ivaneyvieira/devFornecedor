@@ -1,8 +1,10 @@
 package br.com.astrosoft.framework.session
 
 import br.com.astrosoft.framework.model.Config
-import br.com.astrosoft.framework.model.IUser
-import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v10.KComposite
+import com.github.mvysny.karibudsl.v10.content
+import com.github.mvysny.karibudsl.v10.loginForm
+import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.github.mvysny.kaributools.navigateTo
 import com.vaadin.flow.component.login.LoginForm
 import com.vaadin.flow.component.login.LoginI18n

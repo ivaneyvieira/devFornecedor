@@ -37,9 +37,9 @@ import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val list: List<NotaEntradaQuery>) {
-  private lateinit var checkCst : Checkbox
-  private lateinit var checkIcms : Checkbox
-  private lateinit var checkIpi : Checkbox
+  private lateinit var checkCst: Checkbox
+  private lateinit var checkIcms: Checkbox
+  private lateinit var checkIpi: Checkbox
   private lateinit var gridNota: Grid<NotaEntradaQuery>
   private val dataProviderGrid = ListDataProvider<NotaEntradaQuery>(mutableListOf())
 

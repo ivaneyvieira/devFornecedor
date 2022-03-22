@@ -85,7 +85,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
     }
 
     edtDataInicial = datePicker("Data Inicial") {
-      value = LocalDate.now()//.minusMonths(6)
+      value = LocalDate.now() //.minusMonths(6)
       isClearButtonVisible = true
       isAutoOpen = true
       localePtBr()

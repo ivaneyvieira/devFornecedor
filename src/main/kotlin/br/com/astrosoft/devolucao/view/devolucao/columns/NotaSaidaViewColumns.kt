@@ -5,7 +5,6 @@ import br.com.astrosoft.devolucao.view.devolucao.configCol
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
-import java.time.LocalDate
 
 object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaLoja() = addColumnInt(NotaSaida::loja) {
@@ -56,13 +55,14 @@ object NotaSaidaViewColumns {
     this.configCol(situacao?.dataCol)
   }
 
-  fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate  (NotaSaida::dataSituacao) {
-    this.setHeader("Data Sit")
-    this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
-    }
-    this.configCol(situacao?.dataSitCol)
-  }
+  fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) =
+          addColumnLocalDate(NotaSaida::dataSituacao) {
+            this.setHeader("Data Sit")
+            this.setClassNameGenerator {
+              it.situacaoPendencia?.cssCor
+            }
+            this.configCol(situacao?.dataSitCol)
+          }
 
   fun Grid<NotaSaida>.situacaoDesconto(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::situacaoStr) {
     this.setHeader("Situação")

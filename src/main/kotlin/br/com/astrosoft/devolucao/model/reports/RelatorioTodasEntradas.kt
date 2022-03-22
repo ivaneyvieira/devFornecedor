@@ -14,7 +14,7 @@ class RelatorioTodasEntradas(val notas: List<NotaEntradaQuery>) : ReportBuild<No
     columnString(NotaEntradaQuery::nfe, width = 50, aligment = CENTER, title = "NF")
     columnInt(NotaEntradaQuery::fornCad, width = 40, aligment = CENTER, title = "F Cad")
     columnString(NotaEntradaQuery::prod, width = 45, aligment = CENTER, title = "Prod")
-    columnString(NotaEntradaQuery::descricao, title = "Descrição"){
+    columnString(NotaEntradaQuery::descricao, title = "Descrição") {
       this.setTextAdjust(TextAdjust.SCALE_FONT)
     }
     columnDouble(NotaEntradaQuery::aliqIpi, width = 40, title = "IPI N")
