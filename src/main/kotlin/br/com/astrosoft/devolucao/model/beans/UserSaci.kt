@@ -52,6 +52,7 @@ class UserSaci : IUser {
   var forPendenteREPOSICAO by DelegateAuthorized(35)
   var forPendenteRETORNO by DelegateAuthorized(36)
   var pedidoNFD by DelegateAuthorized(37)
+  var pedidoPago by DelegateAuthorized(38)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO
@@ -59,7 +60,7 @@ class UserSaci : IUser {
   val menuDevolucao01
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || ajusteGarantia || notaFinanceiro || conferenciaSap || sap
   val menuDevolucaoPedido
-    get() = pedido || pedidoNFD
+    get() = pedido || pedidoNFD || pedidoPago
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento
