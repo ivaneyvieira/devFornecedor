@@ -5,8 +5,8 @@ import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
 
-class TabPedidoNFDViewModel(viewModel: Devolucao01ViewModel) : TabDevolucaoViewModelAbstract<IDevolucao01View>
-  (viewModel) {
+class TabPedidoNFDViewModel(viewModel: DevolucaoPedidoViewModel) :
+        TabDevolucaoViewModelAbstract<IDevolucaoPedidoView>(viewModel) {
   fun salvaSituacaoPedido(situacao: ESituacaoPedido?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")
     itens.ifEmpty {

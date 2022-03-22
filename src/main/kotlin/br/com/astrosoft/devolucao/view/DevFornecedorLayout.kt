@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.devolucao.Devolucao01View
 import br.com.astrosoft.devolucao.view.devolucao.Devolucao66View
+import br.com.astrosoft.devolucao.view.devolucao.DevolucaoPedidoView
 import br.com.astrosoft.devolucao.view.devolucao.DevolucaoPendenteView
 import br.com.astrosoft.devolucao.view.entrada.EntradaView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
@@ -24,6 +25,7 @@ class DevFornecedorLayout : MainLayout() {
   override fun Tabs.menuConfig() {
     menuRoute(FORM, "Dev For Pendentes", DevolucaoPendenteView::class)
     menuRoute(FORM, "Devolução Série 1", Devolucao01View::class)
+    menuRoute(FORM, "Devolução Pedido", DevolucaoPedidoView::class)
     menuRoute(FORM, "Devolução Série 66", Devolucao66View::class)
     menuRoute(FORM, "Entrada", EntradaView::class)
     menuRoute(FORM, "Saida", SaidaView::class)
