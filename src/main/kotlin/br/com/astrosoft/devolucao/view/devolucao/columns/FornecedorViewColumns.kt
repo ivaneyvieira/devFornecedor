@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
@@ -31,14 +30,14 @@ object FornecedorViewColumns {
     this.isAutoWidth = false
     this.width = "18em"
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
   fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
     this.setHeader("Data")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
@@ -49,35 +48,35 @@ object FornecedorViewColumns {
   fun Grid<Fornecedor>.dataSituacaoDesconto() = addColumnLocalDate(Fornecedor::dataSituacao) {
     this.setHeader("Data Sit")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
   fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacaoStr) {
     this.setHeader("Situação")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
   fun Grid<Fornecedor>.notaSituacao() = addColumnString(Fornecedor::notaSituacao) {
     this.setHeader("Aguardar")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
   fun Grid<Fornecedor>.usuarioSituacao() = addColumnString(Fornecedor::usuarioSituacao) {
     this.setHeader("Usuário")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
   fun Grid<Fornecedor>.docSituacao() = addColumnString(Fornecedor::docSituacao) {
     this.setHeader("Doc")
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
@@ -85,7 +84,7 @@ object FornecedorViewColumns {
     this.setHeader("Número")
     this.right()
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 
@@ -93,7 +92,7 @@ object FornecedorViewColumns {
     this.setHeader("NI")
     this.right()
     this.setClassNameGenerator {
-      "marcaRed"
+      it.situacaoPendencia?.cssCor
     }
   }
 }
