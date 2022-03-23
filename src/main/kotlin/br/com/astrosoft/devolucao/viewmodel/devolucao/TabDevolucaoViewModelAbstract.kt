@@ -202,7 +202,7 @@ enum class SimNao(val value: String) {
 }
 
 enum class Serie(val value: String) {
-  Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), AJT("AJT"), AJP("AJP"), FIN("FIN"), VAZIO("")
+  Serie01("1"), Serie66("66"), PED("PED"), ENT("ENT"), AJT("AJT"), AJP("AJP"), AJC("AJC"), FIN("FIN"), VAZIO("")
 }
 
 interface IFiltro {
