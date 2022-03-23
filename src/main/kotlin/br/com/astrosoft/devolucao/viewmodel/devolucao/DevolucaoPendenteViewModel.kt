@@ -9,6 +9,12 @@ class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
   val tabNotaPendenteNotaViewModel = TabNotaPendenteViewModel(this) {
     view.tabNotaPendenteNota
   }
+  val tabNotaPendenteCteViewModel = TabNotaPendenteViewModel(this) {
+    view.tabNotaPendenteCte
+  }
+  val tabNotaPendenteColetaViewModel = TabNotaPendenteViewModel(this) {
+    view.tabNotaPendenteColeta
+  }
   val tabNotaPendenteEmailViewModel = TabNotaPendenteViewModel(this) {
     view.tabNotaPendenteEmail
   }
@@ -43,6 +49,8 @@ class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
   override fun listTab() = listOf(
     view.tabNotaPendenteBase,
     view.tabNotaPendenteNota,
+    view.tabNotaPendenteCte,
+    view.tabNotaPendenteColeta,
     view.tabNotaPendenteEmail,
     view.tabNotaPendenteTransito,
     view.tabNotaPendenteFabrica,
@@ -59,6 +67,8 @@ class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
 interface IDevolucaoPendenteView : IDevolucaoAbstractView {
   val tabNotaPendenteBase: ITabNotaPendente
   val tabNotaPendenteNota: ITabNotaPendente
+  val tabNotaPendenteCte: ITabNotaPendente
+  val tabNotaPendenteColeta: ITabNotaPendente
   val tabNotaPendenteEmail: ITabNotaPendente
   val tabNotaPendenteTransito: ITabNotaPendente
   val tabNotaPendenteFabrica: ITabNotaPendente

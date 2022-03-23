@@ -18,6 +18,8 @@ class DevolucaoPendenteView : ViewLayout<DevolucaoPendenteViewModel>(), IDevoluc
   override val viewModel: DevolucaoPendenteViewModel = DevolucaoPendenteViewModel(this)
   override val tabNotaPendenteBase = TabNotaPendente(viewModel.tabNotaPendenteBaseViewModel) { BASE }
   override val tabNotaPendenteNota = TabNotaPendente(viewModel.tabNotaPendenteNotaViewModel) { NOTA }
+  override val tabNotaPendenteCte = TabNotaPendente(viewModel.tabNotaPendenteCteViewModel) { AGUARDA_COLETA }
+  override val tabNotaPendenteColeta = TabNotaPendente(viewModel.tabNotaPendenteColetaViewModel) { ASSINA_CTE }
   override val tabNotaPendenteEmail = TabNotaPendente(viewModel.tabNotaPendenteEmailViewModel) { EMAIL }
   override val tabNotaPendenteTransito = TabNotaPendente(viewModel.tabNotaPendenteTransitoViewModel) { TRANSITO }
   override val tabNotaPendenteFabrica = TabNotaPendente(viewModel.tabNotaPendenteFabricaViewModel) { FABRICA }
