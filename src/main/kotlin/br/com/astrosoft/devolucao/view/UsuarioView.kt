@@ -112,6 +112,14 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::forPendenteRETORNO.name)
           }
+          checkBox("Coleta Pendente") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteAGUARDA_COLETA.name)
+          }
+          checkBox("Cte Pendente") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::forPendenteASSINA_CTE.name)
+          }
         }
         formLayout {
           h4("Devolução Série 1") {
