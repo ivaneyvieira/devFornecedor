@@ -29,8 +29,8 @@ SELECT N.storeno,
        O.date                                                            AS pedidoDate,
        N.grossamt / 100                                                  AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
-		       -1) * 1                                           AS custVend,
-       MAX(V.no)                                                         AS vendProd,
+		       -1) * 1                                           AS custObs,
+       MAX(P.mfno)                                                       AS vendProd,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -58,8 +58,6 @@ FROM sqldados.nf              AS N
 	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.prd      AS P
 	      ON P.no = D.prdno
-  LEFT JOIN sqldados.vend     AS V
-	      ON V.no = P.mfno
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
   LEFT JOIN sqldados.nfes     AS X
