@@ -61,7 +61,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           binder.bind(this, UserSaci::storeno.name)
         }
         formLayout {
-          h4("Dev For Pendentes") {
+          h4("Pendentes") {
             colspan = 2
           }
           checkBox("Base") {
@@ -122,7 +122,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
         }
         formLayout {
-          h4("Devolução Série 1") {
+          h4("Série 1") {
             colspan = 2
           }
           checkBox("Nota série 1") {
@@ -138,14 +138,6 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           checkBox("Remessa de Conserto") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::remessaConserto.name)
-          }
-          checkBox("Ajuste Garantia") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::ajusteGarantia.name)
-          }
-          checkBox("Ajuste Garantia Pago") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::ajusteGarantiaPago.name)
           }
           checkBox("Financeiro") {
             isReadOnly = readOnly
@@ -165,7 +157,24 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
         }
         formLayout {
-          h4("Devolução Pedido") {
+          h4("Interna") {
+            colspan = 2
+          }
+          checkBox("Ajuste Garantia") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantia.name)
+          }
+          checkBox("Ajuste Garantia Pago") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantiaPago.name)
+          }
+          checkBox("Ajuste Garantia Perca") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantiaPerca.name)
+          }
+        }
+        formLayout {
+          h4("Pedido") {
             colspan = 2
           }
 
@@ -183,7 +192,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
         }
         formLayout {
-          h4("Devolução Série 66") {
+          h4("Série 66") {
             colspan = 2
           }
 

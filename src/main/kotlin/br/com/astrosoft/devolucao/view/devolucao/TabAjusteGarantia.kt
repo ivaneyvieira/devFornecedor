@@ -2,12 +2,12 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoInternaView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAjusteGarantia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAjusteGarantiaViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabAjusteGarantia(viewModel: TabAjusteGarantiaViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel),
+class TabAjusteGarantia(viewModel: TabAjusteGarantiaViewModel) : TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel),
         ITabAjusteGarantia {
   override val label: String
     get() = "Ajuste Garantia"

@@ -1,14 +1,14 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabAjusteGarantiaViewModel(viewModel: DevolucaoInternaViewModel) :
+class TabAjusteGarantiaPercaViewModel(viewModel: DevolucaoInternaViewModel) :
         TabDevolucaoViewModelAbstract<IDevolucaoInternaView>(viewModel) {
   override val subView
-    get() = viewModel.view.tabAjusteGarantia
+    get() = viewModel.view.tabAjusteGarantiaPago
 }
 
-interface ITabAjusteGarantia : ITabNota {
+interface ITabAjusteGarantiaPerca : ITabNota {
   override val serie: Serie
-    get() = Serie.AJT
+    get() = Serie.AJP
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao

@@ -77,10 +77,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun ajusteGarantia(pago: Boolean): List<NotaSaida> {
+  fun ajusteGarantia(serie: Serie): List<NotaSaida> {
     val sql = "/sqlSaci/notaAjusteGarantia.sql"
+    val serieValue = if (serie in listOf(Serie.AJT, Serie.AJP, Serie.AJC)) serie.value else return emptyList()
     return query(sql, NotaSaida::class) {
-      this.addOptionalParameter("pago", if (pago) "S" else "N")
+      this.addOptionalParameter("TIPO_NOTA", serieValue)
     }
   }
 
