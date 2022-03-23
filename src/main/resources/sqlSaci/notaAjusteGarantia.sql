@@ -1,13 +1,12 @@
-DO @OBS_REGEXP := IF(@PAGO = 'S', '^AJUSTE (GARANTIA )?PAGO.*$', '^AJUSTE GARANTIA.*$');
-DO @OBS_REGEXP := CASE :TIPO_NOTA
-		    WHEN 'AJT'
-		      THEN '^AJUSTE GARANTIA.*$'
-		    WHEN 'AJP'
-		      THEN '^AJUSTE (GARANTIA )?PAGO.*$'
-		    WHEN 'AJC'
-		      THEN '^AJUSTE (GARANTIA )?PERCA.*$'
-		    ELSE '************************'
-		  END;
+DO @OBS_LIKE := CASE :TIPO_NOTA
+		  WHEN 'AJT'
+		    THEN 'AJUSTE GARANTIA%'
+		  WHEN 'AJP'
+		    THEN 'AJUSTE%PAGO%'
+		  WHEN 'AJC'
+		    THEN '^AJUSTE%PERCA%'
+		  ELSE '************************'
+		END;
 DO @TIPO_NOTA := :TIPO_NOTA;
 
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
@@ -61,7 +60,7 @@ SELECT N.storeno,
        IFNULL(OP.name, '')                                               AS natureza,
        ''                                                                AS chaveDesconto,
        ''                                                                AS observacaoAuxiliar
-FROM sqldados.nf              AS N
+FROM sqldados.nf              AS N FORCE INDEX (e3)
   LEFT JOIN sqldados.xaprd2   AS D
 	      USING (storeno, pdvno, xano)
   LEFT JOIN sqldados.prd      AS P
@@ -80,7 +79,7 @@ FROM sqldados.nf              AS N
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.remarks REGEXP @OBS_REGEXP
+  AND N.remarks LIKE @OBS_REGEXP
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
