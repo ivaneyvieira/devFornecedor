@@ -47,7 +47,7 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
        CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                                               AS nfAjuste
-FROM sqldados.nf             AS N
+FROM sqldados.nf             AS N FORCE INDEX (e1)
   LEFT JOIN  sqldados.natop  AS OP
 	       ON OP.no = N.natopno
   LEFT JOIN  sqldados.nfrmk  AS R2
@@ -62,7 +62,7 @@ FROM sqldados.nf             AS N
 	       ON V.no = P.mfno
   LEFT JOIN  sqldados.custp  AS C
 	       ON C.cpf_cgc = V.cgc
-WHERE N.remarks REGEXP '^AJUSTE GARANTIA.*$'
+WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.cfo = 5949
 GROUP BY N.storeno, N.nfno, N.nfse;
