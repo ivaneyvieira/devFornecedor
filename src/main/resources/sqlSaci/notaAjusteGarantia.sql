@@ -30,7 +30,7 @@ SELECT N.storeno,
        N.grossamt / 100                                                  AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
 		       -1) * 1                                           AS custVend,
-       MAX(V.no)                                                         AS custProd,
+       MAX(V.no)                                                         AS vendProd,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -147,8 +147,7 @@ FROM TNF                        AS N
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN  T_CUST_VEND        AS C
-	       ON C.custno = IF(N.custVend = 0, N.custProd, N.custVend) OR
-		  C.vendno = IF(N.custVend = 0, N.custProd, N.custVend)
+	       ON C.vendno = N.vendProd
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)

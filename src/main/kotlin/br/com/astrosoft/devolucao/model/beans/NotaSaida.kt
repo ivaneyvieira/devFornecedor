@@ -245,7 +245,13 @@ class NotaSaida(val loja: Int,
 
   fun listFiles() = saci.selectFile(this)
 
-  fun chaveFornecedor() = ChaveFornecedor(custno, fornecedor, vendno, fornecedorSap, email, tipo, rmkVend)
+  fun chaveFornecedor() = ChaveFornecedor(custno = custno,
+                                          fornecedor = fornecedor,
+                                          vendno = vendno,
+                                          fornecedorSap = fornecedorSap,
+                                          email = email,
+                                          tipo = tipo,
+                                          obs = rmkVend)
 
   fun salvaEmail(gmail: EmailGmail, idEmail: Int) {
     saci.salvaEmailEnviado(gmail, this, idEmail)
