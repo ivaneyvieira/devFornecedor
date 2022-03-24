@@ -86,7 +86,8 @@ WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.remarks LIKE @OBS_LIKE01
   AND N.remarks NOT LIKE @OBS_LIKE02
-  AND N.vol_make > 0
+  AND N.vol_make*1 > 0
+  AND N.vol_make REGEXP '[0-9]+'
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
