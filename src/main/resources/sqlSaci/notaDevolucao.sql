@@ -10,7 +10,7 @@ SELECT N.storeno,
        N.xano,
        N.nfno,
        N.nfse,
-       P.mfno                                                                                  AS vendno,
+       N.vol_make                                                                              AS vendno,
        N.issuedate,
        N.eordno,
        NULL                                                                                    AS pedidoDate,
@@ -47,21 +47,17 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
        CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                                               AS nfAjuste
-FROM sqldados.nf             AS N FORCE INDEX (e3)
-  LEFT JOIN  sqldados.natop  AS OP
-	       ON OP.no = N.natopno
-  LEFT JOIN  sqldados.nfrmk  AS R2
-	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.nfes   AS XML
-	       USING (storeno, pdvno, xano)
-  INNER JOIN sqldados.xaprd2 AS X
-	       USING (storeno, pdvno, xano)
-  INNER JOIN sqldados.prd    AS P
-	       ON P.no = X.prdno
-  LEFT JOIN  sqldados.vend   AS V
-	       ON V.no = P.mfno
-  LEFT JOIN  sqldados.custp  AS C
-	       ON C.cpf_cgc = V.cgc
+FROM sqldados.nf           AS N FORCE INDEX (e3)
+  LEFT JOIN sqldados.natop AS OP
+	      ON OP.no = N.natopno
+  LEFT JOIN sqldados.nfrmk AS R2
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.nfes  AS XML
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.vend  AS V
+	      ON V.no = N.vol_make
+  LEFT JOIN sqldados.custp AS C
+	      ON C.cpf_cgc = V.cgc
 WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.cfo = 5949
@@ -138,7 +134,7 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
        ''                                                                                      AS nfAjuste
-FROM TNFSACI              AS N
+FROM TNFSACI                  AS N
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
   LEFT JOIN sqldados.nfes     AS X
