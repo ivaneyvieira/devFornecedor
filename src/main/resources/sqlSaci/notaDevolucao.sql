@@ -58,7 +58,7 @@ FROM sqldados.nf           AS N FORCE INDEX (e3)
 	      ON V.no = N.vol_make
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
-WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
+WHERE N.vol_make > 0
   AND N.storeno IN (2, 3, 4, 5)
   AND N.cfo = 5949
 GROUP BY N.storeno, N.nfno, N.nfse;
