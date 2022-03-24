@@ -80,9 +80,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun ajusteGarantia(serie: Serie): List<NotaSaida> {
     val sql = "/sqlSaci/notaAjusteGarantia.sql"
     val serieValue = if (serie in listOf(Serie.AJT, Serie.AJP, Serie.AJC)) serie.value else return emptyList()
-    return query(sql, NotaSaida::class) {
+    val notas = query(sql, NotaSaida::class) {
       this.addOptionalParameter("TIPO_NOTA", serieValue)
     }
+    return notas
   }
 
   fun notaFinanceiro(): List<NotaSaida> {
