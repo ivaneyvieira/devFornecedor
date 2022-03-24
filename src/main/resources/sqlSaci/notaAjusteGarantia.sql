@@ -4,7 +4,7 @@ DO @OBS_LIKE := CASE :TIPO_NOTA
 		  WHEN 'AJP'
 		    THEN 'AJUSTE%PAGO%'
 		  WHEN 'AJC'
-		    THEN '^AJUSTE%PERCA%'
+		    THEN 'AJUSTE%PERCA%'
 		  ELSE '************************'
 		END;
 DO @TIPO_NOTA := :TIPO_NOTA;
@@ -37,7 +37,7 @@ SELECT N.storeno,
        N.grossamt / 100                                                  AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
 		       -1) * 1                                           AS custObs,
-       MAX(P.mfno)                                                       AS vendProd,
+       N.vol_make                                                        AS vendMarc,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -61,10 +61,6 @@ SELECT N.storeno,
        ''                                                                AS chaveDesconto,
        ''                                                                AS observacaoAuxiliar
 FROM sqldados.nf              AS N FORCE INDEX (e3)
-  LEFT JOIN sqldados.xaprd2   AS D
-	      USING (storeno, pdvno, xano)
-  LEFT JOIN sqldados.prd      AS P
-	      ON P.no = D.prdno
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
   LEFT JOIN sqldados.nfes     AS X
@@ -152,9 +148,8 @@ FROM TNF                        AS N
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN  T_CUST_VEND        AS C
-	       ON C.vendno = N.vendProd
+	       ON C.vendno = N.vendMarc
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
-  AND ((D.fatura IS NOT NULL OR serie01Pago = 'N' OR @PAGO = 'S') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno
