@@ -67,6 +67,30 @@ WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
   AND N.cfo = 5949
 GROUP BY N.storeno, N.nfno, N.nfse;
 
+DROP TEMPORARY TABLE IF EXISTS TNFSACI;
+CREATE TEMPORARY TABLE TNFSACI (
+  PRIMARY KEY (storeno, pdvno, xano)
+)
+SELECT *
+FROM sqldados.nf AS N
+WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
+  AND N.storeno IN (2, 3, 4, 5)
+  AND N.status <> 1
+UNION
+SELECT *
+FROM sqldados.nf AS N FORCE INDEX (e4)
+WHERE (N.nfse = @SERIE)
+  AND N.storeno IN (2, 3, 4, 5)
+  AND N.status <> 1
+  AND N.tipo = 2
+UNION
+SELECT *
+FROM sqldados.nf AS N
+WHERE @SERIE = ''
+  AND N.nfse IN ('1', '66')
+  AND N.storeno IN (2, 3, 4, 5)
+  AND N.status <> 1
+  AND N.tipo = 2;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -114,7 +138,7 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
        ''                                                                                      AS nfAjuste
-FROM sqldados.nf              AS N
+FROM TNFSACI              AS N
   LEFT JOIN sqldados.natop    AS OP
 	      ON OP.no = N.natopno
   LEFT JOIN sqldados.nfes     AS X
