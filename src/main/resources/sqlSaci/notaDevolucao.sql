@@ -47,7 +47,7 @@ SELECT N.storeno,
        TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
        CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
        CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                                               AS nfAjuste
-FROM sqldados.nf             AS N FORCE INDEX (e1)
+FROM sqldados.nf             AS N FORCE INDEX (e3)
   LEFT JOIN  sqldados.natop  AS OP
 	       ON OP.no = N.natopno
   LEFT JOIN  sqldados.nfrmk  AS R2
@@ -66,6 +66,7 @@ WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.cfo = 5949
 GROUP BY N.storeno, N.nfno, N.nfse;
+
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -132,7 +133,7 @@ FROM sqldados.nf              AS N
 			      709327, 108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.nfse = @SERIE OR (N.remarks REGEXP '^AJUSTE GARANTIA.*$') OR
+WHERE (N.nfse = @SERIE OR (N.remarks LIKE 'AJUSTE GARANTIA%') OR
        (@SERIE = '' AND (N.nfse IN ('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
