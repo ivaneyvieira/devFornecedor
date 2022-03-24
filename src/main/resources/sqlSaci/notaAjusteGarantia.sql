@@ -79,7 +79,7 @@ FROM sqldados.nf              AS N FORCE INDEX (e3)
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.remarks LIKE @OBS_REGEXP
+  AND N.remarks LIKE @OBS_LIKE
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
