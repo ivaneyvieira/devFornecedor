@@ -1,12 +1,21 @@
-DO @OBS_LIKE := CASE :TIPO_NOTA
-		  WHEN 'AJT'
-		    THEN 'AJUSTE GARANTIA%'
-		  WHEN 'AJP'
-		    THEN 'AJUSTE%PAGO%'
-		  WHEN 'AJC'
-		    THEN 'AJUSTE%PERCA%'
-		  ELSE '************************'
-		END;
+DO @OBS_LIKE01 := CASE :TIPO_NOTA
+		    WHEN 'AJT'
+		      THEN '%'
+		    WHEN 'AJP'
+		      THEN '%PAGO%'
+		    WHEN 'AJC'
+		      THEN '%PERCA%'
+		    ELSE '************************'
+		  END;
+DO @OBS_LIKE02 := CASE :TIPO_NOTA
+		    WHEN 'AJT'
+		      THEN ''
+		    WHEN 'AJP'
+		      THEN '%PERCA%'
+		    WHEN 'AJC'
+		      THEN ''
+		    ELSE '************************'
+		  END;
 DO @TIPO_NOTA := :TIPO_NOTA;
 
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
@@ -75,7 +84,9 @@ FROM sqldados.nf              AS N FORCE INDEX (e3)
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.remarks LIKE @OBS_LIKE
+  AND N.remarks LIKE @OBS_LIKE01
+  AND N.remarks NOT LIKE @OBS_LIKE02
+  AND N.vol_make > 0
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
