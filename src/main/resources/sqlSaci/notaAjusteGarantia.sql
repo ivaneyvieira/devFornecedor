@@ -20,7 +20,8 @@ DO @TIPO_NOTA := :TIPO_NOTA;
 
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
 CREATE TEMPORARY TABLE T_CUST_VEND (
-  PRIMARY KEY (custno, vendno)
+  PRIMARY KEY (custno, vendno),
+  INDEX (vendno)
 )
 SELECT IFNULL(C.no, -1) AS custno,
        V.no             AS vendno,
