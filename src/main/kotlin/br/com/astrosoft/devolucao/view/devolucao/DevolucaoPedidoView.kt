@@ -18,6 +18,7 @@ class DevolucaoPedidoView : ViewLayout<DevolucaoPedidoViewModel>(), IDevolucaoPe
   override val tabPedido = TabPedido(viewModel.tabPedidoViewModel)
   override val tabPedidoNFD = TabPedidoNFD(viewModel.tabPedidoNFDViewModel)
   override val tabPedidoPago = TabPedidoPago(viewModel.tabPedidoPagoViewModel)
+  override val tabPedidoAjuste = TabPedidoAjuste(viewModel.tabPedidoAjusteViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
