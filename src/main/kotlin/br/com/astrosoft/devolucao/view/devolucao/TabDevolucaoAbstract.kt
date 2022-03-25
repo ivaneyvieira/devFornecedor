@@ -115,7 +115,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         viewModel.updateView()
       }
     }
-    if (serie !in listOf(AJP, AJP, AJC)) {
+    if (serie !in listOf(AJT, AJP, AJC)) {
       addColumnButton(MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
         DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
       }
@@ -123,7 +123,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     addColumnButton(EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
     }
-    if (serie !in listOf(AJP, AJP, AJC)) {
+    if (serie !in listOf(AJT, AJP, AJC)) {
       if (this@TabDevolucaoAbstract !is TabNotaPendente) {
         addColumnButton(PHONE_LANDLINE, "Representantes", "Rep") { fornecedor ->
           DlgFornecedor().showDialogRepresentante(fornecedor)
@@ -158,7 +158,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     }
     else {
       fornecedorPrimeiraData()
-      if (serie !in listOf(AJP, AJP, AJC)) {
+      if (serie !in listOf(AJT, AJP, AJC)) {
         fornecedorUltimaData()
       }
     }
