@@ -8,7 +8,7 @@ class TabAjusteGarantiaPercaViewModel(viewModel: DevolucaoInternaViewModel) :
 
 interface ITabAjusteGarantiaPerca : ITabNota {
   override val serie: Serie
-    get() = Serie.AJP
+    get() = Serie.AJC
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao
