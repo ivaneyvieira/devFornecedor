@@ -46,7 +46,7 @@ SELECT N.storeno,
        N.grossamt / 100                                                  AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
 		       -1) * 1                                           AS custObs,
-       N.vol_make                                                        AS vendMarc,
+       N.vol_make * 1                                                    AS vendMarc,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -86,8 +86,8 @@ WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.remarks LIKE @OBS_LIKE01
   AND N.remarks NOT LIKE @OBS_LIKE02
+  AND N.vol_make != ''
   AND N.vol_make REGEXP '[0-9]+'
-  AND N.vol_make*1 > 0
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
