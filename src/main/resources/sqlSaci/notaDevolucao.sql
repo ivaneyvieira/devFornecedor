@@ -69,7 +69,7 @@ CREATE TEMPORARY TABLE TNFSACI (
 )
 SELECT *
 FROM sqldados.nf AS N
-WHERE N.remarks LIKE 'AJUSTE GARANTIA%'
+WHERE N.remarks LIKE 'GARANTIA %'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
 UNION
@@ -153,7 +153,7 @@ FROM TNFSACI                  AS N
 			      709327, 108751)
   LEFT JOIN sqldados.vend     AS V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.nfse = @SERIE OR (N.remarks LIKE 'AJUSTE GARANTIA%') OR
+WHERE (N.nfse = @SERIE OR (N.remarks LIKE 'GARANTIA%') OR
        (@SERIE = '' AND (N.nfse IN ('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
