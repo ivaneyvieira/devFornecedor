@@ -3,7 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 class TabAjusteGarantiaPercaViewModel(viewModel: DevolucaoInternaViewModel) :
         TabDevolucaoViewModelAbstract<IDevolucaoInternaView>(viewModel) {
   override val subView
-    get() = viewModel.view.tabAjusteGarantiaPago
+    get() = viewModel.view.tabAjusteGarantiaPerca
 }
 
 interface ITabAjusteGarantiaPerca : ITabNota {
