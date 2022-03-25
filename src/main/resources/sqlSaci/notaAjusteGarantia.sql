@@ -1,17 +1,17 @@
 DO @OBS_LIKE01 := CASE :TIPO_NOTA
 		    WHEN 'AJT'
-		      THEN '%'
+		      THEN 'GARANTIA %'
 		    WHEN 'AJP'
-		      THEN '%PAGO%'
+		      THEN 'GARANTIA %PAGO%'
 		    WHEN 'AJC'
-		      THEN '%PERCA%'
+		      THEN 'GARANTIA %PERCA%'
 		    ELSE '************************'
 		  END;
 DO @OBS_LIKE02 := CASE :TIPO_NOTA
 		    WHEN 'AJT'
 		      THEN ''
 		    WHEN 'AJP'
-		      THEN '%PERCA%'
+		      THEN 'GARANTIA %PERCA%'
 		    WHEN 'AJC'
 		      THEN ''
 		    ELSE '************************'
@@ -45,8 +45,7 @@ SELECT N.storeno,
        O.date                                                            AS pedidoDate,
        N.grossamt / 100                                                  AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
-		       -1) * 1                                           AS custObs,
-       N.vol_make * 1                                                    AS vendMarc,
+		       -1) * 1                                           AS vendObs,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -86,8 +85,6 @@ WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.remarks LIKE @OBS_LIKE01
   AND N.remarks NOT LIKE @OBS_LIKE02
-  AND N.vol_make != ''
-  AND N.vol_make REGEXP '[0-9]+'
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
@@ -160,7 +157,7 @@ FROM TNF                        AS N
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN  T_CUST_VEND        AS C
-	       ON C.vendno = N.vendMarc
+	       ON C.vendno = N.vendObs
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)

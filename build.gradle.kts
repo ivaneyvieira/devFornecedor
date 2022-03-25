@@ -109,6 +109,7 @@ dependencies {
 }
 
 vaadin {
+  optimizeBundle = false
   pnpmEnable = false
   productionMode = true
 }
