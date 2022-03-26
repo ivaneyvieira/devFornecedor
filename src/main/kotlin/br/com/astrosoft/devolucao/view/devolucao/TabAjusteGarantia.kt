@@ -10,7 +10,7 @@ import br.com.astrosoft.framework.model.IUser
 class TabAjusteGarantia(viewModel: TabAjusteGarantiaViewModel) : TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel),
         ITabAjusteGarantia {
   override val label: String
-    get() = "Ajuste Garantia"
+    get() = "Base"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 

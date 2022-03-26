@@ -19,6 +19,7 @@ class DevolucaoInternaView : ViewLayout<DevolucaoInternaViewModel>(), IDevolucao
   override val viewModel: DevolucaoInternaViewModel = DevolucaoInternaViewModel(this)
 
   override val tabAjusteGarantia = TabAjusteGarantia(viewModel.tabAjusteGarantiaViewModel)
+  override val tabAjusteGarantiaPendente = TabAjusteGarantiaPendente(viewModel.tabAjusteGarantiaPendenteViewModel)
   override val tabAjusteGarantiaPago = TabAjusteGarantiaPago(viewModel.tabAjusteGarantiaPagoViewModel)
   override val tabAjusteGarantiaPerca = TabAjusteGarantiaPerca(viewModel.tabAjusteGarantiaPercaViewModel)
 

@@ -1,23 +1,3 @@
-DO @OBS_LIKE01 := CASE :TIPO_NOTA
-		    WHEN 'AJT'
-		      THEN 'GARANTIA %'
-		    WHEN 'AJP'
-		      THEN 'GARANTIA %PAGO%'
-		    WHEN 'AJC'
-		      THEN 'GARANTIA %PERCA%'
-		    ELSE '************************'
-		  END;
-DO @OBS_LIKE02 := CASE :TIPO_NOTA
-		    WHEN 'AJT'
-		      THEN ''
-		    WHEN 'AJP'
-		      THEN 'GARANTIA %PERCA%'
-		    WHEN 'AJC'
-		      THEN ''
-		    ELSE '************************'
-		  END;
-DO @TIPO_NOTA := :TIPO_NOTA;
-
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
 CREATE TEMPORARY TABLE T_CUST_VEND (
   PRIMARY KEY (custno, vendno),
@@ -86,8 +66,18 @@ FROM sqldados.nf               AS N /*FORCE INDEX (e3)*/
 	       ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.remarks LIKE @OBS_LIKE01
-  AND N.remarks NOT LIKE @OBS_LIKE02
+  AND CASE :TIPO_NOTA
+	WHEN 'AJT'
+	  THEN N.remarks LIKE 'GARANTIA %'
+	WHEN 'AJD'
+	  THEN N.remarks LIKE 'GARANTIA %' AND N.remarks NOT LIKE '%PERCA%' AND
+	       N.remarks NOT LIKE '%PAGO%'
+	WHEN 'AJP'
+	  THEN N.remarks LIKE 'GARANTIA %PAGO%' AND N.remarks NOT LIKE '%PERCA%'
+	WHEN 'AJC'
+	  THEN N.remarks LIKE 'GARANTIA %PERCA%'
+	ELSE FALSE
+      END
   AND N.tipo = 7
   AND N.cfo = 5949
   AND N.nfse = '1'
@@ -147,7 +137,7 @@ SELECT N.storeno                                 AS loja,
        valorIpi                                  AS valorIpi,
        valorTotal                                AS valorTotal,
        N.obsPedido                               AS obsPedido,
-       @TIPO_NOTA                                AS tipo,
+       :TIPO_NOTA                                AS tipo,
        IFNULL(RV.rmk, '')                        AS rmkVend,
        chave                                     AS chave,
        natureza                                  AS natureza,

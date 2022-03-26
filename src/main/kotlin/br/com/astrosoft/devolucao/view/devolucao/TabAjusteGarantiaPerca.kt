@@ -7,7 +7,7 @@ import br.com.astrosoft.framework.model.IUser
 class TabAjusteGarantiaPerca(viewModel: TabAjusteGarantiaPercaViewModel) :
         TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPerca {
   override val label: String
-    get() = "Ajuste Gar Perca"
+    get() = "Perca"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 

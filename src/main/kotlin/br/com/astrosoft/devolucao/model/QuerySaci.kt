@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model
 
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
@@ -79,7 +80,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun ajusteGarantia(serie: Serie): List<NotaSaida> {
     val sql = "/sqlSaci/notaAjusteGarantia.sql"
-    val serieValue = if (serie in listOf(Serie.AJT, Serie.AJP, Serie.AJC)) serie.value else return emptyList()
+    val serieValue = if (serie in listOf(AJT, AJD, AJP, AJC)) serie.value else return emptyList()
     val notas = query(sql, NotaSaida::class) {
       this.addOptionalParameter("TIPO_NOTA", serieValue)
     }
@@ -87,7 +88,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   }
 
   fun notaFinanceiro(): List<NotaSaida> {
-    return notasDevolucao(Serie.Serie01).filter { nota ->
+    return notasDevolucao(Serie01).filter { nota ->
       nota.isObservacaoFinanceiro()
     }
   }
