@@ -128,8 +128,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           checkBox("Nota série 1") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota01.name)
-          }
-          /*
+          }/*
           checkBox("Nota série 1 Coleta") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota01Coleta.name)
@@ -160,15 +159,19 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           h4("Interna") {
             colspan = 2
           }
-          checkBox("Ajuste Garantia") {
+          checkBox("Base") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::ajusteGarantia.name)
           }
-          checkBox("Ajuste Garantia Pago") {
+          checkBox("Pendente") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantiaPendente.name)
+          }
+          checkBox("Pago") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::ajusteGarantiaPago.name)
           }
-          checkBox("Ajuste Garantia Perca") {
+          checkBox("Perca") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::ajusteGarantiaPerca.name)
           }
@@ -182,11 +185,11 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedido.name)
           }
-          checkBox("Pedido NFD") {
+          checkBox("NFD") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoNFD.name)
           }
-          checkBox("Pedido Pago") {
+          checkBox("Pago") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoPago.name)
           }

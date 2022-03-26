@@ -341,6 +341,7 @@ class NotaSaida(val loja: Int,
         PED  -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
         ENT  -> saci.entradaDevolucao()
         AJT  -> saci.ajusteGarantia(filtro.serie)
+        AJD  -> saci.ajusteGarantia(filtro.serie)
         AJP  -> saci.ajusteGarantia(filtro.serie)
         AJC  -> saci.ajusteGarantia(filtro.serie)
         FIN  -> saci.notaFinanceiro()

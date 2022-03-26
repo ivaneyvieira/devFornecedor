@@ -2,19 +2,24 @@ DROP TEMPORARY TABLE IF EXISTS TNFSACI;
 CREATE TEMPORARY TABLE TNFSACI (
   PRIMARY KEY (storeno, pdvno, xano)
 )
-SELECT *
+SELECT N.*
 FROM sqldados.nf AS N
+  INNER JOIN sqldados.custp    AS C
+	       ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.remarks LIKE 'GARANTIA %'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-UNION
+  AND N.tipo = 7
+  AND N.cfo = 5949
+  AND N.nfse = '1'
+UNION DISTINCT
 SELECT *
 FROM sqldados.nf AS N
 WHERE (N.nfse = :serie)
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.tipo = 2
-UNION
+UNION DISTINCT
 SELECT *
 FROM sqldados.nf AS N
 WHERE :serie = ''
