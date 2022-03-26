@@ -43,49 +43,52 @@ SELECT N.storeno,
        N.nfse,
        N.issuedate,
        N.eordno,
-       O.date                                                            AS pedidoDate,
-       N.grossamt / 100                                                  AS valor,
-       SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
-		       -1) * 1                                           AS vendObs,
-       CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
-       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
-       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
-       IF((N.remarks LIKE '%COLETA%') AND N.nfse = '1', 'S', 'N')        AS serie01Coleta,
-       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '66', 'S', 'N')         AS serie66Pago,
-       IF((N.remarks LIKE '%REMESSA%CONSERTO%'), 'S', 'N')               AS remessaConserto,
-       TRIM(N.remarks)                                                   AS remarks,
-       N.netamt / 100                                                    AS baseIcms,
-       N.icms_amt / 100                                                  AS valorIcms,
-       N.baseIcmsSubst / 100                                             AS baseIcmsSubst,
-       N.icmsSubst / 100                                                 AS icmsSubst,
-       N.fre_amt / 100                                                   AS valorFrete,
-       N.sec_amt / 100                                                   AS valorSeguro,
-       N.discount / 100                                                  AS valorDesconto,
-       0.00                                                              AS outrasDespesas,
-       N.ipi_amt / 100                                                   AS valorIpi,
-       grossamt / 100                                                    AS valorTotal,
-       TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido,
-       IFNULL(X.nfekey, '')                                              AS chave,
-       IFNULL(OP.name, '')                                               AS natureza,
-       ''                                                                AS chaveDesconto,
-       ''                                                                AS observacaoAuxiliar
-FROM sqldados.nf              AS N FORCE INDEX (e3)
-  LEFT JOIN sqldados.natop    AS OP
-	      ON OP.no = N.natopno
-  LEFT JOIN sqldados.nfes     AS X
-	      ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
-  LEFT JOIN sqldados.nfdevRmk AS R
-	      ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
-  LEFT JOIN sqldados.nfrmk    AS R2
-	      ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
-  LEFT JOIN sqldados.eord     AS O
-	      ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN sqldados.eordrk   AS OBS
-	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
+       O.date                                                                                               AS pedidoDate,
+       N.grossamt / 100                                                                                     AS valor,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ', -1) * 1 AS vendObs,
+       CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))                                     AS obsNota,
+       IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N')                                    AS serie01Rejeitada,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')                                             AS serie01Pago,
+       IF((N.remarks LIKE '%COLETA%') AND N.nfse = '1', 'S', 'N')                                           AS serie01Coleta,
+       IF((N.remarks LIKE '%PAGO%') AND N.nfse = '66', 'S', 'N')                                            AS serie66Pago,
+       IF((N.remarks LIKE '%REMESSA%CONSERTO%'), 'S', 'N')                                                  AS remessaConserto,
+       TRIM(N.remarks)                                                                                      AS remarks,
+       N.netamt / 100                                                                                       AS baseIcms,
+       N.icms_amt / 100                                                                                     AS valorIcms,
+       N.baseIcmsSubst / 100                                                                                AS baseIcmsSubst,
+       N.icmsSubst / 100                                                                                    AS icmsSubst,
+       N.fre_amt / 100                                                                                      AS valorFrete,
+       N.sec_amt / 100                                                                                      AS valorSeguro,
+       N.discount / 100                                                                                     AS valorDesconto,
+       0.00                                                                                                 AS outrasDespesas,
+       N.ipi_amt / 100                                                                                      AS valorIpi,
+       grossamt / 100                                                                                       AS valorTotal,
+       TRIM(IFNULL(OBS.remarks__480, ''))                                                                   AS obsPedido,
+       IFNULL(X.nfekey, '')                                                                                 AS chave,
+       IFNULL(OP.name, '')                                                                                  AS natureza,
+       ''                                                                                                   AS chaveDesconto,
+       ''                                                                                                   AS observacaoAuxiliar
+FROM sqldados.nf               AS N /*FORCE INDEX (e3)*/
+  LEFT JOIN  sqldados.natop    AS OP
+	       ON OP.no = N.natopno
+  LEFT JOIN  sqldados.nfes     AS X
+	       ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
+  LEFT JOIN  sqldados.nfdevRmk AS R
+	       ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
+  LEFT JOIN  sqldados.nfrmk    AS R2
+	       ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
+  LEFT JOIN  sqldados.eord     AS O
+	       ON O.storeno = N.storeno AND O.ordno = N.eordno
+  LEFT JOIN  sqldados.eordrk   AS OBS
+	       ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
+  INNER JOIN sqldados.custp    AS C
+	       ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.remarks LIKE @OBS_LIKE01
   AND N.remarks NOT LIKE @OBS_LIKE02
+  AND N.tipo = 7
+  AND N.cfo = 5949
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
