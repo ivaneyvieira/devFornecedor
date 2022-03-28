@@ -221,8 +221,8 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaNfAjuste()
       }
       if (serie in listOf(AJP, AJT, AJC, AJD)) {
-        notaObservacao()
         notaValorPago().decimalFieldEditor()
+        notaObservacao()
       }
       else {
         if (serie !in listOf(PED)) {
