@@ -15,14 +15,6 @@ services:
     networks:
       rede_dev_fornecedor:
         ipv4_address: 172.120.1.1
-    deploy:
-      resources:
-        limits:
-          cpus: '0.001'
-          memory: 2000M
-        reservations:
-          cpus: '0.0001'
-          memory: 200M
 networks:
   rede_dev_fornecedor:
     ipam:

@@ -80,6 +80,13 @@ object FornecedorViewColumns {
     }
   }
 
+  fun Grid<Fornecedor>.fornecedorObservacao() = addColumnString(Fornecedor::remarks) {
+    this.setHeader("Observação")
+    this.setClassNameGenerator {
+      it.situacaoPendencia?.cssCor
+    }
+  }
+
   fun Grid<Fornecedor>.tituloSituacao() = addColumnString(Fornecedor::tituloSituacao) {
     this.setHeader("Número")
     this.right()

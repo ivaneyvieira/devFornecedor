@@ -35,8 +35,8 @@ object NotaSaidaViewColumns {
     this.setHeader("NF Ajuste")
   }
 
-  fun Grid<NotaSaida>.chaveDesconto() = addColumnString(NotaSaida::chaveDesconto) {
-    this.setHeader("Observação")
+  fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDesconto) {
+    this.setHeader(titulo)
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
     }
@@ -120,6 +120,10 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaObservacao() = addColumnString(NotaSaida::remarks) {
     this.setHeader("Obs")
+  }
+
+  fun Grid<NotaSaida>.notaValorPago() = addColumnDouble(NotaSaida::valorSituacao) {
+    this.setHeader("V. Pago")
   }
 
   fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
