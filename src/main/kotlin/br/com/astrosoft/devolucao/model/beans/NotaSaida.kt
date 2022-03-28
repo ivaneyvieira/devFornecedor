@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils
 import java.time.LocalDate
 import java.util.*
 import javax.mail.internet.InternetAddress
+import kotlin.math.round
 
 class NotaSaida(val loja: Int,
                 val sigla: String,
@@ -90,7 +91,8 @@ class NotaSaida(val loja: Int,
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
       val nota = split?.getOrNull(6) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+      val valor = split?.getOrNull(7) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota$valor"
     }
   var usuarioSituacao: String
     get() {
@@ -105,7 +107,8 @@ class NotaSaida(val loja: Int,
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
       val nota = split?.getOrNull(6) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+      val valor = split?.getOrNull(7) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota$valor"
     }
   var tituloSituacao: String
     get() {
@@ -120,7 +123,8 @@ class NotaSaida(val loja: Int,
       val ni = split?.getOrNull(4) ?: ""
       val doc = split?.getOrNull(5) ?: ""
       val nota = split?.getOrNull(6) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+      val valor = split?.getOrNull(7) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota$valor"
     }
   var niSituacao: String
     get() {
@@ -135,7 +139,8 @@ class NotaSaida(val loja: Int,
       val ni = value
       val doc = split?.getOrNull(5) ?: ""
       val nota = split?.getOrNull(6) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+      val valor = split?.getOrNull(7) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota$valor"
     }
   var docSituacao: String
     get() {
@@ -150,7 +155,8 @@ class NotaSaida(val loja: Int,
       val ni = split?.getOrNull(4) ?: ""
       val doc = value
       val nota = split?.getOrNull(6) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+      val valor = split?.getOrNull(7) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota$valor"
     }
   var notaSituacao: String
     get() {
@@ -163,9 +169,27 @@ class NotaSaida(val loja: Int,
       val usuario = split?.getOrNull(2) ?: ""
       val titulo = split?.getOrNull(3) ?: ""
       val ni = split?.getOrNull(4) ?: ""
-      val doc = split?.getOrNull(4) ?: ""
+      val doc = split?.getOrNull(5) ?: ""
       val nota = value
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota"
+      val valor = split?.getOrNull(7) ?: ""
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota$valor"
+    }
+  var valorSituacao: Double?
+    get() {
+      val valorInt = observacaoAuxiliar?.split(":")?.getOrNull(7)?.toIntOrNull()
+      return if (valorInt == null) null else valorInt * 1.00 / 100.00
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = split?.getOrNull(3) ?: ""
+      val ni = split?.getOrNull(4) ?: ""
+      val doc = split?.getOrNull(5) ?: ""
+      val nota = split?.getOrNull(6) ?: ""
+      val valor = if (value == null) "" else round(value * 100.00).toInt().toString()
+      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor"
     }
 
   val situacaoStr: String

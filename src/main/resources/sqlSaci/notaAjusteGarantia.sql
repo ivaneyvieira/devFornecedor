@@ -47,8 +47,8 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido,
        IFNULL(X.nfekey, '')                                              AS chave,
        IFNULL(OP.name, '')                                               AS natureza,
-       ''                                                                AS chaveDesconto,
-       ''                                                                AS observacaoAuxiliar
+       TRIM(CONCAT(N.c6, N.c5))                                          AS chaveDesconto,
+       TRIM(CONCAT(N.c4, N.c3))                                          AS observacaoAuxiliar
 FROM sqldados.nf               AS N /*FORCE INDEX (e3)*/
   LEFT JOIN  sqldados.natop    AS OP
 	       ON OP.no = N.natopno
@@ -109,6 +109,7 @@ SELECT N.storeno                                 AS loja,
        N.eordno                                  AS pedido,
        CAST(N.pedidoDate AS DATE)                AS dataPedido,
        CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nota,
+       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR) AS nfAjuste,
        IFNULL(CAST(D.fatura AS CHAR), '')        AS fatura,
        CAST(N.issuedate AS DATE)                 AS dataNota,
        IFNULL(C.custno, 0)                       AS custno,
@@ -141,8 +142,8 @@ SELECT N.storeno                                 AS loja,
        IFNULL(RV.rmk, '')                        AS rmkVend,
        chave                                     AS chave,
        natureza                                  AS natureza,
-       ''                                        AS chaveDesconto,
-       ''                                        AS observacaoAuxiliar
+       chaveDesconto                             AS chaveDesconto,
+       observacaoAuxiliar                        AS observacaoAuxiliar
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno

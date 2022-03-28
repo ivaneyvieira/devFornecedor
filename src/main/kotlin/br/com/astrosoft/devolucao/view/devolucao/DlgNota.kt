@@ -17,10 +17,12 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValorPago
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
@@ -49,7 +51,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
     fornecedor ?: return
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      if (serie == Serie.PED) {
+      if (serie == PED) {
         button("Relatório Pedido") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -59,9 +61,8 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
       }
 
-      val captionImpressoa =
-              if (serie == Serie.Serie66 || serie == Serie.PED || serie == Serie.AJT) "Impressão Completa"
-              else "Impressão"
+      val captionImpressoa = if (serie == Serie66 || serie == PED || serie == AJT) "Impressão Completa"
+      else "Impressão"
       button(captionImpressoa) {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
@@ -70,7 +71,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
       }
 
-      if (serie == Serie.Serie01) {
+      if (serie == Serie01) {
         button("Impressão Fornecedor") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -94,7 +95,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-      if (serie == Serie.Serie66 || serie == Serie.PED || serie == Serie.AJT) {
+      if (serie == Serie66 || serie == PED || serie == AJT) {
         button("Impressão Resumida") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -114,7 +115,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           viewModel.enviarEmail(notas)
         }
       }
-      if (serie in listOf(Serie.Serie01, Serie.Serie66)) {
+      if (serie in listOf(Serie01, Serie66)) {
         button("Relatório") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -181,9 +182,14 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
-      if (serie in listOf(Serie.Serie01, Serie.PED)) {
+      if (serie in listOf(Serie01, PED, AJC, AJT, AJP, AJD)) {
         this.withEditor(NotaSaida::class, openEditor = {
-          (getColumnBy(NotaSaida::chaveDesconto).editorComponent as? Focusable<*>)?.focus()
+          val colunas = this.columns
+          val componente = colunas.firstOrNull {
+            it.editorComponent != null && (it.editorComponent is Focusable<*>)
+          }
+          val focusable = componente?.editorComponent as? Focusable<*>
+          focusable?.focus()
         }, closeEditor = { binder ->
           viewModel.salvaDesconto(binder.bean)
           this.dataProvider.refreshItem(binder.bean)
@@ -203,20 +209,23 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
 
       notaLoja()
-      if (serie !in listOf(Serie.Serie01, Serie.FIN)) {
+      if (serie !in listOf(Serie01, FIN)) {
         notaDataPedido()
         notaPedido()
       }
       notaDataNota()
-      if (serie !in listOf(Serie.PED)) {
-        notaNota()
+      if (serie !in listOf(PED)) {
+        if (serie !in listOf(AJP, AJT, AJC, AJD)) {
+          notaNota()
+        }
         notaNfAjuste()
       }
-      if (serie in listOf(Serie.AJP, Serie.AJT)) {
+      if (serie in listOf(AJP, AJT, AJC, AJD)) {
         notaObservacao()
+        notaValorPago().decimalFieldEditor()
       }
       else {
-        if (serie !in listOf(Serie.PED)) {
+        if (serie !in listOf(PED)) {
           notaFatura()
         }
       }
@@ -239,8 +248,8 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           niSituacao(situacao).textFieldEditor()
         }
       }
-      if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
-        if (serie in listOf(Serie.PED)) {
+      if (serie in listOf(Serie01, FIN, PED)) {
+        if (serie in listOf(PED)) {
           usuarioSituacao(situacao)
           situacaoDesconto(situacao)
         }
@@ -251,11 +260,18 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
+      else if (serie in listOf(AJT, AJD, AJP, AJC)) {
+        chaveDesconto("Observação").textFieldEditor().apply {
+          this.setClassNameGenerator {
+            it.situacaoPendencia?.cssCor
+          }
+        }
+      }
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      if (serie in listOf(Serie.PED, Serie.AJT)) {
+      if (serie in listOf(PED, AJT)) {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
       }
       else {

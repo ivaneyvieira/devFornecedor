@@ -72,6 +72,8 @@ class Fornecedor(
     get() = notaObs?.docSituacao ?: ""
   val niSituacao: String
     get() = notaObs?.niSituacao ?: ""
+  val remarks: String
+    get() = notas.sortedBy { it.dataNota }.firstOrNull()?.remarks ?: ""
 
   /********************************************/
 

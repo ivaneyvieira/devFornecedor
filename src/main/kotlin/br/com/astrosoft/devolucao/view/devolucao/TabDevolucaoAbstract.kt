@@ -10,6 +10,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.d
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
@@ -161,6 +162,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       if (serie !in listOf(AJT, AJD, AJP, AJC)) {
         fornecedorUltimaData()
       }
+    }
+
+    if (serie in listOf(AJT, AJD, AJP, AJC)) {
+      fornecedorObservacao()
     }
 
     val totalCol = fornecedorValorTotal()

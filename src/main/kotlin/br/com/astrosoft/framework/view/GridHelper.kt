@@ -38,6 +38,9 @@ fun <T : Any> Grid<T>.withEditor(classBean: KClass<T>,
 
 fun <T : Any> Grid.Column<T>.decimalFieldEditor(): Grid.Column<T> {
   val component = decimalFieldComponent()
+  component.element.addEventListener("keydown") { _ ->
+    grid.editor.cancel()
+  }.filter = "event.key === 'Enter'"
   grid.editor.binder.forField(component).withConverter(BigDecimalToDoubleConverter()).bind(this.key)
   this.editorComponent = component
   return this
