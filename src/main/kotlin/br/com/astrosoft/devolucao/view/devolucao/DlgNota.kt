@@ -221,8 +221,13 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaNfAjuste()
       }
       if (serie in listOf(AJP, AJT, AJC, AJD)) {
-        notaValorPago().decimalFieldEditor()
         notaObservacao()
+        chaveDesconto("Observação").textFieldEditor().apply {
+          this.setClassNameGenerator {
+            it.situacaoPendencia?.cssCor
+          }
+        }
+        notaValorPago().decimalFieldEditor()
       }
       else {
         if (serie !in listOf(PED)) {
@@ -255,13 +260,6 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
         dataAgendaDesconto(situacao).dateFieldEditor()
         chaveDesconto().textFieldEditor().apply {
-          this.setClassNameGenerator {
-            it.situacaoPendencia?.cssCor
-          }
-        }
-      }
-      else if (serie in listOf(AJT, AJD, AJP, AJC)) {
-        chaveDesconto("Observação").textFieldEditor().apply {
           this.setClassNameGenerator {
             it.situacaoPendencia?.cssCor
           }
