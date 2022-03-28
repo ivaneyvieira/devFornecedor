@@ -221,12 +221,12 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaNfAjuste()
       }
       if (serie in listOf(AJP, AJT, AJC, AJD)) {
-        notaObservacao()
         chaveDesconto("Observação").textFieldEditor().apply {
           this.setClassNameGenerator {
             it.situacaoPendencia?.cssCor
           }
         }
+        notaObservacao()
         notaValorPago().decimalFieldEditor()
       }
       else {
