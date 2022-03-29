@@ -61,7 +61,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
       }
 
-      val captionImpressoa = if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP)) "Impressão Completa"
+      val captionImpressoa = if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP, A66)) "Impressão Completa"
       else "Impressão"
       button(captionImpressoa) {
         icon = VaadinIcon.PRINT.create()
@@ -95,7 +95,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-      if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP)) {
+      if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP, A66)) {
         button("Impressão Resumida") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -182,7 +182,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
-      if (serie in listOf(Serie01, PED, AJC, AJT, AJP, AJD)) {
+      if (serie in listOf(Serie01, PED, AJC, AJT, AJP, AJD, A66)) {
         this.withEditor(NotaSaida::class, openEditor = {
           val colunas = this.columns
           val componente = colunas.firstOrNull {
@@ -215,12 +215,12 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
       notaDataNota()
       if (serie !in listOf(PED)) {
-        if (serie !in listOf(AJP, AJT, AJC, AJD)) {
+        if (serie !in listOf(AJP, AJT, AJC, AJD, A66)) {
           notaNota()
         }
         notaNfAjuste()
       }
-      if (serie in listOf(AJP, AJT, AJC, AJD)) {
+      if (serie in listOf(AJP, AJT, AJC, AJD, A66)) {
         chaveDesconto("Observação").textFieldEditor().apply {
           this.setClassNameGenerator {
             it.situacaoPendencia?.cssCor
@@ -269,7 +269,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      if (serie in listOf(PED, AJT, AJC, AJD, AJP)) {
+      if (serie in listOf(PED, AJT, AJC, AJD, AJP, A66)) {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
       }
       else {
