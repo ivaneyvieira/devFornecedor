@@ -368,6 +368,7 @@ class NotaSaida(val loja: Int,
         AJD  -> saci.ajusteGarantia(filtro.serie)
         AJP  -> saci.ajusteGarantia(filtro.serie)
         AJC  -> saci.ajusteGarantia(filtro.serie)
+        A66  -> saci.ajusteGarantia66(AJT)
         FIN  -> saci.notaFinanceiro()
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->

@@ -5,13 +5,14 @@ class DevolucaoInternaViewModel(view: IDevolucaoInternaView) : DevolucaoAbstract
   val tabAjusteGarantiaPendenteViewModel = TabAjusteGarantiaPendenteViewModel(this)
   val tabAjusteGarantiaPagoViewModel = TabAjusteGarantiaPagoViewModel(this)
   val tabAjusteGarantiaPercaViewModel = TabAjusteGarantiaPercaViewModel(this)
+  val tabAjusteGarantia66ViewModel = TabAjusteGarantia66ViewModel(this)
 
   override fun listTab() = listOf(
-
     view.tabAjusteGarantia,
     view.tabAjusteGarantiaPendente,
     view.tabAjusteGarantiaPago,
     view.tabAjusteGarantiaPerca,
+    view.tabAjusteGarantia66,
                                  )
 }
 
@@ -20,5 +21,6 @@ interface IDevolucaoInternaView : IDevolucaoAbstractView {
   val tabAjusteGarantiaPendente: ITabAjusteGarantiaPendente
   val tabAjusteGarantiaPago: ITabAjusteGarantiaPago
   val tabAjusteGarantiaPerca: ITabAjusteGarantiaPerca
+  val tabAjusteGarantia66: ITabAjusteGarantia66
 }
 

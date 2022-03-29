@@ -175,6 +175,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::ajusteGarantiaPerca.name)
           }
+          checkBox("Série 66") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::ajusteGarantia66.name)
+          }
         }
         formLayout {
           h4("Pedido") {
