@@ -59,14 +59,18 @@ class UserSaci : IUser {
   var ajusteGarantiaPerca by DelegateAuthorized(41)
   var pedidoAjuste by DelegateAuthorized(42)
   var ajusteGarantiaPendente by DelegateAuthorized(43)
+  var ajusteGarantia66 by DelegateAuthorized(44)
 
   val forPendente
-    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
+    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
+            forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO ||
+            forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO ||
+            forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
 
   val menuDevolucao01
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || notaFinanceiro || conferenciaSap || sap
   val menuDevolucaoInterna
-    get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente
+    get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente || ajusteGarantia66
   val menuDevolucaoPedido
     get() = pedido || pedidoNFD || pedidoPago || pedidoAjuste
   val menuDevolucao66

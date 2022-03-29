@@ -210,6 +210,7 @@ enum class Serie(val value: String) {
   AJD("AJD"),
   AJP("AJP"),
   AJC("AJC"),
+  A66("A66"),
   FIN("FIN"),
   VAZIO("")
 }

@@ -22,6 +22,7 @@ class DevolucaoInternaView : ViewLayout<DevolucaoInternaViewModel>(), IDevolucao
   override val tabAjusteGarantiaPendente = TabAjusteGarantiaPendente(viewModel.tabAjusteGarantiaPendenteViewModel)
   override val tabAjusteGarantiaPago = TabAjusteGarantiaPago(viewModel.tabAjusteGarantiaPagoViewModel)
   override val tabAjusteGarantiaPerca = TabAjusteGarantiaPerca(viewModel.tabAjusteGarantiaPercaViewModel)
+  override val tabAjusteGarantia66 = TabAjusteGarantia66(viewModel.tabAjusteGarantia66ViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
