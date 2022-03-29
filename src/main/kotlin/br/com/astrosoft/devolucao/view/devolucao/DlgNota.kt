@@ -61,7 +61,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         }
       }
 
-      val captionImpressoa = if (serie == Serie66 || serie == PED || serie == AJT) "Impressão Completa"
+      val captionImpressoa = if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP)) "Impressão Completa"
       else "Impressão"
       button(captionImpressoa) {
         icon = VaadinIcon.PRINT.create()
@@ -95,7 +95,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           }
         }
       }
-      if (serie == Serie66 || serie == PED || serie == AJT) {
+      if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP)) {
         button("Impressão Resumida") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
@@ -269,7 +269,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      if (serie in listOf(PED, AJT)) {
+      if (serie in listOf(PED, AJT, AJC, AJD, AJP)) {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
       }
       else {

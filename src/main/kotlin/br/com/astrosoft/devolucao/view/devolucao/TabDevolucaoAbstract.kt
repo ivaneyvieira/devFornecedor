@@ -50,7 +50,7 @@ import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
-  private var dlgNota: DlgNota<T>? = null
+  protected var dlgNota: DlgNota<T>? = null
   protected lateinit var dataSitCol: Grid.Column<Fornecedor>
   protected lateinit var userCol: Grid.Column<Fornecedor>
   protected lateinit var situacaoCol: Grid.Column<Fornecedor>
@@ -181,7 +181,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     DlgEditRmkVend().editRmk(fornecedor, save)
   }
 
-  private fun configIconEdt(icon: Icon, fornecedor: Fornecedor) {
+  protected fun configIconEdt(icon: Icon, fornecedor: Fornecedor) {
     if (fornecedor.obs.isNotBlank()) icon.color = "DarkGreen"
     else icon.color = ""
   }
