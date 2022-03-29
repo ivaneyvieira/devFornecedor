@@ -25,8 +25,7 @@ SELECT N.storeno,
        N.eordno,
        O.date                                                            AS pedidoDate,
        N.grossamt / 100                                                  AS valor,
-       SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
-		       -1) * 1                                           AS vendObs,
+       N.custno                                                          AS custno,
        CONCAT(TRIM(N.remarks), '\n', TRIM(IFNULL(R2.remarks__480, '')))  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S', 'N') AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%') AND N.nfse = '1', 'S', 'N')          AS serie01Pago,
@@ -49,26 +48,24 @@ SELECT N.storeno,
        IFNULL(OP.name, '')                                               AS natureza,
        TRIM(CONCAT(N.c6, N.c5))                                          AS chaveDesconto,
        TRIM(CONCAT(N.c4, N.c3))                                          AS observacaoAuxiliar
-FROM sqldados.nf               AS N /*FORCE INDEX (e3)*/
-  LEFT JOIN  sqldados.natop    AS OP
-	       ON OP.no = N.natopno
-  LEFT JOIN  sqldados.nfes     AS X
-	       ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
-  LEFT JOIN  sqldados.nfdevRmk AS R
-	       ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
-  LEFT JOIN  sqldados.nfrmk    AS R2
-	       ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
-  LEFT JOIN  sqldados.eord     AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  sqldados.eordrk   AS OBS
-	       ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
-  INNER JOIN sqldados.custp    AS C
-	       ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
+FROM sqldados.nf              AS N /*FORCE INDEX (e3)*/
+  LEFT JOIN sqldados.natop    AS OP
+	      ON OP.no = N.natopno
+  LEFT JOIN sqldados.nfes     AS X
+	      ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
+  LEFT JOIN sqldados.nfdevRmk AS R
+	      ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
+  LEFT JOIN sqldados.nfrmk    AS R2
+	      ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
+  LEFT JOIN sqldados.eord     AS O
+	      ON O.storeno = N.storeno AND O.ordno = N.eordno
+  LEFT JOIN sqldados.eordrk   AS OBS
+	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND CASE :TIPO_NOTA
 	WHEN 'AJT'
-	  THEN N.remarks LIKE 'GARANTIA %' AND N.remarks LIKE '% FOR %'
+	  THEN N.remarks LIKE 'GARANTIA %'
 	WHEN 'AJD'
 	  THEN N.remarks LIKE 'GARANTIA %' AND N.remarks NOT LIKE '%PERCA%' AND
 	       N.remarks NOT LIKE '%PAGO%'
@@ -79,6 +76,8 @@ WHERE N.storeno IN (2, 3, 4, 5)
 	ELSE FALSE
       END
   AND N.nfse = '66'
+  AND N.cfo IN (6949, 5949)
+  AND N.tipo = 2
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
@@ -152,7 +151,7 @@ FROM TNF                        AS N
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
   LEFT JOIN  T_CUST_VEND        AS C
-	       ON C.vendno = N.vendObs
+	       ON C.custno = N.custno
   LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
