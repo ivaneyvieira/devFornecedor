@@ -583,7 +583,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
     var index = 1
-    val itens = notaSaida.listaProdutos().sortedBy { it.codigo.toIntOrNull() ?: 0 }.map {
+    val itens = notaSaida.listaProdutos().sortedBy { it.codigo }.map {
       it.apply {
         item = index++
       }

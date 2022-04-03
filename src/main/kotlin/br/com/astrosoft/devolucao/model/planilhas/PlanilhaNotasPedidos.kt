@@ -21,7 +21,7 @@ class PlanilhaNotasPedidos {
             CampoString("Emissão") { dateInvStr },
             CampoString("NF") { notaInv },
             CampoString("Ref do Fab") { refFor },
-            CampoString("Código") { codigo },
+            CampoInt("Código") { codigo },
             CampoString("Descrição") { descricao },
             CampoString("Grade") { grade },
             CampoString("NCM") { ncm },

@@ -35,7 +35,7 @@ class ProdutoNotaEntradaVO(
   private fun mapProduto(item: NFNotaInfoItem): ProdutoNotaEntradaNdd {
     val produto: NFNotaInfoItemProduto? = item.produto
     val imposto: NFNotaInfoItemImposto? = item.imposto
-    return ProdutoNotaEntradaNdd(codigo = produto?.codigo ?: "",
+    return ProdutoNotaEntradaNdd(codigo = produto?.codigo?.toString() ?: "",
                                  codBarra = produto?.codigoDeBarras ?: "",
                                  descricao = produto?.descricao ?: "",
                                  ncm = produto?.ncm ?: "",

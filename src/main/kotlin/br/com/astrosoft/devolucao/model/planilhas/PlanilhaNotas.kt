@@ -23,7 +23,7 @@ class PlanilhaNotas {
             CampoString("Emissão") { dateInv.format() },
             CampoInt("Qnt NI") { quantInv },
             CampoInt("Qnt Dev") { qtde },
-            CampoString("Código") { codigo },
+            CampoInt("Código") { codigo },
             CampoString("Descrição") { descricao },
             CampoString("Grade") { grade },
             CampoString("Ref Forn") { refFor },

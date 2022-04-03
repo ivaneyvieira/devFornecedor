@@ -197,7 +197,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
     var index = 1
-    val itens = notaSaida.listaProdutos().sortedBy { it.codigo.toIntOrNull() ?: 0 }.map {
+    val itens = notaSaida.listaProdutos().sortedBy { it.codigo }.map {
       it.setProdutoNdd(produtosOrigemNDD)
       it.apply {
         item = index++

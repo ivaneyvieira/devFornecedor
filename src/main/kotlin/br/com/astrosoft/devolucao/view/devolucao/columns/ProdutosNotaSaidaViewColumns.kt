@@ -18,7 +18,7 @@ object ProdutosNotaSaidaViewColumns {
     this.setHeader("Transacao")
   }
 
-  fun Grid<ProdutosNotaSaida>.produtoCodigo() = addColumnString(ProdutosNotaSaida::codigo) {
+  fun Grid<ProdutosNotaSaida>.produtoCodigo() = addColumnInt(ProdutosNotaSaida::codigo) {
     this.setHeader("Código")
   }
 
