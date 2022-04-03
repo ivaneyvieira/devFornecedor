@@ -9,7 +9,7 @@ class ProdutosNotaSaida(
   val loja: Int,
   val pdv: Int,
   val transacao: Int,
-  val codigo: String,
+  val codigo: Int,
   val refFor: String,
   val refName: String,
   val descricao: String,
