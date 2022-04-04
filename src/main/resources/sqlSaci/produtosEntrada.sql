@@ -70,7 +70,8 @@ SELECT prdno                                                        AS codigo,
        IFNULL(X.nfekey, '')                                         AS chaveUlt,
        cstIcms                                                      AS cst,
        cfop,
-       IF(LENGTH(P.c1) < 30 AND P.c1 <> '', 'N', 'S')               AS sefazOk
+       IF(LENGTH(P.c1) < 30 AND P.c1 <> '', 'N', 'S')               AS sefazOk,
+       P.c1                                                         AS chaveSefaz
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -118,7 +119,8 @@ SELECT loja,
        0.00                                              AS valorIPI,
        0.00                                              AS icmsAliq,
        0.00                                              AS ipiAliq,
-       IFNULL(sefazOk, '')                               AS sefazOk
+       IFNULL(sefazOk, '')                               AS sefazOk,
+       IFNULL(chaveSefaz, '')                            AS chaveSefaz
 FROM T_PEDIDO
   LEFT JOIN T_INV
 	      USING (codigo, grade)

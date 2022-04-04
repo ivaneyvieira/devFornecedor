@@ -35,6 +35,7 @@ class PlanilhaNotas {
               val text = chaveUlt ?: ""
               text.substring(0, 6.coerceAtMost(text.length))
             },
+            CampoString("Chave Sefaz") { chaveSefaz ?: "" },
                 )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
