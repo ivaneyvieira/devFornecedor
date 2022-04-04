@@ -85,7 +85,9 @@ SELECT prdno                                                        AS codigo,
        CAST(I.issue_date AS DATE)                                   AS dateInv,
        P.fob / 100                                                  AS valorUnitInv,
        SUM(qtty / 1000)                                             AS quantInv,
-       IFNULL(X.nfekey, '')                                         AS chaveUlt
+       IFNULL(X.nfekey, '')                                         AS chaveUlt,
+       IF(LENGTH(P.c1) < 30 AND P.c1 <> '', 'N', 'S')               AS sefazOk,
+       P.c1                                                         AS chaveSefaz
 FROM sqldados.iprd           AS P
   INNER JOIN sqldados.inv    AS I
 	       USING (invno)
@@ -134,7 +136,8 @@ SELECT loja,
        0.00                                                                      AS valorIPI,
        0.00                                                                      AS icmsAliq,
        0.00                                                                      AS ipiAliq,
-       ''                                                                        AS sefazOk
+       IFNULL(sefazOk, '')                                                       AS sefazOk,
+       IFNULL(chaveSefaz, '')                                                    AS chaveSefaz
 FROM T_NF
   LEFT JOIN T_INV
 	      USING (codigo, grade)

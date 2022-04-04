@@ -45,6 +45,7 @@ class PlanilhaNotasPedidos {
               val size = chaveUlt?.length ?: return@CampoString ""
               if (size > 6) chaveUlt.substring(0, 6) else ""
             },
+            CampoString("Chave Sefaz") { chaveSefaz ?: "" },
                 )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
