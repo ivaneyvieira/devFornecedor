@@ -29,7 +29,7 @@ import java.time.LocalTime
 
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean) {
   private val codigoCol: TextColumnBuilder<String> =
-          col.column("Cód Saci", ProdutosNotaSaida::codigo.name, type.stringType()).apply {
+          col.column("Cód Saci", ProdutosNotaSaida::codigoStr.name, type.stringType()).apply {
             this.setHorizontalTextAlignment(CENTER)
             this.setTextAdjust(SCALE_FONT)
             this.setFixedWidth(35)
