@@ -1,0 +1,67 @@
+package br.com.astrosoft.devolucao.view.devolucao
+
+import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.observacaoChaveDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedido
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
+import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.view.addColumnButton
+import com.github.mvysny.kaributools.getColumnBy
+import com.vaadin.flow.component.Html
+import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridSortOrder
+import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.data.provider.SortDirection
+
+abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
+        TabDevolucaoAbstract<T>(viewModel) {
+
+  override val situacaoPendencia: ESituacaoPendencia?
+    get() = null
+
+  override fun Grid<Fornecedor>.gridPanel() {
+    setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
+      dlgNota = DlgNota(viewModel, situacaoPendencia)
+      dlgNota?.showDialogNota(fornecedor, serie) {
+        viewModel.updateView()
+      }
+    }
+    addColumnButton(VaadinIcon.MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
+      DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
+    }
+    addColumnButton(VaadinIcon.EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
+      viewModel.editRmkVend(fornecedor)
+    }
+    addColumnButton(VaadinIcon.PHONE_LANDLINE, "Representantes", "Rep") { fornecedor ->
+      DlgFornecedor().showDialogRepresentante(fornecedor)
+    }
+    fornecedorCodigo()
+    fornecedorCliente()
+    fornecedorNome()
+
+    if (this@TabPedidoAbstract is TabPedido) {
+      userCol = usuarioSituacao()
+      situacaoCol = situacaoDesconto()
+    }
+    dataCol = dataAgendaDesconto()
+    observacaoChaveDesconto()
+
+    val totalCol = fornecedorValorTotal()
+    this.dataProvider.addDataProviderListener {
+      val totalPedido = listBeans().sumOf { it.valorTotal }.format()
+      totalCol.setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
+    }
+
+    sort(listOf(GridSortOrder(getColumnBy(Fornecedor::fornecedor), SortDirection.ASCENDING)))
+  }
+}

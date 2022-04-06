@@ -3,7 +3,6 @@ package br.com.astrosoft.devolucao.view.devolucao
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.beans.Loja.Companion.lojaZero
 import br.com.astrosoft.devolucao.model.reports.*
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataSituacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.docSituacao
@@ -16,6 +15,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.niSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.notaSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.observacaoChaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
@@ -155,7 +155,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         situacaoCol = situacaoDesconto()
       }
       dataCol = dataAgendaDesconto()
-      chaveDesconto()
+      observacaoChaveDesconto()
     }
     else {
       fornecedorPrimeiraData()
