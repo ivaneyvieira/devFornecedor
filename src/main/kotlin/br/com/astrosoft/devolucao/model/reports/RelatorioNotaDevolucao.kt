@@ -256,6 +256,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
       }
       horizontalList {
         text("Natureza da operação: ${notaSaida.natureza}", LEFT)
+        text("Espelho Nota Fiscal Devolução Fornecedor", CENTER)
       }
       horizontalList {
         val custno = notaSaida.custno

@@ -238,7 +238,7 @@ class NotaSaida(val loja: Int,
   val icmsSubstProduto
     get() = if (tipo == "PED") listaProdutos().sumOf { it.vst } else icmsSubst
   val baseIcmsSubstProduto
-    get() = if (tipo == "PED") listaProdutos().sumOf { it.baseICMS } else baseIcmsSubst
+    get() = if (tipo == "PED") listaProdutos().sumOf { it.baseSt } else baseIcmsSubst
   val valorIcmsProdutos
     get() = if (tipo == "PED") listaProdutos().sumOf { it.valorICMS } else valorIcms
   val baseIcmsProdutos
