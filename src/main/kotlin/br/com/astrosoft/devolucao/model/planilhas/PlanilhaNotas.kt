@@ -17,7 +17,7 @@ class PlanilhaNotas {
   private val campos: List<Campo<*, ProdutosNotaSaida>> =
           listOf(
             CampoString("Rótulo") { rotulo },
-            CampoInt("Fornecedor") { vendnoNota ?: 0 },
+            CampoInt("Fornecedor") { vendnoNota ?: vendno },
             CampoInt("NI") { invno },
             CampoString("NF") { notaInv },
             CampoString("Emissão") { dateInv.format() },
