@@ -4,7 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.model.IUser
 
-class TabPedidoAjuste(viewModel: TabPedidoAjusteViewModel) : TabDevolucaoAbstract<IDevolucaoPedidoView>(viewModel),
+class TabPedidoAjuste(viewModel: TabPedidoAjusteViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
         ITabPedidoAjuste {
   override val label: String
     get() = "Ajuste"

@@ -7,7 +7,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedidoPago
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoPagoViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabPedidoPago(viewModel: TabPedidoPagoViewModel) : TabDevolucaoAbstract<IDevolucaoPedidoView>(viewModel),
+class TabPedidoPago(viewModel: TabPedidoPagoViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
         ITabPedidoPago {
   override val label: String
     get() = "Pedido Pago"

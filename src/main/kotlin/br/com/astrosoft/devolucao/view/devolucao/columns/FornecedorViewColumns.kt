@@ -25,7 +25,7 @@ object FornecedorViewColumns {
     this.setHeader("Ultima Data")
   }
 
-  fun Grid<Fornecedor>.chaveDesconto() = addColumnString(Fornecedor::chaveDesconto) {
+  fun Grid<Fornecedor>.observacaoChaveDesconto() = addColumnString(Fornecedor::chaveDesconto) {
     this.setHeader("Observação")
     this.isAutoWidth = false
     this.width = "18em"
