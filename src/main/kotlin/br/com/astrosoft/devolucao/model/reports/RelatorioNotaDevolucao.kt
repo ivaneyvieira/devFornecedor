@@ -249,15 +249,13 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
   private fun titleBuiderPedido(): ComponentBuilder<*, *> {
     return verticalBlock {
-      horizontalList {
-        text("ENGECOPI ${notaSaida.sigla}", LEFT).apply {
-          this.setStyle(fieldFontGrande)
-        }
+      text("Espelho Nota Fiscal Devolução Fornecedor", CENTER).apply {
+        this.setStyle(fieldFontGrande)
       }
-      horizontalList {
-        text("Natureza da operação: ${notaSaida.natureza}", LEFT)
-        text("Espelho Nota Fiscal Devolução Fornecedor", CENTER)
+      text("ENGECOPI ${notaSaida.sigla}", LEFT).apply {
+        this.setStyle(fieldFontGrande)
       }
+      text("Natureza da operação: ${notaSaida.natureza}", LEFT)
       horizontalList {
         val custno = notaSaida.custno
         val fornecedor = notaSaida.fornecedor
