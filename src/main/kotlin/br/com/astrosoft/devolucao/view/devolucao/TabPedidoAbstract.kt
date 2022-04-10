@@ -11,7 +11,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.s
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedido
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
@@ -31,8 +30,8 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      dlgNota = DlgNota(viewModel, situacaoPendencia)
-      dlgNota?.showDialogNota(fornecedor, serie) {
+      dlgNota = DlgNotaPedido(viewModel)
+      dlgNota?.showDialogNota(fornecedor, serie, situacaoPendencia) {
         viewModel.updateView()
       }
     }

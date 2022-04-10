@@ -8,7 +8,10 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoInternaView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAjusteGarantiaPago
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAjusteGarantiaPagoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
@@ -31,12 +34,11 @@ class TabAjusteGarantiaPago(viewModel: TabAjusteGarantiaPagoViewModel) :
     return username?.ajusteGarantiaPago == true
   }
 
-
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      dlgNota = DlgNota(viewModel, situacaoPendencia)
-      dlgNota?.showDialogNota(fornecedor, serie) {
+      dlgNota = DlgNotaGarantia(viewModel)
+      dlgNota?.showDialogNota(fornecedor, serie, situacaoPendencia) {
         viewModel.updateView()
       }
     }
