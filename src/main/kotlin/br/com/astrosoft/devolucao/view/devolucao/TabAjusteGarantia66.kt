@@ -8,7 +8,10 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.f
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoInternaView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAjusteGarantia66
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAjusteGarantia66ViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
@@ -19,9 +22,8 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
-class TabAjusteGarantia66(viewModel: TabAjusteGarantia66ViewModel) : TabDevolucaoAbstract<IDevolucaoInternaView>
-  (viewModel),
-        ITabAjusteGarantia66 {
+class TabAjusteGarantia66(viewModel: TabAjusteGarantia66ViewModel) :
+        TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantia66 {
   override val label: String
     get() = "Série 66"
   override val situacaoPendencia: ESituacaoPendencia?
@@ -35,8 +37,8 @@ class TabAjusteGarantia66(viewModel: TabAjusteGarantia66ViewModel) : TabDevoluca
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      dlgNota = DlgNota(viewModel, situacaoPendencia)
-      dlgNota?.showDialogNota(fornecedor, serie) {
+      dlgNota = DlgNotaGarantia(viewModel)
+      dlgNota?.showDialogNota(fornecedor, serie, situacaoPendencia) {
         viewModel.updateView()
       }
     }

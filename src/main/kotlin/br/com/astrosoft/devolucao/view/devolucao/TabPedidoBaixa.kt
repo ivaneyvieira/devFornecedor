@@ -5,7 +5,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedidoBaixa(viewModel: TabPedidoBaixaViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
-        ITabPedidoBaixa{
+        ITabPedidoBaixa {
   override val label: String
     get() = "Baixa"
   override val situacaoPendencia: ESituacaoPendencia?

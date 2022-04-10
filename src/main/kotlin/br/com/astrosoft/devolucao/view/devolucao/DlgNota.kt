@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataAgendaDesconto
@@ -22,167 +21,30 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.si
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
-import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.comboBox
-import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
-import com.vaadin.flow.component.checkbox.CheckboxGroup
-import com.vaadin.flow.component.checkbox.CheckboxGroupVariant
 import com.vaadin.flow.component.dependency.CssImport
-import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
-import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
-import org.claspina.confirmdialog.ConfirmDialog
 
 @CssImport("./styles/gridTotal.css")
-class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>,
-                                          val situacao: ESituacaoPendencia?) {
-  lateinit var gridNota: Grid<NotaSaida>
-  fun showDialogNota(fornecedor: Fornecedor?, serie: Serie, onClose: (Dialog) -> Unit = {}) {
-    fornecedor ?: return
-    val listNotas = fornecedor.notas
-    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      if (serie == PED) {
-        button("Relatório Pedido") {
-          icon = VaadinIcon.PRINT.create()
-          onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirRelatorioPedidos(notas)
-          }
-        }
-      }
-
-      val captionImpressoa = if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP, A66)) "Impressão Completa"
-      else "Impressão"
-      button(captionImpressoa) {
-        icon = VaadinIcon.PRINT.create()
-        onLeftClick {
-          val notas = gridNota.asMultiSelect().selectedItems.toList()
-          viewModel.imprimirNotaDevolucao(notas)
-        }
-      }
-
-      if (serie == Serie01) {
-        button("Impressão Fornecedor") {
-          icon = VaadinIcon.PRINT.create()
-          onLeftClick {
-            val multList = CheckboxGroup<EOcorrencias>()
-            multList.setItems(EOcorrencias.values().toList().sortedBy { it.num })
-            multList.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL)
-            multList.setItemLabelGenerator { it.descricao }
-            ConfirmDialog.createQuestion()
-              .withCaption("Lista de Ocorrência")
-              .withMessage(multList)
-              .withOkButton({
-                              val notas =
-                                      gridNota.asMultiSelect().selectedItems.toList()
-                              viewModel.imprimirNotaFornecedor(notas,
-                                                               multList.value.toList()
-                                                                 .sortedBy { it.num }
-                                                                 .map { it.descricao })
-                            })
-              .withCancelButton()
-              .open()
-          }
-        }
-      }
-      if (serie in listOf(Serie66, PED, AJT, AJC, AJD, AJP, A66)) {
-        button("Impressão Resumida") {
-          icon = VaadinIcon.PRINT.create()
-          onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirNotaDevolucao(notas, resumida = true)
-          }
-        }
-      }
-      this.lazyDownloadButtonXlsx("Planilha", "planilha") {
-        val notas = gridNota.asMultiSelect().selectedItems.toList()
-        viewModel.geraPlanilha(notas, serie)
-      }
-      button("Email") {
-        icon = VaadinIcon.ENVELOPE_O.create()
-        onLeftClick {
-          val notas = gridNota.asMultiSelect().selectedItems.toList()
-          viewModel.enviarEmail(notas)
-        }
-      }
-      if (serie in listOf(Serie01, Serie66)) {
-        button("Relatório") {
-          icon = VaadinIcon.PRINT.create()
-          onLeftClick {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.imprimirRelatorio(notas)
-          }
-        }
-      }
-
-      if (viewModel is TabNotaPendenteViewModel) {
-        val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
-          setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
-          setItemLabelGenerator {
-            it.title
-          }
-          isAutoOpen = true
-          isClearButtonVisible = false
-          isPreventInvalidInput = true
-        }
-        button("Muda situação") {
-          onLeftClick {
-            val itens = gridNota.selectedItems.toList()
-            viewModel.salvaSituacao(cmbSituacao.value, itens)
-            itens.forEach {
-              gridNota.dataProvider.refreshItem(it)
-            }
-          }
-        }
-      }
-      else {
-        if (viewModel is TabPedidoViewModel) {
-          val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
-            setItems(ESituacaoPedido.values().toList())
-            setItemLabelGenerator {
-              it.descricao
-            }
-            isAutoOpen = true
-            isClearButtonVisible = false
-            isPreventInvalidInput = true
-          }
-
-          button("Muda situação") {
-            onLeftClick {
-              val itens = gridNota.selectedItems.toList()
-              viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
-              itens.forEach {
-                gridNota.dataProvider.refreshItem(it)
-              }
-            }
-          }
-        }
-      }
-    }, onClose = onClose) {
-      gridNota = createGridNotas(listNotas, serie)
-      gridNota
-    }
-    form.open()
-  }
-
-  private fun createGridNotas(listNotas: List<NotaSaida>, serie: Serie): Grid<NotaSaida> {
+class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) : DlgNotaAbstract<T>(viewModel) {
+  override fun createGridNotas(listNotas: List<NotaSaida>,
+                               serie: Serie,
+                               situacao: ESituacaoPendencia?): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
-      if (serie in listOf(Serie01, PED, AJC, AJT, AJP, AJD, A66)) {
+      if (serie in listOf(Serie.Serie01, Serie.PED, Serie.AJC, Serie.AJT, Serie.AJP, Serie.AJD, Serie.A66)) {
         this.withEditor(NotaSaida::class, openEditor = {
           val colunas = this.columns
           val componente = colunas.firstOrNull {
@@ -209,18 +71,18 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
 
       notaLoja()
-      if (serie !in listOf(Serie01, FIN)) {
+      if (serie !in listOf(Serie.Serie01, Serie.FIN)) {
         notaDataPedido()
         notaPedido()
       }
       notaDataNota()
-      if (serie !in listOf(PED)) {
-        if (serie !in listOf(AJP, AJT, AJC, AJD, A66)) {
+      if (serie !in listOf(Serie.PED)) {
+        if (serie !in listOf(Serie.AJP, Serie.AJT, Serie.AJC, Serie.AJD, Serie.A66)) {
           notaNota()
         }
         notaNfAjuste()
       }
-      if (serie in listOf(AJP, AJT, AJC, AJD, A66)) {
+      if (serie in listOf(Serie.AJP, Serie.AJT, Serie.AJC, Serie.AJD, Serie.A66)) {
         chaveDesconto("Observação").textFieldEditor().apply {
           this.setClassNameGenerator {
             it.situacaoPendencia?.cssCor
@@ -230,7 +92,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         notaValorPago().decimalFieldEditor()
       }
       else {
-        if (serie !in listOf(PED)) {
+        if (serie !in listOf(Serie.PED)) {
           notaFatura()
         }
       }
@@ -253,8 +115,8 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
           niSituacao(situacao).textFieldEditor()
         }
       }
-      if (serie in listOf(Serie01, FIN, PED)) {
-        if (serie in listOf(PED)) {
+      if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
+        if (serie in listOf(Serie.PED)) {
           usuarioSituacao(situacao)
           situacaoDesconto(situacao)
         }
@@ -269,7 +131,7 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      if (serie in listOf(PED, AJT, AJC, AJD, AJP, A66)) {
+      if (serie in listOf(Serie.PED, Serie.AJT, Serie.AJC, Serie.AJD, Serie.AJP, Serie.A66)) {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
       }
       else {
@@ -277,32 +139,4 @@ class DlgNota<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAb
       }
     }
   }
-
-  private fun configIconEdt(icon: Icon, nota: NotaSaida) {
-    if (nota.rmk.isNotBlank()) icon.color = "DarkGreen"
-    else icon.color = ""
-  }
-
-  private fun configMostraEmail(icon: Icon, nota: NotaSaida) {
-    if (nota.listEmailNota().isNotEmpty()) icon.color = "DarkGreen"
-    else icon.color = ""
-  }
-
-  private fun configIconArq(icon: Icon, nota: NotaSaida) {
-    if (nota.listFiles().isNotEmpty()) icon.color = "DarkGreen"
-    else icon.color = ""
-  }
-
-  fun updateNota() {
-    gridNota.dataProvider.refreshAll()
-  }
-}
-
-enum class EOcorrencias(val num: Int, val descricao: String) {
-  AvariaTransporte(1, "Avaria no Transporte"),
-  AvariaFabrica(2, "Avaria de Fabrica"),
-  FaltaTransporte(3, "Falta no Transporte"),
-  FaltaFabrica(4, "Falta de Fabrica"),
-  ProdutoDesacordo(5, "Produto em Desacordo com o Pedido"),
-  DefeitoFabrica(6, "Defeito de Fabricação")
 }

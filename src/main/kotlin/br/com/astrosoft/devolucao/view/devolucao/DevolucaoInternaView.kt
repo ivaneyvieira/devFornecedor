@@ -2,9 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Devolucao01ViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevolucaoInternaViewModel
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoInternaView
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout

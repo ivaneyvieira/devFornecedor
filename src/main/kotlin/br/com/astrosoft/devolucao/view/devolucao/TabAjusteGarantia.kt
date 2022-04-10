@@ -37,8 +37,8 @@ class TabAjusteGarantia(viewModel: TabAjusteGarantiaViewModel) : TabDevolucaoAbs
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      dlgNota = DlgNota(viewModel, situacaoPendencia)
-      dlgNota?.showDialogNota(fornecedor, serie) {
+      dlgNota = DlgNotaGarantia(viewModel)
+      dlgNota?.showDialogNota(fornecedor, serie, situacaoPendencia) {
         viewModel.updateView()
       }
     }
