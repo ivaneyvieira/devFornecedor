@@ -23,6 +23,10 @@ object NotaSaidaViewColumns {
     this.setHeader("Pedido")
   }
 
+  fun Grid<NotaSaida>.notaPedidoEditavel() = addColumnInt(NotaSaida::pedidoEditavel) {
+    this.setHeader("Pedido")
+  }
+
   fun Grid<NotaSaida>.notaDataPedido() = addColumnLocalDate(NotaSaida::dataPedido) {
     this.setHeader("Data")
   }

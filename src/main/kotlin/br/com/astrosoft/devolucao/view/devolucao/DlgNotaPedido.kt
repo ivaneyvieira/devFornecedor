@@ -7,6 +7,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedidoEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
@@ -15,10 +16,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.dateFieldEditor
-import br.com.astrosoft.framework.view.textFieldEditor
-import br.com.astrosoft.framework.view.withEditor
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
@@ -65,7 +63,7 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
 
       notaLoja()
       notaDataPedido()
-      notaPedido()
+      notaPedidoEditavel().integerFieldEditor()
       notaDataNota()
       usuarioSituacao(situacao)
       situacaoDesconto(situacao)
