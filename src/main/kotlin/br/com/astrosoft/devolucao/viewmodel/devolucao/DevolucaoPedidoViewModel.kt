@@ -9,10 +9,8 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
 
   override fun listTab() = listOf(
     view.tabPedido,
-    view.tabPedidoNFD,
-    view.tabPedidoPago,
-    view.tabPedidoAjuste,
-    view.tabPedidoBaixa,
+    view.tabPedidoNFD, //view.tabPedidoPago,
+    view.tabPedidoAjuste, //view.tabPedidoBaixa,
                                  )
 }
 
