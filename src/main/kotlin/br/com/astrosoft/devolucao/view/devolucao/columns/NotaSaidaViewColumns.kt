@@ -126,6 +126,14 @@ object NotaSaidaViewColumns {
     this.setHeader("Obs")
   }
 
+  fun Grid<NotaSaida>.notaNiBonificacao() = addColumnString(NotaSaida::niBonificacao) {
+    this.setHeader("NI Bonif")
+  }
+
+  fun Grid<NotaSaida>.notaNiValor() = addColumnString(NotaSaida::niValor) {
+    this.setHeader("NI Valor")
+  }
+
   fun Grid<NotaSaida>.notaValorPago() = addColumnDouble(NotaSaida::valorSituacao) {
     this.setHeader("V. Pago")
   }
