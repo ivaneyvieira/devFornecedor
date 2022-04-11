@@ -6,16 +6,16 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNfAjuste
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNiBonificacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNiValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedidoEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValorPago
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.decimalFieldEditor
-import br.com.astrosoft.framework.view.textFieldEditor
-import br.com.astrosoft.framework.view.withEditor
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
@@ -64,7 +64,7 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
 
       notaLoja()
       notaDataPedido()
-      notaPedido()
+      notaPedidoEditavel().integerFieldEditor()
       notaDataNota()
       notaNfAjuste()
       chaveDesconto("Observação").textFieldEditor().apply {
@@ -72,6 +72,8 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
           it.situacaoPendencia?.cssCor
         }
       }
+      notaNiBonificacao().textFieldEditor()
+      notaNiValor().textFieldEditor()
       notaObservacao()
       notaValorPago().decimalFieldEditor()
       notaValor().apply {
