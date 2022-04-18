@@ -43,7 +43,8 @@ class ProdutosNotaSaida(val loja: Int,
                         val icmsAliq: Double,
                         val ipiAliq: Double,
                         val sefazOk: String,
-                        val chaveSefaz: String?) {
+                        val chaveSefaz: String?,
+                        val cfopProduto: String?) {
   private val produtosNDD = mutableListOf<ItensNotaReport>()
 
   val codigoStr
