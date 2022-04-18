@@ -18,6 +18,7 @@ class PlanilhaNotasPedidos {
             CampoString("Rótulo") { rotulo },
             CampoInt("Fornecedor") { vendnoNota ?: 0 },
             CampoInt("NI") { invno },
+            CampoString("CFOP") { cfopProduto ?: "" },
             CampoString("Emissão") { dateInvStr },
             CampoString("NF") { notaInv },
             CampoString("Ref do Fab") { refFor },
