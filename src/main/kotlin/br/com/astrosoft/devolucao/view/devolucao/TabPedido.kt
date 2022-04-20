@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedido(viewModel: TabPedidoViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel), ITabPedido {
@@ -16,5 +17,5 @@ class TabPedido(viewModel: TabPedidoViewModel) : TabPedidoAbstract<IDevolucaoPed
   }
 
   override val situacaoPedido
-    get() = ESituacaoPedido.values().toList() - ESituacaoPedido.NFD_AUTOZ
+    get() = values().toList() - NFD_AUTOZ - EMAIL_ENVIADO
 }
