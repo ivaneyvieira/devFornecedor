@@ -1,12 +1,12 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabPedidoNFDViewModel(viewModel: DevolucaoPedidoViewModel) :
+class TabPedidoPendenteViewModel(viewModel: DevolucaoPedidoViewModel) :
         TabDevolucaoViewModelAbstract<IDevolucaoPedidoView>(viewModel) {
   override val subView
-    get() = viewModel.view.tabPedidoNFD
+    get() = viewModel.view.tabPedidoBase
 }
 
-interface ITabPedidoNFD : ITabNota {
+interface ITabPedidoPendente : ITabNota {
   override val serie: Serie
     get() = Serie.PED
   override val pago66: SimNao

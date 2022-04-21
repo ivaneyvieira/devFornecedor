@@ -6,14 +6,31 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotas
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasPedidos
 import br.com.astrosoft.devolucao.model.reports.RelatorioNotaDevolucao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.PED
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.FileAttach
 import br.com.astrosoft.framework.model.MailGMail
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
+import java.time.LocalDate
 
 abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
         IEmailView {
   protected abstract val subView: ITabNota
+
+  fun salvaSituacaoPedido(situacao: ESituacaoPedido?, itens: List<NotaSaida>) = viewModel.exec {
+    situacao ?: fail("A situação não foi selecionada")
+    itens.ifEmpty {
+      fail("Não foi selecionado nenhum pedido")
+    }
+    itens.forEach { nota ->
+      val userSaci = Config.user?.login ?: ""
+      nota.situacao = situacao.valueStr
+      nota.dataSituacao = LocalDate.now()
+      nota.usuarioSituacao = userSaci
+      NotaSaida.salvaDesconto(nota)
+    }
+    subView.updateNota()
+  }
 
   fun imprimirNotaFornecedor(notas: List<NotaSaida>, ocorrencias: List<String>) = viewModel.exec {
     notas.ifEmpty {
