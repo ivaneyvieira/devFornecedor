@@ -68,7 +68,7 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
   }
 }
 
-private fun  Grid.Column<Fornecedor>.marcaAzul(): Grid.Column<Fornecedor> {
+fun  Grid.Column<Fornecedor>.marcaAzul(): Grid.Column<Fornecedor> {
   this.setClassNameGenerator {
     it.situacaoPendencia?.cssCor ?: "marcaRed"
   }
