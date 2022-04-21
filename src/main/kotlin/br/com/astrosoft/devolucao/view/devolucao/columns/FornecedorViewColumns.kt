@@ -30,14 +30,14 @@ object FornecedorViewColumns {
     this.isAutoWidth = false
     this.width = "18em"
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
     this.setHeader("Data")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
@@ -48,42 +48,42 @@ object FornecedorViewColumns {
   fun Grid<Fornecedor>.dataSituacaoDesconto() = addColumnLocalDate(Fornecedor::dataSituacao) {
     this.setHeader("Data Sit")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacaoStr) {
     this.setHeader("Situação")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.notaSituacao() = addColumnString(Fornecedor::notaSituacao) {
     this.setHeader("Aguardar")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.usuarioSituacao() = addColumnString(Fornecedor::usuarioSituacao) {
     this.setHeader("Usuário")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.docSituacao() = addColumnString(Fornecedor::docSituacao) {
     this.setHeader("Doc")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
   fun Grid<Fornecedor>.fornecedorObservacao() = addColumnString(Fornecedor::remarks) {
     this.setHeader("Observação")
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
@@ -91,7 +91,7 @@ object FornecedorViewColumns {
     this.setHeader("Número")
     this.right()
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 
@@ -99,7 +99,7 @@ object FornecedorViewColumns {
     this.setHeader("NI")
     this.right()
     this.setClassNameGenerator {
-      it.situacaoPendencia?.cssCor
+      it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
   }
 }
