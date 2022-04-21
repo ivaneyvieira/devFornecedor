@@ -3,7 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.devolucao
 class TabPedidoPendenteViewModel(viewModel: DevolucaoPedidoViewModel) :
         TabDevolucaoViewModelAbstract<IDevolucaoPedidoView>(viewModel) {
   override val subView
-    get() = viewModel.view.tabPedidoBase
+    get() = viewModel.view.tabPedidoPendente
 }
 
 interface ITabPedidoPendente : ITabNota {
