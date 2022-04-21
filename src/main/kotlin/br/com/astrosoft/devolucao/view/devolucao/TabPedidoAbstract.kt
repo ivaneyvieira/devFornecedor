@@ -16,11 +16,13 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
+@CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
         TabDevolucaoAbstract<T>(viewModel) {
 
