@@ -16,6 +16,6 @@ class TabPedidoPago(viewModel: TabPedidoPagoViewModel) : TabPedidoAbstract<IDevo
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.pedidoPago == true
+    return false //username?.pedidoPago == true
   }
 }
