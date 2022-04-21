@@ -1,8 +1,11 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoPedidoView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedidoPendente
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoPendenteViewModel
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedidoPendente(viewModel: TabPedidoPendenteViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
