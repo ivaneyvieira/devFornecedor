@@ -67,13 +67,14 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       notaDataPedido()
       notaPedido()
       notaDataNota()
-      usuarioSituacao(situacao)
-      situacaoDesconto(situacao)
-      dataAgendaDesconto(situacao).dateFieldEditor()
+      usuarioSituacao(situacao).marcaAzul()
+      situacaoDesconto(situacao).marcaAzul()
+      dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
       chaveDesconto().textFieldEditor().apply {
         this.setClassNameGenerator {
           it.situacaoPendencia?.cssCor
         }
+        marcaAzul()
       }
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
@@ -82,4 +83,11 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
     }
   }
+}
+
+fun Grid.Column<NotaSaida>.marcaAzul(): Grid.Column<NotaSaida> {
+  this.setClassNameGenerator {
+    it.situacaoPendencia?.cssCor ?: "marcaRed"
+  }
+  return this
 }
