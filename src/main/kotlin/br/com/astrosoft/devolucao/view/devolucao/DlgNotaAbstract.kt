@@ -123,7 +123,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
         }
       }
       else {
-        if (viewModel is TabPedidoBaseViewModel || viewModel is TabPedidoPendenteViewModel || viewModel is TabPedidoEmailViewModel) {
+        if (viewModel is TabPedidoBaseViewModel || viewModel is TabPedidoPendenteViewModel || viewModel is TabPedidoLiberadoViewModel || viewModel is TabPedidoEmailViewModel) {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
             setItems(ESituacaoPedido.values().toList())
             setItemLabelGenerator {

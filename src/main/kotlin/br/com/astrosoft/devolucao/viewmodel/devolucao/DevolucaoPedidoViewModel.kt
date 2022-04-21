@@ -7,10 +7,12 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
   val tabPedidoPagoViewModel = TabPedidoPagoViewModel(this)
   val tabPedidoAjusteViewModel = TabPedidoAjusteViewModel(this)
   val tabPedidoEmailViewModel = TabPedidoEmailViewModel(this)
+  val tabPedidoLiberadoViewModel = TabPedidoLiberadoViewModel(this)
   val tabPedidoBaixaViewModel = TabPedidoBaixaViewModel(this)
 
   override fun listTab() = listOf(
     view.tabPedidoBase,
+    view.tabPedidoLiberado,
     view.tabPedidoPendente,
     view.tabPedidoEmail,
     view.tabPedidoNFD, //view.tabPedidoPago,
@@ -24,6 +26,7 @@ interface IDevolucaoPedidoView : IDevolucaoAbstractView {
   val tabPedidoNFD: ITabPedidoNFD
   val tabPedidoPago: ITabPedidoPago
   val tabPedidoAjuste: ITabPedidoAjuste
+  val tabPedidoLiberado: ITabPedidoLiberado
   val tabPedidoEmail: ITabPedidoEmail
   val tabPedidoBaixa: ITabPedidoBaixa
 }
