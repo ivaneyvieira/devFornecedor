@@ -48,7 +48,7 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
     fornecedorCliente()
     fornecedorNome()
 
-    if (this@TabPedidoAbstract is TabPedidoPendente) {
+    if (this@TabPedidoAbstract is TabPedidoPendente || this@TabPedidoAbstract is TabPedidoBase) {
       userCol = usuarioSituacao()
       situacaoCol = situacaoDesconto()
     }
