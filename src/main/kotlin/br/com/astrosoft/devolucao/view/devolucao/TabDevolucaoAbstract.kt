@@ -150,7 +150,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         tituloCol = tituloSituacao()
         niCol = niSituacao()
       }
-      else if (this@TabDevolucaoAbstract is TabPedido) {
+      else if (this@TabDevolucaoAbstract is TabPedidoPendente) {
         userCol = usuarioSituacao()
         situacaoCol = situacaoDesconto()
       }

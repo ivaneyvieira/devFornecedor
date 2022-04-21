@@ -17,7 +17,7 @@ class UserSaci : IUser {
   override var ativo by DelegateAuthorized(0)
   var nota01 by DelegateAuthorized(1)
   var nota66 by DelegateAuthorized(2)
-  var pedido by DelegateAuthorized(3)
+  var pedidoBase by DelegateAuthorized(3)
   var nota66Pago by DelegateAuthorized(4)
   var emailRecebido by DelegateAuthorized(5)
   var notaPendente by DelegateAuthorized(6)
@@ -62,19 +62,17 @@ class UserSaci : IUser {
   var ajusteGarantia66 by DelegateAuthorized(44)
   var pedidoBaixa by DelegateAuthorized(45)
   var pedidoEmail by DelegateAuthorized(46)
+  var pedidoPendente by DelegateAuthorized(47)
 
   val forPendente
-    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
-            forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO ||
-            forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO ||
-            forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
+    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
 
   val menuDevolucao01
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || notaFinanceiro || conferenciaSap || sap
   val menuDevolucaoInterna
     get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente || ajusteGarantia66
   val menuDevolucaoPedido
-    get() = pedido || pedidoNFD || pedidoPago || pedidoAjuste || pedidoBaixa || pedidoEmail
+    get() = pedidoBase || pedidoPendente || pedidoNFD || pedidoPago || pedidoAjuste || pedidoBaixa || pedidoEmail
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento
