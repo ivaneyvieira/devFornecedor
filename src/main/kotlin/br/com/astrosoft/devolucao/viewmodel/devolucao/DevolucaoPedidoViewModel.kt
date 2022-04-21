@@ -12,8 +12,8 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
 
   override fun listTab() = listOf(
     view.tabPedidoBase,
-    view.tabPedidoLiberado,
     view.tabPedidoPendente,
+    view.tabPedidoLiberado,
     view.tabPedidoEmail,
     view.tabPedidoNFD, //view.tabPedidoPago,
     view.tabPedidoAjuste, //view.tabPedidoBaixa,
