@@ -205,13 +205,17 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoAjuste.name)
           }
+          checkBox("Email") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedidoEmail.name)
+          }
           checkBox("Perca") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoPerca.name)
           }
-          checkBox("Email") {
+          checkBox("Descarte") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoEmail.name)
+            binder.bind(this, UserSaci::pedidoDescarte.name)
           }
         }
         formLayout {
