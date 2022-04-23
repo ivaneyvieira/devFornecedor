@@ -21,5 +21,5 @@ class TabPedidoPendente(viewModel: TabPedidoPendenteViewModel) : TabPedidoAbstra
   }
 
   override val situacaoPedido
-    get() = values().toList() - LIBERADO - EMAIL_ENVIADO - NFD_AUTOZ - AJUSTE_GARANTIA - PERCA
+    get() = values().toList() - LIBERADO - EMAIL_ENVIADO - NFD_AUTOZ - AJUSTE_GARANTIA - PERCA - DESCARTE
 }

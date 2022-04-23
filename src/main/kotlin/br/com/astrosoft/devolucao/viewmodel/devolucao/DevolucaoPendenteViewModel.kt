@@ -91,6 +91,7 @@ enum class ESituacaoPedido(val valueStr: String, val descricao: String) {
   SUCATA(valueStr = "SUCATA", descricao = "Sucata"),
   LIBERADO(valueStr = "LIBERADO", descricao = "Liberado"),
   PERCA(valueStr = "PERCA", descricao = "Perca"),
+  DESCARTE(valueStr = "DESCARTE", descricao = "Descarte"),
 }
 
 enum class ESituacaoPendencia(val title: String,
