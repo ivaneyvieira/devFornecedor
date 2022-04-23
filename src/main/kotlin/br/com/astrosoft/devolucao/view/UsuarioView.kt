@@ -201,7 +201,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoNFD.name)
           }
-          checkBox("Ajuste") {
+          checkBox("Baixa") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoAjuste.name)
           }
