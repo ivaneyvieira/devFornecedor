@@ -26,22 +26,22 @@ class TabTodasEntradasViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun imprimeRelatorio(listNotas: List<NotaEntradaQuery>, markCst: Boolean, markIpi: Boolean, markIcms: Boolean) =
-          viewModel.exec {
-            if (!markCst && !markIcms && !markIpi) fail("Nenhuma s opções CST, IPI ou ICMS foram selecionadas")
-            if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
-            val grupoCst = listNotas.map { nt ->
-              nt.grupo("CST", nt.cstn, nt.cstp)
-            }
-            val grupoIpi = listNotas.map { nt ->
-              nt.grupo("IPI", nt.aliqIpi.format(), nt.aliqIpiP.format())
-            }
-            val grupoIcms = listNotas.map { nt ->
-              nt.grupo("ICMS", nt.aliqIcms.format(), nt.aliqIcmsP.format())
-            }
-            val grupos = grupoCst + grupoIpi + grupoIcms
-            val relatorio = RelatorioTodasEntradasGrupo.processaRelatorio(grupos)
-            viewModel.showReport("nfPrecificacaoGrupo", relatorio)
-          }
+    viewModel.exec {
+      if (!markCst && !markIcms && !markIpi) fail("Nenhuma s opções CST, IPI ou ICMS foram selecionadas")
+      if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
+      val grupoCst = listNotas.map { nt ->
+        nt.grupo("CST", nt.cstn, nt.cstp)
+      }
+      val grupoIpi = listNotas.map { nt ->
+        nt.grupo("IPI", nt.aliqIpi.format(), nt.aliqIpiP.format())
+      }
+      val grupoIcms = listNotas.map { nt ->
+        nt.grupo("ICMS", nt.aliqIcms.format(), nt.aliqIcmsP.format())
+      }
+      val grupos = grupoCst + grupoIpi + grupoIcms
+      val relatorio = RelatorioTodasEntradasGrupo.processaRelatorio(grupos)
+      viewModel.showReport("nfPrecificacaoGrupo", relatorio)
+    }
 }
 
 interface ITabTodasEntradasViewModel : ITabView {

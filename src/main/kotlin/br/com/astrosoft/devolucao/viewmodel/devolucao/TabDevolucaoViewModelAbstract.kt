@@ -114,7 +114,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     val filesPlanilha = createPlanilha(gmail, notas, subView.serie)
     val filesAnexo = createAnexos(gmail, notas)
     val enviadoComSucesso =
-            mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
+      mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->

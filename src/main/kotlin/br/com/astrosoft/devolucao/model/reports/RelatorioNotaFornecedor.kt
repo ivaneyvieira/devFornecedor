@@ -32,59 +32,59 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   }
 
   private val dataNotaCol: TextColumnBuilder<String> =
-          col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(60)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val notaInvCol: TextColumnBuilder<String> =
-          col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(60)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("Nota", NotaSaida::nota.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val transfortadoraCol: TextColumnBuilder<String> =
-          col.column("Transportadora", NotaSaida::transportadora.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("Transportadora", NotaSaida::transportadora.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val conhecimentoFreteCol: TextColumnBuilder<String> =
-          col.column("CTe", NotaSaida::conhecimentoFrete.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(60)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("CTe", NotaSaida::conhecimentoFrete.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val dataNfOrigemStrCol: TextColumnBuilder<String> =
-          col.column("Data", NotaSaida::dataNfOrigemStr.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(60)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("Data", NotaSaida::dataNfOrigemStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val nfOrigemCol: TextColumnBuilder<String> =
-          col.column("Nota", NotaSaida::nfOrigem.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(60)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("Nota", NotaSaida::nfOrigem.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val obsNotaCol: TextColumnBuilder<String> =
-          col.column("Motivo", NotaSaida::remarks.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(TextAdjust.SCALE_FONT) //this.setFixedWidth(200)
-          }
+    col.column("Motivo", NotaSaida::remarks.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setTextAdjust(TextAdjust.SCALE_FONT) //this.setFixedWidth(200)
+    }
 
   private val valorCol: TextColumnBuilder<Double> =
-          col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
-            this.setPattern("#,##0.00")
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(60)
-            this.setTextAdjust(TextAdjust.SCALE_FONT)
-          }
+    col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val emptyColumnValues = col.emptyColumn().apply {
     this.setFixedWidth(10)
@@ -125,18 +125,19 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
 
   fun makeReport(): JasperReportBuilder {
     val grupoOrigem =
-            grid.titleGroup("Dados da Nota Fiscal de Origem",
-                            dataNfOrigemStrCol,
-                            nfOrigemCol,
-                            conhecimentoFreteCol,
-                            transfortadoraCol)
+      grid.titleGroup("Dados da Nota Fiscal de Origem",
+                      dataNfOrigemStrCol,
+                      nfOrigemCol,
+                      conhecimentoFreteCol,
+                      transfortadoraCol)
     val grupoDevolucao =
-            grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol, obsNotaCol, valorCol)
+      grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol, obsNotaCol, valorCol)
     val pageOrientation = PageOrientation.LANDSCAPE
     notas.forEach {
       it.findNotaOrigem()
     }
-    return report().title(titleBuider())
+    return report()
+      .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(emptyColumnValues,
                dataNfOrigemStrCol,
@@ -156,7 +157,8 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal.setForegroundColor(Color.WHITE)
+      .setColumnStyle(fieldFontNormal
+                        .setForegroundColor(Color.WHITE)
                         .setFontSize(8)
                         .setPadding(stl.padding().setRight(4).setLeft(4)))
       .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
