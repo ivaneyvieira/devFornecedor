@@ -63,18 +63,18 @@ FROM sqldados.nf              AS N /*FORCE INDEX (e3)*/
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
- /* AND CASE :TIPO_NOTA
-	WHEN 'AJT'
-	  THEN N.remarks LIKE 'GARANTIA %'
-	WHEN 'AJD'
-	  THEN N.remarks LIKE 'GARANTIA %' AND N.remarks NOT LIKE '%PERCA%' AND
-	       N.remarks NOT LIKE '%PAGO%'
-	WHEN 'AJP'
-	  THEN N.remarks LIKE 'GARANTIA %PAGO%' AND N.remarks NOT LIKE '%PERCA%'
-	WHEN 'AJC'
-	  THEN N.remarks LIKE 'GARANTIA %PERCA%'
-	ELSE FALSE
-      END*/
+  /* AND CASE :TIPO_NOTA
+   WHEN 'AJT'
+     THEN N.remarks LIKE 'GARANTIA %'
+   WHEN 'AJD'
+     THEN N.remarks LIKE 'GARANTIA %' AND N.remarks NOT LIKE '%PERCA%' AND
+          N.remarks NOT LIKE '%PAGO%'
+   WHEN 'AJP'
+     THEN N.remarks LIKE 'GARANTIA %PAGO%' AND N.remarks NOT LIKE '%PERCA%'
+   WHEN 'AJC'
+     THEN N.remarks LIKE 'GARANTIA %PERCA%'
+   ELSE FALSE
+       END*/
   AND N.nfse = '66'
   AND N.cfo IN (6949, 5949)
   AND N.tipo = 2
