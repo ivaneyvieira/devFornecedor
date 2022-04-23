@@ -222,7 +222,6 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           h4("Série 66") {
             colspan = 2
           }
-
           checkBox("Nota série 66") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::nota66.name)

@@ -19,7 +19,7 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
     view.tabPedidoEmail,
     view.tabPedidoNFD, //view.tabPedidoPago,
     view.tabPedidoAjuste,
-    view.tabPedidoPerca,//view.tabPedidoBaixa,
+    view.tabPedidoPerca, //view.tabPedidoBaixa,
     view.tabPedidoDescarte,
                                  )
 }

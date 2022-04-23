@@ -470,13 +470,14 @@ class NotaSaida(val loja: Int,
         }
       }
       val grupos =
-              notas.asSequence()
-                .filter { it.loja == loja || loja == 0 }
-                .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
-                .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
-                .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
-                .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
-                .groupBy { it.chaveFornecedor() }
+        notas
+          .asSequence()
+          .filter { it.loja == loja || loja == 0 }
+          .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
+          .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
+          .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
+          .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
+          .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
         Fornecedor(custno = entry.key.custno,

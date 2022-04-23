@@ -24,42 +24,42 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   private val codigoSapCol: TextColumnBuilder<Int> =
-          col.column("Codigo SAP", FornecedorSap::codigo.name, type.integerType()).apply {
-            this.setHorizontalTextAlignment(CENTER)
-            this.setFixedWidth(50)
-            this.setPattern("0")
-          }
+    col.column("Codigo SAP", FornecedorSap::codigo.name, type.integerType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(50)
+      this.setPattern("0")
+    }
 
   private val codigoSaciCol: TextColumnBuilder<Int> =
-          col.column("Codigo Saci", FornecedorSap::vendno.name, type.integerType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(50)
-            this.setPattern("0")
-          }
+    col.column("Codigo Saci", FornecedorSap::vendno.name, type.integerType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(50)
+      this.setPattern("0")
+    }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
-          col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(LEFT)
-            this.setTextAdjust(CUT_TEXT)
-          }
+    col.column("Fornecedor", FornecedorSap::nome.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setTextAdjust(CUT_TEXT)
+    }
 
   private val dataPrimeiraNotaCol: TextColumnBuilder<String> =
-          col.column("Inicio", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(70)
-          }
+    col.column("Inicio", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(70)
+    }
   private val dataUltimaNotaCol: TextColumnBuilder<String> =
-          col.column("Fim", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(70)
-          }
+    col.column("Fim", FornecedorSap::primeiraDataStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(70)
+    }
 
   private val saldoCol: TextColumnBuilder<Double> =
-          col.column("Saldo Total", FornecedorSap::saldoTotal.name, type.doubleType()).apply {
-            this.setPattern("#,##0.00")
-            this.setHorizontalTextAlignment(RIGHT)
-            this.setFixedWidth(80)
-          }
+    col.column("Saldo Total", FornecedorSap::saldoTotal.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(80)
+    }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(codigoSaciCol, codigoSapCol, nomeFornecedorCol, dataPrimeiraNotaCol, dataUltimaNotaCol, saldoCol)
@@ -89,7 +89,8 @@ class RelatorioFornecedorSapResumido(val fornecedores: List<FornecedorSap>) {
   fun makeReport(): JasperReportBuilder {
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = LANDSCAPE
-    return report().title(titleBuider())
+    return report()
+      .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
       .columnGrid(* colunms)

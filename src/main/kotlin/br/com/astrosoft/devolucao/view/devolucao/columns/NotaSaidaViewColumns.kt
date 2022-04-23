@@ -60,13 +60,13 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) =
-          addColumnLocalDate(NotaSaida::dataSituacao) {
-            this.setHeader("Data Sit")
-            this.setClassNameGenerator {
-              it.situacaoPendencia?.cssCor
-            }
-            this.configCol(situacao?.dataSitCol)
-          }
+    addColumnLocalDate(NotaSaida::dataSituacao) {
+      this.setHeader("Data Sit")
+      this.setClassNameGenerator {
+        it.situacaoPendencia?.cssCor
+      }
+      this.configCol(situacao?.dataSitCol)
+    }
 
   fun Grid<NotaSaida>.situacaoDesconto(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::situacaoStr) {
     this.setHeader("Situação")

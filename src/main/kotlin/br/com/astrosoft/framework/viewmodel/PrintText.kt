@@ -75,7 +75,8 @@ abstract class PrintText<T> {
 
   protected fun String.barras(): String {
     val stringBuffer = StringBuilder()
-    stringBuffer.append(0x1d.toChar())
+    stringBuffer
+      .append(0x1d.toChar())
       .append(0x68.toChar())
       .append(0x50.toChar())
       .append(0x1d.toChar())
@@ -96,7 +97,8 @@ abstract class PrintText<T> {
   }
 
   private fun finalize(text: StringBuilder) {
-    text.append(0x0a.toChar())
+    text
+      .append(0x0a.toChar())
       .append(0x0a.toChar())
       .append(0x0a.toChar())
       .append(0x1b.toChar())
@@ -122,7 +124,8 @@ abstract class PrintText<T> {
 
   private fun String.expandLine(): String {
     val stringBuffer = StringBuilder()
-    stringBuffer.append(0x1b.toChar())
+    stringBuffer
+      .append(0x1b.toChar())
       .append(0x45.toChar())
       .append(0x01.toChar())
       .append(this)

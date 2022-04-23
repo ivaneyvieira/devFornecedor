@@ -35,6 +35,6 @@ class Agenda(val loja: Int,
 
   companion object {
     fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja: Int) =
-            saci.listaAgenda(agendado, recebido, filtro, loja)
+      saci.listaAgenda(agendado, recebido, filtro, loja)
   }
 }

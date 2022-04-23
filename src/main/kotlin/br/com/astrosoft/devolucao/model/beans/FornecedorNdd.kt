@@ -42,13 +42,15 @@ data class FornecedorNdd(val cnpj: String,
     private var datahoraUpdate = LocalDateTime.now().minusDays(1)
 
     fun findNota(chave: String): NotaEntradaNdd? {
-      return saci.notasEntrada(FiltroEntradaNdd(
-        query = "",
-        tipo = ETipoNota.TODOS,
-        dataInicial = LocalDate.of(2000, 1, 1),
-        dataFinal = LocalDate.now(),
-        chave = chave,
-                                               )).firstOrNull()
+      return saci
+        .notasEntrada(FiltroEntradaNdd(
+          query = "",
+          tipo = ETipoNota.TODOS,
+          dataInicial = LocalDate.of(2000, 1, 1),
+          dataFinal = LocalDate.now(),
+          chave = chave,
+                                      ))
+        .firstOrNull()
     }
 
     fun listFornecedores(filtro: FiltroEntradaNdd): List<FornecedorNdd> {

@@ -94,7 +94,7 @@ class MailGMail {
     val toSplit = toList.split(",").toList().map { it.trim() }
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
     val iaTo =
-            arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
+      arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
     toSplit.forEachIndexed { index, to ->
       iaTo[index] = InternetAddress(to, to)
     }

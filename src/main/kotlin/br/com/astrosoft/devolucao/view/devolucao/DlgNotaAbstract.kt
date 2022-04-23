@@ -56,14 +56,16 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             multList.setItems(EOcorrencias.values().toList().sortedBy { it.num })
             multList.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL)
             multList.setItemLabelGenerator { it.descricao }
-            ConfirmDialog.createQuestion()
+            ConfirmDialog
+              .createQuestion()
               .withCaption("Lista de Ocorrência")
               .withMessage(multList)
               .withOkButton({
                               val notas =
-                                      gridNota.asMultiSelect().selectedItems.toList()
+                                gridNota.asMultiSelect().selectedItems.toList()
                               viewModel.imprimirNotaFornecedor(notas,
-                                                               multList.value.toList()
+                                                               multList.value
+                                                                 .toList()
                                                                  .sortedBy { it.num }
                                                                  .map { it.descricao })
                             })

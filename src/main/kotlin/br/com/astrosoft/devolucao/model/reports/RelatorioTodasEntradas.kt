@@ -24,7 +24,7 @@ class RelatorioTodasEntradas(val notas: List<NotaEntradaQuery>) : ReportBuild<No
   }
 
   override val propriedades =
-          PropriedadeRelatorio(titulo = "Entradas", subTitulo = "", detailFonteSize = 8, pageOrientation = PORTRAIT)
+    PropriedadeRelatorio(titulo = "Entradas", subTitulo = "", detailFonteSize = 8, pageOrientation = PORTRAIT)
 
   override fun listDataSource(): List<NotaEntradaQuery> = notas
 

@@ -36,7 +36,8 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
   }
 
   override fun makeReport(): JasperReportBuilder {
-    return super.makeReport()
+    return super
+      .makeReport()
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setTop(20)))
       .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setFontSize(8))
@@ -47,11 +48,11 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
   override fun labelTitleCol() = columnString(NfPrecEntradaGrupo::nomeGrupo)
 
   override val propriedades =
-          PropriedadeRelatorio(titulo = "NF x Precificação",
-                               subTitulo = "",
-                               color = Color.WHITE,
-                               detailFonteSize = 8,
-                               pageOrientation = PORTRAIT)
+    PropriedadeRelatorio(titulo = "NF x Precificação",
+                         subTitulo = "",
+                         color = Color.WHITE,
+                         detailFonteSize = 8,
+                         pageOrientation = PORTRAIT)
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 
