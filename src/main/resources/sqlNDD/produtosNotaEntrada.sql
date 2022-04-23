@@ -16,4 +16,4 @@ SELECT OID                   AS id,
        END                   AS dataHoraRecebimento
 FROM NDD_COLD.dbo.entrada_nfe
 WHERE OID = :id
-  AND (XML_NFE IS NOT NULL )
+  AND (XML_NFE IS NOT NULL)

@@ -3,16 +3,22 @@ SELECT DISTINCT N.OID                                                   AS id,
 		CASE
 		  WHEN EXISTS(SELECT E.OID
 			      FROM NDD_COLD.dbo.entrada_nfe_EVT AS E
-			      WHERE E.OID = N.OID AND TPEVENTO = 1 AND DHREGEVENTO >= :dataInicial) THEN 'S'
-		  ELSE 'N' END                                        AS cancelado,
+			      WHERE E.OID = N.OID
+				AND TPEVENTO = 1
+				AND DHREGEVENTO >= :dataInicial)
+		    THEN 'S'
+		  ELSE 'N'
+		END                                                     AS cancelado,
 		IDE_SERIE                                               AS serie,
 		IDE_DEMI                                                AS dataEmissao,
 		EMIT_CNPJ                                               AS cnpjEmitente,
 		CASE
-		  WHEN PATINDEX('%<xNome>%', XML_NFE) > 0 AND PATINDEX('%</xNome>%', XML_NFE) > 0 THEN SUBSTRING(
-		    XML_NFE, PATINDEX('%<xNome>%', XML_NFE) + LEN('<xNome>'),
-		    PATINDEX('%</xNome>%', XML_NFE) - PATINDEX('%<xNome>%', XML_NFE) - LEN('<xNome>'))
-		  ELSE '' END                                         AS nomeFornecedor,
+		  WHEN PATINDEX('%<xNome>%', XML_NFE) > 0 AND PATINDEX('%</xNome>%', XML_NFE) > 0
+		    THEN SUBSTRING(XML_NFE, PATINDEX('%<xNome>%', XML_NFE) + LEN('<xNome>'),
+				   PATINDEX('%</xNome>%', XML_NFE) -
+				   PATINDEX('%<xNome>%', XML_NFE) - LEN('<xNome>'))
+		  ELSE ''
+		END                                                     AS nomeFornecedor,
 		DEST_CNPJ                                               AS cnpjDestinatario,
 		EMIT_IE                                                 AS ieEmitente,
 		DEST_IE                                                 AS ieDestinatario,
