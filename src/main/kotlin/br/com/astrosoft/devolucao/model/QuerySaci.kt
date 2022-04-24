@@ -609,6 +609,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun fornecedorProduto(): List<FornecedorProduto> {
+    val sql = "/sqlSaci/fornecdorProduto.sql"
+    return query(sql, FornecedorProduto::class)
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

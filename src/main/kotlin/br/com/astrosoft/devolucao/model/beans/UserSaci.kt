@@ -68,6 +68,7 @@ class UserSaci : IUser {
   var pedidoLiberado by DelegateAuthorized(48)
   var pedidoPerca by DelegateAuthorized(49)
   var pedidoDescarte by DelegateAuthorized(50)
+  var pedidoFornecedor by DelegateAuthorized(51)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
