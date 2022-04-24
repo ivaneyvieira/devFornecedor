@@ -2,14 +2,9 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorProdutoColumns.fornecedorCliente
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorProdutoColumns.fornecedorDataNF
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorProdutoColumns.fornecedorFornecedor
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorProdutoColumns.fornecedorInvno
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorProdutoColumns.fornecedorNome
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorProdutoColumns.fornecedorNota
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedidoFornecedor
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoFornecedorViewModel
 import br.com.astrosoft.framework.model.IUser
@@ -19,8 +14,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
         TabPanelGrid<FornecedorProduto>(FornecedorProduto::class), ITabPedidoFornecedor {
-  override fun HorizontalLayout.toolBarConfig() {
-    //Vazio
+  override fun HorizontalLayout.toolBarConfig() { //Vazio
   }
 
   override fun Grid<FornecedorProduto>.gridPanel() {
@@ -28,8 +22,7 @@ class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
 
     fornecedorFornecedor()
     fornecedorCliente()
-    fornecedorNome()
-    //fornecedorInvno()
+    fornecedorNome() //fornecedorInvno()
     //fornecedorNota()
     //fornecedorDataNF()
   }
