@@ -25,6 +25,7 @@ class DevolucaoPedidoView : ViewLayout<DevolucaoPedidoViewModel>(), IDevolucaoPe
   override val tabPedidoLiberado = TabPedidoLiberado(viewModel.tabPedidoLiberadoViewModel)
   override val tabPedidoBaixa = TabPedidoBaixa(viewModel.tabPedidoBaixaViewModel)
   override val tabPedidoDescarte = TabPedidoDescarte(viewModel.tabPedidoDescarteViewModel)
+  override val tabPedidoFornecedor = TabPedidoFornecedor(viewModel.tabPedidoFornecedorViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
