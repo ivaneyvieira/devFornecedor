@@ -1,9 +1,9 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.framework.viewmodel.ITabView
 
-class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel)  {
+class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel) {
   fun updateView() {
     val lista = FornecedorProduto.findAll()
     subView.updateGrid(lista)
@@ -11,7 +11,6 @@ class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel)  {
 
   val subView
     get() = viewModel.view.tabPedidoFornecedor
-
 }
 
 interface ITabPedidoFornecedor : ITabView {
