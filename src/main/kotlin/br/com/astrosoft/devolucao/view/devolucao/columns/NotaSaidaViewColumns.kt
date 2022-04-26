@@ -128,7 +128,7 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.notaEditavel(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaEditavel) {
-    this.setHeader("NFA")
+    this.setHeader("NF Baixa")
     this.right()
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor

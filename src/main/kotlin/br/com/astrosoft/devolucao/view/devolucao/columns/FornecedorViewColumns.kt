@@ -53,7 +53,7 @@ object FornecedorViewColumns {
   }
 
   fun Grid<Fornecedor>.notaEditavel() = addColumnString(Fornecedor::notaEditavel) {
-    this.setHeader("NFA")
+    this.setHeader("NF Baixa")
     this.right()
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
