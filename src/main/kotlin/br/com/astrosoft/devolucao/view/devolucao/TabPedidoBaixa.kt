@@ -11,7 +11,7 @@ class TabPedidoBaixa(viewModel: TabPedidoBaixaViewModel) : TabPedidoAbstract<IDe
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
   override val situacaoPedido
-    get() = listOf(ESituacaoPedido.PRODUTO_BAIXADO)
+    get() = emptyList<ESituacaoPedido>() // listOf(/*ESituacaoPedido.PRODUTO_BAIXADO*/)
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
