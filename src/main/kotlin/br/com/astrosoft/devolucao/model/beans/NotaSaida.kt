@@ -80,7 +80,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var situacao: String
     get() {
@@ -99,7 +102,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var usuarioSituacao: String
     get() {
@@ -118,7 +124,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var tituloSituacao: String
     get() {
@@ -137,7 +146,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var niSituacao: String
     get() {
@@ -156,7 +168,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var docSituacao: String
     get() {
@@ -175,7 +190,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var notaSituacao: String
     get() {
@@ -194,7 +212,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var valorSituacao: Double?
     get() {
@@ -214,7 +235,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var pedidoEditavel: Int?
     get() {
@@ -234,7 +258,10 @@ class NotaSaida(val loja: Int,
       val pedido = value?.toString() ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var niBonificacao: String
     get() {
@@ -253,7 +280,10 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = value
       val niVal = split?.getOrNull(10) ?: ""
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
   var niValor: String
     get() {
@@ -272,7 +302,55 @@ class NotaSaida(val loja: Int,
       val pedido = split?.getOrNull(8) ?: ""
       val niBonif = split?.getOrNull(9) ?: ""
       val niVal = value
-      observacaoAuxiliar = "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal"
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
+    }
+  var dataNotaEditavel: LocalDate?
+    get() {
+      val dataSaci = observacaoAuxiliar?.split(":")?.getOrNull(11)?.toIntOrNull()
+      return dataSaci?.localDate()
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = split?.getOrNull(3) ?: ""
+      val ni = split?.getOrNull(4) ?: ""
+      val doc = split?.getOrNull(5) ?: ""
+      val nota = split?.getOrNull(6) ?: ""
+      val valor = split?.getOrNull(7) ?: ""
+      val pedido = split?.getOrNull(8) ?: ""
+      val niBonif = split?.getOrNull(9) ?: ""
+      val niVal = split?.getOrNull(10) ?: ""
+      val dataNotaEditavel = value?.toSaciDate()?.toString() ?: ""
+      val notaEdit = split?.getOrNull(12) ?: ""
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
+    }
+  var notaEditavel: String
+    get() {
+      return observacaoAuxiliar?.split(":")?.getOrNull(12) ?: ""
+    }
+    set(value) {
+      val split = observacaoAuxiliar?.split(":")
+      val data = split?.getOrNull(0) ?: ""
+      val situacao = split?.getOrNull(1) ?: ""
+      val usuario = split?.getOrNull(2) ?: ""
+      val titulo = split?.getOrNull(3) ?: ""
+      val ni = split?.getOrNull(4) ?: ""
+      val doc = split?.getOrNull(5) ?: ""
+      val nota = split?.getOrNull(6) ?: ""
+      val valor = split?.getOrNull(7) ?: ""
+      val pedido = split?.getOrNull(8) ?: ""
+      val niBonif = split?.getOrNull(9) ?: ""
+      val niVal = split?.getOrNull(10) ?: ""
+      val dataNotaEditavel = split?.getOrNull(11) ?: ""
+      val notaEdit = value
+      observacaoAuxiliar =
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit"
     }
 
   val situacaoStr: String

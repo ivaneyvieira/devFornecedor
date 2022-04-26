@@ -2,18 +2,24 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataNotaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
+import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.notaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.observacaoChaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataNotaEditavel
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaEditavel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.dateFieldEditor
+import br.com.astrosoft.framework.view.textFieldEditor
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
@@ -54,6 +60,9 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
     if (this@TabPedidoAbstract is TabPedidoPendente || this@TabPedidoAbstract is TabPedidoBase) {
       userCol = usuarioSituacao().marcaAzul()
       situacaoCol = situacaoDesconto().marcaAzul()
+    }else{
+      dataNotaEditavel().marcaAzul()
+      notaEditavel().marcaAzul()
     }
     dataCol = dataAgendaDesconto().marcaAzul()
     observacaoChaveDesconto().marcaAzul()

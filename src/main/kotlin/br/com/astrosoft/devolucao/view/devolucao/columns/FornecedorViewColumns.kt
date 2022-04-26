@@ -52,6 +52,21 @@ object FornecedorViewColumns {
     }
   }
 
+  fun Grid<Fornecedor>.notaEditavel() = addColumnString(Fornecedor::notaEditavel) {
+    this.setHeader("NFA")
+    this.right()
+    this.setClassNameGenerator {
+      it.situacaoPendencia?.cssCor
+    }
+  }
+
+  fun Grid<Fornecedor>.dataNotaEditavel() = addColumnLocalDate(Fornecedor::dataNotaEditavel) {
+    this.setHeader("Data Nota")
+    this.setClassNameGenerator {
+      it.situacaoPendencia?.cssCor
+    }
+  }
+
   fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacaoStr) {
     this.setHeader("Situação")
     this.setClassNameGenerator {
