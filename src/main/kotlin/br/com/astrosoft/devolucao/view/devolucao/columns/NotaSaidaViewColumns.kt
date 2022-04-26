@@ -76,6 +76,15 @@ object NotaSaidaViewColumns {
     this.configCol(situacao?.situacaoCol)
   }
 
+  fun Grid<NotaSaida>.dataNotaEditavel(situacao: ESituacaoPendencia?) =
+    addColumnLocalDate(NotaSaida::dataNotaEditavel) {
+      this.setHeader("Data Nota")
+      this.setClassNameGenerator {
+        it.situacaoPendencia?.cssCor
+      }
+      this.configCol(situacao?.situacaoCol)
+    }
+
   fun Grid<NotaSaida>.usuarioSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::usuarioSituacao) {
     this.setHeader("Usuário")
     this.configCol(situacao?.userCol)
@@ -111,6 +120,15 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.niSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::niSituacao) {
     this.setHeader("NI")
+    this.right()
+    this.setClassNameGenerator {
+      it.situacaoPendencia?.cssCor
+    }
+    this.configCol(situacao?.niCol)
+  }
+
+  fun Grid<NotaSaida>.notaEditavel(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaEditavel) {
+    this.setHeader("NFA")
     this.right()
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor

@@ -56,10 +56,14 @@ class Fornecedor(
 
   val dataSituacao: LocalDate?
     get() = notaObs?.dataSituacao
+  val dataNotaEditavel: LocalDate?
+    get() = notaObs?.dataNotaEditavel
   val situacao: String
     get() = notaObs?.situacao ?: ""
   val situacaoStr: String
     get() = notaObs?.situacaoStr ?: ""
+  val notaEditavel: String
+    get() = notaObs?.notaEditavel ?: ""
   val situacaoPendencia
     get() = notaObs?.situacaoPendencia
   val usuarioSituacao: String

@@ -3,17 +3,16 @@ package br.com.astrosoft.devolucao.view.devolucao
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataAgendaDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataNotaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
+import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.dateFieldEditor
@@ -67,6 +66,10 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       notaDataPedido()
       notaPedido()
       notaDataNota()
+      if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel) {
+        dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
+        notaEditavel(situacao).textFieldEditor().marcaAzul()
+      }
       usuarioSituacao(situacao).marcaAzul()
       situacaoDesconto(situacao).marcaAzul()
       dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
