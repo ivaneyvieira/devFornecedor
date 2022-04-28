@@ -163,7 +163,8 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
   return addColumnButton(iconButton, tooltip, execButton, configIcon, block = {
     this.setHeader(header)
     this.isAutoWidth = false
-    this.width = "3em"
+    this.isExpand = false
+    this.width = "6em"
   })
 }
 
@@ -208,7 +209,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(property: KProperty1<T, Lo
   return this.addColumnFor(property, renderer = LocalDateRenderer(property, "dd/MM/yyyy")) {
     this.isAutoWidth = true
     if (this.key == null) this.key = property.name
-    this.left()
+    this.right()
     this.setComparator { a, b ->
       val dataA = property.get(a) ?: LocalDate.of(1900, 1, 1)
       val dataB = property.get(b) ?: LocalDate.of(1900, 1, 1)
