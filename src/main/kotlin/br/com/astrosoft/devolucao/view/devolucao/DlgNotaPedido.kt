@@ -65,7 +65,7 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       notaLoja()
       notaDataPedido()
       notaPedido()
-      notaDataNota()
+      //notaDataNota()
       if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel) {
         dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
         notaEditavel(situacao).textFieldEditor().marcaAzul()

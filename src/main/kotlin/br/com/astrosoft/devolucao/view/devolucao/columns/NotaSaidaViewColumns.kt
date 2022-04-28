@@ -4,11 +4,15 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.configCol
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object NotaSaidaViewColumns {
+  private const val widthData = "100px"
+
   fun Grid<NotaSaida>.notaLoja() = addColumnInt(NotaSaida::loja) {
     this.setHeader("Loja")
+    this.isExpand = false
   }
 
   fun Grid<NotaSaida>.notaPdv() = addColumnInt(NotaSaida::pdv) {
@@ -21,22 +25,37 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaPedido() = addColumnInt(NotaSaida::pedido) {
     this.setHeader("Pedido")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaPedidoEditavel() = addColumnInt(NotaSaida::pedidoEditavel) {
     this.setHeader("Pedido")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaDataPedido() = addColumnLocalDate(NotaSaida::dataPedido) {
     this.setHeader("Data")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaNota() = addColumnString(NotaSaida::nota) {
     this.setHeader("Nota")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaNfAjuste() = addColumnString(NotaSaida::nfAjuste) {
     this.setHeader("NF Ajuste")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDesconto) {
@@ -48,6 +67,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(NotaSaida::dataAgenda) {
     this.setHeader("Data")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
     this.setClassNameGenerator {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
     }
@@ -62,6 +84,10 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) =
     addColumnLocalDate(NotaSaida::dataSituacao) {
       this.setHeader("Data Sit")
+      isAutoWidth = false
+      width = widthData
+      isExpand = false
+
       this.setClassNameGenerator {
         it.situacaoPendencia?.cssCor
       }
@@ -79,6 +105,10 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.dataNotaEditavel(situacao: ESituacaoPendencia?) =
     addColumnLocalDate(NotaSaida::dataNotaEditavel) {
       this.setHeader("Data Nota")
+      isAutoWidth = false
+      width = widthData
+      isExpand = false
+
       this.setClassNameGenerator {
         it.situacaoPendencia?.cssCor
       }
@@ -103,6 +133,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaSituacao) {
     this.setHeader("Aguardar")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
     }
@@ -129,6 +162,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaEditavel(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaEditavel) {
     this.setHeader("NF Baixa")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
     this.right()
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
@@ -138,6 +174,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaObservacao() = addColumnString(NotaSaida::remarks) {
@@ -158,6 +197,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
     this.setHeader("Data")
+    isAutoWidth = false
+    width = widthData
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valorNota) {
