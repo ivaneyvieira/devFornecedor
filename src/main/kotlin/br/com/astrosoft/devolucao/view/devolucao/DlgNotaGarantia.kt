@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataNotaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
@@ -62,7 +63,10 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
       }
 
       notaLoja()
-      notaDataPedido()
+      //notaDataPedido()
+      dataNotaEditavel(null).dateFieldEditor().apply {
+        this.setHeader("Data")
+      }
       notaPedidoEditavel().integerFieldEditor()
       notaDataNota()
       notaNfAjuste()
@@ -79,7 +83,7 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
+      sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNotaEditavel), SortDirection.ASCENDING)))
     }
   }
 }
