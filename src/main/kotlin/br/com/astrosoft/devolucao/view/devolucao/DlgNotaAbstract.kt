@@ -171,7 +171,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
     else icon.color = ""
   }
 
-  fun updateNota() {
+  open fun updateNota() {
     gridNota.dataProvider.refreshAll()
   }
 }
