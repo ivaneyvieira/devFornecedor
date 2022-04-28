@@ -16,6 +16,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
+import com.github.mvysny.kaributools.fetchAll
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
@@ -37,6 +38,7 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
+      updateNota(listNotas)
       setItems(listNotas)
       this.withEditor(NotaSaida::class, openEditor = {
         val colunas = this.columns
@@ -84,6 +86,13 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
       sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNotaEditavel), SortDirection.ASCENDING)))
+    }
+  }
+
+  fun updateNota(itens: List<NotaSaida>) {
+    itens.forEach {
+      if(it.dataNotaEditavel == null)
+        it.dataNotaEditavel = it.dataPedido
     }
   }
 }
