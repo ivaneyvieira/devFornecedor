@@ -17,6 +17,7 @@ DO @frete := :frete;
 SELECT lj,
        ni,
        data,
+       dataEmissao,
        nfe,
        fornCad,
        fornNota,

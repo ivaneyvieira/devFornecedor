@@ -20,6 +20,10 @@ object UltimaNotaEntradaColumns {
     this.setHeader("Data")
   }
 
+  fun Grid<NfPrecEntrada>.notaDataEmissao() = addColumnLocalDate(NfPrecEntrada::dataEmissao) {
+    this.setHeader("Emissão")
+  }
+
   fun Grid<NfPrecEntrada>.notaNfe() = addColumnString(NfPrecEntrada::nfe) {
     this.setHeader("Nfe")
   }
