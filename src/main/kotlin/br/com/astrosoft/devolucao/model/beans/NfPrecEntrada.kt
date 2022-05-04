@@ -7,7 +7,8 @@ import java.time.LocalDate
 class NfPrecEntrada(
   val lj: Int,
   val ni: Int,
-  val data: LocalDate,
+  val data: LocalDate?,
+  val dataEmissao: LocalDate?,
   val nfe: String,
   val fornCad: String,
   val fornNota: String,
