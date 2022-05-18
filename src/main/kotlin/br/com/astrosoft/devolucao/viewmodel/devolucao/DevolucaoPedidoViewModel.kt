@@ -5,6 +5,7 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
   val tabPedidoPendenteViewModel = TabPedidoPendenteViewModel(this)
   val tabPedidoNFDViewModel = TabPedidoNFDViewModel(this)
   val tabPedidoPagoViewModel = TabPedidoPagoViewModel(this)
+  val tabPedidoRetornoViewModel = TabPedidoRetornoViewModel(this)
   val tabPedidoAjusteViewModel = TabPedidoAjusteViewModel(this)
   val tabPedidoPercaViewModel = TabPedidoPercaViewModel(this)
   val tabPedidoEmailViewModel = TabPedidoEmailViewModel(this)
@@ -19,8 +20,10 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
     view.tabPedidoPendente,
     view.tabPedidoLiberado,
     view.tabPedidoEmail,
-    view.tabPedidoNFD, //view.tabPedidoPago,
+    view.tabPedidoNFD,
     view.tabPedidoAjuste,
+    view.tabPedidoPago,
+    view.tabPedidoRetorno,
     view.tabPedidoPerca, //view.tabPedidoBaixa,
     view.tabPedidoDescarte,
                                  )
@@ -31,6 +34,7 @@ interface IDevolucaoPedidoView : IDevolucaoAbstractView {
   val tabPedidoPendente: ITabPedidoPendente
   val tabPedidoNFD: ITabPedidoNFD
   val tabPedidoPago: ITabPedidoPago
+  val tabPedidoRetorno: ITabPedidoRetorno
   val tabPedidoAjuste: ITabPedidoAjuste
   val tabPedidoPerca: ITabPedidoPerca
   val tabPedidoLiberado: ITabPedidoLiberado

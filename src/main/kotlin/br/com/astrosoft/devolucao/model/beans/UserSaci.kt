@@ -54,7 +54,7 @@ class UserSaci : IUser {
   var forPendenteRETORNO by DelegateAuthorized(36)
   var pedidoNFD by DelegateAuthorized(37)
 
-  //var pedidoPago by DelegateAuthorized(38)
+  var pedidoPago by DelegateAuthorized(38)
   var forPendenteAGUARDA_COLETA by DelegateAuthorized(39)
   var forPendenteASSINA_CTE by DelegateAuthorized(40)
   var ajusteGarantiaPerca by DelegateAuthorized(41)
@@ -69,6 +69,8 @@ class UserSaci : IUser {
   var pedidoPerca by DelegateAuthorized(49)
   var pedidoDescarte by DelegateAuthorized(50)
   var pedidoFornecedor by DelegateAuthorized(51)
+  var pedidoRetorno by DelegateAuthorized(52)
+  var entradaNddNFEntrada by DelegateAuthorized(53)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
