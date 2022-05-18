@@ -5,7 +5,8 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 
 class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel) {
   fun updateView() {
-    val lista = FornecedorProduto.findAll()
+    val filtro = subView.filtro()
+    val lista = FornecedorProduto.findAll(filtro)
     subView.updateGrid(lista)
   }
 
@@ -15,5 +16,6 @@ class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel) {
 
 interface ITabPedidoFornecedor : ITabView {
   fun updateGrid(itens: List<FornecedorProduto>)
+  fun filtro() : String
 }
 
