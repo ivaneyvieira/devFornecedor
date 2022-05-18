@@ -205,6 +205,14 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoAjuste.name)
           }
+          checkBox("Pago") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedidoPago.name)
+          }
+          checkBox("Retorno") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::pedidoRetorno.name)
+          }
           checkBox("Email") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoEmail.name)
@@ -283,6 +291,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           checkBox("NF x Prec Info") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaNddNFPrecInfo.name)
+          }
+          checkBox("Entrada") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaNddNFEntrada.name)
           }
         }
         formLayout {

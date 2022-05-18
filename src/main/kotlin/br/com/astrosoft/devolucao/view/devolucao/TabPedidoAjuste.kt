@@ -11,7 +11,7 @@ class TabPedidoAjuste(viewModel: TabPedidoAjusteViewModel) : TabPedidoAbstract<I
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
   override val situacaoPedido
-    get() = listOf(ESituacaoPedido.AJUSTE_GARANTIA)
+    get() = listOf(ESituacaoPedido.BAIXA)
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

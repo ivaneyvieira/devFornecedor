@@ -19,6 +19,7 @@ class DevolucaoPedidoView : ViewLayout<DevolucaoPedidoViewModel>(), IDevolucaoPe
   override val tabPedidoPendente = TabPedidoPendente(viewModel.tabPedidoPendenteViewModel)
   override val tabPedidoNFD = TabPedidoNFD(viewModel.tabPedidoNFDViewModel)
   override val tabPedidoPago = TabPedidoPago(viewModel.tabPedidoPagoViewModel)
+  override val tabPedidoRetorno = TabPedidoRetorno(viewModel.tabPedidoRetornoViewModel)
   override val tabPedidoAjuste = TabPedidoAjuste(viewModel.tabPedidoAjusteViewModel)
   override val tabPedidoPerca = TabPedidoPerca(viewModel.tabPedidoPercaViewModel)
   override val tabPedidoEmail = TabPedidoEmail(viewModel.tabPedidoEmailViewModel)
