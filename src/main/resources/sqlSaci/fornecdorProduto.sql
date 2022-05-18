@@ -1,3 +1,6 @@
+DO @filtroStr := :filtro;
+DO @FiltroNum := IF(:filtro REGEXP '^[0-9]+$', :filtro * 1, 0);
+
 DROP TEMPORARY TABLE IF EXISTS T_PRDEND;
 CREATE TEMPORARY TABLE T_PRDEND (
   PRIMARY KEY (prdno, vendno)
@@ -51,4 +54,7 @@ SELECT vendno,
 FROM T_PRDVEND
   LEFT JOIN T_PRDDATA
 	      USING (vendno)
+WHERE (@filtroStr = '' OR name LIKE CONCAT('%', @filtroStr, '%'))
+   OR vendno = @FiltroNum
+   OR custno = @FiltroNum
 GROUP BY vendno

@@ -9,12 +9,23 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedidoFornecedor
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoFornecedorViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
         TabPanelGrid<FornecedorProduto>(FornecedorProduto::class), ITabPedidoFornecedor {
-  override fun HorizontalLayout.toolBarConfig() { //Vazio
+
+  override fun HorizontalLayout.toolBarConfig() {
+    edtFiltro = textField("Filtro") {
+      width = "300px"
+      valueChangeMode = ValueChangeMode.TIMEOUT
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
   }
 
   override fun Grid<FornecedorProduto>.gridPanel() {
@@ -22,9 +33,11 @@ class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
 
     fornecedorFornecedor()
     fornecedorCliente()
-    fornecedorNome() //fornecedorInvno()
-    //fornecedorNota()
-    //fornecedorDataNF()
+    fornecedorNome()
+  }
+
+  override fun filtro(): String {
+    return edtFiltro.value ?: ""
   }
 
   override fun isAuthorized(user: IUser): Boolean {
@@ -32,6 +45,7 @@ class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
     return username?.pedidoFornecedor == true
   }
 
+  private lateinit var edtFiltro: TextField
   override val label: String
     get() = "Fornecedor"
 

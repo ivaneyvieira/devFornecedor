@@ -10,8 +10,8 @@ class FornecedorProduto(val vendno: Int,
                         val invno: Int?,
                         val nota: String?) {
   companion object {
-    fun findAll(): List<FornecedorProduto> {
-      return saci.fornecedorProduto()
+    fun findAll(filtro: String): List<FornecedorProduto> {
+      return saci.fornecedorProduto(filtro)
     }
   }
 }
