@@ -74,8 +74,8 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
         notaEditavel(situacao).textFieldEditor().marcaAzul()
       }
       usuarioSituacao(situacao).marcaAzul()
-      situacaoDesconto(situacao).marcaAzul()
       dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
+      situacaoDesconto(situacao).marcaAzul()
       if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel) {
         dataBonificacao().dateFieldEditor().marcaAzul()
         notaBonificacao().textFieldEditor().marcaAzul()
