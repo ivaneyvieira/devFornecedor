@@ -3,11 +3,14 @@ package br.com.astrosoft.devolucao.view.devolucao
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataAgendaDesconto
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataBonificacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataNotaEditavel
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaBonificacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNiBonificacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
@@ -73,6 +76,11 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       usuarioSituacao(situacao).marcaAzul()
       situacaoDesconto(situacao).marcaAzul()
       dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
+      if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel) {
+        notaBonificacao().textFieldEditor().marcaAzul()
+        dataBonificacao().dateFieldEditor().marcaAzul()
+        notaNiBonificacao().textFieldEditor().marcaAzul()
+      }
       chaveDesconto().textFieldEditor().apply {
         this.setClassNameGenerator {
           it.situacaoPendencia?.cssCor
