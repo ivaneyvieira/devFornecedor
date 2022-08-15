@@ -108,7 +108,7 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val dataEmissao: String
     get() = identificacao()?.dataHoraEmissao.formatDate()
   val enderecoDestinatario: String
-    get() = "${destinatario()?.endereco?.logradouro ?: ""}, ${destinatario()?.endereco?.numero}"
+    get() = "${destinatario()?.endereco?.logradouro ?: ""}, ${destinatario()?.endereco?.numero} ${destinatario()?.endereco?.complemento ?: ""} "
   val bairroDestinatario: String
     get() = destinatario()?.endereco?.bairro ?: ""
   val cepDestinatario: String
@@ -116,7 +116,7 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
   val dataSaida: String
     get() = identificacao()?.dataHoraSaidaOuEntrada.formatDate()
   val cidadeDestinatario: String
-    get() = destinatario()?.endereco?.codigoMunicipio ?: ""
+    get() = destinatario()?.endereco?.descricaoMunicipio ?: ""
   val ufDestinatario: String
     get() = destinatario()?.endereco?.uf ?: ""
   val telefoneDestinatario: String
@@ -314,9 +314,11 @@ private fun NFNotaInfoTransportador?.formatCpfj(): String {
     StringUtils.isNotBlank(cpf)  -> {
       cpf
     }
+
     StringUtils.isNotBlank(cnpj) -> {
       cnpj
     }
+
     else                         -> ""
   }.formatCpfj()
 }
@@ -333,6 +335,7 @@ private fun String?.formatCpfj(): String {
     matches("[0-9]{14}".toRegex()) -> {
       "${substring(0, 2)}.${substring(2, 5)}.${substring(5, 8)}/${substring(8, 12)}-${substring(12, 14)}"
     }
+
     else                           -> this
   }
 }
