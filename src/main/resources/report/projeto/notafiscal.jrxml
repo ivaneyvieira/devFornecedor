@@ -3621,7 +3621,9 @@ BARRAS]]></text>
 								<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
 								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
 							</reportElement>
-							<textElement textAlignment="Left" verticalAlignment="Top"/>
+							<textElement textAlignment="Left" verticalAlignment="Top">
+								<font size="5"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$F{informacoesComplementares}]]></textFieldExpression>
 						</textField>
 					</frame>
