@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFornecedorNdd
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNotasNdd
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaProdutosNdd
 import br.com.astrosoft.devolucao.model.reports.DanfeReport
+import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
@@ -62,7 +63,7 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
 
   fun createDanfe(nota: NotaEntradaNdd) {
     val itensNotaReport = nota.itensNotaReport()
-    val report = DanfeReport.create(itensNotaReport)
+    val report = DanfeReport.create(itensNotaReport, ETIPO_COPIA.COPIA)
     viewModel.view.showReport("Danfee", report)
   }
 

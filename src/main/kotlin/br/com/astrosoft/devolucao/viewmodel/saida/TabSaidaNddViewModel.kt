@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.FiltroNotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NotaSaidaNdd
 import br.com.astrosoft.devolucao.model.reports.DanfeReport
+import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
 import br.com.astrosoft.framework.viewmodel.ITabView
 
 class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
@@ -16,9 +17,9 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     subView.updateGrid(resultList)
   }
 
-  fun createDanfe(nota: NotaSaidaNdd) {
+  fun createDanfe(nota: NotaSaidaNdd, tipo: ETIPO_COPIA) {
     val itensNotaReport = nota.itensNotaReport()
-    val report = DanfeReport.create(itensNotaReport)
+    val report = DanfeReport.create(itensNotaReport, tipo)
     viewModel.view.showReport("Danfee", report)
   }
 

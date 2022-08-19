@@ -8,13 +8,14 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 object DanfeReport {
   private val jasperReport = compileReport()
 
-  fun create(itens: List<ItensNotaReport>): ByteArray {
-    val printReport = fillReport(itens)
+  fun create(itens: List<ItensNotaReport>, tipo: ETIPO_COPIA): ByteArray {
+    val printReport = fillReport(itens, tipo)
     return JasperExportManager.exportReportToPdf(printReport) ?: ByteArray(0)
   }
 
-  private fun fillReport(itens: List<ItensNotaReport>): JasperPrint? {
+  private fun fillReport(itens: List<ItensNotaReport>, tipo: ETIPO_COPIA): JasperPrint? {
     val parameter = hashMapOf<String, Any>()
+    parameter["PRINT_MARCA"] = tipo.parametro
     val collection = JRBeanCollectionDataSource(itens)
     return JasperFillManager.fillReport(jasperReport, parameter, collection)
   }
@@ -24,4 +25,8 @@ object DanfeReport {
     val jasperInputStream = readStream(jasperFile)
     return JasperCompileManager.compileReport(jasperInputStream)
   }
+}
+
+enum class ETIPO_COPIA(val parametro: String) {
+  COPIA("C"), SEGUNDA_VIA("2"), REIMPRESSAO("R")
 }
