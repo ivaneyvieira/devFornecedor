@@ -20,9 +20,7 @@
 			<![CDATA[]]>
 		</queryString>
 	</subDataset>
-	<parameter name="PRINT_RECEBIMENTO" class="java.lang.Boolean" isForPrompting="false">
-		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
-	</parameter>
+	<parameter name="PRINT_MARCA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT 'ENGECOPI COM MATS CONST LTDA (PK)'                      AS nomeEmitente,
        'AV PRESIDENTE KENNEDY, 1585'                            AS enderecoEmitente,
@@ -420,12 +418,34 @@ FROM dual]]>
 		<band height="802">
 			<staticText>
 				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="f11f1c4a-d751-4c47-8b89-0996b26f62fc">
-					<printWhenExpression><![CDATA[$F{cpnjEmitente}.startsWith("07.483.654")]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{cpnjEmitente}.startsWith("07.483.654") && $P{PRINT_MARCA}.equal("C")]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
 					<font size="200"/>
 				</textElement>
 				<text><![CDATA[Cópia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="7e6e899d-3992-44fc-972f-efc6a46a9ebb">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{cpnjEmitente}.startsWith("07.483.654") && $P{PRINT_MARCA}.equal("2")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+					<font size="200"/>
+				</textElement>
+				<text><![CDATA[2ª Via]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="2fba672e-9261-40cb-bc69-b88b8491a647">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{cpnjEmitente}.startsWith("07.483.654") && $P{PRINT_MARCA}.equal("R")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+					<font size="120"/>
+				</textElement>
+				<text><![CDATA[Reimpressão]]></text>
 			</staticText>
 		</band>
 	</background>
@@ -443,7 +463,7 @@ FROM dual]]>
 					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 					<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
-					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
 				<frame>
@@ -456,7 +476,7 @@ FROM dual]]>
 						<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
 						<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 						<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
-						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 					</reportElement>
 					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
 					<frame>
@@ -469,11 +489,11 @@ FROM dual]]>
 							<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 							<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-							<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 						</reportElement>
 						<textField>
 							<reportElement style="fontLabel" x="0" y="0" width="444" height="20" uuid="5ff39239-54cc-420e-a781-f80f845865ae">
-								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 							</reportElement>
 							<textFieldExpression><![CDATA["RECEBEMOS DE "+$F{nomeEmitente}+" OS PRODUTOS CONSTANTES NA NOTA FISCAL INDICADA AO LADO."]]></textFieldExpression>
 						</textField>
@@ -488,7 +508,7 @@ FROM dual]]>
 							<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 							<property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
-							<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 						</reportElement>
 						<box padding="0"/>
 						<frame>
@@ -501,12 +521,12 @@ FROM dual]]>
 								<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 								<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
 								<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 							</reportElement>
 							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
 							<staticText>
 								<reportElement style="fontLabel" x="0" y="0" width="111" height="30" uuid="82a56318-e133-4568-b341-e9326c3cdc85">
-									<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+									<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 								</reportElement>
 								<text><![CDATA[DATA DE RECEBIMENTO]]></text>
 							</staticText>
@@ -514,11 +534,11 @@ FROM dual]]>
 						<frame>
 							<reportElement style="borderFrame" x="111" y="0" width="333" height="30" uuid="47ec0883-56fa-4610-9d05-c51c2b9aabf0">
 								<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+								<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 							</reportElement>
 							<staticText>
 								<reportElement style="fontLabel" x="0" y="0" width="333" height="30" uuid="5e0cae7e-d4c0-4109-8852-8716c7efa922">
-									<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+									<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 								</reportElement>
 								<text><![CDATA[IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR]]></text>
 							</staticText>
@@ -528,11 +548,11 @@ FROM dual]]>
 				<frame>
 					<reportElement style="borderFrame" x="444" y="0" width="111" height="50" uuid="e4a2594f-b2d2-45cc-971c-c98fe52b4fc2">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
-						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 					</reportElement>
 					<textField>
 						<reportElement x="0" y="0" width="111" height="50" uuid="c66ee61a-45b6-4e08-b291-184d6ddd15b9">
-							<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 						</reportElement>
 						<textElement textAlignment="Center" verticalAlignment="Middle">
 							<font isBold="true"/>
@@ -552,7 +572,7 @@ FROM dual]]>
 					<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
 					<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
 					<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
-					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 				</reportElement>
 				<line>
 					<reportElement x="0" y="5" width="555" height="1" uuid="dd06225f-4fe9-4732-a061-b0124d20e140">
@@ -565,7 +585,7 @@ FROM dual]]>
 						<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1  && ($P{PRINT_MARCA}.equal("C") ||  && $P{PRINT_MARCA}.equal("R"))]]></printWhenExpression>
 					</reportElement>
 					<graphicElement>
 						<pen lineWidth="1.0" lineStyle="Dashed"/>
