@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.saida
 import br.com.astrosoft.devolucao.model.beans.FiltroNotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.NotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.chaveNotaSaida
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.codigoClienteNotaSaida
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.dataNotaSaida
@@ -31,6 +32,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
+import org.claspina.confirmdialog.ButtonOption
+import org.claspina.confirmdialog.ConfirmDialog
 import java.time.LocalDate
 
 class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaNdd>(NotaSaidaNdd::class),
@@ -104,7 +107,20 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
   override fun Grid<NotaSaidaNdd>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { nota ->
-      viewModel.createDanfe(nota)
+      ConfirmDialog
+        .createQuestion()
+        .withCaption("Tipo de nota fiscal")
+        .withMessage("Qual o tipo de nota fiscal")
+        .withYesButton({
+                         viewModel.createDanfe(nota, ETIPO_COPIA.COPIA)
+                       }, ButtonOption.caption("Cópia"))
+        .withYesButton({
+                         viewModel.createDanfe(nota, ETIPO_COPIA.SEGUNDA_VIA)
+                       }, ButtonOption.caption("2ª Via"))
+        .withYesButton({
+                         viewModel.createDanfe(nota, ETIPO_COPIA.REIMPRESSAO)
+                       }, ButtonOption.caption("Reimpressão"))
+        .open()
     }
 
     lojaNotaSaida()
