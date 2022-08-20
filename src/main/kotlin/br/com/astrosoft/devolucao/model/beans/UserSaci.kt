@@ -74,6 +74,7 @@ class UserSaci : IUser {
   var notaSaidaCopia by DelegateAuthorized(54)
   var notaSaida2Via by DelegateAuthorized(55)
   var notaSaidaReimpressao by DelegateAuthorized(56)
+  var reimpressao by DelegateAuthorized(57)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE

@@ -70,3 +70,12 @@ ALTER TABLE sqldados.notasEntradaNdd
 ALTER TABLE sqldados.notasEntradaNdd
   MODIFY COLUMN SERIE VARCHAR(4);
 
+CREATE TABLE sqldados.reimpressaoNota (
+  data int,
+  hora varchar(10),
+  loja int,
+  nota varchar(20),
+  tipo varchar(20),
+  usuario varchar(30)
+);
+
