@@ -3,9 +3,14 @@ package br.com.astrosoft.devolucao.viewmodel.saida
 import br.com.astrosoft.devolucao.model.beans.FiltroNotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NotaSaidaNdd
+import br.com.astrosoft.devolucao.model.beans.ReimpressaoNota
 import br.com.astrosoft.devolucao.model.reports.DanfeReport
 import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
+import br.com.astrosoft.framework.model.Config
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
+import java.time.LocalDate
+import java.time.LocalTime
 
 class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
   val subView
@@ -21,6 +26,15 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     val itensNotaReport = nota.itensNotaReport()
     val report = DanfeReport.create(itensNotaReport, tipo)
     viewModel.view.showReport("Danfee", report)
+    val reimpressaoNota = ReimpressaoNota(
+      data = LocalDate.now(),
+      hora = LocalTime.now().format(),
+      loja= nota.loja,
+      nota= "${nota.numero}/${nota.serie}",
+      tipo = tipo.descricao,
+      usuario = Config.user?.login ?: "",
+                                         )
+    reimpressaoNota.insertReimpressao()
   }
 
   fun findLojas(): List<Loja> {

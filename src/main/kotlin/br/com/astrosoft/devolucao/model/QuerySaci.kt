@@ -611,8 +611,27 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun fornecedorProduto(filtro: String): List<FornecedorProduto> {
     val sql = "/sqlSaci/fornecdorProduto.sql"
-    return query(sql, FornecedorProduto::class){
+    return query(sql, FornecedorProduto::class) {
       addOptionalParameter("filtro", filtro)
+    }
+  }
+
+  fun findReimpressao(filtro: FiltroReimpressao): List<ReimpressaoNota> {
+    val sql = "/sqlSaci/selectReimpressaoNota.sql"
+    return query(sql, ReimpressaoNota::class){
+      addOptionalParameter("filtro", filtro.filtro)
+    }
+  }
+
+  fun insertReimpressao(bean: ReimpressaoNota) {
+    val sql = "/sqlSaci/insertReimpressao.sql"
+    script(sql) {
+      addOptionalParameter("data", bean.data.toSaciDate())
+      addOptionalParameter("hora", bean.hora)
+      addOptionalParameter("loja", bean.loja)
+      addOptionalParameter("nota", bean.nota)
+      addOptionalParameter("tipo", bean.tipo)
+      addOptionalParameter("usuario", bean.usuario)
     }
   }
 

@@ -27,6 +27,6 @@ object DanfeReport {
   }
 }
 
-enum class ETIPO_COPIA(val parametro: String) {
-  COPIA("C"), SEGUNDA_VIA("2"), REIMPRESSAO("R")
+enum class ETIPO_COPIA(val parametro: String, val descricao: String) {
+  COPIA("C", "Cópia"), SEGUNDA_VIA("2", "2ª Via"), REIMPRESSAO("R", "Reimpressão")
 }
