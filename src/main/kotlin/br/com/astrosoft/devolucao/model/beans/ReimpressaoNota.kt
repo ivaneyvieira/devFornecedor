@@ -10,7 +10,11 @@ class ReimpressaoNota(
   val nota: String,
   val tipo: String,
   val usuario: String,
-                     ){
+  val dataNota: LocalDate,
+  val codcli: Int,
+  val nomecli: String,
+  val valor: Double,
+                     ) {
   fun insertReimpressao() = saci.insertReimpressao(this)
 
   companion object {

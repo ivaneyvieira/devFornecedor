@@ -1,8 +1,12 @@
-SELECT CAST(data AS date) AS data,
+SELECT CAST(data AS date)     AS data,
        hora,
        loja,
        nota,
        tipo,
-       usuario
+       usuario,
+       CAST(dataNota AS date) AS dataNota,
+       codcli,
+       nomecli,
+       valor
 FROM sqldados.reimpressaoNota
 ORDER BY data DESC, hora DESC
