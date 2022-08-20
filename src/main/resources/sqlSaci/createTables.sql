@@ -71,13 +71,28 @@ ALTER TABLE sqldados.notasEntradaNdd
   MODIFY COLUMN SERIE VARCHAR(4);
 
 CREATE TABLE sqldados.reimpressaoNota (
-  data int,
-  hora varchar(10),
-  loja int,
-  nota varchar(20),
-  tipo varchar(20),
+  data    int,
+  hora    varchar(10),
+  loja    int,
+  nota    varchar(20),
+  tipo    varchar(20),
   usuario varchar(30)
 );
 
 ALTER TABLE sqldados.reimpressaoNota
-ADD INDEX (loja, nota, usuario);
+  ADD INDEX (loja, nota, usuario);
+
+ALTER TABLE sqldados.reimpressaoNota
+  ADD dataNota int;
+
+ALTER TABLE sqldados.reimpressaoNota
+  ADD codcli int;
+
+ALTER TABLE sqldados.reimpressaoNota
+  ADD nomecli varchar(100);
+
+ALTER TABLE sqldados.reimpressaoNota
+  ADD valor double;
+
+TRUNCATE TABLE sqldados.reimpressaoNota;
+

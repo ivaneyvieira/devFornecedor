@@ -26,14 +26,19 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     val itensNotaReport = nota.itensNotaReport()
     val report = DanfeReport.create(itensNotaReport, tipo)
     viewModel.view.showReport("Danfee", report)
-    val reimpressaoNota = ReimpressaoNota(
-      data = LocalDate.now(),
-      hora = LocalTime.now().format(),
-      loja= nota.loja,
-      nota= "${nota.numero}/${nota.serie}",
-      tipo = tipo.descricao,
-      usuario = Config.user?.login ?: "",
-                                         )
+    val reimpressaoNota =
+      ReimpressaoNota(
+        data = LocalDate.now(),
+        hora = LocalTime.now().format(),
+        loja = nota.loja,
+        nota = "${nota.numero}/${nota.serie}",
+        tipo = tipo.descricao,
+        usuario = Config.user?.login ?: "",
+        dataNota = nota.data,
+        codcli = nota.codigoCliente,
+        nomecli = nota.nomeCliente,
+        valor = nota.valor,
+                     )
     reimpressaoNota.insertReimpressao()
   }
 
