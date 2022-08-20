@@ -14,6 +14,7 @@ import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.pedidoNotaS
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.valorTotalNotaSaida
 import br.com.astrosoft.devolucao.viewmodel.saida.ITabSaidaNddViewModel
 import br.com.astrosoft.devolucao.viewmodel.saida.TabSaidaNddViewModel
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -24,6 +25,7 @@ import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
+import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
@@ -105,6 +107,7 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
   }
 
   override fun Grid<NotaSaidaNdd>.gridPanel() {
+    val user = Config.user as? UserSaci
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { nota ->
       ConfirmDialog
@@ -112,14 +115,15 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
         .withCaption("Tipo de nota fiscal")
         .withMessage("Qual o tipo de nota fiscal")
         .withYesButton({
-                         viewModel.createDanfe(nota, ETIPO_COPIA.COPIA)
-                       }, ButtonOption.caption("Cópia"))
+                         viewModel.createDanfe(nota, ETIPO_COPIA.REIMPRESSAO)
+                       }, ButtonOption.caption("Reimpressão"), disableButton(user?.notaSaidaReimpressao == false))
         .withYesButton({
                          viewModel.createDanfe(nota, ETIPO_COPIA.SEGUNDA_VIA)
-                       }, ButtonOption.caption("2ª Via"))
+                       }, ButtonOption.caption("2ª Via"), disableButton(user?.notaSaida2Via == false))
         .withYesButton({
-                         viewModel.createDanfe(nota, ETIPO_COPIA.REIMPRESSAO)
-                       }, ButtonOption.caption("Reimpressão"))
+                         viewModel.createDanfe(nota, ETIPO_COPIA.COPIA)
+                       }, ButtonOption.caption("Cópia"), disableButton(user?.notaSaidaCopia == false))
+        .withNoButton(ButtonOption.caption("Cancela"))
         .open()
     }
 
@@ -138,5 +142,14 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     }
 
     sort(listOf(GridSortOrder(getColumnBy(NotaSaidaNdd::data), SortDirection.DESCENDING)))
+  }
+}
+
+fun disableButton(bool: Boolean): ButtonOption {
+  return if (bool) ButtonOption.disable()
+  else object : ButtonOption() {
+    override fun apply(confirmDialog: ConfirmDialog?, button: Button?) {
+      button?.isEnabled = true
+    }
   }
 }
