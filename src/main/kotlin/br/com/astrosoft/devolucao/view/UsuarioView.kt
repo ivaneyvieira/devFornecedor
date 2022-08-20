@@ -331,6 +331,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::notaSaidaCopia.name)
           }
+          checkBox("Editor Reimpressão") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaSaidaCopia.name)
+          }
         }
       }
     }
