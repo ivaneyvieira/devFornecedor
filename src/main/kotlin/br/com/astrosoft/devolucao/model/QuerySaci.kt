@@ -623,6 +623,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun findReimpressao(loja: Int, nota: String, login: String): List<ReimpressaoNota> {
+    val sql = "/sqlSaci/selectReimpressaoNotaNota.sql"
+    return query(sql, ReimpressaoNota::class){
+      addOptionalParameter("loja", loja)
+      addOptionalParameter("numero", nota)
+      addOptionalParameter("login", login)
+    }
+  }
+
+
   fun insertReimpressao(bean: ReimpressaoNota) {
     val sql = "/sqlSaci/insertReimpressao.sql"
     script(sql) {

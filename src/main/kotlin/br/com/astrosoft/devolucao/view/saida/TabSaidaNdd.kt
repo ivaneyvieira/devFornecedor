@@ -106,25 +106,33 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     }
   }
 
+  fun showWarning(msg: String) {
+    ConfirmDialog.createWarning().withCaption("Aviso").withMessage(msg).open()
+  }
+
   override fun Grid<NotaSaidaNdd>.gridPanel() {
     val user = Config.user as? UserSaci
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { nota ->
-      ConfirmDialog
-        .createQuestion()
-        .withCaption("Tipo de nota fiscal")
-        .withMessage("Qual o tipo de nota fiscal")
-        .withYesButton({
-                         viewModel.createDanfe(nota, ETIPO_COPIA.REIMPRESSAO)
-                       }, ButtonOption.caption("Reimpressão"), disableButton(user?.notaSaidaReimpressao == false))
-        .withYesButton({
-                         viewModel.createDanfe(nota, ETIPO_COPIA.SEGUNDA_VIA)
-                       }, ButtonOption.caption("2ª Via"), disableButton(user?.notaSaida2Via == false))
-        .withYesButton({
-                         viewModel.createDanfe(nota, ETIPO_COPIA.COPIA)
-                       }, ButtonOption.caption("Cópia"), disableButton(user?.notaSaidaCopia == false))
-        .withNoButton(ButtonOption.caption("Cancela"))
-        .open()
+      if(nota.reimpresao() == null) {
+        ConfirmDialog
+          .createQuestion()
+          .withCaption("Tipo de nota fiscal")
+          .withMessage("Qual o tipo de nota fiscal")
+          .withYesButton({
+                           viewModel.createDanfe(nota, ETIPO_COPIA.REIMPRESSAO)
+                         }, ButtonOption.caption("Reimpressão"), disableButton(user?.notaSaidaReimpressao == false))
+          .withYesButton({
+                           viewModel.createDanfe(nota, ETIPO_COPIA.SEGUNDA_VIA)
+                         }, ButtonOption.caption("2ª Via"), disableButton(user?.notaSaida2Via == false))
+          .withYesButton({
+                           viewModel.createDanfe(nota, ETIPO_COPIA.COPIA)
+                         }, ButtonOption.caption("Cópia"), disableButton(user?.notaSaidaCopia == false))
+          .withNoButton(ButtonOption.caption("Cancela"))
+          .open()
+      }else{
+        showWarning("Essa nota já foi reimpressa")
+      }
     }
 
     lojaNotaSaida()
@@ -134,6 +142,11 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     codigoClienteNotaSaida()
     chaveNotaSaida()
     nomeClienteNotaSaida()
+
+    this.setClassNameGenerator {nota ->
+      if(nota.reimpresao() != null) "marcaRed" else null
+    }
+
     val totalCol = valorTotalNotaSaida()
 
     this.dataProvider.addDataProviderListener {

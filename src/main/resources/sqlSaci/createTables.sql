@@ -79,3 +79,5 @@ CREATE TABLE sqldados.reimpressaoNota (
   usuario varchar(30)
 );
 
+ALTER TABLE sqldados.reimpressaoNota
+ADD INDEX (loja, nota, usuario);
