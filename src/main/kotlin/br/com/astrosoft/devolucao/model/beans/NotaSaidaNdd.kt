@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.ItensNotaReport
 import br.com.astrosoft.devolucao.model.ProdutoNotaEntradaVO
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.Config
 import java.time.LocalDate
 
 class NotaSaidaNdd(val loja: Int,
@@ -24,6 +25,12 @@ class NotaSaidaNdd(val loja: Int,
   fun itensNotaReport(): List<ItensNotaReport> {
     return produtosNDD()?.itensNotaReport() ?: emptyList()
   }
+
+  fun reimpresao(): ReimpressaoNota? {
+    val login = Config.user?.login ?: return null
+    return saci.findReimpressao(loja, nota, login).firstOrNull()
+  }
+
 
   companion object {
     fun findAll(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
