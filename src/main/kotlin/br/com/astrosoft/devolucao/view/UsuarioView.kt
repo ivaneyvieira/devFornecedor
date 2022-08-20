@@ -315,6 +315,23 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             binder.bind(this, UserSaci::notaSaida.name)
           }
         }
+        formLayout {
+          h4("Impressão de NF Saida") {
+            colspan = 2
+          }
+          checkBox("Reimpressão") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaSaidaReimpressao.name)
+          }
+          checkBox("2ª Via") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaSaida2Via.name)
+          }
+          checkBox("Cópia") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::notaSaidaCopia.name)
+          }
+        }
       }
     }
   }
