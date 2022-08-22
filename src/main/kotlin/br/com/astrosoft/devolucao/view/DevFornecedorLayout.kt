@@ -15,7 +15,7 @@ import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
 
-@Theme(themeClass = Lumo::class, variant = Lumo.DARK)
+@Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
 @JsModule("./styles/shared-styles.js")
 class DevFornecedorLayout : MainLayout() {
