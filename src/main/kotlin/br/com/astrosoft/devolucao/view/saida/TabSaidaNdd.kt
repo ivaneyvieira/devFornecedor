@@ -69,8 +69,10 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
   }
 
   override fun HorizontalLayout.toolBarConfig() {
+    val user = Config.user as? UserSaci
     cmbLoja = integerField("Loja") {
-      value = 4
+      value = user?.storeno ?: 4
+      isReadOnly = user?.admin == false
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -114,7 +116,7 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     val user = Config.user as? UserSaci
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { nota ->
-      if(nota.reimpresao() == null) {
+      if((nota.reimpresao() == null) || (Config.user?.admin == true)) {
         ConfirmDialog
           .createQuestion()
           .withCaption("Tipo de nota fiscal")
