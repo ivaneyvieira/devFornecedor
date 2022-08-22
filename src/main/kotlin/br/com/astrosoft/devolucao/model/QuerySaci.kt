@@ -642,10 +642,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("nota", bean.nota)
       addOptionalParameter("tipo", bean.tipo)
       addOptionalParameter("usuario", bean.usuario)
-      addOptionalParameter("dataNota", bean.dataNota.toSaciDate())
-      addOptionalParameter("codcli", bean.codcli)
-      addOptionalParameter("nomecli", bean.nomecli)
-      addOptionalParameter("valor", bean.valor)
+      addOptionalParameter("dataNota", bean.dataNota?.toSaciDate() ?: 0)
+      addOptionalParameter("codcli", bean.codcli ?: 0)
+      addOptionalParameter("nomecli", bean.nomecli ?: "")
+      addOptionalParameter("valor", bean.valor ?: 0.00)
     }
   }
 
