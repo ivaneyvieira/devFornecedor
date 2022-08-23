@@ -1,7 +1,7 @@
 SELECT U.no,
        U.name,
        login,
-       U.auxLong1             AS storeno,
+       U.auxLong1               AS storeno,
        TRIM(IFNULL(CAST(CONCAT(CHAR(ASCII(SUBSTRING(pswd, 1, 1)) + ASCII('e') - ASCII('j')),
 			       CHAR(ASCII(SUBSTRING(pswd, 2, 1)) + ASCII('a') - ASCII('h')),
 			       CHAR(ASCII(SUBSTRING(pswd, 3, 1)) + ASCII('c') - ASCII('k')),
@@ -10,10 +10,11 @@ SELECT U.no,
 			       CHAR(ASCII(SUBSTRING(pswd, 6, 1)) + ASCII(' ') - ASCII(')')),
 			       CHAR(ASCII(SUBSTRING(pswd, 7, 1)) + ASCII(' ') - ASCII(')')),
 			       CHAR(ASCII(SUBSTRING(pswd, 8, 1)) + ASCII(' ') - ASCII('-'))) AS CHAR),
-		   ''))       AS senha,
-       IFNULL(A.bitAcesso, 0) AS bitAcesso,
-       U.prntno               AS prntno,
-       P.name                 AS impressora
+		   ''))         AS senha,
+       IFNULL(A.bitAcesso, 0)   AS bitAcesso,
+       U.prntno                 AS prntno,
+       P.name                   AS impressora,
+       IFNULL(A.senhaPrint, '') AS senhaPrint
 FROM sqldados.users          AS U
   LEFT JOIN sqldados.prntr   AS P
 	      ON P.no = U.prntno
@@ -21,3 +22,4 @@ FROM sqldados.users          AS U
 	      ON A.userno = U.no AND A.appName = :appName
 WHERE login = :login
    OR :login = 'TODOS'
+

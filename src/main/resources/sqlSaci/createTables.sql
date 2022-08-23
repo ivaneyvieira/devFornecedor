@@ -96,3 +96,5 @@ ALTER TABLE sqldados.reimpressaoNota
 
 TRUNCATE TABLE sqldados.reimpressaoNota;
 
+ALTER TABLE sqldados.userApp
+  ADD senhaPrint varchar(40) DEFAULT '';

@@ -18,7 +18,6 @@ import org.vaadin.crudui.crud.impl.GridCrud
 @PageTitle("Usuário")
 class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override val viewModel = UsuarioViewModel(this)
-
   override fun columns(): List<String> {
     return listOf(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
   }
@@ -59,6 +58,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
           isAllowCustomValue = false
           binder.bind(this, UserSaci::storeno.name)
+        }
+        passwordField("Senha Impressão") {
+          isReadOnly = readOnly
+          binder.bind(this, UserSaci::senhaPrint.name)
         }
         formLayout {
           h4("Pendentes") {

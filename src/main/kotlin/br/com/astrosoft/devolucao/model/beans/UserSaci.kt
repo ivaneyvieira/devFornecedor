@@ -14,6 +14,7 @@ class UserSaci : IUser {
   var storeno: Int = 0
   var prntno: Int = 0
   var impressora: String? = ""
+  var senhaPrint: String? = ""
   override var ativo by DelegateAuthorized(0)
   var nota01 by DelegateAuthorized(1)
   var nota66 by DelegateAuthorized(2)
