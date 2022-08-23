@@ -31,7 +31,6 @@ class NotaSaidaNdd(val loja: Int,
     return saci.findReimpressao(loja, nota, login).firstOrNull()
   }
 
-
   companion object {
     fun findAll(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
       return saci.notaSaidaNDD(filtro)
@@ -49,4 +48,7 @@ class FiltroNotaSaidaNdd(val loja: Int?,
     get() = nota?.split("/")?.getOrNull(0)?.toIntOrNull()
   val serie
     get() = nota?.split("/")?.getOrNull(1)
+
+  fun isEmpty() =
+    (nota == null || nota == "") && (codigoCliente == null || codigoCliente == 0) && (nomeCliente == null || nomeCliente == "") && (dataI == null) && (dataF == null)
 }

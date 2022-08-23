@@ -535,34 +535,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  /*
-    fun fetchNfPrec(
-      filter: FiltroNfPrecEntrada,
-      offset: Int,
-      limit: Int,
-      sortOrders: List<SortOrder>,
-                   ): List<NfPrecEntrada> {
-      val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
-      val orderBy = if (sortOrders.isEmpty()) ""
-      else "ORDER BY " + sortOrders.joinToString(separator = ", ") { it.sql() }
-      val complemento = """
-        |$orderBy
-        |LIMIT $limit OFFSET $offset""".trimMargin()
-      return filtroNfPrec(filter, sql, complemento) {
-        it.executeAndFetch(NfPrecEntrada::class.java)
-      }
-    }
-  */
   fun notaSaidaNDD(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
     val sql = "/sqlSaci/notaSaida.sql"
-    val dataI = filtro.dataI?.toSaciDate() ?: 20000101
-    val dataF = filtro.dataF?.toSaciDate() ?: 30000101
+    val dataI = filtro.dataI?.toSaciDate()
+    val dataF = filtro.dataF?.toSaciDate()
     return query(sql, NotaSaidaNdd::class) {
       addOptionalParameter("loja", filtro.loja ?: 0)
       addOptionalParameter("numero", filtro.numero ?: 0)
       addOptionalParameter("serie", filtro.serie ?: "")
-      addOptionalParameter("dataI", dataI)
-      addOptionalParameter("dataF", dataF)
+      addOptionalParameter("dataI", dataI ?: 20000101)
+      addOptionalParameter("dataF", dataF ?: 30000101)
       addOptionalParameter("codigoCliente", filtro.codigoCliente ?: 0)
       addOptionalParameter("nomeCliente", filtro.nomeCliente ?: "")
     }
@@ -619,20 +601,19 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun findReimpressao(filtro: FiltroReimpressao): List<ReimpressaoNota> {
     val sql = "/sqlSaci/selectReimpressaoNota.sql"
-    return query(sql, ReimpressaoNota::class){
+    return query(sql, ReimpressaoNota::class) {
       addOptionalParameter("filtro", filtro.filtro)
     }
   }
 
   fun findReimpressao(loja: Int, nota: String, login: String): List<ReimpressaoNota> {
     val sql = "/sqlSaci/selectReimpressaoNotaNota.sql"
-    return query(sql, ReimpressaoNota::class){
+    return query(sql, ReimpressaoNota::class) {
       addOptionalParameter("loja", loja)
       addOptionalParameter("numero", nota)
       addOptionalParameter("login", login)
     }
   }
-
 
   fun insertReimpressao(bean: ReimpressaoNota) {
     val sql = "/sqlSaci/insertReimpressao.sql"

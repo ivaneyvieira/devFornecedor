@@ -18,8 +18,18 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
 
   fun updateView() {
     val filtro = subView.filtro()
-    val resultList = NotaSaidaNdd.findAll(filtro)
-    subView.updateGrid(resultList)
+    if(filtro.isEmpty()){
+      limparView()
+    }else{
+      val resultList = NotaSaidaNdd.findAll(subView.filtro())
+      subView.limparFiltro()
+      subView.updateGrid(resultList)
+    }
+  }
+
+  fun limparView() {
+    subView.limparFiltro()
+    subView.updateGrid(emptyList())
   }
 
   fun createDanfe(nota: NotaSaidaNdd, tipo: ETIPO_COPIA) {
@@ -51,4 +61,6 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
 interface ITabSaidaNddViewModel : ITabView {
   fun filtro(): FiltroNotaSaidaNdd
   fun updateGrid(itens: List<NotaSaidaNdd>)
+  fun limparFiltro()
+  fun setDateNow()
 }

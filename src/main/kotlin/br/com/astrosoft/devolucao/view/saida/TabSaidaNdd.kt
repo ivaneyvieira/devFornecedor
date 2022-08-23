@@ -20,9 +20,7 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.localePtBr
-import com.github.mvysny.karibudsl.v10.datePicker
-import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
@@ -57,6 +55,22 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
                               dataF = edtDataF.value)
   }
 
+  override fun limparFiltro() {
+    val user = Config.user as? UserSaci
+    cmbLoja.value = user?.storeno ?: 4
+    if (cmbLoja.value == 0) cmbLoja.value = 4
+    edtNota.value = ""
+    edtCodigo.value = 0
+    edtNome.value = ""
+    edtDataI.value = null
+    edtDataF.value = null
+  }
+
+  override fun setDateNow() {
+    edtDataI.value = LocalDate.now()
+    edtDataF.value = LocalDate.now()
+  }
+
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.notaSaida == true
@@ -75,37 +89,29 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
       value = user?.storeno ?: 4
       if (value == 0) value = 4
       isReadOnly = user?.admin == false
-      addValueChangeListener {
-        viewModel.updateView()
-      }
     }
-    edtNota = textField("Nota") {
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
+    edtNota = textField("Nota")
     edtDataI = datePicker("Data Inicial") {
       localePtBr()
-      value = LocalDate.now()
-      addValueChangeListener {
-        viewModel.updateView()
-      }
+      isClearButtonVisible = true
+      value = null
     }
     edtDataF = datePicker("Data Final") {
       localePtBr()
-      value = LocalDate.now()
-      addValueChangeListener {
+      isClearButtonVisible = true
+      value = null
+    }
+    edtCodigo = integerField("Código Cliente")
+    edtNome = textField("Nome Cliente")
+
+    button("Aplicar") {
+      onLeftClick {
         viewModel.updateView()
       }
     }
-    edtCodigo = integerField("Código Cliente") {
-      addValueChangeListener {
-        viewModel.updateView()
-      }
-    }
-    edtNome = textField("Nome Cliente") {
-      addValueChangeListener {
-        viewModel.updateView()
+    button("Limpar") {
+      onLeftClick {
+        viewModel.limparView()
       }
     }
   }

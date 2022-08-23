@@ -36,7 +36,7 @@ class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
   }
 
   override val label: String
-    get() = "Reimpressão"
+    get() = "Reimpresso"
 
   override fun updateComponent() {
     viewModel.updateView()
