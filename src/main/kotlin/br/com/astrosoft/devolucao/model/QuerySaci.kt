@@ -44,6 +44,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/updateUser.sql"
     script(sql) {
       addOptionalParameter("login", user.login)
+      addOptionalParameter("senhaPrint", user.senhaPrint)
       addOptionalParameter("bitAcesso", user.bitAcesso)
       addOptionalParameter("loja", user.storeno)
       addOptionalParameter("appName", appName)

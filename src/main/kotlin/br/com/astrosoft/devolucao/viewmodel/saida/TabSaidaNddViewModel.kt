@@ -40,6 +40,7 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
         valor = nota.valor,
                      )
     reimpressaoNota.insertReimpressao()
+    updateView()
   }
 
   fun findLojas(): List<Loja> {
