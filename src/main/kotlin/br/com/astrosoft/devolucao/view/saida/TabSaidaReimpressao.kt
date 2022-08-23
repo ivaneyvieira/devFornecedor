@@ -15,6 +15,7 @@ import br.com.astrosoft.devolucao.view.saida.columns.ReimpressaoColumns.usuarioR
 import br.com.astrosoft.devolucao.view.saida.columns.ReimpressaoColumns.valorReimpressao
 import br.com.astrosoft.devolucao.viewmodel.saida.ITabSaidaReimpressaoViewModel
 import br.com.astrosoft.devolucao.viewmodel.saida.TabSaidaReimpressaoViewModel
+import br.com.astrosoft.framework.model.Config.user
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import com.github.mvysny.karibudsl.v10.textField
@@ -27,12 +28,14 @@ class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
         TabPanelGrid<ReimpressaoNota>(ReimpressaoNota::class), ITabSaidaReimpressaoViewModel {
   private lateinit var edtFiltro: TextField
   override fun filtro(): FiltroReimpressao {
-    return FiltroReimpressao(filtro = edtFiltro.value ?: "")
+    val userSaci = user as? UserSaci
+    val loja = if (userSaci?.admin == true) 0 else userSaci?.storeno ?: 0
+    return FiltroReimpressao(filtro = edtFiltro.value ?: "", loja = loja)
   }
 
   override fun isAuthorized(user: IUser): Boolean {
-    val username = user as? UserSaci
-    return username?.reimpressao == true
+    val userSaci = user as? UserSaci
+    return userSaci?.reimpressao == true
   }
 
   override val label: String

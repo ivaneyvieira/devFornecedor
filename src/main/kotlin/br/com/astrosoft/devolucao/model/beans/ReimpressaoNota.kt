@@ -22,4 +22,4 @@ class ReimpressaoNota(
   }
 }
 
-data class FiltroReimpressao(val filtro: String)
+data class FiltroReimpressao(val loja: Int, val filtro: String)
