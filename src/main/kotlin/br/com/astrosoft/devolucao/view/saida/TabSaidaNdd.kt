@@ -85,6 +85,17 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
 
   override fun HorizontalLayout.toolBarConfig() {
     val user = Config.user as? UserSaci
+    button("Aplicar") {
+      onLeftClick {
+        viewModel.updateView()
+      }
+    }
+    button("Limpar") {
+      onLeftClick {
+        viewModel.limparView()
+      }
+    }
+
     cmbLoja = integerField("Loja") {
       value = user?.storeno ?: 4
       if (value == 0) value = 4
@@ -103,17 +114,6 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     }
     edtCodigo = integerField("Código Cliente")
     edtNome = textField("Nome Cliente")
-
-    button("Aplicar") {
-      onLeftClick {
-        viewModel.updateView()
-      }
-    }
-    button("Limpar") {
-      onLeftClick {
-        viewModel.limparView()
-      }
-    }
   }
 
   fun showWarning(msg: String) {
