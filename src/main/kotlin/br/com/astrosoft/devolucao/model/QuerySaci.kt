@@ -603,6 +603,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/selectReimpressaoNota.sql"
     return query(sql, ReimpressaoNota::class) {
       addOptionalParameter("filtro", filtro.filtro)
+      addOptionalParameter("loja", filtro.loja)
     }
   }
 

@@ -9,4 +9,5 @@ SELECT CAST(data AS date)     AS data,
        nomecli,
        valor
 FROM sqldados.reimpressaoNota
+WHERE (loja = :loja OR :loja = 0)
 ORDER BY data DESC, hora DESC
