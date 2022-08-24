@@ -21,5 +21,6 @@ WHERE (loja = :loja OR :loja = 0)
        (nota LIKE @FILTRO_STR AND @FILTRO != '') OR (tipo LIKE @FILTRO_STR AND @FILTRO != '') OR
        (usuario LIKE @FILTRO_STR AND @FILTRO != '') OR
        (nomecli LIKE @FILTRO_STR AND @FILTRO != '') OR
-       (codcli = @FILTRO_NUM AND @FILTRO_NUM != 0) OR (@FILTRO = ''))
+       (codcli = @FILTRO_NUM AND @FILTRO_NUM != 0) OR (loja = @FILTRO_NUM AND @FILTRO_NUM != 0) OR
+       (@FILTRO = ''))
 ORDER BY data DESC, hora DESC
