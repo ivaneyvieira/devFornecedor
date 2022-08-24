@@ -57,14 +57,14 @@ class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
 
   override fun Grid<ReimpressaoNota>.gridPanel() {
     lojaReimpressao()
+    dataReimpressao()
+    horaReimpressao()
+    tipoReimpressao()
     dataNotaReimpressao()
     numeroReimpressao()
     codCliReimpressao()
     nomecliReimpressao()
     valorReimpressao()
-    dataReimpressao()
-    horaReimpressao()
-    tipoReimpressao()
     usuarioReimpressao()
   }
 }
