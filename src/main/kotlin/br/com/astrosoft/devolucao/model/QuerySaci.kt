@@ -632,6 +632,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun removeReimpressao(reimpressaoNota: ReimpressaoNota) {
+    val sql = "/sqlSaci/deleteReimpressao.sql"
+    script(sql) {
+      addOptionalParameter("loja", reimpressaoNota.loja)
+      addOptionalParameter("numero", reimpressaoNota.nota)
+      addOptionalParameter("login", reimpressaoNota.usuario)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

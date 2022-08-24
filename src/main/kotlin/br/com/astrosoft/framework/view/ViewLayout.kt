@@ -76,7 +76,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   }
 
   fun showQuestion(msg: String, execYes: () -> Unit) {
-    showQuestion(msg, execYes)
+    showQuestion(msg, execYes) {}
   }
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
