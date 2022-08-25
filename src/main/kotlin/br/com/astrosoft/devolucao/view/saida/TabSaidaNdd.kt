@@ -22,6 +22,7 @@ import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.getColumnBy
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
@@ -33,6 +34,7 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.PasswordField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
+import com.vaadin.flow.data.value.ValueChangeMode
 import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 import java.time.LocalDate
@@ -85,35 +87,55 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
 
   override fun HorizontalLayout.toolBarConfig() {
     val user = Config.user as? UserSaci
-    button("Aplicar") {
-      onLeftClick {
-        viewModel.updateView()
-      }
-    }
-    button("Limpar") {
-      onLeftClick {
-        viewModel.limparView()
-      }
-    }
-
     cmbLoja = integerField("Loja") {
       value = user?.storeno ?: 4
       if (value == 0) value = 4
       isReadOnly = user?.admin == false
+      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.placeholder = "Enter para confirmar"
+      this.addValueChangeListener {
+        if (it.isFromClient) viewModel.updateView()
+      }
     }
-    edtNota = textField("Nota")
+    edtNota = textField("Nota") {
+      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.placeholder = "Enter para confirmar"
+      this.addValueChangeListener {
+        if (it.isFromClient) viewModel.updateView()
+      }
+    }
     edtDataI = datePicker("Data Inicial") {
       localePtBr()
       isClearButtonVisible = true
       value = null
+      this.placeholder = "Enter para confirmar"
+      this.addValueChangeListener {
+        if (it.isFromClient) viewModel.updateView()
+      }
     }
     edtDataF = datePicker("Data Final") {
       localePtBr()
+      this.placeholder = "Enter para confirmar"
       isClearButtonVisible = true
       value = null
+      this.addValueChangeListener {
+        if (it.isFromClient) viewModel.updateView()
+      }
     }
-    edtCodigo = integerField("Código Cliente")
-    edtNome = textField("Nome Cliente")
+    edtCodigo = integerField("Código Cliente") {
+      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.placeholder = "Enter para confirmar"
+      this.addValueChangeListener {
+        if (it.isFromClient) viewModel.updateView()
+      }
+    }
+    edtNome = textField("Nome Cliente") {
+      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.placeholder = "Enter para confirmar"
+      this.addValueChangeListener {
+        if (it.isFromClient) viewModel.updateView()
+      }
+    }
   }
 
   fun showWarning(msg: String) {
