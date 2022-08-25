@@ -62,8 +62,8 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     edtNota.value = ""
     edtCodigo.value = 0
     edtNome.value = ""
-    edtDataI.value = null
-    edtDataF.value = null
+    //edtDataI.value = if(edtDataF.value == null) edtDataI.value else null
+    //edtDataF.value = if(edtDataI.value == null) null else edtDataF.value
   }
 
   override fun setDateNow() {
@@ -127,14 +127,12 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
       if (value == 0) value = 4
       isReadOnly = user?.admin == false
       this.valueChangeMode = ValueChangeMode.ON_CHANGE
-      this.placeholder = "Enter para confirmar"
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
     }
     edtNota = textField("Nota") {
       this.valueChangeMode = ValueChangeMode.ON_CHANGE
-      this.placeholder = "Enter para confirmar"
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
@@ -143,14 +141,12 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
       localePtBr()
       isClearButtonVisible = true
       value = null
-      this.placeholder = "Enter para confirmar"
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
     }
     edtDataF = datePicker("Data Final") {
       localePtBr()
-      this.placeholder = "Enter para confirmar"
       isClearButtonVisible = true
       value = null
       this.addValueChangeListener {
@@ -159,14 +155,12 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     }
     edtCodigo = integerField("Código Cliente") {
       this.valueChangeMode = ValueChangeMode.ON_CHANGE
-      this.placeholder = "Enter para confirmar"
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
     }
     edtNome = textField("Nome Cliente") {
       this.valueChangeMode = ValueChangeMode.ON_CHANGE
-      this.placeholder = "Enter para confirmar"
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
@@ -210,11 +204,11 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
                        viewModel.createDanfe(listaNota, ETIPO_COPIA.REIMPRESSAO)
                      }, ButtonOption.caption("Reimpressão"), disableButton(user?.notaSaidaReimpressao == false))
       .withYesButton({
-                       viewModel.createDanfe(listaNota, ETIPO_COPIA.SEGUNDA_VIA)
-                     }, ButtonOption.caption("2ª Via"), disableButton(user?.notaSaida2Via == false))
-      .withYesButton({
                        viewModel.createDanfe(listaNota, ETIPO_COPIA.COPIA)
                      }, ButtonOption.caption("Cópia"), disableButton(user?.notaSaidaCopia == false))
+      .withYesButton({
+                       viewModel.createDanfe(listaNota, ETIPO_COPIA.SEGUNDA_VIA)
+                     }, ButtonOption.caption("2ª Via"), disableButton(user?.notaSaida2Via == false))
       .withNoButton(ButtonOption.caption("Cancela"))
       .open()
   }

@@ -537,8 +537,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun notaSaidaNDD(filtro: FiltroNotaSaidaNdd): List<NotaSaidaNdd> {
     val sql = "/sqlSaci/notaSaida.sql"
-    val dataI = filtro.dataI?.toSaciDate()
-    val dataF = filtro.dataF?.toSaciDate()
+    val dataI = filtro.dataI?.toSaciDate() ?: filtro.dataF?.toSaciDate()
+    val dataF = filtro.dataF?.toSaciDate() ?: dataI
     return query(sql, NotaSaidaNdd::class) {
       addOptionalParameter("loja", filtro.loja ?: 0)
       addOptionalParameter("numero", filtro.numero ?: 0)
