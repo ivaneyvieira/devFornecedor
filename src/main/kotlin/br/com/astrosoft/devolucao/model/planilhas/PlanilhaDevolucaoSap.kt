@@ -67,6 +67,7 @@ class PlanilhaDevolucaoSap(val filename: String) {
                              saldo = saldo)
           listaNotas.add(nota)
         }
+
         row.tipoLinha() == FORNECEDOR     -> {
           posicao--
           break@loop
@@ -86,6 +87,7 @@ private fun Row.tipoLinha(): ETipoLinha {
       "DE" -> NOTA_DEVOLUCAO
       else -> NOTA_OUTRAS
     }
+
     cell03 == "" -> FORNECEDOR
     else         -> CABECALHO
   }

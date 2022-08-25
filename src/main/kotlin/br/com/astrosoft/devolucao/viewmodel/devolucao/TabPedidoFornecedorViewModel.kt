@@ -16,6 +16,6 @@ class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel) {
 
 interface ITabPedidoFornecedor : ITabView {
   fun updateGrid(itens: List<FornecedorProduto>)
-  fun filtro() : String
+  fun filtro(): String
 }
 

@@ -4,7 +4,6 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.chaveDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataNotaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNfAjuste
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNiBonificacao
@@ -16,7 +15,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
-import com.github.mvysny.kaributools.fetchAll
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
@@ -64,8 +62,7 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
         }
       }
 
-      notaLoja()
-      //notaDataPedido()
+      notaLoja() //notaDataPedido()
       dataNotaEditavel(null).dateFieldEditor().apply {
         this.setHeader("Data")
       }
@@ -91,8 +88,7 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
 
   fun updateNota(itens: List<NotaSaida>) {
     itens.forEach {
-      if(it.dataNotaEditavel == null)
-        it.dataNotaEditavel = it.dataPedido
+      if (it.dataNotaEditavel == null) it.dataNotaEditavel = it.dataPedido
     }
   }
 }

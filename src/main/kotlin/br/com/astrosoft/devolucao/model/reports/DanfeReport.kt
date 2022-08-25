@@ -26,8 +26,7 @@ object DanfeReport {
     exporter.exporterOutput = SimpleOutputStreamExporterOutput(baos)
     exporter.exportReport()
 
-    return baos.toByteArray()
-    //val printReport = fillReport(itens, tipo)
+    return baos.toByteArray() //val printReport = fillReport(itens, tipo)
     //return JasperExportManager.exportReportToPdf(printReport) ?: ByteArray(0)
   }
 
