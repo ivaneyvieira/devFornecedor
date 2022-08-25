@@ -28,6 +28,7 @@ class NFFile(val storeno: Int,
                         date = LocalDate.now(),
                         nome = fileName,
                         file = bytes)
+
         else  -> NFFile(storeno = nota.loja,
                         pdvno = nota.pdv,
                         xano = nota.transacao,

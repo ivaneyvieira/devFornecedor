@@ -94,12 +94,14 @@ fun <T> PSheet.row(campos: List<Campo<*, T>>, bean: T) {
           cellStyle = style
           setCellValue(cellValue.toDouble())
         }
+
         is Number    -> {
           val style = workbook.createCellStyle()
           style.dataFormat = creationHelper.createDataFormat().getFormat("0.00")
           cellStyle = style
           setCellValue(cellValue.toDouble())
         }
+
         is LocalDate -> setCellValue(cellValue.format())
         else         -> setCellValue(cellValue.toString())
       }

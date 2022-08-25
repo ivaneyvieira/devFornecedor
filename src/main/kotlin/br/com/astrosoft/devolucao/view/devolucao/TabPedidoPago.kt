@@ -11,7 +11,7 @@ class TabPedidoPago(viewModel: TabPedidoPagoViewModel) : TabPedidoAbstract<IDevo
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
   override val situacaoPedido
-    get() =  listOf(ESituacaoPedido.PAGO)
+    get() = listOf(ESituacaoPedido.PAGO)
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci

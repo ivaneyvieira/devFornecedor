@@ -80,6 +80,7 @@ private fun <T : Any> comparator(sortOrder: List<GridSortOrder<T>>, classGrid: K
         DESCENDING      -> compareByDescending {
           prop.get(it)
         }
+
         null, ASCENDING -> compareBy<T> {
           prop.get(it)
         }

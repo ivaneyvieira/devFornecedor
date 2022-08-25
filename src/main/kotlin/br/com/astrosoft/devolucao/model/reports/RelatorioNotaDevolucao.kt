@@ -209,6 +209,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
           valorTotalIpiCol,
                           )
       }
+
       "PED"              -> when {
         resumida -> listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
         else     -> listOf(
@@ -233,6 +234,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
           aliqIPICol,
                           )
       }
+
       else               -> listOf(itemCol,
                                    barcodeCol,
                                    codigoCol,
@@ -569,6 +571,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         sbt.sum(vstCol),
         sbt.sum(valorTotalIpiCol),
                                              )
+
       else                          -> listOf(
         sbt.text("Total R$", valorUnitarioCol),
         sbt.sum(valorTotalCol),

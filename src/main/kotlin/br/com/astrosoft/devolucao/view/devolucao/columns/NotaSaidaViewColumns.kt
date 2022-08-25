@@ -205,6 +205,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valorNota) {
     this.setHeader("Valor")
   }
+
   fun Grid<NotaSaida>.notaBonificacao() = addColumnString(NotaSaida::notaBonificacao) {
     this.setHeader("NFB")
   }
@@ -215,7 +216,4 @@ object NotaSaidaViewColumns {
     width = widthData
     isExpand = false
   }
-
-
-
 }

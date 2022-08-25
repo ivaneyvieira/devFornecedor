@@ -6,7 +6,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.da
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataBonificacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataNotaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaBonificacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
@@ -67,8 +66,7 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
 
       notaLoja()
       notaDataPedido()
-      notaPedido()
-      //notaDataNota()
+      notaPedido() //notaDataNota()
       if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel) {
         dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
         notaEditavel(situacao).textFieldEditor().marcaAzul()

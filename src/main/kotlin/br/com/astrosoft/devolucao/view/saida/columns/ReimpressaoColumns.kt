@@ -6,7 +6,6 @@ import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
-import java.time.LocalDate
 
 object ReimpressaoColumns {
   fun Grid<ReimpressaoNota>.dataReimpressao() = addColumnLocalDate(ReimpressaoNota::data) {
