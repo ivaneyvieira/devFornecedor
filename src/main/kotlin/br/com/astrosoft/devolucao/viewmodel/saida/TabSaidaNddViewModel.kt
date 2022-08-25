@@ -18,9 +18,10 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
 
   fun updateView() {
     val filtro = subView.filtro()
-    if(filtro.isEmpty()){
+    if (filtro.isEmpty()) {
       limparView()
-    }else{
+    }
+    else {
       val resultList = NotaSaidaNdd.findAll(subView.filtro())
       subView.limparFiltro()
       subView.updateGrid(resultList)
@@ -32,24 +33,28 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     subView.updateGrid(emptyList())
   }
 
-  fun createDanfe(nota: NotaSaidaNdd, tipo: ETIPO_COPIA) {
-    val itensNotaReport = nota.itensNotaReport()
-    val report = DanfeReport.create(itensNotaReport, tipo)
+  fun createDanfe(listaNota: List<NotaSaidaNdd>, tipo: ETIPO_COPIA) {
+    val listItensNotaReport = listaNota.map { nota ->
+      nota.itensNotaReport()
+    }
+    val report = DanfeReport.create(listItensNotaReport, tipo)
     viewModel.view.showReport("Danfee", report)
-    val reimpressaoNota =
-      ReimpressaoNota(
-        data = LocalDate.now(),
-        hora = LocalTime.now().format(),
-        loja = nota.loja,
-        nota = "${nota.numero}/${nota.serie}",
-        tipo = tipo.descricao,
-        usuario = Config.user?.login ?: "",
-        dataNota = nota.data,
-        codcli = nota.codigoCliente,
-        nomecli = nota.nomeCliente,
-        valor = nota.valor,
-                     )
-    reimpressaoNota.insertReimpressao()
+    listaNota.forEach { nota ->
+      val reimpressaoNota =
+        ReimpressaoNota(
+          data = LocalDate.now(),
+          hora = LocalTime.now().format(),
+          loja = nota.loja,
+          nota = "${nota.numero}/${nota.serie}",
+          tipo = tipo.descricao,
+          usuario = Config.user?.login ?: "",
+          dataNota = nota.data,
+          codcli = nota.codigoCliente,
+          nomecli = nota.nomeCliente,
+          valor = nota.valor,
+                       )
+      reimpressaoNota.insertReimpressao()
+    }
     updateView()
   }
 
