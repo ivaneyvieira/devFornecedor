@@ -63,7 +63,7 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
 
   fun createDanfe(nota: NotaEntradaNdd) {
     val itensNotaReport = nota.itensNotaReport()
-    val report = DanfeReport.create(itensNotaReport, ETIPO_COPIA.COPIA)
+    val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
     viewModel.view.showReport("Danfee", report)
   }
 

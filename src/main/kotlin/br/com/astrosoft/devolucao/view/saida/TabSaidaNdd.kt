@@ -18,11 +18,9 @@ import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.getColumnBy
-import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
@@ -87,6 +85,43 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
 
   override fun HorizontalLayout.toolBarConfig() {
     val user = Config.user as? UserSaci
+    button("Imprimir") {
+      this.icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val listaNota = gridPanel.selectedItems.toList().filter {
+          it.reimpresao() == null
+        }
+        if (listaNota.isEmpty()) {
+          showWarning("Nenhuma nota selecionada")
+        }
+        else if (user?.admin == true) {
+          confirmaTipoNota(listaNota, user)
+        }
+        else {
+          val senhaPrint = user?.senhaPrint?.trim() ?: ""
+          if (senhaPrint == "") {
+            showWarning("O usuário não possui senha para impressão")
+          }
+          else {
+            val edtSenha = PasswordField("Senha")
+            ConfirmDialog
+              .createQuestion()
+              .withCaption("Entre com a senha de ${user?.login}")
+              .withMessage(edtSenha)
+              .withOkButton({
+                              if (edtSenha.value == senhaPrint) {
+                                confirmaTipoNota(listaNota, user)
+                              }
+                              else {
+                                showWarning("Senha incorreta")
+                              }
+                            })
+              .withCancelButton(ButtonOption.caption("Cancela"))
+              .open()
+          }
+        }
+      }
+    }
     cmbLoja = integerField("Loja") {
       value = user?.storeno ?: 4
       if (value == 0) value = 4
@@ -143,43 +178,7 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
   }
 
   override fun Grid<NotaSaidaNdd>.gridPanel() {
-    val user = Config.user as? UserSaci
     setSelectionMode(Grid.SelectionMode.MULTI)
-    addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { nota ->
-      if (user?.admin == true) {
-        confirmaTipoNota(nota, user)
-      }
-      else {
-        val senhaPrint = user?.senhaPrint?.trim() ?: ""
-        if (senhaPrint == "") {
-          showWarning("O usuário não possui senha para impressão")
-        }
-        else {
-          val reimpressao = nota.reimpresao()
-          if ((reimpressao == null) || (user?.admin == true)) {
-            val edtSenha = PasswordField("Senha")
-            ConfirmDialog
-              .createQuestion()
-              .withCaption("Entre com a senha de ${user?.login}")
-              .withMessage(edtSenha)
-              .withOkButton({
-                              if (edtSenha.value == senhaPrint) {
-                                confirmaTipoNota(nota, user)
-                              }
-                              else {
-                                showWarning("Senha incorreta")
-                              }
-                            })
-              .withCancelButton(ButtonOption.caption("Cancela"))
-              .open()
-          }
-          else {
-            showWarning("Essa nota já foi reimpressa pelo usuário ${reimpressao.usuario}")
-          }
-        }
-      }
-    }
-
     lojaNotaSaida()
     notaNotaSaida()
     dataNotaSaida()
@@ -202,19 +201,19 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     sort(listOf(GridSortOrder(getColumnBy(NotaSaidaNdd::data), SortDirection.DESCENDING)))
   }
 
-  private fun confirmaTipoNota(nota: NotaSaidaNdd, user: UserSaci?) {
+  private fun confirmaTipoNota(listaNota: List<NotaSaidaNdd>, user: UserSaci?) {
     ConfirmDialog
       .createQuestion()
       .withCaption("Tipo de nota fiscal")
       .withMessage("Qual o tipo de nota fiscal")
       .withYesButton({
-                       viewModel.createDanfe(nota, ETIPO_COPIA.REIMPRESSAO)
+                       viewModel.createDanfe(listaNota, ETIPO_COPIA.REIMPRESSAO)
                      }, ButtonOption.caption("Reimpressão"), disableButton(user?.notaSaidaReimpressao == false))
       .withYesButton({
-                       viewModel.createDanfe(nota, ETIPO_COPIA.SEGUNDA_VIA)
+                       viewModel.createDanfe(listaNota, ETIPO_COPIA.SEGUNDA_VIA)
                      }, ButtonOption.caption("2ª Via"), disableButton(user?.notaSaida2Via == false))
       .withYesButton({
-                       viewModel.createDanfe(nota, ETIPO_COPIA.COPIA)
+                       viewModel.createDanfe(listaNota, ETIPO_COPIA.COPIA)
                      }, ButtonOption.caption("Cópia"), disableButton(user?.notaSaidaCopia == false))
       .withNoButton(ButtonOption.caption("Cancela"))
       .open()
