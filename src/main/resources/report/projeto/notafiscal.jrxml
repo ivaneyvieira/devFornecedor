@@ -437,15 +437,28 @@ FROM dual]]>
 				<text><![CDATA[2ª Via]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="2" y="10" width="551" height="792" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="2fba672e-9261-40cb-bc69-b88b8491a647">
+				<reportElement mode="Transparent" x="1" y="-1" width="553" height="61" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="2fba672e-9261-40cb-bc69-b88b8491a647">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<printWhenExpression><![CDATA[$F{cpnjEmitente}.startsWith("07.483.654") && $P{PRINT_MARCA}.equals("R")]]></printWhenExpression>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-					<font size="120"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font size="44" isBold="true"/>
+					<paragraph lineSpacingSize="0.0"/>
 				</textElement>
 				<text><![CDATA[Reimpressão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="0" width="553" height="60" forecolor="rgba(0, 0, 0, 0.27058825)" uuid="8ef685a3-0d79-4bf4-9f2a-7daf67c5ffac">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{cpnjEmitente}.startsWith("07.483.654") && $P{PRINT_MARCA}.equals("C")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font size="44" isBold="true"/>
+					<paragraph lineSpacingSize="0.0"/>
+				</textElement>
+				<text><![CDATA[Cópia]]></text>
 			</staticText>
 		</band>
 	</background>
