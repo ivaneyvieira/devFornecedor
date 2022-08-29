@@ -20,6 +20,8 @@ class ReimpressaoNota(
     saci.removeReimpressao(this)
   }
 
+
+
   companion object {
     fun findReimpressao(filtro: FiltroReimpressao): List<ReimpressaoNota> = saci.findReimpressao(filtro)
   }
