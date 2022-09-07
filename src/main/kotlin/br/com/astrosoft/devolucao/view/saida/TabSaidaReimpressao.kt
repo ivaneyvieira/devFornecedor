@@ -80,14 +80,6 @@ class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
         viewModel.updateView()
       }
     }
-    if (user?.admin == true) {
-      button("Excluir") {
-        this.icon = VaadinIcon.TRASH.create()
-        onLeftClick {
-          viewModel.removeReimpressao(gridPanel.selectedItems)
-        }
-      }
-    }
   }
 
   override fun Grid<ReimpressaoNota>.gridPanel() {

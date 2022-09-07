@@ -616,31 +616,6 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun insertReimpressao(bean: ReimpressaoNota) {
-    val sql = "/sqlSaci/insertReimpressao.sql"
-    script(sql) {
-      addOptionalParameter("data", bean.data.toSaciDate())
-      addOptionalParameter("hora", bean.hora)
-      addOptionalParameter("loja", bean.loja)
-      addOptionalParameter("nota", bean.nota)
-      addOptionalParameter("tipo", bean.tipo)
-      addOptionalParameter("usuario", bean.usuario)
-      addOptionalParameter("dataNota", bean.dataNota?.toSaciDate() ?: 0)
-      addOptionalParameter("codcli", bean.codcli ?: 0)
-      addOptionalParameter("nomecli", bean.nomecli ?: "")
-      addOptionalParameter("valor", bean.valor ?: 0.00)
-    }
-  }
-
-  fun removeReimpressao(reimpressaoNota: ReimpressaoNota) {
-    val sql = "/sqlSaci/deleteReimpressao.sql"
-    script(sql) {
-      addOptionalParameter("loja", reimpressaoNota.loja)
-      addOptionalParameter("numero", reimpressaoNota.nota)
-      addOptionalParameter("login", reimpressaoNota.usuario)
-    }
-  }
-
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

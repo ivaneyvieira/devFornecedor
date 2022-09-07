@@ -33,31 +33,6 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     subView.updateGrid(emptyList())
   }
 
-  fun createDanfe(listaNota: List<NotaSaidaNdd>, tipo: ETIPO_COPIA) {
-    val listItensNotaReport = listaNota.map { nota ->
-      nota.itensNotaReport()
-    }
-    val report = DanfeReport.create(listItensNotaReport, tipo)
-    viewModel.view.showReport("Danfee", report)
-    listaNota.forEach { nota ->
-      val reimpressaoNota =
-        ReimpressaoNota(
-          data = LocalDate.now(),
-          hora = LocalTime.now().format(),
-          loja = nota.loja,
-          nota = "${nota.numero}/${nota.serie}",
-          tipo = tipo.descricao,
-          usuario = Config.user?.login ?: "",
-          dataNota = nota.data,
-          codcli = nota.codigoCliente,
-          nomecli = nota.nomeCliente,
-          valor = nota.valor,
-                       )
-      reimpressaoNota.insertReimpressao()
-    }
-    updateView()
-  }
-
   fun findLojas(): List<Loja> {
     return Loja.allLojas().sortedBy { it.no }
   }

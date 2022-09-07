@@ -15,13 +15,6 @@ class ReimpressaoNota(
   val nomecli: String?,
   val valor: Double?,
                      ) {
-  fun insertReimpressao() = saci.insertReimpressao(this)
-  fun remove() {
-    saci.removeReimpressao(this)
-  }
-
-
-
   companion object {
     fun findReimpressao(filtro: FiltroReimpressao): List<ReimpressaoNota> = saci.findReimpressao(filtro)
   }
