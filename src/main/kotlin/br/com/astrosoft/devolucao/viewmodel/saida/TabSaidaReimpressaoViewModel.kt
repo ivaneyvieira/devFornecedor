@@ -19,18 +19,6 @@ class TabSaidaReimpressaoViewModel(val viewModel: SaidaViewModel) {
   fun findLojas(): List<Loja> {
     return Loja.allLojas().sortedBy { it.no }
   }
-
-  fun removeReimpressao(selectedItems: Set<ReimpressaoNota>) = viewModel.exec {
-    if (selectedItems.isEmpty()) fail("Nenhum item selecionado")
-    else {
-      subView.confirmaRemocao {
-        selectedItems.forEach { reimpressaoNota ->
-          reimpressaoNota.remove()
-        }
-        updateView()
-      }
-    }
-  }
 }
 
 interface ITabSaidaReimpressaoViewModel : ITabView {

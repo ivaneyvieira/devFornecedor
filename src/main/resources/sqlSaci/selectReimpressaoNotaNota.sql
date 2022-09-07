@@ -4,7 +4,7 @@ SELECT CAST(data AS date) AS data,
        nota,
        tipo,
        usuario
-FROM sqldados.reimpressaoNota
+FROM sqldados.reimpressaoNotaNovo
 WHERE loja = :loja
   AND nota = :numero
 ORDER BY data DESC, hora DESC
