@@ -14,7 +14,7 @@ SELECT CAST(data AS date)     AS data,
        codcli,
        nomecli,
        valor
-FROM sqldados.reimpressaoNota
+FROM sqldados.reimpressaoNotaNovo
 WHERE (loja = :loja OR :loja = 0)
   AND ((DATE_FORMAT(data, '%d/%m/%Y') = @FILTRO_DATA AND @FILTRO_DATA != '') OR
        (DATE_FORMAT(dataNota, '%d/%m/%Y') = @FILTRO_DATA AND @FILTRO_DATA != '') OR
