@@ -4,7 +4,6 @@ import br.com.astrosoft.devolucao.model.beans.FiltroReimpressao
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.ReimpressaoNota
 import br.com.astrosoft.framework.viewmodel.ITabView
-import br.com.astrosoft.framework.viewmodel.fail
 
 class TabSaidaReimpressaoViewModel(val viewModel: SaidaViewModel) {
   val subView

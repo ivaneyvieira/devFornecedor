@@ -3,7 +3,6 @@ package br.com.astrosoft.devolucao.view.saida
 import br.com.astrosoft.devolucao.model.beans.FiltroNotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.NotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.chaveNotaSaida
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.codigoClienteNotaSaida
 import br.com.astrosoft.devolucao.view.saida.columns.SaidaNddColumns.dataNotaSaida
@@ -19,17 +18,17 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.localePtBr
-import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v10.datePicker
+import com.github.mvysny.karibudsl.v10.integerField
+import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
-import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
-import com.vaadin.flow.component.textfield.PasswordField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -61,8 +60,7 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
     if (cmbLoja.value == 0) cmbLoja.value = 4
     edtNota.value = ""
     edtCodigo.value = 0
-    edtNome.value = ""
-    //edtDataI.value = if(edtDataF.value == null) edtDataI.value else null
+    edtNome.value = "" //edtDataI.value = if(edtDataF.value == null) edtDataI.value else null
     //edtDataF.value = if(edtDataI.value == null) null else edtDataF.value
   }
 
