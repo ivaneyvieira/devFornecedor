@@ -3,14 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.saida
 import br.com.astrosoft.devolucao.model.beans.FiltroNotaSaidaNdd
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NotaSaidaNdd
-import br.com.astrosoft.devolucao.model.beans.ReimpressaoNota
-import br.com.astrosoft.devolucao.model.reports.DanfeReport
-import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
-import br.com.astrosoft.framework.model.Config
-import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
-import java.time.LocalDate
-import java.time.LocalTime
 
 class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
   val subView
