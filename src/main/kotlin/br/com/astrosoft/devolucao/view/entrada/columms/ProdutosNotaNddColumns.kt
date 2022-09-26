@@ -46,6 +46,11 @@ object ProdutosNotaNddColumns {
     this.isResizable = true
   }
 
+  fun Grid<ProdutoNotaEntradaNdd>.produtoQuantidadeAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::quantidadeAvaria) {
+    this.setHeader("Quantidade")
+    this.isResizable = true
+  }
+
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorUnitario() = addColumnDouble(ProdutoNotaEntradaNdd::valorUnitario) {
     this.setHeader("Valor Unitário")
     this.isResizable = true
@@ -75,4 +80,56 @@ object ProdutosNotaNddColumns {
     this.setHeader("Alíq ICMS")
     this.isResizable = true
   }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorTotalAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::valorTotalAvaria) {
+    this.setHeader("V. Unit.")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorIPIAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::valorIPIAvaria) {
+    this.setHeader("V. IPI")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoAliqOutros() = addColumnDouble(ProdutoNotaEntradaNdd::aliqOutrosAvaria) {
+    this.setHeader("% Outros")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorOutrosAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::valorOutros) {
+    this.setHeader("V. Outros")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoAliqFrete() = addColumnDouble(ProdutoNotaEntradaNdd::aliqFreteAvaria) {
+    this.setHeader("% Frete")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorFrete() = addColumnDouble(ProdutoNotaEntradaNdd::valorFrete) {
+    this.setHeader("V. Frete")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoAliqDifICMS() = addColumnDouble(ProdutoNotaEntradaNdd::aliqDifICMS) {
+    this.setHeader("% Dif ICMS")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorDifICMS() = addColumnDouble(ProdutoNotaEntradaNdd::valorDifICMS) {
+    this.setHeader("V. Dif ICMS")
+    this.isResizable = true
+  }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorUnitarioAvaria() =
+    addColumnDouble(ProdutoNotaEntradaNdd::valorUnitAvaria) {
+      this.setHeader("V. Unt Av")
+      this.isResizable = true
+    }
+
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorFinalAvaria() =
+    addColumnDouble(ProdutoNotaEntradaNdd::valorTotalFinalAvaria) {
+      this.setHeader("V. Total Av")
+      this.isResizable = true
+    }
 }

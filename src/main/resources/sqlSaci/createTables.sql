@@ -98,3 +98,15 @@ TRUNCATE TABLE sqldados.reimpressaoNota;
 
 ALTER TABLE sqldados.userApp
   ADD senhaPrint varchar(40) DEFAULT '';
+
+
+DROP TABLE IF EXISTS sqldados.quantAvaria;
+CREATE TABLE sqldados.quantAvaria (
+   id Int,
+   numeroProtocolo VARCHAR(50),
+   codigo VARCHAR(30),
+   codBarra VARCHAR(30),
+   quantidade DOUBLE,
+   PRIMARY KEY (id, numeroProtocolo, codigo, codBarra)
+);
+
