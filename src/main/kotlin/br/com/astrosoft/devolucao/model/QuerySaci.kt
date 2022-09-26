@@ -616,6 +616,27 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun getQuantidadeAvaria(produtoNotaEntradaNdd: ProdutoNotaEntradaNdd): Double? {
+    val sql = "/sqlSaci/getQuantidadeAvaria.sql"
+    return query(sql, QuantidadeAvaria::class) {
+      addOptionalParameter("id", produtoNotaEntradaNdd.id)
+      addOptionalParameter("numeroProtocolo", produtoNotaEntradaNdd.numeroProtocolo)
+      addOptionalParameter("codigo", produtoNotaEntradaNdd.codigo)
+      addOptionalParameter("codBarra", produtoNotaEntradaNdd.codBarra)
+    }.firstOrNull()?.quantidade
+  }
+
+  fun setQuantidadeAvaria(produtoNotaEntradaNdd: ProdutoNotaEntradaNdd, value: Double?) {
+    val sql = "/sqlSaci/setQuantidadeAvaria.sql"
+    script(sql) {
+      addOptionalParameter("id", produtoNotaEntradaNdd.id)
+      addOptionalParameter("numeroProtocolo", produtoNotaEntradaNdd.numeroProtocolo)
+      addOptionalParameter("codigo", produtoNotaEntradaNdd.codigo)
+      addOptionalParameter("codBarra", produtoNotaEntradaNdd.codBarra)
+      addOptionalParameter("quantidade", value ?: 0.00)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
