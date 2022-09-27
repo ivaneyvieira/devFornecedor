@@ -20,7 +20,7 @@ SELECT id,
        valorTotalSt,
        baseCalculoIssqn,
        chave,
-       status,
+       N.status,
        xmlAut,
        xmlCancelado,
        xmlNfe,
@@ -37,9 +37,10 @@ FROM sqldados.notasEntradaNdd AS N
 	      ON S.cgc = N.cnpjDestinatario
   LEFT JOIN sqldados.custp    AS C
 	      ON C.cpf_cgc = N.cnpjDestinatario
+  LEFT JOIN sqldados.invnfe  AS    CHAVE
+	      ON N.chave = CONCAT('NFe', CHAVE.nfekey)
   LEFT JOIN sqldados.inv      AS I
-	      ON I.storeno = S.no AND I.nfname * 1 = N.numero * 1 AND I.invse = N.serie AND
-		 I.vendno = V.no
+	      ON I.invno = CHAVE.invno
   LEFT JOIN sqldados.carr     AS T
 	      ON T.no = I.carrno
 WHERE dataEmissao BETWEEN :dataInicial AND :dataFinal
