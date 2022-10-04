@@ -76,7 +76,7 @@ SELECT iprd.storeno                                                           AS
        spedprd.ncm                                                            AS ncmp,
        IFNULL(mfprd.ncm, spedprd.ncm)                                         AS ncmn,
        IF(prd.taxno = '06', ROUND(((iprd.baseIcmsSubst / 100) /
-				   (((iprd.qtty / 1000) * (iprd.fob4 / 10000)) +
+				   (((iprd.qtty / 1000) * (iprd.dfob)) +
 				    (iprd.ipiAmt / 100)) - 1.00) * 100, 4),
 	  ROUND(iprd.lucroTributado / 100, 4))                                AS mvan,
        ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 4) AS mvap,
