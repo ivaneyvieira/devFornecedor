@@ -75,10 +75,10 @@ SELECT iprd.storeno                                                           AS
        TRIM(MID(prd.name, 1, 37))                                             AS descricao,
        spedprd.ncm                                                            AS ncmp,
        IFNULL(mfprd.ncm, spedprd.ncm)                                         AS ncmn,
-       IF(prd.taxno = '06', ROUND(((iprd.baseIcmsSubst / 100) /
+       ROUND(IF(prd.taxno = '06', ROUND(((iprd.baseIcmsSubst / 100) /
 				   (((iprd.qtty / 1000) * (iprd.dfob)) +
 				    (iprd.ipiAmt / 100)) - 1.00) * 100, 4),
-	  ROUND(iprd.lucroTributado / 100, 4))                                AS mvan,
+	  ROUND(iprd.lucroTributado / 100, 4)), 1)                            AS mvan,
        ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 4) AS mvap,
        IF(iprd.baseIpi = 0, 0.00, ROUND(iprd.ipi / 100, 4))                   AS ipin,
        ROUND(IFNULL(prp.ipi, 0) / 100, 4)                                     AS ipip,
