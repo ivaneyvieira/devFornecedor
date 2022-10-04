@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
+import kotlin.math.absoluteValue
 
 class NfPrecEntrada(
   val lj: Int,
@@ -43,6 +44,13 @@ class NfPrecEntrada(
   val freteDif: String,
   val frete: Double,
                    ) {
+  val mvanApŕox: Double
+    get() {
+      val dif = (mvan - mvap).absoluteValue
+      return if (dif < 0.01) mvap
+      else mvan
+    }
+
   val dataStr
     get() = data.format()
 

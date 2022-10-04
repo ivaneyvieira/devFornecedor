@@ -33,7 +33,7 @@ class PlanilhaNfPrec(val fiscal: Boolean) {
       CampoNumber("ipip") { ipip },
       CampoString("cstn") { cstn },
       CampoString("cstp") { cstp },
-      CampoNumber("mvan") { mvan },
+      CampoNumber("mvan") { mvanApŕox },
       CampoNumber("mvap") { mvap },
                       )
     else listOf(CampoInt("lj") { lj },

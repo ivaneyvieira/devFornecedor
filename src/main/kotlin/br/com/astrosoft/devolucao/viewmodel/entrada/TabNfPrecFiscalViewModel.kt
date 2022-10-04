@@ -41,7 +41,7 @@ class TabNfPrecFiscalViewModel(val viewModel: EntradaViewModel) {
       NfPrecEntradaGrupo("Diferenças de IPI", nota, nota.ipin.format(), nota.ipip.format())
     }
     val mvaDifList = listNotas.filter { it.mvaDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de MVA", nota, nota.mvan.format(), nota.mvap.format())
+      NfPrecEntradaGrupo("Diferenças de MVA", nota, nota.mvanApŕox.format(), nota.mvap.format())
     }
     val listaRelatorio = freteDifList + icmsDifList + ipiDifList + cstDifList + mvaDifList
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)
