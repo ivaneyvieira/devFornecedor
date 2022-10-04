@@ -451,6 +451,17 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun notasEntradaSaci(filtro: FiltroEntradaSaci): List<NotaEntradaSaci> {
+    val sql = "/sqlSaci/notasEntrada.sql"
+    return query(sql, NotaEntradaSaci::class) {
+      addOptionalParameter("filtro", filtro.query)
+      addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
+      addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
+      addOptionalParameter("chave", filtro.chave)
+    }
+  }
+
+
   fun saveNotaNddPedido(nota: NotaEntradaNdd) {
     val sql = "/sqlSaci/saveNotaNddPedido.sql"
     script(sql) {
