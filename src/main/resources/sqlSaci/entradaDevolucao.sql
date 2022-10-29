@@ -51,7 +51,8 @@ SELECT N.storeno                                    AS loja,
        IFNULL(X.nfekey, '')                         AS chave,
        'NF ENTRADA'                                 AS natureza,
        ''                                           AS chaveDesconto,
-       ''                                           AS observacaoAuxiliar
+       ''                                           AS observacaoAuxiliar,
+       ''                                           AS pedidos
 FROM sqldados.inv               AS N
   LEFT JOIN  sqldados.invnfe    AS X
 	       USING (invno)

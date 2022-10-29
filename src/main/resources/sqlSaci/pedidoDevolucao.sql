@@ -162,7 +162,8 @@ SELECT E.storeno                                      AS loja,
        'DEVOLUÇÃO'                                    AS natureza,
        CONCAT(E.c4, E.c5)                             AS chaveDesconto,
        CONCAT(E.auxString, E.auxString2)              AS observacaoAuxiliar,
-       CAST(IF(E.l11 = 0, NULL, E.l11) AS DATE)       AS dataAgenda
+       CAST(IF(E.l11 = 0, NULL, E.l11) AS DATE)       AS dataAgenda,
+       E.auxLong4                                     AS pedidos
 FROM sqldados.eord              AS E
   LEFT JOIN  sqldados.ords      AS O
 	       ON O.no = E.ordno AND O.storeno = E.storeno

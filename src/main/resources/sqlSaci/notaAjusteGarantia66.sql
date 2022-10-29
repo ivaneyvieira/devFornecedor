@@ -140,19 +140,22 @@ SELECT N.storeno                                 AS loja,
        chave                                     AS chave,
        natureza                                  AS natureza,
        chaveDesconto                             AS chaveDesconto,
-       observacaoAuxiliar                        AS observacaoAuxiliar
-FROM TNF                        AS N
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS R
+       observacaoAuxiliar                        AS observacaoAuxiliar,
+       NC.pedidos                                AS pedidos
+FROM TNF                        AS  N
+  LEFT JOIN  sqldados.nfComplemento NC
 	       USING (storeno, pdvno, xano)
-  LEFT JOIN  TDUP               AS D
+  INNER JOIN sqldados.store     AS  S
+	       ON S.no = N.storeno
+  LEFT JOIN  sqldados.nfdevRmk  AS  R
+	       USING (storeno, pdvno, xano)
+  LEFT JOIN  TDUP               AS  D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-  LEFT JOIN  sqldados.eordrk    AS O
+  LEFT JOIN  sqldados.eordrk    AS  O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  T_CUST_VEND        AS C
+  LEFT JOIN  T_CUST_VEND        AS  C
 	       ON C.custno = N.custno
-  LEFT JOIN  sqldados.nfvendRmk AS RV
+  LEFT JOIN  sqldados.nfvendRmk AS  RV
 	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
 GROUP BY loja, pdv, transacao, dataNota, custno

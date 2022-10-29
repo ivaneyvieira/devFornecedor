@@ -30,11 +30,12 @@ object NotaSaidaViewColumns {
     isExpand = false
   }
 
-  fun Grid<NotaSaida>.notaPedidoEditavel() = addColumnInt(NotaSaida::pedidoEditavel) {
+  fun Grid<NotaSaida>.notaPedidoEditavel() = addColumnString(NotaSaida::pedidos) {
     this.setHeader("Pedido")
     isAutoWidth = false
     width = widthData
-    isExpand = false
+    isResizable = true
+    isExpand = true
   }
 
   fun Grid<NotaSaida>.notaDataPedido() = addColumnLocalDate(NotaSaida::dataPedido) {
