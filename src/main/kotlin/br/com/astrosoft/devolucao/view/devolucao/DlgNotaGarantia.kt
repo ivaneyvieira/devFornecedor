@@ -66,7 +66,7 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
       dataNotaEditavel(null).dateFieldEditor().apply {
         this.setHeader("Data")
       }
-      notaPedidoEditavel().integerFieldEditor()
+      notaPedidoEditavel().textFieldEditor()
       notaDataNota()
       notaNfAjuste()
       chaveDesconto("Observação").textFieldEditor().apply {

@@ -48,21 +48,24 @@ SELECT N.storeno,
        IFNULL(X.nfekey, '')                                              AS chave,
        IFNULL(OP.name, '')                                               AS natureza,
        TRIM(CONCAT(N.c6, N.c5))                                          AS chaveDesconto,
-       TRIM(CONCAT(N.c4, N.c3))                                          AS observacaoAuxiliar
-FROM sqldados.nf               AS N /*FORCE INDEX (e3)*/
-  LEFT JOIN  sqldados.natop    AS OP
+       TRIM(CONCAT(N.c4, N.c3))                                          AS observacaoAuxiliar,
+       NC.pedidos                                                        AS pedidos
+FROM sqldados.nf               AS   N /*FORCE INDEX (e3)*/
+  LEFT JOIN  sqldados.nfComplemento NC
+	       USING (storeno, pdvno, xano)
+  LEFT JOIN  sqldados.natop    AS   OP
 	       ON OP.no = N.natopno
-  LEFT JOIN  sqldados.nfes     AS X
+  LEFT JOIN  sqldados.nfes     AS   X
 	       ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
-  LEFT JOIN  sqldados.nfdevRmk AS R
+  LEFT JOIN  sqldados.nfdevRmk AS   R
 	       ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
-  LEFT JOIN  sqldados.nfrmk    AS R2
+  LEFT JOIN  sqldados.nfrmk    AS   R2
 	       ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
-  LEFT JOIN  sqldados.eord     AS O
+  LEFT JOIN  sqldados.eord     AS   O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  sqldados.eordrk   AS OBS
+  LEFT JOIN  sqldados.eordrk   AS   OBS
 	       ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
-  INNER JOIN sqldados.custp    AS C
+  INNER JOIN sqldados.custp    AS   C
 	       ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
@@ -143,19 +146,22 @@ SELECT N.storeno                                 AS loja,
        chave                                     AS chave,
        natureza                                  AS natureza,
        chaveDesconto                             AS chaveDesconto,
-       observacaoAuxiliar                        AS observacaoAuxiliar
-FROM TNF                        AS N
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS R
+       observacaoAuxiliar                        AS observacaoAuxiliar,
+       NC.pedidos                                AS pedidos
+FROM TNF                        AS  N
+  LEFT JOIN  sqldados.nfComplemento NC
 	       USING (storeno, pdvno, xano)
-  LEFT JOIN  TDUP               AS D
+  INNER JOIN sqldados.store     AS  S
+	       ON S.no = N.storeno
+  LEFT JOIN  sqldados.nfdevRmk  AS  R
+	       USING (storeno, pdvno, xano)
+  LEFT JOIN  TDUP               AS  D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-  LEFT JOIN  sqldados.eordrk    AS O
+  LEFT JOIN  sqldados.eordrk    AS  O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  T_CUST_VEND        AS C
+  LEFT JOIN  T_CUST_VEND        AS  C
 	       ON C.vendno = N.vendObs
-  LEFT JOIN  sqldados.nfvendRmk AS RV
+  LEFT JOIN  sqldados.nfvendRmk AS  RV
 	       ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
 GROUP BY loja, pdv, transacao, dataNota, custno

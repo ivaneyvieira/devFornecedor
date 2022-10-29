@@ -61,7 +61,8 @@ class NotaSaida(val loja: Int,
                 var chaveDesconto: String?,
                 var observacaoAuxiliar: String?,
                 var dataAgenda: LocalDate?,
-                val nfAjuste: String?) {
+                val nfAjuste: String?,
+                var pedidos: String?) {
   var dataSituacao: LocalDate?
     get() {
       val dataSaci = observacaoAuxiliar?.split(":")?.getOrNull(0)?.toIntOrNull()

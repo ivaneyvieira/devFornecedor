@@ -164,17 +164,20 @@ SELECT N.storeno                                                          AS loj
        IF(@PAGO = 'S', IFNULL(D.obsDup, ''), N.chaveDesconto)             AS chaveDesconto,
        N.observacaoAuxiliar                                               AS observacaoAuxiliar,
        dataAgenda                                                         AS dataAgenda,
-       nfAjuste                                                           AS nfAjuste
-FROM TNF                        AS N
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS R
+       nfAjuste                                                           AS nfAjuste,
+       NC.pedidos                                                         AS pedidos
+FROM TNF                        AS  N
+  LEFT JOIN  sqldados.nfComplemento NC
 	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.nfvendRmk AS RV
+  INNER JOIN sqldados.store     AS  S
+	       ON S.no = N.storeno
+  LEFT JOIN  sqldados.nfdevRmk  AS  R
+	       USING (storeno, pdvno, xano)
+  LEFT JOIN  sqldados.nfvendRmk AS  RV
 	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
-  LEFT JOIN  TDUP               AS D
+  LEFT JOIN  TDUP               AS  D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-  LEFT JOIN  sqldados.eordrk    AS O
+  LEFT JOIN  sqldados.eordrk    AS  O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
