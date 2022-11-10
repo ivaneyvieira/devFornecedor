@@ -8,8 +8,6 @@ import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object NotaSaidaViewColumns {
-  private const val widthData = "100px"
-
   fun Grid<NotaSaida>.notaLoja() = addColumnInt(NotaSaida::loja) {
     this.setHeader("Loja")
     this.isExpand = false
@@ -25,37 +23,32 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaPedido() = addColumnInt(NotaSaida::pedido) {
     this.setHeader("Pedido")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 
   fun Grid<NotaSaida>.notaPedidoEditavel() = addColumnString(NotaSaida::pedidos) {
     this.setHeader("Pedido")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isResizable = true
     isExpand = true
   }
 
   fun Grid<NotaSaida>.notaDataPedido() = addColumnLocalDate(NotaSaida::dataPedido) {
     this.setHeader("Data")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 
   fun Grid<NotaSaida>.notaNota() = addColumnString(NotaSaida::nota) {
     this.setHeader("Nota")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 
   fun Grid<NotaSaida>.notaNfAjuste() = addColumnString(NotaSaida::nfAjuste) {
     this.setHeader("NF Ajuste")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 
@@ -64,12 +57,13 @@ object NotaSaidaViewColumns {
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
     }
+    isAutoWidth = true
+    isExpand = true
   }
 
   fun Grid<NotaSaida>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(NotaSaida::dataAgenda) {
     this.setHeader("Data")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
     this.setClassNameGenerator {
       if (it.situacao == "CREDITO_APLICADO") "marcaDiferenca" else ""
@@ -85,8 +79,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) =
     addColumnLocalDate(NotaSaida::dataSituacao) {
       this.setHeader("Data Sit")
-      isAutoWidth = false
-      width = widthData
+      isAutoWidth = true
       isExpand = false
 
       this.setClassNameGenerator {
@@ -107,8 +100,7 @@ object NotaSaidaViewColumns {
     addColumnLocalDate(NotaSaida::dataNotaEditavel) {
       this.setHeader("Data Nota")
       isAutoWidth = false
-      width = widthData
-      isExpand = false
+      isAutoWidth = true
 
       this.setClassNameGenerator {
         it.situacaoPendencia?.cssCor
@@ -134,8 +126,7 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaSituacao) {
     this.setHeader("Aguardar")
-    isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
@@ -164,7 +155,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaEditavel(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaEditavel) {
     this.setHeader("NF Baixa")
     isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
     this.right()
     this.setClassNameGenerator {
@@ -176,7 +167,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
     isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 
@@ -199,7 +190,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
     this.setHeader("Data")
     isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 
@@ -214,7 +205,9 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.dataBonificacao() = addColumnLocalDate(NotaSaida::dataBonificacao) {
     this.setHeader("Data")
     isAutoWidth = false
-    width = widthData
+    isAutoWidth = true
     isExpand = false
   }
 }
+
+//TODO situações: Paga, perca e 66

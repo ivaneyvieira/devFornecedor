@@ -63,6 +63,9 @@ class NotaSaida(val loja: Int,
                 var dataAgenda: LocalDate?,
                 val nfAjuste: String?,
                 var pedidos: String?) {
+
+  val remarksChaveNova
+    get() = "$remarks $docSituacao $tituloSituacao $niSituacao"
   var dataSituacao: LocalDate?
     get() {
       val dataSaci = observacaoAuxiliar?.split(":")?.getOrNull(0)?.toIntOrNull()
