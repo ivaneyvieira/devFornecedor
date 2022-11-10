@@ -81,21 +81,21 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
   val tabNotaPendenteRetorno: ITabNotaPendente
 }
 
-enum class ESituacaoPedido(val valueStr: String, val descricao: String) {
-  VAZIO(valueStr = "", descricao = ""),
-  PAGO(valueStr = "PAGO", descricao = "Pago"),
-  RETORNO(valueStr = "RETORNO", descricao = "Retorno"),
-  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "E-mail"),
-  NFD_AUTOZ(valueStr = "PED_NFD_ATZ", descricao = "NFD"),
-  BAIXA(valueStr = "PED_AJT_GAR", descricao = "Baixa"),
+enum class ESituacaoPedido(val valueStr: String, val descricao: String, val pendente: Boolean) {
+  VAZIO(valueStr = "", descricao = "", pendente = true),
+  PAGO(valueStr = "PAGO", descricao = "Pago", pendente = false),
+  RETORNO(valueStr = "RETORNO", descricao = "Retorno", pendente = false),
+  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "E-mail", pendente = true),
+  NFD_AUTOZ(valueStr = "PED_NFD_ATZ", descricao = "NFD", pendente = false),
+  BAIXA(valueStr = "PED_AJT_GAR", descricao = "Baixa", pendente = false),
 
   //PRODUTO_BAIXADO(valueStr = "PROD_BAIX", descricao = "Prod Baixado"),
-  ASSISTENCIA(valueStr = "ASSISTENCIA", descricao = "Assistencia"),
+  ASSISTENCIA(valueStr = "ASSISTENCIA", descricao = "Assistencia", pendente = true),
 
   //SUCATA(valueStr = "SUCATA", descricao = "Sucata"),
-  LIBERADO(valueStr = "LIBERADO", descricao = "Liberado"),
-  PERCA(valueStr = "PERCA", descricao = "Perca"),
-  DESCARTE(valueStr = "DESCARTE", descricao = "Descarte"),
+  LIBERADO(valueStr = "LIBERADO", descricao = "Liberado", pendente = true),
+  PERCA(valueStr = "PERCA", descricao = "Perca", pendente = true),
+  DESCARTE(valueStr = "DESCARTE", descricao = "Descarte", pendente = false),
 }
 
 enum class ESituacaoPendencia(val title: String,

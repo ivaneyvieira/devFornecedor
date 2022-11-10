@@ -109,10 +109,12 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
           tituloSituacao(situacao).textFieldEditor()
         }
         else {
-          docSituacao(situacao).textFieldEditor()
-          notaSituacao(situacao).textFieldEditor()
-          tituloSituacao(situacao).textFieldEditor()
-          niSituacao(situacao).textFieldEditor()
+          if (situacao != ESituacaoPendencia.BASE) {
+            docSituacao(situacao).textFieldEditor()
+            notaSituacao(situacao).textFieldEditor()
+            tituloSituacao(situacao).textFieldEditor()
+            niSituacao(situacao).textFieldEditor()
+          }
         }
       }
       if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
