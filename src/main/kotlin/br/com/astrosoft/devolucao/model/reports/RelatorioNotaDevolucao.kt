@@ -191,7 +191,17 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when (notaSaida.tipo) {
       "66", "AJT", "FIN" -> when {
-        resumida -> listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
+        resumida -> listOf(itemCol,
+                           barcodeCol,
+                           refForCol,
+                           codigoCol,
+                           descricaoCol,
+                           gradeCol,
+                           unCol,
+                           qtdeCol,
+                           valorUnitarioCol,
+                           valorTotalCol)
+
         else     -> listOf(
           itemCol,
           barcodeCol,
