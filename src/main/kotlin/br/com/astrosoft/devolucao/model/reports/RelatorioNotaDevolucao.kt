@@ -27,7 +27,7 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean) {
+class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean, val pendente : Boolean) {
   private val codigoCol: TextColumnBuilder<String> =
     col.column("Cód Saci", ProdutosNotaSaida::codigoStr.name, type.stringType()).apply {
       this.setHorizontalTextAlignment(CENTER)
@@ -221,16 +221,17 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
       }
 
       "PED"              -> when {
-        resumida -> listOf(itemCol,
-                           barcodeCol,
-                           refForCol,
-                           codigoCol,
-                           descricaoCol,
-                           gradeCol,
-                           unCol,
-                           qtdeCol,
-                           valorUnitarioCol,
-                           valorTotalCol)
+        resumida -> if (pendente) listOf(itemCol,
+                                          barcodeCol,
+                                          refForCol,
+                                          codigoCol,
+                                          descricaoCol,
+                                          gradeCol,
+                                          unCol,
+                                          qtdeCol,
+                                          valorUnitarioCol,
+                                          valorTotalCol)
+        else listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
 
         else     -> listOf(
           invnoCol,
@@ -629,9 +630,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   }
 
   companion object {
-    fun processaRelatorio(listNota: List<NotaSaida>, resumida: Boolean = false): ByteArray {
+    fun processaRelatorio(listNota: List<NotaSaida>, resumida: Boolean = false, pendente: Boolean): ByteArray {
       val printList = listNota.map { nota ->
-        val report = RelatorioNotaDevolucao(nota, resumida).makeReport()
+        val report = RelatorioNotaDevolucao(nota, resumida, pendente).makeReport()
         report?.toJasperPrint()
       }
       val exporter = JRPdfExporter()

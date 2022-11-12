@@ -194,7 +194,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   }
 
   override fun imprimeSelecionados(notas: List<NotaSaida>, resumida: Boolean) {
-    val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida)
+    val report = RelatorioNotaDevolucao.processaRelatorio(notas, resumida, label == "Pendente")
     val chave = "DevReport"
     SubWindowPDF(chave, report).open()
   }
