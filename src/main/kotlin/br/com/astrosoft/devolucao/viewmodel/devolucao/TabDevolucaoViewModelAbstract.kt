@@ -155,7 +155,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     val relatoriosCompleto = when (gmail.relatorio) {
       "S"  -> {
         notas.map { nota ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false)
+          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false, subView.label == "Pendente")
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf", report)
         }
       }
@@ -165,7 +165,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     val relatoriosResumido = when (gmail.relatorioResumido) {
       "S"  -> {
         notas.map { nota ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true)
+          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true, subView.label == "Pendente")
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf.pdf", report)
         }
       }
