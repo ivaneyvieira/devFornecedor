@@ -650,6 +650,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun findPedidosCompraProduto(filtro: FiltroPedidoCompra): List<PedidosCompraProduto> {
+    val sql = "/sqlSaci/listComprasProduto.sql"
+    return query(sql, PedidosCompraProduto::class){
+      addOptionalParameter("loja", filtro.loja)
+      addOptionalParameter("pesquisa", filtro.pesquisa)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

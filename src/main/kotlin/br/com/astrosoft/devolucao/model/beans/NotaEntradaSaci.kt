@@ -16,9 +16,9 @@ class NotaEntradaSaci(
   dataEmissao: LocalDate,
   ordno: Int,
   chave: String,
-                     ){
-  companion object{
-    fun findAll(filtro: FiltroEntradaSaci)= saci.notasEntradaSaci(filtro)
+                     ) {
+  companion object {
+    fun findAll(filtro: FiltroEntradaSaci) = saci.notasEntradaSaci(filtro)
   }
 }
 
