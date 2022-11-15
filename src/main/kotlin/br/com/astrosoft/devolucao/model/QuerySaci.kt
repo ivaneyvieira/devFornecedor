@@ -650,9 +650,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun findPedidosCompraProduto(filtro: FiltroPedidoCompra): List<PedidosCompraProduto> {
+  fun findPedidosCompraProduto(filtro: FiltroPedidoCompra): List<PedidoCompraProduto> {
     val sql = "/sqlSaci/listComprasProduto.sql"
-    return query(sql, PedidosCompraProduto::class){
+    return query(sql, PedidoCompraProduto::class){
       addOptionalParameter("loja", filtro.loja)
       addOptionalParameter("pesquisa", filtro.pesquisa)
     }

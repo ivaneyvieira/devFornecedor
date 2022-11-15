@@ -3,7 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
-class PedidosCompraProduto(
+class PedidoCompraProduto(
   val vendno: Int,
   val fornecedor: String,
   val cnpj: String,
@@ -24,9 +24,18 @@ class PedidosCompraProduto(
   val qtPendente: Int,
   val custoUnit: Double,
   val barcode: String,
-                          ) {
+                         ) {
+  val vlPedido
+    get() = qtPedida * custoUnit
+  val vlCancelado
+    get() = qtCancelada * custoUnit
+  val vlRecebido
+    get() = qtRecebida * custoUnit
+  val vlPendente
+    get() = qtPendente * custoUnit
+
   companion object {
-    fun findAll(filtro: FiltroPedidoCompra): List<PedidosCompraProduto> {
+    fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompraProduto> {
       val list = saci.findPedidosCompraProduto(filtro)
       return list
     }

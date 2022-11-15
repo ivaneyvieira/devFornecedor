@@ -32,7 +32,7 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
   private lateinit var edtLoja: IntegerField
 
   override fun HorizontalLayout.toolBarConfig() {
-    edtLoja = integerField ("Loja") {
+    edtLoja = integerField("Loja") {
       this.valueChangeMode = ValueChangeMode.TIMEOUT
       this.valueChangeTimeout = 1000
       this.addValueChangeListener {
@@ -51,8 +51,8 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
 
   override fun Grid<PedidoCompraFornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
-    addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      DlgNotaPedidoCompra(viewModel).showDialogNota(fornecedor)
+    addColumnButton(VaadinIcon.FILE_TABLE, "Pedidos", "Pedidos") { fornecedor ->
+      DlgNotaPedidoCompra().showDialogNota(fornecedor)
     }
 
     colCodigo()
