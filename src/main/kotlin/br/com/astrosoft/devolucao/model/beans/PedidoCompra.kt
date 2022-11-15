@@ -16,10 +16,10 @@ class PedidoCompra(
   val vlCancelado: Double,
   val vlRecebido: Double,
   val vlPendente: Double,
-  val produtos: List<PedidosCompraProduto>,
+  val produtos: List<PedidoCompraProduto>,
                   ) {
   companion object {
-    fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> = PedidosCompraProduto.findAll(filtro).groupBy {
+    fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> = PedidoCompraProduto.findAll(filtro).groupBy {
       ChavePedidoCompra(loja = it.loja, numeroPedido = it.numeroPedido)
     }.mapNotNull { entry ->
       val produtos = entry.value
@@ -34,10 +34,10 @@ class PedidoCompra(
         dataPedido = bean.dataPedido,
         dataEntrega = bean.dataEntrega,
         obsercacaoPedido = bean.obsercacaoPedido,
-        vlPedido = produtos.sumOf { it.qtPedida * it.custoUnit },
-        vlCancelado = produtos.sumOf { it.qtCancelada * it.custoUnit },
-        vlRecebido = produtos.sumOf { it.qtRecebida * it.custoUnit },
-        vlPendente = produtos.sumOf { it.qtPendente * it.custoUnit },
+        vlPedido = produtos.sumOf { it.vlPedido },
+        vlCancelado = produtos.sumOf { it.vlCancelado },
+        vlRecebido = produtos.sumOf { it.vlRecebido },
+        vlPendente = produtos.sumOf { it.vlPendente },
         produtos = produtos,
                   )
     }

@@ -6,6 +6,7 @@ import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object PedidoCompraColumns {
@@ -43,5 +44,6 @@ object PedidoCompraColumns {
 
   fun Grid<PedidoCompra>.colObservacao() = addColumnString(PedidoCompra::obsercacaoPedido) {
     this.setHeader("Observação")
+    this.isExpand = true
   }
 }
