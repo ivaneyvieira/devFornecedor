@@ -6,7 +6,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.*
 class TabNotaSerie01ColetaViewModel(viewModel: Devolucao01ViewModel) :
         TabDevolucaoViewModelAbstract<IDevolucao01View>(viewModel) {
   override val subView
-    get() = TODO() //viewModel.view.tabNotaSerie01Coleta
+    get() = viewModel.view.tabNotaSerie01Coleta
 }
 
 interface ITabNotaSerie01Coleta : ITabNota {
