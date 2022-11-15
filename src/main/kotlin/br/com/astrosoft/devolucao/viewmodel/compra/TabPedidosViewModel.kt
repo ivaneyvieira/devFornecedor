@@ -6,7 +6,8 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 
 class TabPedidosViewModel(val viewModel: CompraViewModel) {
-  val subView = viewModel.view.tabPedidosViewModel
+  val subView
+    get() = viewModel.view.tabPedidosViewModel
 
   fun updateComponent() = viewModel.exec {
     val filtro = subView.filtro()

@@ -4,28 +4,37 @@ import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colCodigo
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colDataPedido
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colFornecedor
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlCancelada
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPedida
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPendente
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlRecebida
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabPedidosViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
+import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabPedidos(val viewModel: TabPedidosViewModel) :
         TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabPedidosViewModel {
   private lateinit var edtPedquisa: TextField
-  private lateinit var cmbLoja: Select<Loja>
+  private lateinit var edtLoja: IntegerField
 
   override fun HorizontalLayout.toolBarConfig() {
-    cmbLoja = select<Loja>("Loja") {
-      this.setItems(viewModel.listLojas())
+    edtLoja = integerField ("Loja") {
+      this.valueChangeMode = ValueChangeMode.TIMEOUT
+      this.valueChangeTimeout = 1000
       this.addValueChangeListener {
         updateComponent()
       }
@@ -34,6 +43,9 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
     edtPedquisa = textField("Pesquisa") {
       this.valueChangeMode = ValueChangeMode.TIMEOUT
       this.valueChangeTimeout = 1000
+      this.addValueChangeListener {
+        updateComponent()
+      }
     }
   }
 
@@ -42,11 +54,19 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
       DlgNotaPedidoCompra(viewModel).showDialogNota(fornecedor)
     }
+
+    colCodigo()
+    colFornecedor()
+    colDataPedido()
+    colVlPedida()
+    colVlCancelada()
+    colVlRecebida()
+    colVlPendente()
   }
 
   override fun filtro(): FiltroPedidoCompra {
     return FiltroPedidoCompra(
-      loja = cmbLoja.value?.no ?: 0,
+      loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
                              )
   }

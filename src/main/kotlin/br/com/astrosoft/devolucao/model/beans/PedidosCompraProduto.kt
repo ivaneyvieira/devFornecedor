@@ -26,7 +26,10 @@ class PedidosCompraProduto(
   val barcode: String,
                           ) {
   companion object {
-    fun findAll(filtro: FiltroPedidoCompra): List<PedidosCompraProduto> = saci.findPedidosCompraProduto(filtro)
+    fun findAll(filtro: FiltroPedidoCompra): List<PedidosCompraProduto> {
+      val list = saci.findPedidosCompraProduto(filtro)
+      return list
+    }
   }
 }
 
