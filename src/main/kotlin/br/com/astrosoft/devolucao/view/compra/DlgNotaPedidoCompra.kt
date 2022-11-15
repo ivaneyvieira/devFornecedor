@@ -2,6 +2,19 @@ package br.com.astrosoft.devolucao.view.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colDataEntrega
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colDataPedido
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colLoja
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colNumeroPedido
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colObservacao
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlCancelada
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPedida
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPendente
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlRecebida
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlCancelada
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPedida
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPendente
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlRecebida
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaNddViewColumns.notaNotaSaci
@@ -40,19 +53,15 @@ class DlgNotaPedidoCompra(viewModel: TabPedidosViewModel) {
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
 
-      notaLoja()
-      notaNotaSaci()
-      notaNumeroPedido().integerFieldEditor()
-      notaData()
-      notaTemIPI()
-      notaTotal().apply {
-        val totalPedido = listParcelas.sumOf { it.baseCalculoIcms }.format()
-        setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${totalPedido}</font></b>"))
-      }
-
-      listParcelas.forEach { parcela ->
-        setDetailsVisible(parcela, true)
-      }
+      colLoja()
+      colNumeroPedido()
+      colDataPedido()
+      colDataEntrega()
+      colObservacao()
+      colVlPedida()
+      colVlCancelada()
+      colVlRecebida()
+      colVlPendente()
     }
   }
 }

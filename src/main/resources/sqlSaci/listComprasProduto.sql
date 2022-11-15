@@ -15,7 +15,7 @@ FROM sqldados.prdbar
 GROUP BY prdno, grade;
 
 SELECT V.no                                                                         AS vendno,
-       V.sname                                                                      AS fornecedor,
+       V.name                                                                       AS fornecedor,
        V.cgc                                                                        AS cnpj,
        O.storeno                                                                    AS loja,
        O.no                                                                         AS numeroPedido,
@@ -44,7 +44,8 @@ FROM sqldados.ords         AS O
 	       ON E.prdno = B.prdno AND E.grade = B.grade
   INNER JOIN sqldados.prd  AS P
 	       ON P.no = E.prdno
-WHERE O.storeno = :loja
+WHERE (O.storeno = :loja OR :loja = 0)
   AND (V.no = @VENDNO OR @VENDNO = 0)
   AND (V.sname LIKE CONCAT(@FORNECEDOR, '%'))
   AND O.status != 2
+  AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
