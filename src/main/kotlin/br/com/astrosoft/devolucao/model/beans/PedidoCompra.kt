@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class PedidoCompra(
@@ -18,6 +19,12 @@ class PedidoCompra(
   val vlPendente: Double,
   val produtos: List<PedidoCompraProduto>,
                   ) {
+  val labelTitle
+    get() = "DEV FORNECEDOR: ${this.vendno} ${this.fornecedor}"
+
+  val dataPedidoStr
+    get() = dataPedido.format()
+
   companion object {
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> = PedidoCompraProduto.findAll(filtro).groupBy {
       ChavePedidoCompra(loja = it.loja, numeroPedido = it.numeroPedido)
