@@ -1,7 +1,7 @@
 USE sqldados;
 
 DO @LOJA := :loja;
-DO @VENDNO := IF(:pesquisa REGEXP '^[0-9]+$]', :pesquisa * 1, 0);
+DO @VENDNO := IF(:pesquisa REGEXP '^[0-9]+$', :pesquisa * 1, 0);
 DO @FORNECEDOR := :pesquisa;
 
 DROP TABLE IF EXISTS T_BARCODE;
