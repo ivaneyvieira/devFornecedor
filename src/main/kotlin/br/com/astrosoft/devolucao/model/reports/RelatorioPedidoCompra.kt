@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.reports
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
+import br.com.astrosoft.devolucao.model.beans.ProdutosNotaSaida
 import br.com.astrosoft.framework.model.reports.*
 import br.com.astrosoft.framework.model.reports.Templates.fieldBorder
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
@@ -25,17 +26,18 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import java.io.ByteArrayOutputStream
 
 class RelatorioPedidoCompra(val pedido: PedidoCompra) {
+  private val itemCol: TextColumnBuilder<Int> =
+    col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setPattern("000")
+      this.setFixedWidth(25)
+    }
+
   private val codigoCol: TextColumnBuilder<String> =
     col.column("Cód Saci", PedidoCompraProduto::codigo.name, type.stringType()).apply {
       this.setHorizontalTextAlignment(CENTER)
       this.setTextAdjust(SCALE_FONT)
       this.setFixedWidth(35)
-    }
-  private val dataInvCol: TextColumnBuilder<String> =
-    col.column("Emissão", PedidoCompraProduto::dataPedidoStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(40)
     }
   private val refForCol: TextColumnBuilder<String> =
     col.column("Ref do Fab", PedidoCompraProduto::refFab.name, type.stringType()).apply {
@@ -91,16 +93,17 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return listOf(
-        barcodeCol,
-        refForCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        unCol,
-        qtdeCol,
-        valorUnitarioCol,
-        valorTotalCol,
-                        )
+      itemCol,
+      barcodeCol,
+      refForCol,
+      codigoCol,
+      descricaoCol,
+      gradeCol,
+      unCol,
+      qtdeCol,
+      valorUnitarioCol,
+      valorTotalCol,
+                 )
   }
 
   private fun titleBuiderPedido(): ComponentBuilder<*, *> {
@@ -121,8 +124,6 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
       }
     }
   }
-
-
 
   private fun titleBuider(): ComponentBuilder<*, *> {
     return titleBuiderPedido()
@@ -181,7 +182,11 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
     var index = 1
-    val itens = pedido.produtos
+    val itens = pedido.produtos.sortedBy { it.codigo }.map {
+      it.apply {
+        item = index++
+      }
+    }
     val pageOrientation = PORTRAIT
     return report()
       .title(titleBuider())

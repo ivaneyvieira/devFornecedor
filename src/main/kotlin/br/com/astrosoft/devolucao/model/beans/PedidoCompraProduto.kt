@@ -27,6 +27,7 @@ class PedidoCompraProduto(
   val custoUnit: Double,
   val barcode: String,
                          ) {
+  var item: Int = 0
   val dataPedidoStr
     get() = dataPedido.format()
   val vlPedido
