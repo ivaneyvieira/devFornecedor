@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class PedidoCompraProduto(
@@ -8,6 +9,7 @@ class PedidoCompraProduto(
   val fornecedor: String,
   val cnpj: String,
   val loja: Int,
+  val sigla: String,
   val numeroPedido: Int,
   val status: Int,
   val dataPedido: LocalDate,
@@ -25,6 +27,8 @@ class PedidoCompraProduto(
   val custoUnit: Double,
   val barcode: String,
                          ) {
+  val dataPedidoStr
+    get() = dataPedido.format()
   val vlPedido
     get() = qtPedida * custoUnit
   val vlCancelado

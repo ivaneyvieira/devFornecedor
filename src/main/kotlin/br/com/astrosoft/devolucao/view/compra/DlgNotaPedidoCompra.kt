@@ -11,20 +11,33 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlC
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPedida
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPendente
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlRecebida
+import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class DlgNotaPedidoCompra() {
+class DlgNotaPedidoCompra(val viewModel: TabPedidosViewModel) {
+  private lateinit var gridNota: Grid<PedidoCompra>
+
   fun showDialogNota(fornecedor: PedidoCompraFornecedor?) {
     fornecedor ?: return
 
     val pedidos = fornecedor.pedidos
-    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
-      val gridNota = createGrid(pedidos)
+    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+      button("Impressão Resumida") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirPedidoCompra(notas)
+        }
+      }
+    }) {
+      gridNota = createGrid(pedidos)
       HorizontalLayout().apply {
         setSizeFull()
         addAndExpand(gridNota)

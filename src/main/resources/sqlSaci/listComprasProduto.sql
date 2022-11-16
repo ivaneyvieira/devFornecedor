@@ -18,6 +18,7 @@ SELECT V.no                                                                     
        V.name                                                                       AS fornecedor,
        V.cgc                                                                        AS cnpj,
        O.storeno                                                                    AS loja,
+       S.sname                                                                      AS sigla,
        O.no                                                                         AS numeroPedido,
        O.status                                                                     AS status,/*0 - Aberto,  1 - Entregue, 2 - Cancelado*/
        CAST(O.date AS DATE)                                                         AS dataPedido,
@@ -35,14 +36,16 @@ SELECT V.no                                                                     
        ROUND((E.qtty * E.mult - E.qttyCancel * E.mult - E.qttyRcv * E.mult) / 1000) AS qtPendente,
        E.cost                                                                       AS custoUnit,
        TRIM(IFNULL(B.barcode, P.barcode))                                           AS barcode
-FROM sqldados.ords         AS O
-  INNER JOIN sqldados.vend AS V
+FROM sqldados.ords          AS O
+  INNER JOIN sqldados.store AS S
+	       ON S.no = O.storeno
+  INNER JOIN sqldados.vend  AS V
 	       ON O.vendno = V.no
-  INNER JOIN sqldados.oprd AS E
+  INNER JOIN sqldados.oprd  AS E
 	       ON O.storeno = E.storeno AND O.no = E.ordno
-  LEFT JOIN  T_BARCODE     AS B
+  LEFT JOIN  T_BARCODE      AS B
 	       ON E.prdno = B.prdno AND E.grade = B.grade
-  INNER JOIN sqldados.prd  AS P
+  INNER JOIN sqldados.prd   AS P
 	       ON P.no = E.prdno
 WHERE (O.storeno = :loja OR :loja = 0)
   AND (V.no = @VENDNO OR @VENDNO = 0)

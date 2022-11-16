@@ -59,6 +59,3 @@ class DlgNotaProdutos {
     }
   }
 }
-
-val PedidoCompra.labelTitle
-  get() = "LOJA: $loja PEDIDO: $numeroPedido"
