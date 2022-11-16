@@ -14,6 +14,17 @@ SELECT prdno,
 FROM sqldados.prdbar
 GROUP BY prdno, grade;
 
+DROP TEMPORARY TABLE IF EXISTS T_REF;
+CREATE TEMPORARY TABLE T_REF (
+  PRIMARY KEY (prdno, grade)
+)
+SELECT prdno                                                                 AS prdno,
+       grade                                                                 AS grade,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefno)), 11, 20) AS char)   AS refno,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefname)), 11, 20) AS char) AS refname
+FROM sqldados.prdref
+GROUP BY prdno, grade;
+
 SELECT V.no                                                                         AS vendno,
        V.name                                                                       AS fornecedor,
        V.cgc                                                                        AS cnpj,
@@ -30,6 +41,8 @@ SELECT V.no                                                                     
        P.mfno_ref                                                                   AS refFab,
        E.grade                                                                      AS grade,
        MID(P.name, 38, 3)                                                           AS unidade,
+       IFNULL(refno, '')                                                            AS refno,
+       IFNULL(refname, '')                                                          AS refname,
        ROUND((E.qtty * E.mult) / 1000)                                              AS qtPedida,
        ROUND((E.qttyCancel * E.mult) / 1000)                                        AS qtCancelada,
        ROUND((E.qttyRcv * E.mult) / 1000)                                           AS qtRecebida,
@@ -43,6 +56,8 @@ FROM sqldados.ords          AS O
 	       ON O.vendno = V.no
   INNER JOIN sqldados.oprd  AS E
 	       ON O.storeno = E.storeno AND O.no = E.ordno
+  LEFT JOIN  T_REF          AS R
+	       ON E.prdno = R.prdno AND E.grade = R.grade
   LEFT JOIN  T_BARCODE      AS B
 	       ON E.prdno = B.prdno AND E.grade = B.grade
   INNER JOIN sqldados.prd   AS P
@@ -52,3 +67,4 @@ WHERE (O.storeno = :loja OR :loja = 0)
   AND (V.name LIKE CONCAT(@FORNECEDOR, '%'))
   AND O.status != 2
   AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
+
