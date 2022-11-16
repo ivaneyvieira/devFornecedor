@@ -18,6 +18,12 @@ object PedidoCompraProdutoColumns {
     this.isExpand = true
   }
 
+  fun Grid<PedidoCompraProduto>.colDescNota() = addColumnString(PedidoCompraProduto::refname) {
+    this.setHeader("Desc Nota")
+    this.isExpand = true
+  }
+
+
   fun Grid<PedidoCompraProduto>.colRefFabrica() = addColumnString(PedidoCompraProduto::refFab) {
     this.setHeader("Ref Fab")
   }
