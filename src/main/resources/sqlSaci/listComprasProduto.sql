@@ -49,6 +49,6 @@ FROM sqldados.ords          AS O
 	       ON P.no = E.prdno
 WHERE (O.storeno = :loja OR :loja = 0)
   AND (V.no = @VENDNO OR @VENDNO = 0)
-  AND (V.sname LIKE CONCAT(@FORNECEDOR, '%'))
+  AND (V.name LIKE CONCAT(@FORNECEDOR, '%'))
   AND O.status != 2
   AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
