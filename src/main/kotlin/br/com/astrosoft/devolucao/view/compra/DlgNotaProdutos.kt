@@ -14,6 +14,7 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlR
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colBarcode
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCusto
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtde
@@ -51,6 +52,7 @@ class DlgNotaProdutos {
       colCodigo()
       colDescricao()
       colRefFabrica()
+      colDescNota()
       colRefNota()
       colGrade()
       colUnidade()

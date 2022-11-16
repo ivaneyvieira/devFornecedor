@@ -21,7 +21,7 @@ class PedidoCompra(
   val produtos: List<PedidoCompraProduto>,
                   ) {
   val labelTitle
-    get() = "DEV FORNECEDOR: ${this.vendno} ${this.fornecedor}"
+    get() = "FORNECEDOR: ${this.vendno} ${this.fornecedor}                  LOJA: $sigla PEDIDO: $numeroPedido"
 
   val dataPedidoStr
     get() = dataPedido.format()
