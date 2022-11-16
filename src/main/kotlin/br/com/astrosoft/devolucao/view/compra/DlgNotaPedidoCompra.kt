@@ -14,6 +14,8 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlR
 import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.export.ExcelExporter
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.vaadin.flow.component.grid.Grid
@@ -35,6 +37,11 @@ class DlgNotaPedidoCompra(val viewModel: TabPedidosViewModel) {
           val notas = gridNota.asMultiSelect().selectedItems.toList()
           viewModel.imprimirPedidoCompra(notas)
         }
+      }
+      this.lazyDownloadButtonXlsx("Planilha", "pedidosCompra") {
+        val notas = gridNota.selectedItems.toList()
+        val exporter = ExcelExporter(gridNota)
+        exporter.exporterToByte("Pedidos Compra", notas)
       }
     }) {
       gridNota = createGrid(pedidos)

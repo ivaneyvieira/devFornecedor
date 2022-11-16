@@ -20,6 +20,8 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.export.ExcelExporter
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -66,6 +68,12 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
         val fornecedores = itensSelecionados()
         viewModel.imprimirRelatorioResumido(fornecedores)
       }
+    }
+
+    this.lazyDownloadButtonXlsx("Planilha", "fornecedorCompra") {
+      val notas = itensSelecionados()
+      val exporter = ExcelExporter(gridPanel)
+      exporter.exporterToByte("Fornecedores", notas)
     }
   }
 
