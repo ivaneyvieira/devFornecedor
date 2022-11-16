@@ -34,7 +34,7 @@ object PedidoCompraFornecedorColumns {
     this.setHeader("Vl Pendente")
   }
 
-  fun Grid<PedidoCompraFornecedor>.colDataPedido() = addColumnLocalDate(PedidoCompraFornecedor::dataPedido) {
+  fun Grid<PedidoCompraFornecedor>.colDataPedido() = addColumnLocalDate(PedidoCompraFornecedor::dataPedidoFim) {
     this.setHeader("Data Pedido")
   }
 }

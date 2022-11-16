@@ -1,9 +1,8 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
-import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
-import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.framework.viewmodel.ITabView
+import br.com.astrosoft.framework.viewmodel.fail
 
 class TabPedidosViewModel(val viewModel: CompraViewModel) {
   val subView
@@ -19,9 +18,25 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) {
     val list = Loja.allLojas() + Loja.lojaZero
     return list.sortedBy { it.no }
   }
+
+  fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>) = viewModel.exec {
+    pedido.ifEmpty {
+      fail("Nenhuma item foi selecionado")
+    }
+    subView.imprimirRelatorioFornecedor(pedido)
+  }
+
+  fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {
+    fornecedores.ifEmpty {
+      fail("Nenhuma fornecedor foi selecionada")
+    }
+    subView.imprimirRelatorioResumido(fornecedores)
+  }
 }
 
 interface ITabPedidosViewModel : ITabView {
   fun filtro(): FiltroPedidoCompra
   fun updateGrid(itens: List<PedidoCompraFornecedor>)
+  fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
+  fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>)
 }
