@@ -32,6 +32,13 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) {
     }
     subView.imprimirRelatorioResumido(fornecedores)
   }
+
+  fun imprimirPedidoCompra(pedidos: List<PedidoCompra>) = viewModel.exec {
+    pedidos.ifEmpty {
+      fail("Nenhuma item foi selecionado")
+    }
+    subView.imprimeSelecionados(pedidos)
+  }
 }
 
 interface ITabPedidosViewModel : ITabView {
@@ -39,4 +46,5 @@ interface ITabPedidosViewModel : ITabView {
   fun updateGrid(itens: List<PedidoCompraFornecedor>)
   fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>)
+  fun imprimeSelecionados(pedidos: List<PedidoCompra>)
 }

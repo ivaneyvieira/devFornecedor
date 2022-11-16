@@ -1,9 +1,12 @@
 package br.com.astrosoft.devolucao.view.compra
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompraResumido
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorResumido
+import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colDataPedido
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colFornecedor
@@ -14,8 +17,13 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColu
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabPedidosViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.*
-import com.github.mvysny.karibudsl.v10.*
+import br.com.astrosoft.framework.view.SubWindowPDF
+import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.view.addColumnButton
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.integerField
+import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -64,7 +72,7 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
   override fun Grid<PedidoCompraFornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Pedidos", "Pedidos") { fornecedor ->
-      DlgNotaPedidoCompra().showDialogNota(fornecedor)
+      DlgNotaPedidoCompra(viewModel).showDialogNota(fornecedor)
     }
 
     colCodigo()
@@ -85,13 +93,19 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
 
   override fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>) {
     val report = RelatorioFornecedorCompra.processaRelatorio(pedido)
-    val chave = "DevFornecedor"
+    val chave = "FornecedorCompra"
     SubWindowPDF(chave, report).open()
   }
 
   override fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) {
     val report = RelatorioFornecedorCompraResumido.processaRelatorio(fornecedores)
-    val chave = "DevFornecedor"
+    val chave = "FornecedorCompra"
+    SubWindowPDF(chave, report).open()
+  }
+
+  override fun imprimeSelecionados(pedidos: List<PedidoCompra>) {
+    val report = RelatorioPedidoCompra.processaRelatorio(pedidos)
+    val chave = "PedidoCompra"
     SubWindowPDF(chave, report).open()
   }
 
