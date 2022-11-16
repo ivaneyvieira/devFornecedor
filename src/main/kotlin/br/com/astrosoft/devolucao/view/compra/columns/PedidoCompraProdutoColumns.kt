@@ -22,6 +22,10 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Ref Fab")
   }
 
+  fun Grid<PedidoCompraProduto>.colRefNota() = addColumnString(PedidoCompraProduto::refno) {
+    this.setHeader("Ref Nota")
+  }
+
   fun Grid<PedidoCompraProduto>.colGrade() = addColumnString(PedidoCompraProduto::grade) {
     this.setHeader("Grade")
   }

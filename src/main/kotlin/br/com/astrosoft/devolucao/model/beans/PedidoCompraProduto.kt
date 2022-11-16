@@ -18,6 +18,8 @@ class PedidoCompraProduto(
   val codigo: String,
   val descricao: String,
   val refFab: String,
+  val refno: String,
+  val refname: String,
   val grade: String,
   val unidade: String,
   val qtPedida: Int,
