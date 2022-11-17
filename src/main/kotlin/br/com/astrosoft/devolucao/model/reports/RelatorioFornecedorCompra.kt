@@ -157,8 +157,13 @@ class RelatorioFornecedorCompra(val pedido: List<PedidoCompra>) {
       xlsReportConfiguration.isShowGridLines = true
       xlsReportConfiguration.isIgnorePageMargins = true
       xlsReportConfiguration.isDetectCellType = true
-      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = false
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = true
       xlsReportConfiguration.isShrinkToFit = true
+      xlsReportConfiguration.isWhitePageBackground = false
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenColumns = true
+      xlsReportConfiguration.isIgnoreCellBorder = true
+      xlsReportConfiguration.isCollapseRowSpan = true
+      xlsReportConfiguration.isAutoFitPageHeight = true
       exporter.setConfiguration(xlsReportConfiguration)
 
       exporter.exportReport()

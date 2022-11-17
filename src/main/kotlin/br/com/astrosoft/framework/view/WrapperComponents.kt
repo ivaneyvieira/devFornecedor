@@ -54,4 +54,4 @@ fun (@VaadinDsl HasComponents).lazyDownloadButtonXlsx(
   prefixo: String,
   byteArray: () -> ByteArray,
                                                      ) =
-  lazyDownloadButton(text, prefixo, ".xlsx", FontAwesome.Solid.FILE_EXCEL.create(), byteArray)
+  lazyDownloadButton(text, prefixo, "xlsx", FontAwesome.Solid.FILE_EXCEL.create(), byteArray)

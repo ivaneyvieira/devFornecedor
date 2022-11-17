@@ -99,14 +99,16 @@ dependencies {
     exclude(group = "com.lowagie", module = "itext")
   }
   // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts
-  implementation("net.sf.jasperreports:jasperreports:6.17.0")
-  implementation("net.sf.jasperreports:jasperreports-fonts:6.17.0")
+  implementation("net.sf.jasperreports:jasperreports:6.20.0")
+  implementation("net.sf.jasperreports:jasperreports-fonts:6.20.0")
   implementation("de.f0rce.signaturepad:signature-widget:2.0.0")
   
   implementation("com.lowagie:itext:2.1.7")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
   implementation("com.sun.mail:gimap:1.6.2")
+  // https://mvnrepository.com/artifact/io.github.rushuat/ocell
+  implementation("io.github.rushuat:ocell:0.1.6")
 }
 
 vaadin {
