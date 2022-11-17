@@ -31,7 +31,14 @@ class DlgNotaPedidoCompra(val viewModel: TabPedidosViewModel) {
 
     val pedidos = fornecedor.pedidos
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      button("Impressão Resumida") {
+      button("Relatorio") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          val pedidos = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirRelatorioFornecedor(pedidos)
+        }
+      }
+      button("PDF") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
           val notas = gridNota.asMultiSelect().selectedItems.toList()
@@ -61,7 +68,7 @@ class DlgNotaPedidoCompra(val viewModel: TabPedidosViewModel) {
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
       addColumnButton(VaadinIcon.FILE_TABLE, "Produtos", "Prd") { pedido ->
-        DlgNotaProdutos().showDialogNota(pedido)
+        DlgNotaProdutos(viewModel).showDialogNota(pedido)
       }
       colLoja()
       colNumeroPedido()

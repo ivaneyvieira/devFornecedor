@@ -1,9 +1,6 @@
 package br.com.astrosoft.devolucao.view.compra
 
-import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
-import br.com.astrosoft.devolucao.model.beans.PedidoCompra
-import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
-import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompraResumido
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra

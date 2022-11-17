@@ -30,28 +30,35 @@ class PedidoCompra(
     get() = dataPedido.format()
 
   companion object {
-    fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> = PedidoCompraProduto.findAll(filtro).groupBy {
-      ChavePedidoCompra(loja = it.loja, numeroPedido = it.numeroPedido)
-    }.mapNotNull { entry ->
-      val produtos = entry.value
-      val bean = produtos.firstOrNull() ?: return@mapNotNull null
-      PedidoCompra(
-        vendno = bean.vendno,
-        fornecedor = bean.fornecedor,
-        cnpj = bean.cnpj,
-        loja = bean.loja,
-        sigla = bean.sigla,
-        numeroPedido = bean.numeroPedido,
-        status = bean.status,
-        dataPedido = bean.dataPedido,
-        dataEntrega = bean.dataEntrega,
-        obsercacaoPedido = bean.obsercacaoPedido,
-        vlPedido = produtos.sumOf { it.vlPedido },
-        vlCancelado = produtos.sumOf { it.vlCancelado },
-        vlRecebido = produtos.sumOf { it.vlRecebido },
-        vlPendente = produtos.sumOf { it.vlPendente },
-        produtos = produtos,
-                  )
+    fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> {
+      val list = PedidoCompraProduto.findAll(filtro)
+      return group(list)
+    }
+
+    fun group(list: List<PedidoCompraProduto>): List<PedidoCompra> {
+      return list.groupBy {
+        ChavePedidoCompra(loja = it.loja, numeroPedido = it.numeroPedido)
+      }.mapNotNull { entry ->
+        val produtos = entry.value
+        val bean = produtos.firstOrNull() ?: return@mapNotNull null
+        PedidoCompra(
+          vendno = bean.vendno,
+          fornecedor = bean.fornecedor,
+          cnpj = bean.cnpj,
+          loja = bean.loja,
+          sigla = bean.sigla,
+          numeroPedido = bean.numeroPedido,
+          status = bean.status,
+          dataPedido = bean.dataPedido,
+          dataEntrega = bean.dataEntrega,
+          obsercacaoPedido = bean.obsercacaoPedido,
+          vlPedido = produtos.sumOf { it.vlPedido },
+          vlCancelado = produtos.sumOf { it.vlCancelado },
+          vlRecebido = produtos.sumOf { it.vlRecebido },
+          vlPendente = produtos.sumOf { it.vlPendente },
+          produtos = produtos,
+                    )
+      }
     }
   }
 }
