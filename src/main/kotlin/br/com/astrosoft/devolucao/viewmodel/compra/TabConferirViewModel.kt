@@ -13,7 +13,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
 
   fun updateComponent() = viewModel.exec {
     val filtro = subView.filtro()
-    val list = PedidoCompraFornecedor.findAll(filtro)
+    val list = PedidoCompraFornecedor.findAll(filtro).filter { !it.fornecedor.startsWith("ENGECOPI") }
     subView.updateGrid(list)
   }
 

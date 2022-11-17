@@ -61,6 +61,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
       colCodigo()
+      colBarcode()
       colDescricao()
       colGrade()
       colRefFabrica()
@@ -70,7 +71,6 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colQtde()
       colCusto()
       colVlTotal()
-      colBarcode()
     }
   }
 }
