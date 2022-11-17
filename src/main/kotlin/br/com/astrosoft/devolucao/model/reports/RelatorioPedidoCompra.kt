@@ -28,7 +28,7 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
 import java.io.ByteArrayOutputStream
 
-class RelatorioPedidoCompra(val pedido: PedidoCompra) {
+class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {
   private val itemCol: TextColumnBuilder<Int> =
     col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
       this.setHorizontalTextAlignment(CENTER)
@@ -191,7 +191,14 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
       }
     }
     val pageOrientation = PORTRAIT
-    return report()
+    return if (excel) report()
+      .title(titleBuider())
+      .setTemplate(Templates.reportTemplate)
+      .columns(* colunms)
+      .setColumnStyle(stl.style().setFontSize(7))
+      .columnGrid(* colunms)
+      .setDataSource(itens)
+    else report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
@@ -210,7 +217,7 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
   companion object {
     fun processaRelatorio(pedidos: List<PedidoCompra>): ByteArray {
       val printList = pedidos.map { pedido ->
-        val report = RelatorioPedidoCompra(pedido).makeReport()
+        val report = RelatorioPedidoCompra(pedido, false).makeReport()
         report?.toJasperPrint()
       }
       val exporter = JRPdfExporter()
@@ -225,7 +232,7 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
 
     fun processaExcel(pedidos: List<PedidoCompra>): ByteArray {
       val printList = pedidos.map { pedido ->
-        val report = RelatorioPedidoCompra(pedido).makeReport()
+        val report = RelatorioPedidoCompra(pedido, true).makeReport()
         report?.toJasperPrint()
       }
       val exporter = JRXlsExporter()
@@ -233,8 +240,14 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra) {
       xlsReportConfiguration.isShowGridLines = true
       xlsReportConfiguration.isIgnorePageMargins = true
       xlsReportConfiguration.isDetectCellType = true
-      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = false
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = true
       xlsReportConfiguration.isShrinkToFit = true
+      xlsReportConfiguration.isWhitePageBackground = false
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenColumns = true
+      xlsReportConfiguration.isIgnoreCellBorder = true
+      xlsReportConfiguration.isCollapseRowSpan = true
+      xlsReportConfiguration.isAutoFitPageHeight = true
+
       exporter.setConfiguration(xlsReportConfiguration)
       val out = ByteArrayOutputStream()
       exporter.setExporterInput(SimpleExporterInput.getInstance(printList))

@@ -66,7 +66,6 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
       }
     }
 
-
     this.lazyDownloadButtonXlsx("Planilha", "fornecedorCompra") {
       val fornecedores = itensSelecionados()
       viewModel.excelRelatorioFornecedor(fornecedores.flatMap { it.pedidos })
