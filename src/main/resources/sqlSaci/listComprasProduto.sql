@@ -25,6 +25,17 @@ SELECT prdno                                                                  AS
 FROM sqldados.prdref
 GROUP BY prdno, grade;
 
+DROP TEMPORARY TABLE IF EXISTS T_REF_SEMGRADE;
+CREATE TEMPORARY TABLE T_REF_SEMGRADE (
+  PRIMARY KEY (prdno)
+)
+SELECT prdno                                                                  AS prdno,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefno)), 11, 100) AS char)   AS refno,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefname)), 11, 100) AS char) AS refname
+FROM sqldados.prdref
+WHERE grade = ''
+GROUP BY prdno;
+
 SELECT V.no                                                                         AS vendno,
        V.name                                                                       AS fornecedor,
        V.cgc                                                                        AS cnpj,
@@ -41,8 +52,8 @@ SELECT V.no                                                                     
        P.mfno_ref                                                                   AS refFab,
        E.grade                                                                      AS grade,
        MID(P.name, 38, 3)                                                           AS unidade,
-       IFNULL(refno, '')                                                            AS refno,
-       IFNULL(refname, '')                                                          AS refname,
+       COALESCE(R.refno, RS.refno, '')                                              AS refno,
+       COALESCE(R.refname, RS.refname, '')                                          AS refname,
        ROUND((E.qtty * E.mult) / 1000)                                              AS qtPedida,
        ROUND((E.qttyCancel * E.mult) / 1000)                                        AS qtCancelada,
        ROUND((E.qttyRcv * E.mult) / 1000)                                           AS qtRecebida,
@@ -58,6 +69,8 @@ FROM sqldados.ords          AS O
 	       ON O.storeno = E.storeno AND O.no = E.ordno
   LEFT JOIN  T_REF          AS R
 	       ON E.prdno = R.prdno AND E.grade = R.grade
+  LEFT JOIN  T_REF_SEMGRADE AS RS
+	       ON E.prdno = RS.prdno
   LEFT JOIN  T_BARCODE      AS B
 	       ON E.prdno = B.prdno AND E.grade = B.grade
   INNER JOIN sqldados.prd   AS P
