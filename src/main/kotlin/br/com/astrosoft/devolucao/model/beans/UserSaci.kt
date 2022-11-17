@@ -77,6 +77,7 @@ class UserSaci : IUser {
   var notaSaidaReimpressao by DelegateAuthorized(56)
   var reimpressao by DelegateAuthorized(57)
   var compraPedidos by DelegateAuthorized(58)
+  val compraConferir by DelegateAuthorized(59)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
@@ -96,7 +97,7 @@ class UserSaci : IUser {
   val menuEntrada
     get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo
   val menuCompra
-    get() = compraPedidos
+    get() = compraPedidos || compraConferir
   val menuSaida
     get() = notaSaida
   override val admin

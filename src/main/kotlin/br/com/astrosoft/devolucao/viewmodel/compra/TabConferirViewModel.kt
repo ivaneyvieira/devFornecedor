@@ -6,9 +6,9 @@ import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
+class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
   val subView
-    get() = viewModel.view.tabPedidosViewModel
+    get() = viewModel.view.tabConferirViewModel
 
   fun updateComponent() = viewModel.exec {
     val filtro = subView.filtro()
@@ -59,7 +59,7 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
   }
 }
 
-interface ITabPedidosViewModel : ITabView {
+interface ITabConferirViewModel : ITabView {
   fun filtro(): FiltroPedidoCompra
   fun updateGrid(itens: List<PedidoCompraFornecedor>)
   fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
