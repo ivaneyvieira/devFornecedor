@@ -54,21 +54,21 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
         updateComponent()
       }
     }
-
     button("Relatório") {
-      icon = VaadinIcon.PRINT.create()
-      onLeftClick {
-        val fornecedores = itensSelecionados()
-        viewModel.imprimirRelatorioFornecedor(fornecedores.flatMap { it.pedidos })
-      }
-    }
-    button("Relatório Resumido") {
       icon = VaadinIcon.PRINT.create()
       onLeftClick {
         val fornecedores = itensSelecionados()
         viewModel.imprimirRelatorioResumido(fornecedores)
       }
     }
+    button("PDF") {
+      icon = VaadinIcon.PRINT.create()
+      onLeftClick {
+        val fornecedores = itensSelecionados()
+        viewModel.imprimirRelatorioFornecedor(fornecedores.flatMap { it.pedidos })
+      }
+    }
+
 
     this.lazyDownloadButtonXlsx("Planilha", "fornecedorCompra") {
       val notas = itensSelecionados()

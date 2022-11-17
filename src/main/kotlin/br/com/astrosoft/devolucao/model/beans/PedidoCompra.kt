@@ -23,6 +23,9 @@ class PedidoCompra(
   val labelTitle
     get() = "FORNECEDOR: ${this.vendno} ${this.fornecedor}                  LOJA: $sigla PEDIDO: $numeroPedido"
 
+  val labelGroup
+    get() = "FORNECEDOR: ${this.vendno} ${this.fornecedor}"
+
   val dataPedidoStr
     get() = dataPedido.format()
 

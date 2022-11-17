@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
@@ -48,15 +49,36 @@ class RelatorioFornecedorCompraResumido(val fornecedores: List<PedidoCompraForne
       this.setFixedWidth(70)
     }
 
-  private val saldoCol: TextColumnBuilder<Double> =
-    col.column("Saldo Total", PedidoCompraFornecedor::vlPedido.name, type.doubleType()).apply {
+  private val colVlPedida: TextColumnBuilder<Double> =
+    col.column("Vl Pedida", PedidoCompra::vlPedido.name, type.doubleType()).apply {
       this.setPattern("#,##0.00")
       this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(80)
+      this.setFixedWidth(90)
+    }
+
+  private val colVlCancelada: TextColumnBuilder<Double> =
+    col.column("Vl Cancelada", PedidoCompra::vlCancelado.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(90)
+    }
+
+  private val colVlRecebida: TextColumnBuilder<Double> =
+    col.column("Vl Recebida", PedidoCompra::vlRecebido.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(90)
+    }
+
+  private val colVlPendente: TextColumnBuilder<Double> =
+    col.column("Vl Pendente", PedidoCompra::vlPendente.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(90)
     }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(codigoSaciCol, nomeFornecedorCol, dataPrimeiraNotaCol, dataUltimaNotaCol, saldoCol)
+    return listOf(codigoSaciCol, nomeFornecedorCol, dataPrimeiraNotaCol, dataUltimaNotaCol, colVlPedida, colVlCancelada, colVlRecebida, colVlPendente)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
@@ -75,8 +97,10 @@ class RelatorioFornecedorCompraResumido(val fornecedores: List<PedidoCompraForne
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", dataUltimaNotaCol),
-      sbt.sum(saldoCol),
+      sbt.sum(colVlPedida),
+      sbt.sum(colVlCancelada),
+      sbt.sum(colVlRecebida),
+      sbt.sum(colVlPendente),
                  )
   }
 
