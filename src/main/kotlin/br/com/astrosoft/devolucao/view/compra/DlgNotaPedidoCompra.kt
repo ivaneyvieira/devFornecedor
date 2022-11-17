@@ -11,6 +11,7 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlC
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPedida
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPendente
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlRecebida
+import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
@@ -23,7 +24,7 @@ import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class DlgNotaPedidoCompra(val viewModel: TabPedidosViewModel) {
+class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel) {
   private lateinit var gridNota: Grid<PedidoCompra>
 
   fun showDialogNota(fornecedor: PedidoCompraFornecedor?) {
@@ -46,9 +47,8 @@ class DlgNotaPedidoCompra(val viewModel: TabPedidosViewModel) {
         }
       }
       this.lazyDownloadButtonXlsx("Planilha", "pedidosCompra") {
-        val notas = gridNota.selectedItems.toList()
-        val exporter = ExcelExporter(gridNota)
-        exporter.exporterToByte("Pedidos Compra", notas)
+        val notas = gridNota.asMultiSelect().selectedItems.toList()
+        viewModel.excelPedidoCompra(notas)
       }
     }) {
       gridNota = createGrid(pedidos)

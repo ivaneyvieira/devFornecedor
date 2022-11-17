@@ -1,6 +1,9 @@
 package br.com.astrosoft.devolucao.view.compra
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompraResumido
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
@@ -11,8 +14,8 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColu
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPedida
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPendente
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlRecebida
-import br.com.astrosoft.devolucao.viewmodel.compra.ITabPedidosViewModel
-import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
+import br.com.astrosoft.devolucao.viewmodel.compra.ITabConferirViewModel
+import br.com.astrosoft.devolucao.viewmodel.compra.TabConferirViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -30,8 +33,8 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
-class TabPedidos(val viewModel: TabPedidosViewModel) :
-        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabPedidosViewModel {
+class TabConferir(val viewModel: TabConferirViewModel) :
+        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabConferirViewModel {
   private lateinit var edtPedquisa: TextField
   private lateinit var edtLoja: IntegerField
 
@@ -65,7 +68,6 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
         viewModel.imprimirRelatorioFornecedor(fornecedores.flatMap { it.pedidos })
       }
     }
-
 
     this.lazyDownloadButtonXlsx("Planilha", "fornecedorCompra") {
       val fornecedores = itensSelecionados()
@@ -115,11 +117,11 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
 
   override fun isAuthorized(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.compraPedidos
+    return userSaci.compraConferir
   }
 
   override val label: String
-    get() = "Pedidos"
+    get() = "Conferir"
 
   override fun updateComponent() {
     viewModel.updateComponent()

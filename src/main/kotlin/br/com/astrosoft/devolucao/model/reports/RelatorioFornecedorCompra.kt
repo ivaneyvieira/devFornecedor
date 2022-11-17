@@ -20,8 +20,10 @@ import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.jasperreports.engine.export.JRPdfExporter
+import net.sf.jasperreports.engine.export.JRXlsExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
 import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorCompra(val pedido: List<PedidoCompra>) {
@@ -139,6 +141,25 @@ class RelatorioFornecedorCompra(val pedido: List<PedidoCompra>) {
       exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
 
       exporter.exporterOutput = SimpleOutputStreamExporterOutput(out)
+
+      exporter.exportReport()
+      return out.toByteArray()
+    }
+
+    fun processaExcel(pedido: List<PedidoCompra>): ByteArray {
+      val printList = listOf(RelatorioFornecedorCompra(pedido).makeReport().toJasperPrint())
+      val exporter = JRXlsExporter()
+      val out = ByteArrayOutputStream()
+      exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
+
+      exporter.exporterOutput = SimpleOutputStreamExporterOutput(out)
+      val xlsReportConfiguration = SimpleXlsxReportConfiguration()
+      xlsReportConfiguration.isShowGridLines = true
+      xlsReportConfiguration.isIgnorePageMargins = true
+      xlsReportConfiguration.isDetectCellType = true
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = false
+      xlsReportConfiguration.isShrinkToFit = true
+      exporter.setConfiguration(xlsReportConfiguration)
 
       exporter.exportReport()
       return out.toByteArray()
