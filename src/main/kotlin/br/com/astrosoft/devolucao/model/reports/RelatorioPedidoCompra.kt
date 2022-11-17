@@ -229,34 +229,6 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {
       exporter.exportReport()
       return out.toByteArray()
     }
-
-    fun processaExcel(pedidos: List<PedidoCompra>): ByteArray {
-      val printList = pedidos.map { pedido ->
-        val report = RelatorioPedidoCompra(pedido, true).makeReport()
-        report?.toJasperPrint()
-      }
-      val exporter = JRXlsExporter()
-      val xlsReportConfiguration = SimpleXlsxReportConfiguration()
-      xlsReportConfiguration.isShowGridLines = true
-      xlsReportConfiguration.isIgnorePageMargins = true
-      xlsReportConfiguration.isDetectCellType = true
-      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = true
-      xlsReportConfiguration.isShrinkToFit = true
-      xlsReportConfiguration.isWhitePageBackground = false
-      xlsReportConfiguration.isRemoveEmptySpaceBetweenColumns = true
-      xlsReportConfiguration.isIgnoreCellBorder = true
-      xlsReportConfiguration.isCollapseRowSpan = true
-      xlsReportConfiguration.isAutoFitPageHeight = true
-
-      exporter.setConfiguration(xlsReportConfiguration)
-      val out = ByteArrayOutputStream()
-      exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
-
-      exporter.exporterOutput = SimpleOutputStreamExporterOutput(out)
-
-      exporter.exportReport()
-      return out.toByteArray()
-    }
   }
 }
 

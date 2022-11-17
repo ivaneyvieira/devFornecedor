@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
+import io.github.rushuat.ocell.document.Document
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
   val subView
@@ -47,7 +48,14 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
     }
-    else RelatorioPedidoCompra.processaExcel(pedidos)
+    else {
+      Document().use { document ->
+        document.addSheet(pedidos.flatMap { it.produtos }.sortedWith(compareBy({ it.vendno }, { it.loja }, {
+          it.dataPedido
+        }, { it.codigo })))
+        document.toBytes()
+      }
+    }
   }
 
   fun excelRelatorioFornecedor(pedidos: List<PedidoCompra>): ByteArray {
@@ -55,7 +63,10 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
     }
-    else RelatorioFornecedorCompra.processaExcel(pedidos)
+    else Document().use { document ->
+      document.addSheet(pedidos.sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido })))
+      document.toBytes()
+    }
   }
 }
 
