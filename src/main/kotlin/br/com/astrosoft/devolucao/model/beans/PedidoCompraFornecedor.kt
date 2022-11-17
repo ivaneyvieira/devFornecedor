@@ -21,7 +21,12 @@ class PedidoCompraFornecedor(
   val dataPedidoFimStr
     get() = dataPedidoFim.format()
   companion object {
-    fun findAll(filtro: FiltroPedidoCompra) = PedidoCompra.findAll(filtro).groupBy { it.vendno }.mapNotNull { entry ->
+    fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompraFornecedor> {
+      val list = PedidoCompra.findAll(filtro)
+      return group(list)
+    }
+
+    fun group(list: List<PedidoCompra>) = list.groupBy { it.vendno }.mapNotNull { entry ->
       val pedidos = entry.value
       val bean = pedidos.firstOrNull() ?: return@mapNotNull null
       PedidoCompraFornecedor(
