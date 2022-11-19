@@ -109,6 +109,11 @@ dependencies {
   implementation("com.sun.mail:gimap:1.6.2")
   // https://mvnrepository.com/artifact/io.github.rushuat/ocell
   implementation("io.github.rushuat:ocell:0.1.6")
+  // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+ // implementation("com.itextpdf:itextpdf:5.5.13.3")
+  // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+ // implementation("org.apache.pdfbox:pdfbox:2.0.27")
+  implementation("io.github.jonathanlink:PDFLayoutTextStripper:2.2.4")
 }
 
 vaadin {
