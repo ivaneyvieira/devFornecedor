@@ -34,3 +34,4 @@ src/main/resources/report/.metadata/
 *.jasper
 pnpm-lock.yaml
 pnpmfile.js
+pedidosPDF
