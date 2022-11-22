@@ -1,22 +1,29 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
+import br.com.astrosoft.devolucao.model.pdftxt.FileText
+import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
+  private var fileText: FileText? = null
   val subView
     get() = viewModel.view.tabConferirViewModel
 
   fun updateComponent() = viewModel.exec {
+    val list = pedidoCompraFornecedors()
+    subView.updateGrid(list)
+  }
+
+  private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
     val filtro = subView.filtro()
     val list = PedidoCompraFornecedor.findAll(filtro).filter {
       (!it.fornecedor.startsWith("ENGECOPI")) && (it.vlPendente > 0.00)
     }
-    subView.updateGrid(list)
+    return list
   }
 
   fun listLojas(): List<Loja> {
@@ -29,6 +36,27 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
       fail("Nenhuma item foi selecionado")
     }
     subView.imprimirRelatorioFornecedor(pedido)
+  }
+
+  override fun findLine(produto: PedidoCompraProduto): Line? {
+    val dataLine = fileText?.listLinesDados() ?: return null
+    val refno = produto.refno ?: ""
+    val refFab = produto.refFab ?: ""
+    val retLine = dataLine.find(refno) ?: dataLine.find(refFab)
+    return retLine
+  }
+
+  override fun pedidoOK(): Boolean {
+    return fileText != null
+  }
+
+  override fun isConf(): Boolean {
+    return true
+  }
+
+  override fun setFileText(fileText: FileText) {
+    this.fileText = fileText
+    updateComponent()
   }
 
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {

@@ -52,10 +52,10 @@ class PedidoCompra(
           dataPedido = bean.dataPedido,
           dataEntrega = bean.dataEntrega,
           obsercacaoPedido = bean.obsercacaoPedido,
-          vlPedido = produtos.sumOf { it.vlPedido },
-          vlCancelado = produtos.sumOf { it.vlCancelado },
-          vlRecebido = produtos.sumOf { it.vlRecebido },
-          vlPendente = produtos.sumOf { it.vlPendente },
+          vlPedido = produtos.sumOf { it.vlPedido ?: 0.00 },
+          vlCancelado = produtos.sumOf { it.vlCancelado ?: 0.00},
+          vlRecebido = produtos.sumOf { it.vlRecebido ?: 0.00},
+          vlPendente = produtos.sumOf { it.vlPendente ?: 0.00},
           produtos = produtos,
                     )
       }

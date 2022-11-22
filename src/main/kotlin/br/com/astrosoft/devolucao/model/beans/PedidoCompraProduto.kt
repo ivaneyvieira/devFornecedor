@@ -5,6 +5,7 @@ import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class PedidoCompraProduto(
+  val origem: String,
   val vendno: Int,
   val fornecedor: String,
   val cnpj: String,
@@ -15,31 +16,31 @@ class PedidoCompraProduto(
   val dataPedido: LocalDate,
   val dataEntrega: LocalDate,
   val obsercacaoPedido: String,
-  val codigo: String,
-  val descricao: String,
-  val refFab: String,
-  val refno: String,
-  val refname: String,
-  val grade: String,
-  val unidade: String,
-  val qtPedida: Int,
-  val qtCancelada: Int,
-  val qtRecebida: Int,
-  val qtPendente: Int,
-  val custoUnit: Double,
-  val barcode: String,
+  val codigo: String?,
+  val descricao: String?,
+  val refFab: String?,
+  val refno: String?,
+  val refname: String?,
+  val grade: String?,
+  val unidade: String?,
+  val qtPedida: Int?,
+  val qtCancelada: Int?,
+  val qtRecebida: Int?,
+  val qtPendente: Int?,
+  val custoUnit: Double?,
+  val barcode: String?,
                          ) {
   var item: Int = 0
   val dataPedidoStr
     get() = dataPedido.format()
   val vlPedido
-    get() = qtPedida * custoUnit
+    get() = if(qtPedida == null || custoUnit == null) null else qtPedida * custoUnit
   val vlCancelado
-    get() = qtCancelada * custoUnit
+    get() = if(qtCancelada == null || custoUnit == null) null else qtCancelada * custoUnit
   val vlRecebido
-    get() = qtRecebida * custoUnit
+    get() = if(qtRecebida == null || custoUnit == null) null else qtRecebida * custoUnit
   val vlPendente
-    get() = qtPendente * custoUnit
+    get() = if(qtPendente == null || custoUnit == null) null else qtPendente * custoUnit
 
   companion object {
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompraProduto> {

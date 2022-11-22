@@ -1,14 +1,25 @@
 package br.com.astrosoft.devolucao.model.pdftxt
 
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.unaccent
+import java.text.DecimalFormat
 
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Qtde", "Un", "Item", "Produto", "Qtd", "Preco", "Total")
 
 
 data class Line(val num: Int, val lineStr: String, val fileText: FileText, val double : Boolean = false) {
-  fun find(text: String): Boolean {
-    val textUnaccent = text.unaccent()
+  fun find(text: String?): Boolean {
+    val textUnaccent = text?.unaccent() ?: return false
     return lineStr.unaccent().contains(textUnaccent, ignoreCase = true)
+  }
+
+  fun find(num: Number?): Boolean {
+    num ?: return false
+    val form1 = DecimalFormat("#,##0.00")
+    val form2 = DecimalFormat("#,##0")
+    val form3 = DecimalFormat("0.00")
+    val form4 = DecimalFormat("0")
+    return find(form1.format(num)) || find(form2.format(num)) || find(form3.format(num))  || find(form4.format(num))
   }
 
   val countTitleWord = titleWord.count { find(it) }
