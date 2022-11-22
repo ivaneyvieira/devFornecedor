@@ -2,7 +2,8 @@ USE sqldados;
 
 DO @LOJA := :loja;
 DO @VENDNO := IF(:pesquisa REGEXP '^[0-9]+$', :pesquisa * 1, 0);
-DO @FORNECEDOR := :pesquisa;
+DO @PEDIDO := IF(:pesquisa REGEXP '^[0-9]+$', :pesquisa * 1, 0);
+DO @FORNECEDOR := IF(:pesquisa NOT REGEXP '^[0-9]+$', :pesquisa, '');
 
 DROP TABLE IF EXISTS T_BARCODE;
 CREATE TEMPORARY TABLE T_BARCODE (
@@ -76,8 +77,8 @@ FROM sqldados.ords          AS O
   INNER JOIN sqldados.prd   AS P
 	       ON P.no = E.prdno
 WHERE (O.storeno = :loja OR :loja = 0)
-  AND (V.no = @VENDNO OR @VENDNO = 0)
-  AND (V.name LIKE CONCAT(@FORNECEDOR, '%'))
+  AND ((V.no = @VENDNO AND @VENDNO != 0) OR (O.no = @PEDIDO AND @PEDIDO != 0) OR
+       (V.name LIKE CONCAT(@FORNECEDOR, '%') AND @FORNECEDOR != '') OR
+       (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
   AND O.status != 2
   AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
-
