@@ -30,10 +30,29 @@ class FileText {
     return lines.subList(start - 1, lines.size).toList()
   }
 
+  fun listLinesDados(): DataLine? {
+    val lineTitle = localizaColunas() ?: return null
+    val colunas = lineTitle.columns()
+    val coluna1 = colunas.getOrNull(0) ?: return null
+    return DataLine(colunas, coluna1.lineDados())
+  }
+
   companion object {
     fun fromFile(filename: String): FileText {
       val fileText = FileText()
       val listLineStr = File(filename).readLines()
+      listLineStr.forEachIndexed { index, lineStr ->
+        val pos = index + 1
+        val line = Line(num = pos, lineStr = lineStr, fileText = fileText)
+        fileText.addLine(line)
+      }
+      return fileText
+    }
+
+    fun fromFile(bytes: ByteArray): FileText {
+      val text = String(bytes)
+      val fileText = FileText()
+      val listLineStr = text.lines()
       listLineStr.forEachIndexed { index, lineStr ->
         val pos = index + 1
         val line = Line(num = pos, lineStr = lineStr, fileText = fileText)

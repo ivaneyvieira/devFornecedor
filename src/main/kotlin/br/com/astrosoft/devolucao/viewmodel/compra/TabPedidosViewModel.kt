@@ -1,6 +1,8 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.pdftxt.FileText
+import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -26,6 +28,22 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
       fail("Nenhuma item foi selecionado")
     }
     subView.imprimirRelatorioFornecedor(pedido)
+  }
+
+  override fun setFileText(fileText: FileText) {
+
+  }
+
+  override fun findLine(produto: PedidoCompraProduto): Line? {
+    return null
+  }
+
+  override fun pedidoOK(): Boolean {
+    return false
+  }
+
+  override fun isConf(): Boolean {
+    return false
   }
 
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {

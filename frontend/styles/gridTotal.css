@@ -42,3 +42,20 @@
 [part~="ck-content"].dark {
     color: black;
 }
+
+[part~="cell"].marcaOk {
+    color: #01FF70;
+    font-weight: bold;
+}
+
+
+[part~="cell"].marcaAlert {
+    color: #FFDC00;
+    font-weight: bold;
+}
+
+
+[part~="cell"].marcaError {
+    color: #FF4136;
+    font-weight: bold;
+}

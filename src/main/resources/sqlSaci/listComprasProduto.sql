@@ -37,7 +37,8 @@ FROM sqldados.prdref
 WHERE grade = ''
 GROUP BY prdno;
 
-SELECT V.no                                                                         AS vendno,
+SELECT 'SACI'                                                                       AS origem,
+       V.no                                                                         AS vendno,
        V.name                                                                       AS fornecedor,
        V.cgc                                                                        AS cnpj,
        O.storeno                                                                    AS loja,
