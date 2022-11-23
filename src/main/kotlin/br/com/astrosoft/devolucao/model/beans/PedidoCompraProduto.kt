@@ -50,4 +50,4 @@ class PedidoCompraProduto(
   }
 }
 
-data class FiltroPedidoCompra(val loja: Int, val pesquisa: String)
+data class FiltroPedidoCompra(val loja: Int, val pesquisa: String, val onlyPendente: Boolean)

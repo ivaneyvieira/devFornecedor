@@ -22,7 +22,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
   private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
     val filtro = subView.filtro()
     val list = PedidoCompraFornecedor.findAll(filtro).filter {
-      (!it.fornecedor.startsWith("ENGECOPI")) && (it.vlPendente != 0.00)
+      (!it.fornecedor.startsWith("ENGECOPI"))
     }
     return list
   }

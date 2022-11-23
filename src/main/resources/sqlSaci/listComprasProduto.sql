@@ -83,3 +83,10 @@ WHERE (O.storeno = :loja OR :loja = 0)
        (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
   AND O.status != 2
   AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
+HAVING CASE :onlyPendente
+	 WHEN 'S'
+	   THEN ROUND(qtPendente * 100) != 0
+	 WHEN 'N'
+	   THEN TRUE
+	 ELSE FALSE
+       END

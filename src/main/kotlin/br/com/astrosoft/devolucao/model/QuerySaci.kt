@@ -470,7 +470,6 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-
   fun saveNotaNddPedido(nota: NotaEntradaNdd) {
     val sql = "/sqlSaci/saveNotaNddPedido.sql"
     script(sql) {
@@ -661,9 +660,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun findPedidosCompraProduto(filtro: FiltroPedidoCompra): List<PedidoCompraProduto> {
     val sql = "/sqlSaci/listComprasProduto.sql"
-    return query(sql, PedidoCompraProduto::class){
+    return query(sql, PedidoCompraProduto::class) {
       addOptionalParameter("loja", filtro.loja)
       addOptionalParameter("pesquisa", filtro.pesquisa)
+      addOptionalParameter("onlyPendente", filtro.onlyPendente.let { onlyPendente ->
+        if (onlyPendente) "S" else "N"
+      })
     }
   }
 
