@@ -1,7 +1,10 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
+
+
 
 class PedidoCompra(
   val vendno: Int,
@@ -20,6 +23,32 @@ class PedidoCompra(
   val vlPendente: Double,
   val produtos: List<PedidoCompraProduto>,
                   ) {
+  fun savePdf(bytes: ByteArray) {
+    val nfFile =
+      NFFile(storeno = loja,
+             pdvno = PDV_COMPRA,
+             xano = numeroPedido,
+             date = DATA_COMPRA,
+             nome = "Pedido${numeroPedido}.pdf",
+             file = bytes)
+    nfFile.insert()
+  }
+
+  fun toPdf() : ByteArray? {
+    return saci.selectFile(this).firstOrNull()?.file
+  }
+
+  fun removePdf() {
+    val nfFile =
+      NFFile(storeno = loja,
+             pdvno = PDV_COMPRA,
+             xano = numeroPedido,
+             date = DATA_COMPRA,
+             nome = "Pedido${numeroPedido}.pdf",
+             file = ByteArray(0))
+    saci.deleteFile(nfFile)
+  }
+
   val labelTitle
     get() = "FORNECEDOR: ${this.vendno} ${this.fornecedor}                  LOJA: $sigla PEDIDO: $numeroPedido"
 
@@ -30,6 +59,9 @@ class PedidoCompra(
     get() = dataPedido.format()
 
   companion object {
+    val PDV_COMPRA = 9990
+    val DATA_COMPRA = LocalDate.of(2022,1,1)
+
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> {
       val list = PedidoCompraProduto.findAll(filtro)
       return group(list)

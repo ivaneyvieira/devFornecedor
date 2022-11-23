@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.compra
 
-import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.model.pdftxt.ExportTxt
@@ -18,7 +17,8 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colVlTotal
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
-import br.com.astrosoft.framework.view.export.ExcelExporter
+import br.com.astrosoft.framework.view.SubWindowPDF
+import br.com.astrosoft.framework.view.UploadPtBr
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -30,13 +30,18 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
-import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer
 
 class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   private lateinit var gridNota: Grid<PedidoCompraProduto>
 
   fun showDialogNota(pedido: PedidoCompra?) {
     pedido ?: return
+    pedido.toPdf()?.let { bytes ->
+      val bytesTxt = ExportTxt.toTxt(bytes)
+      val fileText = FileText.fromFile(bytesTxt)
+      viewModel.setFileText(fileText)
+    }
 
     val produtos = pedido.produtos
     val form = SubWindowForm(pedido.labelTitle, toolBar = {
@@ -54,16 +59,31 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
 
       if (viewModel.isConf()) {
         this.uploadFile { buffer, upload ->
+          upload.isDropAllowed = false
           upload.addSucceededListener {
-            val fileName = it.fileName
-            val bytesPDF = buffer.getInputStream(fileName).readBytes()
+            val bytesPDF = buffer.inputStream.readBytes()
             val bytesTxt = ExportTxt.toTxt(bytesPDF)
-
-            println(String(bytesTxt))
 
             val fileText = FileText.fromFile(bytesTxt)
             viewModel.setFileText(fileText)
             gridNota.dataProvider.refreshAll()
+            viewModel.savePdfPedido(pedido, bytesPDF)
+          }
+        }
+        this.button("Remover Pedido") {
+          icon = VaadinIcon.TRASH.create()
+          onLeftClick {
+            viewModel.removePedido(pedido)
+            gridNota.dataProvider.refreshAll()
+          }
+        }
+        this.button("Exibir Pedido") {
+          icon = VaadinIcon.PRINT.create()
+          onLeftClick {
+            val bytes = pedido.toPdf()
+            if (bytes != null) {
+              SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
+            }
           }
         }
       }
@@ -103,7 +123,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.setClassNameGenerator {
           if (viewModel.pedidoOK()) {
             val line = viewModel.findLine(it)
-            if (line?.find(it.refno) == true) "marcaOk"
+            val listRef = it.refno?.split("/").orEmpty()
+            if (listRef.any { line?.find(it) == true }) "marcaOk"
             else "marcaError"
           }
           else ""
@@ -134,14 +155,16 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
     }
   }
 
-  private fun HasComponents.uploadFile(exec: (buffer: MultiFileMemoryBuffer, upload: Upload) -> Unit) {
-    val buffer = MultiFileMemoryBuffer()
+  private fun HasComponents.uploadFile(exec: (buffer: MemoryBuffer, upload: Upload) -> Unit) {
+    val buffer = MemoryBuffer()
     val upload = Upload(buffer)
-    upload.setAcceptedFileTypes("image/jpeg", "image/png", "application/pdf", "text/plain")
-    val uploadButton = Button("Arquivo Pedido")
+    upload.setAcceptedFileTypes("application/pdf", ".pdf")
+    val uploadButton = Button("Carregar Pedido")
+    uploadButton.icon = VaadinIcon.PLUS.create()
     upload.uploadButton = uploadButton
     upload.isAutoUpload = true
     upload.maxFileSize = 1024 * 1024 * 1024
+    upload.i18n = UploadPtBr()
     upload.addFileRejectedListener { event: FileRejectedEvent ->
       println(event.errorMessage)
     }

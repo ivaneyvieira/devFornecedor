@@ -7,6 +7,7 @@ import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
+import java.time.LocalDate
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
   private var fileText: FileText? = null
@@ -21,7 +22,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
   private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
     val filtro = subView.filtro()
     val list = PedidoCompraFornecedor.findAll(filtro).filter {
-      (!it.fornecedor.startsWith("ENGECOPI")) && (it.vlPendente > 0.00)
+      (!it.fornecedor.startsWith("ENGECOPI")) && (it.vlPendente != 0.00)
     }
     return list
   }
@@ -40,9 +41,9 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
 
   override fun findLine(produto: PedidoCompraProduto): Line? {
     val dataLine = fileText?.listLinesDados() ?: return null
-    val refno = produto.refno ?: ""
+    val listRef = produto.refno?.split("/").orEmpty()
     val refFab = produto.refFab ?: ""
-    val retLine = dataLine.find(refno) ?: dataLine.find(refFab)
+    val retLine = listRef.firstNotNullOfOrNull { dataLine.find(it) } ?: dataLine.find(refFab)
     return retLine
   }
 
@@ -54,7 +55,16 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
     return true
   }
 
-  override fun setFileText(fileText: FileText) {
+  override fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray) {
+    pedido.savePdf(bytes)
+  }
+
+  override fun removePedido(pedido: PedidoCompra) {
+    pedido.removePdf()
+    setFileText(null)
+  }
+
+  override fun setFileText(fileText: FileText?) {
     this.fileText = fileText
     updateComponent()
   }

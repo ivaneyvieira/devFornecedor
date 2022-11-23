@@ -30,8 +30,7 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
     subView.imprimirRelatorioFornecedor(pedido)
   }
 
-  override fun setFileText(fileText: FileText) {
-
+  override fun setFileText(fileText: FileText?) {
   }
 
   override fun findLine(produto: PedidoCompraProduto): Line? {
@@ -44,6 +43,12 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
 
   override fun isConf(): Boolean {
     return false
+  }
+
+  override fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray) {
+  }
+
+  override fun removePedido(pedido: PedidoCompra) {
   }
 
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {
