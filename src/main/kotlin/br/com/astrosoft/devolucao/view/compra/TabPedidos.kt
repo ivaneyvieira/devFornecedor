@@ -91,6 +91,7 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
     return FiltroPedidoCompra(
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
+      onlyPendente = false,
                              )
   }
 
