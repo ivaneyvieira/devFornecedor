@@ -103,6 +103,32 @@ class FiltroNfPrecEntrada(
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
 }
 
+class FiltroFreteEntrada(
+  val storeno: Int,
+  val di: LocalDate,
+  val df: LocalDate,
+  val vendno: Int,
+  val mfno: Int,
+  val ni: Int,
+  val nf: String,
+  val prd: String,
+  var cst: EDiferenca,
+  var icms: EDiferenca,
+  var ipi: EDiferenca,
+  var mva: EDiferenca,
+  var ncm: EDiferenca,
+  var barcode: EDiferenca,
+  var refPrd: EDiferenca,
+  var frete: EDiferenca,
+  val ultimaNota: Boolean,
+  val rotulo: String,
+  val caraterInicial: String,
+  val comGrade: Boolean,
+                         ) {
+  val listaCaracter
+    get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
+}
+
 enum class EDiferenca(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
 }
