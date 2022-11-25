@@ -98,7 +98,9 @@ SELECT iprd.storeno                                                             
        TRIM(IFNULL(M.refPrd, ''))                                                        AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                                   AS fretep,
        inv.freight * 100.00 / inv.grossamt                                               AS freten,
-       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete
+       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete,
+       IFNULL(prp.cost / 10000, 0.00)                                                    AS precop,
+       IFNULL(iprd.cost4 / 10000, 0.00)                                                  AS precon
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -180,5 +182,8 @@ SELECT lj,
        freten,
        fretep,
        IF(freten = fretep, 'S', 'N')                                                             AS freteDif,
-       frete
+       frete,
+       precon,
+       precop,
+       IF(precon = precop, 'S', 'N')                                                             AS precoDif
 FROM sqldados.T_QUERY

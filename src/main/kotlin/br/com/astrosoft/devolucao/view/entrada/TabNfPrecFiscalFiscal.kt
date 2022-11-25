@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferenca.T
-import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecFiscalViewModel
@@ -35,7 +35,7 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
   private lateinit var edtCaracter: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
 
-  override fun setFiltro(filtro: FiltroNfPrecEntrada) {
+  override fun setFiltro(filtro: FiltroRelatorio) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
     edtDataI.value = filtro.di
     edtDataF.value = filtro.df
@@ -49,27 +49,28 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
     edtCaracter.value = filtro.caraterInicial
   }
 
-  override fun getFiltro(): FiltroNfPrecEntrada {
-    return FiltroNfPrecEntrada(storeno = edtLoja.value?.no ?: 0,
-                               di = edtDataI.value ?: LocalDate.now(),
-                               df = edtDataF.value ?: LocalDate.now(),
-                               vendno = edtFornecedorNota.value ?: 0,
-                               mfno = edtFornecedorCad.value ?: 0,
-                               ni = edtNi.value ?: 0,
-                               nf = edtNota.value ?: "",
-                               prd = edtProduto.value ?: "",
-                               cst = T,
-                               icms = T,
-                               ipi = T,
-                               mva = T,
-                               ncm = T,
-                               barcode = T,
-                               refPrd = T,
-                               frete = T,
-                               ultimaNota = edtUlmNota.value ?: false,
-                               rotulo = edtRotulo.value ?: "",
-                               caraterInicial = edtCaracter.value ?: "",
-                               comGrade = false)
+  override fun getFiltro(): FiltroRelatorio {
+    return FiltroRelatorio(storeno = edtLoja.value?.no ?: 0,
+                           di = edtDataI.value ?: LocalDate.now(),
+                           df = edtDataF.value ?: LocalDate.now(),
+                           vendno = edtFornecedorNota.value ?: 0,
+                           mfno = edtFornecedorCad.value ?: 0,
+                           ni = edtNi.value ?: 0,
+                           nf = edtNota.value ?: "",
+                           prd = edtProduto.value ?: "",
+                           cst = T,
+                           icms = T,
+                           ipi = T,
+                           mva = T,
+                           ncm = T,
+                           barcode = T,
+                           refPrd = T,
+                           frete = T,
+                           preco = T,
+                           ultimaNota = edtUlmNota.value ?: false,
+                           rotulo = edtRotulo.value ?: "",
+                           caraterInicial = edtCaracter.value ?: "",
+                           comGrade = false)
   }
 
   override fun openRelatorio() {
