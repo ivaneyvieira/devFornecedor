@@ -103,12 +103,12 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroRela
       notaFornNota()
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
+      notaPesoBruto()
       notaFrete().marcaDiferenca { freteDif == "N" }
       notaFreten().marcaDiferenca { freteDif == "N" }
       notaFretep().marcaDiferenca { freteDif == "N" }
       notaPrecon().marcaDiferenca { precoDif == "N" }
       notaPrecop().marcaDiferenca { precoDif == "N" }
-      notaPesoBruto()
     }
   }
 }
