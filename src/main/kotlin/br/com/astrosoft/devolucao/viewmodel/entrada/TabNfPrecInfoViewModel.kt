@@ -1,9 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
@@ -54,13 +51,13 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
     return Loja.allLojas().sortedBy { it.no }
   }
 
-  fun findNotas(filtro: FiltroNfPrecEntrada): List<NfPrecEntrada> {
+  fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
     return NfPrecEntrada.findNotas(filtro)
   }
 }
 
 interface ITabNfPrecInfoViewModel : ITabView {
-  fun setFiltro(filtro: FiltroNfPrecEntrada)
-  fun getFiltro(): FiltroNfPrecEntrada
+  fun setFiltro(filtro: FiltroRelatorio)
+  fun getFiltro(): FiltroRelatorio
   fun openRelatorio()
 }

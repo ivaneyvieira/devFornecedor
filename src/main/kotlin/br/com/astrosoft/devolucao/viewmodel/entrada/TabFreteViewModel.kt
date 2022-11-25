@@ -54,13 +54,13 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
     return Loja.allLojas().sortedBy { it.no }
   }
 
-  fun findNotas(filtro: FiltroFreteEntrada): List<NfPrecEntrada> {
+  fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
     return NfPrecEntrada.findNotas(filtro)
   }
 }
 
 interface ITabFreteViewModel : ITabView {
-  fun setFiltro(filtro: FiltroFreteEntrada)
-  fun getFiltro(): FiltroFreteEntrada
+  fun setFiltro(filtro: FiltroRelatorio)
+  fun getFiltro(): FiltroRelatorio
   fun openRelatorio()
 }

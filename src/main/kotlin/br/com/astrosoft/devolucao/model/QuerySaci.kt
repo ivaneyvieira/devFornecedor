@@ -496,6 +496,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("barcode", filtro.barcode.str)
       addOptionalParameter("refPrd", filtro.refPrd.str)
       addOptionalParameter("frete", filtro.frete.str)
+      addOptionalParameter("frete", filtro.preco.str)
     }
   }
 
@@ -524,7 +525,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  private fun <R : Any> filtroNfPrec(filter: FiltroNfPrecEntrada,
+  private fun <R : Any> filtroNfPrec(filter: FiltroRelatorio,
                                      sql: String,
                                      complemento: String? = null,
                                      result: (Query) -> R): R {
@@ -547,7 +548,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }, result = result)
   }
 
-  fun countNfPrec(filter: FiltroNfPrecEntrada): Int {
+  fun countNfPrec(filter: FiltroRelatorio): Int {
     val sql = "/sqlSaci/ultimasNotasEntradaCount.sql"
     return filtroNfPrec(filter, sql) {
       it.executeScalar(Int::class.java)

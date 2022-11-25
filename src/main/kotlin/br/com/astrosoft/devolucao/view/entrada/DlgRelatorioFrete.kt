@@ -1,9 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroFreteEntrada
+
+import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
@@ -12,18 +11,11 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFreten
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFretep
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsp
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsr
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpip
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvan
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvap
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecon
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferenca
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabFreteViewModel
@@ -41,7 +33,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroFreteEntrada) {
+class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
@@ -71,38 +63,11 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroFret
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("ICMS") {
-        value = filtro.icms
+      this.comboDiferenca("Preço") {
+        value = filtro.preco
 
         this.addValueChangeListener {
-          filtro.icms = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferenca("IPI") {
-        value = filtro.ipi
-
-        this.addValueChangeListener {
-          filtro.ipi = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferenca("CST") {
-        value = filtro.cst
-
-        this.addValueChangeListener {
-          filtro.cst = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferenca("MVA") {
-        value = filtro.mva
-
-        this.addValueChangeListener {
-          filtro.mva = it.value
+          filtro.preco = it.value
           val list = viewModel.findNotas(filtro)
           gridNota.setItems(list)
         }
@@ -139,16 +104,8 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroFret
       notaFrete().marcaDiferenca { freteDif == "N" }
       notaFreten().marcaDiferenca { freteDif == "N" }
       notaFretep().marcaDiferenca { freteDif == "N" }
-      notaRedIcms().marcaDiferenca { icmsDif == "N" }
-      notaIcmsr().marcaDiferenca { icmsDif == "N" }
-      notaIcmsn().marcaDiferenca { icmsDif == "N" }
-      notaIcmsp().marcaDiferenca { icmsDif == "N" }
-      notaIpin().marcaDiferenca { ipiDif == "N" }
-      notaIpip().marcaDiferenca { ipiDif == "N" }
-      notaCstn().marcaDiferenca { cstDif == "N" }
-      notaCstp().marcaDiferenca { cstDif == "N" }
-      notaMvan().marcaDiferenca { mvaDif == "N" }
-      notaMvap().marcaDiferenca { mvaDif == "N" }
+      notaPrecon().marcaDiferenca { precoDif == "N" }
+      notaPrecon().marcaDiferenca { precoDif == "N" }
     }
   }
 }
