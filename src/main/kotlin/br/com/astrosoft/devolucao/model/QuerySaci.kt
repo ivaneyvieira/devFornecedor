@@ -496,7 +496,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("barcode", filtro.barcode.str)
       addOptionalParameter("refPrd", filtro.refPrd.str)
       addOptionalParameter("frete", filtro.frete.str)
-      addOptionalParameter("frete", filtro.preco.str)
+      addOptionalParameter("preco", filtro.preco.str)
     }
   }
 
