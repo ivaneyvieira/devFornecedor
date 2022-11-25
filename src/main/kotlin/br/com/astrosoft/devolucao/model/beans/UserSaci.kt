@@ -78,6 +78,7 @@ class UserSaci : IUser {
   var reimpressao by DelegateAuthorized(57)
   var compraPedidos by DelegateAuthorized(58)
   val compraConferir by DelegateAuthorized(59)
+  var entradaFrete by DelegateAuthorized(60)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
