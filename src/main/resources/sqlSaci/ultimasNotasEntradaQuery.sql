@@ -54,7 +54,8 @@ SELECT no,
        mfno,
        taxno,
        lucroTributado,
-       mfno_ref AS refPrd
+       mfno_ref AS refPrd,
+       weight_g
 FROM sqldados.prd
   LEFT JOIN sqldados.prdalq
 	      ON prdalq.prdno = prd.no
@@ -100,7 +101,8 @@ SELECT iprd.storeno                                                             
        inv.freight * 100.00 / inv.grossamt                                               AS freten,
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete,
        IFNULL(prp.fob / 10000, 0.00)                                                     AS precop,
-       IFNULL(iprd.fob4 / 10000, 0.00)                                                   AS precon
+       IFNULL(iprd.fob4 / 10000, 0.00)                                                   AS precon,
+       IFNULL(prd.weight_g / 10000, 0.00)                                                AS pesoBruto
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -185,5 +187,6 @@ SELECT lj,
        frete,
        precon,
        precop,
-       IF(precon = precop, 'S', 'N')                                                             AS precoDif
+       IF(precon = precop, 'S', 'N')                                                             AS precoDif,
+       pesoBruto
 FROM sqldados.T_QUERY
