@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroNfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.FiltroFreteEntrada
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
@@ -24,7 +24,9 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecFiscalViewModel
+import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferenca
+import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabFreteViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -39,7 +41,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioFrete(val viewModel: TabNfPrecFiscalViewModel, val filtro: FiltroNfPrecEntrada) {
+class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroFreteEntrada) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
