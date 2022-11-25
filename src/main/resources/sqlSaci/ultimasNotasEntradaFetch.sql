@@ -54,7 +54,8 @@ SELECT lj,
        frete,
        precon,
        precop,
-       precoDif
+       precoDif,
+       pesoBruto
 FROM sqldados.query1234567
 WHERE @cst = cstDif
    OR @icms = icmsDif

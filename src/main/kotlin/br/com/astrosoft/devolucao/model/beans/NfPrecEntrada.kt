@@ -46,6 +46,7 @@ class NfPrecEntrada(
   val precon: Double,
   val precop: Double,
   val precoDif: String,
+  val pesoBruto: Double,
                    ) {
   val mvanApŕox: Double
     get() {
