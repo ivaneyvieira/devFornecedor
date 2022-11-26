@@ -5,7 +5,9 @@ import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabFreteViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabPrecoViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabFreteViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -21,7 +23,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabPreco(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel {
+class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -74,7 +76,7 @@ class TabPreco(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
   }
 
   override fun openRelatorio() {
-    DlgRelatorioFrete(viewModel, getFiltro()).show()
+    DlgRelatorioPreco(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -119,11 +121,11 @@ class TabPreco(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaFrete == true
+    return username?.entradaPreco == true
   }
 
   override val label: String
-    get() = "Frete"
+    get() = "Preco"
 
   override fun updateComponent() {
   }
