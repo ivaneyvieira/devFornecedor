@@ -65,15 +65,6 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroRela
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("Preço") {
-        value = filtro.preco
-
-        this.addValueChangeListener {
-          filtro.preco = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       val list = viewModel.findNotas(filtro)
@@ -107,8 +98,7 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroRela
       notaFrete().marcaDiferenca { freteDif == "N" }
       notaFreten().marcaDiferenca { freteDif == "N" }
       notaFretep().marcaDiferenca { freteDif == "N" }
-      notaPrecon().marcaDiferenca { precoDif == "N" }
-      notaPrecop().marcaDiferenca { precoDif == "N" }
+      notaPrecon()
     }
   }
 }
