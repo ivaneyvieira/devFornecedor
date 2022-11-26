@@ -59,7 +59,7 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
   }
 }
 
-interface ITabFreteViewModel : ITabView {
+interface ITabPrecoViewModel : ITabView {
   fun setFiltro(filtro: FiltroRelatorio)
   fun getFiltro(): FiltroRelatorio
   fun openRelatorio()
