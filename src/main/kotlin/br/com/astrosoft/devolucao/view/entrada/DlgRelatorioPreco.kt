@@ -8,9 +8,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornCad
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFrete
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFreten
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFretep
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
@@ -20,7 +17,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferenca
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabFreteViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -35,7 +32,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioPreco(val viewModel: TabFreteViewModel, val filtro: FiltroRelatorio) {
+class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
@@ -55,15 +52,6 @@ class DlgRelatorioPreco(val viewModel: TabFreteViewModel, val filtro: FiltroRela
       }
       buttonPlanilha("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
-      }
-      this.comboDiferenca("Frete") {
-        value = filtro.frete
-
-        this.addValueChangeListener {
-          filtro.frete = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
       }
       this.comboDiferenca("Preço") {
         value = filtro.preco
@@ -104,9 +92,6 @@ class DlgRelatorioPreco(val viewModel: TabFreteViewModel, val filtro: FiltroRela
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaPesoBruto()
-      notaFrete().marcaDiferenca { freteDif == "N" }
-      notaFreten().marcaDiferenca { freteDif == "N" }
-      notaFretep().marcaDiferenca { freteDif == "N" }
       notaPrecon().marcaDiferenca { precoDif == "N" }
       notaPrecop().marcaDiferenca { precoDif == "N" }
     }

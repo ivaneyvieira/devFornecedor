@@ -32,7 +32,7 @@ interface IEntradaView : IView {
   val tabEntradaNddReceberViewModel: ITabEntradaNddReceberViewModel
   val tabNfPrecFiscalViewModel: ITabNfPrecFiscalViewModel
   val tabFreteViewModel: ITabFreteViewModel
-  val tabPrecoViewModel: ITabFreteViewModel
+  val tabPrecoViewModel: ITabPrecoViewModel
   val tabNfPrecInfoViewModel: ITabNfPrecInfoViewModel
   val tabTodasEntradasViewModel: ITabTodasEntradasViewModel
 }
