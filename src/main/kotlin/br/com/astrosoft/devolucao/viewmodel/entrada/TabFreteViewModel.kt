@@ -25,22 +25,9 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val cstDifList = listNotas.filter { it.cstDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de CST", nota, nota.cstn, nota.cstp)
-    }
-    val freteDifList = listNotas.filter { it.freteDif == "N" }.map { nota ->
+    val listaRelatorio = listNotas.filter { it.freteDif == "N" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de Frete", nota, nota.freten.format(), nota.fretep.format())
     }
-    val icmsDifList = listNotas.filter { it.icmsDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de ICMS", nota, nota.icmsRN.format(), nota.icmsp.format())
-    }
-    val ipiDifList = listNotas.filter { it.ipiDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de IPI", nota, nota.ipin.format(), nota.ipip.format())
-    }
-    val mvaDifList = listNotas.filter { it.mvaDif == "N" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de MVA", nota, nota.mvanApŕox.format(), nota.mvap.format())
-    }
-    val listaRelatorio = freteDifList + icmsDifList + ipiDifList + cstDifList + mvaDifList
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
@@ -55,7 +42,9 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro)
+    return NfPrecEntrada.findNotas(filtro).filter {
+      it.frete != 0.00 && it.fretep != 0.00 && it.freten != 0.00
+    }
   }
 }
 
