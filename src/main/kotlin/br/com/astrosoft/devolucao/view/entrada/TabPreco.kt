@@ -52,27 +52,30 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
   }
 
   override fun getFiltro(): FiltroRelatorio {
-    return FiltroRelatorio(storeno = edtLoja.value?.no ?: 0,
-                           di = edtDataI.value ?: LocalDate.now(),
-                           df = edtDataF.value ?: LocalDate.now(),
-                           vendno = edtFornecedorNota.value ?: 0,
-                           mfno = edtFornecedorCad.value ?: 0,
-                           ni = edtNi.value ?: 0,
-                           nf = edtNota.value ?: "",
-                           prd = edtProduto.value ?: "",
-                           cst = T,
-                           icms = T,
-                           ipi = T,
-                           mva = T,
-                           ncm = T,
-                           barcode = T,
-                           refPrd = T,
-                           frete = T,
-                           preco = T,
-                           ultimaNota = edtUlmNota.value ?: false,
-                           rotulo = edtRotulo.value ?: "",
-                           caraterInicial = edtCaracter.value ?: "",
-                           comGrade = false)
+    return FiltroRelatorio(
+      storeno = edtLoja.value?.no ?: 0,
+      di = edtDataI.value ?: LocalDate.now(),
+      df = edtDataF.value ?: LocalDate.now(),
+      vendno = edtFornecedorNota.value ?: 0,
+      mfno = edtFornecedorCad.value ?: 0,
+      ni = edtNi.value ?: 0,
+      nf = edtNota.value ?: "",
+      prd = edtProduto.value ?: "",
+      cst = T,
+      icms = T,
+      ipi = T,
+      mva = T,
+      ncm = T,
+      barcode = T,
+      refPrd = T,
+      frete = T,
+      preco = T,
+      ultimaNota = edtUlmNota.value ?: false,
+      rotulo = edtRotulo.value ?: "",
+      caraterInicial = edtCaracter.value ?: "",
+      comGrade = false,
+      pesquisa = "",
+                          )
   }
 
   override fun openRelatorio() {
@@ -125,7 +128,7 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
   }
 
   override val label: String
-    get() = "Preco"
+    get() = "Preço"
 
   override fun updateComponent() {
   }

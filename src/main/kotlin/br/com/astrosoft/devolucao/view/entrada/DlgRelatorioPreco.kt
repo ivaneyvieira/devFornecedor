@@ -24,6 +24,7 @@ import br.com.astrosoft.framework.view.selectedItemsSort
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
@@ -62,6 +63,15 @@ class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRela
           gridNota.setItems(list)
         }
       }
+      this.textField("Pesquisa") {
+        value = filtro.pesquisa
+
+        this.addValueChangeListener {
+          filtro.pesquisa = it.value ?: ""
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
+        }
+      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       val list = viewModel.findNotas(filtro)
@@ -91,7 +101,6 @@ class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRela
       notaFornNota()
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
-      notaPesoBruto()
       notaPrecon().marcaDiferenca { precoDif == "N" }
       notaPrecop().marcaDiferenca { precoDif == "N" }
     }
