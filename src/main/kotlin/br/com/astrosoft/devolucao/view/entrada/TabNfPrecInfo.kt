@@ -73,6 +73,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
       caraterInicial = edtCaracter.value ?: "",
       comGrade = true,
       pesquisa = "",
+      listaProdutos = "",
                           )
   }
 

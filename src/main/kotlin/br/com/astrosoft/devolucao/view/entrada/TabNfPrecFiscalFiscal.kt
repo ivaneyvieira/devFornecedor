@@ -73,6 +73,7 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
       caraterInicial = edtCaracter.value ?: "",
       comGrade = false,
       pesquisa = "",
+      listaProdutos = "",
                           )
   }
 
