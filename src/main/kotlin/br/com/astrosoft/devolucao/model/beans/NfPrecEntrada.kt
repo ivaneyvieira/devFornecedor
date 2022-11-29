@@ -99,6 +99,7 @@ open class FiltroRelatorio(
   open var refPrd: EDiferenca,
   open var frete: EDiferenca,
   open var preco: EDiferenca,
+  open  var pesquisa: String,
   open val ultimaNota: Boolean,
   open val rotulo: String,
   open val caraterInicial: String,
