@@ -25,6 +25,7 @@ import java.time.LocalDate
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
+  private lateinit var edtListaProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
   private lateinit var edtFornecedorCad: IntegerField
@@ -49,6 +50,7 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
     edtUlmNota.value = filtro.ultimaNota
     edtRotulo.value = filtro.rotulo
     edtCaracter.value = filtro.caraterInicial
+    edtListaProduto.value = filtro.listaProdutos
   }
 
   override fun getFiltro(): FiltroRelatorio {
@@ -75,6 +77,7 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
       caraterInicial = edtCaracter.value ?: "",
       comGrade = false,
       pesquisa = "",
+      listaProdutos = edtListaProduto.value ?: "",
                           )
   }
 
@@ -111,6 +114,11 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
       edtNota = textField("Nota Fiscal")
       edtProduto = textField("Produto")
       edtRotulo = textField("Rótulo")
+    }
+    horizontalLayout {
+      edtListaProduto = textField("Lista de Produto") {
+        this.width = "600px"
+      }
     }
     br()
     button("Relatório") {

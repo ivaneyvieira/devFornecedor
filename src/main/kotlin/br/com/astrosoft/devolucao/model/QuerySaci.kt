@@ -523,6 +523,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("frete", filter.frete.str)
       addOptionalParameter("rotulo", filter.rotulo)
       addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
+      addOptionalParameter("listaProdutos", filter.listaProdutos)
     }
   }
 

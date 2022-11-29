@@ -73,6 +73,7 @@ class TabFrete(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
       caraterInicial = edtCaracter.value ?: "",
       comGrade = false,
       pesquisa = "",
+      listaProdutos = "",
                           )
   }
 

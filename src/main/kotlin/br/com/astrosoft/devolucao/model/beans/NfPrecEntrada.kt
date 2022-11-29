@@ -104,6 +104,7 @@ open class FiltroRelatorio(
   open val rotulo: String,
   open val caraterInicial: String,
   open val comGrade: Boolean,
+  open val listaProdutos: String,
                           ) {
   val listaCaracter
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
