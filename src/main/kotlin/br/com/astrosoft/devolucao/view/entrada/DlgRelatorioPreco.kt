@@ -31,6 +31,7 @@ import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
+import com.vaadin.flow.data.value.ValueChangeMode
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRelatorio) {
@@ -65,6 +66,7 @@ class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRela
       }
       this.textField("Pesquisa") {
         value = filtro.pesquisa
+        this.valueChangeMode = ValueChangeMode.LAZY
 
         this.addValueChangeListener {
           filtro.pesquisa = it.value ?: ""
