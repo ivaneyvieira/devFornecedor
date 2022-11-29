@@ -101,8 +101,8 @@ SELECT iprd.storeno                                                             
        IFNULL(prp.freight / 100, 0.00)                                                   AS fretep,
        inv.freight * 100.00 / inv.grossamt                                               AS freten,
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete,
-       IFNULL(prp.fob / 10000, 0.00)                                                     AS precop,
-       IFNULL(iprd.fob4 / 10000, 0.00)                                                   AS precon,
+       IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                           AS precop,
+       IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                         AS precon,
        IFNULL(prd.weight_g, 0.00)                                                        AS pesoBruto
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
