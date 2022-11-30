@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 
-class PlanilhaPrecoDif() {
+class PlanilhaFreteDif() {
   private val campos: List<Campo<*, NfPrecEntrada>> =
     listOf(
       CampoInt("lj") { lj },
@@ -25,8 +25,8 @@ class PlanilhaPrecoDif() {
       CampoString("forn Nota") { fornNota },
       CampoString("prod") { prod },
       CampoString("descrição") { descricao },
-      CampoNumber("precon") { precon },
-      CampoNumber("precop") { precop },
+      CampoNumber("freten") { freten },
+      CampoNumber("fretep") { fretep },
                       )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
