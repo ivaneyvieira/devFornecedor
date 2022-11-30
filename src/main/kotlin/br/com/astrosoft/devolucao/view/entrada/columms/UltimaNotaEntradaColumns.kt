@@ -153,6 +153,16 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaPrecoDif() = addColumnDouble(NfPrecEntrada::precoDifValue) {
+    this.setHeader("Dif")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaPrecoPercen() = addColumnDouble(NfPrecEntrada::precoPercen) {
+    this.setHeader("%")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaPesoBruto() = addColumnDouble(NfPrecEntrada::pesoBruto) {
     this.setHeader("Peso Bruto")
     this.isResizable = true
