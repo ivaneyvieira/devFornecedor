@@ -1,8 +1,11 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
-import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
+import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
+import br.com.astrosoft.devolucao.model.beans.Loja
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFreteDif
+import br.com.astrosoft.devolucao.model.reports.RelatorioFreteDif
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
@@ -20,7 +23,7 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorio(listNotas: List<NfPrecEntrada>) = viewModel.exec {
     if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
-    val relatorio = RelatorioNfPrec.processaRelatorio(listNotas, true)
+    val relatorio = RelatorioFreteDif.processaRelatorio(listNotas)
     viewModel.showReport("nfPrecificacao", relatorio)
   }
 
@@ -33,7 +36,7 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun geraPlanilha(notas: List<NfPrecEntrada>): ByteArray {
-    val planilha = PlanilhaNfPrec(true)
+    val planilha = PlanilhaFreteDif()
     return planilha.grava(notas)
   }
 
