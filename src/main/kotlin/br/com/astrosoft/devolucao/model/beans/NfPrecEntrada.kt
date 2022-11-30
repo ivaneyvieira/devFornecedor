@@ -48,6 +48,12 @@ class NfPrecEntrada(
   val precoDif: String,
   val pesoBruto: Double,
                    ) {
+  val precoDifValue
+    get() = precop - precon
+
+  val precoPercen
+    get() = precoDifValue * 100.00 / (precop * 1.00)
+
   val mvanApŕox: Double
     get() {
       val dif = (mvan - mvap).absoluteValue
@@ -99,7 +105,7 @@ open class FiltroRelatorio(
   open var refPrd: EDiferenca,
   open var frete: EDiferenca,
   open var preco: EDiferenca,
-  open  var pesquisa: String,
+  open var pesquisa: String,
   open val ultimaNota: Boolean,
   open val rotulo: String,
   open val caraterInicial: String,

@@ -21,6 +21,8 @@ class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntr
     }
     columnDouble(NfPrecEntrada::precon, width = 40)
     columnDouble(NfPrecEntrada::precop, width = 40)
+    columnDouble(NfPrecEntrada::precoDifValue, width = 40, title = "Dif")
+    columnDouble(NfPrecEntrada::precoPercen, width = 40, title = "%")
   }
 
   override val propriedades =

@@ -6,13 +6,11 @@ import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
 import br.com.astrosoft.framework.util.format
-import com.github.nwillc.poink.PSheet
 import com.github.nwillc.poink.workbook
 import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
-import java.time.LocalDate
 
 class PlanilhaPrecoDif() {
   private val campos: List<Campo<*, NfPrecEntrada>> =
@@ -27,6 +25,8 @@ class PlanilhaPrecoDif() {
       CampoString("descrição") { descricao },
       CampoNumber("precon") { precon },
       CampoNumber("precop") { precop },
+      CampoNumber("Dif") { precoDifValue },
+      CampoNumber("%") { precoPercen },
                       )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
