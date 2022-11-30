@@ -1,9 +1,12 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
+import br.com.astrosoft.devolucao.model.beans.Loja
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
-import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
+import br.com.astrosoft.devolucao.model.reports.RelatorioPrecoDif
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
@@ -20,7 +23,7 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorio(listNotas: List<NfPrecEntrada>) = viewModel.exec {
     if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
-    val relatorio = RelatorioNfPrec.processaRelatorio(listNotas, true)
+    val relatorio = RelatorioPrecoDif.processaRelatorio(listNotas, true)
     viewModel.showReport("nfPrecificacao", relatorio)
   }
 
