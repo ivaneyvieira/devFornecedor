@@ -12,7 +12,7 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
   init {
     columnInt(NfPrecEntrada::lj, width = 20, aligment = CENTER, title = "Lj")
     columnInt(NfPrecEntrada::ni, width = 45, title = "NI")
-    columnString(NfPrecEntrada::dataStr, width = 65, title = "Data")
+    columnString(NfPrecEntrada::dataStr, width = 65, title = "Data", aligment = CENTER)
     columnString(NfPrecEntrada::nfe, width = 50, aligment = CENTER, title = "NF")
     columnString(NfPrecEntrada::fornCad, width = 35, aligment = RIGHT, title = "Forn")
     columnString(NfPrecEntrada::prod, width = 45, aligment = CENTER, title = "Prod")
