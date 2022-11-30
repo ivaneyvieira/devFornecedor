@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaPrecoDif
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.reports.RelatorioPrecoDif
 import br.com.astrosoft.devolucao.model.saci
@@ -23,7 +24,7 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorio(listNotas: List<NfPrecEntrada>) = viewModel.exec {
     if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
-    val relatorio = RelatorioPrecoDif.processaRelatorio(listNotas, true)
+    val relatorio = RelatorioPrecoDif.processaRelatorio(listNotas)
     viewModel.showReport("nfPrecificacao", relatorio)
   }
 
@@ -36,7 +37,7 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun geraPlanilha(notas: List<NfPrecEntrada>): ByteArray {
-    val planilha = PlanilhaNfPrec(true)
+    val planilha = PlanilhaPrecoDif()
     return planilha.grava(notas)
   }
 

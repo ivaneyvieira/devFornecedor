@@ -8,7 +8,7 @@ import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.TextAdjust
 
-class RelatorioPrecoDif(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : ReportBuild<NfPrecEntrada>() {
+class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntrada>() {
   init {
     columnInt(NfPrecEntrada::lj, width = 20, aligment = CENTER, title = "Lj")
     columnInt(NfPrecEntrada::ni, width = 45, title = "NI")
@@ -32,8 +32,8 @@ class RelatorioPrecoDif(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : R
   override fun listDataSource(): List<NfPrecEntrada> = notas
 
   companion object {
-    fun processaRelatorio(notas: List<NfPrecEntrada>, fiscal: Boolean): ByteArray {
-      val report = RelatorioPrecoDif(notas, fiscal).makeReport()
+    fun processaRelatorio(notas: List<NfPrecEntrada>): ByteArray {
+      val report = RelatorioPrecoDif(notas).makeReport()
       val printList = listOf(report.toJasperPrint())
       return renderReport(printList)
     }
