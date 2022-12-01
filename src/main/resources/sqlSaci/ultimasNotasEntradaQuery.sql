@@ -195,5 +195,6 @@ SELECT lj,
        precon,
        precop,
        IF(precon = precop, 'S', IF(precon > precop, 'DP', 'DN'))                                 AS precoDif,
-       pesoBruto
+       pesoBruto,
+       pedidoCompra
 FROM sqldados.T_QUERY
