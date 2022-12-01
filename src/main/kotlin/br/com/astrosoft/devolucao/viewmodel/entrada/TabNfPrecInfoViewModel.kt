@@ -25,16 +25,16 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val refPrdDifList = listNotas.filter { it.refPrdDif == "N" }.map { nota ->
+    val refPrdDifList = listNotas.filter { it.refPrdDif != "S" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de Ref", nota, nota.refPrdn, nota.refPrdp)
     }
-    val freteDifList = listNotas.filter { it.freteDif == "N" }.map { nota ->
+    val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de Frete", nota, nota.freten.format(), nota.fretep.format())
     }
-    val barCodeDifList = listNotas.filter { it.barcodeDif == "N" }.map { nota ->
+    val barCodeDifList = listNotas.filter { it.barcodeDif != "S" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de Barras", nota, nota.barcoden, nota.barcodep)
     }
-    val ncmDifList = listNotas.filter { it.ncmDif == "N" }.map { nota ->
+    val ncmDifList = listNotas.filter { it.ncmDif != "S" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de NCM", nota, nota.ncmn, nota.ncmp)
     }
     val listaRelatorio = freteDifList + refPrdDifList + barCodeDifList + ncmDifList
