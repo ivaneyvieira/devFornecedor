@@ -53,7 +53,7 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfPrecEntrada>.notaPedidoCompra() = addColumnString(NfPrecEntrada::pedidoCompra) {
+  fun Grid<NfPrecEntrada>.notaPedidoCompra() = addColumnInt(NfPrecEntrada::pedidoCompra) {
     this.setHeader("Ped Comp")
     this.isResizable = true
   }

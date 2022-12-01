@@ -70,7 +70,7 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",
       caraterInicial = edtCaracter.value ?: "",
-      comGrade = false,
+      comGrade = true,
       pesquisa = "",
       listaProdutos = edtListaProduto.value ?: "",
                           )
