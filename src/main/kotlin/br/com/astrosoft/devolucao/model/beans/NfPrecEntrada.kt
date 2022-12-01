@@ -47,6 +47,7 @@ class NfPrecEntrada(
   val precop: Double,
   val precoDif: String,
   val pesoBruto: Double,
+  val pedidoCompra: String,
                    ) {
   val precoDifValue
     get() = precon - precop
