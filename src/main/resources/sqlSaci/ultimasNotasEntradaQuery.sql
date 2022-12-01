@@ -101,7 +101,7 @@ SELECT iprd.storeno                                                             
        IFNULL(prp.freight / 100, 0.00)                                                   AS fretep,
        inv.freight * 100.00 / inv.grossamt                                               AS freten,
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete,
-       IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                           AS precop,
+       IFNULL(ROUND(oprd.cost, 2), 0.00)                                                 AS precop,
        IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                         AS precon,
        IFNULL(prd.weight_g, 0.00)                                                        AS pesoBruto
 FROM sqldados.iprd
@@ -123,6 +123,9 @@ FROM sqldados.iprd
 	       ON (spedprd.prdno = prd.no)
   LEFT JOIN  T_NCM           AS mfprd
 	       ON (iprd.prdno = mfprd.prdnoRef)
+  LEFT JOIN  sqldados.oprd
+	       ON (oprd.storeno = inv.storeno AND oprd.ordno = inv.ordno AND
+		   oprd.prdno = iprd.prdno)
 WHERE inv.date BETWEEN @di AND @df
   AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (iprd.storeno = @storeno OR @storeno = 0)
