@@ -1,9 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.EDiferenca.T
-import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
-import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabFreteViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabFreteViewModel
 import br.com.astrosoft.framework.model.IUser
@@ -59,15 +56,15 @@ class TabFrete(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
       ni = edtNi.value ?: 0,
       nf = edtNota.value ?: "",
       prd = edtProduto.value ?: "",
-      cst = T,
-      icms = T,
-      ipi = T,
-      mva = T,
-      ncm = T,
-      barcode = T,
-      refPrd = T,
-      frete = T,
-      preco = T,
+      cst = EDiferencaStr.T,
+      icms = EDiferencaNum.T,
+      ipi = EDiferencaNum.T,
+      mva = EDiferencaNum.T,
+      ncm = EDiferencaStr.T,
+      barcode = EDiferencaStr.T,
+      refPrd = EDiferencaStr.T,
+      frete = EDiferencaNum.T,
+      preco = EDiferencaNum.T,
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",
       caraterInicial = edtCaracter.value ?: "",

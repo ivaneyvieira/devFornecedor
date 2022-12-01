@@ -24,8 +24,9 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
+import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecFiscalViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
@@ -62,7 +63,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferenca("Frete") {
+      this.comboDiferencaNum("Frete") {
         value = filtro.frete
 
         this.addValueChangeListener {
@@ -71,7 +72,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("ICMS") {
+      this.comboDiferencaNum("ICMS") {
         value = filtro.icms
 
         this.addValueChangeListener {
@@ -80,7 +81,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("IPI") {
+      this.comboDiferencaNum("IPI") {
         value = filtro.ipi
 
         this.addValueChangeListener {
@@ -89,7 +90,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("CST") {
+      this.comboDiferencaStr("CST") {
         value = filtro.cst
 
         this.addValueChangeListener {
@@ -98,7 +99,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("MVA") {
+      this.comboDiferencaNum("MVA") {
         value = filtro.mva
 
         this.addValueChangeListener {

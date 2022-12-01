@@ -17,7 +17,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdp
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferenca
+import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecInfoViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -55,7 +55,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferenca("Ref") {
+      this.comboDiferencaStr("Ref") {
         value = filtro.refPrd
 
         this.addValueChangeListener {
@@ -64,7 +64,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("Código de Barras") {
+      this.comboDiferencaStr("Código de Barras") {
         value = filtro.barcode
 
         this.addValueChangeListener {
@@ -73,7 +73,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
           gridNota.setItems(list)
         }
       }
-      this.comboDiferenca("NCM") {
+      this.comboDiferencaStr("NCM") {
         value = filtro.ncm
 
         this.addValueChangeListener {
