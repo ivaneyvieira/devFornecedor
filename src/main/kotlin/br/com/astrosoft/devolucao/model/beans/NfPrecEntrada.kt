@@ -49,7 +49,7 @@ class NfPrecEntrada(
   val pesoBruto: Double,
                    ) {
   val precoDifValue
-    get() = precop - precon
+    get() = precon - precop
 
   val precoPercen
     get() = precoDifValue * 100.00 / (precop * 1.00)
@@ -96,15 +96,15 @@ open class FiltroRelatorio(
   open val ni: Int,
   open val nf: String,
   open val prd: String,
-  open var cst: EDiferenca,
-  open var icms: EDiferenca,
-  open var ipi: EDiferenca,
-  open var mva: EDiferenca,
-  open var ncm: EDiferenca,
-  open var barcode: EDiferenca,
-  open var refPrd: EDiferenca,
-  open var frete: EDiferenca,
-  open var preco: EDiferenca,
+  open var cst: EDiferencaStr,
+  open var icms: EDiferencaNum,
+  open var ipi: EDiferencaNum,
+  open var mva: EDiferencaNum,
+  open var ncm: EDiferencaStr,
+  open var barcode: EDiferencaStr,
+  open var refPrd: EDiferencaStr,
+  open var frete: EDiferencaNum,
+  open var preco: EDiferencaNum,
   open var pesquisa: String,
   open val ultimaNota: Boolean,
   open val rotulo: String,
@@ -116,7 +116,12 @@ open class FiltroRelatorio(
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
 }
 
-enum class EDiferenca(val str: String, val descricao: String) {
+enum class EDiferencaNum(val str: String, val descricao: String) {
+  S("S", "Igual"), DP("DP", "Diferente >"), DN("DN", "Diferente <"), T("T", "Todos")
+}
+
+
+enum class EDiferencaStr(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
 }
 
