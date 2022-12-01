@@ -16,6 +16,7 @@ class PlanilhaPrecoDif() {
   private val campos: List<Campo<*, NfPrecEntrada>> =
     listOf(
       CampoInt("lj") { lj },
+      CampoInt("pedido") { pedidoCompra ?: 0 },
       CampoInt("ni") { ni },
       CampoString("data") { data.format() },
       CampoString("nfe") { nfe },
@@ -23,6 +24,7 @@ class PlanilhaPrecoDif() {
       CampoString("forn Nota") { fornNota },
       CampoString("prod") { prod },
       CampoString("descrição") { descricao },
+      CampoString("grade") { grade },
       CampoNumber("precon") { precon },
       CampoNumber("precop") { precop },
       CampoNumber("Dif") { precoDifValue },

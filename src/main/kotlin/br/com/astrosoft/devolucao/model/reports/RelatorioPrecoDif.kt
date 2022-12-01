@@ -19,6 +19,7 @@ class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntr
     columnString(NfPrecEntrada::descricao, title = "Descrição") {
       this.setTextAdjust(TextAdjust.CUT_TEXT)
     }
+    columnString(NfPrecEntrada::grade, width = 45, aligment = CENTER, title = "Grade")
     columnDouble(NfPrecEntrada::precon, width = 40)
     columnDouble(NfPrecEntrada::precop, width = 40)
     columnDouble(NfPrecEntrada::precoDifValue, width = 40, title = "Dif")
@@ -26,10 +27,7 @@ class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntr
   }
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "Diferença de preço",
-                         subTitulo = "",
-                         detailFonteSize = 8,
-                         pageOrientation = PORTRAIT)
+    PropriedadeRelatorio(titulo = "Diferença de preço", subTitulo = "", detailFonteSize = 8, pageOrientation = PORTRAIT)
 
   override fun listDataSource(): List<NfPrecEntrada> = notas
 
