@@ -103,7 +103,8 @@ SELECT iprd.storeno                                                             
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete,
        IFNULL(ROUND(oprd.cost, 2), 0.00)                                                 AS precop,
        IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                         AS precon,
-       IFNULL(prd.weight_g, 0.00)                                                        AS pesoBruto
+       IFNULL(prd.weight_g, 0.00)                                                        AS pesoBruto,
+       inv.ordno                                                                         AS pedidoCompra
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -125,7 +126,7 @@ FROM sqldados.iprd
 	       ON (iprd.prdno = mfprd.prdnoRef)
   LEFT JOIN  sqldados.oprd
 	       ON (oprd.storeno = inv.storeno AND oprd.ordno = inv.ordno AND
-		   oprd.prdno = iprd.prdno)
+		   oprd.prdno = iprd.prdno AND oprd.grade = iprd.grade)
 WHERE inv.date BETWEEN @di AND @df
   AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (iprd.storeno = @storeno OR @storeno = 0)
