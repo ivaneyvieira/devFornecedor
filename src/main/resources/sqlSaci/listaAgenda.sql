@@ -7,7 +7,6 @@ SELECT inv2.storeno                                                             
 	  TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1,
 	  IF(vend.state = 'PI', DATE_ADD(inv2.issue_date, INTERVAL 2 DAY) * 1,
 	     DATE_ADD(inv2.issue_date, INTERVAL 1 MONTH)) * 1)                              AS data,
-  /*TRUNCATE(CONCAT(RIGHT(inv2.c1, 4), MID(inv2.c1, 4, 2), LEFT(inv2.c1, 2)), 0) * 1 AS data,*/
        LEFT(inv2.c2, 8)                                                                     AS hora,
        IFNULL(emp.no, 0)                                                                    AS empno,
        IFNULL(emp.sname, '')                                                                AS recebedor,
@@ -31,7 +30,8 @@ SELECT inv2.storeno                                                             
        IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S',
 	  'N')                                                                              AS agendado,
        IF(emp.sname IS NULL, 'N', 'S')                                                      AS recebido,
-       IF((ords.bits & POW(2, 3)) != 0, 'FOB', 'CIF')                                       AS frete
+       IF((ords.bits & POW(2, 3)) != 0, 'FOB', 'CIF')                                       AS frete,
+       CAST(IF(inv2.c6 = '', NULL, inv2.c6 * 1) AS date)                                    AS coleta
 FROM sqldados.inv2
   LEFT JOIN sqldados.vend
 	      ON (vend.no = inv2.vendno)
@@ -66,7 +66,8 @@ SELECT loja,
        transp                                                     AS transp,
        nome                                                       AS nome,
        pedido                                                     AS pedido,
-       frete                                                      AS frete
+       frete                                                      AS frete,
+       coleta                                                     AS coleta
 FROM sqldados.T_INV2
 WHERE loja <> 0
   AND agendado = :agendado

@@ -16,6 +16,10 @@ object AgendaViewColumns {
     this.setHeader("Data")
   }
 
+  fun Grid<Agenda>.agendaColeta() = addColumnLocalDate(Agenda::coleta) {
+    this.setHeader("Coleta")
+  }
+
   fun Grid<Agenda>.agendaHora() = addColumnString(Agenda::hora) {
     this.setHeader("Hora")
   }

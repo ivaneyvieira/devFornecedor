@@ -24,17 +24,21 @@ class Agenda(
   val nome: String,
   val pedido: Int,
   val frete: String?,
+  val coleta: LocalDate?,
             ) {
   val dataHoraRecebimento
     get() = "${dataRecbedor.format()} $horaRecebedor".trim()
 
-  fun agendaUpdate() = AgendaUpdate(invno.toIntOrNull() ?: 0,
-                                    data,
-                                    hora,
-                                    if (empno == 0) "" else empno.toString(),
-                                    conhecimento,
-                                    dataRecbedor,
-                                    horaRecebedor)
+  fun agendaUpdate() = AgendaUpdate(
+    invno = invno.toIntOrNull() ?: 0,
+    coleta = coleta,
+    data = data,
+    hora = hora,
+    recebedor = if (empno == 0) "" else empno.toString(),
+    conhecimento = conhecimento,
+    dataRecbedor = dataRecbedor,
+    horaRecebedor = horaRecebedor,
+                                   )
 
   companion object {
     fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja: Int) =

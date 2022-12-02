@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.agenda
 import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
+import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaColeta
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaDataHoraRecebedor
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaEmissao
@@ -62,6 +63,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     }
     agendaLoja()
     agendaData()
+    agendaColeta()
 
     agendaHora()
     agendaRecebedor()
@@ -100,19 +102,26 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract) : VerticalLayout
   private val binder = Binder(AgendaUpdate::class.java)
 
   init {
-    datePicker("Data Agendada") {
-      this.isClearButtonVisible = true
-      this.isAutoOpen = true
-      bind(binder).bind(AgendaUpdate::data)
-    }
-    textField("Horário") {
-      bind(binder).bind(AgendaUpdate::hora)
-    }
-    textField("Recebedor") {
-      bind(binder).bind(AgendaUpdate::recebedor)
-    }
-    textField("CTe") {
-      bind(binder).bind(AgendaUpdate::conhecimento)
+    formLayout {
+      datePicker("Data Coleta") {
+        this.isClearButtonVisible = true
+        this.isAutoOpen = true
+        bind(binder).bind(AgendaUpdate::coleta)
+      }
+      datePicker("Data Agendada") {
+        this.isClearButtonVisible = true
+        this.isAutoOpen = true
+        bind(binder).bind(AgendaUpdate::data)
+      }
+      textField("Horário") {
+        bind(binder).bind(AgendaUpdate::hora)
+      }
+      textField("Recebedor") {
+        bind(binder).bind(AgendaUpdate::recebedor)
+      }
+      textField("CTe") {
+        bind(binder).bind(AgendaUpdate::conhecimento)
+      }
     }
   }
 
