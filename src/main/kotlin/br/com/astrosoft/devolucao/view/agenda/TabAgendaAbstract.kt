@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaColeta
+import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaCte
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaDataHoraRecebedor
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaEmissao
@@ -63,6 +64,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     }
     agendaLoja()
     agendaColeta()
+    agendaCte()
     agendaData()
 
     agendaHora()
