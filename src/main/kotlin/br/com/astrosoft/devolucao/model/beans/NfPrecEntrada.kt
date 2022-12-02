@@ -45,6 +45,7 @@ class NfPrecEntrada(
   val frete: Double,
   val precon: Double,
   val precop: Double,
+  val precopc: Double,
   val precoDif: String,
   val pesoBruto: Double,
   val pedidoCompra: Int?,

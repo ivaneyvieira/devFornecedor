@@ -29,13 +29,21 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val listaRelatorio = listNotas.filter { it.precoDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo(nomeGrupo = "Diferenças de Preço",
+    val listaRelatorioPed = listNotas.filter { it.precoDif != "S" }.map { nota ->
+      NfPrecEntradaGrupo(nomeGrupo = "Diferenças de Preço Ped",
                          nota = nota,
                          pedidoCompra = nota.pedidoCompra ?: 0,
                          valorNota = nota.precon.format(),
                          valorPrecificacao = nota.precop.format())
     }
+    val listaRelatorioPrec = listNotas.filter { it.precon.format() != it.precopc.format() }.map { nota ->
+      NfPrecEntradaGrupo(nomeGrupo = "Diferenças de Preço Prec",
+                         nota = nota,
+                         pedidoCompra = nota.pedidoCompra ?: 0,
+                         valorNota = nota.precon.format(),
+                         valorPrecificacao = nota.precopc.format())
+    }
+    val listaRelatorio = listaRelatorioPed + listaRelatorioPrec
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = false)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
