@@ -29,7 +29,8 @@ SELECT inv2.storeno                                                             
        inv2.grossamt                                                                        AS total,
        IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S',
 	  'N')                                                                              AS agendado,
-       IF(emp.sname IS NULL, 'N', 'S')                                                      AS recebido,
+       IF(inv.invno IS NULL, 'N', 'S')                                                      AS
+         recebido,
        IF((ords.bits & POW(2, 3)) != 0, 'FOB', 'CIF')                                       AS frete,
        CAST(IF(inv2.c6 = '', NULL, inv2.c6 * 1) AS date)                                    AS coleta
 FROM sqldados.inv2

@@ -67,6 +67,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaCte()
     agendaData()
     agendaHora()
+    agendaFrete()
     agendaTransp()
 
     agendaNome()
@@ -78,7 +79,6 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaPedido()
     agendaFornecedor()
     agendaAbrev()
-    agendaFrete()
 
     agendaEmissao()
     agendaNf()
