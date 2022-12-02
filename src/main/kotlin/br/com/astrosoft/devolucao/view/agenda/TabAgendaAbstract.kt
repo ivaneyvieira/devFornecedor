@@ -62,8 +62,8 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
       DlgAgendamento(viewModel).edtAgendamento(agenda)
     }
     agendaLoja()
-    agendaData()
     agendaColeta()
+    agendaData()
 
     agendaHora()
     agendaRecebedor()
@@ -102,7 +102,7 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract) : VerticalLayout
   private val binder = Binder(AgendaUpdate::class.java)
 
   init {
-    formLayout {
+    horizontalLayout {
       datePicker("Data Coleta") {
         this.isClearButtonVisible = true
         this.isAutoOpen = true
@@ -113,12 +113,16 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract) : VerticalLayout
         this.isAutoOpen = true
         bind(binder).bind(AgendaUpdate::data)
       }
+    }
+    horizontalLayout {
       textField("Horário") {
         bind(binder).bind(AgendaUpdate::hora)
       }
       textField("Recebedor") {
         bind(binder).bind(AgendaUpdate::recebedor)
       }
+    }
+    horizontalLayout {
       textField("CTe") {
         bind(binder).bind(AgendaUpdate::conhecimento)
       }
@@ -126,10 +130,11 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract) : VerticalLayout
   }
 
   fun edtAgendamento(agenda: Agenda) {
-    val form = SubWindowForm("Nr. Ordem ${agenda.invno}  NF ${agenda.nf}", ::toolBar) {
-      binder.bean = agenda.agendaUpdate()
-      this
-    }
+    val form =
+      SubWindowForm(title = "Nr. Ordem ${agenda.invno}  NF ${agenda.nf}", toolBar = ::toolBar, fullSize = false) {
+        binder.bean = agenda.agendaUpdate()
+        this
+      }
     form.open()
   }
 
