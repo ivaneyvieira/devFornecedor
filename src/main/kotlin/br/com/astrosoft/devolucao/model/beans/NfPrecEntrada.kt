@@ -128,6 +128,7 @@ enum class EDiferencaStr(val str: String, val descricao: String) {
 
 data class NfPrecEntradaGrupo(val nomeGrupo: String,
                               val nota: NfPrecEntrada,
+                              val pedidoCompra: Int,
                               val valorNota: String,
                               val valorPrecificacao: String) {
   val lj = nota.lj
