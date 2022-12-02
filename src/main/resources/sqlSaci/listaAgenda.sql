@@ -45,8 +45,7 @@ FROM sqldados.inv2
 	      ON (emp.no = inv2.auxStr6 AND emp.no <> 0)
   LEFT JOIN sqldados.ords
 	      ON (inv2.storeno = ords.storeno AND inv2.ordno = ords.no)
-WHERE inv.invno IS NULL
-  AND inv2.storeno > 0
+WHERE inv2.storeno > 0
   AND (inv2.storeno = @LOJA OR @LOJA = 0);
 
 SELECT loja,
