@@ -63,7 +63,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferencaNum("Frete") {
+      this.comboDiferencaStr("Frete") {
         value = filtro.frete
 
         this.addValueChangeListener {
@@ -72,7 +72,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferencaNum("ICMS") {
+      this.comboDiferencaStr("ICMS") {
         value = filtro.icms
 
         this.addValueChangeListener {
@@ -81,7 +81,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferencaNum("IPI") {
+      this.comboDiferencaStr("IPI") {
         value = filtro.ipi
 
         this.addValueChangeListener {
@@ -99,7 +99,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           gridNota.setItems(list)
         }
       }
-      this.comboDiferencaNum("MVA") {
+      this.comboDiferencaStr("MVA") {
         value = filtro.mva
 
         this.addValueChangeListener {
