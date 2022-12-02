@@ -5,23 +5,39 @@ import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object AgendaViewColumns {
   fun Grid<Agenda>.agendaLoja() = addColumnInt(Agenda::loja) {
     this.setHeader("Loja")
+    this.isExpand = false
   }
 
   fun Grid<Agenda>.agendaData() = addColumnLocalDate(Agenda::data) {
     this.setHeader("Data")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "90px"
   }
 
   fun Grid<Agenda>.agendaColeta() = addColumnLocalDate(Agenda::coleta) {
     this.setHeader("Coleta")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "90px"
+  }
+
+  fun Grid<Agenda>.agendaCte() = addColumnString(Agenda::conhecimento) {
+    this.setHeader("CTe")
+    this.isExpand = false
   }
 
   fun Grid<Agenda>.agendaHora() = addColumnString(Agenda::hora) {
     this.setHeader("Hora")
+    this.isExpand = false
+    this.isAutoWidth = false
+    this.width = "80px"
   }
 
   fun Grid<Agenda>.agendaRecebedor() = addColumnString(Agenda::recebedor) {
@@ -47,6 +63,7 @@ object AgendaViewColumns {
 
   fun Grid<Agenda>.agendaFrete() = addColumnString(Agenda::frete) {
     this.setHeader("Frete")
+    this.isExpand = false
   }
 
   fun Grid<Agenda>.agendaEmissao() = addColumnLocalDate(Agenda::emissao) {
@@ -55,10 +72,12 @@ object AgendaViewColumns {
 
   fun Grid<Agenda>.agendaNf() = addColumnString(Agenda::nf) {
     this.setHeader("NF")
+    this.isExpand = false
   }
 
   fun Grid<Agenda>.agendaVolume() = addColumnString(Agenda::volume) {
     this.setHeader("Volume")
+    this.isExpand = false
   }
 
   fun Grid<Agenda>.agendaTotal() = addColumnDouble(Agenda::total) {

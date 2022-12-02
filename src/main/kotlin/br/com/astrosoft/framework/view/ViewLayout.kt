@@ -184,6 +184,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(property: KProperty1<T, Strin
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.left()
     this.block()
@@ -208,6 +209,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(property: KProperty1<T, Lo
                                                       block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property, renderer = LocalDateRenderer(property, "dd/MM/yyyy")) {
     this.isAutoWidth = true
+    this.isResizable = true
     if (this.key == null) this.key = property.name
     this.right()
     this.setComparator { a, b ->
@@ -300,6 +302,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnInt(property: KProperty1<T, Int?>,
   return this.addColumnFor(property) {
     if (this.key == null) this.key = property.name
     this.isAutoWidth = true
+    this.isResizable = true
     this.setComparator { a, b ->
       val dataA = property.get(a) ?: Int.MIN_VALUE
       val dataB = property.get(b) ?: Int.MIN_VALUE
