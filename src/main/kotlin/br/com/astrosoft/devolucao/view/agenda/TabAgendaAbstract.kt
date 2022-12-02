@@ -66,8 +66,11 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaColeta()
     agendaCte()
     agendaData()
-
     agendaHora()
+    agendaTransp()
+
+    agendaNome()
+    agendaVolume()
     agendaRecebedor()
     agendaDataHoraRecebedor()
     agendaOrd()
@@ -79,10 +82,6 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
 
     agendaEmissao()
     agendaNf()
-    agendaTransp()
-
-    agendaNome()
-    agendaVolume()
     agendaTotal().let { col ->
       this.dataProvider.addDataProviderListener {
         val lista = this.dataProvider.fetchAll()
