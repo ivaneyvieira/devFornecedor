@@ -30,7 +30,8 @@ SELECT inv2.storeno                                                             
        inv2.grossamt                                                                        AS total,
        IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S',
 	  'N')                                                                              AS agendado,
-       IF(emp.sname IS NULL, 'N', 'S')                                                      AS recebido
+       IF(emp.sname IS NULL, 'N', 'S')                                                      AS recebido,
+       IF((ords.bits & POW(2, 3)) != 0, 'FOB', 'CIF')                                       AS frete
 FROM sqldados.inv2
   LEFT JOIN sqldados.vend
 	      ON (vend.no = inv2.vendno)
@@ -41,6 +42,8 @@ FROM sqldados.inv2
 		  inv.ordno = inv2.ordno AND inv.grossamt = inv2.grossamt)
   LEFT JOIN sqldados.emp
 	      ON (emp.no = inv2.auxStr6 AND emp.no <> 0)
+  LEFT JOIN sqldados.ords
+	      ON (inv2.storeno = ords.storeno AND inv2.ordno = ords.no)
 WHERE inv.invno IS NULL
   AND inv2.storeno > 0
   AND (inv2.storeno = @LOJA OR @LOJA = 0);
@@ -62,7 +65,8 @@ SELECT loja,
        IFNULL(total / 100, 0.00)                                  AS total,
        transp                                                     AS transp,
        nome                                                       AS nome,
-       pedido                                                     AS pedido
+       pedido                                                     AS pedido,
+       frete                                                      AS frete
 FROM sqldados.T_INV2
 WHERE loja <> 0
   AND agendado = :agendado

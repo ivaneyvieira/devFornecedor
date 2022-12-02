@@ -41,6 +41,10 @@ object AgendaViewColumns {
     this.setHeader("Abrev")
   }
 
+  fun Grid<Agenda>.agendaFrete() = addColumnString(Agenda::frete) {
+    this.setHeader("Frete")
+  }
+
   fun Grid<Agenda>.agendaEmissao() = addColumnLocalDate(Agenda::emissao) {
     this.setHeader("Emissão")
   }
@@ -50,7 +54,7 @@ object AgendaViewColumns {
   }
 
   fun Grid<Agenda>.agendaVolume() = addColumnString(Agenda::volume) {
-    this.setHeader("Valume")
+    this.setHeader("Volume")
   }
 
   fun Grid<Agenda>.agendaTotal() = addColumnDouble(Agenda::total) {
