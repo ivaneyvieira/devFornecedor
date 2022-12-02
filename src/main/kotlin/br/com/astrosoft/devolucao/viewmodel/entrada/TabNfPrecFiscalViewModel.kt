@@ -29,7 +29,11 @@ class TabNfPrecFiscalViewModel(val viewModel: EntradaViewModel) {
       NfPrecEntradaGrupo("Diferenças de CST", nota, nota.pedidoCompra ?: 0, nota.cstn, nota.cstp)
     }
     val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de Frete", nota, nota.pedidoCompra ?: 0, nota.freten.format(), nota.fretep.format())
+      NfPrecEntradaGrupo("Diferenças de Frete",
+                         nota,
+                         nota.pedidoCompra ?: 0,
+                         nota.freten.format(),
+                         nota.fretep.format())
     }
     val icmsDifList = listNotas.filter { it.icmsDif != "S" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de ICMS", nota, nota.pedidoCompra ?: 0, nota.icmsRN.format(), nota.icmsp.format())

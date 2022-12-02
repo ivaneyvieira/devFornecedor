@@ -102,6 +102,7 @@ SELECT iprd.storeno                                                             
        inv.freight * 100.00 / inv.grossamt                                               AS freten,
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                 AS frete,
        IFNULL(ROUND(oprd.cost, 2), 0.00)                                                 AS precop,
+       IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                           AS precopc,
        IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                         AS precon,
        IFNULL(prd.weight_g, 0.00)                                                        AS pesoBruto,
        inv.ordno                                                                         AS pedidoCompra
@@ -194,6 +195,7 @@ SELECT lj,
        frete,
        precon,
        precop,
+       precopc,
        IF(precon = precop, 'S', IF(precon > precop, 'DP', 'DN'))                                 AS precoDif,
        pesoBruto,
        pedidoCompra

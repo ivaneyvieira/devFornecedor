@@ -25,8 +25,9 @@ class PlanilhaPrecoDif() {
       CampoString("prod") { prod },
       CampoString("descrição") { descricao },
       CampoString("grade") { grade },
-      CampoNumber("precon") { precon },
-      CampoNumber("precop") { precop },
+      CampoNumber("R$ NF") { precon },
+      CampoNumber("R$ Ped") { precop },
+      CampoNumber("R$ Prec") { precopc },
       CampoNumber("Dif") { precoDifValue },
       CampoNumber("%") { precoPercen },
                       )
