@@ -1,10 +1,7 @@
 package br.com.astrosoft.devolucao.view.agenda.columns
 
 import br.com.astrosoft.devolucao.model.beans.Agenda
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
@@ -31,6 +28,7 @@ object AgendaViewColumns {
   fun Grid<Agenda>.agendaCte() = addColumnString(Agenda::conhecimento) {
     this.setHeader("CTe")
     this.isExpand = false
+    this.right()
   }
 
   fun Grid<Agenda>.agendaHora() = addColumnString(Agenda::hora) {
@@ -78,6 +76,7 @@ object AgendaViewColumns {
   fun Grid<Agenda>.agendaVolume() = addColumnString(Agenda::volume) {
     this.setHeader("Volume")
     this.isExpand = false
+    this.right()
   }
 
   fun Grid<Agenda>.agendaTotal() = addColumnDouble(Agenda::total) {
