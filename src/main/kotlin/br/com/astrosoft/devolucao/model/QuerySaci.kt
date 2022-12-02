@@ -344,9 +344,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun updateAgenda(agendaUpdate: AgendaUpdate) {
     val sql = "/sqlSaci/updateAgenda.sql"
     val dataStr = agendaUpdate.data.format()
+    val coleta = agendaUpdate.coleta?.toSaciDate()?.toString() ?: ""
     script(sql) {
       addOptionalParameter("invno", agendaUpdate.invno)
       addOptionalParameter("data", dataStr)
+      addOptionalParameter("coleta", coleta)
       addOptionalParameter("hora", agendaUpdate.hora ?: "")
       addOptionalParameter("recebedor", agendaUpdate.recebedor ?: "")
       addOptionalParameter("conhecimento", agendaUpdate.conhecimento ?: "")
