@@ -63,7 +63,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferencaStr("Frete") {
+      this.comboDiferencaNum("Frete") {
         value = filtro.frete
 
         this.addValueChangeListener {
