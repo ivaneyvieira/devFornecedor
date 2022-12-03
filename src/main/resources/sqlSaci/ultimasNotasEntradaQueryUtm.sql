@@ -184,7 +184,7 @@ SELECT lj,
        IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif,
        freten,
        fretep,
-       IF(freten = fretep, 'S', 'N')                                                 AS freteDif,
+       IF(freten = fretep, 'S', IF(freten = fretep, 'DP', 'DN'))                     AS freteDif,
        frete
 FROM sqldados.T_QUERY
   INNER JOIN sqldados.T_MAX

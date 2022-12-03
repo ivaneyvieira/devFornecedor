@@ -105,7 +105,7 @@ open class FiltroRelatorio(
   open var ncm: EDiferencaStr,
   open var barcode: EDiferencaStr,
   open var refPrd: EDiferencaStr,
-  open var frete: EDiferencaStr,
+  open var frete: EDiferencaNum,
   open var preco: EDiferencaNum,
   open var pesquisa: String,
   open val ultimaNota: Boolean,

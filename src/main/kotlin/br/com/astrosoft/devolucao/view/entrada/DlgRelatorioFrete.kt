@@ -56,7 +56,7 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroRela
       buttonPlanilha("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferencaStr("Frete") {
+      this.comboDiferencaNum("Frete") {
         value = filtro.frete
 
         this.addValueChangeListener {
