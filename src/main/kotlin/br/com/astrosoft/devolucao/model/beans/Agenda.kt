@@ -16,7 +16,7 @@ class Agenda(
   val invno: String,
   val fornecedor: Int,
   val abreviacao: String,
-  val cnpj: String,
+  val cnpj: String?,
   val emissao: LocalDate?,
   val nf: String,
   val volume: String,
