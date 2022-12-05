@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.agenda
 import br.com.astrosoft.devolucao.model.beans.Agenda
 import br.com.astrosoft.devolucao.model.beans.AgendaUpdate
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaAbrev
+import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaCnpj
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaColeta
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaCte
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaData
@@ -73,6 +74,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaTransp()
 
     agendaNome()
+    agendaCnpj()
     agendaVolume()
     agendaRecebedor()
     agendaDataHoraRecebedor()
