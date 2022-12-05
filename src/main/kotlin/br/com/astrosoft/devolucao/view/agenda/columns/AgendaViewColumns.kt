@@ -92,7 +92,7 @@ object AgendaViewColumns {
   }
 
   fun Grid<Agenda>.agendaCnpj() = addColumnString(Agenda::cnpj) {
-    this.setHeader("CNPJ")
+    this.setHeader("CNPJ Transp")
   }
 
   fun Grid<Agenda>.agendaPedido() = addColumnInt(Agenda::pedido) {
