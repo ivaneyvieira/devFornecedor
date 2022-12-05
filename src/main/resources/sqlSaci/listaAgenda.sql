@@ -32,7 +32,7 @@ SELECT inv2.storeno                                                             
        inv2.grossamt                                                                        AS total,
        IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S',
 	  'N')                                                                              AS agendado,
-       IF(inv.invno IS NULL, 'N', 'S')                                                      AS recebido,
+       IF(emp.sname IS NULL, 'N', 'S')                                                      AS recebido,
        IF((ords.bits & POW(2, 3)) != 0, 'FOB', 'CIF')                                       AS frete,
        CAST(IF(inv2.c6 = '', NULL, inv2.c6 * 1) AS date)                                    AS coleta
 FROM sqldados.inv2
@@ -47,7 +47,8 @@ FROM sqldados.inv2
 	      ON (emp.no = inv2.auxStr6 AND emp.no <> 0)
   LEFT JOIN sqldados.ords
 	      ON (inv2.storeno = ords.storeno AND inv2.ordno = ords.no)
-WHERE inv2.storeno > 0
+WHERE inv.invno IS NULL
+  AND inv2.storeno > 0
   AND (inv2.storeno = @LOJA OR @LOJA = 0);
 
 SELECT loja,
