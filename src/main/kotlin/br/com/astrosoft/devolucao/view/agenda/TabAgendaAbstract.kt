@@ -60,6 +60,12 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
   override fun filtro() = edtFiltro.value ?: ""
 
   override fun Grid<Agenda>.gridPanel() {
+    colunasGrid()
+
+    rodapeGrid()
+  }
+
+  protected open fun Grid<Agenda>.colunasGrid() {
     addColumnButton(EDIT, "Agendamento", "Agd") { agenda ->
       DlgAgendamento(viewModel).edtAgendamento(agenda)
     }
@@ -83,7 +89,9 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
     agendaPedido()
     agendaFornecedor()
     agendaAbrev()
+  }
 
+  protected open fun Grid<Agenda>.rodapeGrid() {
     agendaTotal().let { col ->
       this.dataProvider.addDataProviderListener {
         val lista = this.dataProvider.fetchAll()
@@ -92,8 +100,7 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
       }
     }
 
-    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
-                GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
+    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING), GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
   }
 
   override fun updateComponent() {
