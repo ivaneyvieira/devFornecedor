@@ -9,6 +9,7 @@ import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.style.Styles.padding
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
+import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
@@ -53,7 +54,7 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
                          subTitulo = "",
                          color = Color.WHITE,
                          detailFonteSize = 8,
-                         pageOrientation = PORTRAIT)
+                         pageOrientation = LANDSCAPE)
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 
