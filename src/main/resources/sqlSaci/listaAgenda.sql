@@ -22,6 +22,7 @@ SELECT inv2.storeno                                                             
        inv2.invno                                                                           AS invno,
        inv2.vendno                                                                          AS forn,
        IFNULL(vend.sname, 'NAO ENCONTRADO')                                                 AS abrev,
+       IFNULL(vend.cgc, '')                                                                 AS cnpj,
        IF(inv2.nfname = 0, CAST(inv2.invno AS CHAR), inv2.nfname)                           AS nf,
        inv2.issue_date                                                                      AS emissao,
        inv2.ordno                                                                           AS pedido,

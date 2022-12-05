@@ -91,6 +91,10 @@ object AgendaViewColumns {
     this.setHeader("Nome")
   }
 
+  fun Grid<Agenda>.agendaCnpj() = addColumnString(Agenda::cnpj) {
+    this.setHeader("CNPJ")
+  }
+
   fun Grid<Agenda>.agendaPedido() = addColumnInt(Agenda::pedido) {
     this.setHeader("Pedido")
   }
