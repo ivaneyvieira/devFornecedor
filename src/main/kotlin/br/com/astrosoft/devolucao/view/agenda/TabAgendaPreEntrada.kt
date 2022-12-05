@@ -44,7 +44,7 @@ class TabAgendaPreEntrada(viewModel: TabAgendaViewModelNaoAgendada) : TabAgendaA
   override val label: String
     get() = "Pré-entrada"
 
-  override fun Grid<Agenda>.gridPanel() {
+   override fun Grid<Agenda>.colunasGrid() {
     addColumnButton(VaadinIcon.EDIT, "Agendamento", "Agd") { agenda ->
       DlgAgendamento(viewModel).edtAgendamento(agenda)
     }
@@ -66,16 +66,5 @@ class TabAgendaPreEntrada(viewModel: TabAgendaViewModelNaoAgendada) : TabAgendaA
     agendaPedido()
     agendaFornecedor()
     agendaAbrev()
-
-    agendaTotal().let { col ->
-      this.dataProvider.addDataProviderListener {
-        val lista = this.dataProvider.fetchAll()
-        val total = lista.sumOf { it.total }.format()
-        col.setFooter(Html("<b><font size=4>Total R$ &nbsp;&nbsp;&nbsp;&nbsp; ${total}</font></b>"))
-      }
-    }
-
-    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), SortDirection.ASCENDING),
-                GridSortOrder(getColumnBy(Agenda::hora), SortDirection.ASCENDING)))
   }
 }
