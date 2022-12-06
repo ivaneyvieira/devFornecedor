@@ -503,9 +503,58 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun ultimasPreRecebimento(filtro: FiltroRelatorio): List<NfPrecEntrada> {
+    val sql = "/sqlSaci/ultimasPreRecebimentoFetch.sql"
+    return query(sql, NfPrecEntrada::class) {
+      addOptionalParameter("storeno", filtro.storeno)
+      addOptionalParameter("di", filtro.di.toSaciDate())
+      addOptionalParameter("df", filtro.df.toSaciDate())
+      addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("ni", filtro.ni)
+      addOptionalParameter("nf", filtro.nf)
+      addOptionalParameter("prd", filtro.prd)
+      addOptionalParameter("cst", filtro.cst.str)
+      addOptionalParameter("icms", filtro.icms.str)
+      addOptionalParameter("ipi", filtro.ipi.str)
+      addOptionalParameter("mva", filtro.mva.str)
+      addOptionalParameter("ncm", filtro.ncm.str)
+      addOptionalParameter("barcode", filtro.barcode.str)
+      addOptionalParameter("refPrd", filtro.refPrd.str)
+      addOptionalParameter("frete", filtro.frete.str)
+      addOptionalParameter("preco", filtro.preco.str)
+      addOptionalParameter("pesquisa", filtro.pesquisa)
+    }
+  }
+
   fun queryNfPrec(filter: FiltroRelatorio) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasEntradaQueryUtm.sql"
     else "/sqlSaci/ultimasNotasEntradaQuery.sql"
+    script(sql) {
+      addOptionalParameter("storeno", filter.storeno)
+      addOptionalParameter("di", filter.di.toSaciDate())
+      addOptionalParameter("df", filter.df.toSaciDate())
+      addOptionalParameter("vendno", filter.vendno)
+      addOptionalParameter("mfno", filter.mfno)
+      addOptionalParameter("ni", filter.ni)
+      addOptionalParameter("nf", filter.nf)
+      addOptionalParameter("prd", filter.prd)
+      addOptionalParameter("cst", filter.cst.str)
+      addOptionalParameter("icms", filter.icms.str)
+      addOptionalParameter("ipi", filter.ipi.str)
+      addOptionalParameter("mva", filter.mva.str)
+      addOptionalParameter("ncm", filter.ncm.str)
+      addOptionalParameter("barcode", filter.barcode.str)
+      addOptionalParameter("refPrd", filter.refPrd.str)
+      addOptionalParameter("frete", filter.frete.str)
+      addOptionalParameter("rotulo", filter.rotulo)
+      addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
+      addOptionalParameter("listaProdutos", filter.listaProdutos)
+    }
+  }
+
+  fun queryPreRecebimento(filter: FiltroRelatorio) {
+    val sql = if (filter.ultimaNota) "/sqlSaci/ultimasPreRecebimentoQueryUtm.sql"
+    else "/sqlSaci/ultimasPreRecebimentoQuery.sql"
     script(sql) {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
@@ -556,6 +605,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun countNfPrec(filter: FiltroRelatorio): Int {
     val sql = "/sqlSaci/ultimasNotasEntradaCount.sql"
+    return filtroNfPrec(filter, sql) {
+      it.executeScalar(Int::class.java)
+    }
+  }
+
+  fun countPreRecebimento(filter: FiltroRelatorio): Int {
+    val sql = "/sqlSaci/ultimasPreRecebimentoCount.sql"
     return filtroNfPrec(filter, sql) {
       it.executeScalar(Int::class.java)
     }
