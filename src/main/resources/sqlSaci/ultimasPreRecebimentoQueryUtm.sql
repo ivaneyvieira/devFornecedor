@@ -139,8 +139,8 @@ SELECT Prod,
 FROM sqldados.T_QUERY
 GROUP BY Prod, grade;
 
-DROP TABLE IF EXISTS sqldados.query1234567;
-CREATE TABLE sqldados.query1234567 (
+DROP TABLE IF EXISTS sqldados.query99999;
+CREATE TABLE sqldados.query99999 (
   INDEX (cstDif),
   INDEX (icmsDif),
   INDEX (ipiDif),
