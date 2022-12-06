@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.entrada.EntradaViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.IEntradaView
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoPreRecViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout
 import com.vaadin.flow.component.dependency.CssImport
@@ -21,6 +22,7 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val tabNfPrecFiscalViewModel = TabNfPrecFiscalFiscal(viewModel.tabNfPrecFiscalViewModel)
   override val tabFreteViewModel = TabFrete(viewModel.tabFreteViewModel)
   override val tabPrecoViewModel = TabPreco(viewModel.tabPrecoViewModel)
+  override val tabPrecoPreRecViewModel = TabPrecoPreRec(viewModel.tabPrecoPreRecViewModel)
   override val tabNfPrecInfoViewModel = TabNfPrecInfo(viewModel.tabNfPrecInfoViewModel)
   override val tabTodasEntradasViewModel = TabTodasEntradas(viewModel.tabTodasEntradasViewModel)
 
