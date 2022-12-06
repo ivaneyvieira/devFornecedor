@@ -1,7 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabPrecoViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabPrecoPreRecViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoPreRecViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
@@ -18,7 +19,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabPrecoPreRec(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel {
+class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtListaProduto: TextField
   private lateinit var edtNota: TextField
@@ -77,7 +78,7 @@ class TabPrecoPreRec(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITa
   }
 
   override fun openRelatorio() {
-    DlgRelatorioPreco(viewModel, getFiltro()).show()
+    DlgRelatorioPrecoPreRec(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -127,11 +128,11 @@ class TabPrecoPreRec(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITa
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaPreco == true
+    return username?.entradaPrecoPreRec == true
   }
 
   override val label: String
-    get() = "Preço"
+    get() = "Pre Recebimento"
 
   override fun updateComponent() {
   }
