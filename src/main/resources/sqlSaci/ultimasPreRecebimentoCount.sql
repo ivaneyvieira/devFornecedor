@@ -19,7 +19,7 @@ DO @pesquisaNum := IF(@pesquisa REGEXP '^[0-9]+$', @pesquisa * 1, 0);
 DO @pesquisaStr := IF(@pesquisa REGEXP '^[0-9]+$', '', @pesquisa);
 
 SELECT COUNT(*)
-FROM sqldados.query1234567
+FROM sqldados.query99999
 WHERE (@cst = cstDif OR @icms = icmsDif OR @ipi = ipiDif OR @mva = mvaDif OR @ncm = ncmDif OR
        @barcode = barcodeDif OR @refPrd = refPrdDif OR @frete = freteDif OR @preco = precoDif OR
        (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T' AND
