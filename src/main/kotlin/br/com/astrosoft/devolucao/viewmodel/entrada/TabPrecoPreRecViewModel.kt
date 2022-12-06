@@ -57,7 +57,7 @@ class TabPrecoPreRecViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro)
+    return NfPrecEntrada.findNotasPreRec(filtro)
   }
 }
 
