@@ -76,6 +76,10 @@ class NfPrecEntrada(
     fun findNotas(filter: FiltroRelatorio) = saci.ultimasNfPrec(filter).filter {
       it.filtroCaracter(filter.listaCaracter)
     }
+
+    fun findNotasPreRec(filter: FiltroRelatorio) = saci.ultimasPreRecebimento(filter).filter {
+      it.filtroCaracter(filter.listaCaracter)
+    }
   }
 }
 
