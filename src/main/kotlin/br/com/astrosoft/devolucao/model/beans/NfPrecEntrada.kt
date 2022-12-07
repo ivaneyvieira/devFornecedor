@@ -54,7 +54,7 @@ class NfPrecEntrada(
   val freteUnit: Double?,
   val fretePerNf: Double?,
   val fretePerPrc: Double?,
-  val fretePerDif: Double?,
+  val fretePerDif: String,
                    ) {
   val precoDifValue
     get() = precon - precop
@@ -116,6 +116,7 @@ open class FiltroRelatorio(
   open var barcode: EDiferencaStr,
   open var refPrd: EDiferencaStr,
   open var frete: EDiferencaNum,
+  open var fretePer: EDiferencaNum,
   open var preco: EDiferencaNum,
   open var pesquisa: String,
   open val ultimaNota: Boolean,

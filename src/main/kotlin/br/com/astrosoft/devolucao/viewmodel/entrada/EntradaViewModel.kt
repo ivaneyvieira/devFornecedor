@@ -24,9 +24,9 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabNfPrecInfoViewModel,
     view.tabTodasEntradasViewModel,
     view.tabFreteViewModel,
-    view.tabFretePerViewModel,
     view.tabPrecoViewModel,
     view.tabPrecoPreRecViewModel,
+    view.tabFretePerViewModel,
                                  )
 }
 

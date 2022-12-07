@@ -3,7 +3,6 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabPrecoPreRecViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoPreRecViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -67,6 +66,7 @@ class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecVi
       barcode = EDiferencaStr.T,
       refPrd = EDiferencaStr.T,
       frete = EDiferencaNum.T,
+      fretePer = EDiferencaNum.T,
       preco = EDiferencaNum.T,
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",

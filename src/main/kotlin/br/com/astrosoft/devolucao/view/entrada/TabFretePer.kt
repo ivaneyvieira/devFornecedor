@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabFreteViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabFreteViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabFretePerViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabFretePerViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabFretePer(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel {
+class TabFretePer(val viewModel: TabFretePerViewModel) : ITabFretePerViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -64,6 +64,7 @@ class TabFretePer(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPa
       barcode = EDiferencaStr.T,
       refPrd = EDiferencaStr.T,
       frete = EDiferencaNum.T,
+      fretePer = EDiferencaNum.T,
       preco = EDiferencaNum.T,
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",
@@ -75,7 +76,7 @@ class TabFretePer(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPa
   }
 
   override fun openRelatorio() {
-    DlgRelatorioFrete(viewModel, getFiltro()).show()
+    DlgRelatorioFretePer(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -120,11 +121,11 @@ class TabFretePer(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPa
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaFrete == true
+    return username?.entradaFretePer == true
   }
 
   override val label: String
-    get() = "Frete"
+    get() = "Frete 2"
 
   override fun updateComponent() {
   }

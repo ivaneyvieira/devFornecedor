@@ -158,6 +158,23 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaFreteKg() = addColumnDouble(NfPrecEntrada::freteKg) {
+    this.setHeader("$ F Kg")
+    this.isResizable = true
+  }
+  fun Grid<NfPrecEntrada>.notaFreteUnit() = addColumnDouble(NfPrecEntrada::freteUnit) {
+    this.setHeader("R$ Frete")
+    this.isResizable = true
+  }
+  fun Grid<NfPrecEntrada>.notaFretePerNf() = addColumnDouble(NfPrecEntrada::fretePerNf) {
+    this.setHeader("% F NF")
+    this.isResizable = true
+  }
+  fun Grid<NfPrecEntrada>.notaFretePerPrc() = addColumnDouble(NfPrecEntrada::fretePerPrc) {
+    this.setHeader("% F Prc")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaPrecon() = addColumnDouble(NfPrecEntrada::precon) {
     this.setHeader("R$ NF")
     this.isResizable = true
