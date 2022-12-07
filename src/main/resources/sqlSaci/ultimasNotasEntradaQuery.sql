@@ -104,8 +104,13 @@ SELECT iprd.storeno                                                             
        IFNULL(ROUND(oprd.cost, 2), 0.00)                                                 AS precop,
        IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                           AS precopc,
        IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                         AS precon,
-       IFNULL(prd.weight_g, 0.00)                                                        AS pesoBruto,
-       inv.ordno                                                                         AS pedidoCompra
+       IFNULL(prd.weight_g, NULL)                                                        AS pesoBruto,
+       inv.ordno                                                                         AS pedidoCompra,
+       IF(inv.weight = 0, NULL, inv.weight)                                              AS pesoBrutoTotal,
+       @FRETE := ROUND((inv.freight / 100) / (inv.weight), 4)                            AS freteKg,
+       @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                                      AS freteUnit,
+       ROUND(@FRETE_UN * 100 * 10000 / prp.fob, 2)                                       AS fretePerNf,
+       0.00                                                                              AS fretePerPrc
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
@@ -197,5 +202,12 @@ SELECT lj,
        precopc,
        IF(precon = precop, 'S', IF(precon > precop, 'DP', 'DN'))                                 AS precoDif,
        pesoBruto,
-       pedidoCompra
+       pedidoCompra,
+       pesoBrutoTotal,
+       freteKg,
+       freteUnit,
+       fretePerNf,
+       fretePerPrc,
+       IF(fretePerNf = fretePerPrc, 'S',
+	  IF(fretePerNf > fretePerPrc, 'DP', 'DN'))                                              AS fretePerDif
 FROM sqldados.T_QUERY

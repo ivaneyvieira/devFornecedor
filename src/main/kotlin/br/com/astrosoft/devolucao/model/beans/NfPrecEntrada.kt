@@ -49,6 +49,12 @@ class NfPrecEntrada(
   val precoDif: String,
   val pesoBruto: Double,
   val pedidoCompra: Int?,
+  val pesoBrutoTotal: Double?,
+  val freteKg: Double?,
+  val freteUnit: Double?,
+  val fretePerNf: Double?,
+  val fretePerPrc: Double?,
+  val fretePerDif: Double?,
                    ) {
   val precoDifValue
     get() = precon - precop
@@ -125,7 +131,6 @@ open class FiltroRelatorio(
 enum class EDiferencaNum(val str: String, val descricao: String) {
   S("S", "Igual"), DP("DP", "Diferente >"), DN("DN", "Diferente <"), T("T", "Todos")
 }
-
 
 enum class EDiferencaStr(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
