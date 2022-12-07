@@ -4,8 +4,8 @@ import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.Loja
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
-import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFreteDif
-import br.com.astrosoft.devolucao.model.reports.RelatorioFreteDif
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFretePerDif
+import br.com.astrosoft.devolucao.model.reports.RelatorioFretePerDif
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
@@ -23,24 +23,24 @@ class TabFretePerViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorio(listNotas: List<NfPrecEntrada>) = viewModel.exec {
     if (listNotas.isEmpty()) fail("Nenhuma nota selecionada")
-    val relatorio = RelatorioFreteDif.processaRelatorio(listNotas)
+    val relatorio = RelatorioFretePerDif.processaRelatorio(listNotas)
     viewModel.showReport("nfPrecificacao", relatorio)
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val listaRelatorio = listNotas.filter { it.freteDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo(nomeGrupo = "Diferenças de Frete",
+    val listaRelatorio = listNotas.filter { it.fretePerDif != "S" }.map { nota ->
+      NfPrecEntradaGrupo(nomeGrupo = "Diferenças de Frete %",
                          nota = nota,
                          pedidoCompra = nota.pedidoCompra ?: 0,
-                         valorNota = nota.freten.format(),
-                         valorPrecificacao = nota.fretep.format())
+                         valorNota = nota.fretePerNf.format(),
+                         valorPrecificacao = nota.fretePerPrc.format())
     }
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
 
   fun geraPlanilha(notas: List<NfPrecEntrada>): ByteArray {
-    val planilha = PlanilhaFreteDif()
+    val planilha = PlanilhaFretePerDif()
     return planilha.grava(notas)
   }
 
