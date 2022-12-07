@@ -112,7 +112,7 @@ SELECT iprd.storeno                                                             
        @FRETE := ROUND((inv.freight / 100) / (inv.weight), 4)                            AS freteKg,
        @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                                      AS freteUnit,
        ROUND(@FRETE_UN * 100 * 10000 / prp.fob, 2)                                       AS fretePerNf,
-       0.00                                                                              AS fretePerPrc
+       prp.freight / 100                                                                 AS fretePerPrc
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
