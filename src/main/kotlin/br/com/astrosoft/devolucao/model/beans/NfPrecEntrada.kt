@@ -50,6 +50,7 @@ class NfPrecEntrada(
   val pesoBruto: Double,
   val pedidoCompra: Int?,
   val pesoBrutoTotal: Double?,
+  val pesoBrutoPrd: Double?,
   val freteKg: Double?,
   val freteUnit: Double?,
   val fretePerNf: Double?,
