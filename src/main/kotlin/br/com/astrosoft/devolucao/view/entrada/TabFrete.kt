@@ -64,6 +64,7 @@ class TabFrete(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
       barcode = EDiferencaStr.T,
       refPrd = EDiferencaStr.T,
       frete = EDiferencaNum.T,
+      fretePer = EDiferencaNum.T,
       preco = EDiferencaNum.T,
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",

@@ -64,6 +64,7 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
       barcode = EDiferencaStr.T,
       refPrd = EDiferencaStr.T,
       frete = EDiferencaNum.T,
+      fretePer = EDiferencaNum.T,
       preco = EDiferencaNum.T,
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",

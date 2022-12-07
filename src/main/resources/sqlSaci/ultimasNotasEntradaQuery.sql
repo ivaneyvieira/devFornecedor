@@ -1,3 +1,5 @@
+USE sqldados;
+
 DO @storeno := :storeno;
 DO @di := :di;
 DO @df := :df;
@@ -208,6 +210,7 @@ SELECT lj,
        freteUnit,
        fretePerNf,
        fretePerPrc,
-       IF(fretePerNf = fretePerPrc, 'S',
-	  IF(fretePerNf > fretePerPrc, 'DP', 'DN'))                                              AS fretePerDif
+       IF(IFNULL(fretePerNf, 0) = IFNULL(fretePerPrc, 0), 'S',
+	  IF(IFNULL(fretePerNf, 0) > IFNULL(fretePerPrc, 0), 'DP',
+	     'DN'))                                                                              AS fretePerDif
 FROM sqldados.T_QUERY

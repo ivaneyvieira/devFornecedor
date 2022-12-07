@@ -15,7 +15,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.pr
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorIPIAvaria
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorOutrosAvaria
-import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorTotalAvaria
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorUnitario
 import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.produtoValorUnitarioAvaria

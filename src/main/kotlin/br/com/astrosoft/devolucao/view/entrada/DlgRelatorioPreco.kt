@@ -109,11 +109,11 @@ class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRela
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaGrade()
-      notaPrecon().marcaDiferenca { precoDif == "N" }
-      notaPrecop().marcaDiferenca { precoDif == "N" }
-      notaPrecopc().marcaDiferenca { precoDif == "N" }
-      notaPrecoDif().marcaDiferenca { precoDif == "N" }
-      notaPrecoPercen().marcaDiferenca { precoDif == "N" }
+      notaPrecon().marcaDiferenca { precoDif != "S" }
+      notaPrecop().marcaDiferenca { precoDif != "S" }
+      notaPrecopc().marcaDiferenca { precoDif != "S" }
+      notaPrecoDif().marcaDiferenca { precoDif != "S" }
+      notaPrecoPercen().marcaDiferenca { precoDif != "S" }
     }
   }
 }

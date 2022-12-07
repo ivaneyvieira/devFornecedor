@@ -81,6 +81,7 @@ class UserSaci : IUser {
   var entradaFrete by DelegateAuthorized(60)
   var entradaPreco by DelegateAuthorized(61)
   var entradaPrecoPreRec by DelegateAuthorized(62)
+  var entradaFretePer by DelegateAuthorized(63)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE

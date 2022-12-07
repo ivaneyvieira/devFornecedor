@@ -64,6 +64,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
       barcode = EDiferencaStr.T,
       refPrd = EDiferencaStr.T,
       frete = EDiferencaNum.T,
+      fretePer = EDiferencaNum.T,
       preco = EDiferencaNum.T,
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",

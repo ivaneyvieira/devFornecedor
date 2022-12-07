@@ -13,6 +13,7 @@ DO @ncm := :ncm;
 DO @barcode := :barcode;
 DO @refPrd := :refPrd;
 DO @frete := :frete;
+DO @fretePer := :fretePer;
 DO @preco := :preco;
 DO @pesquisa := :pesquisa;
 DO @pesquisaNum := IF(@pesquisa REGEXP '^[0-9]+$', @pesquisa * 1, 0);
@@ -60,12 +61,19 @@ SELECT lj,
        precop,
        precoDif,
        pesoBruto,
-       pedidoCompra
+       pedidoCompra,
+       pesoBrutoTotal,
+       freteKg,
+       freteUnit,
+       fretePerNf,
+       fretePerPrc,
+       fretePerDif
 FROM sqldados.query1234567
 WHERE (@cst = cstDif OR @icms = icmsDif OR @ipi = ipiDif OR @mva = mvaDif OR @ncm = ncmDif OR
-       @barcode = barcodeDif OR @refPrd = refPrdDif OR @frete = freteDif OR @preco = precoDif OR
+       @barcode = barcodeDif OR @refPrd = refPrdDif OR @frete = freteDif OR
+       @fretePer = fretePerDif OR @preco = precoDif OR
        (@cst = 'T' AND @icms = 'T' AND @ipi = 'T' AND @mva = 'T' AND @ncm = 'T' AND
-	@barcode = 'T' AND @refPrd = 'T' AND @frete = 'T' AND @preco = 'T'))
+	@barcode = 'T' AND @refPrd = 'T' AND @frete = 'T' AND @fretePer = 'T' AND @preco = 'T'))
   AND (lj = @pesquisaNum OR ni = @pesquisaNum OR nfe = @pesquisaNum OR fornCad = @pesquisaNum OR
        fornNota = @pesquisaNum OR prod = @pesquisaNum OR
        (descricao LIKE CONCAT(@pesquisaStr, '%') AND @pesquisaStr <> '') OR @pesquisa = '')
