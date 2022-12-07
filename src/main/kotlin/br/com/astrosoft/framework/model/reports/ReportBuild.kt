@@ -39,13 +39,13 @@ abstract class ReportBuild<T> {
   protected open fun labelTitleCol(): TextColumnBuilder<String>? = null
 
   protected fun <V> column(dataType: DRIDataType<in V, V>,
-                           prop: KProperty1<T, V>,
+                           prop: KProperty1<T, V?>,
                            title: String,
                            aligment: HorizontalTextAlignment,
                            width: Int,
                            pattern: String,
                            oculto: Boolean,
-                           block: TextColumnBuilder<V>.() -> Unit = {}): TextColumnBuilder<V> =
+                           block: TextColumnBuilder<V?>.() -> Unit = {}): TextColumnBuilder<V> =
     col.column(if (oculto) "" else if (title == "") prop.name else title, prop.name, dataType).apply {
       this.setHorizontalTextAlignment(aligment)
       if (width > 0) this.setFixedWidth(width) else this.setMinHeight(0)
@@ -66,16 +66,16 @@ abstract class ReportBuild<T> {
                           width: Int = -1,
                           pattern: String = "0",
                           oculto: Boolean = false,
-                          block: TextColumnBuilder<Int>.() -> Unit = {}): TextColumnBuilder<Int> =
+                          block: TextColumnBuilder<Int?>.() -> Unit = {}): TextColumnBuilder<Int> =
     column(type.integerType(), prop, title, aligment, width, pattern, oculto, block)
 
-  protected fun columnDouble(prop: KProperty1<T, Double>,
+  protected fun columnDouble(prop: KProperty1<T, Double?>,
                              title: String = "",
                              aligment: HorizontalTextAlignment = RIGHT,
                              width: Int = -1,
                              pattern: String = "#,##0.00",
                              oculto: Boolean = false,
-                             block: TextColumnBuilder<Double>.() -> Unit = {}): TextColumnBuilder<Double> =
+                             block: TextColumnBuilder<Double?>.() -> Unit = {}): TextColumnBuilder<Double> =
     column(type.doubleType(), prop, title, aligment, width, pattern, oculto, block)
 
   protected fun columnString(prop: KProperty1<T, String>,
@@ -83,7 +83,7 @@ abstract class ReportBuild<T> {
                              aligment: HorizontalTextAlignment = LEFT,
                              width: Int = -1,
                              oculto: Boolean = false,
-                             block: TextColumnBuilder<String>.() -> Unit = {}): TextColumnBuilder<String> =
+                             block: TextColumnBuilder<String?>.() -> Unit = {}): TextColumnBuilder<String> =
     column(type.stringType(), prop, title, aligment, width, "", oculto, block)
 
   protected fun columnLocalDate(prop: KProperty1<T, LocalDate>,
@@ -92,7 +92,7 @@ abstract class ReportBuild<T> {
                                 width: Int = -1,
                                 pattern: String = "dd/MM/yyyy",
                                 oculto: Boolean = false,
-                                block: TextColumnBuilder<LocalDate>.() -> Unit = {}): TextColumnBuilder<LocalDate> =
+                                block: TextColumnBuilder<LocalDate?>.() -> Unit = {}): TextColumnBuilder<LocalDate> =
     column(localDateType, prop, title, aligment, width, pattern, oculto, block)
 
   protected fun columnDate(prop: KProperty1<T, Date>,
@@ -101,7 +101,7 @@ abstract class ReportBuild<T> {
                            width: Int = -1,
                            pattern: String = "dd/MM/yyyy",
                            oculto: Boolean = false,
-                           block: TextColumnBuilder<Date>.() -> Unit = {}): TextColumnBuilder<Date> =
+                           block: TextColumnBuilder<Date?>.() -> Unit = {}): TextColumnBuilder<Date> =
     column(type.dateDayType(), prop, title, aligment, width, pattern, oculto, block)
 
   protected fun columnBuilder(): List<TextColumnBuilder<out Any>> {
