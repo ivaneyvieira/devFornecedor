@@ -2,6 +2,7 @@ DO @LOJA := :loja;
 DO @FILTRO_LIKE := CONCAT(:filtro, '%');
 DO @FILTRO_NUM := IF(:filtro REGEXP '^[0-9]+', :filtro * 1, NULL);
 DO @FILTRO_STR := IF(:filtro REGEXP '^[0-9]+', NULL, :filtro);
+DO @FILTRO_COD := :filtro;
 
 DROP TABLE IF EXISTS sqldados.T_INV2;
 CREATE TEMPORARY TABLE sqldados.T_INV2 /*T2*/
@@ -82,7 +83,7 @@ HAVING (:filtro = '' OR DATE_FORMAT(data, '%d/%m/%Y') LIKE @FILTRO_LIKE OR
 	DATE_FORMAT(dataRecbedor, '%d/%m/%Y') LIKE @FILTRO_LIKE OR
 	DATE_FORMAT(emissao, '%d/%m/%Y') LIKE @FILTRO_LIKE OR recebedor LIKE @FILTRO_LIKE OR
 	conhecimento LIKE @FILTRO_LIKE OR frete = @FILTRO_STR OR abreviacao LIKE @FILTRO_LIKE OR
-	fornecedor LIKE @FILTRO_STR OR nf LIKE @FILTRO_STR OR volume LIKE @FILTRO_STR OR
+	fornecedor LIKE @FILTRO_STR OR nf LIKE @FILTRO_COD OR volume LIKE @FILTRO_STR OR
 	pedido = @FILTRO_NUM OR nome LIKE @FILTRO_LIKE OR empno = @FILTRO_NUM OR
 	invno = @FILTRO_NUM OR transp = @FILTRO_NUM)
 
