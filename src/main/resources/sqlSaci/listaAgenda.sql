@@ -32,7 +32,8 @@ SELECT inv2.storeno                                                             
        CAST(IFNULL(LEFT(carr.name, 10), 'NAO ENCONT') AS CHAR)                              AS nome,
        CAST(inv2.packages AS CHAR)                                                          AS volume,
        inv2.grossamt                                                                        AS total,
-       IF(TRIM(inv2.c1) <> '' AND TRIM(LEFT(inv2.c2, 8)) <> '', 'S',
+       IF(TRIM(inv2.c1) <> '' AND
+	  (TRIM(LEFT(inv2.c2, 5)) <> '' OR TRIM(LEFT(inv2.c2, 5)) <> '00:00'), 'S',
 	  'N')                                                                              AS agendado,
        IF(emp.sname IS NULL, 'N', 'S')                                                      AS recebido,
        IF((ords.bits & POW(2, 3)) != 0, 'FOB', 'CIF')                                       AS frete,
