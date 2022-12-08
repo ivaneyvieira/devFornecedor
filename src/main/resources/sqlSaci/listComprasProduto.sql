@@ -37,6 +37,11 @@ FROM sqldados.prdref
 WHERE grade = ''
 GROUP BY prdno;
 
+DROP TEMPORARY TABLE IF EXISTS T_RESULT;
+CREATE TEMPORARY TABLE T_RESULT (
+  PRIMARY KEY (loja, numeroPedido, codigo, grade, seqno),
+  refno varchar(40)
+)
 SELECT 'SACI'                                                                       AS origem,
        V.no                                                                         AS vendno,
        V.name                                                                       AS fornecedor,
@@ -50,12 +55,13 @@ SELECT 'SACI'                                                                   
 		     O.dataEntrega)) AS DATE)                                       AS dataEntrega,
        O.remarks                                                                    AS obsercacaoPedido,
        TRIM(E.prdno)                                                                AS codigo,
+       E.seqno                                                                      AS seqno,
        TRIM(MID(P.name, 1, 37))                                                     AS descricao,
        P.mfno_ref                                                                   AS refFab,
        E.grade                                                                      AS grade,
        MID(P.name, 38, 3)                                                           AS unidade,
-       COALESCE(R.refno, RS.refno, '')                                              AS refno,
-       COALESCE(R.refname, RS.refname, '')                                          AS refname,
+       MID(CAST(COALESCE(R.refno, RS.refno, '') AS CHAR), 1, 40)                    AS refno,
+       CAST(COALESCE(R.refname, RS.refname, '') AS CHAR)                            AS refname,
        ROUND((E.qtty * E.mult) / 1000)                                              AS qtPedida,
        ROUND((E.qttyCancel * E.mult) / 1000)                                        AS qtCancelada,
        ROUND((E.qttyRcv * E.mult) / 1000)                                           AS qtRecebida,
@@ -83,6 +89,80 @@ WHERE (O.storeno = :loja OR :loja = 0)
        (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
   AND O.status != 2
   AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
+GROUP BY loja, numeroPedido, codigo, grade, seqno
+HAVING CASE :onlyPendente
+	 WHEN 'S'
+	   THEN ROUND(qtPendente * 100) != 0
+	 WHEN 'N'
+	   THEN TRUE
+	 ELSE FALSE
+       END;
+
+REPLACE INTO sqldados.pedidosCompra(origem, vendno, fornecedor, cnpj, loja, sigla, numeroPedido,
+				    status, dataPedido, dataEntrega, obsercacaoPedido, codigo,
+				    seqno, descricao, refFab, grade, unidade, refno, refname,
+				    qtPedida, qtCancelada, qtRecebida, qtPendente, custoUnit,
+				    barcode)
+SELECT origem,
+       vendno,
+       fornecedor,
+       cnpj,
+       loja,
+       sigla,
+       numeroPedido,
+       status,
+       dataPedido,
+       dataEntrega,
+       obsercacaoPedido,
+       codigo,
+       seqno,
+       descricao,
+       refFab,
+       grade,
+       unidade,
+       refno,
+       refname,
+       qtPedida,
+       qtCancelada,
+       qtRecebida,
+       qtPendente,
+       custoUnit,
+       barcode
+FROM T_RESULT;
+
+
+SELECT origem,
+       vendno,
+       fornecedor,
+       cnpj,
+       loja,
+       sigla,
+       numeroPedido,
+       status,
+       dataPedido,
+       dataEntrega,
+       obsercacaoPedido,
+       codigo,
+       seqno,
+       descricao,
+       refFab,
+       grade,
+       unidade,
+       refno,
+       refname,
+       qtPedida,
+       qtCancelada,
+       qtRecebida,
+       qtPendente,
+       custoUnit,
+       barcode
+FROM sqldados.pedidosCompra
+WHERE (loja = :loja OR :loja = 0)
+  AND ((vendno = @VENDNO AND @VENDNO != 0) OR (numeroPedido = @PEDIDO AND @PEDIDO != 0) OR
+       (fornecedor LIKE CONCAT(@FORNECEDOR, '%') AND @FORNECEDOR != '') OR
+       (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
+  AND dataPedido >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
+GROUP BY loja, numeroPedido, codigo, grade, seqno
 HAVING CASE :onlyPendente
 	 WHEN 'S'
 	   THEN ROUND(qtPendente * 100) != 0
