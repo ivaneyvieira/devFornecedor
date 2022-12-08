@@ -110,3 +110,32 @@ CREATE TABLE sqldados.quantAvaria (
    PRIMARY KEY (id, numeroProtocolo, codigo, codBarra)
 );
 
+DROP TABLE if EXISTS sqldados.pedidosCompra;
+CREATE TABLE sqldados.pedidosCompra (
+  `origem` varchar(4) DEFAULT '',
+  `vendno` int(10) NOT NULL,
+  `fornecedor` char(40) NOT NULL DEFAULT '',
+  `cnpj` char(20) NOT NULL DEFAULT '',
+  `loja` smallint(5) NOT NULL DEFAULT '0',
+  `sigla` char(2) NOT NULL DEFAULT '',
+  `numeroPedido` int(10) NOT NULL DEFAULT '0',
+  `status` smallint(5) NOT NULL DEFAULT '0',
+  `dataPedido` date DEFAULT NULL,
+  `dataEntrega` date DEFAULT NULL,
+  `obsercacaoPedido` char(36) NOT NULL DEFAULT '',
+  `codigo` varchar(16) NOT NULL DEFAULT '',
+  `seqno` smallint(5) NOT NULL DEFAULT '0',
+  `descricao` varchar(37) DEFAULT NULL,
+  `refFab` char(48) NOT NULL DEFAULT '',
+  `grade` char(8) NOT NULL DEFAULT '',
+  `unidade` varchar(3) DEFAULT NULL,
+  `refno` varchar(40),
+  `refname` varchar(40)  DEFAULT NULL,
+  `qtPedida` double(17,0) DEFAULT NULL,
+  `qtCancelada` double(17,0) DEFAULT NULL,
+  `qtRecebida` double(17,0) DEFAULT NULL,
+  `qtPendente` double(17,0) DEFAULT NULL,
+  `custoUnit` double DEFAULT NULL,
+  `barcode` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`loja`,`numeroPedido`,`codigo`,`grade`,`seqno`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
