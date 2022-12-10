@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.pdftxt.DataLine
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
@@ -11,6 +12,8 @@ import java.time.LocalDate
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
   private var fileText: FileText? = null
+  private var dataLine: DataLine? = null
+
   val subView
     get() = viewModel.view.tabConferirViewModel
 
@@ -40,10 +43,10 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
   }
 
   override fun findLine(produto: PedidoCompraProduto): Line? {
-    val dataLine = fileText?.listLinesDados() ?: return null
+    val dl = dataLine ?: return null
     val listRef = produto.refno?.split("/").orEmpty()
     val refFab = produto.refFab ?: ""
-    val retLine = listRef.firstNotNullOfOrNull { dataLine.find(it) } ?: dataLine.find(refFab)
+    val retLine = listRef.firstNotNullOfOrNull { dl.find(it) } ?: dl.find(refFab)
     return retLine
   }
 
@@ -66,6 +69,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
 
   override fun setFileText(fileText: FileText?) {
     this.fileText = fileText
+    this.dataLine = fileText?.listLinesDados()
     updateComponent()
   }
 

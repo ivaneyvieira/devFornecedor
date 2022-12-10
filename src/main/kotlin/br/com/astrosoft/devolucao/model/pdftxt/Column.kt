@@ -29,7 +29,7 @@ data class Column(val line: Line, val numCol: Int, val title: String, val start:
     }
     val numColTitle = line.num
 
-    return numLinhaDados.mapNotNull {index ->
+    return numLinhaDados.mapNotNull { index ->
       val nextDados = dados.getOrNull(index + 1)
       val double = nextDados?.trim() == ""
       val numCol = index + numColTitle + 1
