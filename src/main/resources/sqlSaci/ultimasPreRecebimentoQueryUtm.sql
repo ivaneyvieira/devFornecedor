@@ -65,69 +65,69 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
-SELECT iprd.storeno                                                                 AS lj,
-       inv.invno                                                                    AS ni,
-       CAST(inv.date AS DATE)                                                       AS data,
-       CAST(inv.issue_date AS DATE)                                                 AS dataEmissao,
+SELECT iprd2.storeno                                                                 AS lj,
+       inv2.invno                                                                    AS ni,
+       CAST(inv2.date AS DATE)                                                       AS data,
+       CAST(inv2.issue_date AS DATE)                                                 AS dataEmissao,
        prd.mfno                                                                     AS fornCad,
-       inv.vendno                                                                   AS fornNota,
-       iprd.prdno                                                                   AS prod,
-       IF(@comGrade = 'S', iprd.grade, '')                                          AS grade,
+       inv2.vendno                                                                   AS fornNota,
+       iprd2.prdno                                                                   AS prod,
+       IF(@comGrade = 'S', iprd2.grade, '')                                          AS grade,
        TRIM(MID(prd.name, 1, 37))                                                   AS descricao,
        spedprd.ncm                                                                  AS ncmp,
        IFNULL(mfprd.ncm, spedprd.ncm)                                               AS ncmn,
-       ROUND(iprd.lucroTributado / 100, 2)                                          AS mvan,
+       ROUND(iprd2.lucroTributado / 100, 2)                                          AS mvan,
        ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 2)       AS mvap,
-       ROUND(iprd.ipi / 100, 2)                                                     AS ipin,
+       ROUND(iprd2.ipi / 100, 2)                                                     AS ipin,
        ROUND(IFNULL(prp.ipi, 0) / 100, 2)                                           AS ipip,
-       IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.icms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL)     AS icmsc,
-       ROUND(iprd.icmsAliq / 100, 2)                                                AS icmsn,
+       IF(MID(iprd2.cstIcms, 2, 3) = '20',
+	  ROUND(iprd2.icms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL)     AS icmsc,
+       ROUND(iprd2.icmsAliq / 100, 2)                                                AS icmsn,
        ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 2)                                   AS icmsp,
        prd.taxno                                                                    AS cstp,
-       MID(iprd.cstIcms, 2, 3)                                                      AS cstn,
-       inv.nfname                                                                   AS nfe,
-       IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
+       MID(iprd2.cstIcms, 2, 3)                                                      AS cstn,
+       inv2.nfname                                                                   AS nfe,
+       IF(MID(iprd2.cstIcms, 2, 3) = '20',
+	  ROUND(iprd2.baseIcms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL) AS icmsd,
        TRIM(IFNULL(B.barcode, prd.barcode))                                         AS barcodep,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
        TRIM(IFNULL(prd.refPrd, ''))                                                 AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
-       inv.freight * 100.00 / inv.grossamt                                          AS freten,
-       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)            AS frete
-FROM sqldados.iprd
-  INNER JOIN sqldados.inv
+       inv2.freight * 100.00 / inv2.grossamt                                          AS freten,
+       IF(inv2.weight = 0, NULL, (inv2.freight / 100) / inv2.weight * 1.00)            AS frete
+FROM sqldados.iprd2
+  INNER JOIN sqldados.inv2
 	       USING (invno)
   INNER JOIN T_VEND          AS vend
-	       ON vend.no = inv.vendno
+	       ON vend.no = inv2.vendno
   INNER JOIN T_PRD           AS prd
-	       ON (prd.no = iprd.prdno)
+	       ON (prd.no = iprd2.prdno)
   LEFT JOIN  sqldados.prdbar AS B
 	       USING (prdno, grade)
   LEFT JOIN  T_MFPRD         AS M
 	       USING (prdno, grade)
   LEFT JOIN  sqldados.prp
-	       ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
+	       ON (prp.prdno = iprd2.prdno AND prp.storeno = 10)
   INNER JOIN sqldados.cfo
-	       ON (cfo.no = iprd.cfop)
+	       ON (cfo.no = iprd2.cfop)
   LEFT JOIN  sqldados.spedprd
 	       ON (spedprd.prdno = prd.no)
   LEFT JOIN  T_NCM           AS mfprd
-	       ON (iprd.prdno = mfprd.prdnoRef)
-WHERE inv.date BETWEEN @di AND @df
-  AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
-  AND (iprd.storeno = @storeno OR @storeno = 0)
+	       ON (iprd2.prdno = mfprd.prdnoRef)
+WHERE inv2.date BETWEEN @di AND @df
+  AND iprd2.storeno IN (1, 2, 3, 4, 5, 6, 7)
+  AND (iprd2.storeno = @storeno OR @storeno = 0)
   AND cfo.name1 NOT LIKE 'TRANSF%'
   AND cfo.name1 NOT LIKE 'DEVOL%'
   AND cfo.name1 NOT LIKE '%BONIF%'
   AND cfo.no NOT IN (2949, 2353, 2916)
   AND cfo.no NOT IN (1949, 1353, 1916)
-  AND (iprd.invno = @ni OR @ni = 0)
-  AND (inv.nfname = @nf OR @nf = '')
-  AND (inv.vendno = @vendno OR @vendno = 0)
-  AND (iprd.prdno = @prd OR @CODIGO = '')
-GROUP BY inv.invno, iprd.prdno, iprd.grade;
+  AND (iprd2.invno = @ni OR @ni = 0)
+  AND (inv2.nfname = @nf OR @nf = '')
+  AND (inv2.vendno = @vendno OR @vendno = 0)
+  AND (iprd2.prdno = @prd OR @CODIGO = '')
+GROUP BY inv2.invno, iprd2.prdno, iprd2.grade;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
 CREATE TEMPORARY TABLE sqldados.T_MAX (
