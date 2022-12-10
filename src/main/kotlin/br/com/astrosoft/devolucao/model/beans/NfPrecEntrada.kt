@@ -56,7 +56,7 @@ class NfPrecEntrada(
   val fretePerNf: Double?,
   val fretePerPrc: Double?,
   val fretePerDif: String,
-  val quant: Double?,
+  val quant: Int?,
                    ) {
   val precoDifValue
     get() = precon - precop
