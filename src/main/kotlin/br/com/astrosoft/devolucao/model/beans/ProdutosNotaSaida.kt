@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import br.com.astrosoft.devolucao.model.ItensNotaReport
+import br.com.astrosoft.devolucao.model.nfeXml.ItensNotaReport
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toDate
 import java.time.LocalDate

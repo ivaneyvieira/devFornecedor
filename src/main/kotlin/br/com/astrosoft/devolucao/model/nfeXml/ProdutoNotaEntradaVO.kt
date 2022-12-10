@@ -1,4 +1,4 @@
-package br.com.astrosoft.devolucao.model
+package br.com.astrosoft.devolucao.model.nfeXml
 
 import br.com.astrosoft.devolucao.model.beans.ProdutoNotaEntradaNdd
 import br.com.astrosoft.framework.util.format
@@ -13,21 +13,23 @@ import java.math.BigDecimal
 
 class ProdutoNotaEntradaVO(
   val id: Int,
-  val xmlNfe: String,
-  val numeroProtocolo: String,
-  val dataHoraRecebimento: String,
+  val xmlNfe: String?,
+  val numeroProtocolo: String?,
+  val dataHoraRecebimento: String?,
   val refNFe: String?,
                           ) {
   fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
+    xmlNfe ?: return emptyList()
     val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
     val produtosNota = nota.info?.itens ?: emptyList()
     return produtosNota.mapNotNull(::mapProduto)
   }
 
   fun itensNotaReport(): List<ItensNotaReport> {
+    xmlNfe ?: return emptyList()
     val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
-    val data = dataHoraRecebimento.split("T").getOrNull(0) ?: ""
-    val hora = dataHoraRecebimento.split("T").getOrNull(1)?.split("-")?.getOrNull(0) ?: ""
+    val data = dataHoraRecebimento?.split("T")?.getOrNull(0) ?: ""
+    val hora = dataHoraRecebimento?.split("T")?.getOrNull(1)?.split("-")?.getOrNull(0) ?: ""
     val dataFormat = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4)
     return mapReport(nota, "$numeroProtocolo $dataFormat $hora")
   }
@@ -36,7 +38,7 @@ class ProdutoNotaEntradaVO(
     val produto: NFNotaInfoItemProduto? = item.produto
     val imposto: NFNotaInfoItemImposto? = item.imposto
     return ProdutoNotaEntradaNdd(id = id,
-                                 numeroProtocolo = numeroProtocolo,
+                                 numeroProtocolo = numeroProtocolo ?: "",
                                  codigo = produto?.codigo?.toString() ?: "",
                                  codBarra = produto?.codigoDeBarras ?: "",
                                  descricao = produto?.descricao ?: "",

@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import br.com.astrosoft.devolucao.model.ItensNotaReport
-import br.com.astrosoft.devolucao.model.ProdutoNotaEntradaVO
+import br.com.astrosoft.devolucao.model.nfeXml.ItensNotaReport
+import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.nfeXml.NfeFile
 import br.com.astrosoft.devolucao.model.saci
