@@ -112,7 +112,7 @@ SELECT iprd.storeno                                                             
        @PESO_BRUTO * (iprd.qtty / 1000)                                                  AS pesoBrutoPrd,
        @FRETE := ROUND((inv.freight / 100) / (inv.weight), 4)                            AS freteKg,
        @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                                      AS freteUnit,
-       ROUND(@FRETE_UN * 100 * 10000 / prp.fob, 2)                                       AS fretePerNf,
+       ROUND(@FRETE_UN * 100 * 10000 / iprd.fob4, 2)                                     AS fretePerNf,
        prp.freight / 100                                                                 AS fretePerPrc,
        iprd.qtty / 1000                                                                  AS quant
 FROM sqldados.iprd
