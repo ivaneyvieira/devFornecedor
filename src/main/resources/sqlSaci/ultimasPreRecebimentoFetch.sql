@@ -60,7 +60,8 @@ SELECT lj,
        precop,
        precoDif,
        pesoBruto,
-       pedidoCompra
+       pedidoCompra,
+       quant
 FROM sqldados.query99999
 WHERE (@cst = cstDif OR @icms = icmsDif OR @ipi = ipiDif OR @mva = mvaDif OR @ncm = ncmDif OR
        @barcode = barcodeDif OR @refPrd = refPrdDif OR @frete = freteDif OR @preco = precoDif OR
