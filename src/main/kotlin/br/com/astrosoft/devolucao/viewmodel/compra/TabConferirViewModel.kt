@@ -45,8 +45,9 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
   override fun findLine(produto: PedidoCompraProduto): Line? {
     val dl = dataLine ?: return null
     val listRef = produto.refno?.split("/").orEmpty()
-    val refFab = produto.refFab ?: ""
-    val retLine = listRef.firstNotNullOfOrNull { dl.find(it) } ?: dl.find(refFab)
+    val refFab = produto.refFab
+    val list = listRef + refFab
+    val retLine = listRef.firstNotNullOfOrNull { dl.find(it) }
     return retLine
   }
 
