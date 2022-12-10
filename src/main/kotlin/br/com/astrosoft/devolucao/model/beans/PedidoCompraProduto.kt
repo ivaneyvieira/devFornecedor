@@ -17,6 +17,7 @@ class PedidoCompraProduto(
   val dataEntrega: LocalDate,
   val obsercacaoPedido: String,
   val codigo: String?,
+  val seqno: Int?,
   val descricao: String?,
   val refFab: String?,
   val refno: String?,

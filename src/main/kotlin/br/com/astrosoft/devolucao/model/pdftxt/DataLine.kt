@@ -1,9 +1,13 @@
 package br.com.astrosoft.devolucao.model.pdftxt
 
-data class DataLine(val column: List<Column>, val lines: List<Line>) {
+data class DataLine(val column: List<Column>) {
   fun find(ref: String): Line? {
-    return lines.firstOrNull { line ->
-      line.find(ref)
+    val listLineDados = column.map { it.lineDados() }
+    val ret = listLineDados.firstNotNullOfOrNull { lines ->
+      lines.firstOrNull { line ->
+        line.find(ref)
+      }
     }
+    return ret
   }
 }

@@ -8,18 +8,18 @@ private val titleWord = listOf("Cod", "Codigo", "Descricao", "Qtde", "Un", "Item
 
 
 data class Line(val num: Int, val lineStr: String, val fileText: FileText, val double : Boolean = false) {
+  private val form1 = DecimalFormat("#,##0.#####")
+  private val form2 = DecimalFormat("0.#####")
   fun find(text: String?): Boolean {
     val textUnaccent = text?.unaccent() ?: return false
-    return lineStr.unaccent().contains(textUnaccent, ignoreCase = true)
+    return lineStr.unaccent().matches(".*\\b$textUnaccent\\b.*".toRegex())
   }
 
   fun find(num: Number?): Boolean {
     num ?: return false
-    val form1 = DecimalFormat("#,##0.00")
-    val form2 = DecimalFormat("#,##0")
-    val form3 = DecimalFormat("0.00")
-    val form4 = DecimalFormat("0")
-    return find(form1.format(num)) || find(form2.format(num)) || find(form3.format(num))  || find(form4.format(num))
+    val val1 = form1.format(num)
+    val val2 = form2.format(num)
+    return find(val1) || find(val2)
   }
 
   val countTitleWord = titleWord.count { find(it) }

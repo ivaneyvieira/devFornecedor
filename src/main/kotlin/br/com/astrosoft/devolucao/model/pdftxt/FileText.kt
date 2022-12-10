@@ -33,8 +33,7 @@ class FileText {
   fun listLinesDados(): DataLine? {
     val lineTitle = localizaColunas() ?: return null
     val colunas = lineTitle.columns()
-    val coluna1 = colunas.getOrNull(0) ?: return null
-    return DataLine(colunas, coluna1.lineDados())
+    return DataLine(colunas)
   }
 
   companion object {
