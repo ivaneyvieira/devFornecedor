@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model
 
+import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import java.time.LocalDate

@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.devolucao.model.ItensNotaReport
+import br.com.astrosoft.devolucao.model.nfeXml.ItensNotaReport
 import br.com.astrosoft.framework.util.SystemUtils.readStream
 import net.sf.jasperreports.engine.JasperCompileManager
 import net.sf.jasperreports.engine.JasperFillManager
