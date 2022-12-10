@@ -205,6 +205,11 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaQuant() = addColumnDouble(NfPrecEntrada::quant) {
+    this.setHeader("Qtd")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaNcmn() = addColumnString(NfPrecEntrada::ncmn) {
     this.setHeader("NCM N")
     this.isResizable = true

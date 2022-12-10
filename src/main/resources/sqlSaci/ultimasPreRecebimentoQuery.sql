@@ -107,7 +107,8 @@ SELECT iprd2.storeno                                                            
        IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                            AS precopc,
        IFNULL(ROUND(iprd2.fob4 / 10000, 2), 0.00)                                         AS precon,
        IFNULL(prd.weight_g, 0.00)                                                         AS pesoBruto,
-       inv2.ordno                                                                         AS pedidoCompra
+       inv2.ordno                                                                         AS pedidoCompra,
+       iprd2.qtty / 1000                                                                  AS quant
 FROM sqldados.iprd2
   INNER JOIN sqldados.inv2
 	       USING (invno)
@@ -199,5 +200,6 @@ SELECT lj,
        precopc,
        IF(precon = precop, 'S', IF(precon > precop, 'DP', 'DN'))                                 AS precoDif,
        pesoBruto,
-       pedidoCompra
+       pedidoCompra,
+       quant                                                                                     AS quant
 FROM sqldados.T_QUERY
