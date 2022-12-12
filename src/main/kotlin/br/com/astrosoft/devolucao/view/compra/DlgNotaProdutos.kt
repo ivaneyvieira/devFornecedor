@@ -31,6 +31,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
+import org.atmosphere.cpr.MetaBroadcaster.ThirtySecondsCache
 
 class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   private lateinit var gridNota: Grid<PedidoCompraProduto>
@@ -84,6 +85,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             if (bytes != null) {
               SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
             }
+          }
+        }
+        this.button("Confirma Pedido") {
+          icon = VaadinIcon.CHECK.create()
+          onLeftClick {
+            val itens = gridNota.selectedItems
+            viewModel.confirmaProdutoSelecionado(itens)
           }
         }
       }

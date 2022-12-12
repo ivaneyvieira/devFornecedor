@@ -67,7 +67,8 @@ SELECT 'SACI'                                                                   
        ROUND((E.qttyRcv * E.mult) / 1000)                                           AS qtRecebida,
        ROUND((E.qtty * E.mult - E.qttyCancel * E.mult - E.qttyRcv * E.mult) / 1000) AS qtPendente,
        E.cost                                                                       AS custoUnit,
-       TRIM(IFNULL(B.barcode, P.barcode))                                           AS barcode
+       TRIM(IFNULL(B.barcode, P.barcode))                                           AS barcode,
+       padbyte                                                                      AS confirmado
 FROM sqldados.ords          AS O
   INNER JOIN sqldados.store AS S
 	       ON S.no = O.storeno
@@ -102,7 +103,7 @@ REPLACE INTO sqldados.pedidosCompra(origem, vendno, fornecedor, cnpj, loja, sigl
 				    status, dataPedido, dataEntrega, obsercacaoPedido, codigo,
 				    seqno, descricao, refFab, grade, unidade, refno, refname,
 				    qtPedida, qtCancelada, qtRecebida, qtPendente, custoUnit,
-				    barcode)
+				    barcode, confirmado)
 SELECT origem,
        vendno,
        fornecedor,
@@ -127,7 +128,8 @@ SELECT origem,
        qtRecebida,
        qtPendente,
        custoUnit,
-       barcode
+       barcode,
+       confirmado
 FROM T_RESULT;
 
 
@@ -155,7 +157,8 @@ SELECT origem,
        qtRecebida,
        qtPendente,
        custoUnit,
-       barcode
+       barcode,
+       confirmado
 FROM sqldados.pedidosCompra
 WHERE (loja = :loja OR :loja = 0)
   AND ((vendno = @VENDNO AND @VENDNO != 0) OR (numeroPedido = @PEDIDO AND @PEDIDO != 0) OR
