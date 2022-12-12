@@ -93,6 +93,7 @@ class TabConferir(val viewModel: TabConferirViewModel) :
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
       onlyPendente = true,
+      onlyConfirmado = false,
                              )
   }
 
