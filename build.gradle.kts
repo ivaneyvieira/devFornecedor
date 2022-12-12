@@ -59,7 +59,8 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
 
   // logging
   implementation("ch.qos.logback:logback-classic:1.2.3")
-  implementation("org.slf4j:slf4j-api:1.7.30")
+  // implementation("org.slf4j:slf4j-api:1.7.30")
+  implementation("org.slf4j:slf4j-api:2.0.5")
   implementation("org.sql2o:sql2o:1.6.0")
   implementation("org.simpleflatmapper:sfm-sql2o:8.2.3")
   implementation("mysql:mysql-connector-java:5.1.48")
@@ -100,7 +101,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("de.f0rce.signaturepad:signature-widget:2.0.0")
 
   implementation("com.lowagie:itext:2.1.7")
-  implementation("javax.xml.bind:jaxb-api:2.3.1")
+  //implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
   implementation("com.sun.mail:gimap:1.6.2") // https://mvnrepository.com/artifact/io.github.rushuat/ocell
   implementation("io.github.rushuat:ocell:0.1.6") // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
