@@ -5,12 +5,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 object Defs {
   const val vaadinonkotlin_version = "1.1.0"
   const val vaadin10_version = "14.6.4"
-  const val kotlin_version = "1.7.10"
+  const val kotlin_version = "1.7.20"
   const val vaadin_plugin = "0.14.6.0"
 }
 
 plugins {
-  kotlin("jvm") version "1.7.10"
+  kotlin("jvm") version "1.7.20"
   id("org.gretty") version "3.0.6"
   war
   id("com.vaadin") version "0.14.6.0"
@@ -83,9 +83,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
   implementation("com.beust:klaxon:5.5")
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.3")
-  //implementation("com.github.wmixvideo:nfe:3.0.58")
-  implementation("com.github.wmixvideo:nfe:4.0.3")
-  //implementation("org.vaadin.addons.componentfactory:vcf-pdf-viewer:2.3.0")
+  implementation("com.github.wmixvideo:nfe:3.0.58") //implementation("org.vaadin.addons.componentfactory:vcf-pdf-viewer:2.3.0")
 
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
@@ -100,7 +98,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("de.f0rce.signaturepad:signature-widget:2.0.0")
 
   implementation("com.lowagie:itext:2.1.7")
-  //implementation("javax.xml.bind:jaxb-api:2.3.1")
+  implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
   implementation("com.sun.mail:gimap:1.6.2") // https://mvnrepository.com/artifact/io.github.rushuat/ocell
   implementation("io.github.rushuat:ocell:0.1.6") // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
