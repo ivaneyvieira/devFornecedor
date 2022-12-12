@@ -34,8 +34,7 @@ class ProdutoNotaEntradaVO(
       val hora = dataHoraRecebimento?.split("T")?.getOrNull(1)?.split("-")?.getOrNull(0) ?: ""
       val dataFormat = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4)
       mapReport(nota, "$numeroProtocolo $dataFormat $hora")
-    }catch (e: NoSuchMethodError){
-      e.printStackTrace()
+    } catch (e: Throwable) {
       emptyList()
     }
   }
@@ -43,24 +42,25 @@ class ProdutoNotaEntradaVO(
   private fun mapProduto(item: NFNotaInfoItem): ProdutoNotaEntradaNdd {
     val produto: NFNotaInfoItemProduto? = item.produto
     val imposto: NFNotaInfoItemImposto? = item.imposto
-    return ProdutoNotaEntradaNdd(id = id,
-                                 numeroProtocolo = numeroProtocolo ?: "",
-                                 codigo = produto?.codigo?.toString() ?: "",
-                                 codBarra = produto?.codigoDeBarras ?: "",
-                                 descricao = produto?.descricao ?: "",
-                                 ncm = produto?.ncm ?: "",
-                                 cst = item.icms().cst() ?: "",
-                                 cfop = produto?.cfop ?: "",
-                                 un = produto?.unidadeComercial ?: "",
-                                 quantidade = produto?.quantidadeComercial?.toDoubleOrNull() ?: 0.00,
-                                 valorUnitario = produto?.valorUnitario?.toDoubleOrNull() ?: 0.00,
-                                 valorTotal = produto?.valorTotalBruto?.toDoubleOrNull() ?: 0.00,
-                                 baseICMS = imposto?.icms?.icms00?.valorBaseCalculo?.toDoubleOrNull() ?: 0.00,
-                                 valorIPI = imposto?.ipi?.tributado?.valorTributo?.toDoubleOrNull() ?: 0.00,
-                                 aliqICMS = imposto?.icms?.icms00?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
-                                 aliqIPI = imposto?.ipi?.tributado?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
-                                 valorOutros = produto?.valorOutrasDespesasAcessorias?.toDoubleOrNull() ?: 0.00,
-                                 valorFrete = produto?.valorFrete?.toDoubleOrNull() ?: 0.00,
+    return ProdutoNotaEntradaNdd(
+      id = id,
+      numeroProtocolo = numeroProtocolo ?: "",
+      codigo = produto?.codigo?.toString() ?: "",
+      codBarra = produto?.codigoDeBarras ?: "",
+      descricao = produto?.descricao ?: "",
+      ncm = produto?.ncm ?: "",
+      cst = item.icms().cst() ?: "",
+      cfop = produto?.cfop ?: "",
+      un = produto?.unidadeComercial ?: "",
+      quantidade = produto?.quantidadeComercial?.toDoubleOrNull() ?: 0.00,
+      valorUnitario = produto?.valorUnitario?.toDoubleOrNull() ?: 0.00,
+      valorTotal = produto?.valorTotalBruto?.toDoubleOrNull() ?: 0.00,
+      baseICMS = imposto?.icms?.icms00?.valorBaseCalculo?.toDoubleOrNull() ?: 0.00,
+      valorIPI = imposto?.ipi?.tributado?.valorTributo?.toDoubleOrNull() ?: 0.00,
+      aliqICMS = imposto?.icms?.icms00?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
+      aliqIPI = imposto?.ipi?.tributado?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
+      valorOutros = produto?.valorOutrasDespesasAcessorias?.toDoubleOrNull() ?: 0.00,
+      valorFrete = produto?.valorFrete?.toDoubleOrNull() ?: 0.00,
                                 )
   }
 
