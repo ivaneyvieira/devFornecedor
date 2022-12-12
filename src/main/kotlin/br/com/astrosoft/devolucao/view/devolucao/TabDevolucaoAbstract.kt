@@ -45,6 +45,7 @@ import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
+import com.vaadin.flow.data.value.ValueChangeMode.LAZY
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
@@ -65,7 +66,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "300px"
-      valueChangeMode = TIMEOUT
+      valueChangeMode = LAZY
+      valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
       }

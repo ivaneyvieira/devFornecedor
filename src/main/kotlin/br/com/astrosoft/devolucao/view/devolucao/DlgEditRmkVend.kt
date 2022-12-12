@@ -32,7 +32,8 @@ class DlgEditRmkVend {
       this.isExpand = true
       this.focus()
       this.value = fornecedor.obs
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      valueChangeTimeout = 2000
       addValueChangeListener {
         val text = it.value
         fornecedor.obs = text

@@ -42,7 +42,8 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "400px"
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
       }

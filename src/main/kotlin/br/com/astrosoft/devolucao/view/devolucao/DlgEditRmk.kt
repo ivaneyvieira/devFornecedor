@@ -32,7 +32,8 @@ class DlgEditRmk {
       this.isExpand = true
       this.focus()
       this.value = nota.rmk
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      valueChangeTimeout = 2000
       addValueChangeListener {
         val text = it.value
         nota.rmk = text

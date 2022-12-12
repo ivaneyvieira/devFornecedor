@@ -34,6 +34,7 @@ class ProdutoNotaEntradaVO(
       val dataFormat = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4)
       mapReport(nota, "$numeroProtocolo $dataFormat $hora")
     }catch (e: NoSuchMethodError){
+      e.printStackTrace()
       emptyList()
     }
   }

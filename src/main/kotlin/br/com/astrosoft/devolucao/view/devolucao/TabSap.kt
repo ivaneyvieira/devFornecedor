@@ -31,6 +31,7 @@ import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
+import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(FornecedorSap::class), ITabSap {
@@ -39,7 +40,8 @@ class TabSap(val viewModel: TabSapViewModel) : TabPanelGrid<FornecedorSap>(Forne
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "400px"
-      valueChangeMode = TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
       }

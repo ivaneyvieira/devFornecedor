@@ -21,7 +21,8 @@ class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "300px"
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
       }
