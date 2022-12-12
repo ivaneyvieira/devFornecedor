@@ -28,6 +28,7 @@ class ProdutoNotaEntradaVO(
   fun itensNotaReport(): List<ItensNotaReport> {
     return try {
       xmlNfe ?: return emptyList()
+      println("XML FILE: $xmlNfe")
       val nota = DFPersister(false).read(NFNota::class.java, xmlNfe) ?: return emptyList()
       val data = dataHoraRecebimento?.split("T")?.getOrNull(0) ?: ""
       val hora = dataHoraRecebimento?.split("T")?.getOrNull(1)?.split("-")?.getOrNull(0) ?: ""
