@@ -138,4 +138,7 @@ CREATE TABLE sqldados.pedidosCompra (
   `custoUnit` double DEFAULT NULL,
   `barcode` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`loja`,`numeroPedido`,`codigo`,`grade`,`seqno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE sqldados.pedidosCompra
+ADD COLUMN confirmado char(1);

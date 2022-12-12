@@ -30,18 +30,29 @@ class PedidoCompraProduto(
   val qtPendente: Int?,
   val custoUnit: Double?,
   val barcode: String?,
+  var confirmado: String?,
                          ) {
+  fun marcaConferido() {
+    confirmado = "S"
+    saci.updateConferido(this)
+  }
+
+  fun desmarcaConferido() {
+    confirmado = "N"
+    saci.updateConferido(this)
+  }
+
   var item: Int = 0
   val dataPedidoStr
     get() = dataPedido.format()
   val vlPedido
-    get() = if(qtPedida == null || custoUnit == null) null else qtPedida * custoUnit
+    get() = if (qtPedida == null || custoUnit == null) null else qtPedida * custoUnit
   val vlCancelado
-    get() = if(qtCancelada == null || custoUnit == null) null else qtCancelada * custoUnit
+    get() = if (qtCancelada == null || custoUnit == null) null else qtCancelada * custoUnit
   val vlRecebido
-    get() = if(qtRecebida == null || custoUnit == null) null else qtRecebida * custoUnit
+    get() = if (qtRecebida == null || custoUnit == null) null else qtRecebida * custoUnit
   val vlPendente
-    get() = if(qtPendente == null || custoUnit == null) null else qtPendente * custoUnit
+    get() = if (qtPendente == null || custoUnit == null) null else qtPendente * custoUnit
 
   companion object {
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompraProduto> {

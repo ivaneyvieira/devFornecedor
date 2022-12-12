@@ -51,6 +51,10 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
   override fun removePedido(pedido: PedidoCompra) {
   }
 
+  override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) {
+    TODO("Not yet implemented")
+  }
+
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {
     fornecedores.ifEmpty {
       fail("Nenhuma fornecedor foi selecionada")

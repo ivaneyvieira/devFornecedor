@@ -737,6 +737,19 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun updateConferido(pedidoCompraProduto: PedidoCompraProduto) {/*
+    Chave loja, numeroPedido, codigo, grade, seqno*/
+    val sql = "/sqlSaci/updateComprasProduto.sql"
+    script(sql) {
+      addOptionalParameter("loja", pedidoCompraProduto.loja)
+      addOptionalParameter("numeroPedido", pedidoCompraProduto.numeroPedido)
+      addOptionalParameter("codigo", pedidoCompraProduto.codigo)
+      addOptionalParameter("grade", pedidoCompraProduto.grade)
+      addOptionalParameter("seqno", pedidoCompraProduto.seqno ?: 0)
+      addOptionalParameter("confirmado", pedidoCompraProduto.confirmado)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

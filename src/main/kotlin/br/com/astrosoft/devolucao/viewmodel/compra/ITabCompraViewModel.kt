@@ -17,4 +17,5 @@ interface ITabCompraViewModel {
   fun isConf(): Boolean
   fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray)
   fun removePedido(pedido: PedidoCompra)
+  fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
 }

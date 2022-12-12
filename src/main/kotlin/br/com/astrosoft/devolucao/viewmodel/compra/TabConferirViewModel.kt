@@ -68,6 +68,15 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
     setFileText(null)
   }
 
+  override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
+    if(itens.isEmpty()){
+      fail("Newnhum item selecionado")
+    }
+    itens.forEach {item ->
+      item.marcaConferido()
+    }
+  }
+
   override fun setFileText(fileText: FileText?) {
     this.fileText = fileText
     this.dataLine = fileText?.listLinesDados()
