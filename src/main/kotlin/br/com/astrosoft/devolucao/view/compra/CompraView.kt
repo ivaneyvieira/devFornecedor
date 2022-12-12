@@ -17,6 +17,7 @@ class CompraView : ViewLayout<CompraViewModel>(), ICompraView {
   override val viewModel: CompraViewModel = CompraViewModel(this)
   override val tabPedidosViewModel = TabPedidos(viewModel.tabPedidosViewModel)
   override val tabConferirViewModel = TabConferir(viewModel.tabConferirViewModel)
+  override val tabConfirmadoViewModel = TabConfirmado(viewModel.tabConfirmadoViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
