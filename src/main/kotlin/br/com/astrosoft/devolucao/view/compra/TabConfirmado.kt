@@ -1,6 +1,9 @@
 package br.com.astrosoft.devolucao.view.compra
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompraResumido
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
@@ -11,13 +14,12 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColu
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPedida
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPendente
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlRecebida
-import br.com.astrosoft.devolucao.viewmodel.compra.ITabPedidosViewModel
-import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
+import br.com.astrosoft.devolucao.viewmodel.compra.ITabConfirmadoViewModel
+import br.com.astrosoft.devolucao.viewmodel.compra.TabConfirmadoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.export.ExcelExporter
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
@@ -30,8 +32,8 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
-class TabConferido(val viewModel: TabPedidosViewModel) :
-        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabPedidosViewModel {
+class TabConfirmado(val viewModel: TabConfirmadoViewModel) :
+        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabConfirmadoViewModel {
   private lateinit var edtPedquisa: TextField
   private lateinit var edtLoja: IntegerField
 
@@ -91,7 +93,8 @@ class TabConferido(val viewModel: TabPedidosViewModel) :
     return FiltroPedidoCompra(
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
-      onlyPendente = false,
+      onlyPendente = true,
+      onlyConfirmado = true,
                              )
   }
 
@@ -115,11 +118,11 @@ class TabConferido(val viewModel: TabPedidosViewModel) :
 
   override fun isAuthorized(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.compraPedidos
+    return userSaci.compraConfirmado
   }
 
   override val label: String
-    get() = "Pedidos"
+    get() = "Confirmado"
 
   override fun updateComponent() {
     viewModel.updateComponent()

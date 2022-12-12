@@ -1,14 +1,11 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.pdftxt.DataLine
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.devolucao.model.pdftxt.Line
-import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
-import java.time.LocalDate
 
 class TabConfirmadoViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
   val subView
@@ -40,11 +37,11 @@ class TabConfirmadoViewModel(val viewModel: CompraViewModel) : ITabCompraViewMod
   }
 
   override fun findLine(produto: PedidoCompraProduto): Line? {
-TODO()
+    return null
   }
 
   override fun pedidoOK(): Boolean {
-    TODO()
+    return false
   }
 
   override fun isConf(): Boolean {
@@ -61,16 +58,16 @@ TODO()
   }
 
   override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
-    if(itens.isEmpty()){
+    if (itens.isEmpty()) {
       fail("Newnhum item selecionado")
     }
-    itens.forEach {item ->
+    itens.forEach { item ->
       item.marcaConferido()
     }
   }
 
   override fun setFileText(fileText: FileText?) {
-    TODO()
+
   }
 
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {
