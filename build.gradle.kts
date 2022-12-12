@@ -83,7 +83,9 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
   implementation("com.beust:klaxon:5.5")
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.3")
-  implementation("com.github.wmixvideo:nfe:3.0.58") //implementation("org.vaadin.addons.componentfactory:vcf-pdf-viewer:2.3.0")
+  //implementation("com.github.wmixvideo:nfe:3.0.58")
+  implementation("com.github.wmixvideo:nfe:4.0.3")
+  //implementation("org.vaadin.addons.componentfactory:vcf-pdf-viewer:2.3.0")
 
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
