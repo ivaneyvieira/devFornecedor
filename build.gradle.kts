@@ -59,8 +59,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
 
   // logging
   implementation("ch.qos.logback:logback-classic:1.2.3")
-  // implementation("org.slf4j:slf4j-api:1.7.30")
-  implementation("org.slf4j:slf4j-api:2.0.5")
+  implementation("org.slf4j:slf4j-api:1.7.30")
   implementation("org.sql2o:sql2o:1.6.0")
   implementation("org.simpleflatmapper:sfm-sql2o:8.2.3")
   implementation("mysql:mysql-connector-java:5.1.48")

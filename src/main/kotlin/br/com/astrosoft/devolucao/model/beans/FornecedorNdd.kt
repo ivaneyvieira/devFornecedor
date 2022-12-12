@@ -82,11 +82,12 @@ data class FornecedorNdd(val cnpj: String,
     fun updateNotas() {
       val agora = LocalDateTime.now()
       if (agora > datahoraUpdate.plusMinutes(5)) {
+        /*
         thread(start = true) {
           val notas = ndd.notasEntrada()
           saci.saveNotaNdd(notas)
           datahoraUpdate = agora
-        }
+        }*/
       }
     }
   }
