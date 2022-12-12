@@ -62,4 +62,9 @@ class PedidoCompraProduto(
   }
 }
 
-data class FiltroPedidoCompra(val loja: Int, val pesquisa: String, val onlyPendente: Boolean)
+data class FiltroPedidoCompra(
+  val loja: Int,
+  val pesquisa: String,
+  val onlyPendente: Boolean,
+  val onlyConfirmado: Boolean,
+                             )

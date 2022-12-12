@@ -68,7 +68,7 @@ SELECT 'SACI'                                                                   
        ROUND((E.qtty * E.mult - E.qttyCancel * E.mult - E.qttyRcv * E.mult) / 1000) AS qtPendente,
        E.cost                                                                       AS custoUnit,
        TRIM(IFNULL(B.barcode, P.barcode))                                           AS barcode,
-       padbyte                                                                      AS confirmado
+       E.padbyte                                                                    AS confirmado
 FROM sqldados.ords          AS O
   INNER JOIN sqldados.store AS S
 	       ON S.no = O.storeno
@@ -90,6 +90,7 @@ WHERE (O.storeno = :loja OR :loja = 0)
        (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
   AND O.status != 2
   AND O.date >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
+  AND IF(:onlyConfirmado = 'S', E.padbyte = 'S', TRUE)
 GROUP BY loja, numeroPedido, codigo, grade, seqno
 HAVING CASE :onlyPendente
 	 WHEN 'S'
@@ -165,6 +166,7 @@ WHERE (loja = :loja OR :loja = 0)
        (fornecedor LIKE CONCAT(@FORNECEDOR, '%') AND @FORNECEDOR != '') OR
        (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
   AND dataPedido >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
+  AND IF(:onlyConfirmado = 'S', confirmado = 'S', TRUE)
 GROUP BY loja, numeroPedido, codigo, grade, seqno
 HAVING CASE :onlyPendente
 	 WHEN 'S'
