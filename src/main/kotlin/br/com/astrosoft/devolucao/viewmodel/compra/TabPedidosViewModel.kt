@@ -30,31 +30,6 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
     subView.imprimirRelatorioFornecedor(pedido)
   }
 
-  override fun setFileText(fileText: FileText?) {
-  }
-
-  override fun findLine(produto: PedidoCompraProduto): Line? {
-    return null
-  }
-
-  override fun pedidoOK(): Boolean {
-    return false
-  }
-
-  override fun isConf(): Boolean {
-    return false
-  }
-
-  override fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray) {
-  }
-
-  override fun removePedido(pedido: PedidoCompra) {
-  }
-
-  override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) {
-    TODO("Not yet implemented")
-  }
-
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {
     fornecedores.ifEmpty {
       fail("Nenhuma fornecedor foi selecionada")
