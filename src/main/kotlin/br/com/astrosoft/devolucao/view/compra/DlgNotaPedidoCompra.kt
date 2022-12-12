@@ -13,12 +13,15 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlP
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlRecebida
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.export.ExcelExporter
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.kaributools.fetchAll
+import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -75,10 +78,26 @@ class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel) {
       colDataPedido()
       colDataEntrega()
       colObservacao()
-      colVlPedida()
-      colVlCancelada()
-      colVlRecebida()
-      colVlPendente()
+      colVlPedida().let { col ->
+        val lista = this.dataProvider.fetchAll()
+        val total = lista.sumOf { it.vlPedido }.format()
+        col.setFooter(Html("<b><font size=4>${total}</font></b>"))
+      }
+      colVlCancelada().let { col ->
+        val lista = this.dataProvider.fetchAll()
+        val total = lista.sumOf { it.vlCancelado }.format()
+        col.setFooter(Html("<b><font size=4>${total}</font></b>"))
+      }
+      colVlRecebida().let { col ->
+        val lista = this.dataProvider.fetchAll()
+        val total = lista.sumOf { it.vlRecebido }.format()
+        col.setFooter(Html("<b><font size=4>${total}</font></b>"))
+      }
+      colVlPendente().let { col ->
+        val lista = this.dataProvider.fetchAll()
+        val total = lista.sumOf { it.vlPendente }.format()
+        col.setFooter(Html("<b><font size=4>${total}</font></b>"))
+      }
     }
   }
 }

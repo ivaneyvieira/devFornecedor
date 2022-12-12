@@ -17,13 +17,16 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colVlTotal
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraConfViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.UploadPtBr
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.kaributools.fetchAll
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
@@ -173,7 +176,11 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
-      colVlTotal()
+      colVlTotal().let { col ->
+        val lista = this.dataProvider.fetchAll()
+        val total = lista.sumOf { it.vlPedido ?: 0.00 }.format()
+        col.setFooter(Html("<b><font size=4>${total}</font></b>"))
+      }
     }
   }
 
