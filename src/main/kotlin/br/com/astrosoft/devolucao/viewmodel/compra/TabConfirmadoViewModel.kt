@@ -1,8 +1,9 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
-import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.pdftxt.FileText
-import br.com.astrosoft.devolucao.model.pdftxt.Line
+import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
+import br.com.astrosoft.devolucao.model.beans.Loja
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
@@ -34,40 +35,6 @@ class TabConfirmadoViewModel(val viewModel: CompraViewModel) : ITabCompraViewMod
       fail("Nenhuma item foi selecionado")
     }
     subView.imprimirRelatorioFornecedor(pedido)
-  }
-
-  override fun findLine(produto: PedidoCompraProduto): Line? {
-    return null
-  }
-
-  override fun pedidoOK(): Boolean {
-    return false
-  }
-
-  override fun isConf(): Boolean {
-    return false
-  }
-
-  override fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray) {
-    pedido.savePdf(bytes)
-  }
-
-  override fun removePedido(pedido: PedidoCompra) {
-    pedido.removePdf()
-    setFileText(null)
-  }
-
-  override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
-    if (itens.isEmpty()) {
-      fail("Newnhum item selecionado")
-    }
-    itens.forEach { item ->
-      item.marcaConferido()
-    }
-  }
-
-  override fun setFileText(fileText: FileText?) {
-
   }
 
   fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {

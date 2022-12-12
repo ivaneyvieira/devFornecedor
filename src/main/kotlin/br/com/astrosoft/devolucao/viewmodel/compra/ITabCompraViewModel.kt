@@ -9,13 +9,13 @@ interface ITabCompraViewModel {
   fun imprimirPedidoCompra(pedidos: List<PedidoCompra>)
   fun excelPedidoCompra(pedidos: List<PedidoCompra>): ByteArray
   fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
+}
 
-  fun setFileText(fileText: FileText?)
-
-  fun findLine(produto: PedidoCompraProduto): Line?
-  fun pedidoOK(): Boolean
-  fun isConf(): Boolean
+interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray)
   fun removePedido(pedido: PedidoCompra)
   fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
+  fun pedidoOK(): Boolean
+  fun setFileText(fileText: FileText?)
+  fun findLine(produto: PedidoCompraProduto): Line?
 }

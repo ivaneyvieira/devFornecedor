@@ -15,6 +15,7 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colUnidade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colVlTotal
+import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraConfViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
@@ -31,17 +32,18 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
-import org.atmosphere.cpr.MetaBroadcaster.ThirtySecondsCache
 
 class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   private lateinit var gridNota: Grid<PedidoCompraProduto>
 
   fun showDialogNota(pedido: PedidoCompra?) {
     pedido ?: return
-    pedido.toPdf()?.let { bytes ->
-      val bytesTxt = ExportTxt.toTxt(bytes)
-      val fileText = FileText.fromFile(bytesTxt)
-      viewModel.setFileText(fileText)
+    if (viewModel is ITabCompraConfViewModel) {
+      pedido.toPdf()?.let { bytes ->
+        val bytesTxt = ExportTxt.toTxt(bytes)
+        val fileText = FileText.fromFile(bytesTxt)
+        viewModel.setFileText(fileText)
+      }
     }
 
     val produtos = pedido.produtos
@@ -58,7 +60,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         viewModel.excelPedidoCompra(PedidoCompra.group(produtosList))
       }
 
-      if (viewModel.isConf()) {
+      if (viewModel is ITabCompraConfViewModel) {
         this.uploadFile { buffer, upload ->
           upload.isDropAllowed = false
           upload.addSucceededListener {
@@ -118,10 +120,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colGrade()
       colRefFabrica().apply {
         this.setClassNameGenerator {
-          if (viewModel.pedidoOK()) {
-            val line = viewModel.findLine(it)
-            if (line?.find(it.refFab) == true) "marcaOk"
-            else "marcaError"
+          if (viewModel is ITabCompraConfViewModel) {
+            if (viewModel.pedidoOK()) {
+              val line = viewModel.findLine(it)
+              if (line?.find(it.refFab) == true) "marcaOk"
+              else "marcaError"
+            }
+            else ""
           }
           else ""
         }
@@ -129,11 +134,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colDescNota()
       colRefNota().apply {
         this.setClassNameGenerator {
-          if (viewModel.pedidoOK()) {
-            val line = viewModel.findLine(it)
-            val listRef = it.refno?.split("/").orEmpty()
-            if (listRef.any { line?.find(it) == true }) "marcaOk"
-            else "marcaError"
+          if (viewModel is ITabCompraConfViewModel) {
+            if (viewModel.pedidoOK()) {
+              val line = viewModel.findLine(it)
+              val listRef = it.refno?.split("/").orEmpty()
+              if (listRef.any { line?.find(it) == true }) "marcaOk"
+              else "marcaError"
+            }
+            else ""
           }
           else ""
         }
@@ -141,20 +149,26 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colUnidade()
       colQtde().apply {
         this.setClassNameGenerator {
-          if (viewModel.pedidoOK()) {
-            val line = viewModel.findLine(it)
-            if (line?.find(it.qtPedida) == true) "marcaOk"
-            else "marcaError"
+          if (viewModel is ITabCompraConfViewModel) {
+            if (viewModel.pedidoOK()) {
+              val line = viewModel.findLine(it)
+              if (line?.find(it.qtPedida) == true) "marcaOk"
+              else "marcaError"
+            }
+            else ""
           }
           else ""
         }
       }
       colCusto().apply {
         this.setClassNameGenerator {
-          if (viewModel.pedidoOK()) {
-            val line = viewModel.findLine(it)
-            if (line?.find(it.custoUnit) == true) "marcaOk"
-            else "marcaError"
+          if (viewModel is ITabCompraConfViewModel) {
+            if (viewModel.pedidoOK()) {
+              val line = viewModel.findLine(it)
+              if (line?.find(it.custoUnit) == true) "marcaOk"
+              else "marcaError"
+            }
+            else ""
           }
           else ""
         }

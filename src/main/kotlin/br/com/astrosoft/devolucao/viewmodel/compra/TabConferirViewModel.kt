@@ -10,7 +10,7 @@ import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
 import java.time.LocalDate
 
-class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
+class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
   private var fileText: FileText? = null
   private var dataLine: DataLine? = null
 
@@ -53,10 +53,6 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel
 
   override fun pedidoOK(): Boolean {
     return fileText != null
-  }
-
-  override fun isConf(): Boolean {
-    return true
   }
 
   override fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray) {
