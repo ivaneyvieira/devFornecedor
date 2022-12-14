@@ -4,11 +4,9 @@ import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.pdftxt.DataLine
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.devolucao.model.pdftxt.Line
-import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
-import java.time.LocalDate
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
   private var fileText: FileText? = null
@@ -65,10 +63,10 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
   }
 
   override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
-    if(itens.isEmpty()){
+    if (itens.isEmpty()) {
       fail("Newnhum item selecionado")
     }
-    itens.forEach {item ->
+    itens.forEach { item ->
       item.marcaConferido()
     }
   }
@@ -100,9 +98,14 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     }
     else {
       Document().use { document ->
-        document.addSheet(pedidos.flatMap { it.produtos }.sortedWith(compareBy({ it.vendno }, { it.loja }, {
-          it.dataPedido
-        }, { it.codigo })))
+        val listaPedidos =
+          pedidos
+            .flatMap { it.produtos }
+            .sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido }, { it.codigo }))
+        listaPedidos.forEachIndexed { index, pedidoCompraProduto ->
+          pedidoCompraProduto.item = index + 1
+        }
+        document.addSheet(listaPedidos)
         document.toBytes()
       }
     }

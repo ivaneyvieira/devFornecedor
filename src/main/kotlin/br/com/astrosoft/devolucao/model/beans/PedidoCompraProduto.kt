@@ -2,35 +2,56 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
+import io.github.rushuat.ocell.annotation.FieldExclude
 import java.time.LocalDate
 
 class PedidoCompraProduto(
+  @FieldExclude
   val origem: String,
+  @FieldExclude
   val vendno: Int,
+  @FieldExclude
   val fornecedor: String,
+  @FieldExclude
   val cnpj: String,
+  @FieldExclude
   val loja: Int,
+  @FieldExclude
   val sigla: String,
+  @FieldExclude
   val numeroPedido: Int,
+  @FieldExclude
   val status: Int,
+  @FieldExclude
   val dataPedido: LocalDate,
+  @FieldExclude
   val dataEntrega: LocalDate,
+  @FieldExclude
   val obsercacaoPedido: String,
   val codigo: String?,
+  @FieldExclude
   val seqno: Int?,
   val descricao: String?,
   val refFab: String?,
+  var item: Int = 0,
   val refno: String?,
+  @FieldExclude
   val refname: String?,
   val grade: String?,
   val unidade: String?,
   val qtPedida: Int?,
+  @FieldExclude
   val qtCancelada: Int?,
+  @FieldExclude
   val qtRecebida: Int?,
+  @FieldExclude
   val qtPendente: Int?,
   val custoUnit: Double?,
+  @FieldExclude
   val barcode: String?,
+  @FieldExclude
   var confirmado: String?,
+  val valorTotal: Double,
                          ) {
   fun marcaConferido() {
     confirmado = "S"
@@ -42,7 +63,6 @@ class PedidoCompraProduto(
     saci.updateConferido(this)
   }
 
-  var item: Int = 0
   val dataPedidoStr
     get() = dataPedido.format()
   val vlPedido
