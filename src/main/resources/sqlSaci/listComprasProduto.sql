@@ -159,7 +159,8 @@ SELECT origem,
        qtPendente,
        custoUnit,
        barcode,
-       confirmado
+       confirmado,
+       qtPedida * custoUnit AS valorTotal
 FROM sqldados.pedidosCompra
 WHERE (loja = :loja OR :loja = 0)
   AND ((vendno = @VENDNO AND @VENDNO != 0) OR (numeroPedido = @PEDIDO AND @PEDIDO != 0) OR
