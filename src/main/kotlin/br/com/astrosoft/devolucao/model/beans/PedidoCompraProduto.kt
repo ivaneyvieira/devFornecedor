@@ -1,11 +1,13 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import io.github.rushuat.ocell.annotation.FieldExclude
 import java.time.LocalDate
 
 class PedidoCompraProduto(
+  var item: String = "",
   @FieldExclude
   val origem: String,
   @FieldExclude
@@ -33,7 +35,8 @@ class PedidoCompraProduto(
   val seqno: Int?,
   val descricao: String?,
   val refFab: String?,
-  var item: Int = 0,
+  @FieldExclude
+  var linha: Int = 0,
   val refno: String?,
   @FieldExclude
   val refname: String?,
@@ -53,9 +56,18 @@ class PedidoCompraProduto(
   var confirmado: String?,
   val valorTotal: Double,
                          ) {
+  @FieldExclude
+  var line : Line? = null
   fun marcaConferido() {
     confirmado = "S"
     saci.updateConferido(this)
+  }
+
+  fun listCodigo() : List<String>{
+    val listRef = refno?.split("/").orEmpty()
+    val refFab = refFab
+    val list = listRef + refFab
+    return list.filterNotNull().filter { it.isNotBlank() }
   }
 
   fun desmarcaConferido() {

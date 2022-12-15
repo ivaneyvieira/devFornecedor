@@ -6,9 +6,15 @@ import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.github.mvysny.karibudsl.v10.isExpand
+import com.github.mvysny.kaributools.sortProperty
 import com.vaadin.flow.component.grid.Grid
 
 object PedidoCompraProdutoColumns {
+  fun Grid<PedidoCompraProduto>.colItem() = addColumnString(PedidoCompraProduto::item) {
+    this.setHeader("Item")
+    this.sortProperty = PedidoCompraProduto::linha
+  }
+
   fun Grid<PedidoCompraProduto>.colCodigo() = addColumnString(PedidoCompraProduto::codigo) {
     this.setHeader("Código")
   }

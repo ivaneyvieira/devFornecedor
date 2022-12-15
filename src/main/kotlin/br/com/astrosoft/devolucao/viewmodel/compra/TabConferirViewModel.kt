@@ -25,6 +25,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     val list = PedidoCompraFornecedor.findAll(filtro).filter {
       (!it.fornecedor.startsWith("ENGECOPI"))
     }
+
     return list
   }
 
@@ -40,13 +41,10 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     subView.imprimirRelatorioFornecedor(pedido)
   }
 
-  override fun findLine(produto: PedidoCompraProduto): Line? {
+  override fun findLineByProduto(produto: PedidoCompraProduto): Line? {
     val dl = dataLine ?: return null
-    val listRef = produto.refno?.split("/").orEmpty()
-    val refFab = produto.refFab
-    val list = listRef + refFab
-    val retLine = listRef.firstNotNullOfOrNull { dl.find(it) }
-    return retLine
+    val list = produto.listCodigo()
+    return list.firstNotNullOfOrNull { dl.find(it) }
   }
 
   override fun pedidoOK(): Boolean {
@@ -101,10 +99,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
         val listaPedidos =
           pedidos
             .flatMap { it.produtos }
-            .sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido }, { it.codigo }))
-        listaPedidos.forEachIndexed { index, pedidoCompraProduto ->
-          pedidoCompraProduto.item = index + 1
-        }
+            .sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido }, { it.linha }, {it.codigo}))
         document.addSheet(listaPedidos)
         document.toBytes()
       }
