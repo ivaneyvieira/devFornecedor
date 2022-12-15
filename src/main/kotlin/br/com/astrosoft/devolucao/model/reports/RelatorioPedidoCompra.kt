@@ -7,6 +7,7 @@ import br.com.astrosoft.framework.model.reports.*
 import br.com.astrosoft.framework.model.reports.Templates.fieldBorder
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
 import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.util.lpad
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder
@@ -29,10 +30,9 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
 import java.io.ByteArrayOutputStream
 
 class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {
-  private val itemCol: TextColumnBuilder<Int> =
-    col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
+  private val itemCol: TextColumnBuilder<String> =
+    col.column("Item", ProdutosNotaSaida::item.name, type.stringType()).apply {
       this.setHorizontalTextAlignment(CENTER)
-      this.setPattern("000")
       this.setFixedWidth(25)
     }
 
@@ -184,12 +184,7 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {
 
   fun makeReport(): JasperReportBuilder? {
     val colunms = columnBuilder().toTypedArray()
-    var index = 1
-    val itens = pedido.produtos.sortedBy { it.codigo }.map {
-      it.apply {
-        item = index++
-      }
-    }
+    val itens = pedido.produtos.sortedBy { it.linha }
     val pageOrientation = PORTRAIT
     return if (excel) report()
       .title(titleBuider())

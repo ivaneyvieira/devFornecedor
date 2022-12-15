@@ -10,6 +10,7 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colItem
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtde
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefFabrica
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefNota
@@ -18,17 +19,17 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraConfViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.SubWindowForm
-import br.com.astrosoft.framework.view.SubWindowPDF
-import br.com.astrosoft.framework.view.UploadPtBr
-import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
+import br.com.astrosoft.framework.util.lpad
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.fetchAll
+import com.github.mvysny.kaributools.setSortOrder
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -42,10 +43,26 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   fun showDialogNota(pedido: PedidoCompra?) {
     pedido ?: return
     if (viewModel is ITabCompraConfViewModel) {
+      viewModel.setFileText(null)
+      pedido.produtos.sortedBy { it.codigo }.forEach { pedidoCompraProduto ->
+        pedidoCompraProduto.item = ""
+        pedidoCompraProduto.linha = 0
+      }
       pedido.toPdf()?.let { bytes ->
         val bytesTxt = ExportTxt.toTxt(bytes)
         val fileText = FileText.fromFile(bytesTxt)
         viewModel.setFileText(fileText)
+        pedido.produtos.forEach { produto ->
+          viewModel.findLineByProduto(produto)?.let { line ->
+            val codigos = produto.listCodigo()
+            val item = line.item()
+            if( item !in codigos) {
+              produto.linha = line.num
+              produto.item = item
+              produto.line = line
+            }
+          }
+        }
       }
     }
 
@@ -117,16 +134,17 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
+      colItem()
       colCodigo()
       colBarcode()
       colDescricao()
       colGrade()
       colRefFabrica().apply {
-        this.setClassNameGenerator {
+        this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = viewModel.findLine(it)
-              if (line?.find(it.refFab) == true) "marcaOk"
+              val line = produto.line
+              if (line?.find(produto.refFab) == true) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -136,11 +154,11 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
       colDescNota()
       colRefNota().apply {
-        this.setClassNameGenerator {
+        this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = viewModel.findLine(it)
-              val listRef = it.refno?.split("/").orEmpty()
+              val line = produto.line
+              val listRef = produto.refno?.split("/").orEmpty()
               if (listRef.any { line?.find(it) == true }) "marcaOk"
               else "marcaError"
             }
@@ -151,11 +169,11 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
       colUnidade()
       colQtde().apply {
-        this.setClassNameGenerator {
+        this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = viewModel.findLine(it)
-              if (line?.find(it.qtPedida) == true) "marcaOk"
+              val line = produto.line
+              if (line?.find(produto.qtPedida) == true) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -164,11 +182,11 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         }
       }
       colCusto().apply {
-        this.setClassNameGenerator {
+        this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = viewModel.findLine(it)
-              if (line?.find(it.custoUnit) == true) "marcaOk"
+              val line = produto.line
+              if (line?.find(produto.custoUnit) == true) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -181,6 +199,12 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         val total = lista.sumOf { it.vlPedido ?: 0.00 }.format()
         col.setFooter(Html("<b><font size=4>${total}</font></b>"))
       }
+
+      val colLinha = addColumnInt(PedidoCompraProduto::linha) {
+        this.isVisible = false
+      }
+
+      this.setSortOrder(GridSortOrder.asc(colLinha).build())
     }
   }
 

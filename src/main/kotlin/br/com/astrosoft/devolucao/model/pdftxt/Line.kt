@@ -12,8 +12,10 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   private val form2 = DecimalFormat("0.#####")
   fun find(text: String?): Boolean {
     val textUnaccent = text?.unaccent() ?: return false
-    return lineStr.unaccent().matches(".*\\b$textUnaccent\\b.*".toRegex())
+    return " $lineStr ".unaccent().contains(" $textUnaccent ")
   }
+
+  fun item() = lineStr.trim().split("\\s+".toRegex()).getOrNull(0) ?: ""
 
   fun find(num: Number?): Boolean {
     num ?: return false

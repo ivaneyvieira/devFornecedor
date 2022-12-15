@@ -17,5 +17,5 @@ interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
   fun pedidoOK(): Boolean
   fun setFileText(fileText: FileText?)
-  fun findLine(produto: PedidoCompraProduto): Line?
+  fun findLineByProduto(produto: PedidoCompraProduto): Line?
 }
