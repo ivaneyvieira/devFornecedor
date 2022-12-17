@@ -1,16 +1,12 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.pdftxt.DataLine
-import br.com.astrosoft.devolucao.model.pdftxt.FileText
-import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
-  private var fileText: FileText? = null
-  private var dataLine: DataLine? = null
+  private val listPedidoExcel = mutableListOf<PedidoExcel>()
 
   val subView
     get() = viewModel.view.tabConferirViewModel
@@ -41,23 +37,22 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     subView.imprimirRelatorioFornecedor(pedido)
   }
 
-  override fun findLineByProduto(produto: PedidoCompraProduto): Line? {
-    val dl = dataLine ?: return null
+  override fun findPedidoExcel(produto: PedidoCompraProduto): PedidoExcel? {
     val list = produto.listCodigo()
-    return list.firstNotNullOfOrNull { dl.find(it) }
+    return listPedidoExcel.firstOrNull { list.contains(it.referencia)}
   }
 
   override fun pedidoOK(): Boolean {
-    return fileText != null
+    return listPedidoExcel.isNotEmpty()
   }
 
-  override fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray) {
-    pedido.savePdf(bytes)
+  override fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray) {
+    pedido.saveExcel(bytes)
   }
 
-  override fun removePedido(pedido: PedidoCompra) {
-    pedido.removePdf()
-    setFileText(null)
+  override fun removeExcelPedido(pedido: PedidoCompra) {
+    pedido.removeExcel()
+    setFileExcel(null)
   }
 
   override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
@@ -69,9 +64,21 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     }
   }
 
-  override fun setFileText(fileText: FileText?) {
-    this.fileText = fileText
-    this.dataLine = fileText?.listLinesDados()
+  override fun setFileExcel(fileText: ByteArray?) {
+    if (fileText == null) {
+      listPedidoExcel.clear()
+    }
+    else {
+      Document().use { document ->
+        document.fromBytes(fileText)
+        val list = document.getSheet(PedidoExcel::class.java)
+        listPedidoExcel.clear()
+        listPedidoExcel.addAll(list)
+        listPedidoExcel.forEachIndexed { index, pedidoExcel ->
+          pedidoExcel.linha = index + 1
+        }
+      }
+    }
     updateComponent()
   }
 
@@ -99,7 +106,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
         val listaPedidos =
           pedidos
             .flatMap { it.produtos }
-            .sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido }, { it.linha }, {it.codigo}))
+            .sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido }, { it.linha }, { it.codigo }))
         document.addSheet(listaPedidos)
         document.toBytes()
       }

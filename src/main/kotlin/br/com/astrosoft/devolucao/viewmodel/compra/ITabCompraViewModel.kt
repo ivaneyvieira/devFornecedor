@@ -2,8 +2,7 @@ package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
-import br.com.astrosoft.devolucao.model.pdftxt.FileText
-import br.com.astrosoft.devolucao.model.pdftxt.Line
+import br.com.astrosoft.devolucao.model.beans.PedidoExcel
 
 interface ITabCompraViewModel {
   fun imprimirPedidoCompra(pedidos: List<PedidoCompra>)
@@ -12,10 +11,10 @@ interface ITabCompraViewModel {
 }
 
 interface  ITabCompraConfViewModel:ITabCompraViewModel{
-  fun savePdfPedido(pedido: PedidoCompra, bytes: ByteArray)
-  fun removePedido(pedido: PedidoCompra)
+  fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray)
+  fun removeExcelPedido(pedido: PedidoCompra)
   fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
   fun pedidoOK(): Boolean
-  fun setFileText(fileText: FileText?)
-  fun findLineByProduto(produto: PedidoCompraProduto): Line?
+  fun setFileExcel(fileText: ByteArray?)
+  fun findPedidoExcel(produto: PedidoCompraProduto): PedidoExcel?
 }

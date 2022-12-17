@@ -1,9 +1,9 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
-import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.pdftxt.FileText
-import br.com.astrosoft.devolucao.model.pdftxt.Line
-import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
+import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
+import br.com.astrosoft.devolucao.model.beans.Loja
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document

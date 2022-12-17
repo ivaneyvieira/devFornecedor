@@ -247,7 +247,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/fileSelect.sql"
     return query(sql, NFFile::class) {
       addOptionalParameter("storeno", pedido.loja)
-      addOptionalParameter("pdvno", PedidoCompra.PDV_COMPRA)
+      addOptionalParameter("pdvno", PedidoCompra.PDV_COMPRA_EXCEL)
       addOptionalParameter("xano", pedido.numeroPedido)
     }
   }
