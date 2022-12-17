@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import io.github.rushuat.ocell.annotation.FieldExclude
@@ -57,7 +56,7 @@ class PedidoCompraProduto(
   val valorTotal: Double,
                          ) {
   @FieldExclude
-  var line : Line? = null
+  var pedidoExcel : PedidoExcel? = null
   fun marcaConferido() {
     confirmado = "S"
     saci.updateConferido(this)

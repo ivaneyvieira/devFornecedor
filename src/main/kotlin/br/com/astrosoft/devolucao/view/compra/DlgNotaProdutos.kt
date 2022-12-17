@@ -2,8 +2,6 @@ package br.com.astrosoft.devolucao.view.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
-import br.com.astrosoft.devolucao.model.pdftxt.ExportTxt
-import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colBarcode
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCusto
@@ -43,24 +41,27 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   fun showDialogNota(pedido: PedidoCompra?) {
     pedido ?: return
     if (viewModel is ITabCompraConfViewModel) {
-      viewModel.setFileText(null)
-      pedido.produtos.sortedBy { it.codigo }.forEach { pedidoCompraProduto ->
-        pedidoCompraProduto.item = ""
-        pedidoCompraProduto.linha = 0
+      viewModel.setFileExcel(null)
+      pedido.produtos.sortedBy { it.codigo }.forEach { produto ->
+        produto.item = ""
+        produto.linha = 0
+        produto.pedidoExcel = null
       }
-      pedido.toPdf()?.let { bytes ->
-        val bytesTxt = ExportTxt.toTxt(bytes)
-        val fileText = FileText.fromFile(bytesTxt)
-        viewModel.setFileText(fileText)
+      pedido.toExcel()?.let { bytes ->
+        viewModel.setFileExcel(bytes)
         pedido.produtos.forEach { produto ->
-          viewModel.findLineByProduto(produto)?.let { line ->
-            val codigos = produto.listCodigo()
-            val item = line.item()
-            if( item !in codigos) {
-              produto.linha = line.num
-              produto.item = item
-              produto.line = line
-            }
+          viewModel.findPedidoExcel(produto)?.let { pedidoExcel ->
+            val item = pedidoExcel.item
+            produto.pedidoExcel = pedidoExcel
+            produto.linha = pedidoExcel.linha
+            produto.item = item
+          }
+        }
+        pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
+          val codigos = pedidoCompraProduto.listCodigo()
+          val item = pedidoCompraProduto.item
+          if(item in codigos){
+            pedidoCompraProduto.item = (index + 1).toString().lpad(5, "0")
           }
         }
       }
@@ -81,29 +82,27 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
 
       if (viewModel is ITabCompraConfViewModel) {
-        this.uploadFile { buffer, upload ->
+        this.uploadExcel { buffer, upload ->
           upload.isDropAllowed = false
           upload.addSucceededListener {
             val bytesPDF = buffer.inputStream.readBytes()
-            val bytesTxt = ExportTxt.toTxt(bytesPDF)
 
-            val fileText = FileText.fromFile(bytesTxt)
-            viewModel.setFileText(fileText)
+            viewModel.setFileExcel(bytesPDF)
             gridNota.dataProvider.refreshAll()
-            viewModel.savePdfPedido(pedido, bytesPDF)
+            viewModel.saveExcelPedido(pedido, bytesPDF)
           }
         }
         this.button("Remover Pedido") {
           icon = VaadinIcon.TRASH.create()
           onLeftClick {
-            viewModel.removePedido(pedido)
+            viewModel.removeExcelPedido(pedido)
             gridNota.dataProvider.refreshAll()
           }
         }
         this.button("Exibir Pedido") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
-            val bytes = pedido.toPdf()
+            val bytes = pedido.toExcel()
             if (bytes != null) {
               SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
             }
@@ -143,8 +142,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = produto.line
-              if (line?.find(produto.refFab) == true) "marcaOk"
+              val pedidoExcel = produto.pedidoExcel
+              if (pedidoExcel?.referencia == produto.refFab) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -157,9 +156,9 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = produto.line
+              val pedidoExcel = produto.pedidoExcel
               val listRef = produto.refno?.split("/").orEmpty()
-              if (listRef.any { line?.find(it) == true }) "marcaOk"
+              if (pedidoExcel?.referencia in listRef) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -172,8 +171,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = produto.line
-              if (line?.find(produto.qtPedida) == true) "marcaOk"
+              val pedidoExcel = produto.pedidoExcel
+              if (pedidoExcel?.quantidade == produto.qtPedida) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -185,8 +184,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
-              val line = produto.line
-              if (line?.find(produto.custoUnit) == true) "marcaOk"
+              val pedidoExcel = produto.pedidoExcel
+              if (pedidoExcel?.valorUnitario == produto.custoUnit) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -208,10 +207,10 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
     }
   }
 
-  private fun HasComponents.uploadFile(exec: (buffer: MemoryBuffer, upload: Upload) -> Unit) {
+  private fun HasComponents.uploadExcel(exec: (buffer: MemoryBuffer, upload: Upload) -> Unit) {
     val buffer = MemoryBuffer()
     val upload = Upload(buffer)
-    upload.setAcceptedFileTypes("application/pdf", ".pdf")
+    upload.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx")
     val uploadButton = Button("Carregar Pedido")
     uploadButton.icon = VaadinIcon.PLUS.create()
     upload.uploadButton = uploadButton

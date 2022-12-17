@@ -23,10 +23,10 @@ class PedidoCompra(
   val vlPendente: Double,
   val produtos: List<PedidoCompraProduto>,
                   ) {
-  fun savePdf(bytes: ByteArray) {
+  fun saveExcel(bytes: ByteArray) {
     val nfFile =
       NFFile(storeno = loja,
-             pdvno = PDV_COMPRA,
+             pdvno = PDV_COMPRA_EXCEL,
              xano = numeroPedido,
              date = DATA_COMPRA,
              nome = "Pedido${numeroPedido}.pdf",
@@ -34,14 +34,14 @@ class PedidoCompra(
     nfFile.insert()
   }
 
-  fun toPdf() : ByteArray? {
+  fun toExcel() : ByteArray? {
     return saci.selectFile(this).firstOrNull()?.file
   }
 
-  fun removePdf() {
+  fun removeExcel() {
     val nfFile =
       NFFile(storeno = loja,
-             pdvno = PDV_COMPRA,
+             pdvno = PDV_COMPRA_EXCEL,
              xano = numeroPedido,
              date = DATA_COMPRA,
              nome = "Pedido${numeroPedido}.pdf",
@@ -59,7 +59,7 @@ class PedidoCompra(
     get() = dataPedido.format()
 
   companion object {
-    val PDV_COMPRA = 9990
+    val PDV_COMPRA_EXCEL = 9991
     val DATA_COMPRA = LocalDate.of(2022,1,1)
 
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> {
