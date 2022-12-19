@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import io.github.rushuat.ocell.annotation.FieldExclude
+import io.github.rushuat.ocell.annotation.FieldName
 import java.time.LocalDate
 
 class PedidoCompraProduto(
@@ -56,7 +57,19 @@ class PedidoCompraProduto(
   val valorTotal: Double,
                          ) {
   @FieldExclude
-  var pedidoExcel : PedidoExcel? = null
+  private var _pedidoExcel : PedidoExcel? = null
+
+  var pedidoExcel:  PedidoExcel?
+    get() = _pedidoExcel
+    set(value) {
+      _pedidoExcel = value
+      quantidadeCt = value?.quantidade
+      valorUnitarioCt = value?.valorUnitario
+    }
+
+  var quantidadeCt: Int? = null
+  var valorUnitarioCt: Double? = null
+
   fun marcaConferido() {
     confirmado = "S"
     saci.updateConferido(this)

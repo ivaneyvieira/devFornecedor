@@ -7,6 +7,7 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.Document
+import io.github.rushuat.ocell.document.DocumentOOXML
 
 class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
   val subView
@@ -50,7 +51,7 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
       ByteArray(0)
     }
     else {
-      Document().use { document ->
+      DocumentOOXML().use { document ->
         document.addSheet(pedidos.flatMap { it.produtos }.sortedWith(compareBy({ it.vendno }, { it.loja }, {
           it.dataPedido
         }, { it.codigo })))
@@ -64,7 +65,7 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
     }
-    else Document().use { document ->
+    else DocumentOOXML().use { document ->
       document.addSheet(pedidos.sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido })))
       document.toBytes()
     }

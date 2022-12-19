@@ -50,8 +50,16 @@ object PedidoCompraProdutoColumns {
     this.setHeader("C.Unit")
   }
 
+  fun Grid<PedidoCompraProduto>.colCustoCt() = addColumnDouble(PedidoCompraProduto::valorUnitarioCt) {
+    this.setHeader("C.Unit Ct")
+  }
+
   fun Grid<PedidoCompraProduto>.colQtde() = addColumnInt(PedidoCompraProduto::qtPedida) {
     this.setHeader("Qtde")
+  }
+
+  fun Grid<PedidoCompraProduto>.colQtdeCt() = addColumnInt(PedidoCompraProduto::quantidadeCt) {
+    this.setHeader("Qtde Ct")
   }
 
   fun Grid<PedidoCompraProduto>.colVlTotal() = addColumnDouble(PedidoCompraProduto::vlPedido) {
