@@ -101,7 +101,9 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("com.sun.mail:javax.mail:1.6.2")
   implementation("com.sun.mail:gimap:1.6.2") // https://mvnrepository.com/artifact/io.github.rushuat/ocell
-  implementation("io.github.rushuat:ocell:0.1.6") // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+  implementation("io.github.rushuat:ocell:0.1.7")
+  implementation("org.jetbrains.kotlinx:dataframe:0.8.1")
+  implementation("org.jetbrains.kotlinx:dataframe-excel:0.8.1")
   // implementation("com.itextpdf:itextpdf:5.5.13.3")
   // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
   // implementation("org.apache.pdfbox:pdfbox:2.0.27")

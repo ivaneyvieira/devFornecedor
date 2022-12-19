@@ -5,11 +5,13 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colBarcode
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCusto
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoCt
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colItem
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtde
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeCt
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefFabrica
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colUnidade
@@ -54,7 +56,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             val item = pedidoExcel.item
             produto.pedidoExcel = pedidoExcel
             produto.linha = pedidoExcel.linha
-            produto.item = item
+            produto.item = item ?: ""
           }
         }
         pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
@@ -85,11 +87,11 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.uploadExcel { buffer, upload ->
           upload.isDropAllowed = false
           upload.addSucceededListener {
-            val bytesPDF = buffer.inputStream.readBytes()
+            val bytes = buffer.inputStream.readBytes()
 
-            viewModel.setFileExcel(bytesPDF)
+            viewModel.setFileExcel(bytes)
             gridNota.dataProvider.refreshAll()
-            viewModel.saveExcelPedido(pedido, bytesPDF)
+            viewModel.saveExcelPedido(pedido, bytes)
           }
         }
         this.button("Remover Pedido") {
@@ -180,6 +182,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
+      colQtdeCt()
       colCusto().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
@@ -193,6 +196,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
+      colCustoCt()
       colVlTotal().let { col ->
         val lista = this.dataProvider.fetchAll()
         val total = lista.sumOf { it.vlPedido ?: 0.00 }.format()

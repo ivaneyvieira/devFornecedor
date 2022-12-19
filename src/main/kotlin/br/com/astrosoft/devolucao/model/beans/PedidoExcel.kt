@@ -1,22 +1,28 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import io.github.rushuat.ocell.annotation.ClassName
 import io.github.rushuat.ocell.annotation.FieldExclude
 import io.github.rushuat.ocell.annotation.FieldName
+import io.github.rushuat.ocell.annotation.FieldOrder
 
 class PedidoExcel(
   @FieldName("ITEM")
-  val item: String,
+  @FieldOrder(0)
+  val item: String?,
   @FieldName("REFERÊNCIA")
-  val referencia: String,
+  @FieldOrder(1)
+  val referencia: String?,
   @FieldName("DESCRIÇÃO")
-  val descricao: String,
+  @FieldOrder(2)
+  val descricao: String?,
   @FieldName("QUANTIDADE")
-  val quantidade: Int,
+  @FieldOrder(3)
+  val quantidade: Int?,
   @FieldName("VALOR UNITÁRIO")
-  val valorUnitario: Double,
+  @FieldOrder(4)
+  val valorUnitario: Double?,
   @FieldName("VALOR TOTAL")
-  val valorTotal: Double,
+  @FieldOrder(5)
+  val valorTotal: Double?,
                  ){
   @FieldExclude
   var linha: Int = 0

@@ -2,6 +2,7 @@ package br.com.astrosoft.framework.planilhaUtil
 
 import com.github.nwillc.poink.workbook
 import io.github.rushuat.ocell.document.Document
+import io.github.rushuat.ocell.document.DocumentOOXML
 import java.time.LocalTime
 import kotlin.reflect.full.createInstance
 
@@ -68,7 +69,7 @@ abstract class PlanilhaBase<T : IDadosPlanilha>(private val list: List<T> = empt
   fun salvaPlanilha(filename: String) {
     println(LocalTime.now())
     println("Gravando o aquivo $filename com ${listaPlanilha.size} linhas")
-    Document().use { doc ->
+    DocumentOOXML().use { doc ->
       doc.addSheet(listaPlanilha)
       doc.toFile(filename)
     }
