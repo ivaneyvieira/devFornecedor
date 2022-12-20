@@ -45,8 +45,10 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
   }
 
   override fun findPedidoExcel(produto: PedidoCompraProduto): PedidoExcel? {
-    val list = produto.listCodigo()
-    val pedidoExcel = listPedidoExcel.firstOrNull { list.contains(it.referencia) }
+    val listStr = produto.listCodigo()
+    val listNum = listStr.mapNotNull {it.toIntOrNull().toString()  }
+    val list = listNum + listStr
+    val pedidoExcel = listPedidoExcel.firstOrNull { list.distinct().contains(it.referencia) }
     produto.pedidoExcel = pedidoExcel
     return pedidoExcel
   }

@@ -149,7 +149,9 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
               val pedidoExcel = produto.pedidoExcel
-              if (pedidoExcel?.referencia == produto.refFab) "marcaOk"
+              val ref1 = pedidoExcel?.referencia?.toIntOrNull()?.toString() ?: pedidoExcel?.referencia
+              val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
+              if (ref1 == ref2) "marcaOk"
               else "marcaError"
             }
             else ""
@@ -163,8 +165,11 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
               val pedidoExcel = produto.pedidoExcel
-              val listRef = produto.refno?.split("/").orEmpty()
-              if (pedidoExcel?.referencia in listRef) "marcaOk"
+              val ref1 = pedidoExcel?.referencia?.toIntOrNull()?.toString() ?: pedidoExcel?.referencia
+              val listRef = produto.refno?.split("/").orEmpty().map {ref ->
+                ref.toIntOrNull()?.toString() ?: ref
+              }
+              if (ref1 in listRef) "marcaOk"
               else "marcaError"
             }
             else ""
