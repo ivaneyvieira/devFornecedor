@@ -46,7 +46,9 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
 
   override fun findPedidoExcel(produto: PedidoCompraProduto): PedidoExcel? {
     val list = produto.listCodigo()
-    return listPedidoExcel.firstOrNull { list.contains(it.referencia) }
+    val pedidoExcel = listPedidoExcel.firstOrNull { list.contains(it.referencia) }
+    produto.pedidoExcel = pedidoExcel
+    return pedidoExcel
   }
 
   override fun pedidoOK(): Boolean {
@@ -76,15 +78,6 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
       listPedidoExcel.clear()
     }
     else {
-      DocumentOOXML().use { document ->
-        document.fromBytes(fileText)
-        val list = document.getSheet(0, PedidoExcel::class.java)
-        listPedidoExcel.clear()
-        listPedidoExcel.addAll(list)
-        listPedidoExcel.forEachIndexed { index, pedidoExcel ->
-          pedidoExcel.linha = index + 1
-        }
-      }
       val df = DataFrame.readExcel(ByteArrayInputStream(fileText))
       val list = df.map { row ->
         PedidoExcel(
