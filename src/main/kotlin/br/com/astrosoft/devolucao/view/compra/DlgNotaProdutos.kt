@@ -197,7 +197,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           if (viewModel is ITabCompraConfViewModel) {
             if (viewModel.pedidoOK()) {
               val pedidoExcel = produto.pedidoExcel
-              if (pedidoExcel?.valorUnitario == produto.custoUnit) "marcaOk"
+              if (pedidoExcel?.valorUnitario?.format() == produto.custoUnit.format()) "marcaOk"
               else "marcaError"
             }
             else ""
