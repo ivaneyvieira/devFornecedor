@@ -35,7 +35,7 @@ object PedidoCompraProdutoColumns {
   }
 
   fun Grid<PedidoCompraProduto>.colRefNota() = addColumnString(PedidoCompraProduto::refno) {
-    this.setHeader("Ref Nota")
+    this.setHeader("Ref NF")
   }
 
   fun Grid<PedidoCompraProduto>.colGrade() = addColumnString(PedidoCompraProduto::grade) {
@@ -43,27 +43,27 @@ object PedidoCompraProdutoColumns {
   }
 
   fun Grid<PedidoCompraProduto>.colUnidade() = addColumnString(PedidoCompraProduto::unidade) {
-    this.setHeader("UN")
+    this.setHeader("Und")
   }
 
   fun Grid<PedidoCompraProduto>.colCusto() = addColumnDouble(PedidoCompraProduto::custoUnit) {
-    this.setHeader("C.Unit")
+    this.setHeader("V. Unit Ped")
   }
 
   fun Grid<PedidoCompraProduto>.colCustoCt() = addColumnDouble(PedidoCompraProduto::valorUnitarioCt) {
-    this.setHeader("C.Unit Ct")
+    this.setHeader("V. Unit Ped")
   }
 
   fun Grid<PedidoCompraProduto>.colQtde() = addColumnInt(PedidoCompraProduto::qtPedida) {
-    this.setHeader("Qtde")
+    this.setHeader("Qtd Ped")
   }
 
   fun Grid<PedidoCompraProduto>.colQtdeCt() = addColumnInt(PedidoCompraProduto::quantidadeCt) {
-    this.setHeader("Qtde Ct")
+    this.setHeader("Qtd Cot")
   }
 
   fun Grid<PedidoCompraProduto>.colVlTotal() = addColumnDouble(PedidoCompraProduto::vlPedido) {
-    this.setHeader("C.Total")
+    this.setHeader("Valor Total")
   }
 
   fun Grid<PedidoCompraProduto>.colBarcode() = addColumnString(PedidoCompraProduto::barcode) {

@@ -53,16 +53,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         viewModel.setFileExcel(bytes)
         pedido.produtos.forEach { produto ->
           viewModel.findPedidoExcel(produto)?.let { pedidoExcel ->
-            val item = pedidoExcel.item
             produto.pedidoExcel = pedidoExcel
-            produto.linha = pedidoExcel.linha
-            produto.item = item ?: ""
           }
         }
         pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
           val codigos = pedidoCompraProduto.listCodigo()
           val item = pedidoCompraProduto.item
-          if(item in codigos){
+          if (item in codigos) {
             pedidoCompraProduto.item = (index + 1).toString().lpad(5, "0")
           }
         }
@@ -90,19 +87,26 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             val bytes = buffer.inputStream.readBytes()
 
             viewModel.setFileExcel(bytes)
-            gridNota.dataProvider.refreshAll()
             viewModel.saveExcelPedido(pedido, bytes)
+            pedido.produtos.forEach {
+              viewModel.findPedidoExcel(it)
+            }
+            gridNota.dataProvider.refreshAll()
           }
         }
         this.button("Remover Pedido") {
           icon = VaadinIcon.TRASH.create()
           onLeftClick {
             viewModel.removeExcelPedido(pedido)
+            pedido.produtos.forEach {
+              it.pedidoExcel = null
+            }
             gridNota.dataProvider.refreshAll()
           }
         }
         this.button("Exibir Pedido") {
           icon = VaadinIcon.PRINT.create()
+          this.isEnabled = false
           onLeftClick {
             val bytes = pedido.toExcel()
             if (bytes != null) {

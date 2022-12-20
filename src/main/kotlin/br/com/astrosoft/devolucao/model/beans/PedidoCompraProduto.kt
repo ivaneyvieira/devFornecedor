@@ -7,6 +7,7 @@ import io.github.rushuat.ocell.annotation.FieldName
 import java.time.LocalDate
 
 class PedidoCompraProduto(
+  @FieldName("Item")
   var item: String = "",
   @FieldExclude
   val origem: String,
@@ -30,18 +31,25 @@ class PedidoCompraProduto(
   val dataEntrega: LocalDate,
   @FieldExclude
   val obsercacaoPedido: String,
+  @FieldName("Código")
   val codigo: String?,
   @FieldExclude
   val seqno: Int?,
+  @FieldName("Descrição")
   val descricao: String?,
+  @FieldName("Ref Fab")
   val refFab: String?,
   @FieldExclude
   var linha: Int = 0,
+  @FieldName("Ref NF")
   val refno: String?,
   @FieldExclude
   val refname: String?,
+  @FieldName("Grade")
   val grade: String?,
+  @FieldName("Und")
   val unidade: String?,
+  @FieldName("Qtd Cot")
   val qtPedida: Int?,
   @FieldExclude
   val qtCancelada: Int?,
@@ -49,11 +57,17 @@ class PedidoCompraProduto(
   val qtRecebida: Int?,
   @FieldExclude
   val qtPendente: Int?,
+  @FieldName("Qtd Ped")
+  var quantidadeCt: Int? = null,
+  @FieldName("V. Unt Ped")
   val custoUnit: Double?,
+  @FieldName("V. Unt Cot")
+  var valorUnitarioCt: Double? = null,
   @FieldExclude
   val barcode: String?,
   @FieldExclude
   var confirmado: String?,
+  @FieldName("Valor Total")
   val valorTotal: Double,
                          ) {
   @FieldExclude
@@ -65,10 +79,9 @@ class PedidoCompraProduto(
       _pedidoExcel = value
       quantidadeCt = value?.quantidade
       valorUnitarioCt = value?.valorUnitario
+      linha = pedidoExcel?.linha ?: 0
+      item = pedidoExcel?.item ?: ""
     }
-
-  var quantidadeCt: Int? = null
-  var valorUnitarioCt: Double? = null
 
   fun marcaConferido() {
     confirmado = "S"
