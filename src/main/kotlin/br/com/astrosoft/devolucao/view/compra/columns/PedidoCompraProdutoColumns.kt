@@ -42,6 +42,10 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Grade")
   }
 
+  fun Grid<PedidoCompraProduto>.colRefDif() = addColumnString(PedidoCompraProduto::difRef) {
+    this.setHeader("Dif Ref")
+  }
+
   fun Grid<PedidoCompraProduto>.colUnidade() = addColumnString(PedidoCompraProduto::unidade) {
     this.setHeader("Und")
   }
@@ -51,7 +55,11 @@ object PedidoCompraProdutoColumns {
   }
 
   fun Grid<PedidoCompraProduto>.colCustoCt() = addColumnDouble(PedidoCompraProduto::valorUnitarioCt) {
-    this.setHeader("V. Unit Ped")
+    this.setHeader("V. Unit Cot")
+  }
+
+  fun Grid<PedidoCompraProduto>.colCustoDif() = addColumnDouble(PedidoCompraProduto::valorUnitarioDif) {
+    this.setHeader("Dif Valor")
   }
 
   fun Grid<PedidoCompraProduto>.colQtde() = addColumnInt(PedidoCompraProduto::qtPedida) {
@@ -60,6 +68,10 @@ object PedidoCompraProdutoColumns {
 
   fun Grid<PedidoCompraProduto>.colQtdeCt() = addColumnInt(PedidoCompraProduto::quantidadeCt) {
     this.setHeader("Qtd Cot")
+  }
+
+  fun Grid<PedidoCompraProduto>.colQtdeDif() = addColumnInt(PedidoCompraProduto::quantidadeDif) {
+    this.setHeader("Dif Qtd")
   }
 
   fun Grid<PedidoCompraProduto>.colVlTotal() = addColumnDouble(PedidoCompraProduto::vlPedido) {

@@ -37,6 +37,8 @@ class PedidoCompraProduto(
   val seqno: Int?,
   @FieldName("Descrição")
   val descricao: String?,
+  @FieldName("Grade")
+  val grade: String?,
   @FieldName("Ref Fab")
   val refFab: String?,
   @FieldExclude
@@ -45,11 +47,11 @@ class PedidoCompraProduto(
   val refno: String?,
   @FieldExclude
   val refname: String?,
-  @FieldName("Grade")
-  val grade: String?,
+  @FieldName("Dif Ref")
+  var difRef: String?,
   @FieldName("Und")
   val unidade: String?,
-  @FieldName("Qtd Cot")
+  @FieldName("Qtd Ped")
   val qtPedida: Int?,
   @FieldExclude
   val qtCancelada: Int?,
@@ -57,12 +59,16 @@ class PedidoCompraProduto(
   val qtRecebida: Int?,
   @FieldExclude
   val qtPendente: Int?,
-  @FieldName("Qtd Ped")
+  @FieldName("Qtd Cot")
   var quantidadeCt: Int? = null,
+  @FieldName("Dif Qtd")
+  var quantidadeDif: Int? = null,
   @FieldName("V. Unt Ped")
   val custoUnit: Double?,
   @FieldName("V. Unt Cot")
   var valorUnitarioCt: Double? = null,
+  @FieldName("Dif Valor")
+  var valorUnitarioDif: Double? = null,
   @FieldExclude
   val barcode: String?,
   @FieldExclude
@@ -81,6 +87,12 @@ class PedidoCompraProduto(
       valorUnitarioCt = value?.valorUnitario
       linha = pedidoExcel?.linha ?: 0
       item = pedidoExcel?.item ?: ""
+      val referencia = value?.referencia
+      val refPed = "$refno/$refFab"
+
+      difRef = if(refPed.contains("$referencia")) "Não" else "Sim"
+      quantidadeDif = (qtPedida ?: 0) - (quantidadeCt ?: 0)
+      valorUnitarioDif = (custoUnit ?: 0.00) - (valorUnitarioCt ?: 0.00)
     }
 
   fun marcaConferido() {
