@@ -13,8 +13,16 @@ interface ITabCompraViewModel {
 interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray)
   fun removeExcelPedido(pedido: PedidoCompra)
+  fun savePDFPedido(pedido: PedidoCompra, bytes: ByteArray)
+  fun removePDFPedido(pedido: PedidoCompra)
   fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
-  fun pedidoOK(): Boolean
+  fun pedidoOK(): EFileType
   fun setFileExcel(fileText: ByteArray?)
-  fun findPedidoExcel(produto: PedidoCompraProduto): PedidoExcel?
+  fun setFilePDF(fileText: ByteArray?)
+  fun findPedidoExcel(produto: PedidoCompraProduto)
+  fun findPedidoPDF(produto: PedidoCompraProduto)
+}
+
+enum class EFileType{
+  NONE, PDF, XLSX
 }

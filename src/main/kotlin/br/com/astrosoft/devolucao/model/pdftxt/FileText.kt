@@ -5,11 +5,31 @@ import java.io.File
 class FileText {
   private val lines = mutableListOf<Line>()
 
+  fun clear() {
+    lines.clear()
+  }
+
+  fun loadPDF(bytes: ByteArray) {
+    val bytesTXT = ExportTxt.toTxt(bytes)
+    loadTXT(bytesTXT)
+  }
+
+  fun loadTXT(bytes: ByteArray) {
+    val text = String(bytes)
+    val listLineStr = text.lines()
+    clear()
+    listLineStr.forEachIndexed { index, lineStr ->
+      val pos = index + 1
+      val line = Line(num = pos, lineStr = lineStr, fileText = this)
+      addLine(line)
+    }
+  }
+
   fun addLine(line: Line) {
     lines.add(line)
   }
 
-  fun getLine(num : Int): Line? {
+  fun getLine(num: Int): Line? {
     return lines.firstOrNull {
       it.num == num
     }
@@ -34,6 +54,10 @@ class FileText {
     val lineTitle = localizaColunas() ?: return null
     val colunas = lineTitle.columns()
     return DataLine(colunas)
+  }
+
+  fun isNotEmpty(): Boolean {
+    return lines.isNotEmpty()
   }
 
   companion object {

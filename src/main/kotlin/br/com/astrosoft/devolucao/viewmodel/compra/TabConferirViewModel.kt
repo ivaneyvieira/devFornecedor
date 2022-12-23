@@ -1,19 +1,18 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
-import io.github.rushuat.ocell.annotation.FieldName
-import io.github.rushuat.ocell.annotation.FieldOrder
 import io.github.rushuat.ocell.document.DocumentOOXML
 import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.map
 import org.jetbrains.kotlinx.dataframe.io.readExcel
 import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
   private val listPedidoExcel = mutableListOf<PedidoExcel>()
+  private val fileText = FileText()
 
   val subView
     get() = viewModel.view.tabConferirViewModel
@@ -44,26 +43,48 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     subView.imprimirRelatorioFornecedor(pedido)
   }
 
-  override fun findPedidoExcel(produto: PedidoCompraProduto): PedidoExcel? {
+  override fun findPedidoExcel(produto: PedidoCompraProduto) {
     val listStr = produto.listCodigo()
-    val listNum = listStr.mapNotNull {it.toIntOrNull().toString()  }
+    val listNum = listStr.map { it.toIntOrNull().toString() }
     val list = listNum + listStr
     val pedidoExcel = listPedidoExcel.firstOrNull { list.distinct().contains(it.referencia) }
     produto.pedidoExcel = pedidoExcel
-    return pedidoExcel
   }
 
-  override fun pedidoOK(): Boolean {
-    return listPedidoExcel.isNotEmpty()
+  override fun findPedidoPDF(produto: PedidoCompraProduto) {
+    val listStr = produto.listCodigo()
+    val linha = listStr.flatMap { cod ->
+      fileText.findLine(cod)
+    }.firstOrNull()
+    produto.linePDF = linha
+  }
+
+  override fun pedidoOK(): EFileType {
+    return when {
+      listPedidoExcel.isNotEmpty() -> EFileType.XLSX
+      fileText.isNotEmpty()        -> EFileType.PDF
+      else                         -> EFileType.NONE
+    }
   }
 
   override fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray) {
     pedido.saveExcel(bytes)
+    setFileExcel(bytes)
   }
 
   override fun removeExcelPedido(pedido: PedidoCompra) {
     pedido.removeExcel()
     setFileExcel(null)
+  }
+
+  override fun savePDFPedido(pedido: PedidoCompra, bytes: ByteArray) {
+    pedido.savePDF(bytes)
+    setFilePDF(bytes)
+  }
+
+  override fun removePDFPedido(pedido: PedidoCompra) {
+    pedido.removeExcel()
+    setFilePDF(null)
   }
 
   override fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
@@ -96,6 +117,16 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
       listPedidoExcel.forEachIndexed { index, pedidoExcel ->
         pedidoExcel.linha = index + 1
       }
+    }
+    updateComponent()
+  }
+
+  override fun setFilePDF(bytes: ByteArray?) {
+    if (bytes == null) {
+      fileText.clear()
+    }
+    else {
+      fileText.loadPDF(bytes)
     }
     updateComponent()
   }

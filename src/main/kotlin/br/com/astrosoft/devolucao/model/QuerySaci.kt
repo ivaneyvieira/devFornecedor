@@ -243,11 +243,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun selectFile(pedido: PedidoCompra): List<NFFile> {
+  fun selectFile(pedido: PedidoCompra, pdvno: Int): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
     return query(sql, NFFile::class) {
       addOptionalParameter("storeno", pedido.loja)
-      addOptionalParameter("pdvno", PedidoCompra.PDV_COMPRA_EXCEL)
+      addOptionalParameter("pdvno", pdvno)
       addOptionalParameter("xano", pedido.numeroPedido)
     }
   }

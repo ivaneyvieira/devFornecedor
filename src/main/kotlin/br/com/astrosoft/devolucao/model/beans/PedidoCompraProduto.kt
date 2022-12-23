@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import io.github.rushuat.ocell.annotation.FieldExclude
@@ -78,6 +79,8 @@ class PedidoCompraProduto(
                          ) {
   @FieldExclude
   private var _pedidoExcel : PedidoExcel? = null
+  @FieldExclude
+  private var _linePDF : Line? = null
 
   var pedidoExcel:  PedidoExcel?
     get() = _pedidoExcel
@@ -93,6 +96,14 @@ class PedidoCompraProduto(
       difRef = if(refPed.contains("$referencia")) "Não" else "Sim"
       quantidadeDif = (qtPedida ?: 0) - (quantidadeCt ?: 0)
       valorUnitarioDif = (custoUnit ?: 0.00) - (valorUnitarioCt ?: 0.00)
+    }
+
+  var linePDF:  Line?
+    get() = _linePDF
+    set(value) {
+      _linePDF = value
+      linha = value?.num ?: 0
+      item = value?.item() ?: ""
     }
 
   fun marcaConferido() {
