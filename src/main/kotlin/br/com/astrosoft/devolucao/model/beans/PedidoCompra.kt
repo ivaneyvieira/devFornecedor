@@ -29,19 +29,45 @@ class PedidoCompra(
              pdvno = PDV_COMPRA_EXCEL,
              xano = numeroPedido,
              date = DATA_COMPRA,
+             nome = "Pedido${numeroPedido}.xlsx",
+             file = bytes)
+    nfFile.insert()
+  }
+
+  fun savePDF(bytes: ByteArray) {
+    val nfFile =
+      NFFile(storeno = loja,
+             pdvno = PDV_COMPRA_PDF,
+             xano = numeroPedido,
+             date = DATA_COMPRA,
              nome = "Pedido${numeroPedido}.pdf",
              file = bytes)
     nfFile.insert()
   }
 
   fun toExcel() : ByteArray? {
-    return saci.selectFile(this).firstOrNull()?.file
+    return saci.selectFile(this, PDV_COMPRA_EXCEL).firstOrNull()?.file
+  }
+
+  fun toPDF() : ByteArray? {
+    return saci.selectFile(this, PDV_COMPRA_PDF).firstOrNull()?.file
   }
 
   fun removeExcel() {
     val nfFile =
       NFFile(storeno = loja,
              pdvno = PDV_COMPRA_EXCEL,
+             xano = numeroPedido,
+             date = DATA_COMPRA,
+             nome = "Pedido${numeroPedido}.xls",
+             file = ByteArray(0))
+    saci.deleteFile(nfFile)
+  }
+
+  fun removePDF() {
+    val nfFile =
+      NFFile(storeno = loja,
+             pdvno = PDV_COMPRA_PDF,
              xano = numeroPedido,
              date = DATA_COMPRA,
              nome = "Pedido${numeroPedido}.pdf",
@@ -59,6 +85,7 @@ class PedidoCompra(
     get() = dataPedido.format()
 
   companion object {
+    val PDV_COMPRA_PDF = 9990
     val PDV_COMPRA_EXCEL = 9991
     val DATA_COMPRA = LocalDate.of(2022,1,1)
 
