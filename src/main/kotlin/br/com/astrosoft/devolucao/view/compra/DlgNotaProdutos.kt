@@ -6,12 +6,15 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCusto
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoCt
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoDif
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colItem
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtde
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeCt
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeDif
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefDif
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefFabrica
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colUnidade
@@ -144,6 +147,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colBarcode()
       colDescricao()
       colGrade()
+      colDescNota()
+      colRefDif()
       colRefFabrica().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
@@ -159,7 +164,6 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
-      colDescNota()
       colRefNota().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
@@ -192,6 +196,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         }
       }
       colQtdeCt()
+      colQtdeDif()
       colCusto().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
@@ -206,6 +211,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         }
       }
       colCustoCt()
+      colCustoDif()
       colVlTotal().let { col ->
         val lista = this.dataProvider.fetchAll()
         val total = lista.sumOf { it.vlPedido ?: 0.00 }.format()

@@ -142,3 +142,11 @@ CREATE TABLE sqldados.pedidosCompra (
 
 ALTER TABLE sqldados.pedidosCompra
 ADD COLUMN confirmado char(1);
+
+/*
+Pesquisa pedidos sem valor
+*/
+select * from sqldados.oprd
+where ordno = 404632
+  and storeno = 4
+  and prdno = 120528;
