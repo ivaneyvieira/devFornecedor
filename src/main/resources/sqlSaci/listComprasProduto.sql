@@ -133,7 +133,6 @@ SELECT origem,
        confirmado
 FROM T_RESULT;
 
-
 SELECT origem,
        vendno,
        fornecedor,
@@ -161,7 +160,7 @@ SELECT origem,
        barcode,
        confirmado,
        qtPedida * custoUnit AS valorTotal
-FROM sqldados.pedidosCompra
+FROM T_RESULT
 WHERE (loja = :loja OR :loja = 0)
   AND ((vendno = @VENDNO AND @VENDNO != 0) OR (numeroPedido = @PEDIDO AND @PEDIDO != 0) OR
        (fornecedor LIKE CONCAT(@FORNECEDOR, '%') AND @FORNECEDOR != '') OR
