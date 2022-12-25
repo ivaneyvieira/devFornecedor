@@ -172,13 +172,12 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colDescricao()
       colGrade()
       colDescNota()
-      colRefDif()
       colRefFabrica().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             when {
               viewModel.pedidoOK() == EFileType.XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator ""
+                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
                 val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
                 if (ref1 == ref2) "marcaOk"
@@ -186,7 +185,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               viewModel.pedidoOK() == EFileType.PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator ""
+                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
                 if (line.find(ref2)) "marcaOk"
                 else "marcaError"
@@ -203,7 +202,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           if (viewModel is ITabCompraConfViewModel) {
             when {
               viewModel.pedidoOK() == EFileType.XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator ""
+                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
                 val listRef = produto.refno?.split("/").orEmpty().map { ref ->
                   ref.toIntOrNull()?.toString() ?: ref
@@ -213,7 +212,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               viewModel.pedidoOK() == EFileType.PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator ""
+                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
                 if (listRef.any { line.find(it) }) "marcaOk"
                 else "marcaError"
@@ -225,19 +224,20 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
+      colRefDif()
       colUnidade()
       colQtde().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             when {
               viewModel.pedidoOK() == EFileType.XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator ""
+                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 if (pedidoExcel.quantidade == produto.qtPedida) "marcaOk"
                 else "marcaError"
               }
 
               viewModel.pedidoOK() == EFileType.PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator ""
+                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 if (line.find(produto.qtPedida)) "marcaOk"
                 else "marcaError"
               }
@@ -255,13 +255,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           if (viewModel is ITabCompraConfViewModel) {
             when {
               viewModel.pedidoOK() == EFileType.XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator ""
+                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 if (pedidoExcel.valorUnitario?.format() == produto.custoUnit.format()) "marcaOk"
                 else "marcaError"
               }
 
               viewModel.pedidoOK() == EFileType.PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator ""
+                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 if (line.find(produto.custoUnit)) "marcaOk"
                 else "marcaError"
               }

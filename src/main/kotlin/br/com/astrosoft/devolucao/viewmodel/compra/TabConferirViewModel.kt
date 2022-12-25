@@ -46,7 +46,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
   override fun findPedidoExcel(produto: PedidoCompraProduto) {
     val listStr = produto.listCodigo()
     val listNum = listStr.map { it.toIntOrNull().toString() }
-    val list = listNum + listStr
+    val list = (listNum + listStr).distinct()
     val pedidoExcel = listPedidoExcel.firstOrNull { list.distinct().contains(it.referencia) }
     produto.pedidoExcel = pedidoExcel
   }
@@ -136,7 +136,8 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     return when (this) {
       is String -> this
       is Int    -> this.toString()
-      is Double -> this.toInt().toString()
+      is Long   -> this.toString()
+      is Double -> this.toLong().toString()
       else      -> this.toString()
     }
   }
@@ -145,7 +146,8 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     this ?: return null
     return when (this) {
       is String -> this.toIntOrNull()
-      is Int    -> this
+      is Int    -> this.toInt()
+      is Long   -> this.toInt()
       is Double -> this.toInt()
       else      -> this.toString().toIntOrNull()
     }
@@ -156,6 +158,7 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
     return when (this) {
       is String -> this.toDoubleOrNull()
       is Int    -> this.toDouble()
+      is Long   -> this.toDouble()
       is Double -> this
       else      -> this.toString().toDoubleOrNull()
     }
