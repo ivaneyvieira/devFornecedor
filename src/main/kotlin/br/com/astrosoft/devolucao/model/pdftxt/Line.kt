@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.pdftxt
 import br.com.astrosoft.framework.util.rpad
 import br.com.astrosoft.framework.util.unaccent
 import java.text.DecimalFormat
+import kotlin.math.absoluteValue
 
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Qtde", "Un", "Item", "Produto", "Qtd", "Preco", "Total")
 
@@ -19,25 +20,35 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     val lineStrSpace = " $lineStr "
     val lineStrNoraml = lineStrSpace.unaccent()
     val index = lineStrNoraml.indexOf(" $textUnaccent ")
-    val textLine = lineStr.mid(index).split(" ").getOrNull(0) ?: return null
+    val textLine = midLine(index).split(" ").getOrNull(0) ?: return null
     return createLinePosition(start = index, text = textLine)
   }
 
-  private fun createLinePosition(start: Int, text: String) : LinePosition?{
+  private fun createLinePosition(start: Int, text: String): LinePosition? {
     val startIndex = 0
-    val endIndex = lineStr.length -1
-    return if(start in startIndex..endIndex){
+    val endIndex = lineStr.length - 1
+    return if (start in startIndex..endIndex) {
       LinePosition(start, text)
-    }else
-      null
+    }
+    else null
   }
 
-  private fun String.mid(index: Int): String{
+  private fun midLine(index: Int): String {
     val startIndex = 0
-    val endIndex = length -1
-    return if(index in startIndex..endIndex){
-      substring(index)
-    } else ""
+    val endIndex = lineStr.length - 1
+    return if (index in startIndex..endIndex) {
+      lineStr.substring(index)
+    }
+    else ""
+  }
+
+  private fun midLine(start: Int, end: Int): String {
+    val startIndex = 0
+    val endIndex = if (end > lineStr.length) lineStr.length else end
+    return if (start in startIndex..endIndex) {
+      lineStr.substring(start, end)
+    }
+    else ""
   }
 
   fun item() = lineStr.trim().split("\\s+".toRegex()).getOrNull(0) ?: ""
@@ -60,13 +71,18 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   fun findIndex(num: Number?): LinePosition? {
-    val list =
-      findListVal(num, 0) + findListVal(num, 1) + findListVal(num, 2) + findListVal(num, 3) + findListVal(num, 4)
-    list.forEach { numTeste ->
-      val pos = findIndex(numTeste)
-      if (pos != null) return pos
+    num ?: return null
+    val numStr = lineStr.split(" +".toRegex()).mapNotNull { str ->
+      val number = strToNumber(str)
+      if (number == null) null
+      else {
+        val dif = (num.toDouble() - number.toDouble()).absoluteValue
+        if(dif < 0.5)
+           str
+        else null
+      }
     }
-    return null
+    return findIndex(numStr.firstOrNull())
   }
 
   val countTitleWord = titleWord.count { find(it) }
@@ -113,9 +129,57 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     }
     return sequence.toList()
   }
+
+  private fun strToNumber(str: String): Number? {
+    return str.trim().replace(".", "").replace(',', '.').toDoubleOrNull()
+  }
+
+  fun getInt(start: Int?, end: Int?): Int? {
+    start ?: return null
+    end ?: return null
+    val strInt = midLine(start = posStart(start), end = posEnd(end))
+    val int = strInt.trim().replace(".", "").replace(',', '.').toDoubleOrNull()?.toInt()
+    return int
+  }
+
+  fun getDouble(start: Int?, end: Int?): Double? {
+    start ?: return null
+    end ?: return null
+    val strDouble = midLine(start = posStart(start), end = posEnd(end))
+    val double = strDouble.trim().replace(".", "").replace(',', '.').toDoubleOrNull()
+    return double
+  }
+
+  private fun midChar(index: Int): Char? {
+    return lineStr.getOrNull(index)
+  }
+
+  private fun posEnd(end: Int): Int {
+    val char = midChar(end) ?: return lineStr.length
+    return if (char == ' ') end
+    else {
+      for (p in end..lineStr.length) {
+        val next = midChar(p + 1)
+        if (next == null || next == ' ') return p
+      }
+      return lineStr.length
+    }
+  }
+
+  private fun posStart(start: Int): Int {
+    val char = midChar(start) ?: return 0
+    return if (char == ' ') start
+    else {
+      for (p in start downTo 0) {
+        val prev = midChar(p - 1)
+        if (prev == null || prev == ' ') return p
+      }
+      return lineStr.length
+    }
+  }
 }
 
-data class LinePosition(val start: Int, val text: String){
+data class LinePosition(val start: Int, val text: String) {
   val end
     get() = start + text.length
 }

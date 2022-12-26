@@ -62,6 +62,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           pedido.produtos.forEach { produto ->
             viewModel.findPedidoPDF(produto)
           }
+          pedido.processaQuantPDF()
           pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
             val codigos = pedidoCompraProduto.listCodigo()
             val item = pedidoCompraProduto.item
@@ -112,6 +113,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               pedido.produtos.forEach {
                 viewModel.findPedidoPDF(it)
               }
+              pedido.processaQuantPDF()
             }
             else if (buffer.fileName.endsWith(".xlsx", ignoreCase = true)) {
               viewModel.saveExcelPedido(pedido, bytes)
