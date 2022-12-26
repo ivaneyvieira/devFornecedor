@@ -20,6 +20,8 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colUnidade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colVlTotal
 import br.com.astrosoft.devolucao.viewmodel.compra.EFileType
+import br.com.astrosoft.devolucao.viewmodel.compra.EFileType.PDF
+import br.com.astrosoft.devolucao.viewmodel.compra.EFileType.XLSX
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraConfViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.util.format
@@ -58,7 +60,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         pedido.toPDF()?.let { bytes ->
           viewModel.setFilePDF(bytes)
           pedido.produtos.forEach { produto ->
-            viewModel.findPedidoExcel(produto)
+            viewModel.findPedidoPDF(produto)
           }
           pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
             val codigos = pedidoCompraProduto.listCodigo()
@@ -175,8 +177,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colRefFabrica().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
-            when {
-              viewModel.pedidoOK() == EFileType.XLSX -> {
+            when (viewModel.pedidoOK()) {
+              XLSX -> {
                 val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
                 val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
@@ -184,14 +186,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
                 else "marcaError"
               }
 
-              viewModel.pedidoOK() == EFileType.PDF  -> {
+              PDF  -> {
                 val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
                 if (line.find(ref2)) "marcaOk"
                 else "marcaError"
               }
 
-              else                                   -> ""
+              else -> ""
             }
           }
           else ""
@@ -200,8 +202,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colRefNota().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
-            when {
-              viewModel.pedidoOK() == EFileType.XLSX -> {
+            when (viewModel.pedidoOK()) {
+              XLSX -> {
                 val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
                 val listRef = produto.refno?.split("/").orEmpty().map { ref ->
@@ -211,14 +213,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
                 else "marcaError"
               }
 
-              viewModel.pedidoOK() == EFileType.PDF  -> {
+              PDF  -> {
                 val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
                 if (listRef.any { line.find(it) }) "marcaOk"
                 else "marcaError"
               }
 
-              else                                   -> ""
+              else -> ""
             }
           }
           else ""
@@ -229,20 +231,20 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colQtde().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
-            when {
-              viewModel.pedidoOK() == EFileType.XLSX -> {
+            when (viewModel.pedidoOK()) {
+              XLSX -> {
                 val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 if (pedidoExcel.quantidade == produto.qtPedida) "marcaOk"
                 else "marcaError"
               }
 
-              viewModel.pedidoOK() == EFileType.PDF  -> {
+              PDF  -> {
                 val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 if (line.find(produto.qtPedida)) "marcaOk"
                 else "marcaError"
               }
 
-              else                                   -> ""
+              else -> ""
             }
           }
           else ""
@@ -253,20 +255,20 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colCusto().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
-            when {
-              viewModel.pedidoOK() == EFileType.XLSX -> {
+            when (viewModel.pedidoOK()) {
+              XLSX -> {
                 val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
                 if (pedidoExcel.valorUnitario?.format() == produto.custoUnit.format()) "marcaOk"
                 else "marcaError"
               }
 
-              viewModel.pedidoOK() == EFileType.PDF  -> {
+              PDF  -> {
                 val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 if (line.find(produto.custoUnit)) "marcaOk"
                 else "marcaError"
               }
 
-              else                                   -> ""
+              else -> ""
             }
           }
           else ""

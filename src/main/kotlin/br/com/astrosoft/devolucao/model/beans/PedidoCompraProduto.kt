@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.pdftxt.Line
+import br.com.astrosoft.devolucao.model.pdftxt.LinePosition
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import io.github.rushuat.ocell.annotation.FieldExclude
@@ -77,12 +78,19 @@ class PedidoCompraProduto(
   @FieldName("Valor Total")
   val valorTotal: Double,
                          ) {
-  @FieldExclude
-  private var _pedidoExcel : PedidoExcel? = null
-  @FieldExclude
-  private var _linePDF : Line? = null
+  fun findQuant(): LinePosition? {
+    val line = linePDF ?: return null
+    val pos = line.findIndex(qtPedida)
+    return pos
+  }
 
-  var pedidoExcel:  PedidoExcel?
+  @FieldExclude
+  private var _pedidoExcel: PedidoExcel? = null
+
+  @FieldExclude
+  private var _linePDF: Line? = null
+
+  var pedidoExcel: PedidoExcel?
     get() = _pedidoExcel
     set(value) {
       _pedidoExcel = value
@@ -93,12 +101,12 @@ class PedidoCompraProduto(
       val referencia = value?.referencia
       val refPed = "$refno/$refFab"
 
-      difRef = if(refPed.contains("$referencia")) "Não" else "Sim"
+      difRef = if (refPed.contains("$referencia")) "Não" else "Sim"
       quantidadeDif = (qtPedida ?: 0) - (quantidadeCt ?: 0)
       valorUnitarioDif = (custoUnit ?: 0.00) - (valorUnitarioCt ?: 0.00)
     }
 
-  var linePDF:  Line?
+  var linePDF: Line?
     get() = _linePDF
     set(value) {
       _linePDF = value
@@ -111,7 +119,7 @@ class PedidoCompraProduto(
     saci.updateConferido(this)
   }
 
-  fun listCodigo() : List<String>{
+  fun listCodigo(): List<String> {
     val listRef = refno?.split("/").orEmpty()
     val refFab = refFab
     val list = listRef + refFab

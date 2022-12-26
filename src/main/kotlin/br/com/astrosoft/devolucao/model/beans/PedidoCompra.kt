@@ -4,8 +4,6 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
-
-
 class PedidoCompra(
   val vendno: Int,
   val fornecedor: String,
@@ -23,6 +21,13 @@ class PedidoCompra(
   val vlPendente: Double,
   val produtos: List<PedidoCompraProduto>,
                   ) {
+
+  fun processaQuantPDF() {
+    produtos.mapNotNull { prd ->
+      prd.findQuant()
+    }
+  }
+
   fun saveExcel(bytes: ByteArray) {
     val nfFile =
       NFFile(storeno = loja,
@@ -45,11 +50,11 @@ class PedidoCompra(
     nfFile.insert()
   }
 
-  fun toExcel() : ByteArray? {
+  fun toExcel(): ByteArray? {
     return saci.selectFile(this, PDV_COMPRA_EXCEL).firstOrNull()?.file
   }
 
-  fun toPDF() : ByteArray? {
+  fun toPDF(): ByteArray? {
     return saci.selectFile(this, PDV_COMPRA_PDF).firstOrNull()?.file
   }
 
@@ -87,7 +92,7 @@ class PedidoCompra(
   companion object {
     val PDV_COMPRA_PDF = 9990
     val PDV_COMPRA_EXCEL = 9991
-    val DATA_COMPRA = LocalDate.of(2022,1,1)
+    val DATA_COMPRA = LocalDate.of(2022, 1, 1)
 
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> {
       val list = PedidoCompraProduto.findAll(filtro)
@@ -112,9 +117,9 @@ class PedidoCompra(
           dataEntrega = bean.dataEntrega,
           obsercacaoPedido = bean.obsercacaoPedido,
           vlPedido = produtos.sumOf { it.vlPedido ?: 0.00 },
-          vlCancelado = produtos.sumOf { it.vlCancelado ?: 0.00},
-          vlRecebido = produtos.sumOf { it.vlRecebido ?: 0.00},
-          vlPendente = produtos.sumOf { it.vlPendente ?: 0.00},
+          vlCancelado = produtos.sumOf { it.vlCancelado ?: 0.00 },
+          vlRecebido = produtos.sumOf { it.vlRecebido ?: 0.00 },
+          vlPendente = produtos.sumOf { it.vlPendente ?: 0.00 },
           produtos = produtos,
                     )
       }

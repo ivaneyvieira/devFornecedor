@@ -9,9 +9,35 @@ private val titleWord = listOf("Cod", "Codigo", "Descricao", "Qtde", "Un", "Item
 data class Line(val num: Int, val lineStr: String, val fileText: FileText, val double: Boolean = false) {
   private val form1 = DecimalFormat("#,##0.#####")
   private val form2 = DecimalFormat("0.#####")
+
   fun find(text: String?): Boolean {
-    val textUnaccent = text?.unaccent() ?: return false
-    return " $lineStr ".unaccent().contains(" $textUnaccent ")
+    return findIndex(text) != null
+  }
+
+  fun findIndex(text: String?): LinePosition? {
+    val textUnaccent = text?.unaccent() ?: return null
+    val lineStrSpace = " $lineStr "
+    val lineStrNoraml = lineStrSpace.unaccent()
+    val index = lineStrNoraml.indexOf(" $textUnaccent ")
+    val textLine = lineStr.mid(index).split(" ").getOrNull(0) ?: return null
+    return createLinePosition(start = index, text = textLine)
+  }
+
+  private fun createLinePosition(start: Int, text: String) : LinePosition?{
+    val startIndex = 0
+    val endIndex = lineStr.length -1
+    return if(start in startIndex..endIndex){
+      LinePosition(start, text)
+    }else
+      null
+  }
+
+  private fun String.mid(index: Int): String{
+    val startIndex = 0
+    val endIndex = length -1
+    return if(index in startIndex..endIndex){
+      substring(index)
+    } else ""
   }
 
   fun item() = lineStr.trim().split("\\s+".toRegex()).getOrNull(0) ?: ""
@@ -21,8 +47,8 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     val zeros = if (zeroPad == 0) "" else "".rpad(zeroPad, "0")
     val strNum1 = form1.format(num)
     val strNum2 = form2.format(num)
-    val virgulaZero1 = if (strNum1.contains(",")) zeros else ",$zeros"
-    val virgulaZero2 = if (strNum2.contains(",")) zeros else ",$zeros"
+    val virgulaZero1 = if (zeroPad == 0) "" else if (strNum1.contains(",")) zeros else ",$zeros"
+    val virgulaZero2 = if (zeroPad == 0) "" else if (strNum2.contains(",")) zeros else ",$zeros"
     val val1 = strNum1 + virgulaZero1
     val val2 = strNum2 + virgulaZero2
     val val3 = val2.replace(",", ".")
@@ -30,9 +56,17 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   fun find(num: Number?): Boolean {
+    return findIndex(num) != null
+  }
+
+  fun findIndex(num: Number?): LinePosition? {
     val list =
       findListVal(num, 0) + findListVal(num, 1) + findListVal(num, 2) + findListVal(num, 3) + findListVal(num, 4)
-    return list.any { find(it) }
+    list.forEach { numTeste ->
+      val pos = findIndex(numTeste)
+      if (pos != null) return pos
+    }
+    return null
   }
 
   val countTitleWord = titleWord.count { find(it) }
@@ -79,4 +113,9 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     }
     return sequence.toList()
   }
+}
+
+data class LinePosition(val start: Int, val text: String){
+  val end
+    get() = start + text.length
 }
