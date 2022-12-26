@@ -84,6 +84,12 @@ class PedidoCompraProduto(
     return pos
   }
 
+  fun findValor(): LinePosition? {
+    val line = linePDF ?: return null
+    val pos = line.findIndex(custoUnit)
+    return pos
+  }
+
   @FieldExclude
   private var _pedidoExcel: PedidoExcel? = null
 

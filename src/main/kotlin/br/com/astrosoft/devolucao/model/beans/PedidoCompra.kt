@@ -23,8 +23,29 @@ class PedidoCompra(
                   ) {
 
   fun processaQuantPDF() {
-    produtos.mapNotNull { prd ->
+    val listPosQuant = produtos.mapNotNull { prd ->
       prd.findQuant()
+    }
+    val startQuant = listPosQuant.minOfOrNull { it.start }
+    val endQuant = listPosQuant.maxOfOrNull { it.end }
+
+    val listPosValor = produtos.mapNotNull { prd ->
+      prd.findValor()
+    }
+    val startValor = listPosValor.minOfOrNull { it.start }
+    val endValor = listPosValor.maxOfOrNull { it.end }
+
+    produtos.forEach {prd ->
+      if(prd.linePDF != null){
+        val line = prd.linePDF
+        val quant = line?.getInt(startQuant, endQuant)
+        val valor = line?.getDouble(startValor, endValor)
+        prd.quantidadeCt = quant
+        prd.valorUnitarioCt = valor
+
+        prd.quantidadeDif = (prd.qtPedida ?: 0) - (prd.quantidadeCt ?: 0)
+        prd.valorUnitarioDif = (prd.custoUnit ?: 0.00) - (prd.valorUnitarioCt ?: 0.00)
+      }
     }
   }
 
