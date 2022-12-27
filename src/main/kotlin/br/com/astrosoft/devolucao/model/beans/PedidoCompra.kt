@@ -2,7 +2,9 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.util.notOutliers
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class PedidoCompra(
   val vendno: Int,
@@ -23,20 +25,32 @@ class PedidoCompra(
                   ) {
 
   fun processaQuantPDF() {
-    val listPosQuant = produtos.mapNotNull { prd ->
+    val listPosQuant = produtos.flatMap { prd ->
       prd.findQuant()
     }
-    val startQuant = listPosQuant.minOfOrNull { it.start }
-    val endQuant = listPosQuant.maxOfOrNull { it.end }
 
-    val listPosValor = produtos.mapNotNull { prd ->
+    val listPosQuantMean = listPosQuant.map { it.mean * 1.00 }.notOutliers()
+    val listPosQuantNotOut = listPosQuant.filter {
+      listPosQuantMean.contains(it.mean)
+    }
+
+    val startQuant = listPosQuantNotOut.minOfOrNull { it.start * 1.00 }?.roundToInt()
+    val endQuant = listPosQuantNotOut.maxOfOrNull { it.end * 1.00 }?.roundToInt()
+
+    val listPosValor = produtos.flatMap { prd ->
       prd.findValor()
     }
-    val startValor = listPosValor.minOfOrNull { it.start }
-    val endValor = listPosValor.maxOfOrNull { it.end }
 
-    produtos.forEach {prd ->
-      if(prd.linePDF != null){
+    val listPosValorMean = listPosValor.map { it.mean * 1.00 }.notOutliers()
+    val listPosValorNotOut = listPosValor.filter {
+      listPosValorMean.contains(it.mean)
+    }
+
+    val startValor = listPosValorNotOut.minOfOrNull { it.start * 1.00 }?.roundToInt()
+    val endValor = listPosValorNotOut.maxOfOrNull { it.end * 1.00 }?.roundToInt()
+
+    produtos.forEach { prd ->
+      if (prd.linePDF != null) {
         val line = prd.linePDF
         val quant = line?.getInt(startQuant, endQuant)
         val valor = line?.getDouble(startValor, endValor)
