@@ -12,16 +12,21 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   private val form2 = DecimalFormat("0.#####")
 
   fun find(text: String?): Boolean {
-    return findIndex(text) != null
+    return findIndex(text).isNotEmpty()
   }
 
-  fun findIndex(text: String?): LinePosition? {
-    val textUnaccent = text?.unaccent() ?: return null
-    val lineStrSpace = " $lineStr "
-    val lineStrNoraml = lineStrSpace.unaccent()
-    val index = lineStrNoraml.indexOf(" $textUnaccent ")
-    val textLine = midLine(index).split(" ").getOrNull(0) ?: return null
-    return createLinePosition(start = index, text = textLine)
+  private fun findIndex(text: String?): List<LinePosition> {
+    text ?: return emptyList()
+    val seq = sequence {
+      val tokens = lineStr.unaccent().split(" +".toRegex()).filter { it == text.unaccent() }
+      var index = 0
+      tokens.forEach { token ->
+        index = " $lineStr ".indexOf(" $token ", startIndex = index)
+        yield(createLinePosition(index, token))
+        index += token.length
+      }
+    }
+    return seq.toList().filterNotNull()
   }
 
   private fun createLinePosition(start: Int, text: String): LinePosition? {
@@ -67,22 +72,21 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   fun find(num: Number?): Boolean {
-    return findIndex(num) != null
+    return findIndex(num).isNotEmpty()
   }
 
-  fun findIndex(num: Number?): LinePosition? {
-    num ?: return null
+  fun findIndex(num: Number?): List<LinePosition> {
+    num ?: return emptyList()
     val numStr = lineStr.split(" +".toRegex()).mapNotNull { str ->
       val number = strToNumber(str)
       if (number == null) null
       else {
         val dif = (num.toDouble() - number.toDouble()).absoluteValue
-        if(dif < 0.5)
-           str
+        if (dif <= 0.05) str
         else null
       }
-    }
-    return findIndex(numStr.firstOrNull())
+    }.distinct()
+    return numStr.flatMap { str -> findIndex(str) }
   }
 
   val countTitleWord = titleWord.count { find(it) }
@@ -145,8 +149,8 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   fun getDouble(start: Int?, end: Int?): Double? {
     start ?: return null
     end ?: return null
-    val strDouble = midLine(start = posStart(start), end = posEnd(end))
-    val double = strDouble.trim().replace(".", "").replace(',', '.').toDoubleOrNull()
+    val strDouble = midLine(start = posStart(start), end = posEnd(end)).split(" +".toRegex()).getOrNull(0)
+    val double = strDouble?.trim()?.replace(".", "")?.replace(',', '.')?.toDoubleOrNull()
     return double
   }
 
@@ -182,4 +186,6 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 data class LinePosition(val start: Int, val text: String) {
   val end
     get() = start + text.length
+  val mean
+    get() = (end + start) * 1.00 / 2.00
 }

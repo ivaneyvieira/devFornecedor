@@ -109,6 +109,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   // implementation("org.apache.pdfbox:pdfbox:2.0.27")
   implementation("io.github.jonathanlink:PDFLayoutTextStripper:2.2.4")
   implementation("com.lordcodes.turtle:turtle:0.8.0")
+  implementation("org.nield:kotlin-statistics:1.2.1")
 }
 
 vaadin {

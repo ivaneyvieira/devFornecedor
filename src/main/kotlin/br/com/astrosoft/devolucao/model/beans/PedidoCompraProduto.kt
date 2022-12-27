@@ -78,14 +78,14 @@ class PedidoCompraProduto(
   @FieldName("Valor Total")
   val valorTotal: Double,
                          ) {
-  fun findQuant(): LinePosition? {
-    val line = linePDF ?: return null
+  fun findQuant(): List<LinePosition> {
+    val line = linePDF ?: return emptyList()
     val pos = line.findIndex(qtPedida)
     return pos
   }
 
-  fun findValor(): LinePosition? {
-    val line = linePDF ?: return null
+  fun findValor(): List<LinePosition> {
+    val line = linePDF ?: return emptyList()
     val pos = line.findIndex(custoUnit)
     return pos
   }
