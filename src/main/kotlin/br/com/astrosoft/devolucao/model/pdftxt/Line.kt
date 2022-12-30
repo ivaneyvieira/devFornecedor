@@ -16,7 +16,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   private fun listPosTokens(): Sequence<LinePosition> {
     val seq = sequence {
-      val tokens = lineStr.unaccent().split(" +".toRegex())
+      val tokens = lineStr.unaccent().split("\\s\\s+".toRegex())
       var index = 0
       tokens.forEach { token ->
         index = " $lineStr ".indexOf(" $token ", startIndex = index)
@@ -31,7 +31,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   private fun findIndex(text: String?): List<LinePosition> {
     text ?: return emptyList()
     val seq = sequence {
-      val tokens = lineStr.unaccent().split(" +".toRegex()).filter { it == text.unaccent() }
+      val tokens = lineStr.unaccent().split("\\s\\s+".toRegex()).filter { it == text.unaccent() }
       var index = 0
       tokens.forEach { token ->
         index = " $lineStr ".indexOf(" $token ", startIndex = index)
@@ -71,7 +71,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     else ""
   }
 
-  fun item() = lineStr.trim().split("\\s+".toRegex()).getOrNull(0) ?: ""
+  fun item() = lineStr.trim().split("\\s\\s+".toRegex()).getOrNull(0) ?: ""
 
   fun find(num: Number?): Boolean {
     return findIndex(num).isNotEmpty()
@@ -79,7 +79,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   fun findIndex(num: Number?): List<LinePosition> {
     num ?: return emptyList()
-    val numStr = lineStr.split(" +".toRegex()).mapNotNull { str ->
+    val numStr = lineStr.split("\\s\\s+".toRegex()).mapNotNull { str ->
       val number = strToNumber(str)
       if (number == null) null
       else {
@@ -108,7 +108,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   fun tituloColuna(): List<String> {
     val lineStr = this.lineStr
-    return lineStr.split("  +".toRegex()).map { it.trim() }
+    return lineStr.split("\\s\\s+".toRegex()).map { it.trim() }
   }
 
   fun columns(): List<Column> {
@@ -138,14 +138,15 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   private fun strToNumber(str: String?): Number? {
     str ?: return null
-    val num01 = if (str.matches("\\.[0-9]{3}[^0-9]".toRegex())) str.replace(".", "") else str
+    val regNumPoint = "\\.[0-9]{3}[^0-9]".toRegex()
+    val num01 = if (regNumPoint.containsMatchIn(str)) str.replace(".", "") else str
     return num01.trim().replace(',', '.').toDoubleOrNull()
   }
 
   fun getInt(start: Int?, end: Int?): Int? {
     start ?: return null
     end ?: return null
-    val strInt = midLine(start = posStart(start), end = posEnd(end))?.split(" +".toRegex())?.getOrNull(0)
+    val strInt = midLine(start = posStart(start), end = posEnd(end))?.split("\\s\\s+".toRegex())?.getOrNull(0)
     val int = strToNumber(strInt)?.toInt()
     return int
   }
@@ -153,7 +154,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   fun getDouble(start: Int?, end: Int?): Double? {
     start ?: return null
     end ?: return null
-    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.split(" +".toRegex())?.getOrNull(0)
+    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.split("\\s\\s+".toRegex())?.getOrNull(0)
     val double = strToNumber(strDouble)?.toDouble()
     return double
   }

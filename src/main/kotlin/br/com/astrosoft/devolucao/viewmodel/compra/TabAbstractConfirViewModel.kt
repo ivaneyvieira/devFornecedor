@@ -12,12 +12,11 @@ import org.jetbrains.kotlinx.dataframe.api.map
 import org.jetbrains.kotlinx.dataframe.io.readExcel
 import java.io.ByteArrayInputStream
 
-open class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
+abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
   private val listPedidoExcel = mutableListOf<PedidoExcel>()
   private val fileText = FileText()
 
-  val subView
-    get() = viewModel.view.tabConfirmadoViewModel
+  abstract fun updateComponent()
 
   final override fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray) {
     pedido.saveExcel(bytes)
@@ -112,12 +111,6 @@ open class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITabComp
     produto.linePDF = linha
   }
 
-  final override fun imprimirPedidoCompra(pedidos: List<PedidoCompra>) = viewModel.exec {
-    pedidos.ifEmpty {
-      fail("Nenhuma item foi selecionado")
-    }
-    subView.imprimeSelecionados(pedidos)
-  }
 
   final override fun excelPedidoCompra(pedidos: List<PedidoCompra>): ByteArray {
     return if (pedidos.isEmpty()) {
@@ -134,12 +127,7 @@ open class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITabComp
     }
   }
 
-  final override fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>) = viewModel.exec {
-    pedido.ifEmpty {
-      fail("Nenhuma item foi selecionado")
-    }
-    subView.imprimirRelatorioFornecedor(pedido)
-  }
+
 
   private fun Any?.toStr(): String? {
     this ?: return null
@@ -174,25 +162,7 @@ open class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITabComp
     }
   }
 
-  fun updateComponent() = viewModel.exec {
-    val list = pedidoCompraFornecedors()
-    subView.updateGrid(list)
-  }
 
-  private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
-    val filtro = subView.filtro()
-    val list = PedidoCompraFornecedor.findAll(filtro).filter {
-      (!it.fornecedor.startsWith("ENGECOPI"))
-    }
-    return list
-  }
-
-  fun imprimirRelatorioResumido(fornecedores: List<PedidoCompraFornecedor>) = viewModel.exec {
-    fornecedores.ifEmpty {
-      fail("Nenhuma fornecedor foi selecionada")
-    }
-    subView.imprimirRelatorioResumido(fornecedores)
-  }
 
   fun excelRelatorioFornecedor(pedidos: List<PedidoCompra>): ByteArray {
     return if (pedidos.isEmpty()) {
