@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.pdftxt
 
-import br.com.astrosoft.framework.util.rpad
 import br.com.astrosoft.framework.util.unaccent
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
@@ -13,6 +12,20 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   fun find(text: String?): Boolean {
     return findIndex(text).isNotEmpty()
+  }
+
+  private fun listPosTokens(): Sequence<LinePosition> {
+    val seq = sequence {
+      val tokens = lineStr.unaccent().split(" +".toRegex())
+      var index = 0
+      tokens.forEach { token ->
+        index = " $lineStr ".indexOf(" $token ", startIndex = index)
+        val pos = createLinePosition(index, token)
+        if (pos != null) yield(pos)
+        index += token.length
+      }
+    }
+    return seq
   }
 
   private fun findIndex(text: String?): List<LinePosition> {
@@ -47,7 +60,9 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     else ""
   }
 
-  private fun midLine(start: Int, end: Int): String {
+  private fun midLine(start: Int?, end: Int?): String? {
+    start ?: return null
+    end ?: return null
     val startIndex = 0
     val endIndex = if (end > lineStr.length) lineStr.length else end
     return if (start in startIndex..endIndex) {
@@ -57,19 +72,6 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   fun item() = lineStr.trim().split("\\s+".toRegex()).getOrNull(0) ?: ""
-
-  private fun findListVal(num: Number?, zeroPad: Int): List<String> {
-    num ?: return emptyList()
-    val zeros = if (zeroPad == 0) "" else "".rpad(zeroPad, "0")
-    val strNum1 = form1.format(num)
-    val strNum2 = form2.format(num)
-    val virgulaZero1 = if (zeroPad == 0) "" else if (strNum1.contains(",")) zeros else ",$zeros"
-    val virgulaZero2 = if (zeroPad == 0) "" else if (strNum2.contains(",")) zeros else ",$zeros"
-    val val1 = strNum1 + virgulaZero1
-    val val2 = strNum2 + virgulaZero2
-    val val3 = val2.replace(",", ".")
-    return listOf(val1, val2, val3).distinct()
-  }
 
   fun find(num: Number?): Boolean {
     return findIndex(num).isNotEmpty()
@@ -134,23 +136,25 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return sequence.toList()
   }
 
-  private fun strToNumber(str: String): Number? {
-    return str.trim().replace(".", "").replace(',', '.').toDoubleOrNull()
+  private fun strToNumber(str: String?): Number? {
+    str ?: return null
+    val num01 = if (str.matches("\\.[0-9]{3}[^0-9]".toRegex())) str.replace(".", "") else str
+    return num01.trim().replace(',', '.').toDoubleOrNull()
   }
 
   fun getInt(start: Int?, end: Int?): Int? {
     start ?: return null
     end ?: return null
-    val strInt = midLine(start = posStart(start), end = posEnd(end))
-    val int = strInt.trim().replace(".", "").replace(',', '.').toDoubleOrNull()?.toInt()
+    val strInt = midLine(start = posStart(start), end = posEnd(end))?.split(" +".toRegex())?.getOrNull(0)
+    val int = strToNumber(strInt)?.toInt()
     return int
   }
 
   fun getDouble(start: Int?, end: Int?): Double? {
     start ?: return null
     end ?: return null
-    val strDouble = midLine(start = posStart(start), end = posEnd(end)).split(" +".toRegex()).getOrNull(0)
-    val double = strDouble?.trim()?.replace(".", "")?.replace(',', '.')?.toDoubleOrNull()
+    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.split(" +".toRegex())?.getOrNull(0)
+    val double = strToNumber(strDouble)?.toDouble()
     return double
   }
 
@@ -158,27 +162,19 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return lineStr.getOrNull(index)
   }
 
-  private fun posEnd(end: Int): Int {
-    val char = midChar(end) ?: return lineStr.length
-    return if (char == ' ') end
+  private fun posEnd(end: Int): Int? {
+    return if(midChar(end) == ' ') end
     else {
-      for (p in end..lineStr.length) {
-        val next = midChar(p + 1)
-        if (next == null || next == ' ') return p
-      }
-      return lineStr.length
+      val token = listPosTokens()
+      token.map { it.end }.filter { it >= end }.minOrNull()
     }
   }
 
-  private fun posStart(start: Int): Int {
-    val char = midChar(start) ?: return 0
-    return if (char == ' ') start
+  private fun posStart(start: Int): Int? {
+    return if(midChar(start) == ' ') start
     else {
-      for (p in start downTo 0) {
-        val prev = midChar(p - 1)
-        if (prev == null || prev == ' ') return p
-      }
-      return lineStr.length
+      val token = listPosTokens()
+      token.map { it.start }.filter { it <= start }.maxOrNull()
     }
   }
 }

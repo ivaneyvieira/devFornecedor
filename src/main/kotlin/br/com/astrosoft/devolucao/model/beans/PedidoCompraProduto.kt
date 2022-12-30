@@ -108,8 +108,7 @@ class PedidoCompraProduto(
       val refPed = "$refno/$refFab"
 
       difRef = if (refPed.contains("$referencia")) "Não" else "Sim"
-      quantidadeDif = (qtPedida ?: 0) - (quantidadeCt ?: 0)
-      valorUnitarioDif = (custoUnit ?: 0.00) - (valorUnitarioCt ?: 0.00)
+      calculeDifs()
     }
 
   var linePDF: Line?
@@ -135,6 +134,15 @@ class PedidoCompraProduto(
   fun desmarcaConferido() {
     confirmado = "N"
     saci.updateConferido(this)
+  }
+
+  fun calculeDifs() {
+    val qtCot = quantidadeCt
+    val valorCot = valorUnitarioCt
+    quantidadeDif = if (qtPedida == null || qtCot == null) null
+    else qtPedida - qtCot
+    valorUnitarioDif = if (custoUnit == null || valorCot == null) null
+    else custoUnit - valorCot
   }
 
   val dataPedidoStr

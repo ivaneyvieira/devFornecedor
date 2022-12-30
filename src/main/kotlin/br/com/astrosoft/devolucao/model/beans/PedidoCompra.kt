@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.notOutliers
+import org.nield.kotlinstatistics.mode
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
@@ -29,25 +30,23 @@ class PedidoCompra(
       prd.findQuant()
     }
 
-    val listPosQuantMean = listPosQuant.map { it.mean * 1.00 }.notOutliers()
-    val listPosQuantNotOut = listPosQuant.filter {
-      listPosQuantMean.contains(it.mean)
-    }
+    val posModeQuant = listPosQuant.asSequence().flatMap { p->
+      (p.start .. p.end)
+    }.mode()
 
-    val startQuant = listPosQuantNotOut.minOfOrNull { it.start * 1.00 }?.roundToInt()
-    val endQuant = listPosQuantNotOut.maxOfOrNull { it.end * 1.00 }?.roundToInt()
+    val startQuant = posModeQuant.minOrNull()
+    val endQuant = posModeQuant.maxOrNull()
 
     val listPosValor = produtos.flatMap { prd ->
       prd.findValor()
     }
 
-    val listPosValorMean = listPosValor.map { it.mean * 1.00 }.notOutliers()
-    val listPosValorNotOut = listPosValor.filter {
-      listPosValorMean.contains(it.mean)
-    }
+    val posModeValor = listPosValor.asSequence().flatMap { p->
+      (p.start .. p.end)
+    }.mode()
 
-    val startValor = listPosValorNotOut.minOfOrNull { it.start * 1.00 }?.roundToInt()
-    val endValor = listPosValorNotOut.maxOfOrNull { it.end * 1.00 }?.roundToInt()
+    val startValor = posModeValor.minOrNull()
+    val endValor = posModeValor.maxOrNull()
 
     produtos.forEach { prd ->
       if (prd.linePDF != null) {
@@ -57,8 +56,7 @@ class PedidoCompra(
         prd.quantidadeCt = quant
         prd.valorUnitarioCt = valor
 
-        prd.quantidadeDif = (prd.qtPedida ?: 0) - (prd.quantidadeCt ?: 0)
-        prd.valorUnitarioDif = (prd.custoUnit ?: 0.00) - (prd.valorUnitarioCt ?: 0.00)
+        prd.calculeDifs()
       }
     }
   }

@@ -101,21 +101,26 @@ class TabConferirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewM
       listPedidoExcel.clear()
     }
     else {
-      val df = DataFrame.readExcel(ByteArrayInputStream(fileText))
-      val list = df.map { row ->
-        PedidoExcel(
-          item = row[0].toStr(),
-          referencia = row[1].toStr(),
-          descricao = row[2].toStr(),
-          quantidade = row[3].toInt(),
-          valorUnitario = row[4].toDouble(),
-          valorTotal = row[5].toDouble(),
-                   )
-      }
-      listPedidoExcel.clear()
-      listPedidoExcel.addAll(list)
-      listPedidoExcel.forEachIndexed { index, pedidoExcel ->
-        pedidoExcel.linha = index + 1
+      try {
+        val df = DataFrame.readExcel(ByteArrayInputStream(fileText))
+        val list = df.map { row ->
+          PedidoExcel(
+            item = row[0].toStr(),
+            referencia = row[1].toStr(),
+            descricao = row[2].toStr(),
+            quantidade = row[3].toInt(),
+            valorUnitario = row[4].toDouble(),
+            valorTotal = row[5].toDouble(),
+                     )
+        }
+        listPedidoExcel.clear()
+        listPedidoExcel.addAll(list)
+        listPedidoExcel.forEachIndexed { index, pedidoExcel ->
+          pedidoExcel.linha = index + 1
+        }
+      }catch (e: Throwable){
+        listPedidoExcel.clear()
+        e.printStackTrace()
       }
     }
     updateComponent()
