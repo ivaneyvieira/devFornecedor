@@ -1,16 +1,19 @@
 package br.com.astrosoft.framework.util
 
+import org.nield.kotlinstatistics.mode
 import org.nield.kotlinstatistics.percentile
 
 fun main(args: Array<String>) {
   System.out.printf("Hola\n")
   val list = ArrayList<Double>()
-  list.add(945.45);
-  list.add(102.02);
-  list.add(3028.0);
-  list.add(14400.0);
-  list.add(1500.1);
-  list.add(63.63);
+  list.add(945.45)
+  list.add(102.02)
+  list.add(3028.0)
+  list.add(14400.0)
+  list.add(1500.1)
+  list.add(63.63)
+
+  val mode = list.mode();
 
   val outliers = list.notOutliers()
   System.out.printf("%d outliers\n", outliers.size)
