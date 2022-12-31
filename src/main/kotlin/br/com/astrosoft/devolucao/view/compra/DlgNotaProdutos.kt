@@ -240,8 +240,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
-                if (line.find(produto.qtPedida)) "marcaOk"
+                if (produto.qtPedida == produto.quantidadeCt) "marcaOk"
                 else "marcaError"
               }
 
@@ -264,8 +263,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
-                if (line.find(produto.custoUnit)) "marcaOk"
+                if (produto.custoUnit == produto.valorUnitarioCt) "marcaOk"
                 else "marcaError"
               }
 
