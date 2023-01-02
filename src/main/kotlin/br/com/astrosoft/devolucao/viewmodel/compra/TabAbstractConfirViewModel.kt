@@ -104,8 +104,8 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
   }
 
   final override fun findPedidoPDF(produto: PedidoCompraProduto) {
-    val listStr = produto.listCodigo()
-    val linha = listStr.flatMap { cod ->
+    val listCodigo = produto.listCodigo()
+    val linha = listCodigo.flatMap { cod ->
       fileText.findLine(cod)
     }.firstOrNull()
     produto.linePDF = linha

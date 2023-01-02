@@ -36,9 +36,13 @@ class FileText {
   }
 
   fun findLine(text: String): List<Line> {
-    return lines.filter { line ->
-      line.find(text)
+    return filterDataLines().filter { line ->
+      line.find(text, Line.split1)
     }
+  }
+
+  private fun filterDataLines() : List<Line> {
+    return lines
   }
 
   fun localizaColunas(): Line? {

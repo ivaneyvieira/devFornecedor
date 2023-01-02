@@ -10,13 +10,13 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   private val form1 = DecimalFormat("#,##0.#####")
   private val form2 = DecimalFormat("0.#####")
 
-  fun find(text: String?): Boolean {
-    return findIndex(text).isNotEmpty()
+  fun find(text: String?, sepSplit: Regex): Boolean {
+    return findIndex(text, sepSplit).isNotEmpty()
   }
 
-  private fun listPosTokens(): Sequence<LinePosition> {
+  private fun listPosTokens(sepSplit: Regex): Sequence<LinePosition> {
     val seq = sequence {
-      val tokens = lineStr.unaccent().split(regExSperador)
+      val tokens = lineStr.unaccent().split(sepSplit)
       var index = 0
       tokens.forEach { token ->
         index = " $lineStr ".indexOf(" $token ", startIndex = index)
@@ -28,25 +28,17 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return seq
   }
 
-  private fun findIndex(text: String?): List<LinePosition> {
+  private fun findIndex(text: String?, sepSplit: Regex): List<LinePosition> {
     text ?: return emptyList()
-    val seq = sequence {
-      val tokens = lineStr.unaccent().split(regExSperador).filter { it == text.unaccent() }
-      var index = 0
-      tokens.forEach { token ->
-        index = " $lineStr ".indexOf(" $token ", startIndex = index)
-        yield(createLinePosition(index, token))
-        index += token.length
-      }
-    }
-    return seq.toList().filterNotNull()
+    val seq = listPosTokens(sepSplit).filter { it.text == text.unaccent() }
+    return seq.toList()
   }
 
   private fun createLinePosition(start: Int, text: String): LinePosition? {
     val startIndex = 0
     val endIndex = lineStr.length - 1
     return if (start in startIndex..endIndex) {
-      LinePosition(start, text)
+      LinePosition(start, text.trim())
     }
     else null
   }
@@ -71,15 +63,16 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     else ""
   }
 
-  fun item() = lineStr.trim().split(regExSperador).getOrNull(0) ?: ""
+  fun item() =  listPosTokens(split2).toList().getOrNull(0)?.text ?: ""
 
   fun find(num: Number?): Boolean {
-    return findIndex(num).isNotEmpty()
+    return findIndex(num).toList().isNotEmpty()
   }
 
   fun findIndex(num: Number?): List<LinePosition> {
     num ?: return emptyList()
-    val numStr = lineStr.split(regExSperador).mapNotNull { str ->
+    val numStr = listPosTokens(split1).mapNotNull { pos ->
+      val str = pos.text
       val number = strToNumber(str)
       if (number == null) null
       else {
@@ -88,10 +81,10 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
         else null
       }
     }.distinct()
-    return numStr.flatMap { str -> findIndex(str) }
+    return numStr.flatMap { str -> findIndex(str, split1) }.toList()
   }
 
-  val countTitleWord = titleWord.count { find(it) }
+  val countTitleWord = titleWord.count { find(it, split2) }
 
   fun mid(start: Int, end: Int): String {
     return if (lineStr == "") ""
@@ -106,18 +99,17 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   fun mid(start: Int): String = mid(start, start)
 
-  fun tituloColuna(): List<String> {
-    val lineStr = this.lineStr
-    return lineStr.split(regExSperador).map { it.trim() }
+  fun tituloColuna(): Sequence<String> {
+    return listPosTokens(split2).map { it.text }
   }
 
   fun columns(): List<Column> {
-    val titles = this.tituloColuna()
+    val titles = this.tituloColuna().toList()
     var posIndex = 0
     val sequence = sequence<Column> {
       titles.forEachIndexed { index, title ->
         val isFirst = index == 0
-        val isLast = index == (titles.size - 1)
+        val isLast = index == (titles.toList().size - 1)
         val posStart = if (isFirst) 0
         else {
           val prevTitle = titles[index - 1]
@@ -146,7 +138,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   fun getInt(start: Int?, end: Int?): Int? {
     start ?: return null
     end ?: return null
-    val strInt = midLine(start = posStart(start), end = posEnd(end))?.split(regExSperador)?.getOrNull(0)
+    val strInt = midLine(start = posStart(start), end = posEnd(end))?.split(split1)?.getOrNull(0)
     val int = strToNumber(strInt)?.toInt()
     return int
   }
@@ -154,7 +146,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   fun getDouble(start: Int?, end: Int?): Double? {
     start ?: return null
     end ?: return null
-    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.split(regExSperador)?.getOrNull(0)
+    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.split(split1)?.getOrNull(0)
     val double = strToNumber(strDouble)?.toDouble()
     return double
   }
@@ -166,7 +158,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   private fun posEnd(end: Int): Int? {
     return if(midChar(end) == ' ') end
     else {
-      val token = listPosTokens()
+      val token = listPosTokens(split1)
       token.map { it.end }.filter { it >= end }.minOrNull()
     }
   }
@@ -174,13 +166,14 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   private fun posStart(start: Int): Int? {
     return if(midChar(start) == ' ') start
     else {
-      val token = listPosTokens()
+      val token = listPosTokens(split1)
       token.map { it.start }.filter { it <= start }.maxOrNull()
     }
   }
 
   companion object{
-    val regExSperador = "\\s\\s+".toRegex()
+    val split1 = "\\s+".toRegex()
+    val split2 = "\\s\\s+".toRegex()
   }
 }
 

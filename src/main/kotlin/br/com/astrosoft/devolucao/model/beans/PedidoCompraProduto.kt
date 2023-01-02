@@ -80,7 +80,7 @@ class PedidoCompraProduto(
                          ) {
   fun findQuant(): List<LinePosition> {
     val line = linePDF ?: return emptyList()
-    val pos = line.findIndex(qtPedida)
+    val pos = line.findIndex(qtPedida).toList()
     return pos
   }
 
