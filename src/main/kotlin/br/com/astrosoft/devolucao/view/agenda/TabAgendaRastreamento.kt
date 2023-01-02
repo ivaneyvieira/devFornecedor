@@ -18,22 +18,22 @@ import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaOr
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaPedido
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaTransp
 import br.com.astrosoft.devolucao.view.agenda.columns.AgendaViewColumns.agendaVolume
-import br.com.astrosoft.devolucao.viewmodel.agenda.ITabAgendaPreEntrada
-import br.com.astrosoft.devolucao.viewmodel.agenda.TabAgendaPreEntradaViewModel
+import br.com.astrosoft.devolucao.viewmodel.agenda.ITabAgendaRastreamento
+import br.com.astrosoft.devolucao.viewmodel.agenda.TabAgendaRastreamentoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.addColumnButton
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 
-class TabAgendaRastreamento(viewModel: TabAgendaPreEntradaViewModel) : TabAgendaAbstract(viewModel),
-        ITabAgendaPreEntrada {
+class TabAgendaRastreamento(viewModel: TabAgendaRastreamentoViewModel) : TabAgendaAbstract(viewModel),
+        ITabAgendaRastreamento {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.agendaNaoAgendada == true
   }
 
   override val label: String
-    get() = "Pré-entrada"
+    get() = "Rastremento"
 
    override fun Grid<Agenda>.colunasGrid() {
     addColumnButton(VaadinIcon.EDIT, "Agendamento", "Agd") { agenda ->
