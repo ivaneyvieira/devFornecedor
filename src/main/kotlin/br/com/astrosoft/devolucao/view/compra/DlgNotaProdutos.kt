@@ -23,6 +23,7 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.viewmodel.compra.EFileType
 import br.com.astrosoft.devolucao.viewmodel.compra.EFileType.PDF
 import br.com.astrosoft.devolucao.viewmodel.compra.EFileType.XLSX
+import br.com.astrosoft.devolucao.viewmodel.compra.ETipoPainel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraConfViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.util.format
@@ -105,35 +106,39 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
 
       if (viewModel is ITabCompraConfViewModel) {
-        this.uploadArquivo { buffer, upload ->
-          upload.isDropAllowed = false
-          upload.addSucceededListener {
-            val bytes = buffer.inputStream.readBytes()
-            if (buffer.fileName.endsWith(".pdf", ignoreCase = true)) { //PDF
-              viewModel.savePDFPedido(pedido, bytes)
-              pedido.produtos.forEach {
-                viewModel.findPedidoPDF(it)
+        if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
+          this.uploadArquivo { buffer, upload ->
+            upload.isDropAllowed = false
+            upload.addSucceededListener {
+              val bytes = buffer.inputStream.readBytes()
+              if (buffer.fileName.endsWith(".pdf", ignoreCase = true)) { //PDF
+                viewModel.savePDFPedido(pedido, bytes)
+                pedido.produtos.forEach {
+                  viewModel.findPedidoPDF(it)
+                }
+                pedido.processaQuantPDF()
               }
-              pedido.processaQuantPDF()
-            }
-            else if (buffer.fileName.endsWith(".xlsx", ignoreCase = true)) {
-              viewModel.saveExcelPedido(pedido, bytes)
-              pedido.produtos.forEach {
-                viewModel.findPedidoExcel(it)
+              else if (buffer.fileName.endsWith(".xlsx", ignoreCase = true)) {
+                viewModel.saveExcelPedido(pedido, bytes)
+                pedido.produtos.forEach {
+                  viewModel.findPedidoExcel(it)
+                }
               }
+              gridNota.dataProvider.refreshAll()
             }
-            gridNota.dataProvider.refreshAll()
           }
         }
-        this.button("Remover Pedido") {
-          icon = VaadinIcon.TRASH.create()
-          onLeftClick {
-            viewModel.removeExcelPedido(pedido)
-            viewModel.removePDFPedido(pedido)
-            pedido.produtos.forEach {
-              it.pedidoExcel = null
+        if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
+          this.button("Remover Pedido") {
+            icon = VaadinIcon.TRASH.create()
+            onLeftClick {
+              viewModel.removeExcelPedido(pedido)
+              viewModel.removePDFPedido(pedido)
+              pedido.produtos.forEach {
+                it.pedidoExcel = null
+              }
+              gridNota.dataProvider.refreshAll()
             }
-            gridNota.dataProvider.refreshAll()
           }
         }
         this.button("Exibir Pedido") {
@@ -145,11 +150,21 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             }
           }
         }
-        this.button("Confirma Pedido") {
-          icon = VaadinIcon.CHECK.create()
-          onLeftClick {
-            val itens = gridNota.selectedItems
-            viewModel.confirmaProdutoSelecionado(itens)
+        if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
+          this.button("Confirma Pedido") {
+            icon = VaadinIcon.CHECK.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems
+              viewModel.confirmaProdutoSelecionado(itens)
+            }
+          }
+        }else {
+          this.button("Voltar") {
+            icon = VaadinIcon.CHECK.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems
+              viewModel.desconfirmaProdutoSelecionado(itens)
+            }
           }
         }
       }
