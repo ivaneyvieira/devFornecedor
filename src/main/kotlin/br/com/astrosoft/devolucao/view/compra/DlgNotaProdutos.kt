@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
+import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colBarcode
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCusto
@@ -190,7 +191,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               PDF  -> {
                 val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
-                if (line.find(ref2)) "marcaOk"
+                if (line.find(ref2, Line.split1)) "marcaOk"
                 else "marcaError"
               }
 
@@ -217,7 +218,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               PDF  -> {
                 val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
                 val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
-                if (listRef.any { line.find(it) }) "marcaOk"
+                if (listRef.any { line.find(it, Line.split1) }) "marcaOk"
                 else "marcaError"
               }
 

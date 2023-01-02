@@ -5,7 +5,7 @@ data class DataLine(val column: List<Column>) {
     val listLineDados = column.map { it.lineDados() }
     val ret = listLineDados.firstNotNullOfOrNull { lines ->
       lines.firstOrNull { line ->
-        line.find(ref)
+        line.find(ref, Line.split1)
       }
     }
     return ret
