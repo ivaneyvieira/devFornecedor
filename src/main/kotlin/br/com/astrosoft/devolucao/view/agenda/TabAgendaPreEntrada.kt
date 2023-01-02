@@ -29,7 +29,7 @@ class TabAgendaPreEntrada(viewModel: TabAgendaPreEntradaViewModel) : TabAgendaAb
         ITabAgendaPreEntrada {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.agendaNaoAgendada == true
+    return username?.agendaPreEntrada == true
   }
 
   override val label: String

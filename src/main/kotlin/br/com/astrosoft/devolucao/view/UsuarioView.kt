@@ -277,7 +277,11 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
           checkBox("Pré-entrada") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::agendaNaoAgendada.name)
+            binder.bind(this, UserSaci::agendaPreEntrada.name)
+          }
+          checkBox("Rastreamento") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::agendaRastreamento.name)
           }
           checkBox("Agendada") {
             isReadOnly = readOnly
