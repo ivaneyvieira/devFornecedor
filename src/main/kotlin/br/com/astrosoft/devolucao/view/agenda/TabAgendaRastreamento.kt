@@ -29,7 +29,7 @@ class TabAgendaRastreamento(viewModel: TabAgendaRastreamentoViewModel) : TabAgen
         ITabAgendaRastreamento {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.agendaNaoAgendada == true
+    return username?.agendaRastreamento == true
   }
 
   override val label: String
