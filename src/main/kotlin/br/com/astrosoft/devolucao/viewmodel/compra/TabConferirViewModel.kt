@@ -29,6 +29,10 @@ class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfirViewMo
     subView.updateGrid(list)
   }
 
+  override fun tipoPainel(): ETipoPainel {
+    return ETipoPainel.Conferir
+  }
+
   private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
     val filtro = subView.filtro()
     val list = PedidoCompraFornecedor.findAll(filtro).filter {

@@ -29,6 +29,10 @@ class TabConfirmadoViewModel(viewModel: CompraViewModel) : TabAbstractConfirView
     subView.updateGrid(list)
   }
 
+  override fun tipoPainel(): ETipoPainel {
+    return ETipoPainel.Confirmado
+  }
+
   private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
     val filtro = subView.filtro()
     val list = PedidoCompraFornecedor.findAll(filtro).filter {

@@ -16,13 +16,20 @@ interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun savePDFPedido(pedido: PedidoCompra, bytes: ByteArray)
   fun removePDFPedido(pedido: PedidoCompra)
   fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
+  fun desconfirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
   fun pedidoOK(): EFileType
   fun setFileExcel(fileText: ByteArray?)
   fun setFilePDF(fileText: ByteArray?)
   fun findPedidoExcel(produto: PedidoCompraProduto)
   fun findPedidoPDF(produto: PedidoCompraProduto)
+
+  fun tipoPainel(): ETipoPainel
 }
 
 enum class EFileType{
   NONE, PDF, XLSX
+}
+
+enum class ETipoPainel{
+  Conferir, Confirmado
 }

@@ -47,6 +47,15 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
     }
   }
 
+  final override fun desconfirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
+    if (itens.isEmpty()) {
+      fail("Newnhum item selecionado")
+    }
+    itens.forEach { item ->
+      item.desmarcaConferido()
+    }
+  }
+
   final override fun pedidoOK(): EFileType {
     return when {
       listPedidoExcel.isNotEmpty() -> EFileType.XLSX
