@@ -21,9 +21,9 @@ class AgendaView : ViewLayout<AgendaViewModel>(), IAgendaView {
     return userSaci.menuAgenda
   }
 
-  override val tabAgendaAgendada = TabAgendaAgendada(viewModel.tabAgendadaVMAgendada)
-  override val tabAgendaNaoAgendada = TabAgendaPreEntrada(viewModel.tabAgendadaVMNaoAgendada)
-  override val tabAgendaRecebida = TabAgendaRecebida(viewModel.tabAgendadaVMRecebida)
+  override val tabAgendaAgendada = TabAgendaAgendada(viewModel.tabAgendadaAgendada)
+  override val tabAgendaPreEntrada = TabAgendaPreEntrada(viewModel.tabAgendadaPreEntrada)
+  override val tabAgendaRecebida = TabAgendaRecebida(viewModel.tabAgendadaRecebida)
 
   init {
     addTabSheat(viewModel)

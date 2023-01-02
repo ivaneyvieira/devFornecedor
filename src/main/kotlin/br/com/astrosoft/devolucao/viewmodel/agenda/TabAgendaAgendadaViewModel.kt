@@ -1,6 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.agenda
 
-class TabAgendaViewModelAgendada(viewModel: AgendaViewModel) : TabAgendaViewModelAbstract(viewModel) {
+class TabAgendaAgendadaViewModel(viewModel: AgendaViewModel) : TabAgendaViewModelAbstract(viewModel) {
   override val subView
     get() = viewModel.view.tabAgendaAgendada
 }
