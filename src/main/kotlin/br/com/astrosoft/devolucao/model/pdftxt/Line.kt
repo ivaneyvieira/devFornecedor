@@ -4,7 +4,14 @@ import br.com.astrosoft.framework.util.unaccent
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
-private val titleWord = listOf("Cod", "Codigo", "Descricao", "Qtde", "Un", "Item", "Produto", "Qtd", "Preco", "Total")
+val titleQuant = listOf("Qnt", "Quant", "Qt", "Qtd", "Quantidade", "Qtde").map {
+  it.unaccent()
+}
+
+val titleValor = listOf("Preco", "Un. Liq", "Valor", "Unitario", "VR.UNIT", "Pr.Unit").map {
+  it.unaccent()
+}
+private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total") + titleQuant + titleValor
 
 data class Line(val num: Int, val lineStr: String, val fileText: FileText, val double: Boolean = false) {
   private val form1 = DecimalFormat("#,##0.#####")
@@ -14,12 +21,13 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return findIndex(text, sepSplit).isNotEmpty()
   }
 
-  private fun listPosTokens(sepSplit: Regex): Sequence<LinePosition> {
+  fun listPosTokens(sepSplit: Regex): Sequence<LinePosition> {
     val seq = sequence {
-      val tokens = lineStr.unaccent().split(sepSplit)
+      val lineStrUnacent = lineStr.unaccent()
+      val tokens = lineStrUnacent.split(sepSplit)
       var index = 0
       tokens.forEach { token ->
-        index = " $lineStr ".indexOf(" $token ", startIndex = index)
+        index = " $lineStrUnacent ".indexOf(" $token ", startIndex = index)
         val pos = createLinePosition(index, token)
         if (pos != null) yield(pos)
         index += token.length
@@ -30,8 +38,11 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   private fun findIndex(text: String?, sepSplit: Regex): List<LinePosition> {
     text ?: return emptyList()
-    val seq = listPosTokens(sepSplit).filter { it.text == text.unaccent() }
-    return seq.toList()
+    val list = listPosTokens(sepSplit).toList()
+    val seq = list.filter {
+      it.text.unaccent() == text.unaccent()
+    }
+    return seq
   }
 
   private fun createLinePosition(start: Int, text: String): LinePosition? {
@@ -63,7 +74,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     else ""
   }
 
-  fun item() =  listPosTokens(split2).toList().getOrNull(0)?.text ?: ""
+  fun item() = listPosTokens(split2).toList().getOrNull(0)?.text ?: ""
 
   fun find(num: Number?): Boolean {
     return findIndex(num).toList().isNotEmpty()
@@ -84,7 +95,10 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return numStr.flatMap { str -> findIndex(str, split1) }.toList()
   }
 
-  val countTitleWord = titleWord.count { find(it, split2) }
+  fun countTitleWord() : Int {
+    val count = titleWord.count { find(it, split1) }
+    return count
+  }
 
   fun mid(start: Int, end: Int): String {
     return if (lineStr == "") ""
@@ -138,7 +152,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   fun getInt(start: Int?, end: Int?): Int? {
     start ?: return null
     end ?: return null
-    val strInt = midLine(start = posStart(start), end = posEnd(end))?.split(split1)?.getOrNull(0)
+    val strInt = midLine(start = posStart(start), end = posEnd(end))?.trim()?.split(split1)?.getOrNull(0)
     val int = strToNumber(strInt)?.toInt()
     return int
   }
@@ -146,7 +160,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   fun getDouble(start: Int?, end: Int?): Double? {
     start ?: return null
     end ?: return null
-    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.split(split1)?.getOrNull(0)
+    val strDouble = midLine(start = posStart(start), end = posEnd(end))?.trim()?.split(split1)?.getOrNull(0)
     val double = strToNumber(strDouble)?.toDouble()
     return double
   }
@@ -156,7 +170,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   private fun posEnd(end: Int): Int? {
-    return if(midChar(end) == ' ') end
+    return if (midChar(end) == ' ') end
     else {
       val token = listPosTokens(split1)
       token.map { it.end }.filter { it >= end }.minOrNull()
@@ -164,14 +178,14 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   private fun posStart(start: Int): Int? {
-    return if(midChar(start) == ' ') start
+    return if (midChar(start) == ' ') start
     else {
       val token = listPosTokens(split1)
       token.map { it.start }.filter { it <= start }.maxOrNull()
     }
   }
 
-  companion object{
+  companion object {
     val split1 = "\\s+".toRegex()
     val split2 = "\\s\\s+".toRegex()
   }
@@ -180,6 +194,4 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 data class LinePosition(val start: Int, val text: String) {
   val end
     get() = start + text.length
-  val mean
-    get() = (end + start) * 1.00 / 2.00
 }

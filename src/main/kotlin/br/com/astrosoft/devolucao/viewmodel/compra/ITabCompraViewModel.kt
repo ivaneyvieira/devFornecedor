@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.viewmodel.compra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.model.beans.PedidoExcel
+import br.com.astrosoft.devolucao.model.pdftxt.FileText
 
 interface ITabCompraViewModel {
   fun imprimirPedidoCompra(pedidos: List<PedidoCompra>)
@@ -24,6 +25,8 @@ interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun findPedidoPDF(produto: PedidoCompraProduto)
 
   fun tipoPainel(): ETipoPainel
+
+  fun fileText() : FileText
 }
 
 enum class EFileType{

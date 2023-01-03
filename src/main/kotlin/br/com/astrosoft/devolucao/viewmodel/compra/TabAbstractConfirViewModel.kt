@@ -33,6 +33,10 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
     setFilePDF(bytes)
   }
 
+  final override fun fileText(): FileText {
+    return fileText
+  }
+
   final override fun removePDFPedido(pedido: PedidoCompra) {
     pedido.removeExcel()
     setFilePDF(null)

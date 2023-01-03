@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.pdftxt
 
+import br.com.astrosoft.framework.util.unaccent
 import java.io.File
 
 class FileText {
@@ -41,23 +42,47 @@ class FileText {
     }
   }
 
-  private fun filterDataLines() : List<Line> {
+  private fun filterDataLines(): List<Line> {
     return lines
   }
 
-  fun localizaColunas(): Line? {
-    val max = lines.maxOf { it.countTitleWord }
-    return lines.firstOrNull { it.countTitleWord == max }
+  fun localizaColunas(): List<Line> {
+    val max = lines.maxOf { it.countTitleWord() }
+    return lines.filter { it.countTitleWord() == max }
+  }
+
+  fun findColQuant(): List<LinePosition> {
+    val lines = localizaColunas()
+    return lines.flatMap { line ->
+      val tokens = line.listPosTokens(Line.split2).toList()
+      val token = tokens.mapNotNull { token ->
+        val tokenOk = titleQuant.contains(token.text.unaccent())
+        if (tokenOk) token else null
+      }
+
+      token.map {t ->
+        LinePosition(t.start, "${t.text}      ")
+      }
+    }
+  }
+
+  fun findColValor(): List<LinePosition> {
+    val lines = localizaColunas()
+    return lines.flatMap { line ->
+      val tokens = line.listPosTokens(Line.split2).toList()
+      val token = tokens.mapNotNull { token ->
+        val tokenOk = titleValor.contains(token.text.unaccent())
+        if (tokenOk) token else null
+      }
+
+      token.map {t ->
+        LinePosition(t.start, "${t.text}      ")
+      }
+    }
   }
 
   fun lines(start: Int): List<Line> {
     return lines.subList(start - 1, lines.size).toList()
-  }
-
-  fun listLinesDados(): DataLine? {
-    val lineTitle = localizaColunas() ?: return null
-    val colunas = lineTitle.columns()
-    return DataLine(colunas)
   }
 
   fun isNotEmpty(): Boolean {
@@ -94,7 +119,6 @@ fun main() {
   val filename = "/home/ivaneyvieira/git/devFornecedor/pedidosPDF/pedido01.txt"
   val file = FileText.fromFile(filename)
   val lineColumn = file.localizaColunas()
-  if (lineColumn != null) teste01(lineColumn)
 }
 
 private fun teste01(lineColumn: Line) {

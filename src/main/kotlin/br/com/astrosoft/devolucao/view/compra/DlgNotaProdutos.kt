@@ -61,6 +61,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       if (byteExcel == null) {
         pedido.toPDF()?.let { bytes ->
           viewModel.setFilePDF(bytes)
+          pedido.fileText = viewModel.fileText()
           pedido.produtos.forEach { produto ->
             viewModel.findPedidoPDF(produto)
           }
