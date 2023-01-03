@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.notOutliers
@@ -24,29 +25,12 @@ class PedidoCompra(
   val vlPendente: Double,
   val produtos: List<PedidoCompraProduto>,
                   ) {
+  var fileText: FileText? = null
 
   fun processaQuantPDF() {
-    val listPosQuant = produtos.flatMap { prd ->
-      prd.findQuant()
-    }
+    val (startQuant, endQuant) = posQuant()
 
-    val posModeQuant = listPosQuant.asSequence().flatMap { p->
-      (p.start .. p.end)
-    }.mode()
-
-    val startQuant = posModeQuant.minOrNull()
-    val endQuant = posModeQuant.maxOrNull()
-
-    val listPosValor = produtos.flatMap { prd ->
-      prd.findValor()
-    }
-
-    val posModeValor = listPosValor.asSequence().flatMap { p->
-      (p.start .. p.end)
-    }.mode()
-
-    val startValor = posModeValor.minOrNull()
-    val endValor = posModeValor.maxOrNull()
+    val (startValor, endValor) = posValor()
 
     produtos.forEach { prd ->
       if (prd.linePDF != null) {
@@ -59,6 +43,38 @@ class PedidoCompra(
         prd.calculeDifs()
       }
     }
+  }
+
+  private fun posValor(): Pair<Int?, Int?> {
+    val posTitle = fileText?.findColValor().orEmpty()
+
+    val listPosValor = produtos.flatMap { prd ->
+      prd.findValor()
+    } + posTitle
+
+    val posModeValor = listPosValor.asSequence().flatMap { p ->
+      (p.start..p.end)
+    }.mode()
+
+    val startValor = posModeValor.minOrNull()
+    val endValor = posModeValor.maxOrNull()
+    return Pair(startValor, endValor)
+  }
+
+  private fun posQuant(): Pair<Int?, Int?> {
+    val posTitle = fileText?.findColQuant().orEmpty()
+
+    val listPosQuant = produtos.flatMap { prd ->
+      prd.findQuant()
+    } + posTitle
+
+    val posModeQuant = listPosQuant.asSequence().flatMap { p ->
+      (p.start..p.end)
+    }.mode().toList()
+
+    val startQuant = posModeQuant.minOrNull()
+    val endQuant = posModeQuant.maxOrNull()
+    return Pair(startQuant, endQuant)
   }
 
   fun saveExcel(bytes: ByteArray) {

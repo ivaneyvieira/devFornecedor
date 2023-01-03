@@ -3,6 +3,7 @@ package br.com.astrosoft.framework.util
 import org.jsoup.Jsoup
 import java.text.DecimalFormat
 import java.text.Normalizer
+import java.util.*
 
 private val formatNumber = DecimalFormat("#,##0.00")
 private val formatInteger = DecimalFormat("#,##0")
@@ -78,5 +79,5 @@ private val REGEX_UNACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
 fun CharSequence.unaccent(): String {
   val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
-  return REGEX_UNACCENT.replace(temp, "")
+  return REGEX_UNACCENT.replace(temp, "").uppercase(Locale.getDefault())
 }
