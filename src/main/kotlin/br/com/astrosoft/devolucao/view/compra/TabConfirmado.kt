@@ -95,6 +95,7 @@ class TabConfirmado(val viewModel: TabConfirmadoViewModel) :
       pesquisa = edtPedquisa.value ?: "",
       onlyPendente = true,
       onlyConfirmado = true,
+      onlyNotConfirmado = false,
                              )
   }
 

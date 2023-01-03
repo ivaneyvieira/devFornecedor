@@ -93,6 +93,7 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
       pesquisa = edtPedquisa.value ?: "",
       onlyPendente = false,
       onlyConfirmado = false,
+      onlyNotConfirmado = false,
                              )
   }
 

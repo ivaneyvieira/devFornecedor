@@ -737,6 +737,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("onlyConfirmado", filtro.onlyConfirmado.let { onlyConfirmado ->
         if (onlyConfirmado) "S" else "N"
       })
+      addOptionalParameter("onlyNotConfirmado", filtro.onlyNotConfirmado.let { onlyNotConfirmado ->
+        if (onlyNotConfirmado) "S" else "N"
+      })
     }
   }
 

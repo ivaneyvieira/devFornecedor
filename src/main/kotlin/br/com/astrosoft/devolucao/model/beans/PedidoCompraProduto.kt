@@ -41,6 +41,8 @@ class PedidoCompraProduto(
   val descricao: String?,
   @FieldName("Grade")
   val grade: String?,
+  @FieldName("Qt Embalagem")
+  val qtEmbalagem: Int?,
   @FieldName("Ref Fab")
   val refFab: String?,
   @FieldExclude
@@ -169,4 +171,5 @@ data class FiltroPedidoCompra(
   val pesquisa: String,
   val onlyPendente: Boolean,
   val onlyConfirmado: Boolean,
+  val onlyNotConfirmado: Boolean,
                              )

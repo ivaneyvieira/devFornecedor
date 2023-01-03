@@ -42,6 +42,10 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Grade")
   }
 
+  fun Grid<PedidoCompraProduto>.colQtEmbalagem() = addColumnInt(PedidoCompraProduto::qtEmbalagem) {
+    this.setHeader("Qt Embalagem")
+  }
+
   fun Grid<PedidoCompraProduto>.colRefDif() = addColumnString(PedidoCompraProduto::difRef) {
     this.setHeader("Dif Ref")
   }

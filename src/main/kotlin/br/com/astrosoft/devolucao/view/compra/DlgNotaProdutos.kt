@@ -12,6 +12,7 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colItem
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtEmbalagem
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtde
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeCt
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeDif
@@ -191,6 +192,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colBarcode()
       colDescricao()
       colGrade()
+      colQtEmbalagem()
       colDescNota()
       colRefFabrica().apply {
         this.setClassNameGenerator { produto ->

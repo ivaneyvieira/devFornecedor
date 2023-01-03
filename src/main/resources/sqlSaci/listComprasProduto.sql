@@ -59,6 +59,7 @@ SELECT 'SACI'                                                                   
        TRIM(MID(P.name, 1, 37))                                                     AS descricao,
        P.mfno_ref                                                                   AS refFab,
        E.grade                                                                      AS grade,
+       P.qttyPackClosed / 1000                                                      AS qtEmbalagem,
        MID(P.name, 38, 3)                                                           AS unidade,
        MID(CAST(COALESCE(R.refno, RS.refno, '') AS CHAR), 1, 40)                    AS refno,
        CAST(COALESCE(R.refname, RS.refname, '') AS CHAR)                            AS refname,
@@ -149,6 +150,7 @@ SELECT origem,
        descricao,
        refFab,
        grade,
+       qtEmbalagem,
        unidade,
        refno,
        refname,
@@ -167,6 +169,7 @@ WHERE (loja = :loja OR :loja = 0)
        (@VENDNO = 0 AND @PEDIDO = 0 AND @FORNECEDOR = ''))
   AND dataPedido >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
   AND IF(:onlyConfirmado = 'S', confirmado = 'S', TRUE)
+  AND IF(:onlyNotConfirmado = 'S', confirmado != 'S', TRUE)
 GROUP BY loja, numeroPedido, codigo, grade, seqno
 HAVING CASE :onlyPendente
 	 WHEN 'S'
