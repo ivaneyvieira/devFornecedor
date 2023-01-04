@@ -17,6 +17,7 @@ interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun savePDFPedido(pedido: PedidoCompra, bytes: ByteArray)
   fun removePDFPedido(pedido: PedidoCompra)
   fun confirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
+  fun usaEmbalagemProdutoSelecionado(itens: Set<PedidoCompraProduto>)
   fun desconfirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>)
   fun pedidoOK(): EFileType
   fun setFileExcel(fileText: ByteArray?)
