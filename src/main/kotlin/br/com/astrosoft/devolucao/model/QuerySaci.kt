@@ -753,6 +753,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("grade", pedidoCompraProduto.grade)
       addOptionalParameter("seqno", pedidoCompraProduto.seqno ?: 0)
       addOptionalParameter("confirmado", pedidoCompraProduto.confirmado)
+      addOptionalParameter("calcEmbalagem", pedidoCompraProduto.calcEmbalagem)
     }
   }
 

@@ -69,7 +69,8 @@ SELECT 'SACI'                                                                   
        ROUND((E.qtty * E.mult - E.qttyCancel * E.mult - E.qttyRcv * E.mult) / 1000) AS qtPendente,
        E.cost                                                                       AS custoUnit,
        TRIM(IFNULL(B.barcode, P.barcode))                                           AS barcode,
-       E.padbyte                                                                    AS confirmado
+       E.padbyte                                                                    AS confirmado,
+       E.auxStr                                                                     AS calcEmbalagem
 FROM sqldados.ords          AS O
   INNER JOIN sqldados.store AS S
 	       ON S.no = O.storeno
@@ -161,7 +162,8 @@ SELECT origem,
        custoUnit,
        barcode,
        confirmado,
-       qtPedida * custoUnit AS valorTotal
+       qtPedida * custoUnit AS valorTotal,
+       calcEmbalagem
 FROM T_RESULT
 WHERE (loja = :loja OR :loja = 0)
   AND ((vendno = @VENDNO AND @VENDNO != 0) OR (numeroPedido = @PEDIDO AND @PEDIDO != 0) OR

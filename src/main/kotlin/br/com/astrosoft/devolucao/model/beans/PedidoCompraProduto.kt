@@ -79,7 +79,30 @@ class PedidoCompraProduto(
   var confirmado: String?,
   @FieldName("Valor Total")
   val valorTotal: Double,
+  var calcEmbalagem: String,
                          ) {
+  val quantCalculada: Double?
+    get() {
+      val qtPed = qtPedida ?: return null
+      return if (calcEmbalagem == "S") {
+        val qtEmb = qtEmbalagem
+        if (qtEmb == null || qtEmb == 0) null
+        else qtPed * 1.00 / qtEmb
+      }
+      else qtPed * 1.00
+    }
+
+  val valorCalculado: Double?
+    get() {
+      val custo = custoUnit ?: return null
+      return if (calcEmbalagem == "S") {
+        val qtEmb = qtEmbalagem
+        if (qtEmb == null || qtEmb == 0) null
+        else custo * qtEmb
+      }
+      else custo * 1.00
+    }
+
   fun findQuant(): List<LinePosition> {
     val line = linePDF ?: return emptyList()
     val pos = line.findIndex(qtPedida).toList()
@@ -123,6 +146,11 @@ class PedidoCompraProduto(
 
   fun marcaConferido() {
     confirmado = "S"
+    saci.updateConferido(this)
+  }
+
+  fun usaEmbalagem() {
+    calcEmbalagem = if (calcEmbalagem == "S") "N" else "S"
     saci.updateConferido(this)
   }
 

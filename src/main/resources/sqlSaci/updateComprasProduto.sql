@@ -1,5 +1,6 @@
 UPDATE sqldados.oprd
-SET padbyte = :confirmado
+SET padbyte = :confirmado,
+    auxStr = :calcEmbalagem
 WHERE storeno = :loja
   AND ordno = :numeroPedido
   AND prdno = LPAD(:codigo, 16, ' ')

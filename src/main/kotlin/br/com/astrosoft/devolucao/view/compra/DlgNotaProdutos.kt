@@ -33,6 +33,7 @@ import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.fetchAll
+import com.github.mvysny.kaributools.refresh
 import com.github.mvysny.kaributools.setSortOrder
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
@@ -163,6 +164,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             onLeftClick {
               val itens = gridNota.selectedItems
               viewModel.confirmaProdutoSelecionado(itens)
+              gridNota.refresh()
             }
           }
         }else {
@@ -171,6 +173,17 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             onLeftClick {
               val itens = gridNota.selectedItems
               viewModel.desconfirmaProdutoSelecionado(itens)
+              gridNota.refresh()
+            }
+          }
+        }
+        if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
+          this.button("Usa Embalagem") {
+            icon = VaadinIcon.CHECK.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems
+              viewModel.usaEmbalagemProdutoSelecionado(itens)
+              gridNota.refresh()
             }
           }
         }
@@ -197,7 +210,6 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colBarcode()
       colDescricao()
       colGrade()
-      colQtEmbalagem()
       colDescNota()
       colRefFabrica().apply {
         this.setClassNameGenerator { produto ->
@@ -253,6 +265,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
       colRefDif()
       colUnidade()
+      colQtEmbalagem()
       colQtde().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
