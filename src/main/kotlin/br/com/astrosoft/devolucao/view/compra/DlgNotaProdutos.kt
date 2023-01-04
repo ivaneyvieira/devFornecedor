@@ -146,9 +146,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         this.button("Exibir Pedido") {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
-            val bytes = pedido.toPDF()
-            if (bytes != null) {
-              SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
+            val bytesXlsx = pedido.toExcel()
+            if(bytesXlsx == null) {
+              val bytes = pedido.toPDF()
+              if (bytes != null) {
+                SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
+              }
+            }else{
+              SubWindowXlsx(pedido.numeroPedido.toString(), bytesXlsx).open()
             }
           }
         }
