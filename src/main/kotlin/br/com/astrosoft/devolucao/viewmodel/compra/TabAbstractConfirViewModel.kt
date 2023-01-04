@@ -5,9 +5,13 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.model.beans.PedidoExcel
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
+import br.com.astrosoft.framework.util.trimNull
+import br.com.astrosoft.framework.util.unaccent
 import br.com.astrosoft.framework.viewmodel.fail
 import io.github.rushuat.ocell.document.DocumentOOXML
 import org.jetbrains.kotlinx.dataframe.DataFrame
+import org.jetbrains.kotlinx.dataframe.DataRow
+import org.jetbrains.kotlinx.dataframe.api.columnNames
 import org.jetbrains.kotlinx.dataframe.api.map
 import org.jetbrains.kotlinx.dataframe.io.readExcel
 import java.io.ByteArrayInputStream
@@ -76,13 +80,19 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
       try {
         val df = DataFrame.readExcel(ByteArrayInputStream(fileText))
         val list = df.map { row ->
+          val item = row.getValue("ITEM")
+          val referencia = row.getValue("REFERÊNCIA") ?: row.getValue("REF")
+          val descricao = row.getValue("DESCRIÇÃO") ?: row.getValue("PRODUTO")
+          val quantidade = row.getValue("QUANTIDADE") ?: row.getValue("QTD")
+          val valorUnitario = row.getValue("VALOR UNITÁRIO") ?: row.getValue("V. Unit")
+          val valorTotal = row.getValue("VALOR TOTAL") ?: row.getValue("V. total")
           PedidoExcel(
-            item = row[0].toStr(),
-            referencia = row[1].toStr(),
-            descricao = row[2].toStr(),
-            quantidade = row[3].toInt(),
-            valorUnitario = row[4].toDouble(),
-            valorTotal = row[5].toDouble(),
+            item = item.toStr(),
+            referencia = referencia.toStr(),
+            descricao = descricao.toStr(),
+            quantidade = quantidade.toInt(),
+            valorUnitario = valorUnitario.toDouble(),
+            valorTotal = valorTotal.toDouble(),
                      )
         }
         listPedidoExcel.clear()
@@ -96,6 +106,13 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
       }
     }
     updateComponent()
+  }
+
+  fun DataRow<Any?>.getValue(colname: String) : Any? {
+    val col = this.columnNames().firstOrNull {name ->
+      name.unaccent().trimNull() == colname.unaccent().trimNull()
+    } ?: return null
+    return get(col)
   }
 
   final override fun setFilePDF(bytes: ByteArray?) {
