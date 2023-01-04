@@ -179,6 +179,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         }
         if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
           this.button("Usa Embalagem") {
+            this.isVisible = false
             icon = VaadinIcon.CHECK.create()
             onLeftClick {
               val itens = gridNota.selectedItems
