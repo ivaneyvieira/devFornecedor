@@ -71,7 +71,9 @@ class FileText {
     return lines.flatMap { line ->
       val tokens = line.listPosTokens(Line.split2).toList()
       val token = tokens.mapNotNull { token ->
-        val tokenOk = titleValor.contains(token.text.unaccent())
+        val tokenOk = titleValor.any { title ->
+          title.unaccent().contains(token.text.unaccent()) || token.text.unaccent().contains(title.unaccent())
+        }
         if (tokenOk) token else null
       }
 
