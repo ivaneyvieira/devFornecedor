@@ -28,6 +28,8 @@ interface  ITabCompraConfViewModel:ITabCompraViewModel{
   fun tipoPainel(): ETipoPainel
 
   fun fileText() : FileText
+
+  fun ajustaSaldoEmbalagem(itens: Set<PedidoCompraProduto>)
 }
 
 enum class EFileType{

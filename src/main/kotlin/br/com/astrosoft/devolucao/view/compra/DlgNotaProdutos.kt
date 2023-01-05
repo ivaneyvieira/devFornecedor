@@ -179,11 +179,12 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         }
         if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
           this.button("Usa Embalagem") {
-            this.isVisible = false
+            this.isVisible = true
             icon = VaadinIcon.CHECK.create()
             onLeftClick {
               val itens = gridNota.selectedItems
               viewModel.usaEmbalagemProdutoSelecionado(itens)
+              viewModel.ajustaSaldoEmbalagem(itens)
               gridNota.refresh()
             }
           }
@@ -278,7 +279,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               PDF  -> {
-                if (produto.qtPedida == produto.quantidadeCt) "marcaOk"
+                if (produto.quantCalculada?.toInt() == produto.quantidadeCt) "marcaOk"
                 else "marcaError"
               }
 
@@ -301,7 +302,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               PDF  -> {
-                if (produto.custoUnit == produto.valorUnitarioCt) "marcaOk"
+                if (produto.valorCalculado.format() == produto.valorUnitarioCt.format()) "marcaOk"
                 else "marcaError"
               }
 

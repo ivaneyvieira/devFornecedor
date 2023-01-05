@@ -283,8 +283,9 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(property: KProperty1<T
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(property: KProperty1<T, Double?>,
+                                                   pattern: String= "#,##0.00",
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
-  return this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat("#,##0.00"))) {
+  return this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat(pattern))) {
     this.isAutoWidth = true
     this.setComparator { a, b ->
       val dataA = property.get(a) ?: Double.MIN_VALUE

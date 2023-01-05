@@ -64,6 +64,15 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
     }
   }
 
+  final override fun ajustaSaldoEmbalagem(itens: Set<PedidoCompraProduto>) = viewModel.exec {
+    if (itens.isEmpty()) {
+      fail("Newnhum item selecionado")
+    }
+    itens.forEach { item ->
+      item.calculeDifs()
+    }
+  }
+
   final override fun desconfirmaProdutoSelecionado(itens: Set<PedidoCompraProduto>) = viewModel.exec {
     if (itens.isEmpty()) {
       fail("Newnhum item selecionado")
