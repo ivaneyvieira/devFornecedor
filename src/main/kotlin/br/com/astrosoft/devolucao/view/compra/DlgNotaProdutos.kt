@@ -5,23 +5,24 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colBarcode
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
-import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCusto
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoCt
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoDif
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoEmb
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoPed
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colItem
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtEmbalagem
-import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtde
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeCt
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeDif
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdeEmb
+import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colQtdePed
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefDif
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefFabrica
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colRefNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colUnidade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colVlTotal
-import br.com.astrosoft.devolucao.viewmodel.compra.EFileType
 import br.com.astrosoft.devolucao.viewmodel.compra.EFileType.PDF
 import br.com.astrosoft.devolucao.viewmodel.compra.EFileType.XLSX
 import br.com.astrosoft.devolucao.viewmodel.compra.ETipoPainel
@@ -148,12 +149,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           icon = VaadinIcon.PRINT.create()
           onLeftClick {
             val bytesXlsx = pedido.toExcel()
-            if(bytesXlsx == null) {
+            if (bytesXlsx == null) {
               val bytes = pedido.toPDF()
               if (bytes != null) {
                 SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
               }
-            }else{
+            }
+            else {
               SubWindowXlsx(pedido.numeroPedido.toString(), bytesXlsx).open()
             }
           }
@@ -167,7 +169,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               gridNota.refresh()
             }
           }
-        }else {
+        }
+        else {
           this.button("Voltar") {
             icon = VaadinIcon.CHECK.create()
             onLeftClick {
@@ -268,7 +271,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colRefDif()
       colUnidade()
       colQtEmbalagem()
-      colQtde().apply {
+      colQtdePed()
+      colQtdeEmb().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             when (viewModel.pedidoOK()) {
@@ -279,7 +283,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
 
               PDF  -> {
-                if (produto.quantCalculada?.toInt() == produto.quantidadeCt) "marcaOk"
+                if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
                 else "marcaError"
               }
 
@@ -291,7 +295,8 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
       colQtdeCt()
       colQtdeDif()
-      colCusto().apply {
+      colCustoPed()
+      colCustoEmb().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             when (viewModel.pedidoOK()) {

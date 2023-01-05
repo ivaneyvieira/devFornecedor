@@ -81,6 +81,15 @@ class PedidoCompraProduto(
   val valorTotal: Double,
   var calcEmbalagem: String,
                          ) {
+  @FieldExclude
+  var codigoMatch: String? = null
+
+  val referenciaMatch: String?
+    get() {
+      val listRef = refno?.split("/").orEmpty()
+      return listRef.firstOrNull { it == codigoMatch } ?: listRef.getOrNull(0)
+    }
+
   val quantCalculada: Double?
     get() {
       val qtPed = qtPedida ?: return null

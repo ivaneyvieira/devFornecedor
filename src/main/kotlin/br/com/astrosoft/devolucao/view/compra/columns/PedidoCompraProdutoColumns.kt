@@ -32,7 +32,7 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Ref Fab")
   }
 
-  fun Grid<PedidoCompraProduto>.colRefNota() = addColumnString(PedidoCompraProduto::refno) {
+  fun Grid<PedidoCompraProduto>.colRefNota() = addColumnString(PedidoCompraProduto::referenciaMatch) {
     this.setHeader("Ref NF")
   }
 
@@ -52,8 +52,12 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Und")
   }
 
-  fun Grid<PedidoCompraProduto>.colCusto() = addColumnDouble(PedidoCompraProduto::valorCalculado) {
+  fun Grid<PedidoCompraProduto>.colCustoPed() = addColumnDouble(PedidoCompraProduto::custoUnit) {
     this.setHeader("V. Unit Ped")
+  }
+
+  fun Grid<PedidoCompraProduto>.colCustoEmb() = addColumnDouble(PedidoCompraProduto::valorCalculado) {
+    this.setHeader("V. Unit Emb")
   }
 
   fun Grid<PedidoCompraProduto>.colCustoCt() = addColumnDouble(PedidoCompraProduto::valorUnitarioCt) {
@@ -64,8 +68,13 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Dif Valor")
   }
 
-  fun Grid<PedidoCompraProduto>.colQtde() = addColumnDouble(PedidoCompraProduto::quantCalculada, pattern = "#,##0.##") {
+  fun Grid<PedidoCompraProduto>.colQtdePed() = addColumnInt(PedidoCompraProduto::qtPedida) {
     this.setHeader("Qtd Ped")
+  }
+
+  fun Grid<PedidoCompraProduto>.colQtdeEmb() = addColumnDouble(PedidoCompraProduto::quantCalculada, pattern = "#,##0" +
+                                                                                                            ".##") {
+    this.setHeader("Qtd Emb")
   }
 
   fun Grid<PedidoCompraProduto>.colQtdeCt() = addColumnInt(PedidoCompraProduto::quantidadeCt) {
