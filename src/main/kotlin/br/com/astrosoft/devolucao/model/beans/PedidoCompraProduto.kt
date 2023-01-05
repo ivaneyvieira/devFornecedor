@@ -66,7 +66,7 @@ class PedidoCompraProduto(
   @FieldName("Qtd Cot")
   var quantidadeCt: Int? = null,
   @FieldName("Dif Qtd")
-  var quantidadeDif: Int? = null,
+  var quantidadeDif: Double? = null,
   @FieldName("V. Unt Ped")
   val custoUnit: Double?,
   @FieldName("V. Unt Cot")
@@ -169,10 +169,22 @@ class PedidoCompraProduto(
   fun calculeDifs() {
     val qtCot = quantidadeCt
     val valorCot = valorUnitarioCt
-    quantidadeDif = if (qtPedida == null || qtCot == null) null
-    else qtPedida - qtCot
-    valorUnitarioDif = if (custoUnit == null || valorCot == null) null
-    else custoUnit - valorCot
+
+    val quantPed = quantCalculada
+    val valorPed = valorCalculado
+
+    quantidadeDif = if (quantPed == null || qtCot == null) {
+      null
+    }
+    else {
+      quantPed - (qtCot * 1.0)
+    }
+    valorUnitarioDif = if (valorPed == null || valorCot == null) {
+      null
+    }
+    else {
+      valorPed - valorCot
+    }
   }
 
   val dataPedidoStr

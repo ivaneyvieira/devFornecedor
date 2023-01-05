@@ -3,7 +3,6 @@ package br.com.astrosoft.devolucao.view.compra.columns
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.kaributools.sortProperty
@@ -29,7 +28,6 @@ object PedidoCompraProdutoColumns {
     this.isExpand = true
   }
 
-
   fun Grid<PedidoCompraProduto>.colRefFabrica() = addColumnString(PedidoCompraProduto::refFab) {
     this.setHeader("Ref Fab")
   }
@@ -54,7 +52,7 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Und")
   }
 
-  fun Grid<PedidoCompraProduto>.colCusto() = addColumnDouble(PedidoCompraProduto::custoUnit) {
+  fun Grid<PedidoCompraProduto>.colCusto() = addColumnDouble(PedidoCompraProduto::valorCalculado) {
     this.setHeader("V. Unit Ped")
   }
 
@@ -66,7 +64,7 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Dif Valor")
   }
 
-  fun Grid<PedidoCompraProduto>.colQtde() = addColumnInt(PedidoCompraProduto::qtPedida) {
+  fun Grid<PedidoCompraProduto>.colQtde() = addColumnDouble(PedidoCompraProduto::quantCalculada, pattern = "#,##0.##") {
     this.setHeader("Qtd Ped")
   }
 
@@ -74,9 +72,10 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Qtd Cot")
   }
 
-  fun Grid<PedidoCompraProduto>.colQtdeDif() = addColumnInt(PedidoCompraProduto::quantidadeDif) {
-    this.setHeader("Dif Qtd")
-  }
+  fun Grid<PedidoCompraProduto>.colQtdeDif() =
+    addColumnDouble(PedidoCompraProduto::quantidadeDif, pattern = "#,##0.##") {
+      this.setHeader("Dif Qtd")
+    }
 
   fun Grid<PedidoCompraProduto>.colVlTotal() = addColumnDouble(PedidoCompraProduto::vlPedido) {
     this.setHeader("Valor Total")
