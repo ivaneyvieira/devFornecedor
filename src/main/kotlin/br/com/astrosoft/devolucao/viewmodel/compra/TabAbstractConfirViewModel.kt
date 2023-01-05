@@ -118,7 +118,7 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
         listPedidoExcel.forEachIndexed { index, pedidoExcel ->
           pedidoExcel.linha = index + 1
         }
-      }catch (e: Throwable){
+      } catch (e: Throwable) {
         listPedidoExcel.clear()
         e.printStackTrace()
       }
@@ -126,8 +126,8 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
     updateComponent()
   }
 
-  fun DataRow<Any?>.getValue(colname: String) : Any? {
-    val col = this.columnNames().firstOrNull {name ->
+  fun DataRow<Any?>.getValue(colname: String): Any? {
+    val col = this.columnNames().firstOrNull { name ->
       name.unaccent().trimNull() == colname.unaccent().trimNull()
     } ?: return null
     return get(col)
@@ -153,12 +153,14 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
 
   final override fun findPedidoPDF(produto: PedidoCompraProduto) {
     val listCodigo = produto.listCodigo()
-    val linha = listCodigo.flatMap { cod ->
-      fileText.findLine(cod)
+    val codLinha = listCodigo.flatMap { cod ->
+      fileText.findLine(cod).mapNotNull { linha ->
+        Pair(cod, linha)
+      }
     }.firstOrNull()
-    produto.linePDF = linha
+    produto.linePDF = codLinha?.second
+    produto.codigoMatch = codLinha?.first
   }
-
 
   final override fun excelPedidoCompra(pedidos: List<PedidoCompra>): ByteArray {
     return if (pedidos.isEmpty()) {
@@ -174,8 +176,6 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
       }
     }
   }
-
-
 
   private fun Any?.toStr(): String? {
     this ?: return null
@@ -209,8 +209,6 @@ abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITab
       else      -> this.toString().toDoubleOrNull()
     }
   }
-
-
 
   fun excelRelatorioFornecedor(pedidos: List<PedidoCompra>): ByteArray {
     return if (pedidos.isEmpty()) {

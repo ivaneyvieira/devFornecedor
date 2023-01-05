@@ -8,7 +8,7 @@ val titleQuant = listOf("Qnt", "Quant", "Qt", "Qtd", "Quantidade", "Qtde").map {
   it.unaccent()
 }
 
-val titleValor = listOf("Preco", "Un. Liq", "Valor", "Unitario", "VR.UNIT", "Pr.Unit").map {
+val titleValor = listOf("Preco", "Un. Liq", "Valor", "Unitario", "Unit", "VR.UNIT", "Pr.Unit").map {
   it.unaccent()
 }
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total") + titleQuant + titleValor
@@ -144,7 +144,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   private fun strToNumber(str: String?): Number? {
     str ?: return null
-    val regNumPoint = "\\.[0-9]{3}[^0-9]".toRegex()
+    val regNumPoint = "\\.[0-9]{3},".toRegex()
     val num01 = if (regNumPoint.containsMatchIn(str)) str.replace(".", "") else str
     return num01.trim().replace(',', '.').toDoubleOrNull()
   }
