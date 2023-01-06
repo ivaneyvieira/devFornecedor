@@ -4,13 +4,14 @@ import br.com.astrosoft.framework.util.unaccent
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
-val titleQuant = listOf("Qnt", "Quant", "Qt", "Qtd", "Quantidade", "Qtde").map {
+val titleQuant = listOf("Quantidade", "Qnt", "Quant", "Qtd", "Qtde").map {
   it.unaccent()
 }
 
-val titleValor = listOf("Preco", "Un. Liq", "Valor", "Unitario", "Unit", "VR.UNIT", "Pr.Unit").map {
-  it.unaccent()
-}
+val titleValor =
+  listOf("Preco Unit", "Un. Liq", "Valor Unit", "VR.UNIT", "Pr.Unit", "P.Unitario", "Preco", "Unitario", "Unit").map {
+      it.unaccent()
+    }
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total") + titleQuant + titleValor
 
 data class Line(val num: Int, val lineStr: String, val fileText: FileText, val double: Boolean = false) {
@@ -95,7 +96,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return numStr.flatMap { str -> findIndex(str, split1) }.toList()
   }
 
-  fun countTitleWord() : Int {
+  fun countTitleWord(): Int {
     val count = titleWord.count { find(it, split1) }
     return count
   }

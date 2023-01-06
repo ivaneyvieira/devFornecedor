@@ -53,33 +53,31 @@ class FileText {
 
   fun findColQuant(): List<LinePosition> {
     val lines = localizaColunas()
-    return lines.flatMap { line ->
+    return lines.mapNotNull { line ->
       val tokens = line.listPosTokens(Line.split2).toList()
-      val token = tokens.mapNotNull { token ->
-        val tokenOk = titleQuant.contains(token.text.unaccent())
-        if (tokenOk) token else null
+      val token = titleQuant.firstNotNullOfOrNull { title ->
+        tokens.firstOrNull { token ->
+          token.text.unaccent().contains(title)
+        }
       }
 
-      token.map {t ->
-        LinePosition(t.start, "${t.text}      ")
-      }
+      if (token == null) null
+      else LinePosition(token.start, "${token.text}      ")
     }
   }
 
   fun findColValor(): List<LinePosition> {
     val lines = localizaColunas()
-    return lines.flatMap { line ->
+    return lines.mapNotNull { line ->
       val tokens = line.listPosTokens(Line.split2).toList()
-      val token = tokens.mapNotNull { token ->
-        val tokenOk = titleValor.any { title ->
-          title.unaccent().contains(token.text.unaccent()) || token.text.unaccent().contains(title.unaccent())
+      val token = titleValor.firstNotNullOfOrNull { title ->
+        tokens.firstOrNull { token ->
+          token.text.unaccent().contains(title)
         }
-        if (tokenOk) token else null
       }
 
-      token.map {t ->
-        LinePosition(t.start, "${t.text}      ")
-      }
+      if (token == null) null
+      else LinePosition(token.start, "${token.text}      ")
     }
   }
 
