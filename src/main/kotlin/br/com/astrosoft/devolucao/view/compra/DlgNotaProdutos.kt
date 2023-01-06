@@ -271,8 +271,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colRefDif()
       colUnidade()
       colQtEmbalagem()
-      colQtdePed()
-      colQtdeEmb().apply {
+      colQtdePed().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             when (viewModel.pedidoOK()) {
@@ -293,10 +292,10 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
+      colQtdeEmb()
       colQtdeCt()
       colQtdeDif()
-      colCustoPed()
-      colCustoEmb().apply {
+      colCustoPed().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
             when (viewModel.pedidoOK()) {
@@ -317,6 +316,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           else ""
         }
       }
+      colCustoEmb()
       colCustoCt()
       colCustoDif()
       colVlTotal().let { col ->
