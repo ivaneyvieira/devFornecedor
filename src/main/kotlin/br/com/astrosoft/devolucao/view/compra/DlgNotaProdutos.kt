@@ -40,6 +40,7 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.Grid.Column
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -214,109 +215,18 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colCodigo()
       colBarcode()
       colDescricao()
-      colGrade()
-      //colDescNota()
-      colRefFabrica().apply {
-        this.setClassNameGenerator { produto ->
-          if (viewModel is ITabCompraConfViewModel) {
-            when (viewModel.pedidoOK()) {
-              XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-                val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
-                val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
-                if (ref1 == ref2) "marcaOk"
-                else "marcaError"
-              }
-
-              PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
-                val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
-                if (line.find(ref2, Line.split1)) "marcaOk"
-                else "marcaError"
-              }
-
-              else -> ""
-            }
-          }
-          else ""
-        }
-      }
-      colRefNota().apply {
-        this.setClassNameGenerator { produto ->
-          if (viewModel is ITabCompraConfViewModel) {
-            when (viewModel.pedidoOK()) {
-              XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-                val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
-                val listRef = produto.refno?.split("/").orEmpty().map { ref ->
-                  ref.toIntOrNull()?.toString() ?: ref
-                }
-                if (ref1 in listRef) "marcaOk"
-                else "marcaError"
-              }
-
-              PDF  -> {
-                val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
-                val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
-                if (listRef.any { line.find(it, Line.split1) }) "marcaOk"
-                else "marcaError"
-              }
-
-              else -> ""
-            }
-          }
-          else ""
-        }
-      }
+      colGrade() //colDescNota()
+      colRefFabrica().marcaRefFabrica()
+      colRefNota().marcaRefNota()
       colRefDif()
       colUnidade()
       colQtEmbalagem()
-      colQtdePed().apply {
-        this.setClassNameGenerator { produto ->
-          if (viewModel is ITabCompraConfViewModel) {
-            when (viewModel.pedidoOK()) {
-              XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-                if (pedidoExcel.quantidade == produto.qtPedida) "marcaOk"
-                else "marcaError"
-              }
-
-              PDF  -> {
-                if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
-                else "marcaError"
-              }
-
-              else -> ""
-            }
-          }
-          else ""
-        }
-      }
-      colQtdeEmb()
+      colQtdePed().marcaQuant(isEmb = false)
+      colQtdeEmb().marcaQuant(isEmb = true)
       colQtdeCt()
       colQtdeDif()
-      colCustoPed().apply {
-        this.setClassNameGenerator { produto ->
-          if (viewModel is ITabCompraConfViewModel) {
-            when (viewModel.pedidoOK()) {
-              XLSX -> {
-                val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-                if (pedidoExcel.valorUnitario?.format() == produto.custoUnit.format()) "marcaOk"
-                else "marcaError"
-              }
-
-              PDF  -> {
-                if (produto.valorCalculado.format() == produto.valorUnitarioCt.format()) "marcaOk"
-                else "marcaError"
-              }
-
-              else -> ""
-            }
-          }
-          else ""
-        }
-      }
-      colCustoEmb()
+      colCustoPed().marcaValor(isEmb = false)
+      colCustoEmb().marcaValor(isEmb = true)
       colCustoCt()
       colCustoDif()
       colVlTotal().let { col ->
@@ -330,6 +240,110 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
 
       this.setSortOrder(GridSortOrder.asc(colLinha).build())
+    }
+  }
+
+  private fun Column<PedidoCompraProduto>.marcaRefFabrica() {
+    this.setClassNameGenerator { produto ->
+      if (viewModel is ITabCompraConfViewModel) {
+        when (viewModel.pedidoOK()) {
+          XLSX -> {
+            val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
+            val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
+            val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
+            if (ref1 == ref2) "marcaOk"
+            else "marcaError"
+          }
+
+          PDF  -> {
+            val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
+            val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
+            if (line.find(ref2, Line.split1)) "marcaOk"
+            else "marcaError"
+          }
+
+          else -> ""
+        }
+      }
+      else ""
+    }
+  }
+
+  private fun Column<PedidoCompraProduto>.marcaRefNota() {
+    this.setClassNameGenerator { produto ->
+      if (viewModel is ITabCompraConfViewModel) {
+        when (viewModel.pedidoOK()) {
+          XLSX -> {
+            val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
+            val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
+            val listRef = produto.refno?.split("/").orEmpty().map { ref ->
+              ref.toIntOrNull()?.toString() ?: ref
+            }
+            if (ref1 in listRef) "marcaOk"
+            else "marcaError"
+          }
+
+          PDF  -> {
+            val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
+            val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
+            if (listRef.any { line.find(it, Line.split1) }) "marcaOk"
+            else "marcaError"
+          }
+
+          else -> ""
+        }
+      }
+      else ""
+    }
+  }
+
+  private fun Column<PedidoCompraProduto>.marcaQuant(isEmb: Boolean) {
+    this.setClassNameGenerator { produto ->
+      if (produto.calcEmbalagem == "S" == isEmb) {
+        if (viewModel is ITabCompraConfViewModel) {
+          when (viewModel.pedidoOK()) {
+            XLSX -> {
+              val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
+              if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
+              else "marcaError"
+            }
+
+            PDF  -> {
+              if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
+              else "marcaError"
+            }
+
+            else -> ""
+          }
+        }
+        else ""
+      }
+      else ""
+    }
+  }
+
+  private fun Column<PedidoCompraProduto>.marcaValor(isEmb: Boolean) {
+    this.setClassNameGenerator { produto ->
+      if (produto.calcEmbalagem == "S" == isEmb) {
+        if (viewModel is ITabCompraConfViewModel) {
+          when (viewModel.pedidoOK()) {
+            XLSX -> {
+              val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
+              if (pedidoExcel.valorUnitario?.format() == produto.custoUnit.format()) "marcaOk"
+              else "marcaError"
+            }
+
+            PDF  -> {
+              if (produto.valorCalculado.format() == produto.valorUnitarioCt.format()) "marcaOk"
+              else "marcaError"
+            }
+
+            else -> ""
+          }
+        }
+        else ""
+      }
+      else ""
     }
   }
 
