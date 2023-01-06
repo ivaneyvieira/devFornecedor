@@ -215,7 +215,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       colBarcode()
       colDescricao()
       colGrade()
-      colDescNota()
+      //colDescNota()
       colRefFabrica().apply {
         this.setClassNameGenerator { produto ->
           if (viewModel is ITabCompraConfViewModel) {
