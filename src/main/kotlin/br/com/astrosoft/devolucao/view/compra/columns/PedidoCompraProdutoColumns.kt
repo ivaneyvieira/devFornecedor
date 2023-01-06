@@ -56,7 +56,7 @@ object PedidoCompraProdutoColumns {
     this.setHeader("V. Unit Ped")
   }
 
-  fun Grid<PedidoCompraProduto>.colCustoEmb() = addColumnDouble(PedidoCompraProduto::valorCalculado) {
+  fun Grid<PedidoCompraProduto>.colCustoEmb() = addColumnDouble(PedidoCompraProduto::valorEmbalagem) {
     this.setHeader("V. Unit Emb")
   }
 
@@ -72,10 +72,10 @@ object PedidoCompraProdutoColumns {
     this.setHeader("Qtd Ped")
   }
 
-  fun Grid<PedidoCompraProduto>.colQtdeEmb() = addColumnDouble(PedidoCompraProduto::quantCalculada, pattern = "#,##0" +
-                                                                                                            ".##") {
-    this.setHeader("Qtd Emb")
-  }
+  fun Grid<PedidoCompraProduto>.colQtdeEmb() =
+    addColumnDouble(PedidoCompraProduto::quantEmbalagem, pattern = "#,##0.##") {
+      this.setHeader("Qtd Emb")
+    }
 
   fun Grid<PedidoCompraProduto>.colQtdeCt() = addColumnInt(PedidoCompraProduto::quantidadeCt) {
     this.setHeader("Qtd Cot")

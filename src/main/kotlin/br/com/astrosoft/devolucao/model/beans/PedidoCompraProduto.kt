@@ -90,24 +90,36 @@ class PedidoCompraProduto(
       return listRef.firstOrNull { it == codigoMatch } ?: listRef.getOrNull(0)
     }
 
+  val quantEmbalagem: Double?
+    get() {
+      val qtPed = qtPedida ?: return null
+      val qtEmb = qtEmbalagem
+      return if (qtEmb == null || qtEmb == 0) null
+      else qtPed * 1.00 / qtEmb
+    }
+
   val quantCalculada: Double?
     get() {
       val qtPed = qtPedida ?: return null
       return if (calcEmbalagem == "S") {
-        val qtEmb = qtEmbalagem
-        if (qtEmb == null || qtEmb == 0) null
-        else qtPed * 1.00 / qtEmb
+        quantEmbalagem
       }
       else qtPed * 1.00
+    }
+
+  val valorEmbalagem: Double?
+    get() {
+      val custo = custoUnit ?: return null
+      val qtEmb = qtEmbalagem
+      return if (qtEmb == null || qtEmb == 0) null
+      else custo * qtEmb
     }
 
   val valorCalculado: Double?
     get() {
       val custo = custoUnit ?: return null
       return if (calcEmbalagem == "S") {
-        val qtEmb = qtEmbalagem
-        if (qtEmb == null || qtEmb == 0) null
-        else custo * qtEmb
+        valorEmbalagem
       }
       else custo * 1.00
     }
