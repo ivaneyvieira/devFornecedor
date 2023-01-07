@@ -50,7 +50,7 @@ class PedidoCompra(
 
     val listPosValor = produtos.flatMap { prd ->
       prd.findValor()
-    } + posTitle
+    } + posTitle + posTitle
 
     val posModeValor = listPosValor.asSequence().flatMap { p ->
       (p.start..p.end)
