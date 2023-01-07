@@ -12,12 +12,13 @@ import java.io.InputStream
 
 class SubWindowXlsx(chave: String, bytesBoletos: ByteArray) : Dialog() {
   init {
-    width = "300px"
-    height = "200px"
+    //width = "300px"
+    //height = "200px"
     val timeNumber = System.currentTimeMillis()
     verticalLayout {
       isPadding = false
-      label ("Baixar a planilha")
+      h4 ("Baixar a planilha")
+      br()
       horizontalLayout {
         lazyDownloadButtonXlsx("Planilha", chave) {
           bytesBoletos

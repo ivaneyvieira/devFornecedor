@@ -31,6 +31,7 @@ import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.lpad
 import br.com.astrosoft.framework.view.*
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.fetchAll
@@ -48,9 +49,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
+import net.sf.jasperreports.web.util.FontWebResourceHandler
 
 class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   private lateinit var gridNota: Grid<PedidoCompraProduto>
+  private var btnExcel: Button? = null
+  private var btnPdf: Button? = null
 
   fun showDialogNota(pedido: PedidoCompra?) {
     pedido ?: return
@@ -130,6 +134,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
                 }
               }
               gridNota.dataProvider.refreshAll()
+              buttonPedido(pedido)
             }
           }
         }
@@ -143,20 +148,24 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
                 it.pedidoExcel = null
               }
               gridNota.dataProvider.refreshAll()
+              buttonPedido(pedido)
             }
           }
         }
-        this.button("Exibir Pedido") {
-          icon = VaadinIcon.PRINT.create()
+        btnPdf = this.button("Pedido PDF") {
+          icon = FontAwesome.Solid.FILE_PDF.create()
+          onLeftClick {
+            val bytes = pedido.toPDF()
+            if (bytes != null) {
+              SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
+            }
+          }
+        }
+        btnExcel = this.button("Exibir Excel") {
+          icon = FontAwesome.Solid.FILE_EXCEL.create()
           onLeftClick {
             val bytesXlsx = pedido.toExcel()
-            if (bytesXlsx == null) {
-              val bytes = pedido.toPDF()
-              if (bytes != null) {
-                SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
-              }
-            }
-            else {
+            if (bytesXlsx != null) {
               SubWindowXlsx(pedido.numeroPedido.toString(), bytesXlsx).open()
             }
           }
@@ -201,7 +210,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
         addAndExpand(gridNota)
       }
     }
+    buttonPedido(pedido)
     form.open()
+  }
+
+  fun buttonPedido(pedido: PedidoCompra?) {
+    btnPdf?.isVisible = pedido?.toPDF() != null
+    btnExcel?.isVisible = pedido?.toExcel() != null
   }
 
   private fun createGrid(listParcelas: List<PedidoCompraProduto>): Grid<PedidoCompraProduto> {
@@ -304,7 +319,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           when (viewModel.pedidoOK()) {
             XLSX -> {
               val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-              if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
+              if (pedidoExcel.quantidade?.toDouble().format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
               else "marcaError"
             }
 
