@@ -161,7 +161,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             }
           }
         }
-        btnExcel = this.button("Exibir Excel") {
+        btnExcel = this.button("Pedido Excel") {
           icon = FontAwesome.Solid.FILE_EXCEL.create()
           onLeftClick {
             val bytesXlsx = pedido.toExcel()
