@@ -178,7 +178,7 @@ class PedidoCompraProduto(
   fun listCodigo(): List<String> {
     val listRef = refno?.split("/").orEmpty()
     val refFab = refFab
-    val list = listRef + refFab
+    val list = listRef + listOf(refFab, codigo)
     return list.filterNotNull().filter { it.isNotBlank() }
   }
 
