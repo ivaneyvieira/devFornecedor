@@ -9,7 +9,8 @@ val titleQuant = listOf("Quantidade", "Qnt", "Quant", "Qtd", "Qtde").map {
 }
 
 val titleValor =
-  listOf("Preco Unit", "Un. Liq", "Valor Unit", "VR.UNIT", "Pr.Unit", "P.Unitario", "Preco", "Unitario", "Unit").map {
+  listOf("Preco Unit", "Un. Liq", "Valor Unit", "VR.UNIT", "Pr.Unit", "P.Unitario", "Preco", "Unitario", "Unit", "Liq")
+    .map {
       it.unaccent()
     }
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total") + titleQuant + titleValor
