@@ -147,8 +147,9 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return sequence.toList()
   }
 
-  private fun strToNumber(str: String?): Number? {
-    str ?: return null
+  private fun strToNumber(strNum: String?): Number? {
+    strNum ?: return null
+    val str = strNum.replace("[^0-9,.]+".toRegex(), " ").trim()
     val regNumPoint = "\\.[0-9]{3},".toRegex()
     val num01 = if (regNumPoint.containsMatchIn(str)) str.replace(".", "") else str
     return num01.trim().replace(',', '.').toDoubleOrNull()
