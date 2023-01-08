@@ -17,13 +17,11 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.export.ExcelExporter
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
-import com.github.mvysny.kaributools.fetchAll
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -93,8 +91,8 @@ class TabConferir(val viewModel: TabConferirViewModel) :
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
       onlyPendente = true,
-      onlyConfirmado = false,
-      onlyNotConfirmado = true,
+      onlyConferido = false,
+      onlyNotConferido = true,
                              )
   }
 

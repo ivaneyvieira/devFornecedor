@@ -17,7 +17,6 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.export.ExcelExporter
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
@@ -92,8 +91,8 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
       onlyPendente = false,
-      onlyConfirmado = false,
-      onlyNotConfirmado = false,
+      onlyConferido = false,
+      onlyNotConferido = false,
                              )
   }
 

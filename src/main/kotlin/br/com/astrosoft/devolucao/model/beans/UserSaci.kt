@@ -82,7 +82,7 @@ class UserSaci : IUser {
   var entradaPreco by DelegateAuthorized(61)
   var entradaPrecoPreRec by DelegateAuthorized(62)
   var entradaFretePer by DelegateAuthorized(63)
-  var compraConfirmado by DelegateAuthorized(64)
+  var compraConferido by DelegateAuthorized(64)
   var agendaRastreamento by DelegateAuthorized(65)
 
   val forPendente

@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
-import br.com.astrosoft.devolucao.model.beans.PedidoExcel
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
 
 interface ITabCompraViewModel {
@@ -37,5 +36,5 @@ enum class EFileType{
 }
 
 enum class ETipoPainel{
-  Conferir, Confirmado
+  Conferir, Conferido
 }

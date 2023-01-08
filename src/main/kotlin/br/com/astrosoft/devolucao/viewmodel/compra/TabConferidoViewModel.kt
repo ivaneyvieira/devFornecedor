@@ -6,9 +6,9 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabConfirmadoViewModel(viewModel: CompraViewModel) : TabAbstractConfirViewModel(viewModel){
+class TabConferidoViewModel(viewModel: CompraViewModel) : TabAbstractConfViewModel(viewModel){
   val subView
-    get() = viewModel.view.tabConfirmadoViewModel
+    get() = viewModel.view.tabConferidoViewModel
 
   final override fun imprimirPedidoCompra(pedidos: List<PedidoCompra>) = viewModel.exec {
     pedidos.ifEmpty {
@@ -30,7 +30,7 @@ class TabConfirmadoViewModel(viewModel: CompraViewModel) : TabAbstractConfirView
   }
 
   override fun tipoPainel(): ETipoPainel {
-    return ETipoPainel.Confirmado
+    return ETipoPainel.Conferido
   }
 
   private fun pedidoCompraFornecedors(): List<PedidoCompraFornecedor> {
@@ -49,7 +49,7 @@ class TabConfirmadoViewModel(viewModel: CompraViewModel) : TabAbstractConfirView
   }
 }
 
-interface ITabConfirmadoViewModel : ITabView {
+interface ITabConferidoViewModel : ITabView {
   fun filtro(): FiltroPedidoCompra
   fun updateGrid(itens: List<PedidoCompraFornecedor>)
   fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
