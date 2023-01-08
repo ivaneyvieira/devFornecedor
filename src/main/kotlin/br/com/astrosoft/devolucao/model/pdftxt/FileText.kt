@@ -38,7 +38,7 @@ class FileText {
 
   fun findLine(text: String): List<Line> {
     return filterDataLines().filter { line ->
-      line.find(text, Line.split1)
+      line.findRef(text)
     }
   }
 
