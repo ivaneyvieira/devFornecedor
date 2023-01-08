@@ -15,15 +15,6 @@ import java.time.format.DateTimeFormatter
 fun <T> (@VaadinDsl HasComponents).multiselectComboBox(block: (@VaadinDsl MultiselectComboBox<T>).() -> Unit = {}) =
   init(MultiselectComboBox(), block)
 
-/*
-private fun buttonPlanilha(fornecedores: () -> List<Fornecedor>): LazyDownloadButton {
-  return LazyDownloadButton("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), ::filename) {
-    val notas = fornecedores().flatMap { it.notas }
-    ByteArrayInputStream(viewModel.geraPlanilha(notas, serie))
-  }
-}
- */
-
 @VaadinDsl
 fun (@VaadinDsl HasComponents).lazyDownloadButton(
   text: String? = null,
@@ -45,6 +36,24 @@ fun (@VaadinDsl HasComponents).lazyDownloadButton(
         ByteArrayInputStream(byteArray())
       },
                       )
+  return init(ldb)
+}
+
+@VaadinDsl
+fun (@VaadinDsl HasComponents).lazyDownloadButton(
+  text: String,
+  icon: Component? = null,
+  fileName: () -> String,
+  byteArray: () -> ByteArray,
+                                                 ): LazyDownloadButton {
+  val ldb =
+    LazyDownloadButton(
+      text,
+      icon,
+      fileName,
+                      ) {
+      ByteArrayInputStream(byteArray())
+    }
   return init(ldb)
 }
 
