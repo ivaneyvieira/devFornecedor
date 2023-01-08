@@ -231,6 +231,6 @@ data class FiltroPedidoCompra(
   val loja: Int,
   val pesquisa: String,
   val onlyPendente: Boolean,
-  val onlyConfirmado: Boolean,
-  val onlyNotConfirmado: Boolean,
+  val onlyConferido: Boolean,
+  val onlyNotConferido: Boolean,
                              )

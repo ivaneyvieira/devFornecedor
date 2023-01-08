@@ -14,8 +14,8 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColu
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPedida
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPendente
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlRecebida
-import br.com.astrosoft.devolucao.viewmodel.compra.ITabConfirmadoViewModel
-import br.com.astrosoft.devolucao.viewmodel.compra.TabConfirmadoViewModel
+import br.com.astrosoft.devolucao.viewmodel.compra.ITabConferidoViewModel
+import br.com.astrosoft.devolucao.viewmodel.compra.TabConferidoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -32,8 +32,8 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
-class TabConfirmado(val viewModel: TabConfirmadoViewModel) :
-        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabConfirmadoViewModel {
+class TabConferido(val viewModel: TabConferidoViewModel) :
+        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabConferidoViewModel {
   private lateinit var edtPedquisa: TextField
   private lateinit var edtLoja: IntegerField
 
@@ -94,8 +94,8 @@ class TabConfirmado(val viewModel: TabConfirmadoViewModel) :
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
       onlyPendente = true,
-      onlyConfirmado = true,
-      onlyNotConfirmado = false,
+      onlyConferido = true,
+      onlyNotConferido = false,
                              )
   }
 
@@ -119,11 +119,11 @@ class TabConfirmado(val viewModel: TabConfirmadoViewModel) :
 
   override fun isAuthorized(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
-    return userSaci.compraConfirmado
+    return userSaci.compraConferido
   }
 
   override val label: String
-    get() = "Confirmado"
+    get() = "Conferido"
 
   override fun updateComponent() {
     viewModel.updateComponent()

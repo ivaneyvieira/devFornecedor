@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
-import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.model.beans.PedidoExcel
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
@@ -16,7 +15,7 @@ import org.jetbrains.kotlinx.dataframe.api.map
 import org.jetbrains.kotlinx.dataframe.io.readExcel
 import java.io.ByteArrayInputStream
 
-abstract class TabAbstractConfirViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
+abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCompraConfViewModel {
   private val listPedidoExcel = mutableListOf<PedidoExcel>()
   private val fileText = FileText()
 

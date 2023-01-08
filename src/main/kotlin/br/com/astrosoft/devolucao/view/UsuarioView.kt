@@ -266,9 +266,9 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::compraConferir.name)
           }
-          checkBox("Confirmado") {
+          checkBox("Conferido") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::compraConfirmado.name)
+            binder.bind(this, UserSaci::compraConferido.name)
           }
         }
         formLayout {

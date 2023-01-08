@@ -734,10 +734,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("onlyPendente", filtro.onlyPendente.let { onlyPendente ->
         if (onlyPendente) "S" else "N"
       })
-      addOptionalParameter("onlyConfirmado", filtro.onlyConfirmado.let { onlyConfirmado ->
+      addOptionalParameter("onlyConfirmado", filtro.onlyConferido.let { onlyConfirmado ->
         if (onlyConfirmado) "S" else "N"
       })
-      addOptionalParameter("onlyNotConfirmado", filtro.onlyNotConfirmado.let { onlyNotConfirmado ->
+      addOptionalParameter("onlyNotConfirmado", filtro.onlyNotConferido.let { onlyNotConfirmado ->
         if (onlyNotConfirmado) "S" else "N"
       })
     }

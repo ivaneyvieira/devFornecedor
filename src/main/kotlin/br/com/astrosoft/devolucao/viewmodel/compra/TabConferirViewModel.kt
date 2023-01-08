@@ -6,7 +6,7 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfirViewModel(viewModel){
+class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfViewModel(viewModel){
   val subView
     get() = viewModel.view.tabConferirViewModel
 
