@@ -34,6 +34,7 @@ import br.com.astrosoft.framework.view.*
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.text
 import com.github.mvysny.kaributools.fetchAll
 import com.github.mvysny.kaributools.refresh
 import com.github.mvysny.kaributools.setSortOrder
@@ -157,19 +158,21 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           onLeftClick {
             val bytes = pedido.toPDF()
             if (bytes != null) {
-              SubWindowPDF(pedido.numeroPedido.toString(), bytes).open()
+              val filename = pedido.filename()
+              SubWindowPDF(filename, bytes, false).open()
             }
           }
         }
-        btnExcel = this.button("Pedido Excel") {
-          icon = FontAwesome.Solid.FILE_EXCEL.create()
-          onLeftClick {
-            val bytesXlsx = pedido.toExcel()
-            if (bytesXlsx != null) {
-              SubWindowXlsx(pedido.numeroPedido.toString(), bytesXlsx).open()
-            }
+        btnExcel = lazyDownloadButton(
+          text = "Pedido Excel",
+          icon = FontAwesome.Solid.FILE_EXCEL.create(),
+          fileName = {
+            "${pedido.filename()}.xlsx"
+          },
+          byteArray={
+            pedido.toExcel() ?: ByteArray(0)
           }
-        }
+                                     )
         if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
           this.button("Confirma Pedido") {
             icon = VaadinIcon.CHECK.create()
@@ -217,6 +220,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
   fun buttonPedido(pedido: PedidoCompra?) {
     btnPdf?.isVisible = pedido?.toPDF() != null
     btnExcel?.isVisible = pedido?.toExcel() != null
+  }
+
+  private fun PedidoCompra.filename() : String {
+    val forn = this.vendno
+    val loja = this.sigla
+    val numeroPedido = this.numeroPedido
+    return "FORN $forn PEDIDO $loja $numeroPedido.xlsx"
   }
 
   private fun createGrid(listParcelas: List<PedidoCompraProduto>): Grid<PedidoCompraProduto> {
