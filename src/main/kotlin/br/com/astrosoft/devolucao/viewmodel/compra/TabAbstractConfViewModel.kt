@@ -143,11 +143,17 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   }
 
   final override fun findPedidoExcel(produto: PedidoCompraProduto) {
-    val listStr = produto.listCodigo()
-    val listNum = listStr.map { it.toIntOrNull().toString() }
-    val list = (listNum + listStr).distinct()
-    val pedidoExcel = listPedidoExcel.firstOrNull { list.distinct().contains(it.referencia) }
+    val listRef = produto.listCodigo().flatMap {ref ->
+      val refInt = ref.toBigIntegerOrNull()?.toString()
+      listOf(ref, refInt).distinct().filterNotNull()
+    }
+    val pedidoExcel = listRef.firstNotNullOfOrNull { ref ->
+      listPedidoExcel.firstOrNull { ped ->
+        ref == ped.referencia
+      }
+    }
     produto.pedidoExcel = pedidoExcel
+    produto.codigoMatch = pedidoExcel?.referencia
   }
 
   final override fun findPedidoPDF(produto: PedidoCompraProduto) {

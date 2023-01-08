@@ -273,10 +273,9 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       if (viewModel is ITabCompraConfViewModel) {
         when (viewModel.pedidoOK()) {
           XLSX -> {
-            val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-            val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
-            val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
-            if (ref1 == ref2) "marcaOk"
+            val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
+            val ref2 = listOf(produto.refFab?.toIntOrNull()?.toString(), produto.refFab).distinct().filterNotNull()
+            if (ref1 in ref2) "marcaOk"
             else "marcaError"
           }
 
@@ -299,22 +298,19 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       if (viewModel is ITabCompraConfViewModel) {
         when (viewModel.pedidoOK()) {
           XLSX -> {
-            val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-            val ref1 = pedidoExcel.referencia?.toIntOrNull()?.toString() ?: pedidoExcel.referencia
-            val listRef = produto.refno?.split("/").orEmpty().map { ref ->
-              ref.toIntOrNull()?.toString() ?: ref
+            val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
+            val listRef = produto.refno?.split("/").orEmpty().flatMap { ref ->
+              listOf(ref.toIntOrNull()?.toString(), ref).distinct().filterNotNull()
             }
             if (ref1 in listRef) "marcaOk"
             else "marcaError"
           }
-
           PDF  -> {
-            val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
+            val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
-            if (listRef.any { line.findRef(it) }) "marcaOk"
+            if (ref1 in listRef) "marcaOk"
             else "marcaError"
           }
-
           else -> ""
         }
       }
