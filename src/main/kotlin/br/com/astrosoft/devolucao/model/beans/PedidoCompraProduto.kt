@@ -7,6 +7,7 @@ import br.com.astrosoft.framework.util.format
 import io.github.rushuat.ocell.annotation.FieldExclude
 import io.github.rushuat.ocell.annotation.FieldName
 import java.time.LocalDate
+import kotlin.math.roundToLong
 
 class PedidoCompraProduto(
   @FieldName("Item")
@@ -112,16 +113,18 @@ class PedidoCompraProduto(
       val custo = custoUnit ?: return null
       val qtEmb = qtEmbalagem
       return if (qtEmb == null || qtEmb == 0) null
-      else custo * qtEmb
+      else (custo * qtEmb).roundDouble()
     }
 
   val valorCalculado: Double?
     get() {
       val custo = custoUnit ?: return null
-      return if (calcEmbalagem == "S") {
+      val valor = if (calcEmbalagem == "S") {
         valorEmbalagem
       }
       else custo * 1.00
+
+      return valor.roundDouble()
     }
 
   fun findQuant(): List<LinePosition> {
@@ -199,13 +202,18 @@ class PedidoCompraProduto(
     }
     else {
       quantPed - (qtCot * 1.0)
-    }
+    }.roundDouble()
     valorUnitarioDif = if (valorPed == null || valorCot == null) {
       null
     }
     else {
       valorPed - valorCot
-    }
+    }.roundDouble()
+  }
+
+  private fun Double?.roundDouble(): Double? {
+    this ?: return null
+    return (this * 100).roundToLong() / 100.00
   }
 
   val dataPedidoStr

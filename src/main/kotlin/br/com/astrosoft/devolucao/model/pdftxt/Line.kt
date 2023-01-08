@@ -9,17 +9,24 @@ val titleQuant = listOf("Quantidade", "Qnt", "Quant", "Qtd", "Qtde").map {
 }
 
 val titleValor =
-  listOf("Preco Unit", "Un. Liq", "Valor Unit", "VR.UNIT", "Pr.Unit", "P.Unitario", "Preco", "Unitario", "Unit", "Liq")
-    .map {
+  listOf("Preco Unit",
+         "Un. Liq",
+         "Valor Unit",
+         "VR.UNIT",
+         "Pr.Unit",
+         "P.Unitario",
+         "Preco",
+         "Unitario",
+         "Unit",
+         "Liq").map {
       it.unaccent()
     }
-private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total") + titleQuant + titleValor
+private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total").map {
+  it.unaccent()
+} + titleQuant + titleValor
 
 data class Line(val num: Int, val lineStr: String, val fileText: FileText, val double: Boolean = false) {
-  private val form1 = DecimalFormat("#,##0.#####")
-  private val form2 = DecimalFormat("0.#####")
-
-  fun find(text: String?, sepSplit: Regex): Boolean {
+  private fun find(text: String?, sepSplit: Regex): Boolean {
     return findIndex(text, sepSplit).isNotEmpty()
   }
 
@@ -28,7 +35,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
       val lineStrUnacent = lineStr.unaccent()
       val tokens = lineStrUnacent.split(sepSplit)
       var index = 0
-      tokens.forEach { token ->
+      tokens.filter { it.isNotBlank() }.forEach { token ->
         index = " $lineStrUnacent ".indexOf(" $token ", startIndex = index)
         val pos = createLinePosition(index, token)
         if (pos != null) yield(pos)
@@ -77,10 +84,6 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
   }
 
   fun item() = listPosTokens(split2).toList().getOrNull(0)?.text ?: ""
-
-  fun find(num: Number?): Boolean {
-    return findIndex(num).toList().isNotEmpty()
-  }
 
   fun findIndex(num: Number?): List<LinePosition> {
     num ?: return emptyList()
@@ -165,6 +168,10 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     val strDouble = midLine(start = posStart(start), end = posEnd(end))?.trim()?.split(split1)?.getOrNull(0)
     val double = strToNumber(strDouble)?.toDouble()
     return double
+  }
+
+  fun findRef(ref: String?) : Boolean {
+    return find(ref, split1)
   }
 
   private fun midChar(index: Int): Char? {

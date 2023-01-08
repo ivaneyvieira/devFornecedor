@@ -283,7 +283,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           PDF  -> {
             val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
             val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
-            if (line.find(ref2, Line.split1)) "marcaOk"
+            if (line.findRef(ref2)) "marcaOk"
             else "marcaError"
           }
 
@@ -311,7 +311,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
           PDF  -> {
             val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
-            if (listRef.any { line.find(it, Line.split1) }) "marcaOk"
+            if (listRef.any { line.findRef(it) }) "marcaOk"
             else "marcaError"
           }
 

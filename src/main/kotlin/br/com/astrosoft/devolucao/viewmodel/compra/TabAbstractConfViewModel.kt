@@ -132,12 +132,12 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     return get(col)
   }
 
-  final override fun setFilePDF(bytes: ByteArray?) {
-    if (bytes == null) {
-      fileText.clear()
+  final override fun setFilePDF(fileText: ByteArray?) {
+    if (fileText == null) {
+      this.fileText.clear()
     }
     else {
-      fileText.loadPDF(bytes)
+      this.fileText.loadPDF(fileText)
     }
     updateComponent()
   }
