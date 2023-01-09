@@ -238,6 +238,7 @@ class PedidoCompraProduto(
 data class FiltroPedidoCompra(
   val loja: Int,
   val pesquisa: String,
+  val dataPedido: LocalDate?,
   val onlyPendente: Boolean,
   val onlyConferido: Boolean,
   val onlyNotConferido: Boolean,

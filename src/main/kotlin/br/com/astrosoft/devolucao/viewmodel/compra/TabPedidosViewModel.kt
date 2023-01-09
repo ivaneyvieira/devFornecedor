@@ -6,17 +6,24 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
-import io.github.rushuat.ocell.document.Document
 import io.github.rushuat.ocell.document.DocumentOOXML
 
 class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel {
+  private val listPedidosFornecedor = mutableListOf<PedidoCompraFornecedor>()
+
   val subView
     get() = viewModel.view.tabPedidosViewModel
 
-  fun updateComponent() = viewModel.exec {
+  override fun updateComponent() = viewModel.exec {
     val filtro = subView.filtro()
     val list = PedidoCompraFornecedor.findAll(filtro)
+    listPedidosFornecedor.clear()
+    listPedidosFornecedor.addAll(list)
     subView.updateGrid(list)
+  }
+
+  override fun listPedidosFornecedor(): List<PedidoCompraFornecedor> {
+    return listPedidosFornecedor
   }
 
   fun listLojas(): List<Loja> {

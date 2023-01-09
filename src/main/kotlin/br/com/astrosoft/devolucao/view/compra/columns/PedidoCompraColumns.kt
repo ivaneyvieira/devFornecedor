@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.view.compra.columns
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
-import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate

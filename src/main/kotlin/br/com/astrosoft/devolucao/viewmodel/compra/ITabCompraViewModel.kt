@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
 
@@ -8,9 +9,11 @@ interface ITabCompraViewModel {
   fun imprimirPedidoCompra(pedidos: List<PedidoCompra>)
   fun excelPedidoCompra(pedidos: List<PedidoCompra>): ByteArray
   fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
+  fun updateComponent()
+  fun listPedidosFornecedor() : List<PedidoCompraFornecedor>
 }
 
-interface  ITabCompraConfViewModel:ITabCompraViewModel{
+interface ITabCompraConfViewModel : ITabCompraViewModel {
   fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray)
   fun removeExcelPedido(pedido: PedidoCompra)
   fun savePDFPedido(pedido: PedidoCompra, bytes: ByteArray)
@@ -26,15 +29,17 @@ interface  ITabCompraConfViewModel:ITabCompraViewModel{
 
   fun tipoPainel(): ETipoPainel
 
-  fun fileText() : FileText
+  fun fileText(): FileText
 
   fun ajustaSaldoEmbalagem(itens: Set<PedidoCompraProduto>)
+
+  override fun updateComponent()
 }
 
-enum class EFileType{
+enum class EFileType {
   NONE, PDF, XLSX
 }
 
-enum class ETipoPainel{
+enum class ETipoPainel {
   Conferir, Conferido
 }

@@ -172,11 +172,11 @@ WHERE (loja = :loja OR :loja = 0)
   AND dataPedido >= SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH)
   AND IF(:onlyConfirmado = 'S', confirmado = 'S', TRUE)
   AND IF(:onlyNotConfirmado = 'S', confirmado != 'S', TRUE)
-GROUP BY loja, numeroPedido, codigo, grade, seqno
-HAVING CASE :onlyPendente
-	 WHEN 'S'
-	   THEN ROUND(qtPendente * 100) != 0
-	 WHEN 'N'
-	   THEN TRUE
-	 ELSE FALSE
-       END
+  AND CASE :onlyPendente
+	WHEN 'S'
+	  THEN ROUND(qtPendente * 100) != 0
+	WHEN 'N'
+	  THEN TRUE
+	ELSE FALSE
+      END
+  AND (dataPedido = :dataPedido OR :dataPedido = 0)

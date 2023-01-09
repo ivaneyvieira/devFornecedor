@@ -2,14 +2,12 @@ package br.com.astrosoft.devolucao.view.compra
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
-import br.com.astrosoft.devolucao.model.pdftxt.Line
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colBarcode
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCodigo
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoCt
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoDif
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoEmb
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colCustoPed
-import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescNota
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colDescricao
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colGrade
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraProdutoColumns.colItem
@@ -34,7 +32,6 @@ import br.com.astrosoft.framework.view.*
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
-import com.github.mvysny.karibudsl.v10.text
 import com.github.mvysny.kaributools.fetchAll
 import com.github.mvysny.kaributools.refresh
 import com.github.mvysny.kaributools.setSortOrder
@@ -50,14 +47,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
-import net.sf.jasperreports.web.util.FontWebResourceHandler
 
-class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
+class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoCompra?) {
+  private var form: SubWindowForm? = null
   private lateinit var gridNota: Grid<PedidoCompraProduto>
   private var btnExcel: Button? = null
   private var btnPdf: Button? = null
 
-  fun showDialogNota(pedido: PedidoCompra?) {
+  fun showDialogNota() {
     pedido ?: return
     if (viewModel is ITabCompraConfViewModel) {
       viewModel.setFileExcel(null)
@@ -102,7 +99,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
     }
 
     val produtos = pedido.produtos
-    val form = SubWindowForm(pedido.labelTitle, toolBar = {
+    form = SubWindowForm(pedido.labelTitle, toolBar = {
       button("PDF") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
@@ -150,6 +147,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               }
               gridNota.dataProvider.refreshAll()
               buttonPedido(pedido)
+              updateComponent()
             }
           }
         }
@@ -163,22 +161,18 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             }
           }
         }
-        btnExcel = lazyDownloadButton(
-          text = "Pedido Excel",
-          icon = FontAwesome.Solid.FILE_EXCEL.create(),
-          fileName = {
-            "${pedido.filename()}.xlsx"
-          },
-          byteArray={
-            pedido.toExcel() ?: ByteArray(0)
-          }
-                                     )
+        btnExcel = lazyDownloadButton(text = "Pedido Excel", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
+          "${pedido.filename()}.xlsx"
+        }, byteArray = {
+          pedido.toExcel() ?: ByteArray(0)
+        })
         if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
           this.button("Confirma Pedido") {
             icon = VaadinIcon.CHECK.create()
             onLeftClick {
               val itens = gridNota.selectedItems
               viewModel.confirmaProdutoSelecionado(itens)
+              updateComponent()
               gridNota.refresh()
             }
           }
@@ -189,6 +183,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             onLeftClick {
               val itens = gridNota.selectedItems
               viewModel.desconfirmaProdutoSelecionado(itens)
+              updateComponent()
               gridNota.refresh()
             }
           }
@@ -201,6 +196,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
               val itens = gridNota.selectedItems
               viewModel.usaEmbalagemProdutoSelecionado(itens)
               viewModel.ajustaSaldoEmbalagem(itens)
+              updateComponent()
               gridNota.refresh()
             }
           }
@@ -214,7 +210,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
       }
     }
     buttonPedido(pedido)
-    form.open()
+    form?.open()
   }
 
   fun buttonPedido(pedido: PedidoCompra?) {
@@ -222,7 +218,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
     btnExcel?.isVisible = pedido?.toExcel() != null
   }
 
-  private fun PedidoCompra.filename() : String {
+  private fun PedidoCompra.filename(): String {
     val forn = this.vendno
     val loja = this.sigla
     val numeroPedido = this.numeroPedido
@@ -305,12 +301,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
             if (ref1 in listRef) "marcaOk"
             else "marcaError"
           }
+
           PDF  -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""
             if (ref1 in listRef) "marcaOk"
             else "marcaError"
           }
+
           else -> ""
         }
       }
@@ -389,5 +387,17 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel) {
     }
     add(upload)
     exec(buffer, upload)
+  }
+
+  private fun updateComponent() {
+    if (form?.isOpened == true) {
+      viewModel.updateComponent()
+      val produtos = viewModel.listPedidosFornecedor().firstOrNull { pfor ->
+        pfor.vendno == pedido?.vendno
+      }?.pedidos?.firstOrNull { ped ->
+        ped.loja == pedido?.loja && ped.numeroPedido == pedido.numeroPedido
+      }?.produtos.orEmpty()
+      gridNota.setItems(produtos)
+    }
   }
 }

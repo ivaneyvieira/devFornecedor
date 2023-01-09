@@ -6,7 +6,9 @@ import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfViewModel(viewModel){
+class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfViewModel(viewModel) {
+  private val listPedidosFornecedor = mutableListOf<PedidoCompraFornecedor>()
+
   val subView
     get() = viewModel.view.tabConferirViewModel
 
@@ -26,7 +28,13 @@ class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfViewMode
 
   override fun updateComponent() = viewModel.exec {
     val list = pedidoCompraFornecedors()
+    listPedidosFornecedor.clear()
+    listPedidosFornecedor.addAll(list)
     subView.updateGrid(list)
+  }
+
+  override fun listPedidosFornecedor(): List<PedidoCompraFornecedor> {
+    return listPedidosFornecedor
   }
 
   override fun tipoPainel(): ETipoPainel {
