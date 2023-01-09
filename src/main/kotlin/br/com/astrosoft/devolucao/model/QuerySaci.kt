@@ -740,6 +740,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("onlyNotConfirmado", filtro.onlyNotConferido.let { onlyNotConfirmado ->
         if (onlyNotConfirmado) "S" else "N"
       })
+      addOptionalParameter("dataPedido", filtro.dataPedido?.toSaciDate() ?: 0)
     }
   }
 

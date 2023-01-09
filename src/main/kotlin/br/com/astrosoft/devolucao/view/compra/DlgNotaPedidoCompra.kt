@@ -12,11 +12,9 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlP
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlPendente
 import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraColumns.colVlRecebida
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
-import br.com.astrosoft.devolucao.viewmodel.compra.TabPedidosViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.export.ExcelExporter
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -27,14 +25,16 @@ import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
-class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel) {
+class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel, val fornecedor: PedidoCompraFornecedor?) {
+  private var form: SubWindowForm? = null
+  private var dialog: DlgNotaProdutos? = null
   private lateinit var gridNota: Grid<PedidoCompra>
 
-  fun showDialogNota(fornecedor: PedidoCompraFornecedor?) {
+  fun showDialogNota() {
     fornecedor ?: return
 
     val pedidos = fornecedor.pedidos
-    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+    form = SubWindowForm(fornecedor.labelTitle, toolBar = {
       button("Relatorio") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
@@ -60,7 +60,7 @@ class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel) {
         addAndExpand(gridNota)
       }
     }
-    form.open()
+    form?.open()
   }
 
   private fun createGrid(listParcelas: List<PedidoCompra>): Grid<PedidoCompra> {
@@ -71,7 +71,8 @@ class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel) {
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
       addColumnButton(VaadinIcon.FILE_TABLE, "Produtos", "Prd") { pedido ->
-        DlgNotaProdutos(viewModel).showDialogNota(pedido)
+        dialog = DlgNotaProdutos(viewModel, pedido)
+        dialog?.showDialogNota()
       }
       colLoja()
       colNumeroPedido()
@@ -98,6 +99,16 @@ class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel) {
         val total = lista.sumOf { it.vlPendente }.format()
         col.setFooter(Html("<b><font size=4>${total}</font></b>"))
       }
+    }
+  }
+
+  private fun updateComponent() {
+    if (form?.isOpened == true) {
+      viewModel.updateComponent()
+      val pedidos = viewModel.listPedidosFornecedor().firstOrNull { pfor ->
+        pfor.vendno == fornecedor?.vendno
+      }?.pedidos.orEmpty()
+      gridNota.setItems(pedidos)
     }
   }
 }

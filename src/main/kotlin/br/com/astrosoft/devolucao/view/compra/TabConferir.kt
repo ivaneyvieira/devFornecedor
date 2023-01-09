@@ -1,6 +1,9 @@
 package br.com.astrosoft.devolucao.view.compra
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroPedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompra
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompra
 import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorCompraResumido
 import br.com.astrosoft.devolucao.model.reports.RelatorioPedidoCompra
@@ -14,14 +17,9 @@ import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColu
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabConferirViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.TabConferirViewModel
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.SubWindowPDF
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
-import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.integerField
-import com.github.mvysny.karibudsl.v10.onLeftClick
-import com.github.mvysny.karibudsl.v10.textField
+import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -31,7 +29,9 @@ import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabConferir(val viewModel: TabConferirViewModel) :
         TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabConferirViewModel {
+  private var dialog: DlgNotaPedidoCompra? = null
   private lateinit var edtPedquisa: TextField
+  private lateinit var edtDataPedido: DatePicker
   private lateinit var edtLoja: IntegerField
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -69,12 +69,20 @@ class TabConferir(val viewModel: TabConferirViewModel) :
       val fornecedores = itensSelecionados()
       viewModel.excelRelatorioFornecedor(fornecedores.flatMap { it.pedidos })
     }
+    edtDataPedido = datePicker("Data Inicial") {
+      localePtBr()
+      this.isClearButtonVisible = true
+      this.addValueChangeListener {
+        updateComponent()
+      }
+    }
   }
 
   override fun Grid<PedidoCompraFornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnButton(VaadinIcon.FILE_TABLE, "Pedidos", "Pedidos") { fornecedor ->
-      DlgNotaPedidoCompra(viewModel).showDialogNota(fornecedor)
+      dialog = DlgNotaPedidoCompra(viewModel, fornecedor)
+      dialog?.showDialogNota()
     }
 
     colCodigo()
@@ -90,6 +98,7 @@ class TabConferir(val viewModel: TabConferirViewModel) :
     return FiltroPedidoCompra(
       loja = edtLoja.value ?: 0,
       pesquisa = edtPedquisa.value ?: "",
+      dataPedido = edtDataPedido.value,
       onlyPendente = true,
       onlyConferido = false,
       onlyNotConferido = true,

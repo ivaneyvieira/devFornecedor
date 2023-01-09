@@ -19,8 +19,6 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   private val listPedidoExcel = mutableListOf<PedidoExcel>()
   private val fileText = FileText()
 
-  abstract fun updateComponent()
-
   final override fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray) {
     pedido.saveExcel(bytes)
     setFileExcel(bytes)
