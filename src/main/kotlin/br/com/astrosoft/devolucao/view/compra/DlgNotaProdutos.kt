@@ -59,7 +59,6 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
     if (viewModel is ITabCompraConfViewModel) {
       viewModel.setFileExcel(null)
       pedido.produtos.sortedBy { it.codigo }.forEach { produto ->
-        produto.item = ""
         produto.linha = 0
         produto.pedidoExcel = null
       }
@@ -73,11 +72,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
           }
           pedido.processaQuantPDF()
           pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
-            val codigos = pedidoCompraProduto.listCodigo()
-            val item = pedidoCompraProduto.item
-            if (item in codigos) {
-              pedidoCompraProduto.item = (index + 1).toString().lpad(5, "0")
-            }
+            pedidoCompraProduto.seqItem = index + 1
           }
         }
       }
@@ -88,11 +83,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             viewModel.setPedidoExcel(produto)
           }
           pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
-            val codigos = pedidoCompraProduto.listCodigo()
-            val item = pedidoCompraProduto.item
-            if (item in codigos) {
-              pedidoCompraProduto.item = (index + 1).toString().lpad(5, "0")
-            }
+            pedidoCompraProduto.seqItem = index + 1
           }
         }
       }

@@ -9,7 +9,7 @@ import com.github.mvysny.kaributools.sortProperty
 import com.vaadin.flow.component.grid.Grid
 
 object PedidoCompraProdutoColumns {
-  fun Grid<PedidoCompraProduto>.colItem() = addColumnString(PedidoCompraProduto::item) {
+  fun Grid<PedidoCompraProduto>.colItem() = addColumnInt(PedidoCompraProduto::seqItem) {
     this.setHeader("Item")
     this.sortProperty = PedidoCompraProduto::linha
   }
