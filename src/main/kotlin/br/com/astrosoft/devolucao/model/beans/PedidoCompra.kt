@@ -42,6 +42,11 @@ class PedidoCompra(
 
         prd.calculeDifs()
       }
+      prd.seqItem = null
+    }
+
+    produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
+      pedidoCompraProduto.seqItem = index + 1
     }
   }
 

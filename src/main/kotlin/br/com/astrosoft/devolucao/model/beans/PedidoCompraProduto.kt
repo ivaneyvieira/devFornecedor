@@ -11,7 +11,7 @@ import kotlin.math.roundToLong
 
 class PedidoCompraProduto(
   @FieldName("Item")
-  var item: String = "",
+  var seqItem: Int? = null,
   @FieldExclude
   val origem: String,
   @FieldExclude
@@ -152,7 +152,6 @@ class PedidoCompraProduto(
       quantidadeCt = value?.quantidade
       valorUnitarioCt = value?.valorUnitario
       linha = pedidoExcel?.linha ?: 0
-      item = pedidoExcel?.item ?: ""
       val referencia = value?.referencia
       val refPed = listCodigo()
 
@@ -165,7 +164,6 @@ class PedidoCompraProduto(
     set(value) {
       _linePDF = value
       linha = value?.num ?: 0
-      item = value?.item() ?: ""
     }
 
   fun marcaConferido() {
