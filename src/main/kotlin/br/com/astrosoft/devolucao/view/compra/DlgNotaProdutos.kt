@@ -69,7 +69,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
           viewModel.setFilePDF(bytes)
           pedido.fileText = viewModel.fileText()
           pedido.produtos.forEach { produto ->
-            viewModel.findPedidoPDF(produto)
+            viewModel.setPedidoPDF(produto)
           }
           pedido.processaQuantPDF()
           pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
@@ -85,7 +85,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
         byteExcel.let { bytes ->
           viewModel.setFileExcel(bytes)
           pedido.produtos.forEach { produto ->
-            viewModel.findPedidoExcel(produto)
+            viewModel.setPedidoExcel(produto)
           }
           pedido.produtos.sortedBy { it.linha }.forEachIndexed { index, pedidoCompraProduto ->
             val codigos = pedidoCompraProduto.listCodigo()
@@ -120,16 +120,9 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               val bytes = buffer.inputStream.readBytes()
               if (buffer.fileName.endsWith(".pdf", ignoreCase = true)) { //PDF
                 viewModel.savePDFPedido(pedido, bytes)
-                pedido.produtos.forEach {
-                  viewModel.findPedidoPDF(it)
-                }
-                pedido.processaQuantPDF()
               }
               else if (buffer.fileName.endsWith(".xlsx", ignoreCase = true)) {
                 viewModel.saveExcelPedido(pedido, bytes)
-                pedido.produtos.forEach {
-                  viewModel.findPedidoExcel(it)
-                }
               }
               gridNota.dataProvider.refreshAll()
               buttonPedido(pedido)
@@ -196,7 +189,6 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               val itens = gridNota.selectedItems
               viewModel.usaEmbalagemProdutoSelecionado(itens)
               viewModel.ajustaSaldoEmbalagem(itens)
-              updateComponent()
               gridNota.refresh()
             }
           }

@@ -22,6 +22,9 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   final override fun saveExcelPedido(pedido: PedidoCompra, bytes: ByteArray) {
     pedido.saveExcel(bytes)
     setFileExcel(bytes)
+    pedido.produtos.forEach {
+      setPedidoExcel(it)
+    }
   }
 
   final override fun removeExcelPedido(pedido: PedidoCompra) {
@@ -32,6 +35,11 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   final override fun savePDFPedido(pedido: PedidoCompra, bytes: ByteArray) {
     pedido.savePDF(bytes)
     setFilePDF(bytes)
+    pedido.fileText = fileText()
+    pedido.produtos.forEach {
+      setPedidoPDF(it)
+    }
+    pedido.processaQuantPDF()
   }
 
   final override fun fileText(): FileText {
@@ -87,7 +95,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     }
   }
 
-  final override fun setFileExcel(fileText: ByteArray?) {
+  final override fun setFileExcel(fileText: ByteArray?) = viewModel.exec {
     if (fileText == null) {
       listPedidoExcel.clear()
     }
@@ -117,10 +125,9 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
         }
       } catch (e: Throwable) {
         listPedidoExcel.clear()
-        e.printStackTrace()
+        fail("Erro ao abrir o arquivo Excel")
       }
     }
-    updateComponent()
   }
 
   fun DataRow<Any?>.getValue(colname: String): Any? {
@@ -137,11 +144,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     else {
       this.fileText.loadPDF(fileText)
     }
-    updateComponent()
   }
 
-  final override fun findPedidoExcel(produto: PedidoCompraProduto) {
-    val listRef = produto.listCodigo().flatMap {ref ->
+  final override fun setPedidoExcel(produto: PedidoCompraProduto) {
+    val listRef = produto.listCodigo().flatMap { ref ->
       val refInt = ref.toBigIntegerOrNull()?.toString()
       listOf(ref, refInt).distinct().filterNotNull()
     }
@@ -154,7 +160,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     produto.codigoMatch = pedidoExcel?.referencia
   }
 
-  final override fun findPedidoPDF(produto: PedidoCompraProduto) {
+  final override fun setPedidoPDF(produto: PedidoCompraProduto) {
     val listCodigo = produto.listCodigo()
     val codLinha = listCodigo.firstNotNullOfOrNull { cod ->
       fileText.findLine(cod).map { linha ->
