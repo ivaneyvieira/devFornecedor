@@ -50,7 +50,8 @@ class TabDesconto(val viewModel: TabDescontoViewModel) : TabPanelGrid<Fornecedor
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "300px"
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateFiltro()
       }

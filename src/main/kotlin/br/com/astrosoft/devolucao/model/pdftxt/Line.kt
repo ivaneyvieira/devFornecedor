@@ -83,7 +83,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     else ""
   }
 
-  fun item() = listPosTokens(split2).toList().getOrNull(0)?.text ?: ""
+  fun item() = listPosTokens(split1).toList().getOrNull(0)?.text ?: ""
 
   fun findIndex(num: Number?): List<LinePosition> {
     num ?: return emptyList()

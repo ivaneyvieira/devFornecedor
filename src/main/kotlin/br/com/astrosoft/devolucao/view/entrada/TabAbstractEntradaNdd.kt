@@ -78,7 +78,8 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       width = "400px"
-      valueChangeMode = ValueChangeMode.TIMEOUT
+      valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
       }
