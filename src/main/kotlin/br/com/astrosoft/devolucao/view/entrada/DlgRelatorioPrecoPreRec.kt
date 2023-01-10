@@ -71,6 +71,7 @@ class DlgRelatorioPrecoPreRec(val viewModel: TabPrecoPreRecViewModel, val filtro
       this.textField("Pesquisa") {
         value = filtro.pesquisa
         this.valueChangeMode = ValueChangeMode.LAZY
+        this.valueChangeTimeout = 2000
 
         this.addValueChangeListener {
           filtro.pesquisa = it.value ?: ""

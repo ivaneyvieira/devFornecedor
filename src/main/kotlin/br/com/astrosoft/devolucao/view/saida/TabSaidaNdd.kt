@@ -87,13 +87,15 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
       value = user?.storeno ?: 4
       if (value == 0) value = 4
       isReadOnly = user?.admin == false
-      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
     }
     edtNota = textField("Nota") {
-      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
@@ -115,13 +117,15 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
       }
     }
     edtCodigo = integerField("Código Cliente") {
-      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }
     }
     edtNome = textField("Nome Cliente") {
-      this.valueChangeMode = ValueChangeMode.ON_CHANGE
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       this.addValueChangeListener {
         if (it.isFromClient) viewModel.updateView()
       }

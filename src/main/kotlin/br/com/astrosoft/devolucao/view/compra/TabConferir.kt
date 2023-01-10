@@ -36,16 +36,16 @@ class TabConferir(val viewModel: TabConferirViewModel) :
 
   override fun HorizontalLayout.toolBarConfig() {
     edtLoja = integerField("Loja") {
-      this.valueChangeMode = ValueChangeMode.TIMEOUT
-      this.valueChangeTimeout = 1000
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       this.addValueChangeListener {
         updateComponent()
       }
     }
 
     edtPedquisa = textField("Pesquisa") {
-      this.valueChangeMode = ValueChangeMode.TIMEOUT
-      this.valueChangeTimeout = 1000
+      this.valueChangeMode = ValueChangeMode.LAZY
+      this.valueChangeTimeout = 2000
       this.addValueChangeListener {
         updateComponent()
       }

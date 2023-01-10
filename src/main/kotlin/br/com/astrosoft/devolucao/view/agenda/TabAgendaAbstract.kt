@@ -41,6 +41,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
+import com.vaadin.flow.data.value.ValueChangeMode.LAZY
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : TabPanelGrid<Agenda>(Agenda::class),
@@ -50,7 +51,8 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
   override fun HorizontalLayout.toolBarConfig() { //Falta definir o filtro
     edtFiltro = textField("Filtro") {
       width = "400px"
-      valueChangeMode = TIMEOUT
+      valueChangeMode = LAZY
+      this.valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
       }

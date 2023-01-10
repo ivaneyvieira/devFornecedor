@@ -233,7 +233,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
       colItem()
-      colCodigo()
+      colCodigo().marcaCodigo()
       colBarcode()
       colDescricao()
       colGrade() //colDescNota()
@@ -264,24 +264,49 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
     }
   }
 
+  private fun String.listNum() : List<String> {
+    return listOf(this.toIntOrNull()?.toString(), this).distinct().filterNotNull()
+  }
+
+  private fun Column<PedidoCompraProduto>.marcaCodigo() {
+    this.setClassNameGenerator { produto ->
+      if (viewModel is ITabCompraConfViewModel) {
+        when (viewModel.pedidoOK()) {
+          XLSX -> {
+            val ref1 = produto.codigoMatch ?: return@setClassNameGenerator ""
+            val ref2 = produto.codigo?.listNum().orEmpty()
+            if (ref1 in ref2) "marcaOk"
+            else ""
+          }
+          PDF  -> {
+            val line = produto.linePDF ?: return@setClassNameGenerator ""
+            val ref2 = produto.codigo
+            if (line.findRef(ref2)) "marcaOk"
+            else ""
+          }
+          else -> ""
+        }
+      }
+      else ""
+    }
+  }
+
   private fun Column<PedidoCompraProduto>.marcaRefFabrica() {
     this.setClassNameGenerator { produto ->
       if (viewModel is ITabCompraConfViewModel) {
         when (viewModel.pedidoOK()) {
           XLSX -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
-            val ref2 = listOf(produto.refFab?.toIntOrNull()?.toString(), produto.refFab).distinct().filterNotNull()
+            val ref2 = produto.refFab?.listNum().orEmpty()
             if (ref1 in ref2) "marcaOk"
             else "marcaError"
           }
-
           PDF  -> {
             val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
-            val ref2 = produto.refFab?.toIntOrNull()?.toString() ?: produto.refFab
+            val ref2 = produto.refFab
             if (line.findRef(ref2)) "marcaOk"
             else "marcaError"
           }
-
           else -> ""
         }
       }
@@ -296,7 +321,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
           XLSX -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("/").orEmpty().flatMap { ref ->
-              listOf(ref.toIntOrNull()?.toString(), ref).distinct().filterNotNull()
+              ref.listNum()
             }
             if (ref1 in listRef) "marcaOk"
             else "marcaError"
