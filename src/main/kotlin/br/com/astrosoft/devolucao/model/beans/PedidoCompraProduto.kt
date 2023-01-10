@@ -154,9 +154,9 @@ class PedidoCompraProduto(
       linha = pedidoExcel?.linha ?: 0
       item = pedidoExcel?.item ?: ""
       val referencia = value?.referencia
-      val refPed = "$refno/$refFab"
+      val refPed = listCodigo()
 
-      difRef = if (refPed.contains("$referencia")) "Não" else "Sim"
+      difRef = if (refPed.contains(referencia)) "Não" else "Sim"
       calculeDifs()
     }
 
@@ -203,6 +203,7 @@ class PedidoCompraProduto(
     else {
       quantPed - (qtCot * 1.0)
     }.roundDouble()
+
     valorUnitarioDif = if (valorPed == null || valorCot == null) {
       null
     }

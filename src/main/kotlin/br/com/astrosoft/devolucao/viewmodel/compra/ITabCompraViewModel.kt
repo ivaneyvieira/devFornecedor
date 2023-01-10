@@ -24,8 +24,8 @@ interface ITabCompraConfViewModel : ITabCompraViewModel {
   fun pedidoOK(): EFileType
   fun setFileExcel(fileText: ByteArray?)
   fun setFilePDF(fileText: ByteArray?)
-  fun findPedidoExcel(produto: PedidoCompraProduto)
-  fun findPedidoPDF(produto: PedidoCompraProduto)
+  fun setPedidoExcel(produto: PedidoCompraProduto)
+  fun setPedidoPDF(produto: PedidoCompraProduto)
 
   fun tipoPainel(): ETipoPainel
 
