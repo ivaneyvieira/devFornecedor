@@ -756,6 +756,39 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("confirmado", pedidoCompraProduto.confirmado)
       addOptionalParameter("calcEmbalagem", pedidoCompraProduto.calcEmbalagem)
     }
+
+    /*CRUD da tabela Agenda Demanda*/
+
+    fun selectAgendaDemanda() : List<AgendaDemanda> {
+      val sql = "/sqlSaci/demandasSelect.sql"
+      return query(sql, AgendaDemanda::class)
+    }
+
+    fun deleteAgendaDemanda(agendaDemanda: AgendaDemanda) {
+      val sql = "/sqlSaci/demandasDelete.sql"
+      script(sql){
+        addOptionalParameter("id", agendaDemanda.id)
+      }
+    }
+
+    fun updateAgendaDemanda(agendaDemanda: AgendaDemanda) {
+      val sql = "/sqlSaci/demandasUpdate.sql"
+      script(sql){
+        addOptionalParameter("id", agendaDemanda.id)
+        addOptionalParameter("titulo", agendaDemanda.titulo)
+        addOptionalParameter("date", agendaDemanda.date.toSaciDate())
+        addOptionalParameter("conteudo", agendaDemanda.conteudo)
+      }
+    }
+
+    fun insertAgendaDemanda(agendaDemanda: AgendaDemanda) {
+      val sql = "/sqlSaci/demandasInsert.sql"
+      script(sql){
+        addOptionalParameter("titulo", agendaDemanda.titulo)
+        addOptionalParameter("date", agendaDemanda.date.toSaciDate())
+        addOptionalParameter("conteudo", agendaDemanda.conteudo)
+      }
+    }
   }
 
   companion object {

@@ -150,3 +150,15 @@ select * from sqldados.oprd
 where ordno = 404632
   and storeno = 4
   and prdno = 120528;
+
+
+/*** Tabelas da agenda ***/
+
+DROP TABLE IF EXISTS sqldados.agendaDemandas;
+CREATE TABLE sqldados.agendaDemandas(
+  id  int NOT NULL AUTO_INCREMENT,
+  date int(10),
+  titulo VARCHAR(100),
+  conteudo TEXT,
+  PRIMARY KEY (id)
+);
