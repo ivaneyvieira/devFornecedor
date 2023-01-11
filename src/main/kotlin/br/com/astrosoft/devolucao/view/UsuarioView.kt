@@ -272,6 +272,15 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
         }
         formLayout {
+          h4("Demanda") {
+            colspan = 2
+          }
+          checkBox("Agenda") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::demandaAgenda.name)
+          }
+        }
+        formLayout {
           h4("Agenda") {
             colspan = 2
           }
