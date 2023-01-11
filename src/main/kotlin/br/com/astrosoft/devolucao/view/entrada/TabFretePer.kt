@@ -69,7 +69,7 @@ class TabFretePer(val viewModel: TabFretePerViewModel) : ITabFretePerViewModel, 
       ultimaNota = edtUlmNota.value ?: false,
       rotulo = edtRotulo.value ?: "",
       caraterInicial = edtCaracter.value ?: "",
-      comGrade = false,
+      comGrade = true,
       pesquisa = "",
       listaProdutos = "",
                           )

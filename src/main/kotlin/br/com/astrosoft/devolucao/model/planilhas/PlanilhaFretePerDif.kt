@@ -6,13 +6,11 @@ import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
 import br.com.astrosoft.framework.util.format
-import com.github.nwillc.poink.PSheet
 import com.github.nwillc.poink.workbook
 import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
-import java.time.LocalDate
 
 class PlanilhaFretePerDif() {
   private val campos: List<Campo<*, NfPrecEntrada>> =
@@ -25,10 +23,12 @@ class PlanilhaFretePerDif() {
       CampoString("forn Nota") { fornNota },
       CampoString("prod") { prod },
       CampoString("descrição") { descricao },
+      CampoString("grade") { grade },
       CampoNumber("P NF") { pesoBrutoTotal ?: 0.00 },
       CampoNumber("P Prd") { pesoBrutoPrd ?: 0.00 },
-      CampoNumber("P Bruto") { pesoBruto ?: 0.00 },
-      CampoNumber("R$ NF") { precon ?: 0.00 },
+      CampoNumber("Qtd") { (quant ?: 0) * 1.00 },
+      CampoNumber("P Bruto") { pesoBruto },
+      CampoNumber("R$ NF") { precon },
       CampoNumber("$ F Kg") { freteKg ?: 0.00 },
       CampoNumber("R$ Frete") { freteUnit ?: 0.00 },
       CampoNumber("% F NF") { fretePerNf ?: 0.00 },
