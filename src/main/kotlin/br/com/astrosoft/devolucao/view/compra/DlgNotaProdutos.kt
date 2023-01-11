@@ -280,14 +280,16 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
         when (viewModel.pedidoOK()) {
           XLSX -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
-            val ref2 = produto.refFab?.listNum().orEmpty()
+            val ref2 = produto.refFab?.split("/").orEmpty().flatMap { ref ->
+              ref.listNum()
+            }
             if (ref1 in ref2) "marcaOk"
             else "marcaError"
           }
           PDF  -> {
-            val line = produto.linePDF ?: return@setClassNameGenerator "marcaError"
-            val ref2 = produto.refFab
-            if (line.findRef(ref2)) "marcaOk"
+            val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
+            val ref2 = produto.refFab?.split("/") ?: return@setClassNameGenerator ""
+            if (ref1 in ref2) "marcaOk"
             else "marcaError"
           }
           else -> ""
@@ -309,7 +311,6 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             if (ref1 in listRef) "marcaOk"
             else "marcaError"
           }
-
           PDF  -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("/") ?: return@setClassNameGenerator ""

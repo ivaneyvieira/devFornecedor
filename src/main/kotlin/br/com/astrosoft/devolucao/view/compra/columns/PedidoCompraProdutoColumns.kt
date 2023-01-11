@@ -28,7 +28,7 @@ object PedidoCompraProdutoColumns {
     this.isExpand = true
   }
 
-  fun Grid<PedidoCompraProduto>.colRefFabrica() = addColumnString(PedidoCompraProduto::refFab) {
+  fun Grid<PedidoCompraProduto>.colRefFabrica() = addColumnString(PedidoCompraProduto::refFabMatch) {
     this.setHeader("Ref Fab")
   }
 
