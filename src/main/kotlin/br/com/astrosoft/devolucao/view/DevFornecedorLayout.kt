@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view
 
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.compra.CompraView
+import br.com.astrosoft.devolucao.view.demanda.DemandaView
 import br.com.astrosoft.devolucao.view.devolucao.*
 import br.com.astrosoft.devolucao.view.entrada.EntradaView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
@@ -30,6 +31,7 @@ class DevFornecedorLayout : MainLayout() {
     menuRoute(FORM, "Entrada", EntradaView::class)
     menuRoute(FORM, "Saida", SaidaView::class)
     menuRoute(TRUCK, "Recebimento", RecebimentoView::class)
+    menuRoute(CLOCK, "Demanda", DemandaView::class)
     menuRoute(CLOCK, "Agenda", AgendaView::class)
     menuRoute(USER, "Usuário", UsuarioView::class, Config.isAdmin)
     menuRoute(SIGN_IN, "Assinatura", AssinaturaView::class, Config.isAdmin)

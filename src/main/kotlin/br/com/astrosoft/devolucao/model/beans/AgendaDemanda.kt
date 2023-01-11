@@ -4,10 +4,10 @@ import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
 class AgendaDemanda(
-  val id: Int = 0,
-  val date: LocalDate,
-  val titulo: String,
-  val conteudo: String,
+  var id: Int = 0,
+  var date: LocalDate,
+  var titulo: String,
+  var conteudo: String,
                    ){
   fun delete() = saci.deleteAgendaDemanda(this)
 

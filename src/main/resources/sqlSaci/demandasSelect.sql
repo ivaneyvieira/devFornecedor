@@ -1,5 +1,5 @@
 SELECT id,
-       date,
+       CAST(date AS DATE) AS date,
        titulo,
        conteudo
 FROM sqldados.agendaDemandas
