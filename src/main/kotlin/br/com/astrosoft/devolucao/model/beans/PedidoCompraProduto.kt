@@ -87,12 +87,12 @@ class PedidoCompraProduto(
 
   val referenciaMatch: String?
     get() {
-      val listRef = refno?.split("/").orEmpty()
+      val listRef = refno?.split("\t").orEmpty()
       return listRef.firstOrNull { it == codigoMatch } ?: listRef.getOrNull(0)
     }
   val refFabMatch: String?
     get() {
-      val listRef = refFab?.split("/").orEmpty()
+      val listRef = refFab?.split("\t").orEmpty()
       return listRef.firstOrNull { it == codigoMatch } ?: listRef.getOrNull(0)
     }
 
@@ -182,8 +182,8 @@ class PedidoCompraProduto(
   }
 
   fun listCodigo(): List<String> {
-    val listRef = refno?.split("/").orEmpty()
-    val listFab = refFab?.split("/").orEmpty()
+    val listRef = refno?.split("\t").orEmpty()
+    val listFab = refFab?.split("\t").orEmpty()
     val list = listRef + listFab + listOf(codigo)
     return list.filterNotNull().filter { it.isNotBlank() }
   }

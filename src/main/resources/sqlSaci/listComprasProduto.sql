@@ -19,10 +19,11 @@ DROP TEMPORARY TABLE IF EXISTS T_REF;
 CREATE TEMPORARY TABLE T_REF (
   PRIMARY KEY (prdno, grade)
 )
-SELECT prdno                                                                         AS prdno,
-       grade                                                                         AS grade,
-       CAST(GROUP_CONCAT(DISTINCT prdrefno ORDER BY prdrefno SEPARATOR '/') AS CHAR) AS refno,
-       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefname)), 11, 100) AS char)        AS refname
+SELECT prdno                                                                          AS prdno,
+       grade                                                                          AS grade,
+       CAST(GROUP_CONCAT(DISTINCT prdrefno ORDER BY prdrefno SEPARATOR '\t') AS CHAR) AS refno,
+       CAST(MID(MAX(CONCAT(LPAD(l1, 10, '0'), prdrefname)), 11, 100) AS char)         AS refname,
+       COUNT(DISTINCT prdrefno)                                                       AS qtRef
 FROM sqldados.prdref
 GROUP BY prdno, grade;
 
