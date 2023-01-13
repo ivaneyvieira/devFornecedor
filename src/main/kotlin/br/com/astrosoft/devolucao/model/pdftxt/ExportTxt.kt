@@ -8,14 +8,15 @@ import kotlin.io.path.deleteExisting
 object ExportTxt {
   fun parsePdfFile(pdf: String, txt: String) {
     try {
-      val output = shellRun("/usr/bin/pdftotext4", listOf("-table", "-fixed", "4", "-enc", "UTF-8", pdf, txt))
+      val parametros = listOf("-table", "-fixed", "4", "-nodiag", "-nopgbrk", "-clip", "-enc", "UTF-8", pdf, txt)
+      val output = shellRun("/usr/bin/pdftotext4", parametros)
       println(output)
-    }catch (e: Throwable){
+    } catch (e: Throwable) {
       println(e.message)
     }
   }
 
-  fun toTxt(pdf: ByteArray) : ByteArray{
+  fun toTxt(pdf: ByteArray): ByteArray {
     val randonName = RandomStringUtils.randomAlphanumeric(8)
     val pdfPath = "/tmp/$randonName.pdf"
     val txtPath = "/tmp/$randonName.txt"
