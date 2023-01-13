@@ -125,7 +125,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
         }
       } catch (e: Throwable) {
         listPedidoExcel.clear()
-        fail("Erro ao abrir o arquivo Excel")
+        e.printStackTrace()
       }
     }
   }
