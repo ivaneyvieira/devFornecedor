@@ -3,10 +3,8 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.pdftxt.FileText
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.util.notOutliers
 import org.nield.kotlinstatistics.mode
 import java.time.LocalDate
-import kotlin.math.roundToInt
 
 class PedidoCompra(
   val vendno: Int,
@@ -35,7 +33,10 @@ class PedidoCompra(
     produtos.forEach { prd ->
       if (prd.linePDF != null) {
         val line = prd.linePDF
-        val quant = line?.getInt(startQuant, endQuant)
+        val quant =
+          line?.getInt(startQuant, endQuant) ?: line?.getInt(startQuant?.minus(5), endQuant) ?: line?.getInt(startQuant,
+                                                                                                             endQuant?.plus(
+                                                                                                               5))
         val valor = line?.getDouble(startValor, endValor)
         prd.quantidadeCt = quant
         prd.valorUnitarioCt = valor

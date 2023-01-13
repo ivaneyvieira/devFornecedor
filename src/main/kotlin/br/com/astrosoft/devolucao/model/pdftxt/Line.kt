@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.pdftxt
 
 import br.com.astrosoft.framework.util.unaccent
-import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
 val titleQuant = listOf("Quantidade", "Qnt", "Quant", "Qtd", "Qtde").map {
@@ -19,8 +18,8 @@ val titleValor =
          "Unitario",
          "Unit",
          "Liq").map {
-      it.unaccent()
-    }
+    it.unaccent()
+  }
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total").map {
   it.unaccent()
 } + titleQuant + titleValor
@@ -155,10 +154,17 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return num01.trim().replace(',', '.').toDoubleOrNull()
   }
 
+  private fun String?.decompose(): String? {
+    this ?: return ""
+    return if (this.contains("/") ) this.split("/").getOrNull(1)?.trim() else this.trim()
+  }
+
   fun getInt(start: Int?, end: Int?): Int? {
     start ?: return null
     end ?: return null
-    val strInt = midLine(start = posStart(start), end = posEnd(end))?.trim()?.split(split1)?.getOrNull(0)
+    val midLine = midLine(start = posStart(start), end = posEnd(end))?.trim()
+    val decomposeInt = midLine.decompose()
+    val strInt = decomposeInt?.split(split1)?.getOrNull(0)
     val int = strToNumber(strInt)?.toInt()
     return int
   }
@@ -171,7 +177,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return double
   }
 
-  fun findRef(ref: String?) : Boolean {
+  fun findRef(ref: String?): Boolean {
     return find(ref, split1)
   }
 
