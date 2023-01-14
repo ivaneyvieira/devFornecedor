@@ -49,9 +49,7 @@ class TabFretePerViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro).filter {
-      it.frete != 0.00 && it.fretep != 0.00 && it.freten != 0.00
-    }
+    return NfPrecEntrada.findNotas(filtro)
   }
 }
 
