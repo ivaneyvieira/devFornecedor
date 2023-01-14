@@ -80,3 +80,5 @@ WHERE (@cst = cstDif OR @icms = icmsDif OR @ipi = ipiDif OR @mva = mvaDif OR @nc
        fornNota = @pesquisaNum OR prod = @pesquisaNum OR
        (descricao LIKE CONCAT(@pesquisaStr, '%') AND @pesquisaStr <> '') OR @pesquisa = '')
 
+
+
