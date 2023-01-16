@@ -11,13 +11,18 @@ class FileText {
   }
 
   fun loadPDF(bytes: ByteArray) {
-    val bytesTXT = ExportTxt.toTxt(bytes)
-    loadTXT(bytesTXT)
+    val listLineStr4 = toStringList(bytes, 4)
+    val listLineStr3 = toStringList(bytes, 3)
+    loadLines(listLineStr4 + listLineStr3)
   }
 
-  fun loadTXT(bytes: ByteArray) {
-    val text = String(bytes)
-    val listLineStr = text.lines()
+  private fun toStringList(bytes: ByteArray, fidexChar: Int): List<String> {
+    val bytesTXT = ExportTxt.toTxt(bytes, fidexChar)
+    val text = String(bytesTXT)
+    return text.lines()
+  }
+
+  private fun loadLines(listLineStr: List<String>) {
     clear()
     listLineStr.forEachIndexed { index, lineStr ->
       val pos = index + 1
@@ -37,13 +42,35 @@ class FileText {
   }
 
   fun findLine(text: String): List<Line> {
-    return filterDataLines().filter { line ->
+    val dataLines = filterDataLines()
+    val lineFound01 = dataLines.filter { line ->
       line.findRef(text)
     }
+
+    val lineFound = lineFound01.ifEmpty {
+      val lineFound01 = dataLines.filter { line ->
+        val result = line.findInDescricao(text)
+
+        if (result) true
+        else {
+          val indexOfLine = dataLines.indexOf(line)
+          val lineNext = dataLines.getOrNull(indexOfLine + 1)
+          val strNext = lineNext?.lineStr ?: ""
+          val str = line.lineStr
+          if (strNext.length < (str.length / 4)) {
+            lineNext?.findInDescricao(text) == true
+          }
+          else false
+        }
+      }
+      lineFound01
+    }
+
+    return lineFound
   }
 
   private fun filterDataLines(): List<Line> {
-    return lines
+    return lines.filter { it.isNotEmpty() }
   }
 
   fun localizaColunas(): List<Line> {

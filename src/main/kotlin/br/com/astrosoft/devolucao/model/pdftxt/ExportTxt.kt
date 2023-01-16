@@ -6,9 +6,9 @@ import java.io.File
 import kotlin.io.path.deleteExisting
 
 object ExportTxt {
-  fun parsePdfFile(pdf: String, txt: String) {
+  fun parsePdfFile(pdf: String, txt: String, fixedChar : Int) {
     try {
-      val parametros = listOf("-table", "-fixed", "4", "-nodiag", "-nopgbrk", "-clip", "-enc", "UTF-8", pdf, txt)
+      val parametros = listOf("-table", "-fixed", "$fixedChar", "-nodiag", "-nopgbrk", "-clip", "-enc", "UTF-8", pdf, txt)
       val output = shellRun("/usr/bin/pdftotext4", parametros)
       println(output)
     } catch (e: Throwable) {
@@ -16,12 +16,12 @@ object ExportTxt {
     }
   }
 
-  fun toTxt(pdf: ByteArray): ByteArray {
+  fun toTxt(pdf: ByteArray, fixedChar: Int): ByteArray {
     val randonName = RandomStringUtils.randomAlphanumeric(8)
     val pdfPath = "/tmp/$randonName.pdf"
     val txtPath = "/tmp/$randonName.txt"
     File(pdfPath).writeBytes(pdf)
-    parsePdfFile(pdfPath, txtPath)
+    parsePdfFile(pdf = pdfPath, txt = txtPath, fixedChar = fixedChar)
     val out = File(txtPath).readBytes()
     File(txtPath).toPath().deleteExisting()
     File(pdfPath).toPath().deleteExisting()
@@ -30,5 +30,5 @@ object ExportTxt {
 }
 
 fun main() {
-  ExportTxt.parsePdfFile("/tmp/pdf/pedido01.pdf", "/tmp/pdf/pedido01.txt")
+  ExportTxt.parsePdfFile(pdf = "/tmp/pdf/pedido01.pdf", txt = "/tmp/pdf/pedido01.txt", fixedChar = 3)
 }
