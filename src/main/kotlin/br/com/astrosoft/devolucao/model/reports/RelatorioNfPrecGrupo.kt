@@ -18,12 +18,12 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
         ReportBuild<NfPrecEntradaGrupo>() {
   init {
     if (!fiscal) {
-      columnInt(NfPrecEntradaGrupo::pedidoCompra, width = 60, title = "Ped Compra")
+      columnInt(NfPrecEntradaGrupo::pedidoCompra, width = 40, title = "Pedido")
     }
     columnString(NfPrecEntradaGrupo::dataStr, width = 60, title = "Data", aligment = CENTER,)
-    columnString(NfPrecEntradaGrupo::nfe, width = 80, aligment = CENTER, title = "NF")
-    columnString(NfPrecEntradaGrupo::prod, width = 60, aligment = CENTER, title = "Prod")
-    columnString(NfPrecEntradaGrupo::descricao, title = "Descrição", width = 180 + if (fiscal) 50 else 0) {
+    columnString(NfPrecEntradaGrupo::nfe, width = 60, aligment = CENTER, title = "NF")
+    columnString(NfPrecEntradaGrupo::prod, width = 50, aligment = CENTER, title = "Prod")
+    columnString(NfPrecEntradaGrupo::descricao, title = "Descrição", width = 180) {
       this.setTextAdjust(TextAdjust.SCALE_FONT)
     }
     if (!fiscal) {
@@ -31,10 +31,10 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
         this.setTextAdjust(TextAdjust.SCALE_FONT)
       }
     }
-    columnString(NfPrecEntradaGrupo::valorNota, title = "NF", width = 70, aligment = RIGHT) {
+    columnString(NfPrecEntradaGrupo::valorNota, title = "NF", width = 60, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW).setFontSize(8))
     }
-    columnString(NfPrecEntradaGrupo::valorPrecificacao, title = "Prec", width = 70, aligment = RIGHT) {
+    columnString(NfPrecEntradaGrupo::valorPrecificacao, title = "Prec", width = 60, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW).setFontSize(8))
     }
   }
