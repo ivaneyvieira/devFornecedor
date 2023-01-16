@@ -181,6 +181,10 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     return find(ref, split1)
   }
 
+  fun findInDescricao(ref: String?): Boolean {
+    return lineStr.contains("[$ref]")
+  }
+
   private fun midChar(index: Int): Char? {
     return lineStr.getOrNull(index)
   }
@@ -199,6 +203,10 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
       val token = listPosTokens(split1)
       token.map { it.start }.filter { it <= start }.maxOrNull()
     }
+  }
+
+  fun isNotEmpty(): Boolean {
+    return lineStr.trim().isNotEmpty()
   }
 
   companion object {
