@@ -11,7 +11,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFreteKg
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFretePerNf
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFretePerPrc
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFreteUnit
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFreteTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
@@ -19,7 +19,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPesoBruto
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPeson
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPesop
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecon
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPreconTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
@@ -103,9 +103,9 @@ class DlgRelatorioFretePer(val viewModel: TabFretePerViewModel, val filtro: Filt
       notaPesop()
       notaQuant()
       notaPesoBruto()
-      notaPrecon()
+      notaPreconTotal()
       notaFreteKg()
-      notaFreteUnit()
+      notaFreteTotal()
       notaFretePerNf().marcaDiferenca { fretePerDif != "S" }
       notaFretePerPrc().marcaDiferenca { fretePerDif != "S" }
     }
