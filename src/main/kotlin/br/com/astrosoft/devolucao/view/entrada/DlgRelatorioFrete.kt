@@ -15,7 +15,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPesoBruto
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecon
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPreconUnit
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
@@ -97,7 +97,7 @@ class DlgRelatorioFrete(val viewModel: TabFreteViewModel, val filtro: FiltroRela
       notaFrete().marcaDiferenca { freteDif != "S" }
       notaFreten().marcaDiferenca { freteDif != "S" }
       notaFretep().marcaDiferenca { freteDif != "S" }
-      notaPrecon()
+      notaPreconUnit()
     }
   }
 }

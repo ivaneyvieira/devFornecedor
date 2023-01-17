@@ -15,7 +15,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPedidoCompra
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecoDif
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecoPercen
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecon
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPreconUnit
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecop
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaPrecopc
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
@@ -110,7 +110,7 @@ class DlgRelatorioPrecoPreRec(val viewModel: TabPrecoPreRecViewModel, val filtro
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaGrade()
-      notaPrecon().marcaDiferenca { precoDif == "N" }
+      notaPreconUnit().marcaDiferenca { precoDif == "N" }
       notaPrecop().marcaDiferenca { precoDif == "N" }
       notaPrecopc().marcaDiferenca { precoDif == "N" }
       notaPrecoDif().marcaDiferenca { precoDif == "N" }
