@@ -168,6 +168,23 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
   })
 }
 
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnDownloadButton(iconButton: VaadinIcon,
+                                                           header: String? = null,
+                                                           fileName: (T) -> String,
+                                                           file: (T) -> ByteArray): Grid.Column<T> {
+  return addComponentColumn { bean ->
+    LazyDownloadButton(iconButton.create(), { fileName(bean) }) {
+      ByteArrayInputStream(file(bean))
+    }
+  }.apply {
+    this.setHeader(header)
+    this.isAutoWidth = false
+    this.isExpand = false
+    this.width = "6em"
+    this.center()
+  }
+}
+
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
   return addColumn {
     val lista = this.list()
@@ -283,7 +300,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(property: KProperty1<T
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnDouble(property: KProperty1<T, Double?>,
-                                                   pattern: String= "#,##0.00",
+                                                   pattern: String = "#,##0.00",
                                                    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property, renderer = NumberRenderer(property, DecimalFormat(pattern))) {
     this.isAutoWidth = true
