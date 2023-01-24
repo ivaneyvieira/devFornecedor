@@ -50,8 +50,13 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
     addColumnButton(iconButton = VaadinIcon.EDIT, tooltip = "Editar", header = "Editar") { demanda ->
       viewModel.editar(demanda)
     }
+
     addColumnButton(iconButton = VaadinIcon.TRASH, tooltip = "Remover", header = "Remover") { demanda ->
       viewModel.remover(demanda)
+    }
+
+    addColumnButton(iconButton = VaadinIcon.FILE, tooltip = "Anexo", header = "Anexo") { demanda ->
+      viewModel.anexo(demanda)
     }
 
     colDemandaData()

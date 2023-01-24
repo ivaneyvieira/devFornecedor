@@ -33,7 +33,6 @@ class AgendaDemanda(
     saci.deleteFile(nfFile)
   }
 
-
   companion object {
     fun findAll(): List<AgendaDemanda> {
       return saci.selectAgendaDemanda()
