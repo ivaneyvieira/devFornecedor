@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
@@ -101,6 +102,10 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             val notas = gridNota.asMultiSelect().selectedItems.toList()
             viewModel.imprimirRelatorio(notas)
           }
+        }
+        this.lazyDownloadButtonXlsx("Excel", "excel") {
+            val notas = gridNota.asMultiSelect().selectedItems.toList()
+            viewModel.excelRelatorio(notas)
         }
       }
 
