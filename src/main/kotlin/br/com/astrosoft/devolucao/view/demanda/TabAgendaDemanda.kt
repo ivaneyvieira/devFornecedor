@@ -75,6 +75,10 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
                                                                              }).withCancelButton().open()
   }
 
+  override fun showAnexoForm(demanda: AgendaDemanda, execInsert: (demanda: AgendaDemanda?) -> Unit) {
+    TODO("Not yet implemented")
+  }
+
   override fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit) {
     val bean = AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "")
     showForm(demanda = bean, title = "Adiciona", isReadOnly = false, exec = execInsert)

@@ -20,9 +20,11 @@ import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.constant.TextAdjust
 import net.sf.jasperreports.engine.export.JRPdfExporter
 import net.sf.jasperreports.engine.export.JRXlsExporter
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
 import java.awt.Color
 import java.io.ByteArrayOutputStream
 
@@ -192,8 +194,8 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) 
     fun processaExcel(notas: List<NotaSaida>): ByteArray {
       val report = RelatorioNotaFornecedor(notas, isExcel = true).makeReport()
       val printList = listOf(report.toJasperPrint())
-      val exporter = JRXlsExporter()
-      val xlsReportConfiguration = SimpleXlsReportConfiguration()
+      val exporter = JRXlsxExporter()
+      val xlsReportConfiguration = SimpleXlsxReportConfiguration()
       xlsReportConfiguration.isOnePagePerSheet = false
       xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = true
       xlsReportConfiguration.isRemoveEmptySpaceBetweenColumns = true
