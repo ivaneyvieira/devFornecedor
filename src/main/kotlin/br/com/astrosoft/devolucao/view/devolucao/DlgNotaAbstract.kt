@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.lazyDownloadButton
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
@@ -103,9 +104,11 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             viewModel.imprimirRelatorio(notas)
           }
         }
-        this.lazyDownloadButtonXlsx("Excel", "excel") {
-            val notas = gridNota.asMultiSelect().selectedItems.toList()
-            viewModel.excelRelatorio(notas)
+        this.lazyDownloadButton(text = "Excel", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
+          "Devolução ${fornecedor.fornecedor}.xlsx"
+        }) {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.excelRelatorio(notas)
         }
       }
 
