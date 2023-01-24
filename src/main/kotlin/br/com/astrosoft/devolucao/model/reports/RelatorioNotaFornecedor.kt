@@ -19,12 +19,19 @@ import net.sf.dynamicreports.report.constant.PageOrientation
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.constant.TextAdjust
 import net.sf.jasperreports.engine.export.JRPdfExporter
+import net.sf.jasperreports.engine.export.JRXlsExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration
 import java.awt.Color
 import java.io.ByteArrayOutputStream
 
-class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
+class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) {
+  private val colorFont
+    get() = if (isExcel) Color.BLACK else Color.WHITE
+  private val colorForeground
+    get() = if (isExcel) Color.WHITE else Color.BLACK
+
   private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
     this.setFixedWidth(35)
@@ -96,13 +103,13 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       horizontalList {
         text("Devoluções para Fornecedores", CENTER).apply {
           this.setStyle(fieldFontGrande)
-          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+          this.setStyle(stl.style().setForegroundColor(colorFont))
         }
       }
       val labelTitle = notas.firstOrNull()?.labelTitle2 ?: ""
       horizontalList {
         text("    $labelTitle", LEFT) {
-          this.setStyle(stl.style().setForegroundColor(Color.WHITE))
+          this.setStyle(stl.style().setForegroundColor(colorFont))
         }
       }
     }
@@ -115,10 +122,10 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
       sbt.text("Total R$", obsNotaCol).apply {
-        this.setStyle(stl.style().setForegroundColor(Color.WHITE).setTopBorder(stl.pen1Point()))
+        this.setStyle(stl.style().setForegroundColor(colorFont).setTopBorder(stl.pen1Point()))
       },
       sbt.sum(valorCol).apply {
-        this.setStyle(stl.style().setForegroundColor(Color.WHITE).setTopBorder(stl.pen1Point()))
+        this.setStyle(stl.style().setForegroundColor(colorFont).setTopBorder(stl.pen1Point()))
       },
                  )
   }
@@ -158,21 +165,41 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>) {
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
       .setColumnStyle(fieldFontNormal
-                        .setForegroundColor(Color.WHITE)
+                        .setForegroundColor(colorFont)
                         .setFontSize(8)
                         .setPadding(stl.padding().setRight(4).setLeft(4)))
-      .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
+      .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(colorForeground).setFontSize(10))
       .setPageMargin(margin(0))
-      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
-      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE))
+      .setTitleStyle(stl.style().setForegroundColor(colorFont).setPadding(Styles.padding().setTop(20)))
+      .setGroupStyle(stl.style().setForegroundColor(colorFont))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }
 
   companion object {
     fun processaRelatorio(notas: List<NotaSaida>): ByteArray {
-      val report = RelatorioNotaFornecedor(notas).makeReport()
+      val report = RelatorioNotaFornecedor(notas, isExcel = false).makeReport()
       val printList = listOf(report.toJasperPrint())
       val exporter = JRPdfExporter()
+      val out = ByteArrayOutputStream()
+      exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
+
+      exporter.exporterOutput = SimpleOutputStreamExporterOutput(out)
+
+      exporter.exportReport()
+      return out.toByteArray()
+    }
+
+    fun processaExcel(notas: List<NotaSaida>): ByteArray {
+      val report = RelatorioNotaFornecedor(notas, isExcel = true).makeReport()
+      val printList = listOf(report.toJasperPrint())
+      val exporter = JRXlsExporter()
+      val xlsReportConfiguration = SimpleXlsReportConfiguration()
+      xlsReportConfiguration.isOnePagePerSheet = false
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = true
+      xlsReportConfiguration.isRemoveEmptySpaceBetweenColumns = true
+      xlsReportConfiguration.isDetectCellType = true
+      xlsReportConfiguration.isWhitePageBackground = false
+      exporter.setConfiguration(xlsReportConfiguration)
       val out = ByteArrayOutputStream()
       exporter.setExporterInput(SimpleExporterInput.getInstance(printList))
 

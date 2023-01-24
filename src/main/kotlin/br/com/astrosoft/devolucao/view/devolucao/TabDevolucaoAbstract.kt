@@ -219,6 +219,11 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     SubWindowPDF(chave, report).open()
   }
 
+  override fun excelRelatorio(notas: List<NotaSaida>): ByteArray {
+    val report = RelatorioNotaFornecedor.processaExcel(notas)
+    return report
+  }
+
   override fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>) {
     val report = RelatorioFornecedorResumido.processaRelatorio(fornecedores)
     val chave = "DevFornecedor"

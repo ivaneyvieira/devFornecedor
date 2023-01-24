@@ -4,7 +4,7 @@ import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.view.log
 
 abstract class ViewModel<V : IView>(val view: V) {
-  fun exec(block: () -> Unit) = exec(view, block)
+  fun <T> exec(block: () -> T) = exec(view, block)
   protected abstract fun listTab(): List<ITabView>
 
   fun tabsAuthorized() = listTab().filter {
@@ -18,8 +18,8 @@ abstract class ViewModel<V : IView>(val view: V) {
   fun showReport(chave: String, report: ByteArray) = view.showReport(chave, report)
 }
 
-fun exec(view: IView, block: () -> Unit) {
-  try {
+fun <T> exec(view: IView, block: () -> T) : T {
+  return try {
     block()
   } catch (e: EViewModelFail) {
     view.showError(e.message ?: "Erro generico")
