@@ -18,6 +18,12 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
     }
   }
 
+  fun anexo(demanda : AgendaDemanda) = viewModel.exec {
+    subView.showAnexoForm(demanda) {demanda ->
+      TODO()
+    }
+  }
+
   private fun AgendaDemanda.valida() {
     if(titulo.isBlank()) fail("O campo título não foi informado")
     if(conteudo.isBlank()) fail("O campo conteudo está vazio")
@@ -45,6 +51,7 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
 interface ITabAgendaDemanda : ITabView {
   fun updateGrid(itens: List<AgendaDemanda>)
 
+  fun showAnexoForm(demanda : AgendaDemanda, execInsert: (demanda: AgendaDemanda?) -> Unit)
   fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit)
   fun showUpdateForm(demanda: AgendaDemanda, execUpdate: (demanda: AgendaDemanda?) -> Unit)
   fun showDeleteForm(demanda: AgendaDemanda, execDelete: (demanda: AgendaDemanda?) -> Unit)
