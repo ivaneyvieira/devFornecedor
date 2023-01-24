@@ -85,11 +85,12 @@ class UserSaci : IUser {
   var compraConferido by DelegateAuthorized(64)
   var agendaRastreamento by DelegateAuthorized(65)
   var demandaAgenda by DelegateAuthorized(66)
+  var demandaConcluido by DelegateAuthorized(67)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
   val menuDemanda
-    get() = demandaAgenda
+    get() = demandaAgenda || demandaConcluido
 
   val menuDevolucao01
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || notaFinanceiro || conferenciaSap || sap

@@ -162,3 +162,6 @@ CREATE TABLE sqldados.agendaDemandas(
   conteudo TEXT,
   PRIMARY KEY (id)
 );
+
+ALTER TABLE sqldados.agendaDemandas
+ADD concluido VARCHAR(1) DEFAULT 'N';

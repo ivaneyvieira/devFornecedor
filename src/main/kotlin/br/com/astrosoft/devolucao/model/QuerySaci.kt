@@ -770,9 +770,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   /*CRUD da tabela Agenda Demanda*/
 
-  fun selectAgendaDemanda() : List<AgendaDemanda> {
+  fun selectAgendaDemanda(filter: FilterAgendaDemanda) : List<AgendaDemanda> {
     val sql = "/sqlSaci/demandasSelect.sql"
-    return query(sql, AgendaDemanda::class)
+    return query(sql, AgendaDemanda::class){
+      addOptionalParameter("pesquisa", filter.pesquisa)
+      addOptionalParameter("concluido", filter.concluido.let { if(it) "S" else "N" })
+    }
   }
 
   fun deleteAgendaDemanda(agendaDemanda: AgendaDemanda) {
@@ -789,6 +792,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("titulo", agendaDemanda.titulo)
       addOptionalParameter("date", agendaDemanda.date.toSaciDate())
       addOptionalParameter("conteudo", agendaDemanda.conteudo)
+      addOptionalParameter("concluido", agendaDemanda.concluido)
     }
   }
 
