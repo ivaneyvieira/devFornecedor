@@ -105,7 +105,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
           }
         }
         this.lazyDownloadButton(text = "Excel", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
-          "Devolução ${fornecedor.fornecedor}.xlsx"
+          "Devolução ${fornecedor.fornecedor.trim().split(" ").getOrNull(0) ?: ""}.xlsx"
         }) {
           val notas = gridNota.asMultiSelect().selectedItems.toList()
           viewModel.excelRelatorio(notas)

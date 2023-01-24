@@ -19,9 +19,7 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
   }
 
   fun anexo(demanda : AgendaDemanda) = viewModel.exec {
-    subView.showAnexoForm(demanda) {demanda ->
-      TODO()
-    }
+    subView.showAnexoForm(demanda)
   }
 
   private fun AgendaDemanda.valida() {
@@ -51,7 +49,7 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
 interface ITabAgendaDemanda : ITabView {
   fun updateGrid(itens: List<AgendaDemanda>)
 
-  fun showAnexoForm(demanda : AgendaDemanda, execInsert: (demanda: AgendaDemanda?) -> Unit)
+  fun showAnexoForm(demanda : AgendaDemanda)
   fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit)
   fun showUpdateForm(demanda: AgendaDemanda, execUpdate: (demanda: AgendaDemanda?) -> Unit)
   fun showDeleteForm(demanda: AgendaDemanda, execDelete: (demanda: AgendaDemanda?) -> Unit)

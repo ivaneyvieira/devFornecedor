@@ -64,10 +64,10 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
     colDemandaConteudo()
   }
 
-  private fun showForm(demanda: AgendaDemanda?,
-                       title: String,
-                       isReadOnly: Boolean,
-                       exec: (demanda: AgendaDemanda?) -> Unit) {
+  private fun showAgendaForm(demanda: AgendaDemanda?,
+                             title: String,
+                             isReadOnly: Boolean,
+                             exec: (demanda: AgendaDemanda?) -> Unit) {
     val form = FormAgendaDemanda(demanda, isReadOnly)
     ConfirmDialog.create().withCaption(title).withMessage(form).withOkButton({
                                                                                val bean = form.bean
@@ -75,21 +75,22 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
                                                                              }).withCancelButton().open()
   }
 
-  override fun showAnexoForm(demanda: AgendaDemanda, execInsert: (demanda: AgendaDemanda?) -> Unit) {
-    TODO("Not yet implemented")
+  override fun showAnexoForm(demanda: AgendaDemanda) {
+    val form = FormAnexo(demanda)
+    ConfirmDialog.create().withCaption("Anexos").withMessage(form).withCloseButton().open()
   }
 
   override fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit) {
     val bean = AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "")
-    showForm(demanda = bean, title = "Adiciona", isReadOnly = false, exec = execInsert)
+    showAgendaForm(demanda = bean, title = "Adiciona", isReadOnly = false, exec = execInsert)
   }
 
   override fun showUpdateForm(demanda: AgendaDemanda, execUpdate: (demanda: AgendaDemanda?) -> Unit) {
-    showForm(demanda = demanda, title = "Edita", isReadOnly = false, exec = execUpdate)
+    showAgendaForm(demanda = demanda, title = "Edita", isReadOnly = false, exec = execUpdate)
   }
 
   override fun showDeleteForm(demanda: AgendaDemanda, execDelete: (demanda: AgendaDemanda?) -> Unit) {
-    showForm(demanda = demanda, title = "Remove", isReadOnly = true, exec = execDelete)
+    showAgendaForm(demanda = demanda, title = "Remove", isReadOnly = true, exec = execDelete)
   }
 
   override fun isAuthorized(user: IUser): Boolean {
