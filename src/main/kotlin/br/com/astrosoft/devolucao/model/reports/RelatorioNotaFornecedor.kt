@@ -31,8 +31,6 @@ import java.io.ByteArrayOutputStream
 class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) {
   private val colorFont
     get() = if (isExcel) Color.BLACK else Color.WHITE
-  private val colorForeground
-    get() = if (isExcel) Color.WHITE else Color.BLACK
 
   private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
@@ -170,7 +168,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) 
                         .setForegroundColor(colorFont)
                         .setFontSize(8)
                         .setPadding(stl.padding().setRight(4).setLeft(4)))
-      .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(colorForeground).setFontSize(10))
+      .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(colorFont).setFontSize(10))
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(colorFont).setPadding(Styles.padding().setTop(20)))
       .setGroupStyle(stl.style().setForegroundColor(colorFont))
@@ -200,6 +198,7 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) 
       xlsReportConfiguration.isRemoveEmptySpaceBetweenRows = true
       xlsReportConfiguration.isRemoveEmptySpaceBetweenColumns = true
       xlsReportConfiguration.isDetectCellType = true
+      xlsReportConfiguration.isFontSizeFixEnabled = true
       xlsReportConfiguration.isWhitePageBackground = false
       exporter.setConfiguration(xlsReportConfiguration)
       val out = ByteArrayOutputStream()
