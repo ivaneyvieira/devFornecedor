@@ -44,7 +44,7 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
       }
     }
 
-    button("Conclui") {
+    button("Concluído") {
       this.icon = VaadinIcon.ARROW_RIGHT.create()
 
       onLeftClick {
