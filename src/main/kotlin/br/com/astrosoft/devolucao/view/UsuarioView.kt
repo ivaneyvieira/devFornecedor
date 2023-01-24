@@ -279,6 +279,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::demandaAgenda.name)
           }
+          checkBox("Concluido") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::demandaConcluido.name)
+          }
         }
         formLayout {
           h4("Agenda") {

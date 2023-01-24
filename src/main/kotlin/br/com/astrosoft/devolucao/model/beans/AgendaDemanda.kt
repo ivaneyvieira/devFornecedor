@@ -8,6 +8,7 @@ class AgendaDemanda(
   var date: LocalDate,
   var titulo: String,
   var conteudo: String,
+  var concluido: String = "N",
                    ) {
   fun delete() = saci.deleteAgendaDemanda(this)
 
@@ -33,9 +34,21 @@ class AgendaDemanda(
     saci.deleteFile(nfFile)
   }
 
+  fun marcaConcluido() {
+    concluido = "S"
+    save()
+  }
+
+  fun marcaVolta() {
+    concluido = "N"
+    save()
+  }
+
   companion object {
-    fun findAll(): List<AgendaDemanda> {
-      return saci.selectAgendaDemanda()
+    fun findAll(filter: FilterAgendaDemanda): List<AgendaDemanda> {
+      return saci.selectAgendaDemanda(filter)
     }
   }
 }
+
+data class FilterAgendaDemanda(val pesquisa: String, val concluido : Boolean)

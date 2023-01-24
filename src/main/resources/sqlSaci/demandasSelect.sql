@@ -1,5 +1,7 @@
 SELECT id,
        CAST(date AS DATE) AS date,
        titulo,
-       conteudo
+       conteudo,
+       concluido
 FROM sqldados.agendaDemandas
+WHERE concluido = :concluido

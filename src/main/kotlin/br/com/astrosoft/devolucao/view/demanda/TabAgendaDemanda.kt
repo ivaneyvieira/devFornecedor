@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.view.demanda
 
 import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
+import br.com.astrosoft.devolucao.model.beans.FilterAgendaDemanda
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaConteudo
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaData
@@ -19,6 +20,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 import java.time.LocalDate
 
@@ -34,12 +36,19 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
     }
 
     edtFiltro = textField("Filtro") {
-      this.placeholder = "Ainda não está funcionando"
       width = "400px"
       valueChangeMode = ValueChangeMode.LAZY
       this.valueChangeTimeout = 2000
       addValueChangeListener {
         viewModel.updateView()
+      }
+    }
+
+    button("Conclui") {
+      this.icon = VaadinIcon.ARROW_RIGHT.create()
+
+      onLeftClick {
+        viewModel.concluiDemanda()
       }
     }
   }
@@ -76,8 +85,11 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   override fun showAnexoForm(demanda: AgendaDemanda) {
-    val form = FormAnexo(demanda)
-    ConfirmDialog.create().withCaption("Anexos").withMessage(form).withCloseButton().open()
+    val form = FormAnexo(demanda, false)
+    ConfirmDialog
+      .create()
+      .withCaption("Anexos")
+      .withMessage(form).withCloseButton(ButtonOption.caption("Fechar")).open()
   }
 
   override fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit) {
@@ -91,6 +103,14 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
 
   override fun showDeleteForm(demanda: AgendaDemanda, execDelete: (demanda: AgendaDemanda?) -> Unit) {
     showAgendaForm(demanda = demanda, title = "Remove", isReadOnly = true, exec = execDelete)
+  }
+
+  override fun filter(): FilterAgendaDemanda {
+    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = false)
+  }
+
+  override fun selectedItem(): List<AgendaDemanda> {
+    return itensSelecionados()
   }
 
   override fun isAuthorized(user: IUser): Boolean {
