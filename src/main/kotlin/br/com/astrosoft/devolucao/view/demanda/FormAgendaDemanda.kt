@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.demanda
 
 import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.framework.view.localePtBr
-import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.textArea
 import com.github.mvysny.karibudsl.v10.textField

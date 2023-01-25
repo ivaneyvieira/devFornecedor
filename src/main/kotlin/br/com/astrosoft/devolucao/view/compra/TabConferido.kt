@@ -37,7 +37,7 @@ class TabConferido(val viewModel: TabConferidoViewModel) :
   override fun HorizontalLayout.toolBarConfig() {
     edtLoja = integerField("Loja") {
       this.valueChangeMode = ValueChangeMode.LAZY
-      this.valueChangeTimeout = 2000
+      this.valueChangeTimeout = 1000
       this.addValueChangeListener {
         updateComponent()
       }
@@ -45,7 +45,7 @@ class TabConferido(val viewModel: TabConferidoViewModel) :
 
     edtPedquisa = textField("Pesquisa") {
       this.valueChangeMode = ValueChangeMode.LAZY
-      this.valueChangeTimeout = 2000
+      this.valueChangeTimeout = 1000
       this.addValueChangeListener {
         updateComponent()
       }

@@ -71,7 +71,7 @@ class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
       valueChangeMode = ValueChangeMode.LAZY
-      this.valueChangeTimeout = 2000
+      this.valueChangeTimeout = 1000
       width = "200px"
 
       addValueChangeListener {
