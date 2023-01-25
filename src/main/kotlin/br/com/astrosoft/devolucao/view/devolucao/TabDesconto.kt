@@ -51,7 +51,7 @@ class TabDesconto(val viewModel: TabDescontoViewModel) : TabPanelGrid<Fornecedor
     edtFiltro = textField("Filtro") {
       width = "300px"
       valueChangeMode = ValueChangeMode.LAZY
-      this.valueChangeTimeout = 2000
+      this.valueChangeTimeout = 1000
       addValueChangeListener {
         viewModel.updateFiltro()
       }

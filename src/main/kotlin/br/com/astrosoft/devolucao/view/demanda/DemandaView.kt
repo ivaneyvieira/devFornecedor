@@ -19,6 +19,7 @@ class DemandaView : ViewLayout<DemandaViewModel>(), IDemandaView {
   override val viewModel = DemandaViewModel(this)
   override val tabAgendaDemanda = TabAgendaDemanda(viewModel.tabAgendadaDemanda)
   override val tabConcluidoDemanda = TabConcluidoDemanda(viewModel.tabConcluidoDemanda)
+  override val tabFornecedorDemanda = TabFornecedorDemanda(viewModel.tabFornecedorDemanda)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false

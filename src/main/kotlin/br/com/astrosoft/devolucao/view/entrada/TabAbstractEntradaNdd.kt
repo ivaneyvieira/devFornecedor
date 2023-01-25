@@ -79,7 +79,7 @@ abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val vi
     edtFiltro = textField("Filtro") {
       width = "400px"
       valueChangeMode = ValueChangeMode.LAZY
-      this.valueChangeTimeout = 2000
+      this.valueChangeTimeout = 1000
       addValueChangeListener {
         viewModel.updateView()
       }
