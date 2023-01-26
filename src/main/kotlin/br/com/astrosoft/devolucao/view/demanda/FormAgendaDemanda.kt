@@ -36,7 +36,8 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
   var bean: AgendaDemanda?
     get() = binder.bean
     set(value) {
-      if (value == null) binder.bean = AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "")
+      if (value == null) binder.bean =
+        AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "")
       else binder.bean = value
     }
 }
