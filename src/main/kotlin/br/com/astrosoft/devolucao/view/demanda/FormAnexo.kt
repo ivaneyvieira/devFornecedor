@@ -17,13 +17,14 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
 
-class FormAnexo(val demanda: AgendaDemanda, val isReadOnly: Boolean) : VerticalLayout() {
+class FormAnexo(val demanda: AgendaDemanda, private val isReadOnly: Boolean, val updateAnexo: () -> Unit) :
+        VerticalLayout() {
   private var gridFile: Grid<NFFile>? = null
 
   init {
     width = "600px"
     height = "400px"
-    if(!isReadOnly) {
+    if (!isReadOnly) {
       val (buffer, upload) = uploadFile()
       upload.addSucceededListener {
         val fileName = it.fileName
@@ -39,7 +40,7 @@ class FormAnexo(val demanda: AgendaDemanda, val isReadOnly: Boolean) : VerticalL
       }) { b: NFFile ->
         b.file
       }
-      if(!isReadOnly) {
+      if (!isReadOnly) {
         addColumnButton(VaadinIcon.TRASH, "Remove", "Remove") { bean ->
           demanda.delAnexo(bean)
           updateItens()
@@ -61,6 +62,7 @@ class FormAnexo(val demanda: AgendaDemanda, val isReadOnly: Boolean) : VerticalL
 
   private fun updateItens() {
     gridFile?.setItems(demanda.findAnexos())
+    updateAnexo()
   }
 
   private fun HasComponents.uploadFile(): Pair<MemoryBuffer, Upload> {

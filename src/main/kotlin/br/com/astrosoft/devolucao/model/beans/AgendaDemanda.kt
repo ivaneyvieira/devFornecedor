@@ -9,6 +9,7 @@ class AgendaDemanda(
   var titulo: String,
   var conteudo: String,
   var concluido: String = "N",
+  val quantAnexo: Int = 0,
                    ) {
   fun delete() = saci.deleteAgendaDemanda(this)
 
@@ -51,4 +52,4 @@ class AgendaDemanda(
   }
 }
 
-data class FilterAgendaDemanda(val pesquisa: String, val concluido : Boolean)
+data class FilterAgendaDemanda(val pesquisa: String, val concluido: Boolean)

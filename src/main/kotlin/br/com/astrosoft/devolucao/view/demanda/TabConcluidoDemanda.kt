@@ -54,6 +54,10 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
 
     addColumnButton(iconButton = VaadinIcon.FILE, tooltip = "Anexo", header = "Anexo") { demanda ->
       viewModel.anexo(demanda)
+    }.apply {
+      this.setClassNameGenerator {b ->
+        if(b.quantAnexo > 0) "marcaOk" else null
+      }
     }
 
     colDemandaData()
@@ -62,7 +66,9 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
   }
 
   override fun showAnexoForm(demanda: AgendaDemanda) {
-    val form = FormAnexo(demanda, false)
+    val form = FormAnexo(demanda, false) {
+      updateComponent()
+    }
     ConfirmDialog
       .create()
       .withCaption("Anexos")
