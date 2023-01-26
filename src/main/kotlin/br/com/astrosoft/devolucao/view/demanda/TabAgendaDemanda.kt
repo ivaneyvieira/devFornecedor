@@ -114,7 +114,7 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   override fun filter(): FilterAgendaDemanda {
-    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = false)
+    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = false, vendno = 0)
   }
 
   override fun selectedItem(): List<AgendaDemanda> {

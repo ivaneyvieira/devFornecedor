@@ -165,3 +165,8 @@ CREATE TABLE sqldados.agendaDemandas(
 
 ALTER TABLE sqldados.agendaDemandas
 ADD concluido VARCHAR(1) DEFAULT 'N';
+
+ALTER TABLE sqldados.agendaDemandas
+  ADD vendno INT DEFAULT 0;
+
+CREATE INDEX i1 ON sqldados.agendaDemandas(vendno);
