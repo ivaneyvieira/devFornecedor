@@ -13,24 +13,24 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
   }
 
   fun adicionar() = viewModel.exec {
-    subView.showInsertForm {demanda ->
+    subView.showInsertForm { demanda ->
       demanda?.valida()
       demanda?.insert()
       updateView()
     }
   }
 
-  fun anexo(demanda : AgendaDemanda) = viewModel.exec {
+  fun anexo(demanda: AgendaDemanda) = viewModel.exec {
     subView.showAnexoForm(demanda)
   }
 
   private fun AgendaDemanda.valida() {
-    if(titulo.isBlank()) fail("O campo título não foi informado")
-    if(conteudo.isBlank()) fail("O campo conteudo está vazio")
+    if (titulo.isBlank()) fail("O campo título não foi informado")
+    if (conteudo.isBlank()) fail("O campo conteudo está vazio")
   }
 
   fun editar(demanda: AgendaDemanda) {
-    subView.showUpdateForm(demanda) {dem ->
+    subView.showUpdateForm(demanda) { dem ->
       dem?.valida()
       dem?.save()
       updateView()
@@ -38,7 +38,7 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
   }
 
   fun remover(demanda: AgendaDemanda) {
-    subView.showDeleteForm(demanda) {dem ->
+    subView.showDeleteForm(demanda) { dem ->
       dem?.delete()
       updateView()
     }
@@ -59,7 +59,7 @@ class TabAgendaDemandaViewModel(val viewModel: DemandaViewModel) {
 interface ITabAgendaDemanda : ITabView {
   fun updateGrid(itens: List<AgendaDemanda>)
 
-  fun showAnexoForm(demanda : AgendaDemanda)
+  fun showAnexoForm(demanda: AgendaDemanda)
   fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit)
   fun showUpdateForm(demanda: AgendaDemanda, execUpdate: (demanda: AgendaDemanda?) -> Unit)
   fun showDeleteForm(demanda: AgendaDemanda, execDelete: (demanda: AgendaDemanda?) -> Unit)

@@ -774,7 +774,8 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/demandasSelect.sql"
     return query(sql, AgendaDemanda::class){
       addOptionalParameter("pesquisa", filter.pesquisa)
-      addOptionalParameter("concluido", filter.concluido.let { if(it) "S" else "N" })
+      addOptionalParameter("vendno", filter.vendno)
+      addOptionalParameter("concluido", filter.concluido?.let { if(it) "S" else "N" } ?: "")
     }
   }
 
@@ -793,6 +794,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("date", agendaDemanda.date.toSaciDate())
       addOptionalParameter("conteudo", agendaDemanda.conteudo)
       addOptionalParameter("concluido", agendaDemanda.concluido)
+      addOptionalParameter("vendno", agendaDemanda.vendno)
     }
   }
 
@@ -802,6 +804,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("titulo", agendaDemanda.titulo)
       addOptionalParameter("date", agendaDemanda.date.toSaciDate())
       addOptionalParameter("conteudo", agendaDemanda.conteudo)
+      addOptionalParameter("vendno", agendaDemanda.vendno)
     }
   }
 

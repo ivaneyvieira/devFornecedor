@@ -88,7 +88,7 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
   }
 
   override fun filter(): FilterAgendaDemanda {
-    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = true)
+    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = true, vendno = 0)
   }
 
   override fun selectedItem(): List<AgendaDemanda> {

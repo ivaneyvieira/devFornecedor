@@ -44,7 +44,7 @@
 }
 
 [part~="cell"].marcaOk {
-    color: #01FF70;
+    color: darkgreen;
     font-weight: bold;
 }
 

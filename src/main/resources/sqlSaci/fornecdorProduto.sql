@@ -45,15 +45,30 @@ FROM sqldados.prd           AS P
 	       ON V.cgc = C.cpf_cgc
 GROUP BY V.no, prdno;
 
+DROP TEMPORARY TABLE IF EXISTS T_FILE;
+CREATE TEMPORARY TABLE T_FILE (
+  PRIMARY KEY (id)
+)
+SELECT xano AS id, COUNT(*) AS quantAnexo
+FROM sqldados.nfdevFile
+WHERE storeno = 1
+  AND pdvno = 8888
+GROUP BY xano;
+
 SELECT vendno,
        custno,
-       name AS nomeFornecedor,
+       name                  AS nomeFornecedor,
        data,
        invno,
-       nota
+       nota,
+       IFNULL(quantAnexo, 0) AS quantAnexo
 FROM T_PRDVEND
   LEFT JOIN T_PRDDATA
 	      USING (vendno)
+  LEFT JOIN sqldados.agendaDemandas AS A
+	      USING (vendno)
+  LEFT JOIN T_FILE                  AS F
+	      USING (id)
 WHERE (@filtroStr = '' OR name LIKE CONCAT('%', @filtroStr, '%'))
    OR vendno = @FiltroNum
    OR custno = @FiltroNum

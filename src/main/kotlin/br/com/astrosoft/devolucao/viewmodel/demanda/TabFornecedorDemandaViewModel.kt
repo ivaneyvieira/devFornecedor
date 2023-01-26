@@ -1,7 +1,9 @@
 package br.com.astrosoft.devolucao.viewmodel.demanda
 
+import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.framework.viewmodel.ITabView
+import br.com.astrosoft.framework.viewmodel.fail
 
 class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
   fun updateView() {
@@ -10,11 +12,30 @@ class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
     subView.updateGrid(lista)
   }
 
+  fun editar(fornecedor: FornecedorProduto) {
+    subView.showUpdateForm(fornecedor) { dem ->
+      dem?.valida()
+      dem?.save()
+      updateView()
+    }
+  }
+
+  private fun AgendaDemanda.valida() {
+    if (titulo.isBlank()) fail("O campo título não foi informado")
+    if (conteudo.isBlank()) fail("O campo conteudo está vazio")
+  }
+
+  fun anexo(fornecedor: FornecedorProduto) = viewModel.exec {
+    subView.showAnexoForm(fornecedor)
+  }
+
   val subView
     get() = viewModel.view.tabFornecedorDemanda
 }
 
 interface ITabFornecedorDemanda : ITabView {
+  fun showAnexoForm(fornecedor: FornecedorProduto)
+  fun showUpdateForm(fornecedor: FornecedorProduto, execUpdate: (demanda: AgendaDemanda?) -> Unit)
   fun updateGrid(itens: List<FornecedorProduto>)
   fun filtro(): String
 }
