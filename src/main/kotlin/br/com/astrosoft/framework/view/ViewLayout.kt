@@ -160,12 +160,13 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
                                                    header: String? = null,
                                                    configIcon: (Icon, T) -> Unit = { _, _ -> },
                                                    execButton: (T) -> Unit = {}): Grid.Column<T> {
-  return addColumnButton(iconButton, tooltip, execButton, configIcon, block = {
+  return addColumnButton(iconButton, tooltip, execButton, configIcon) {
     this.setHeader(header)
     this.isAutoWidth = false
+    this.flexGrow = 0
     this.isExpand = false
     this.width = "6em"
-  })
+  }
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnDownloadButton(iconButton: VaadinIcon,

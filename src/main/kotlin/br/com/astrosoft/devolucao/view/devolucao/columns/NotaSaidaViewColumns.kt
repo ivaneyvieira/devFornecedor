@@ -10,7 +10,8 @@ import com.vaadin.flow.component.grid.Grid
 object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaLoja() = addColumnInt(NotaSaida::loja) {
     this.setHeader("Loja")
-    this.isExpand = false
+    isAutoWidth = true
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaPdv() = addColumnInt(NotaSaida::pdv) {
@@ -90,6 +91,8 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.situacaoDesconto(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::situacaoStr) {
     this.setHeader("Situação")
+    isAutoWidth = true
+    isExpand = false
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
     }
@@ -110,6 +113,8 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.usuarioSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::usuarioSituacao) {
     this.setHeader("Usuário")
+    isAutoWidth = true
+    isExpand = false
     this.configCol(situacao?.userCol)
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
