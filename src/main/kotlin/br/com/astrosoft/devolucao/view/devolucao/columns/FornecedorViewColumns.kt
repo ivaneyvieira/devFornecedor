@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.devolucao.columns
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object FornecedorViewColumns {
@@ -36,6 +37,7 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.dataAgendaDesconto() = addColumnLocalDate(Fornecedor::dataAgenda) {
     this.setHeader("Data")
+    this.isExpand = false
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
@@ -69,6 +71,7 @@ object FornecedorViewColumns {
 
   fun Grid<Fornecedor>.situacaoDesconto() = addColumnString(Fornecedor::situacaoStr) {
     this.setHeader("Situação")
+    this.isExpand = false
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor ?: "marcaRed"
     }
