@@ -55,7 +55,7 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDescontoWrap) {
     this.setHeader(titulo)
-    isAutoWidth = true
+    isAutoWidth = false
     isExpand = true
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
