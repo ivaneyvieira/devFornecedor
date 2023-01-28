@@ -8,16 +8,14 @@ WHERE storeno = :loja
   AND pdvno = :pdv
   AND xano = :transacao;
 
+REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, chaveDesconto, observacaoAuxiliar,
+				    dataAgenda, pedidos)
+SELECT :loja      AS storeno,
+       :pdv       AS pdvno,
+       :transacao AS xano,
+       :chaveDesconto,
+       :observacaoAuxiliar,
+       :dataAgenda,
+       :pedidos
+FROM DUAL
 
-/*
-CREATE TABLE sqldados.nfComplemento (
-  storeno smallint(5) DEFAULT 0 NOT NULL,
-  pdvno   smallint(5) DEFAULT 0 NOT NULL,
-  xano    int(10)     DEFAULT 0 NOT NULL,
-  pedidos varchar(160),
-  PRIMARY KEY (storeno, pdvno, xano)
-)
-*/
-
-REPLACE sqldados.nfComplemento(storeno, pdvno, xano, pedidos)
-VALUES (:loja, :pdv, :transacao, :pedidos)

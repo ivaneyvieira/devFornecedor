@@ -53,11 +53,13 @@ SELECT N.storeno,
        grossamt / 100                                                                          AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
-       CONCAT(N.c6, N.c5)                                                                      AS chaveDesconto,
-       N.c5                                                                                    AS observacaoAuxiliar,
+       IFNULL(chaveDesconto, '')                                                               AS chaveDesconto,
+       IFNULL(observacaoAuxiliar, '')                                                          AS observacaoAuxiliar,
        natopno,
        F.*
 FROM sqldados.nf               AS N
+  LEFT JOIN  sqldados.nfComplemento NC
+	       USING (storeno, pdvno, xano)
   INNER JOIN T_FORNECEDOR      AS F
 	       USING (custno)
   LEFT JOIN  sqldados.nfes     AS X

@@ -4,16 +4,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
   const val vaadinonkotlin_version = "1.1.0"
-  const val vaadin10_version = "14.6.4"
+  const val vaadin10_version = "14.9.5"
   const val kotlin_version = "1.7.20"
-  const val vaadin_plugin = "0.14.6.0"
+  const val vaadin_plugin = "0.14.9.1"
 }
 
 plugins {
   kotlin("jvm") version "1.7.20"
   id("org.gretty") version "3.0.6"
   war
-  id("com.vaadin") version "0.14.6.0"
+  id("com.vaadin") version "0.14.9.1"
 }
 
 defaultTasks("clean", "build")
