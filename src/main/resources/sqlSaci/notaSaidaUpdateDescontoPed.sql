@@ -7,3 +7,5 @@ SET c4         = MID(TRIM(IFNULL(:chaveDesconto, '')), 1, 40),
     l11        = :dataAgenda
 WHERE storeno = :loja
   AND ordno = :pedido
+
+/*TODO adaptar para usar a table nfcomplemento*/

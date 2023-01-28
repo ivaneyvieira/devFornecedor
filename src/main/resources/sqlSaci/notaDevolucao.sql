@@ -72,28 +72,31 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
        IFNULL(X.nfekey, '')                                                                    AS chave,
        IFNULL(OP.name, '')                                                                     AS natureza,
-       TRIM(CONCAT(N.c6, N.c5))                                                                AS chaveDesconto,
-       TRIM(CONCAT(N.c4, N.c3))                                                                AS observacaoAuxiliar,
-       CAST(IF(N.l15 = 0, NULL, N.l15) AS DATE)                                                AS dataAgenda,
-       ''                                                                                      AS nfAjuste
-FROM TNFSACI                  AS N
-  LEFT JOIN sqldados.natop    AS OP
+       IFNULL(chaveDesconto, '')                                                               AS chaveDesconto,
+       IFNULL(observacaoAuxiliar, '')                                                          AS observacaoAuxiliar,
+       CAST(IF(dataAgenda = 0, NULL, dataAgenda) AS DATE)                                      AS dataAgenda,
+       ''                                                                                      AS nfAjuste,
+       IFNULL(pedidos, '')                                                                     AS pedidos
+FROM TNFSACI                  AS   N
+  LEFT JOIN sqldados.nfComplemento NC
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.natop    AS   OP
 	      ON OP.no = N.natopno
-  LEFT JOIN sqldados.nfes     AS X
+  LEFT JOIN sqldados.nfes     AS   X
 	      USING (storeno, pdvno, xano)
-  LEFT JOIN sqldados.nfdevRmk AS R
+  LEFT JOIN sqldados.nfdevRmk AS   R
 	      USING (storeno, pdvno, xano)
-  LEFT JOIN sqldados.nfrmk    AS R2
+  LEFT JOIN sqldados.nfrmk    AS   R2
 	      USING (storeno, pdvno, xano)
-  LEFT JOIN sqldados.eord     AS O
+  LEFT JOIN sqldados.eord     AS   O
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN sqldados.eordrk   AS OBS
+  LEFT JOIN sqldados.eordrk   AS   OBS
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
-  LEFT JOIN sqldados.custp    AS C
+  LEFT JOIN sqldados.custp    AS   C
 	      ON C.no = N.custno AND
 		 C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
 			      709327, 108751)
-  LEFT JOIN sqldados.vend     AS V
+  LEFT JOIN sqldados.vend     AS   V
 	      ON C.cpf_cgc = V.cgc
 WHERE (N.nfse = :serie OR (N.remarks LIKE 'GARANTIA%') OR (:serie = '' AND (N.nfse IN ('1', '66'))))
   AND N.storeno IN (2, 3, 4, 5)
@@ -165,19 +168,17 @@ SELECT N.storeno                                                          AS loj
        N.observacaoAuxiliar                                               AS observacaoAuxiliar,
        dataAgenda                                                         AS dataAgenda,
        nfAjuste                                                           AS nfAjuste,
-       NC.pedidos                                                         AS pedidos
-FROM TNF                        AS  N
-  LEFT JOIN  sqldados.nfComplemento NC
-	       USING (storeno, pdvno, xano)
-  INNER JOIN sqldados.store     AS  S
+       pedidos                                                            AS pedidos
+FROM TNF                        AS N
+  INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS  R
+  LEFT JOIN  sqldados.nfdevRmk  AS R
 	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.nfvendRmk AS  RV
+  LEFT JOIN  sqldados.nfvendRmk AS RV
 	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
-  LEFT JOIN  TDUP               AS  D
+  LEFT JOIN  TDUP               AS D
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-  LEFT JOIN  sqldados.eordrk    AS  O
+  LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')

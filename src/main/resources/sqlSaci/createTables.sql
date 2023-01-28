@@ -102,71 +102,98 @@ ALTER TABLE sqldados.userApp
 
 DROP TABLE IF EXISTS sqldados.quantAvaria;
 CREATE TABLE sqldados.quantAvaria (
-   id Int,
-   numeroProtocolo VARCHAR(50),
-   codigo VARCHAR(30),
-   codBarra VARCHAR(30),
-   quantidade DOUBLE,
-   PRIMARY KEY (id, numeroProtocolo, codigo, codBarra)
+  id              Int,
+  numeroProtocolo VARCHAR(50),
+  codigo          VARCHAR(30),
+  codBarra        VARCHAR(30),
+  quantidade      DOUBLE,
+  PRIMARY KEY (id, numeroProtocolo, codigo, codBarra)
 );
 
-DROP TABLE if EXISTS sqldados.pedidosCompra;
+DROP TABLE IF EXISTS sqldados.pedidosCompra;
 CREATE TABLE sqldados.pedidosCompra (
-  `origem` varchar(4) DEFAULT '',
-  `vendno` int(10) NOT NULL,
-  `fornecedor` char(40) NOT NULL DEFAULT '',
-  `cnpj` char(20) NOT NULL DEFAULT '',
-  `loja` smallint(5) NOT NULL DEFAULT '0',
-  `sigla` char(2) NOT NULL DEFAULT '',
-  `numeroPedido` int(10) NOT NULL DEFAULT '0',
-  `status` smallint(5) NOT NULL DEFAULT '0',
-  `dataPedido` date DEFAULT NULL,
-  `dataEntrega` date DEFAULT NULL,
-  `obsercacaoPedido` char(36) NOT NULL DEFAULT '',
-  `codigo` varchar(16) NOT NULL DEFAULT '',
-  `seqno` smallint(5) NOT NULL DEFAULT '0',
-  `descricao` varchar(37) DEFAULT NULL,
-  `refFab` char(48) NOT NULL DEFAULT '',
-  `grade` char(8) NOT NULL DEFAULT '',
-  `unidade` varchar(3) DEFAULT NULL,
-  `refno` varchar(40),
-  `refname` varchar(40)  DEFAULT NULL,
-  `qtPedida` double(17,0) DEFAULT NULL,
-  `qtCancelada` double(17,0) DEFAULT NULL,
-  `qtRecebida` double(17,0) DEFAULT NULL,
-  `qtPendente` double(17,0) DEFAULT NULL,
-  `custoUnit` double DEFAULT NULL,
-  `barcode` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`loja`,`numeroPedido`,`codigo`,`grade`,`seqno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `origem`           varchar(4)           DEFAULT '',
+  `vendno`           int(10)     NOT NULL,
+  `fornecedor`       char(40)    NOT NULL DEFAULT '',
+  `cnpj`             char(20)    NOT NULL DEFAULT '',
+  `loja`             smallint(5) NOT NULL DEFAULT '0',
+  `sigla`            char(2)     NOT NULL DEFAULT '',
+  `numeroPedido`     int(10)     NOT NULL DEFAULT '0',
+  `status`           smallint(5) NOT NULL DEFAULT '0',
+  `dataPedido`       date                 DEFAULT NULL,
+  `dataEntrega`      date                 DEFAULT NULL,
+  `obsercacaoPedido` char(36)    NOT NULL DEFAULT '',
+  `codigo`           varchar(16) NOT NULL DEFAULT '',
+  `seqno`            smallint(5) NOT NULL DEFAULT '0',
+  `descricao`        varchar(37)          DEFAULT NULL,
+  `refFab`           char(48)    NOT NULL DEFAULT '',
+  `grade`            char(8)     NOT NULL DEFAULT '',
+  `unidade`          varchar(3)           DEFAULT NULL,
+  `refno`            varchar(40),
+  `refname`          varchar(40)          DEFAULT NULL,
+  `qtPedida`         double(17, 0)        DEFAULT NULL,
+  `qtCancelada`      double(17, 0)        DEFAULT NULL,
+  `qtRecebida`       double(17, 0)        DEFAULT NULL,
+  `qtPendente`       double(17, 0)        DEFAULT NULL,
+  `custoUnit`        double               DEFAULT NULL,
+  `barcode`          varchar(16)          DEFAULT NULL,
+  PRIMARY KEY (`loja`, `numeroPedido`, `codigo`, `grade`, `seqno`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = latin1;
 
 ALTER TABLE sqldados.pedidosCompra
-ADD COLUMN confirmado char(1);
+  ADD COLUMN confirmado char(1);
 
 /*
 Pesquisa pedidos sem valor
 */
-select * from sqldados.oprd
-where ordno = 404632
-  and storeno = 4
-  and prdno = 120528;
-
+SELECT *
+FROM sqldados.oprd
+WHERE ordno = 404632
+  AND storeno = 4
+  AND prdno = 120528;
 
 /*** Tabelas da agenda ***/
 
 DROP TABLE IF EXISTS sqldados.agendaDemandas;
-CREATE TABLE sqldados.agendaDemandas(
-  id  int NOT NULL AUTO_INCREMENT,
-  date int(10),
-  titulo VARCHAR(100),
+CREATE TABLE sqldados.agendaDemandas (
+  id       int NOT NULL AUTO_INCREMENT,
+  date     int(10),
+  titulo   VARCHAR(100),
   conteudo TEXT,
   PRIMARY KEY (id)
 );
 
 ALTER TABLE sqldados.agendaDemandas
-ADD concluido VARCHAR(1) DEFAULT 'N';
+  ADD concluido VARCHAR(1) DEFAULT 'N';
 
 ALTER TABLE sqldados.agendaDemandas
   ADD vendno INT DEFAULT 0;
 
 CREATE INDEX i1 ON sqldados.agendaDemandas(vendno);
+
+/*************************/
+
+ALTER TABLE sqldados.nfComplemento
+  ADD chaveDesconto      TEXT,
+  ADD observacaoAuxiliar TEXT,
+  ADD dataAgenda         int(10) DEFAULT 0;
+
+REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, chaveDesconto, observacaoAuxiliar,
+				    dataAgenda, pedidos)
+SELECT storeno,
+       pdvno,
+       xano,
+       CONCAT(c6, c5)      AS chaveDesconto,
+       CONCAT(c4, c3)      AS observacaoAuxiliar,
+       l15                 AS dataAgenda,
+       IFNULL(pedidos, '') AS pedidos
+FROM sqldados.nf
+  LEFT JOIN sqldados.nfComplemento
+	      USING (storeno, pdvno, xano)
+WHERE c6 != ''
+   OR c4 != ''
+   OR l15 != 0;
+
+select * from sqldados.nfComplemento

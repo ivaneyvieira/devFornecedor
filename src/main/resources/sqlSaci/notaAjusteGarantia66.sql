@@ -46,20 +46,22 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido,
        IFNULL(X.nfekey, '')                                              AS chave,
        IFNULL(OP.name, '')                                               AS natureza,
-       TRIM(CONCAT(N.c6, N.c5))                                          AS chaveDesconto,
-       TRIM(CONCAT(N.c4, N.c3))                                          AS observacaoAuxiliar
-FROM sqldados.nf              AS N /*FORCE INDEX (e3)*/
-  LEFT JOIN sqldados.natop    AS OP
+       IFNULL(chaveDesconto, '')                                         AS chaveDesconto,
+       IFNULL(observacaoAuxiliar, '')                                    AS observacaoAuxiliar
+FROM sqldados.nf              AS   N /*FORCE INDEX (e3)*/
+  LEFT JOIN sqldados.nfComplemento NC
+	      USING (storeno, pdvno, xano)
+  LEFT JOIN sqldados.natop    AS   OP
 	      ON OP.no = N.natopno
-  LEFT JOIN sqldados.nfes     AS X
+  LEFT JOIN sqldados.nfes     AS   X
 	      ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
-  LEFT JOIN sqldados.nfdevRmk AS R
+  LEFT JOIN sqldados.nfdevRmk AS   R
 	      ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
-  LEFT JOIN sqldados.nfrmk    AS R2
+  LEFT JOIN sqldados.nfrmk    AS   R2
 	      ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
-  LEFT JOIN sqldados.eord     AS O
+  LEFT JOIN sqldados.eord     AS   O
 	      ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN sqldados.eordrk   AS OBS
+  LEFT JOIN sqldados.eordrk   AS   OBS
 	      ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1

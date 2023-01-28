@@ -53,13 +53,13 @@ object NotaSaidaViewColumns {
     isExpand = false
   }
 
-  fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDesconto) {
+  fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDescontoWrap) {
     this.setHeader(titulo)
+    isAutoWidth = true
+    isExpand = true
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
     }
-    isAutoWidth = true
-    isExpand = true
   }
 
   fun Grid<NotaSaida>.dataAgendaDesconto(situacao: ESituacaoPendencia?) = addColumnLocalDate(NotaSaida::dataAgenda) {
@@ -201,6 +201,9 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valorNota) {
     this.setHeader("Valor")
+    isAutoWidth = false
+    isAutoWidth = true
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaBonificacao() = addColumnString(NotaSaida::notaBonificacao) {

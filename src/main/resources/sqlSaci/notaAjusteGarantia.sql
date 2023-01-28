@@ -47,8 +47,8 @@ SELECT N.storeno,
        TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido,
        IFNULL(X.nfekey, '')                                              AS chave,
        IFNULL(OP.name, '')                                               AS natureza,
-       TRIM(CONCAT(N.c6, N.c5))                                          AS chaveDesconto,
-       TRIM(CONCAT(N.c4, N.c3))                                          AS observacaoAuxiliar,
+       chaveDesconto                                                     AS chaveDesconto,
+       observacaoAuxiliar                                                AS observacaoAuxiliar,
        NC.pedidos                                                        AS pedidos
 FROM sqldados.nf               AS   N /*FORCE INDEX (e3)*/
   LEFT JOIN  sqldados.nfComplemento NC

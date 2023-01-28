@@ -64,6 +64,27 @@ class NotaSaida(val loja: Int,
                 val nfAjuste: String?,
                 var pedidos: String?) {
 
+  private fun wrapString(s: String, deliminator: String, length: Int): String? {
+    var result = ""
+    var lastdelimPos = 0
+    for (token in s.split(" ".toRegex()).toTypedArray()) {
+      if (result.length - lastdelimPos + token.length > length) {
+        result = result + deliminator + token
+        lastdelimPos = result.length + 1
+      }
+      else {
+        result += (if (result.isEmpty()) "" else " ") + token
+      }
+    }
+    return result
+  }
+
+  var chaveDescontoWrap
+    get() = wrapString(chaveDesconto ?: "", "\n", 80)
+    set(value) {
+      chaveDesconto = value?.replace("\n", " ")
+    }
+
   val remarksChaveNova
     get() = "$remarks $docSituacao $tituloSituacao $niSituacao"
   var dataSituacao: LocalDate?
