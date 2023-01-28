@@ -195,5 +195,3 @@ FROM sqldados.nf
 WHERE c6 != ''
    OR c4 != ''
    OR l15 != 0;
-
-select * from sqldados.nfComplemento
