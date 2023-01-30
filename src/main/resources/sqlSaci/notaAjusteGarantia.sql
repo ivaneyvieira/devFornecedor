@@ -147,10 +147,8 @@ SELECT N.storeno                                 AS loja,
        natureza                                  AS natureza,
        chaveDesconto                             AS chaveDesconto,
        observacaoAuxiliar                        AS observacaoAuxiliar,
-       NC.pedidos                                AS pedidos
+       pedidos                                AS pedidos
 FROM TNF                        AS  N
-  LEFT JOIN  sqldados.nfComplemento NC
-	       USING (storeno, pdvno, xano)
   INNER JOIN sqldados.store     AS  S
 	       ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS  R
