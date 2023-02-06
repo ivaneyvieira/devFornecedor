@@ -1,3 +1,5 @@
+use sqldados;
+
 DO @filtroStr := :filtro;
 DO @FiltroNum := IF(:filtro REGEXP '^[0-9]+$', :filtro * 1, 0);
 
@@ -32,18 +34,15 @@ GROUP BY vendno;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
 CREATE TEMPORARY TABLE T_PRDVEND (
-  PRIMARY KEY (vendno, prdno)
+  PRIMARY KEY (vendno)
 )
-SELECT V.no AS vendno,
-       C.no AS custno,
-       V.name,
-       P.no AS prdno
-FROM sqldados.prd           AS P
-  INNER JOIN sqldados.vend  AS V
-	       ON P.mfno = V.no
-  LEFT JOIN  sqldados.custp AS C
-	       ON V.cgc = C.cpf_cgc
-GROUP BY V.no, prdno;
+SELECT V.no            AS vendno,
+       C.no            AS custno,
+       V.name
+FROM sqldados.vend         AS V
+  LEFT JOIN sqldados.custp AS C
+	      ON V.cgc = C.cpf_cgc
+GROUP BY V.no;
 
 DROP TEMPORARY TABLE IF EXISTS T_FILE;
 CREATE TEMPORARY TABLE T_FILE (
