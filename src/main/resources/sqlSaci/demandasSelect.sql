@@ -1,6 +1,5 @@
 USE sqldados;
 
-DO @VENDNO := :vendno;
 DO @QUERY := :pesquisa;
 DO @QINT := IF(@QUERY REGEXP '^[0-9]+$', @QUERY * 1, NULL);
 DO @QDOUBLE := IF(@QUERY REGEXP '^[0-9]+,[0-9]+$', REPLACE(@QUERY, ',', '.') * 1.00, NULL);
@@ -17,23 +16,23 @@ DROP TEMPORARY TABLE IF EXISTS T_FILE;
 CREATE TEMPORARY TABLE T_FILE (
   PRIMARY KEY (id)
 )
-SELECT xano AS id, count(*) AS quantAnexo
+SELECT xano AS id, COUNT(*) AS quantAnexo
 FROM sqldados.nfdevFile
 WHERE storeno = 1
   AND pdvno = 8888
 GROUP BY xano;
 
-
 SELECT id,
-       CAST(date AS DATE) AS date,
+       CAST(date AS DATE)    AS date,
        titulo,
        conteudo,
        concluido,
-       ifnull(quantAnexo, 0) AS quantAnexo,
+       IFNULL(quantAnexo, 0) AS quantAnexo,
        vendno
 FROM sqldados.agendaDemandas AS A
-LEFT JOIN T_FILE AS F USING(id)
+  LEFT JOIN T_FILE           AS F
+	      USING (id)
 WHERE (concluido = :concluido OR :concluido = '')
   AND (titulo LIKE @QTEXT_LIKE OR conteudo LIKE @QTEXT_LIKE OR @QTEXT IS NULL)
   AND (date = @QDATE OR @QDATE IS NULL)
-  AND (vendno = @VENDNO OR @VENDNO = 0)
+  AND (vendno = 0)
