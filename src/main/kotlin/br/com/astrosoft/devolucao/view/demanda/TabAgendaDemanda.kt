@@ -127,7 +127,7 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   override val label: String
-    get() = "Agenda"
+    get() = "Demanda"
 
   override fun updateComponent() {
     viewModel.updateView()
