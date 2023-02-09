@@ -19,7 +19,7 @@ object DemandaColumns {
     this.setHeader("Destino")
     this.isExpand = false
   }
-  fun Grid<AgendaDemanda>.colDemandaConteudo() = addColumnString(AgendaDemanda::conteudo) {
+  fun Grid<AgendaDemanda>.colDemandaConteudo() = addColumnString(AgendaDemanda::conteudoSingle) {
     this.setHeader("Conteúdo")
     this.isExpand = true
   }

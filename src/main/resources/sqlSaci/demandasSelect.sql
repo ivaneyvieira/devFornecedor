@@ -29,7 +29,8 @@ SELECT id,
        concluido,
        IFNULL(quantAnexo, 0) AS quantAnexo,
        vendno,
-       destino
+       destino,
+       origem
 FROM sqldados.agendaDemandas AS A
   LEFT JOIN T_FILE           AS F
 	      USING (id)

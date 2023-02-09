@@ -25,6 +25,7 @@ class FornecedorProduto(
         conteudo = "",
         vendno = vendno,
         destino = "",
+        origem = "",
                    )
     agenda.save()
     return agenda

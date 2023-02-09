@@ -17,7 +17,7 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
     binder.bean = inicialValue
     this.responsiveSteps {
       "0px"(1, top)
-      "200px"(3, aside)
+      "200px"(4, aside)
     }
 
     datePicker("Data") {
@@ -27,18 +27,23 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
       binder.bind(this, AgendaDemanda::date.name)
       setColspan(this, 1)
     }
-    textField("Destino") {
-      setColspan(this, 2)
-      this.isReadOnly = isReadOnly
-      binder.bind(this, AgendaDemanda::destino.name)
-    }
     textField("Título") {
       setColspan(this, 3)
       this.isReadOnly = isReadOnly
       binder.bind(this, AgendaDemanda::titulo.name)
     }
+    textField("Origem") {
+      setColspan(this, 2)
+      this.isReadOnly = isReadOnly
+      binder.bind(this, AgendaDemanda::origem.name)
+    }
+    textField("Destino") {
+      setColspan(this, 2)
+      this.isReadOnly = isReadOnly
+      binder.bind(this, br.com.astrosoft.devolucao.model.beans.AgendaDemanda::destino.name)
+    }
     textArea("Conteúdo") {
-      setColspan(this, 3)
+      setColspan(this, 4)
       this.isReadOnly = isReadOnly
       this.minHeight = "200px"
       this.maxHeight = "300px"
@@ -50,7 +55,7 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
     get() = binder.bean
     set(value) {
       if (value == null) binder.bean =
-        AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "", destino = "")
+        AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "", destino = "", origem = "")
       else binder.bean = value
     }
 }

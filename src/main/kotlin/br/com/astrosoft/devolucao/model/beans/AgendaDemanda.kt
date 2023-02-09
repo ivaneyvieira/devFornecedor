@@ -9,10 +9,14 @@ class AgendaDemanda(
   var titulo: String,
   var conteudo: String,
   var concluido: String = "N",
-  val quantAnexo: Int = 0,
-  val vendno: Int = 0,
-  val destino: String,
+  var quantAnexo: Int = 0,
+  var vendno: Int = 0,
+  var destino: String,
+  var origem: String,
                    ) {
+
+  val conteudoSingle
+    get() = conteudo.split("\n").firstOrNull()
   fun delete() = saci.deleteAgendaDemanda(this)
 
   fun save() {
