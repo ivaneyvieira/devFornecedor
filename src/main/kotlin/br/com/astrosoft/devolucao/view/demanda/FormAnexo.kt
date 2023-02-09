@@ -2,10 +2,7 @@ package br.com.astrosoft.devolucao.view.demanda
 
 import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.devolucao.model.beans.NFFile
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.addColumnDownloadButton
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.github.mvysny.karibudsl.v10.grid
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.HasComponents
@@ -35,10 +32,16 @@ class FormAnexo(val demanda: AgendaDemanda, private val isReadOnly: Boolean, val
     }
     gridFile = grid {
       this.isExpand = true
+      /*
       addColumnDownloadButton(iconButton = VaadinIcon.SEARCH, header = "Abrir", fileName = { b: NFFile ->
         b.nome
       }) { b: NFFile ->
         b.file
+      }
+       */
+      addColumnButton(VaadinIcon.SEARCH, "Abrir", "Abrir"){ bean ->
+        val filename = bean.nome
+        SubWindowView(filename, bean.file).open()
       }
       if (!isReadOnly) {
         addColumnButton(VaadinIcon.TRASH, "Remove", "Remove") { bean ->
