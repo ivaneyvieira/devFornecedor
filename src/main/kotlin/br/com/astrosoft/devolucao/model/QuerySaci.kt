@@ -794,6 +794,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("conteudo", agendaDemanda.conteudo)
       addOptionalParameter("concluido", agendaDemanda.concluido)
       addOptionalParameter("vendno", agendaDemanda.vendno)
+      addOptionalParameter("destino", agendaDemanda.destino)
     }
   }
 
@@ -804,6 +805,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("date", agendaDemanda.date.toSaciDate())
       addOptionalParameter("conteudo", agendaDemanda.conteudo)
       addOptionalParameter("vendno", agendaDemanda.vendno)
+      addOptionalParameter("destino", agendaDemanda.destino)
     }
   }
 

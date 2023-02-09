@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.demanda
 import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.datePicker
+import com.github.mvysny.karibudsl.v10.responsiveSteps
 import com.github.mvysny.karibudsl.v10.textArea
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.formlayout.FormLayout
@@ -14,18 +15,30 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
 
   init {
     binder.bean = inicialValue
+    this.responsiveSteps {
+      "0px"(1, top)
+      "200px"(3, aside)
+    }
 
     datePicker("Data") {
       this.isReadOnly = isReadOnly
       focus()
       localePtBr()
       binder.bind(this, AgendaDemanda::date.name)
+      setColspan(this, 1)
+    }
+    textField("Destino") {
+      setColspan(this, 2)
+      this.isReadOnly = isReadOnly
+      binder.bind(this, AgendaDemanda::destino.name)
     }
     textField("Título") {
+      setColspan(this, 3)
       this.isReadOnly = isReadOnly
       binder.bind(this, AgendaDemanda::titulo.name)
     }
     textArea("Conteúdo") {
+      setColspan(this, 3)
       this.isReadOnly = isReadOnly
       this.minHeight = "200px"
       this.maxHeight = "300px"
@@ -37,7 +50,7 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
     get() = binder.bean
     set(value) {
       if (value == null) binder.bean =
-        AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "")
+        AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "", destino = "")
       else binder.bean = value
     }
 }
