@@ -199,3 +199,7 @@ WHERE c6 != ''
 
 ALTER TABLE sqldados.agendaDemandas
   ADD destino VARCHAR(100) DEFAULT '';
+
+ALTER TABLE sqldados.agendaDemandas
+  ADD origem VARCHAR(100) DEFAULT '';
+
