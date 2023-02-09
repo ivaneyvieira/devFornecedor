@@ -11,6 +11,7 @@ class AgendaDemanda(
   var concluido: String = "N",
   val quantAnexo: Int = 0,
   val vendno: Int = 0,
+  val destino: String,
                    ) {
   fun delete() = saci.deleteAgendaDemanda(this)
 

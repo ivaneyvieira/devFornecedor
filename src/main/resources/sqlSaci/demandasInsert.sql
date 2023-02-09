@@ -1,2 +1,2 @@
-INSERT INTO sqldados.agendaDemandas(date, titulo, conteudo, concluido, vendno)
-VALUE (:date, :titulo, :conteudo, 'N', :vendno)
+INSERT INTO sqldados.agendaDemandas(date, titulo, conteudo, concluido, vendno, destino)
+VALUE (:date, :titulo, :conteudo, 'N', :vendno, :destino)

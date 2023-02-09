@@ -195,3 +195,7 @@ FROM sqldados.nf
 WHERE c6 != ''
    OR c4 != ''
    OR l15 != 0;
+ /****************************************************/
+
+ALTER TABLE sqldados.agendaDemandas
+  ADD destino VARCHAR(100) DEFAULT '';

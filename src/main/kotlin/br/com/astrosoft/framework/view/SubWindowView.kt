@@ -7,16 +7,12 @@ import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Anchor
 import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.server.InputStreamFactory
 import com.vaadin.flow.server.StreamResource
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 class SubWindowView(filename: String, bytesBoletos: ByteArray) : Dialog() {
   init {
     width = "100%"
     height = "100%"
-    val timeNumber = System.currentTimeMillis()
     val resourcePDF = StreamResource(filename, ConverteByte(bytesBoletos))
     verticalLayout {
       isPadding = false

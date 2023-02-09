@@ -3,5 +3,6 @@ SET date     = :date,
     titulo   = :titulo,
     conteudo = :conteudo,
     concluido = :concluido,
-    vendno = :vendno
+    vendno = :vendno,
+    destino = :destino
 WHERE id = :id
