@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaConteudo
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaData
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaDestino
+import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaOrigem
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaTitulo
 import br.com.astrosoft.devolucao.viewmodel.demanda.ITabConcluidoDemanda
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabConcluidoDemandaViewModel
@@ -62,6 +63,7 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
     }
 
     colDemandaData()
+    colDemandaOrigem()
     colDemandaDestino()
     colDemandaTitulo()
     colDemandaConteudo()
