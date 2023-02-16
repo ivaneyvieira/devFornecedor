@@ -31,8 +31,7 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.notaPedidoEditavel() = addColumnString(NotaSaida::pedidos) {
     this.setHeader("Pedido")
     isAutoWidth = true
-    isResizable = true
-    isExpand = true
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaDataPedido() = addColumnLocalDate(NotaSaida::dataPedido) {
@@ -55,8 +54,6 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDescontoWrap) {
     this.setHeader(titulo)
-    isAutoWidth = false
-    isExpand = true
     this.setClassNameGenerator {
       it.situacaoPendencia?.cssCor
     }
@@ -102,8 +99,8 @@ object NotaSaidaViewColumns {
   fun Grid<NotaSaida>.dataNotaEditavel(situacao: ESituacaoPendencia?) =
     addColumnLocalDate(NotaSaida::dataNotaEditavel) {
       this.setHeader("Data Nota")
-      isAutoWidth = false
       isAutoWidth = true
+      isExpand = false
 
       this.setClassNameGenerator {
         it.situacaoPendencia?.cssCor
@@ -159,7 +156,6 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaEditavel(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::notaEditavel) {
     this.setHeader("NF Baixa")
-    isAutoWidth = false
     isAutoWidth = true
     isExpand = false
     this.right()
@@ -171,7 +167,6 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaFatura() = addColumnString(NotaSaida::fatura) {
     this.setHeader("Fatura")
-    isAutoWidth = false
     isAutoWidth = true
     isExpand = false
   }
@@ -194,14 +189,12 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaDataNota() = addColumnLocalDate(NotaSaida::dataNota) {
     this.setHeader("Data")
-    isAutoWidth = false
     isAutoWidth = true
     isExpand = false
   }
 
   fun Grid<NotaSaida>.notaValor() = addColumnDouble(NotaSaida::valorNota) {
     this.setHeader("Valor")
-    isAutoWidth = false
     isAutoWidth = true
     isExpand = false
   }
@@ -212,7 +205,6 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.dataBonificacao() = addColumnLocalDate(NotaSaida::dataBonificacao) {
     this.setHeader("Data")
-    isAutoWidth = false
     isAutoWidth = true
     isExpand = false
   }
