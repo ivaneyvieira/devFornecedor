@@ -5,8 +5,8 @@ import java.time.LocalDate
 
 class NfEntradaFrete(
   val loja: Int,
-  val ni: Int,
-  val nf: Int,
+  val ni: String,
+  val nf: String,
   val emissao: LocalDate,
   val entrada: LocalDate,
   val vendno: Int,
@@ -19,7 +19,6 @@ class NfEntradaFrete(
   val entradaCte: LocalDate?,
   val valorCte: Double?,
   val pesoBruto: Int?,
-  val strCub: String?,
   val cub: Double?,
   val pesoFat: Double?,
   val fPeso: Double?,
