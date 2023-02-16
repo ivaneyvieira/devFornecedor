@@ -6,8 +6,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.da
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaLoja
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNfAjuste
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNiBonificacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNiValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedidoEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
@@ -73,9 +71,8 @@ class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMod
         this.setClassNameGenerator {
           it.situacaoPendencia?.cssCor
         }
-      }
-      notaNiBonificacao().textFieldEditor()
-      notaNiValor().textFieldEditor()
+      } //notaNiBonificacao().textFieldEditor()
+      //notaNiValor().textFieldEditor()
       notaObservacao()
       notaValorPago().decimalFieldEditor()
       notaValor().apply {
