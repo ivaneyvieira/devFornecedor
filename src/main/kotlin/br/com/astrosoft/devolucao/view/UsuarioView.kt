@@ -349,6 +349,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaFretePer.name)
           }
+          checkBox("Cte") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaCte.name)
+          }
         }
         formLayout {
           h4("Recebimento") {
