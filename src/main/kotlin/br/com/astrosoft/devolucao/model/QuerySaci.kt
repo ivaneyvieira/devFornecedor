@@ -565,6 +565,19 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun queryCte(filter: FiltroNFEntradaFrete) {
+    val sql = "/sqlSaci/createNFCte.sql"
+
+    script(sql) {
+      addOptionalParameter("loja", filter.loja)
+      addOptionalParameter("di", filter.di.toSaciDate())
+      addOptionalParameter("df", filter.df.toSaciDate())
+      addOptionalParameter("vend", filter.vend)
+      addOptionalParameter("ni", filter.ni)
+      addOptionalParameter("nfno", filter.nfno)
+    }
+  }
+
   fun queryPreRecebimento(filter: FiltroRelatorio) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasPreRecebimentoQueryUtm.sql"
     else "/sqlSaci/ultimasPreRecebimentoQuery.sql"
@@ -770,24 +783,24 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   /*CRUD da tabela Agenda Demanda*/
 
-  fun selectAgendaDemanda(filter: FilterAgendaDemanda) : List<AgendaDemanda> {
+  fun selectAgendaDemanda(filter: FilterAgendaDemanda): List<AgendaDemanda> {
     val sql = "/sqlSaci/demandasSelect.sql"
-    return query(sql, AgendaDemanda::class){
+    return query(sql, AgendaDemanda::class) {
       addOptionalParameter("pesquisa", filter.pesquisa)
-      addOptionalParameter("concluido", filter.concluido?.let { if(it) "S" else "N" } ?: "")
+      addOptionalParameter("concluido", filter.concluido?.let { if (it) "S" else "N" } ?: "")
     }
   }
 
   fun deleteAgendaDemanda(agendaDemanda: AgendaDemanda) {
     val sql = "/sqlSaci/demandasDelete.sql"
-    script(sql){
+    script(sql) {
       addOptionalParameter("id", agendaDemanda.id)
     }
   }
 
   fun updateAgendaDemanda(agendaDemanda: AgendaDemanda) {
     val sql = "/sqlSaci/demandasUpdate.sql"
-    script(sql){
+    script(sql) {
       addOptionalParameter("id", agendaDemanda.id)
       addOptionalParameter("titulo", agendaDemanda.titulo)
       addOptionalParameter("date", agendaDemanda.date.toSaciDate())
@@ -801,7 +814,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun insertAgendaDemanda(agendaDemanda: AgendaDemanda) {
     val sql = "/sqlSaci/demandasInsert.sql"
-    script(sql){
+    script(sql) {
       addOptionalParameter("titulo", agendaDemanda.titulo)
       addOptionalParameter("date", agendaDemanda.date.toSaciDate())
       addOptionalParameter("conteudo", agendaDemanda.conteudo)
@@ -809,6 +822,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("destino", agendaDemanda.destino)
       addOptionalParameter("origem", agendaDemanda.origem)
     }
+  }
+
+  fun findNotasEntradaCte(): List<NfEntradaFrete> {
+    val sql = "/sqlSaci/listCte.sql"
+    return query(sql, NfEntradaFrete::class)
   }
 
   companion object {
