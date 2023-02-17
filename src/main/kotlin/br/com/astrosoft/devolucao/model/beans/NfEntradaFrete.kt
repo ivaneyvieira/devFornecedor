@@ -44,4 +44,8 @@ data class FiltroNFEntradaFrete(
   val vend: Int,
   val ni: Int,
   val nfno: String,
+  val carrno: Int,
+  val niCte: Int,
+  val cte: Int,
+  val tabno: Int,
                                )

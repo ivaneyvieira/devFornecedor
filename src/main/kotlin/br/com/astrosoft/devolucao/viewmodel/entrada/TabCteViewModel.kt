@@ -21,6 +21,12 @@ class TabCteViewModel(val viewModel: EntradaViewModel) {
   fun findNotas(): List<NfEntradaFrete> {
     return NfEntradaFrete.findNotas()
   }
+
+  fun findTabName(carrno : Int?, codTab: Int?): String {
+    codTab ?: return ""
+    carrno ?: return ""
+    return saci.findTabName(carrno  ,  codTab)?.nome ?: "Não Encontrada"
+  }
 }
 
 interface ITabCteViewModel : ITabView {
