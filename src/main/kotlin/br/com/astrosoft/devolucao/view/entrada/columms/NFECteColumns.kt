@@ -76,7 +76,7 @@ object NFECteColumns {
     }
 
   fun Grid<NfEntradaFrete>.notaValorFrete() = addColumnDouble(NfEntradaFrete::valorCte) {
-    this.setHeader("R$ Frete")
+    this.setHeader("R$ Frete Fat")
     this.isResizable = true
   }
 
@@ -131,7 +131,7 @@ object NFECteColumns {
   }
 
   fun Grid<NfEntradaFrete>.notaTotalFrete() = addColumnDouble(NfEntradaFrete::totalFrete) {
-    this.setHeader("Total Frete")
+    this.setHeader("R$ Frete Cal")
     this.isResizable = true
   }
 }
