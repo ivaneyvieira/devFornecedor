@@ -97,7 +97,9 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
           lblTabName.text = tabName
         }
       }
-      lblTabName = label()
+      lblTabName = label(){
+        isVisible = false
+      }
       edtNi = integerField("NI")
       edtNota = textField("Nota Fiscal")
       edtFornecedorNota = integerField("Fornecedor Nota")
