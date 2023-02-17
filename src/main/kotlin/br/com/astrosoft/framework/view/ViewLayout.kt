@@ -165,7 +165,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(iconButton: VaadinIcon,
     this.isAutoWidth = false
     this.flexGrow = 0
     this.isExpand = false
-    this.width = "6em"
+    this.width = "4em"
   }
 }
 
