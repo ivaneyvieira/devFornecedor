@@ -82,6 +82,7 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel, val filtro: FiltroNFEntrad
       notaEmissaoCte()
       notaEntradaCte()
       notaValorFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
+      notaTotalFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
       notaPBruto()
       notaPesoFat()
       notaCub()
@@ -92,7 +93,6 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel, val filtro: FiltroNFEntrad
       notaOutros()
       notaAliquota()
       notaICMS()
-      notaTotalFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
     }
   }
 }
