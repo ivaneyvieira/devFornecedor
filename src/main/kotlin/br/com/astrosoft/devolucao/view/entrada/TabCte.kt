@@ -90,9 +90,6 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
       edtCarr = integerField("Transportador")
       edtNICte = integerField("NI CTe")
       edtCte = integerField("CTe")
-      edtNi = integerField("NI")
-      edtNota = textField("Nota Fiscal")
-      edtFornecedorNota = integerField("Fornecedor Nota")
       edtTabno = integerField("Tab Frete"){
         this.valueChangeMode = ValueChangeMode.LAZY
         addValueChangeListener {
@@ -101,6 +98,9 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
         }
       }
       lblTabName = label()
+      edtNi = integerField("NI")
+      edtNota = textField("Nota Fiscal")
+      edtFornecedorNota = integerField("Fornecedor Nota")
     }
     br()
     button("Relatório") {
