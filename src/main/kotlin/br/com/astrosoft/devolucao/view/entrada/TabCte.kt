@@ -12,10 +12,12 @@ import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.component.html.Label
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.value.ValueChangeMode
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
@@ -26,6 +28,11 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
   private lateinit var edtFornecedorNota: IntegerField
   private lateinit var edtNi: IntegerField
   private lateinit var edtNota: TextField
+  private lateinit var edtCarr: IntegerField
+  private lateinit var edtNICte: IntegerField
+  private lateinit var edtCte: IntegerField
+  private lateinit var edtTabno: IntegerField
+  private lateinit var lblTabName: Label
 
   private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
 
@@ -36,6 +43,10 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
     edtFornecedorNota.value = if (filtro.vend == 0) null else filtro.vend
     edtNi.value = if (filtro.ni == 0) null else filtro.ni
     edtNota.value = filtro.nfno
+    edtCarr.value = filtro.carrno
+    edtNICte.value = filtro.niCte
+    edtCte.value = filtro.cte
+    edtTabno.value = filtro.tabno
   }
 
   override fun getFiltro(): FiltroNFEntradaFrete {
@@ -46,6 +57,10 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
       ni = edtNi.value ?: 0,
       nfno = edtNota.value ?: "",
       vend = edtFornecedorNota.value ?: 0,
+      carrno = edtCarr.value ?: 0,
+      niCte = edtNICte.value ?: 0,
+      cte = edtCte.value ?: 0,
+      tabno = edtTabno.value ?: 0,
                                )
   }
 
@@ -72,9 +87,20 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
       }
     }
     horizontalLayout {
-      edtFornecedorNota = integerField("Fornecedor Nota")
+      edtCarr = integerField("Transportador")
+      edtNICte = integerField("NI CTe")
+      edtCte = integerField("CTe")
       edtNi = integerField("NI")
       edtNota = textField("Nota Fiscal")
+      edtFornecedorNota = integerField("Fornecedor Nota")
+      edtTabno = integerField("Tab Frete"){
+        this.valueChangeMode = ValueChangeMode.LAZY
+        addValueChangeListener {
+          val tabName = viewModel.findTabName(edtCarr.value, it.value)
+          lblTabName.text = tabName
+        }
+      }
+      lblTabName = label()
     }
     br()
     button("Relatório") {

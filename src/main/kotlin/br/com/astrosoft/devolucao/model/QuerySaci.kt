@@ -575,6 +575,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vend", filter.vend)
       addOptionalParameter("ni", filter.ni)
       addOptionalParameter("nfno", filter.nfno)
+      addOptionalParameter("carrno", filter.carrno)
+      addOptionalParameter("niCte", filter.niCte)
+      addOptionalParameter("cte", filter.cte)
+      addOptionalParameter("tabno", filter.tabno)
     }
   }
 
@@ -827,6 +831,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun findNotasEntradaCte(): List<NfEntradaFrete> {
     val sql = "/sqlSaci/listCte.sql"
     return query(sql, NfEntradaFrete::class)
+  }
+
+  fun findTabName(carrno:Int, tabelano: Int): TabelaFrete? {
+    val sql = "/sqlSaci/findTabFrete.sql"
+
+    return query(sql, TabelaFrete::class){
+      addOptionalParameter("carrno", carrno)
+      addOptionalParameter("tabelano", tabelano)
+    }.firstOrNull()
   }
 
   companion object {

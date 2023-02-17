@@ -7,6 +7,10 @@ DO @DD := DATE_SUB(@DI, INTERVAL 6 MONTH) * 1;
 DO @VEND := :vend;
 DO @NI := :ni;
 DO @NFNO := TRIM(:nfno);
+DO @CARRNO := :carrno;
+DO @NICTE := :niCte;
+DO @CTE := :cte;
+DO @TABNO := :tabno;
 
 DROP TEMPORARY TABLE IF EXISTS T_CTE;
 CREATE TEMPORARY TABLE T_CTE (
@@ -31,6 +35,8 @@ WHERE nfname != ''
   AND carrno = 0
   AND (storeno = @LOJA OR @LOJA = 0)
   AND (date >= @DD)
+  AND (invno = @NICTE OR @NICTE = 0)
+  AND (nfname = @CTE OR @CTE = 0)
 GROUP BY storeno, cte;
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS;
@@ -67,30 +73,31 @@ FROM sqldados.inv            AS I
   INNER JOIN T_CTE           AS C
 	       ON C.cte = I.auxLong2 AND C.storeno = I.storeno
   INNER JOIN sqldados.carrfr AS F
-	       ON F.carrno = I.carrno AND F.tabelano = T.auxShort1
+	       ON F.carrno = I.carrno AND F.tabelano = IF(@TABNO = 0, T.auxShort1, @TABNO)
 WHERE (I.storeno = @LOJA OR @LOJA = 0)
   AND (I.date BETWEEN @DI AND @DF)
   AND (I.vendno = @VEND OR @VEND = 0)
   AND (I.invno = @NI OR @NI = 0)
-  AND (I.nfname = @NFNO OR @NFNO = '');
+  AND (I.nfname = @NFNO OR @NFNO = '')
+  AND (I.carrno = @CARRNO OR @CARRNO = 0);
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS_CTE;
 CREATE TEMPORARY TABLE T_NOTAS_CTE
 SELECT loja,
-       CAST(GROUP_CONCAT(DISTINCT ni ORDER BY 1 DESC SEPARATOR ' ') AS char) AS ni,
-       CAST(GROUP_CONCAT(DISTINCT nf ORDER BY 1 DESC SEPARATOR ' ') AS char) AS nf,
+       CAST(GROUP_CONCAT(DISTINCT ni ORDER BY ni SEPARATOR ' - ') AS char) AS ni,
+       CAST(GROUP_CONCAT(DISTINCT nf ORDER BY ni SEPARATOR ' - ') AS char) AS nf,
        emissao,
        entrada,
        vendno,
-       SUM(totalPrd)                                                         AS totalPrd,
-       SUM(valorNF)                                                          AS valorNF,
+       SUM(totalPrd)                                                       AS totalPrd,
+       SUM(valorNF)                                                        AS valorNF,
        carrno,
        carrName,
        cte,
        emissaoCte,
        entradaCte,
        valorCte,
-       SUM(pesoBruto)                                                        AS pesoBruto,
+       SUM(pesoBruto)                                                      AS pesoBruto,
        cub,
        pesoFat,
        fPeso,
