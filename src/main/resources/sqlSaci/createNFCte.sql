@@ -41,45 +41,49 @@ GROUP BY storeno, cte;
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS;
 CREATE TEMPORARY TABLE T_NOTAS
-SELECT I.storeno                                                                        AS loja,
-       I.invno                                                                          AS ni,
-       I.nfname                                                                         AS nf,
-       CAST(I.issue_date AS DATE)                                                       AS emissao,
-       CAST(I.date AS DATE)                                                             AS entrada,
-       I.vendno                                                                         AS vendno,
-       (I.prdamt / 100)                                                                 AS totalPrd,
-       (grossamt / 100)                                                                 AS valorNF,
-       I.carrno                                                                         AS carrno,
-       SUBSTRING_INDEX(T.name, ' ', 1)                                                  AS carrName,
-       I.auxLong2                                                                       AS cte,
-       C.emissao                                                                        AS emissaoCte,
-       C.entrada                                                                        AS entradaCte,
-       C.valorNF                                                                        AS valorCte,
-       (I.weight)                                                                       AS pesoBruto,
+SELECT I.storeno                                                     AS loja,
+       I.invno                                                       AS ni,
+       I.nfname                                                      AS nf,
+       CAST(I.issue_date AS DATE)                                    AS emissao,
+       CAST(I.date AS DATE)                                          AS entrada,
+       I.vendno                                                      AS vendno,
+       (I.prdamt / 100)                                              AS totalPrd,
+       (I.grossamt / 100)                                            AS valorNF,
+       I.carrno                                                      AS carrno,
+       IFNULL(SUBSTRING_INDEX(T.name, ' ', 1), '')                   AS carrName,
+       I.auxLong2                                                    AS cte,
+       C.emissao                                                     AS emissaoCte,
+       C.entrada                                                     AS entradaCte,
+       IFNULL(C.valorNF, 0.00)                                       AS valorCte,
+       (I.weight)                                                    AS pesoBruto,
        @STRCUB := REPLACE(IF(LOCATE(' CUB ', I.remarks) > 0,
 			     SUBSTRING_INDEX(MID(I.remarks, LOCATE('CUB ', I.remarks) + 4, 100),
-					     ' ', 1), ''), ',', '.')                    AS strCub,
-       @CUB := IF(@STRCUB = '', 0.00, @STRCUB * 1.00)                                   AS cub,
-       @CUB * F.valorLivre2 / 100                                                       AS pesoCub,
-       ROUND(IF(@CUB = 0, 1.00, @CUB * (F.valorLivre2 / 100)) * (F.fretePeso / 100), 2) AS fPeso,
-       (F.freteValor / 1000)                                                            AS freteValor,
-       F.freteGRIS / 1000                                                               AS freteGRIS,
-       F.freteDespacho / 100                                                            AS taxa,
-       0.00                                                                             AS outro,
-       F.valorLivre1 / 100                                                              AS aliquota
-FROM sqldados.inv            AS I
-  INNER JOIN sqldados.carr      T
-	       ON T.no = I.carrno
-  INNER JOIN T_CTE           AS C
-	       ON C.cte = I.auxLong2 AND C.storeno = I.storeno
-  INNER JOIN sqldados.carrfr AS F
-	       ON F.carrno = I.carrno AND F.tabelano = IF(@TABNO = 0, T.auxShort1, @TABNO)
+					     ' ', 1), ''), ',', '.') AS strCub,
+       @CUB := IF(@STRCUB = '', 0.00, @STRCUB * 1.00)                AS cub,
+       IFNULL(@CUB * F.valorLivre2 / 100, 0.00)                      AS pesoCub,
+       IFNULL(ROUND(IF(@CUB = 0, 1.00, @CUB * (F.valorLivre2 / 100)) * (F.fretePeso / 100), 2),
+	      0.00)                                                  AS fPeso,
+       IFNULL(F.freteValor / 1000, 0.000)                            AS freteValor,
+       IFNULL(F.freteGRIS / 1000, 0.000)                             AS freteGRIS,
+       IFNULL(F.freteDespacho / 100, 0.00)                           AS taxa,
+       0.00                                                          AS outro,
+       IFNULL(F.valorLivre1 / 100, 0.00)                             AS aliquota
+FROM sqldados.inv           AS I
+  LEFT JOIN sqldados.carr      T
+	      ON T.no = I.carrno
+  LEFT JOIN T_CTE           AS C
+	      ON C.cte = I.auxLong2 AND C.storeno = I.storeno
+  LEFT JOIN sqldados.carrfr AS F
+	      ON F.carrno = I.carrno AND F.tabelano = I.carrno
 WHERE (I.storeno = @LOJA OR @LOJA = 0)
   AND (I.date BETWEEN @DI AND @DF)
   AND (I.vendno = @VEND OR @VEND = 0)
   AND (I.invno = @NI OR @NI = 0)
   AND (I.nfname = @NFNO OR @NFNO = '')
-  AND (I.carrno = @CARRNO OR @CARRNO = 0);
+  AND (I.carrno = @CARRNO OR @CARRNO = 0)
+  AND (I.freight != 0)
+  AND (I.auxLong2 != 0)
+  AND (I.auxLong2 = @CTE OR @CTE = 0);
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS_CTE;
 CREATE TEMPORARY TABLE T_NOTAS_CTE
