@@ -6,6 +6,13 @@ SET c4         = MID(TRIM(IFNULL(:chaveDesconto, '')), 1, 40),
     auxString4 = :pedidos,
     l11        = :dataAgenda
 WHERE storeno = :loja
-  AND ordno = :pedido
+  AND ordno = :pedido;
 
-/*TODO adaptar para usar a table nfcomplemento*/
+UPDATE sqldados.nfComplemento
+SET pedidos            = :pedidos,
+    chaveDesconto      = :chaveDesconto,
+    observacaoAuxiliar = :observacaoAuxiliar,
+    dataAgenda         = :dataAgenda
+WHERE storeno = :loja
+  AND xano = :pedido
+  AND pdvno = 980

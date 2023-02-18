@@ -195,11 +195,39 @@ FROM sqldados.nf
 WHERE c6 != ''
    OR c4 != ''
    OR l15 != 0;
- /****************************************************/
+/****************************************************/
 
 ALTER TABLE sqldados.agendaDemandas
   ADD destino VARCHAR(100) DEFAULT '';
 
 ALTER TABLE sqldados.agendaDemandas
   ADD origem VARCHAR(100) DEFAULT '';
+
+/**********************************************************/
+
+DROP TABLE IF EXISTS T_DADOS;
+CREATE TEMPORARY TABLE T_DADOS
+SELECT E.storeno                         AS storeno,
+       E.ordno                           AS xano,
+       980                               AS pdvno,
+       CONCAT(E.c4, E.c5)                AS chaveDesconto,
+       CONCAT(E.auxString, E.auxString2) AS observacaoAuxiliar,
+       E.l11                             AS dataAgenda,
+       E.auxLong4                        AS pedidos
+FROM sqldados.eord AS E
+WHERE TRIM(CONCAT(E.c4, E.c5)) != ''
+   OR TRIM(CONCAT(E.auxString, E.auxString2)) != ''
+   OR E.l11 != 0
+   OR E.auxLong4 != 0;
+
+REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, pedidos, chaveDesconto, observacaoAuxiliar,
+				    dataAgenda)
+SELECT storeno,
+       pdvno,
+       xano,
+       pedidos,
+       chaveDesconto,
+       observacaoAuxiliar,
+       dataAgenda
+FROM T_DADOS;
 
