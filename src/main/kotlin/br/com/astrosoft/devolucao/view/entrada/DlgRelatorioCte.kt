@@ -1,6 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 
+import br.com.astrosoft.devolucao.model.beans.EStatusFrete
+import br.com.astrosoft.devolucao.model.beans.FiltroDialog
 import br.com.astrosoft.devolucao.model.beans.FiltroNFEntradaFrete
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAdValore
@@ -31,27 +33,39 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaValorFr
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabCteViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioCte(val viewModel: TabCteViewModel, val filtro: FiltroNFEntradaFrete) {
+class DlgRelatorioCte(val viewModel: TabCteViewModel) {
   private lateinit var gridNota: Grid<NfEntradaFrete>
   private val dataProviderGrid = ListDataProvider<NfEntradaFrete>(mutableListOf())
+  private var cmbStatus : Select<EStatusFrete>? = null
+
+  fun updateGrid(){
+    val list = viewModel.findNotas(FiltroDialog(status = cmbStatus?.value ?: EStatusFrete.TODOS))
+    gridNota.setItems(list)
+  }
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
-
-
+      cmbStatus = select("Situação") {
+        setItems(EStatusFrete.values().toList()                )
+        value = EStatusFrete.TODOS
+        addValueChangeListener {
+          updateGrid()
+        }
+      }
     }) {
       gridNota = createGrid(dataProviderGrid)
-      val list = viewModel.findNotas()
-      gridNota.setItems(list)
       HorizontalLayout().apply {
         setSizeFull()
+        updateGrid()
         addAndExpand(gridNota)
       }
     }

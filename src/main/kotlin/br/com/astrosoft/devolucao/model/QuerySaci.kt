@@ -828,9 +828,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun findNotasEntradaCte(): List<NfEntradaFrete> {
+  fun findNotasEntradaCte(filter : FiltroDialog): List<NfEntradaFrete> {
     val sql = "/sqlSaci/listCte.sql"
-    return query(sql, NfEntradaFrete::class)
+    return query(sql, NfEntradaFrete::class){
+      addOptionalParameter("status", filter.status.cod)
+    }
   }
 
   fun findTabName(carrno:Int, tabelano: Int): TabelaFrete? {

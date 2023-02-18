@@ -65,7 +65,7 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
   }
 
   override fun openRelatorio() {
-    DlgRelatorioCte(viewModel, getFiltro()).show()
+    DlgRelatorioCte(viewModel).show()
   }
 
   override val createComponent = VerticalLayout().apply {

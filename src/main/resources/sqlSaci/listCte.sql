@@ -22,5 +22,15 @@ SELECT loja,
        outro,
        aliquota,
        icms,
-       totalFrete
+       totalFrete,
+       status
 FROM sqldados.queryCte1234567
+WHERE CASE :status
+	WHEN 'T'
+	  THEN TRUE
+	WHEN 'A'
+	  THEN status = 'A'
+	WHEN 'P'
+	  THEN status = 'P'
+	ELSE FALSE
+      END
