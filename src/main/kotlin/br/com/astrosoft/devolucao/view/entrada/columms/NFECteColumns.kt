@@ -80,7 +80,7 @@ object NFECteColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfEntradaFrete>.notaPBruto() = addColumnInt(NfEntradaFrete::pesoBruto) {
+  fun Grid<NfEntradaFrete>.notaPBruto() = addColumnDouble(NfEntradaFrete::pesoBruto) {
     this.setHeader("P Bruto")
     this.isResizable = true
   }
