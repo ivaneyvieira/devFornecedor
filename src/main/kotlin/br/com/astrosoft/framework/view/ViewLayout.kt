@@ -198,8 +198,21 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
   }
 }
 
+fun <T : Any> (@VaadinDsl Grid<T>).addColumnText(property: KProperty1<T, String?>,
+                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
+  val renderer = RenderWrap<T>()
+  return this.addColumnFor(property, renderer) {
+    this.isAutoWidth = true
+    this.isResizable = true
+    if (this.key == null) this.key = property.name
+    this.left()
+    this.block()
+  }
+}
+
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(property: KProperty1<T, String?>,
-                                                   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
+
+                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property) {
     this.isAutoWidth = true
     this.isResizable = true
