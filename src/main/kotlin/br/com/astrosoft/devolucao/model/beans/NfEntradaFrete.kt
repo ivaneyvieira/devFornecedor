@@ -20,7 +20,7 @@ class NfEntradaFrete(
   val valorCte: Double?,
   val pesoBruto: Int?,
   val cub: Double?,
-  val pesoFat: Double?,
+  val pesoCub: Double?,
   val fPeso: Double?,
   val adValore: Double?,
   val gris: Double?,

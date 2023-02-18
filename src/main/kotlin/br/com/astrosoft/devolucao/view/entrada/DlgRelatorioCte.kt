@@ -3,7 +3,6 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroNFEntradaFrete
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAdValore
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAliquota
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaCte
@@ -21,7 +20,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaNF
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaNI
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaOutros
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaPBruto
-import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaPesoFat
+import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaPesoCub
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTaxa
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTotalFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTotalNf
@@ -29,7 +28,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTotalPr
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTransp
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTranspName
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaValorFrete
-import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabCteViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
@@ -84,7 +82,7 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel, val filtro: FiltroNFEntrad
       notaValorFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
       notaTotalFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
       notaPBruto()
-      notaPesoFat()
+      notaPesoCub()
       notaCub()
       notaFPeso()
       notaAdValore()

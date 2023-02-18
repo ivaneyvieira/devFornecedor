@@ -85,8 +85,8 @@ object NFECteColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfEntradaFrete>.notaPesoFat() = addColumnDouble(NfEntradaFrete::pesoFat) {
-    this.setHeader("Peso Fat")
+  fun Grid<NfEntradaFrete>.notaPesoCub() = addColumnDouble(NfEntradaFrete::pesoCub) {
+    this.setHeader("Peso Cub")
     this.isResizable = true
   }
 
@@ -96,17 +96,17 @@ object NFECteColumns {
   }
 
   fun Grid<NfEntradaFrete>.notaFPeso() = addColumnDouble(NfEntradaFrete::fPeso) {
-    this.setHeader("F Peso")
+    this.setHeader("R$ F Peso")
     this.isResizable = true
   }
 
   fun Grid<NfEntradaFrete>.notaAdValore() = addColumnDouble(NfEntradaFrete::adValore) {
-    this.setHeader("Advalore")
+    this.setHeader("R$ Adv")
     this.isResizable = true
   }
 
   fun Grid<NfEntradaFrete>.notaGris() = addColumnDouble(NfEntradaFrete::gris) {
-    this.setHeader("Gris")
+    this.setHeader("R$ Gris")
     this.isResizable = true
   }
 
@@ -121,7 +121,7 @@ object NFECteColumns {
   }
 
   fun Grid<NfEntradaFrete>.notaAliquota() = addColumnDouble(NfEntradaFrete::aliquota) {
-    this.setHeader("Aliquota")
+    this.setHeader("Aliqt")
     this.isResizable = true
   }
 
