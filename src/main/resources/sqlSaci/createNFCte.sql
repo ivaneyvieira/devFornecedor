@@ -18,26 +18,29 @@ CREATE TEMPORARY TABLE T_CTE (
 )
 SELECT invno,
        vendno,
-       storeno,
+       I.storeno,
        date,
-       nfname * 1                 AS cte,
-       type,
+       nfname * 1                                   AS cte,
+       I.type,
        carrno,
        account,
-       CAST(I.issue_date AS DATE) AS emissao,
-       CAST(I.date AS DATE)       AS entrada,
-       grossamt / 100             AS valorNF,
-       COUNT(*)                   AS qt
-FROM sqldados.inv AS I
+       CAST(I.issue_date AS DATE)                   AS emissao,
+       CAST(I.date AS DATE)                         AS entrada,
+       grossamt / 100                               AS valorNF,
+       COUNT(*)                                     AS qt,
+       IF(SUM(X.amtdue) > SUM(X.amtpaid), 'A', 'P') AS status
+FROM sqldados.inv           AS I
+  INNER JOIN sqldados.invxa AS X
+	       USING (invno)
 WHERE nfname != ''
   AND account = '2.01.40'
-  AND type = 0
+  AND I.type = 0
   AND carrno = 0
-  AND (storeno = @LOJA OR @LOJA = 0)
+  AND (I.storeno = @LOJA OR @LOJA = 0)
   AND (date >= @DD)
   AND (invno = @NICTE OR @NICTE = 0)
   AND (nfname = @CTE OR @CTE = 0)
-GROUP BY storeno, cte;
+GROUP BY I.storeno, cte;
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS;
 CREATE TEMPORARY TABLE T_NOTAS
@@ -52,6 +55,7 @@ SELECT I.storeno                                                     AS loja,
        I.carrno                                                      AS carrno,
        IFNULL(SUBSTRING_INDEX(T.name, ' ', 1), '')                   AS carrName,
        I.auxLong2                                                    AS cte,
+       C.status                                                      AS status,
        C.emissao                                                     AS emissaoCte,
        C.entrada                                                     AS entradaCte,
        IFNULL(C.valorNF, 0.00)                                       AS valorCte,
@@ -68,13 +72,13 @@ SELECT I.storeno                                                     AS loja,
        IFNULL(F.freteDespacho / 100, 0.00)                           AS taxa,
        0.00                                                          AS outro,
        IFNULL(F.valorLivre1 / 100, 0.00)                             AS aliquota
-FROM sqldados.inv           AS I
-  LEFT JOIN sqldados.carr      T
-	      ON T.no = I.carrno
-  LEFT JOIN T_CTE           AS C
-	      ON C.cte = I.auxLong2 AND C.storeno = I.storeno
-  LEFT JOIN sqldados.carrfr AS F
-	      ON F.carrno = I.carrno AND F.tabelano = I.carrno
+FROM sqldados.inv            AS I
+  LEFT JOIN  sqldados.carr      T
+	       ON T.no = I.carrno
+  INNER JOIN T_CTE           AS C
+	       ON C.cte = I.auxLong2 AND C.storeno = I.storeno
+  LEFT JOIN  sqldados.carrfr AS F
+	       ON F.carrno = I.carrno AND F.tabelano = I.carrno
 WHERE (I.storeno = @LOJA OR @LOJA = 0)
   AND (I.date BETWEEN @DI AND @DF)
   AND (I.vendno = @VEND OR @VEND = 0)
@@ -97,6 +101,7 @@ SELECT loja,
        SUM(valorNF)                                                        AS valorNF,
        carrno,
        carrName,
+       status                                                              AS status,
        cte,
        emissaoCte,
        entradaCte,
@@ -125,6 +130,7 @@ SELECT loja,
        valorNF,
        carrno,
        carrName,
+       status                                                                               AS status,
        cte,
        emissaoCte,
        entradaCte,

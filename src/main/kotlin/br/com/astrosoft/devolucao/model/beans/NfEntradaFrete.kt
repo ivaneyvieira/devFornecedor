@@ -15,6 +15,7 @@ class NfEntradaFrete(
   val carrno: Int,
   val carrName: String,
   val cte: Int,
+  val status: String,
   val emissaoCte: LocalDate?,
   val entradaCte: LocalDate?,
   val valorCte: Double?,
@@ -31,10 +32,14 @@ class NfEntradaFrete(
   val totalFrete: Double?,
                     ) {
   companion object {
-    fun findNotas(): List<NfEntradaFrete> {
-      return saci.findNotasEntradaCte()
+    fun findNotas(filter : FiltroDialog): List<NfEntradaFrete> {
+      return saci.findNotasEntradaCte(filter)
     }
   }
+}
+
+enum class EStatusFrete(val cod: String, val descricao: String) {
+  ABERTO("A", "Em Aberto"), PAGO("P", "Pago"), TODOS("T", "Todos"),
 }
 
 data class FiltroNFEntradaFrete(
@@ -49,3 +54,5 @@ data class FiltroNFEntradaFrete(
   val cte: Int,
   val tabno: Int,
                                )
+
+data class FiltroDialog(val status: EStatusFrete)
