@@ -19,7 +19,7 @@ class NfEntradaFrete(
   val emissaoCte: LocalDate?,
   val entradaCte: LocalDate?,
   val valorCte: Double?,
-  val pesoBruto: Int?,
+  val pesoBruto: Double?,
   val cub: Double?,
   val pesoCub: Double?,
   val fPeso: Double?,
@@ -39,7 +39,7 @@ class NfEntradaFrete(
 }
 
 enum class EStatusFrete(val cod: String, val descricao: String) {
-  ABERTO("A", "Em Aberto"), PAGO("P", "Pago"), TODOS("T", "Todos"),
+  ABERTO("A", "Aberto"), PAGO("P", "Pago"), TODOS("T", "Todos"),
 }
 
 data class FiltroNFEntradaFrete(

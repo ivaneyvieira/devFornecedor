@@ -1,9 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-
 import br.com.astrosoft.devolucao.model.beans.EStatusFrete
 import br.com.astrosoft.devolucao.model.beans.FiltroDialog
-import br.com.astrosoft.devolucao.model.beans.FiltroNFEntradaFrete
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAdValore
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAliquota
@@ -32,7 +30,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTranspN
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaValorFrete
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabCteViewModel
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.*
+import br.com.astrosoft.framework.view.SubWindowForm
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
@@ -45,9 +43,9 @@ import com.vaadin.flow.data.provider.ListDataProvider
 class DlgRelatorioCte(val viewModel: TabCteViewModel) {
   private lateinit var gridNota: Grid<NfEntradaFrete>
   private val dataProviderGrid = ListDataProvider<NfEntradaFrete>(mutableListOf())
-  private var cmbStatus : Select<EStatusFrete>? = null
+  private var cmbStatus: Select<EStatusFrete>? = null
 
-  fun updateGrid(){
+  fun updateGrid() {
     val list = viewModel.findNotas(FiltroDialog(status = cmbStatus?.value ?: EStatusFrete.TODOS))
     gridNota.setItems(list)
   }
@@ -55,8 +53,11 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
       cmbStatus = select("Situação") {
-        setItems(EStatusFrete.values().toList()                )
+        setItems(EStatusFrete.values().toList())
         value = EStatusFrete.TODOS
+        setItemLabelGenerator {
+          it.descricao
+        }
         addValueChangeListener {
           updateGrid()
         }
