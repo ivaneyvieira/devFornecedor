@@ -1,9 +1,10 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
-class NfEntradaFrete(
+data class NfEntradaFrete(
   val loja: Int,
   val ni: String,
   val nf: String,
@@ -22,7 +23,7 @@ class NfEntradaFrete(
   val pesoBruto: Double?,
   val cub: Double?,
   val pesoCub: Double?,
-  val fPeso: Double?,
+  val fretePeso: Double?,
   val adValore: Double?,
   val gris: Double?,
   val taxa: Double?,
@@ -31,8 +32,14 @@ class NfEntradaFrete(
   val icms: Double?,
   val totalFrete: Double?,
                     ) {
+
+  val dataStr
+    get() = entradaCte.format()
+  val freteDif
+    get() = totalFrete.format() != valorCte.format()
+
   companion object {
-    fun findNotas(filter : FiltroDialog): List<NfEntradaFrete> {
+    fun findNotas(filter: FiltroDialog): List<NfEntradaFrete> {
       return saci.findNotasEntradaCte(filter)
     }
   }
@@ -56,3 +63,15 @@ data class FiltroNFEntradaFrete(
                                )
 
 data class FiltroDialog(val status: EStatusFrete)
+
+data class NfFreteGrupo(val nomeGrupo: String,
+                        val nota: NfEntradaFrete,
+                        val cte: Int,
+                        val valorNota: String,
+                        val valorCalculado: String) {
+  val lj = nota.loja
+  val ni = nota.ni
+  val dataStr = nota.dataStr
+  val nfe = nota.nf
+  val fornCad = nota.vendno
+}

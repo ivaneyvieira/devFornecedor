@@ -4,7 +4,6 @@ import br.com.astrosoft.devolucao.model.beans.EStatusFrete
 import br.com.astrosoft.devolucao.model.beans.FiltroDialog
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAdValore
-import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaAliquota
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaCte
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaCub
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaEmissao
@@ -31,10 +30,16 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaValorFr
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabCteViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.buttonPlanilha
+import br.com.astrosoft.framework.view.selectedItemsSort
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.data.provider.ListDataProvider
@@ -52,6 +57,21 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
+      this.button("Relatório") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          viewModel.imprimeRelatorio(gridNota.selectedItemsSort())
+        }
+      }
+      this.button("Relatório Resumo") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          viewModel.imprimeRelatorioResumo(gridNota.selectedItemsSort())
+        }
+      }
+      buttonPlanilha("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), "notaCte") {
+        viewModel.geraPlanilha(gridNota.selectedItemsSort())
+      }
       cmbStatus = select("Situação") {
         setItems(EStatusFrete.values().toList())
         value = EStatusFrete.TODOS
@@ -94,8 +114,8 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
       notaCte()
       notaEmissaoCte()
       notaEntradaCte()
-      notaValorFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
-      notaTotalFrete().marcaDiferenca { totalFrete.format() != valorCte.format() }
+      notaValorFrete().marcaDiferenca { freteDif }
+      notaTotalFrete().marcaDiferenca { freteDif }
       notaPBruto()
       notaPesoCub()
       notaCub()
@@ -104,7 +124,6 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
       notaGris()
       notaTaxa()
       notaOutros()
-      notaAliquota()
       notaICMS()
     }
   }
