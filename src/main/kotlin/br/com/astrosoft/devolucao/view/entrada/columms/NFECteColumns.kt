@@ -95,7 +95,7 @@ object NFECteColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfEntradaFrete>.notaFPeso() = addColumnDouble(NfEntradaFrete::fPeso) {
+  fun Grid<NfEntradaFrete>.notaFPeso() = addColumnDouble(NfEntradaFrete::fretePeso) {
     this.setHeader("R$ F Peso")
     this.isResizable = true
   }

@@ -13,27 +13,36 @@ import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 
-class PlanilhaPrecoDif() {
-  private val campos: List<Campo<*, NfPrecEntrada>> =
+class PlanilhaCte() {
+  private val campos: List<Campo<*, NfEntradaFrete>> =
     listOf(
-      CampoInt("lj") { lj },
-      CampoInt("pedido") { pedidoCompra ?: 0 },
-      CampoInt("ni") { ni },
-      CampoString("data") { data.format() },
-      CampoString("nfe") { nfe },
-      CampoString("forn Cad") { fornCad },
-      CampoString("forn Nota") { fornNota },
-      CampoString("prod") { prod },
-      CampoString("descrição") { descricao },
-      CampoString("grade") { grade },
-      CampoNumber("R$ NF") { precon },
-      CampoNumber("R$ Ped") { precop },
-      CampoNumber("R$ Prec") { precopc },
-      CampoNumber("Dif") { precoDifValue },
-      CampoNumber("%") { precoPercen },
-          )
+      CampoInt("Loja") { loja },
+      CampoString("NI") { ni },
+      CampoString("NF") { nf },
+      CampoString("Emissão") { emissao.format() },
+      CampoString("Entrada") { entrada.format() },
+      CampoInt("For NF") { vendno },
+      CampoNumber("R$ Prd") { totalPrd },
+      CampoNumber("R$ NF") { valorNF },
+      CampoInt("Transp") { carrno },
+      CampoString("Nome") { carrName },
+      CampoInt("CTe") { cte },
+      CampoString("Emissão") { emissaoCte.format() },
+      CampoString("Entrada") { entradaCte.format() },
+      CampoNumber("R$ Frete Fat") { valorCte ?: 0.00 },
+      CampoNumber("R$ Frete Cal") { totalFrete ?: 0.00 },
+      CampoNumber("P Bruto") { pesoBruto ?: 0.00 },
+      CampoNumber("Peso Cub") { pesoCub ?: 0.00 },
+      CampoNumber("Cub") { cub ?: 0.00 },
+      CampoNumber("R$ F Peso") { fretePeso ?: 0.00 },
+      CampoNumber("R$ Adv") { adValore ?: 0.00 },
+      CampoNumber("R$ Gris") { gris ?: 0.00 },
+      CampoNumber("Taxa") { taxa ?: 0.00 },
+      CampoNumber("Outros") { outro ?: 0.00 },
+      CampoNumber("ICMS") { icms ?: 0.00 },
+                      )
 
-  fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
+  fun grava(listaNotas: List<NfEntradaFrete>): ByteArray {
     val wb = workbook {
       val headerStyle = cellStyle("Header") {
         fillForegroundColor = IndexedColors.GREY_25_PERCENT.index
