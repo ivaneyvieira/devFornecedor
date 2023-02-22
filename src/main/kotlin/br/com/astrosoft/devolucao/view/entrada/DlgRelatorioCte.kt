@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
+import br.com.astrosoft.devolucao.model.beans.EDifFrete
 import br.com.astrosoft.devolucao.model.beans.EStatusFrete
 import br.com.astrosoft.devolucao.model.beans.FiltroDialog
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
@@ -28,7 +29,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTransp
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaTranspName
 import br.com.astrosoft.devolucao.view.entrada.columms.NFECteColumns.notaValorFrete
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabCteViewModel
-import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -49,9 +49,12 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
   private lateinit var gridNota: Grid<NfEntradaFrete>
   private val dataProviderGrid = ListDataProvider<NfEntradaFrete>(mutableListOf())
   private var cmbStatus: Select<EStatusFrete>? = null
+  private var cmbDifFrete: Select<EDifFrete>? = null
 
   fun updateGrid() {
-    val list = viewModel.findNotas(FiltroDialog(status = cmbStatus?.value ?: EStatusFrete.TODOS))
+    val list =
+      viewModel.findNotas(FiltroDialog(status = cmbStatus?.value ?: EStatusFrete.TODOS,
+                                       diferenca = cmbDifFrete?.value ?: EDifFrete.TODOS))
     gridNota.setItems(list)
   }
 
@@ -75,6 +78,16 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
       cmbStatus = select("Situação") {
         setItems(EStatusFrete.values().toList())
         value = EStatusFrete.TODOS
+        setItemLabelGenerator {
+          it.descricao
+        }
+        addValueChangeListener {
+          updateGrid()
+        }
+      }
+      cmbDifFrete = select("R$ Frete") {
+        setItems(EDifFrete.values().toList())
+        value = EDifFrete.TODOS
         setItemLabelGenerator {
           it.descricao
         }

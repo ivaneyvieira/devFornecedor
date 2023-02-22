@@ -31,7 +31,7 @@ data class NfEntradaFrete(
   val aliquota: Double?,
   val icms: Double?,
   val totalFrete: Double?,
-                    ) {
+                         ) {
 
   val dataStr
     get() = entradaCte.format()
@@ -49,6 +49,10 @@ enum class EStatusFrete(val cod: String, val descricao: String) {
   ABERTO("A", "Aberto"), PAGO("P", "Pago"), TODOS("T", "Todos"),
 }
 
+enum class EDifFrete(val cod: String, val descricao: String) {
+  IGUAL("=", "Igual"), DIFPos(">", "Diferente >"), DIFNeg("<", "Diferente <"), TODOS("T", "Todos"),
+}
+
 data class FiltroNFEntradaFrete(
   val loja: Int,
   val di: LocalDate,
@@ -62,7 +66,7 @@ data class FiltroNFEntradaFrete(
   val tabno: Int,
                                )
 
-data class FiltroDialog(val status: EStatusFrete)
+data class FiltroDialog(val status: EStatusFrete, val diferenca : EDifFrete)
 
 data class NfFreteGrupo(val nomeGrupo: String,
                         val nota: NfEntradaFrete,

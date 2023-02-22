@@ -832,6 +832,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/listCte.sql"
     return query(sql, NfEntradaFrete::class){
       addOptionalParameter("status", filter.status.cod)
+      addOptionalParameter("diferenca", filter.diferenca.cod)
     }
   }
 

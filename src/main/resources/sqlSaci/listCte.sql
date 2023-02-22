@@ -34,3 +34,14 @@ WHERE CASE :status
 	  THEN status = 'P'
 	ELSE FALSE
       END
+  AND CASE :diferenca
+	WHEN 'T'
+	  THEN TRUE
+	WHEN '>'
+	  THEN ROUND(valorCte, 2) > ROUND(totalFrete, 2)
+	WHEN '<'
+	  THEN ROUND(valorCte, 2) < ROUND(totalFrete, 2)
+	WHEN '='
+	  THEN ROUND(valorCte, 2) = ROUND(totalFrete, 2)
+	ELSE FALSE
+      END
