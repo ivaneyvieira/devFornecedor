@@ -90,7 +90,7 @@ object NFECteColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfEntradaFrete>.notaCub() = addColumnDouble(NfEntradaFrete::cub) {
+  fun Grid<NfEntradaFrete>.notaCub() = addColumnDouble(NfEntradaFrete::cub, pattern = "#,##0.000") {
     this.setHeader("Cub")
     this.isResizable = true
   }
