@@ -35,7 +35,7 @@ class TabAgendaPreEntrada(viewModel: TabAgendaPreEntradaViewModel) : TabAgendaAb
   override val label: String
     get() = "Pré-entrada"
 
-   override fun Grid<Agenda>.colunasGrid() {
+  override fun Grid<Agenda>.colunasGrid() {
     addColumnButton(VaadinIcon.EDIT, "Agendamento", "Agd") { agenda ->
       DlgAgendamento(viewModel).edtAgendamento(agenda)
     }

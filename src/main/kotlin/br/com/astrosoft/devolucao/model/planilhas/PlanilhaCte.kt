@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.planilhas
 
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
@@ -40,7 +39,7 @@ class PlanilhaCte() {
       CampoNumber("Taxa") { taxa ?: 0.00 },
       CampoNumber("Outros") { outro ?: 0.00 },
       CampoNumber("ICMS") { icms ?: 0.00 },
-                      )
+          )
 
   fun grava(listaNotas: List<NfEntradaFrete>): ByteArray {
     val wb = workbook {

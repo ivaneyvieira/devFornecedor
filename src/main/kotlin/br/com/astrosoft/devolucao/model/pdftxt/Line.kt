@@ -156,7 +156,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
 
   private fun String?.decompose(): String? {
     this ?: return ""
-    return if (this.contains("/") ) this.split("/").getOrNull(1)?.trim() else this.trim()
+    return if (this.contains("/")) this.split("/").getOrNull(1)?.trim() else this.trim()
   }
 
   fun getInt(start: Int?, end: Int?): Int? {

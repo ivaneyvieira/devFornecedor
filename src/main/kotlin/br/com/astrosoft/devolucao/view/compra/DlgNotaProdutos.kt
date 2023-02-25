@@ -27,7 +27,6 @@ import br.com.astrosoft.devolucao.viewmodel.compra.ETipoPainel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraConfViewModel
 import br.com.astrosoft.devolucao.viewmodel.compra.ITabCompraViewModel
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.util.lpad
 import br.com.astrosoft.framework.view.*
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
@@ -247,7 +246,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
     }
   }
 
-  private fun String.listNum() : List<String> {
+  private fun String.listNum(): List<String> {
     return listOf(this.toIntOrNull()?.toString(), this).distinct().filterNotNull()
   }
 
@@ -261,12 +260,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             if (ref1 in ref2) "marcaOk"
             else ""
           }
+
           PDF  -> {
             val line = produto.linePDF ?: return@setClassNameGenerator ""
             val ref2 = produto.codigo
             if (line.findRef(ref2)) "marcaOk"
             else ""
           }
+
           else -> ""
         }
       }
@@ -286,12 +287,14 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             if (ref1 in ref2) "marcaOk"
             else "marcaError"
           }
+
           PDF  -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val ref2 = produto.refFab?.split("\t") ?: return@setClassNameGenerator ""
             if (ref1 in ref2) "marcaOk"
             else "marcaError"
           }
+
           else -> ""
         }
       }
@@ -311,6 +314,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             if (ref1 in listRef) "marcaOk"
             else "marcaError"
           }
+
           PDF  -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("\t") ?: return@setClassNameGenerator ""

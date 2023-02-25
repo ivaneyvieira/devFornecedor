@@ -6,13 +6,11 @@ import br.com.astrosoft.framework.model.CampoInt
 import br.com.astrosoft.framework.model.CampoNumber
 import br.com.astrosoft.framework.model.CampoString
 import br.com.astrosoft.framework.util.format
-import com.github.nwillc.poink.PSheet
 import com.github.nwillc.poink.workbook
 import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
-import java.time.LocalDate
 
 class PlanilhaFreteDif() {
   private val campos: List<Campo<*, NfPrecEntrada>> =
@@ -27,7 +25,7 @@ class PlanilhaFreteDif() {
       CampoString("descrição") { descricao },
       CampoNumber("freten") { freten },
       CampoNumber("fretep") { fretep },
-                      )
+          )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

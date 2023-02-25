@@ -90,14 +90,14 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
       edtCarr = integerField("Transportador")
       edtNICte = integerField("NI CTe")
       edtCte = integerField("CTe")
-      edtTabno = integerField("Tab Frete"){
+      edtTabno = integerField("Tab Frete") {
         this.valueChangeMode = ValueChangeMode.LAZY
         addValueChangeListener {
           val tabName = viewModel.findTabName(edtCarr.value, it.value)
           lblTabName.text = tabName
         }
       }
-      lblTabName = label(){
+      lblTabName = label() {
         isVisible = false
       }
       edtNi = integerField("NI")

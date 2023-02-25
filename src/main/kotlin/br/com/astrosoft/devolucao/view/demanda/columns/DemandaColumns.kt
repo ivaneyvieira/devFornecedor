@@ -11,18 +11,22 @@ object DemandaColumns {
     this.setHeader("Data")
     this.isExpand = false
   }
+
   fun Grid<AgendaDemanda>.colDemandaTitulo() = addColumnString(AgendaDemanda::titulo) {
     this.setHeader("Título")
     this.isExpand = false
   }
+
   fun Grid<AgendaDemanda>.colDemandaOrigem() = addColumnString(AgendaDemanda::origem) {
     this.setHeader("Origem")
     this.isExpand = false
   }
+
   fun Grid<AgendaDemanda>.colDemandaDestino() = addColumnString(AgendaDemanda::destino) {
     this.setHeader("Destino")
     this.isExpand = false
   }
+
   fun Grid<AgendaDemanda>.colDemandaConteudo() = addColumnString(AgendaDemanda::conteudoSingle) {
     this.setHeader("Conteúdo")
     this.isExpand = true

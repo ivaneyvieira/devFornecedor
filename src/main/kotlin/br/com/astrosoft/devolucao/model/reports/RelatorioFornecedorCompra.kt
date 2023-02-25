@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
 import br.com.astrosoft.devolucao.model.beans.PedidoCompra
-import br.com.astrosoft.devolucao.view.compra.columns.PedidoCompraFornecedorColumns.colVlPedida
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontNormal
@@ -20,10 +19,8 @@ import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.jasperreports.engine.export.JRPdfExporter
-import net.sf.jasperreports.engine.export.JRXlsExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
 import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorCompra(val pedido: List<PedidoCompra>) {

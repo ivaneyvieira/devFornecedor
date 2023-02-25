@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.reports
 
-import br.com.astrosoft.devolucao.model.beans.PedidoCompra
 import br.com.astrosoft.devolucao.model.beans.PedidoCompraFornecedor
 import br.com.astrosoft.framework.model.reports.Templates
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
@@ -78,7 +77,14 @@ class RelatorioFornecedorCompraResumido(val fornecedores: List<PedidoCompraForne
     }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(codigoSaciCol, nomeFornecedorCol, dataPrimeiraNotaCol, dataUltimaNotaCol, colVlPedida, colVlCancelada, colVlRecebida, colVlPendente)
+    return listOf(codigoSaciCol,
+                  nomeFornecedorCol,
+                  dataPrimeiraNotaCol,
+                  dataUltimaNotaCol,
+                  colVlPedida,
+                  colVlCancelada,
+                  colVlRecebida,
+                  colVlPendente)
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {

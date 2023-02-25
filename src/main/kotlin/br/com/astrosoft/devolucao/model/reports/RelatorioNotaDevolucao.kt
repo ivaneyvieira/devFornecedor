@@ -27,7 +27,7 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean, val pendente : Boolean) {
+class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean, val pendente: Boolean) {
   private val codigoCol: TextColumnBuilder<String> =
     col.column("Cód Saci", ProdutosNotaSaida::codigoStr.name, type.stringType()).apply {
       this.setHorizontalTextAlignment(CENTER)
@@ -222,15 +222,15 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
       "PED"              -> when {
         resumida -> if (pendente) listOf(itemCol,
-                                          barcodeCol,
-                                          refForCol,
-                                          codigoCol,
-                                          descricaoCol,
-                                          gradeCol,
-                                          unCol,
-                                          qtdeCol,
-                                          valorUnitarioCol,
-                                          valorTotalCol)
+                                         barcodeCol,
+                                         refForCol,
+                                         codigoCol,
+                                         descricaoCol,
+                                         gradeCol,
+                                         unCol,
+                                         qtdeCol,
+                                         valorUnitarioCol,
+                                         valorTotalCol)
         else listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
 
         else     -> listOf(

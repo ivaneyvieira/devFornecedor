@@ -42,7 +42,6 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.value.ValueChangeMode.LAZY
-import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : TabPanelGrid<Agenda>(Agenda::class),
         ITabAgenda {
@@ -102,7 +101,8 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
       }
     }
 
-    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING), GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
+    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
+                GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
   }
 
   override fun updateComponent() {
