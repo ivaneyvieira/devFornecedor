@@ -3,8 +3,8 @@ package br.com.astrosoft.devolucao.model.reports
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
-import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.LEFT
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
 
 class RelatorioCte(val notas: List<NfEntradaFrete>) : ReportBuild<NfEntradaFrete>() {

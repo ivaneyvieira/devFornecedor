@@ -66,7 +66,7 @@ data class FiltroNFEntradaFrete(
   val tabno: Int,
                                )
 
-data class FiltroDialog(val status: EStatusFrete, val diferenca : EDifFrete)
+data class FiltroDialog(val status: EStatusFrete, val diferenca: EDifFrete)
 
 data class NfFreteGrupo(val nomeGrupo: String,
                         val nota: NfEntradaFrete,

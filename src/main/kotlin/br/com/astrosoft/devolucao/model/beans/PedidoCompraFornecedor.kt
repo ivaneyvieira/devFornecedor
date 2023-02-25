@@ -20,6 +20,7 @@ class PedidoCompraFornecedor(
     get() = dataPedidoInicio.format()
   val dataPedidoFimStr
     get() = dataPedidoFim.format()
+
   companion object {
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompraFornecedor> {
       val list = PedidoCompra.findAll(filtro)

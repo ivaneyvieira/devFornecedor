@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.nfeXml.ItensNotaReport
 import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
-import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.Config
 import java.time.LocalDate

@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.reports
 
 import br.com.astrosoft.devolucao.model.beans.NfFreteGrupo
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
 import br.com.astrosoft.framework.model.reports.PropriedadeRelatorio
 import br.com.astrosoft.framework.model.reports.ReportBuild
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
@@ -10,14 +9,12 @@ import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.style.Styles.padding
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.*
 import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
-import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
 
-class RelatorioNfCte(val notas: List<NfFreteGrupo>) :
-        ReportBuild<NfFreteGrupo>() {
+class RelatorioNfCte(val notas: List<NfFreteGrupo>) : ReportBuild<NfFreteGrupo>() {
   init {
     columnInt(NfFreteGrupo::cte, width = 40, title = "Cte")
-    columnString(NfFreteGrupo::dataStr, width = 60, title = "Data", aligment = CENTER,)
+    columnString(NfFreteGrupo::dataStr, width = 60, title = "Data", aligment = CENTER)
     columnString(NfFreteGrupo::nfe, width = 0, aligment = LEFT, title = "NF")
     columnString(NfFreteGrupo::valorNota, title = "R\$ Frete Fat", width = 60, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW).setFontSize(8))
@@ -44,7 +41,7 @@ class RelatorioNfCte(val notas: List<NfFreteGrupo>) :
                          subTitulo = "",
                          color = Color.WHITE,
                          detailFonteSize = 8,
-                         pageOrientation =  PORTRAIT)
+                         pageOrientation = PORTRAIT)
 
   override fun listDataSource(): List<NfFreteGrupo> = notas
 

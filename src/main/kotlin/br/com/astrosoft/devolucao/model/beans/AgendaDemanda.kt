@@ -17,6 +17,7 @@ class AgendaDemanda(
 
   val conteudoSingle
     get() = conteudo.split("\n").firstOrNull()
+
   fun delete() = saci.deleteAgendaDemanda(this)
 
   fun save() {

@@ -212,7 +212,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnText(property: KProperty1<T, String?
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(property: KProperty1<T, String?>,
 
-                                                 block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
+                                                   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property) {
     this.isAutoWidth = true
     this.isResizable = true
@@ -237,7 +237,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnBool(property: KProperty1<T, Boolean
 }
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDate(property: KProperty1<T, LocalDate?>,
-                                                      formatPattern: String= "dd/MM/yyyy",
+                                                      formatPattern: String = "dd/MM/yyyy",
                                                       block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> {
   return this.addColumnFor(property, renderer = LocalDateRenderer(property, formatPattern)) {
     this.isAutoWidth = true

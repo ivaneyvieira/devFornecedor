@@ -6,7 +6,6 @@ import br.com.astrosoft.framework.model.reports.ReportBuild
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
-import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.TextAdjust
 
 class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntrada>() {
@@ -29,7 +28,10 @@ class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntr
   }
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "Diferença de preço", subTitulo = "", detailFonteSize = 8, pageOrientation = LANDSCAPE)
+    PropriedadeRelatorio(titulo = "Diferença de preço",
+                         subTitulo = "",
+                         detailFonteSize = 8,
+                         pageOrientation = LANDSCAPE)
 
   override fun listDataSource(): List<NfPrecEntrada> = notas
 

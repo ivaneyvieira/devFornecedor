@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.planilhas
 
-import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.framework.model.Campo
 import br.com.astrosoft.framework.model.CampoInt

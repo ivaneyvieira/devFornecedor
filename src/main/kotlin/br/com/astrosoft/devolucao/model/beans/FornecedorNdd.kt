@@ -1,12 +1,10 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ETemIPI
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 import java.time.LocalDateTime
-import kotlin.concurrent.thread
 
 data class FornecedorNdd(val cnpj: String,
                          val custno: Int,
@@ -81,8 +79,7 @@ data class FornecedorNdd(val cnpj: String,
 
     fun updateNotas() {
       val agora = LocalDateTime.now()
-      if (agora > datahoraUpdate.plusMinutes(5)) {
-        /*
+      if (agora > datahoraUpdate.plusMinutes(5)) {/*
         thread(start = true) {
           val notas = ndd.notasEntrada()
           saci.saveNotaNdd(notas)

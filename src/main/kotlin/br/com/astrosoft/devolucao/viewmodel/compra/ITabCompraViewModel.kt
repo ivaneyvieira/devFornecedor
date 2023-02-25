@@ -10,7 +10,7 @@ interface ITabCompraViewModel {
   fun excelPedidoCompra(pedidos: List<PedidoCompra>): ByteArray
   fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>)
   fun updateComponent()
-  fun listPedidosFornecedor() : List<PedidoCompraFornecedor>
+  fun listPedidosFornecedor(): List<PedidoCompraFornecedor>
 }
 
 interface ITabCompraConfViewModel : ITabCompraViewModel {

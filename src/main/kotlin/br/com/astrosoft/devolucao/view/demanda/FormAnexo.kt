@@ -35,7 +35,7 @@ class FormAnexo(val demanda: AgendaDemanda, private val isReadOnly: Boolean, val
     }
     gridFile = grid {
       this.isExpand = true
-      addColumnButton(VaadinIcon.SEARCH, "Abrir", "Abrir"){ bean ->
+      addColumnButton(VaadinIcon.SEARCH, "Abrir", "Abrir") { bean ->
         val filename = bean.nome
         SubWindowView(filename, bean.file).open()
       }

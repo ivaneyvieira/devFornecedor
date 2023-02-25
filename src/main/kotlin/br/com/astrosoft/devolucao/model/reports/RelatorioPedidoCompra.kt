@@ -7,7 +7,6 @@ import br.com.astrosoft.framework.model.reports.*
 import br.com.astrosoft.framework.model.reports.Templates.fieldBorder
 import br.com.astrosoft.framework.model.reports.Templates.fieldFontGrande
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.util.lpad
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.*
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder
@@ -22,11 +21,8 @@ import net.sf.dynamicreports.report.constant.PageType.A4
 import net.sf.dynamicreports.report.constant.TextAdjust.CUT_TEXT
 import net.sf.dynamicreports.report.constant.TextAdjust.SCALE_FONT
 import net.sf.jasperreports.engine.export.JRPdfExporter
-import net.sf.jasperreports.engine.export.JRXlsExporter
 import net.sf.jasperreports.export.SimpleExporterInput
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
 import java.io.ByteArrayOutputStream
 
 class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {

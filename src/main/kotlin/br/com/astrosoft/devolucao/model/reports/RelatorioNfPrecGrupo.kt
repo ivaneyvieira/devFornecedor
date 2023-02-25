@@ -20,7 +20,7 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
     if (!fiscal) {
       columnInt(NfPrecEntradaGrupo::pedidoCompra, width = 40, title = "Pedido")
     }
-    columnString(NfPrecEntradaGrupo::dataStr, width = 60, title = "Data", aligment = CENTER,)
+    columnString(NfPrecEntradaGrupo::dataStr, width = 60, title = "Data", aligment = CENTER)
     columnString(NfPrecEntradaGrupo::nfe, width = 60, aligment = CENTER, title = "NF")
     columnString(NfPrecEntradaGrupo::prod, width = 50, aligment = CENTER, title = "Prod")
     columnString(NfPrecEntradaGrupo::descricao, title = "Descrição", width = 180) {
@@ -56,7 +56,7 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
                          subTitulo = "",
                          color = Color.WHITE,
                          detailFonteSize = 8,
-                         pageOrientation = if(fiscal) LANDSCAPE else PORTRAIT)
+                         pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT)
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 

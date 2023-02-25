@@ -1,7 +1,6 @@
 package br.com.astrosoft.framework.planilhaUtil
 
 import com.github.nwillc.poink.workbook
-import io.github.rushuat.ocell.document.Document
 import io.github.rushuat.ocell.document.DocumentOOXML
 import java.time.LocalTime
 import kotlin.reflect.full.createInstance

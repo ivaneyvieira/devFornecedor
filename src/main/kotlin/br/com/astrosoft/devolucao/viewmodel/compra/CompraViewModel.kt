@@ -5,8 +5,8 @@ import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class CompraViewModel(view: ICompraView) : ViewModel<ICompraView>(view) {
   val tabPedidosViewModel = TabPedidosViewModel(this)
-  val tabConferirViewModel = TabConferirViewModel(this, )
-  val tabConferidoViewModel = TabConferidoViewModel(this, )
+  val tabConferirViewModel = TabConferirViewModel(this)
+  val tabConferidoViewModel = TabConferidoViewModel(this)
 
   override fun listTab() = listOf(
     view.tabPedidosViewModel, view.tabConferirViewModel, view.tabConferidoViewModel,

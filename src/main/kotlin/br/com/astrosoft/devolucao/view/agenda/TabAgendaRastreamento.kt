@@ -35,7 +35,7 @@ class TabAgendaRastreamento(viewModel: TabAgendaRastreamentoViewModel) : TabAgen
   override val label: String
     get() = "Rastremento"
 
-   override fun Grid<Agenda>.colunasGrid() {
+  override fun Grid<Agenda>.colunasGrid() {
     addColumnButton(VaadinIcon.EDIT, "Agendamento", "Agd") { agenda ->
       DlgAgendamento(viewModel).edtAgendamento(agenda)
     }

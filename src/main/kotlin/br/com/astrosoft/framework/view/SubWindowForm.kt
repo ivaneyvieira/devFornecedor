@@ -4,7 +4,6 @@ import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.dialog.Dialog
-import com.vaadin.flow.component.html.H2
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class SubWindowForm(

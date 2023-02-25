@@ -2,8 +2,6 @@ package br.com.astrosoft.devolucao.view.demanda
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
-import br.com.astrosoft.devolucao.view.agenda.TabAgendaAgendada
-import br.com.astrosoft.devolucao.viewmodel.agenda.AgendaViewModel
 import br.com.astrosoft.devolucao.viewmodel.demanda.DemandaViewModel
 import br.com.astrosoft.devolucao.viewmodel.demanda.IDemandaView
 import br.com.astrosoft.framework.model.IUser
