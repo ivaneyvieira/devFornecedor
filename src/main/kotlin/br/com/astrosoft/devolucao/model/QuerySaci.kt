@@ -258,6 +258,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", 1)
       addOptionalParameter("pdvno", 8888)
       addOptionalParameter("xano", agenda.id)
+      addOptionalParameter("vendno", agenda.vendno)
     }
   }
 

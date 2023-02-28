@@ -54,6 +54,7 @@ WHERE storeno = 1
   AND pdvno = 8888
 GROUP BY xano;
 
+
 SELECT vendno,
        custno,
        name                  AS nomeFornecedor,
