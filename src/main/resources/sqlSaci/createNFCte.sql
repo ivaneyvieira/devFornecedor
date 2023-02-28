@@ -98,26 +98,25 @@ WHERE (I.storeno = @LOJA OR @LOJA = 0)
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS_CTE;
 CREATE TEMPORARY TABLE T_NOTAS_CTE
 SELECT loja,
-       CAST(GROUP_CONCAT(DISTINCT ni ORDER BY ni SEPARATOR ' - ') AS char)                   AS ni,
-       CAST(GROUP_CONCAT(DISTINCT nf ORDER BY ni SEPARATOR ' - ') AS char)                   AS nf,
+       CAST(GROUP_CONCAT(DISTINCT ni ORDER BY ni SEPARATOR ' - ') AS char) AS ni,
+       CAST(GROUP_CONCAT(DISTINCT nf ORDER BY ni SEPARATOR ' - ') AS char) AS nf,
        emissao,
        entrada,
        vendno,
-       SUM(totalPrd)                                                                         AS totalPrd,
-       SUM(valorNF)                                                                          AS valorNF,
+       SUM(totalPrd)                                                       AS totalPrd,
+       SUM(valorNF)                                                        AS valorNF,
        carrno,
        carrName,
-       status                                                                                AS status,
+       status                                                              AS status,
        cte,
        emissaoCte,
        entradaCte,
        valorCte,
-       @FRETEBRUTO := SUM(pesoBrutoUnit)                                                     AS pesoBruto,
+       SUM(pesoBrutoUnit)                                                  AS pesoBruto,
        cub,
-       @FRETECUB := IFNULL(cub * fatorCub, 0.00)                                             AS pesoCub,
-       @FRETEPESO := IFNULL(ROUND(IF(cub = 0, @FRETEBRUTO, @FRETECUB) * fretePeso, 2),
-			    0.00)                                                            AS fretePesoNormal,
-       IF(@FRETEBRUTO > 100.00, @FRETEPESO, freteMinimo)                                     AS fretePeso,
+       freteMinimo,
+       fretePeso,
+       IFNULL(cub * fatorCub, 0.00)                                        AS pesoCub,
        freteValor,
        freteGRIS,
        taxa,
@@ -126,6 +125,65 @@ SELECT loja,
        fretePerc
 FROM T_NOTAS
 GROUP BY carrno, cte;
+
+DROP TEMPORARY TABLE IF EXISTS T_NOTAS_CTE01;
+CREATE TEMPORARY TABLE T_NOTAS_CTE01
+SELECT loja,
+       ni,
+       nf,
+       emissao,
+       entrada,
+       vendno,
+       totalPrd,
+       valorNF,
+       carrno,
+       carrName,
+       status,
+       cte,
+       emissaoCte,
+       entradaCte,
+       valorCte,
+       pesoBruto,
+       cub,
+       freteMinimo,
+       pesoCub,
+       IFNULL(ROUND(IF(cub = 0, pesoBruto, pesoCub) * fretePeso, 2), 0.00) AS freteNormal,
+       freteValor,
+       freteGRIS,
+       taxa,
+       outro,
+       aliquota,
+       fretePerc
+FROM T_NOTAS_CTE;
+
+DROP TEMPORARY TABLE IF EXISTS T_NOTAS_CTE02;
+CREATE TEMPORARY TABLE T_NOTAS_CTE02
+SELECT loja,
+       ni,
+       nf,
+       emissao,
+       entrada,
+       vendno,
+       totalPrd,
+       valorNF,
+       carrno,
+       carrName,
+       status,
+       cte,
+       emissaoCte,
+       entradaCte,
+       valorCte,
+       pesoBruto,
+       cub,
+       pesoCub,
+       IF(pesoBruto > 100.00, freteNormal, freteMinimo) AS fretePeso,
+       freteValor,
+       freteGRIS,
+       taxa,
+       outro,
+       aliquota,
+       fretePerc
+FROM T_NOTAS_CTE01;
 
 DROP TABLE IF EXISTS sqldados.queryCte1234567;
 CREATE TABLE sqldados.queryCte1234567
@@ -157,4 +215,4 @@ SELECT loja,
 		      2)                                                                        AS icms,
        IF(fretePerc = 0, ROUND(fretePeso + @ADVALORE + @GRIS + taxa + outro + @ICMS, 2),
 	  ROUND(valorNF * fretePerc / 100, 2))                                                  AS totalFrete
-FROM T_NOTAS_CTE
+FROM T_NOTAS_CTE02

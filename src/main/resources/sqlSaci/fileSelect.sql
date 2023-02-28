@@ -9,3 +9,4 @@ WHERE storeno = :storeno
   AND pdvno = :pdvno
   AND xano = :xano
 ORDER BY storeno, pdvno, xano, date, nome
+
