@@ -8,6 +8,7 @@ SET c4         = MID(TRIM(IFNULL(:chaveDesconto, '')), 1, 40),
 WHERE storeno = :loja
   AND ordno = :pedido;
 
+/*
 UPDATE sqldados.nfComplemento
 SET pedidos            = :pedidos,
     chaveDesconto      = :chaveDesconto,
@@ -16,3 +17,20 @@ SET pedidos            = :pedidos,
 WHERE storeno = :loja
   AND xano = :pedido
   AND pdvno = 980
+ */
+
+REPLACE INTO sqldados.nfComplemento(storeno,
+				    pdvno,
+				    xano,
+				    pedidos,
+				    chaveDesconto,
+				    observacaoAuxiliar,
+				    dataAgenda)
+SELECT :loja               AS storeno,
+       980                 AS pdvno,
+       :pedido             AS xano,
+       :pedidos            AS pedidos,
+       :chaveDesconto      AS chaveDesconto,
+       :observacaoAuxiliar AS observacaoAuxiliar,
+       :dataAgenda         AS dataAgenda
+FROM DUAL

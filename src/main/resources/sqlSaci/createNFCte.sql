@@ -77,6 +77,7 @@ SELECT I.storeno                                                                
        IFNULL(F.valorLivre1 / 100, 0.00)                                                       AS aliquota,
        T.fretePerc / 100                                                                       AS fretePerc,
        IFNULL(F.valorLivre3 / 100, 0.00)                                                       AS freteMinimo,
+       IFNULL(F.valorLivre4 / 100, 0.00)                                                       AS pesoMinimo,
        (F.fretePeso / 100)                                                                     AS fretePeso
 FROM sqldados.inv            AS I
   LEFT JOIN  sqldados.carr      T
@@ -115,6 +116,7 @@ SELECT loja,
        SUM(pesoBrutoUnit)                                                  AS pesoBruto,
        cub,
        freteMinimo,
+       pesoMinimo,
        fretePeso,
        IFNULL(cub * fatorCub, 0.00)                                        AS pesoCub,
        freteValor,
@@ -146,8 +148,11 @@ SELECT loja,
        pesoBruto,
        cub,
        freteMinimo,
+       pesoMinimo,
        pesoCub,
-       IFNULL(ROUND(IF(cub = 0, pesoBruto, pesoCub) * fretePeso, 2), 0.00) AS freteNormal,
+       IFNULL(ROUND(IF(pesoBruto > pesoCub, pesoBruto, pesoCub) * fretePeso, 2),
+	      0.00) AS freteNormal,
+       fretePeso,
        freteValor,
        freteGRIS,
        taxa,
@@ -176,7 +181,14 @@ SELECT loja,
        pesoBruto,
        cub,
        pesoCub,
-       IF(pesoBruto > 100.00, freteNormal, freteMinimo) AS fretePeso,
+       CASE
+	 WHEN freteMinimo > 0
+	   THEN IF(pesoBruto > 100.00 || pesoCub > 100.00, freteNormal, freteMinimo)
+	 WHEN pesoMinimo > 0
+	   THEN IF(pesoBruto > pesoMinimo || pesoCub > pesoMinimo, freteNormal,
+		   pesoMinimo * fretePeso)
+	 ELSE freteNormal
+       END AS fretePeso,
        freteValor,
        freteGRIS,
        taxa,

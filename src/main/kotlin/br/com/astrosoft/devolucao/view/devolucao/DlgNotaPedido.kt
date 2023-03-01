@@ -76,7 +76,7 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
         notaBonificacao().textFieldEditor().marcaAzul()
         notaNiBonificacao().textFieldEditor().marcaAzul()
       }
-      chaveDesconto().textAreaEditor().apply {
+      chaveDesconto().textFieldEditor().apply {
         this.setClassNameGenerator {
           it.situacaoPendencia?.cssCor
         }
