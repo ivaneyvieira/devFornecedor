@@ -12,6 +12,7 @@ class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
     subView.updateGrid(lista)
   }
 
+  /*
   fun editar(fornecedor: FornecedorProduto) {
     subView.showUpdateForm(fornecedor) { dem ->
       dem?.valida()
@@ -19,6 +20,7 @@ class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
       updateView()
     }
   }
+  */
 
   private fun AgendaDemanda.valida() {
     if (titulo.isBlank()) fail("O campo título não foi informado")
@@ -35,7 +37,7 @@ class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
 
 interface ITabFornecedorDemanda : ITabView {
   fun showAnexoForm(fornecedor: FornecedorProduto)
-  fun showUpdateForm(fornecedor: FornecedorProduto, execUpdate: (demanda: AgendaDemanda?) -> Unit)
+  //fun showUpdateForm(fornecedor: FornecedorProduto, execUpdate: (demanda: AgendaDemanda?) -> Unit)
   fun updateGrid(itens: List<FornecedorProduto>)
   fun filtro(): String
 }

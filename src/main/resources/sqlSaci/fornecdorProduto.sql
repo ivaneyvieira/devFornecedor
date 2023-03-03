@@ -1,4 +1,4 @@
-use sqldados;
+USE sqldados;
 
 DO @filtroStr := :filtro;
 DO @FiltroNum := IF(:filtro REGEXP '^[0-9]+$', :filtro * 1, 0);
@@ -36,8 +36,8 @@ DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
 CREATE TEMPORARY TABLE T_PRDVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no            AS vendno,
-       C.no            AS custno,
+SELECT V.no AS vendno,
+       C.no AS custno,
        V.name
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
@@ -46,14 +46,13 @@ GROUP BY V.no;
 
 DROP TEMPORARY TABLE IF EXISTS T_FILE;
 CREATE TEMPORARY TABLE T_FILE (
-  PRIMARY KEY (id)
+  PRIMARY KEY (vendno)
 )
-SELECT xano AS id, COUNT(*) AS quantAnexo
+SELECT xano AS vendno, COUNT(*) AS quantAnexo
 FROM sqldados.nfdevFile
-WHERE storeno = 1
+WHERE storeno = 88
   AND pdvno = 8888
 GROUP BY xano;
-
 
 SELECT vendno,
        custno,
@@ -65,10 +64,8 @@ SELECT vendno,
 FROM T_PRDVEND
   LEFT JOIN T_PRDDATA
 	      USING (vendno)
-  LEFT JOIN sqldados.agendaDemandas AS A
+  LEFT JOIN T_FILE AS F
 	      USING (vendno)
-  LEFT JOIN T_FILE                  AS F
-	      USING (id)
 WHERE (@filtroStr = '' OR name LIKE CONCAT('%', @filtroStr, '%'))
    OR vendno = @FiltroNum
    OR custno = @FiltroNum

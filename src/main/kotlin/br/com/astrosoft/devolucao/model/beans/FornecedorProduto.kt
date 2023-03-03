@@ -12,11 +12,6 @@ class FornecedorProduto(
   val nota: String?,
   val quantAnexo: Int,
                        ) {
-  fun getDemanda(): AgendaDemanda {
-    val filter = FilterAgendaDemanda(pesquisa = "", concluido = null, vendno = vendno)
-    return saci.selectAgendaDemanda(filter).firstOrNull() ?: createDemanda()
-  }
-
   private fun createDemanda(): AgendaDemanda {
     val agenda =
       AgendaDemanda(
@@ -29,6 +24,26 @@ class FornecedorProduto(
                    )
     agenda.save()
     return agenda
+  }
+
+  fun findAnexos(): List<NFFile> {
+    return saci.selectFile(this)
+  }
+
+  fun delAnexo(bean: NFFile) {
+    saci.deleteFile(bean)
+  }
+
+  fun addAnexo(fileName: String?, bytes: ByteArray) {
+    fileName ?: return
+    saci.insertFile(NFFile(
+      storeno = 88,
+      pdvno = 8888,
+      xano = vendno,
+      date = LocalDate.now(),
+      nome = fileName,
+      file = bytes,
+                          ))
   }
 
   companion object {
