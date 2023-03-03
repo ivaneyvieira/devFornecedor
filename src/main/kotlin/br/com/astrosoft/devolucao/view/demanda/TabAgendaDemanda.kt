@@ -93,7 +93,7 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   override fun showAnexoForm(demanda: AgendaDemanda) {
-    val form = FormAnexo(demanda, false) {
+    val form = FormAnexoDemanda(demanda, false) {
       updateComponent()
     }
     ConfirmDialog

@@ -70,7 +70,7 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
   }
 
   override fun showAnexoForm(demanda: AgendaDemanda) {
-    val form = FormAnexo(demanda, false) {
+    val form = FormAnexoDemanda(demanda, false) {
       updateComponent()
     }
     ConfirmDialog

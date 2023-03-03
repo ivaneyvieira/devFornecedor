@@ -231,3 +231,11 @@ SELECT storeno,
        dataAgenda
 FROM T_DADOS;
 
+/*************************************************************************/
+
+SELECT * FROM sqldados.agendaDemandas
+WHERE vendno != 0;
+
+
+SELECT * FROM sqldados.nfdevFile
+WHERE pdvno = 8888;

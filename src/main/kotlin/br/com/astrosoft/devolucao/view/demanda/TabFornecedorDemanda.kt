@@ -35,11 +35,11 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
   }
 
   override fun Grid<FornecedorProduto>.gridPanel() {
-    setSelectionMode(Grid.SelectionMode.MULTI)
-
+    setSelectionMode(Grid.SelectionMode.MULTI)/*
     addColumnButton(iconButton = VaadinIcon.EDIT, tooltip = "Editar", header = "Editar") { fornecedor ->
       viewModel.editar(fornecedor)
     }
+ */
 
     addColumnButton(iconButton = VaadinIcon.FILE, tooltip = "Anexo", header = "Anexo") { fornecedor ->
       viewModel.anexo(fornecedor)
@@ -55,8 +55,7 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
   }
 
   override fun showAnexoForm(fornecedor: FornecedorProduto) {
-    val demanda = fornecedor.getDemanda()
-    val form = FormAnexo(demanda, false) {
+    val form = FormAnexoFornecedor(fornecedor, false) {
       updateComponent()
     }
     ConfirmDialog
@@ -66,13 +65,12 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
       .withCloseButton(ButtonOption.caption("Fechar"))
       .open()
   }
-
+/*
   override fun showUpdateForm(fornecedor: FornecedorProduto, execUpdate: (demanda: AgendaDemanda?) -> Unit) {
-    val demanda = fornecedor.getDemanda()
-    showAgendaForm(demanda = demanda, title = "Edita", isReadOnly = false, exec = execUpdate)
+    showAgendaForm(fornecedor = fornecedor, title = "Edita", isReadOnly = false, exec = execUpdate)
   }
 
-  private fun showAgendaForm(demanda: AgendaDemanda?,
+  private fun showAgendaForm(fornecedor: FornecedorProduto?,
                              title: String,
                              isReadOnly: Boolean,
                              exec: (demanda: AgendaDemanda?) -> Unit) {
@@ -82,6 +80,7 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
                                                                                exec(bean)
                                                                              }).withCancelButton().open()
   }
+ */
 
   override fun filtro(): String {
     return edtFiltro.value ?: ""
