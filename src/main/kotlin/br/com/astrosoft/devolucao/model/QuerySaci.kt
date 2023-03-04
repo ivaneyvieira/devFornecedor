@@ -255,7 +255,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   fun selectFile(fornecedor: FornecedorProduto): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
     return query(sql, NFFile::class) {
-      addOptionalParameter("storeno", 1)
+      addOptionalParameter("storeno", 88)
       addOptionalParameter("pdvno", 8888)
       addOptionalParameter("xano", fornecedor.vendno)
     }
