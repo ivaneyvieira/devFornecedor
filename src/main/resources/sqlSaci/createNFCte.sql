@@ -73,7 +73,7 @@ SELECT I.storeno                                                                
        IFNULL(F.freteValor / 1000, 0.000)                                                      AS freteValor,
        IFNULL(F.freteGRIS / 1000, 0.000)                                                       AS freteGRIS,
        IFNULL(F.freteDespacho / 100, 0.00)                                                     AS taxa,
-       0.00                                                                                    AS outro,
+       IFNULL(F.freteTaxa / 100, 0.00)                                                         AS outro,
        IFNULL(F.valorLivre1 / 100, 0.00)                                                       AS aliquota,
        T.fretePerc / 100                                                                       AS fretePerc,
        IFNULL(F.valorLivre3 / 100, 0.00)                                                       AS freteMinimo,
