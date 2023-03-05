@@ -3,14 +3,18 @@ package br.com.astrosoft.devolucao.view.demanda
 import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaCNPJ
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaCliente
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaFantasia
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaFornecedor
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaNome
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaUF
 import br.com.astrosoft.devolucao.viewmodel.demanda.ITabFornecedorDemanda
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabFornecedorDemandaViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.addColumnString
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -52,6 +56,9 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
     fornecedorDemandaFornecedor()
     fornecedorDemandaCliente()
     fornecedorDemandaNome()
+    fornecedorDemandaFantasia()
+    fornecedorDemandaCNPJ()
+    fornecedorDemandaUF()
   }
 
   override fun showAnexoForm(fornecedor: FornecedorProduto) {
