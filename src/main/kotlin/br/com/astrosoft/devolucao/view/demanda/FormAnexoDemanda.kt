@@ -22,7 +22,7 @@ class FormAnexoDemanda(val demanda: AgendaDemanda, private val isReadOnly: Boole
   private var gridFile: Grid<NFFile>? = null
 
   init {
-    width = "600px"
+    width = "840px"
     height = "400px"
     if (!isReadOnly) {
       val (buffer, upload) = uploadFile()
