@@ -36,9 +36,12 @@ DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
 CREATE TEMPORARY TABLE T_PRDVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no AS vendno,
-       C.no AS custno,
-       V.name
+SELECT V.no               AS vendno,
+       C.no               AS custno,
+       V.name             AS nomeFornecedor,
+       IFNULL(C.name, '') AS nomeFantasia,
+       V.cgc              AS cnpj,
+       V.state            AS uf
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON V.cgc = C.cpf_cgc
@@ -56,17 +59,20 @@ GROUP BY xano;
 
 SELECT vendno,
        custno,
-       name                  AS nomeFornecedor,
+       nomeFornecedor        AS nomeFornecedor,
        data,
        invno,
        nota,
-       IFNULL(quantAnexo, 0) AS quantAnexo
+       IFNULL(quantAnexo, 0) AS quantAnexo,
+       nomeFantasia          AS nomeFantasia,
+       cnpj,
+       uf
 FROM T_PRDVEND
   LEFT JOIN T_PRDDATA
 	      USING (vendno)
   LEFT JOIN T_FILE AS F
 	      USING (vendno)
-WHERE (@filtroStr = '' OR name LIKE CONCAT('%', @filtroStr, '%'))
+WHERE (@filtroStr = '' OR nomeFornecedor LIKE CONCAT('%', @filtroStr, '%'))
    OR vendno = @FiltroNum
    OR custno = @FiltroNum
 GROUP BY vendno

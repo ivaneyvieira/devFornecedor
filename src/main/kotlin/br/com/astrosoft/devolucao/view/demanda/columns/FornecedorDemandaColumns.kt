@@ -24,6 +24,18 @@ object FornecedorDemandaColumns {
     this.setHeader("Nome")
   }
 
+  fun Grid<FornecedorProduto>.fornecedorDemandaFantasia() = addColumnString(FornecedorProduto::nomeFantasia) {
+    this.setHeader("Nome Fantasia")
+  }
+
+  fun Grid<FornecedorProduto>.fornecedorDemandaCNPJ() = addColumnString(FornecedorProduto::cnpj) {
+    this.setHeader("CNPJ")
+  }
+
+  fun Grid<FornecedorProduto>.fornecedorDemandaUF() = addColumnString(FornecedorProduto::uf) {
+    this.setHeader("UF")
+  }
+
   fun Grid<FornecedorProduto>.fornecedorDemandaInvno() = addColumnInt(FornecedorProduto::invno) {
     this.setHeader("NI")
   }
