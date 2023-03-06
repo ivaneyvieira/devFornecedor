@@ -36,12 +36,12 @@ DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
 CREATE TEMPORARY TABLE T_PRDVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no               AS vendno,
-       C.no               AS custno,
-       V.name             AS nomeFornecedor,
-       IFNULL(C.name, '') AS nomeFantasia,
-       V.cgc              AS cnpj,
-       V.state            AS uf
+SELECT V.no                   AS vendno,
+       C.no                   AS custno,
+       V.name                 AS nomeFornecedor,
+       IFNULL(C.id_sname, '') AS nomeFantasia,
+       V.cgc                  AS cnpj,
+       V.state                AS uf
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON V.cgc = C.cpf_cgc
