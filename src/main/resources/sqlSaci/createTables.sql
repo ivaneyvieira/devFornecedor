@@ -239,3 +239,11 @@ WHERE vendno != 0;
 
 SELECT * FROM sqldados.nfdevFile
 WHERE pdvno = 8888;
+
+/*************************************************************************/
+
+CREATE table sqldados.vendComplemento(
+  vendno int(10) NOT NULL,
+  texto text,
+  PRIMARY KEY (vendno)
+);

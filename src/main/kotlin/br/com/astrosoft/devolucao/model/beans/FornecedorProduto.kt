@@ -15,6 +15,7 @@ class FornecedorProduto(
   val cnpj: String,
   val cidade: String,
   val uf: String,
+  var texto: String,
                        ) {
   private fun createDemanda(): AgendaDemanda {
     val agenda =
@@ -48,6 +49,10 @@ class FornecedorProduto(
       nome = fileName,
       file = bytes,
                           ))
+  }
+
+  fun save() {
+    saci.saveVendComplemento(this)
   }
 
   companion object {

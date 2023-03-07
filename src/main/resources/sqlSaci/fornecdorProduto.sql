@@ -36,13 +36,14 @@ DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
 CREATE TEMPORARY TABLE T_PRDVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no                                                                      AS vendno,
-       C.no                                                                      AS custno,
-       V.name                                                                    AS nomeFornecedor,
-       IF(C.id_sname IS NULL, V.auxChar1, CONCAT(V.auxChar1, ' / ', C.id_sname)) AS nomeFantasia,
-       V.cgc                                                                     AS cnpj,
-       V.city                                                                    AS cidade,
-       V.state                                                                   AS uf
+SELECT V.no                         AS vendno,
+       C.no                         AS custno,
+       V.name                       AS nomeFornecedor,
+       IFNULL(TRIM(C.id_sname), '') AS nomeFantasiaC,
+       TRIM(V.auxChar1)             AS nomeFantasiaV,
+       V.cgc                        AS cnpj,
+       V.city                       AS cidade,
+       V.state                      AS uf
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON V.cgc = C.cpf_cgc
@@ -60,19 +61,24 @@ GROUP BY xano;
 
 SELECT vendno,
        custno,
-       nomeFornecedor        AS nomeFornecedor,
+       nomeFornecedor                                                                  AS nomeFornecedor,
        data,
        invno,
        nota,
-       IFNULL(quantAnexo, 0) AS quantAnexo,
-       nomeFantasia          AS nomeFantasia,
+       IFNULL(quantAnexo, 0)                                                           AS quantAnexo,
+       IF(nomeFantasiaV = '', IF(nomeFantasiaC = '', '', nomeFantasiaC),
+	  IF(nomeFantasiaC = '', nomeFantasiaV,
+	     CONCAT(nomeFantasiaV, nomeFantasiaC)))                                    AS nomeFantasia,
        cnpj,
        cidade,
-       uf
+       uf,
+       IFNULL(C.texto, '')                                                             AS texto
 FROM T_PRDVEND
   LEFT JOIN T_PRDDATA
 	      USING (vendno)
-  LEFT JOIN T_FILE AS F
+  LEFT JOIN T_FILE                   AS F
+	      USING (vendno)
+  LEFT JOIN sqldados.vendComplemento AS C
 	      USING (vendno)
 WHERE (@filtroStr = '' OR nomeFornecedor LIKE CONCAT('%', @filtroStr, '%'))
    OR vendno = @FiltroNum
