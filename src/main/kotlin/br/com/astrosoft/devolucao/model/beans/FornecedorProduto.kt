@@ -13,6 +13,7 @@ class FornecedorProduto(
   val quantAnexo: Int,
   val nomeFantasia: String,
   val cnpj: String,
+  val cidade: String,
   val uf: String,
                        ) {
   private fun createDemanda(): AgendaDemanda {

@@ -32,6 +32,10 @@ object FornecedorDemandaColumns {
     this.setHeader("CNPJ")
   }
 
+  fun Grid<FornecedorProduto>.fornecedorDemandaCidade() = addColumnString(FornecedorProduto::cidade) {
+    this.setHeader("Cidade")
+  }
+
   fun Grid<FornecedorProduto>.fornecedorDemandaUF() = addColumnString(FornecedorProduto::uf) {
     this.setHeader("UF")
   }
