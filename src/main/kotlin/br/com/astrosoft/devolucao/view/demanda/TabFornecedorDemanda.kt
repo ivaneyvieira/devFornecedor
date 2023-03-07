@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaCNPJ
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaCidade
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaCliente
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaFantasia
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaFornecedor
@@ -58,6 +59,7 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
     fornecedorDemandaNome()
     fornecedorDemandaFantasia()
     fornecedorDemandaCNPJ()
+    fornecedorDemandaCidade()
     fornecedorDemandaUF()
   }
 

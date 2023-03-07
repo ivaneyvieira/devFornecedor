@@ -34,7 +34,7 @@ class AgendaDemanda(
   }
 
   fun addAnexo(nome: String, file: ByteArray) {
-    val nfFile = NFFile(storeno = 1, pdvno = 8888, xano = id, date = date, nome = nome, file = file)
+    val nfFile = NFFile(storeno = 1, pdvno = 8888, xano = id, date = LocalDate.now(), nome = nome, file = file)
     saci.insertFile(nfFile)
   }
 

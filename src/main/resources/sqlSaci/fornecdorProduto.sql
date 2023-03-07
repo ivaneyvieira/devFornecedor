@@ -36,12 +36,13 @@ DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
 CREATE TEMPORARY TABLE T_PRDVEND (
   PRIMARY KEY (vendno)
 )
-SELECT V.no                   AS vendno,
-       C.no                   AS custno,
-       V.name                 AS nomeFornecedor,
-       IFNULL(C.id_sname, '') AS nomeFantasia,
-       V.cgc                  AS cnpj,
-       V.state                AS uf
+SELECT V.no                                                                      AS vendno,
+       C.no                                                                      AS custno,
+       V.name                                                                    AS nomeFornecedor,
+       IF(C.id_sname IS NULL, V.auxChar1, CONCAT(V.auxChar1, ' / ', C.id_sname)) AS nomeFantasia,
+       V.cgc                                                                     AS cnpj,
+       V.city                                                                    AS cidade,
+       V.state                                                                   AS uf
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON V.cgc = C.cpf_cgc
@@ -66,6 +67,7 @@ SELECT vendno,
        IFNULL(quantAnexo, 0) AS quantAnexo,
        nomeFantasia          AS nomeFantasia,
        cnpj,
+       cidade,
        uf
 FROM T_PRDVEND
   LEFT JOIN T_PRDDATA
