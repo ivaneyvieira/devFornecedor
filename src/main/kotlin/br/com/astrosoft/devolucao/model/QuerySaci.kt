@@ -854,6 +854,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
+  fun saveVendComplemento(fornecedor: FornecedorProduto){
+    val sql = "/sqlSaci/saveVendComplemento.sql"
+
+    script(sql) {
+      addOptionalParameter("vendno", fornecedor.vendno)
+      addOptionalParameter("texto", fornecedor.texto)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
