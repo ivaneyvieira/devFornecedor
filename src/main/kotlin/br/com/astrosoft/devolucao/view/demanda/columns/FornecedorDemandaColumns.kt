@@ -39,16 +39,4 @@ object FornecedorDemandaColumns {
   fun Grid<FornecedorProduto>.fornecedorDemandaUF() = addColumnString(FornecedorProduto::uf) {
     this.setHeader("UF")
   }
-
-  fun Grid<FornecedorProduto>.fornecedorDemandaInvno() = addColumnInt(FornecedorProduto::invno) {
-    this.setHeader("NI")
-  }
-
-  fun Grid<FornecedorProduto>.fornecedorDemandaNota() = addColumnString(FornecedorProduto::nota) {
-    this.setHeader("NF")
-  }
-
-  fun Grid<FornecedorProduto>.fornecedorDemandaDataNF() = addColumnLocalDate(FornecedorProduto::data) {
-    this.setHeader("Data")
-  }
 }

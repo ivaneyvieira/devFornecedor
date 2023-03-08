@@ -23,16 +23,4 @@ object FornecedorProdutoColumns {
   fun Grid<FornecedorProduto>.fornecedorNome() = addColumnString(FornecedorProduto::nomeFornecedor) {
     this.setHeader("Nome")
   }
-
-  fun Grid<FornecedorProduto>.fornecedorInvno() = addColumnInt(FornecedorProduto::invno) {
-    this.setHeader("NI")
-  }
-
-  fun Grid<FornecedorProduto>.fornecedorNota() = addColumnString(FornecedorProduto::nota) {
-    this.setHeader("NF")
-  }
-
-  fun Grid<FornecedorProduto>.fornecedorDataNF() = addColumnLocalDate(FornecedorProduto::data) {
-    this.setHeader("Data")
-  }
 }
