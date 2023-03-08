@@ -80,12 +80,13 @@ FROM T_PRDVEND
 	      USING (vendno)
   LEFT JOIN sqldados.vendComplemento AS C
 	      USING (vendno)
-WHERE (@filtroStr = '' OR nomeFornecedor LIKE CONCAT('%', @filtroStr, '%'))
+WHERE @filtroStr = ''
+   OR nomeFornecedor LIKE CONCAT('%', @filtroStr, '%')
    OR vendno = @FiltroNum
    OR custno = @FiltroNum
-   OR (@filtroStr = '' OR nomeFantasiaV LIKE CONCAT('%', @filtroStr, '%'))
-   OR (@filtroStr = '' OR nomeFantasiaC LIKE CONCAT('%', @filtroStr, '%'))
-   OR (@filtroStr = '' OR cnpj LIKE CONCAT(@filtroStr, '%'))
-   OR (@filtroStr = '' OR cidade LIKE CONCAT(@filtroStr, '%'))
-   OR (@filtroStr = '' OR uf LIKE CONCAT(@filtroStr, '%'))
+   OR nomeFantasiaV LIKE CONCAT('%', @filtroStr, '%')
+   OR nomeFantasiaC LIKE CONCAT('%', @filtroStr, '%')
+   OR cnpj LIKE CONCAT(@filtroStr, '%')
+   OR cidade LIKE CONCAT(@filtroStr, '%')
+   OR uf LIKE CONCAT(@filtroStr, '%')
 GROUP BY vendno
