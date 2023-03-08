@@ -17,6 +17,14 @@ SELECT V.no             AS vendno,
 FROM sqldados.vend         AS V
   LEFT JOIN sqldados.custp AS C
 	      ON V.cgc = C.cpf_cgc
+WHERE @filtroStr = ''
+   OR V.name LIKE CONCAT('%', @filtroStr, '%')
+   OR V.no = @FiltroNum
+   OR C.no = @FiltroNum
+   OR TRIM(V.auxChar1) LIKE CONCAT('%', @filtroStr, '%')
+   OR V.cgc LIKE CONCAT(@filtroStr, '%')
+   OR V.city LIKE CONCAT(@filtroStr, '%')
+   OR V.state LIKE CONCAT(@filtroStr, '%')
 GROUP BY V.no;
 
 DROP TEMPORARY TABLE IF EXISTS T_FILE;
@@ -43,12 +51,3 @@ FROM T_PRDVEND
 	      USING (vendno)
   LEFT JOIN sqldados.vendComplemento AS C
 	      USING (vendno)
-WHERE @filtroStr = ''
-   OR nomeFornecedor LIKE CONCAT('%', @filtroStr, '%')
-   OR vendno = @FiltroNum
-   OR custno = @FiltroNum
-   OR nomeFantasia LIKE CONCAT('%', @filtroStr, '%')
-   OR cnpj LIKE CONCAT(@filtroStr, '%')
-   OR cidade LIKE CONCAT(@filtroStr, '%')
-   OR uf LIKE CONCAT(@filtroStr, '%')
-GROUP BY vendno
