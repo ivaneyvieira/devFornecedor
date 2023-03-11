@@ -66,6 +66,16 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
 
+DROP TEMPORARY TABLE IF EXISTS T_STK;
+CREATE TEMPORARY TABLE T_STK (
+  PRIMARY KEY (prdno)
+)
+SELECT prdno, SUM(qtty_varejo / 1000) AS estoque
+FROM sqldados.stk  AS S
+  INNER JOIN T_PRD AS P
+	       ON P.no = S.prdno
+GROUP BY prdno;
+
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
 SELECT iprd.storeno                                                                      AS lj,
@@ -114,10 +124,13 @@ SELECT iprd.storeno                                                             
        @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                                      AS freteUnit,
        ROUND(@FRETE_UN * 100 * 10000 / iprd.fob4, 2)                                     AS fretePerNf,
        prp.freight / 100                                                                 AS fretePerPrc,
-       iprd.qtty / 1000                                                                  AS quant
+       iprd.qtty / 1000                                                                  AS quant,
+       S.estoque                                                                         AS estoque
 FROM sqldados.iprd
   INNER JOIN sqldados.inv
 	       USING (invno)
+  LEFT JOIN  T_STK           AS S
+	       USING (prdno)
   INNER JOIN T_VEND          AS vend
 	       ON vend.no = inv.vendno
   INNER JOIN T_PRD           AS prd
@@ -218,5 +231,6 @@ SELECT lj,
        IF(IFNULL(fretePerNf, 0) = IFNULL(fretePerPrc, 0), 'S',
 	  IF(IFNULL(fretePerNf, 0) > IFNULL(fretePerPrc, 0), 'DP',
 	     'DN'))                                                                              AS fretePerDif,
-       quant
+       quant,
+       estoque
 FROM sqldados.T_QUERY

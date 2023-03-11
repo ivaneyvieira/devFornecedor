@@ -70,6 +70,7 @@ SELECT lj,
        fretePerPrc,
        fretePerDif,
        quant,
+       estoque,
        freteTotal,
        preconTotal
 FROM sqldados.query1234567

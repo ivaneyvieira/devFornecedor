@@ -59,6 +59,7 @@ class NfPrecEntrada(
   val quant: Int?,
   val freteTotal: Double?,
   val preconTotal: Double?,
+  val estoque: Int?,
                    ) {
   val precoDifValue
     get() = precon - precop
