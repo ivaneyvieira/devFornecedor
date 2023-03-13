@@ -498,6 +498,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+
+  fun fornecedorNotas(vendno: Int): List<FornecedorNota> {
+    val sql = "/sqlSaci/fornecedorNota.sql"
+    return query(sql, FornecedorNota::class) {
+      addOptionalParameter("vendno", vendno)
+    }
+  }
+
+
   fun ultimasNfPrec(filtro: FiltroRelatorio): List<NfPrecEntrada> {
     val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
     return query(sql, NfPrecEntrada::class) {

@@ -28,6 +28,10 @@ class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
     subView.showAnexoForm(fornecedor)
   }
 
+  fun showNotas(fornecedor: FornecedorProduto) {
+    subView.showNotas(fornecedor)
+  }
+
   val subView
     get() = viewModel.view.tabFornecedorDemanda
 }
@@ -37,5 +41,6 @@ interface ITabFornecedorDemanda : ITabView {
   fun showUpdateForm(fornecedor: FornecedorProduto, execUpdate: (fornecedor: FornecedorProduto?) -> Unit)
   fun updateGrid(itens: List<FornecedorProduto>)
   fun filtro(): String
+  fun showNotas(fornecedor: FornecedorProduto)
 }
 
