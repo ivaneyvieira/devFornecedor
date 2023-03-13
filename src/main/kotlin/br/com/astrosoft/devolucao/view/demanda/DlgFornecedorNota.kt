@@ -14,26 +14,36 @@ import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.for
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaValor
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaVencimento
 import br.com.astrosoft.framework.view.SubWindowForm
+import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
   private var form: SubWindowForm? = null
   private lateinit var gridNota: Grid<FornecedorNota>
+  private lateinit var edtLoja: IntegerField
   private lateinit var edtQuery: TextField
 
   fun showDialogNota() {
     fornecedor ?: return
 
     form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+      edtLoja = integerField ("Loja") {
+        valueChangeMode = ValueChangeMode.LAZY
+        valueChangeTimeout = 1000
+        addValueChangeListener {
+          updateGrid()
+        }
+      }
       edtQuery = textField("Pesquisa") {
         width = "300px"
         valueChangeMode = ValueChangeMode.LAZY
-        valueChangeTimeout = 2000
+        valueChangeTimeout = 1000
         addValueChangeListener {
           updateGrid()
         }
@@ -52,6 +62,7 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
   private fun updateGrid() {
     val notas = FornecedorNota.findByFornecedor(FiltroFornecedorNota(
       vendno =  fornecedor?.vendno ?: 0,
+      loja = edtLoja.value ?: 0,
       query = edtQuery.value ?: "",
                                                                     ))
     gridNota.setItems(notas)

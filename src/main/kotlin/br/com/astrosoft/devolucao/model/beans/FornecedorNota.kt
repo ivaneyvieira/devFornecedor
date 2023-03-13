@@ -22,4 +22,4 @@ class FornecedorNota(
   }
 }
 
-data class FiltroFornecedorNota(val vendno: Int, val query: String)
+data class FiltroFornecedorNota(val vendno: Int, val loja: Int, val query: String)
