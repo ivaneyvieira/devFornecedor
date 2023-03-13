@@ -55,8 +55,6 @@ class FornecedorProduto(
     saci.saveVendComplemento(this)
   }
 
-  fun findNotas() = FornecedorNota.findByFornecedor(vendno)
-
   companion object {
     fun findAll(filtro: String): List<FornecedorProduto> {
       return saci.fornecedorProduto(filtro)

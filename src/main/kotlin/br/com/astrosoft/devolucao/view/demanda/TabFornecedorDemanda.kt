@@ -14,6 +14,7 @@ import br.com.astrosoft.devolucao.viewmodel.demanda.TabFornecedorDemandaViewMode
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.addColumnSeq
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -39,6 +40,8 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
 
   override fun Grid<FornecedorProduto>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnSeq("Item")
+
     addColumnButton(iconButton = VaadinIcon.EDIT, tooltip = "Editar", header = "Editar") { fornecedor ->
       viewModel.editar(fornecedor)
     }
