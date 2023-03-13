@@ -1,6 +1,7 @@
 USE sqldados;
 
 SET @VENDNO := :vendno;
+SET @LOJA := :loja;
 SET @QUERY := :query;
 SET @QUERY_LIKE := CONCAT('%', @QUERY, '%');
 
@@ -28,14 +29,17 @@ FROM T_PARCELA_ULT;
 
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS;
 CREATE TEMPORARY TABLE T_NOTAS
-SELECT I.storeno                                AS loja,
-       invno                                    AS ni,
-       CAST(CONCAT(nfname, '/', invse) AS char) AS nf,
-       CAST(issue_date AS DATE)                 AS emissao,
-       CAST(date AS DATE)                       AS entrada,
-       grossamt / 100                           AS valorNota,
-       I.remarks                                AS obs,
-       CAST(X.duedate AS date)                  AS vencimento,
+  (
+    nf varchar(20)
+  )
+SELECT I.storeno                                          AS loja,
+       invno                                              AS ni,
+       IF(invse = '', nfname, CONCAT(nfname, '/', invse)) AS nf,
+       CAST(issue_date AS DATE)                           AS emissao,
+       CAST(date AS DATE)                                 AS entrada,
+       grossamt / 100                                     AS valorNota,
+       I.remarks                                          AS obs,
+       CAST(X.duedate AS date)                            AS vencimento,
        CASE X.status
 	 WHEN 0
 	   THEN 'Em Aberto'
@@ -54,14 +58,15 @@ SELECT I.storeno                                AS loja,
 	 WHEN 7
 	   THEN 'Consignacao'
 	 ELSE ''
-       END                                      AS situacao,
-       X.remarks                                AS obsParcela
+       END                                                AS situacao,
+       X.remarks                                          AS obsParcela
 FROM sqldados.inv          AS I
   LEFT JOIN T_PARCELA_ULT2 AS U
 	      USING (invno)
   LEFT JOIN sqldados.invxa AS X
 	      USING (invno, instno, duedate)
-WHERE vendno = @VENDNO
+WHERE (vendno = @VENDNO)
+  AND (I.storeno = @LOJA OR @LOJA = 0)
 ORDER BY invno DESC;
 
 SELECT loja,
@@ -70,7 +75,10 @@ SELECT loja,
        emissao,
        entrada,
        valorNota,
-       obs
+       obs,
+       vencimento,
+       situacao,
+       obsParcela
 FROM T_NOTAS TN
 WHERE @QUERY = ''
    OR loja = @QUERY

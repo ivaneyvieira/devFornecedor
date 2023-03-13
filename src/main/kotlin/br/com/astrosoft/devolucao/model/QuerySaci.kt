@@ -503,6 +503,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/fornecedorNota.sql"
     return query(sql, FornecedorNota::class) {
       addOptionalParameter("vendno", filtro.vendno)
+      addOptionalParameter("loja", filtro.loja)
       addOptionalParameter("query", filtro.query)
     }
   }
