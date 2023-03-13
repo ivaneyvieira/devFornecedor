@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.demanda
 
-import br.com.astrosoft.devolucao.model.beans.AgendaDemanda
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorDemandaColumns.fornecedorDemandaCNPJ
@@ -15,7 +14,6 @@ import br.com.astrosoft.devolucao.viewmodel.demanda.TabFornecedorDemandaViewMode
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.addColumnString
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -51,6 +49,10 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
       this.setClassNameGenerator { b ->
         if (b.quantAnexo > 0) "marcaOk" else null
       }
+    }
+
+    addColumnButton(iconButton = VaadinIcon.MODAL_LIST, tooltip = "Nota", header = "Nota") { fornecedor ->
+      viewModel.showNotas(fornecedor)
     }
 
     fornecedorDemandaFornecedor()
@@ -89,9 +91,12 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
                                                                              }).withCancelButton().open()
   }
 
-
   override fun filtro(): String {
     return edtFiltro.value ?: ""
+  }
+
+  override fun showNotas(fornecedor: FornecedorProduto) {
+    DlgFornecedorNota(fornecedor).showDialogNota()
   }
 
   override fun isAuthorized(user: IUser): Boolean {

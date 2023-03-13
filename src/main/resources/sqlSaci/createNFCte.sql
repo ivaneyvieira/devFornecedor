@@ -78,7 +78,7 @@ SELECT I.storeno                                                                
        T.fretePerc / 100                                                                       AS fretePerc,
        IFNULL(F.valorLivre3 / 100, 0.00)                                                       AS freteMinimo,
        IFNULL(F.valorLivre4 / 100, 0.00)                                                       AS pesoMinimo,
-       (F.fretePeso / 100)                                                                     AS fretePeso
+       (F.fretePeso / (100 * 1000))                                                            AS fretePeso
 FROM sqldados.inv            AS I
   LEFT JOIN  sqldados.carr      T
 	       ON T.no = I.carrno
