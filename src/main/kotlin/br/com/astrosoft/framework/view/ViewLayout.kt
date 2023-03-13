@@ -192,9 +192,11 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnSeq(label: String): Grid.Column<T> {
     lista.indexOf(it) + 1
   }.apply {
     this.textAlign = END
-    this.isAutoWidth = true
     this.setHeader(label)
     this.key = label
+    this.isExpand = false
+    this.isAutoWidth = true
+    this.isResizable = true
   }
 }
 

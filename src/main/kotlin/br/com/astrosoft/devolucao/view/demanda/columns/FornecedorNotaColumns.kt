@@ -1,11 +1,13 @@
 package br.com.astrosoft.devolucao.view.demanda.columns
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorNota
+import br.com.astrosoft.devolucao.model.beans.PedidoCompraProduto
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
 import com.github.mvysny.karibudsl.v10.isExpand
+import com.github.mvysny.kaributools.sortProperty
 import com.vaadin.flow.component.grid.Grid
 
 object FornecedorNotaColumns {

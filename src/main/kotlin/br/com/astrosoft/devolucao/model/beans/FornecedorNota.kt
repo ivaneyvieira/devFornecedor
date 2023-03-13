@@ -13,8 +13,10 @@ class FornecedorNota(
   val obs: String?,
                     ) {
   companion object {
-    fun findByFornecedor(vendno: Int): List<FornecedorNota> {
-      return saci.fornecedorNotas(vendno)
+    fun findByFornecedor(filtro: FiltroFornecedorNota): List<FornecedorNota> {
+      return saci.fornecedorNotas(filtro)
     }
   }
 }
+
+data class FiltroFornecedorNota(val vendno: Int, val query: String)
