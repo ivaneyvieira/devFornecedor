@@ -6,11 +6,11 @@ import java.time.LocalDate
 class FornecedorNota(
   val loja: Int,
   val ni: Int,
-  val nf: String,
-  val emissao: LocalDate,
-  val entrada: LocalDate,
-  val valorNota: Double,
-  val obs: String,
+  val nf: String?,
+  val emissao: LocalDate?,
+  val entrada: LocalDate?,
+  val valorNota: Double?,
+  val obs: String?,
                     ) {
   companion object {
     fun findByFornecedor(vendno: Int): List<FornecedorNota> {
