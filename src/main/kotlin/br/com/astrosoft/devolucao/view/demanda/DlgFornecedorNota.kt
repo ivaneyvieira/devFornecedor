@@ -9,7 +9,10 @@ import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.for
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaNF
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaNI
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaObs
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaObsParcela
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaSituacao
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaValor
+import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaVencimento
 import br.com.astrosoft.framework.view.SubWindowForm
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
@@ -68,6 +71,9 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
       fornecedorNotaEntrada()
       fornecedorNotaValor()
       fornecedorNotaObs()
+      fornecedorNotaVencimento()
+      fornecedorNotaSituacao()
+      fornecedorNotaObsParcela()
     }
   }
 

@@ -52,4 +52,22 @@ object FornecedorNotaColumns {
     isExpand = true
     isAutoWidth = true
   }
+
+  fun Grid<FornecedorNota>.fornecedorNotaVencimento()= addColumnLocalDate(FornecedorNota::vencimento) {
+    this.setHeader("Vencimento")
+    isExpand = false
+    isAutoWidth = true
+  }
+
+  fun Grid<FornecedorNota>.fornecedorNotaSituacao()= addColumnString(FornecedorNota::situacao) {
+    this.setHeader("Situação")
+    isExpand = false
+    isAutoWidth = true
+  }
+
+  fun Grid<FornecedorNota>.fornecedorNotaObsParcela() = addColumnString(FornecedorNota::obsParcela) {
+    this.setHeader("Obs")
+    isExpand = true
+    isAutoWidth = true
+  }
 }

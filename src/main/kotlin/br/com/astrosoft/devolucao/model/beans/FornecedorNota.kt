@@ -11,6 +11,9 @@ class FornecedorNota(
   val entrada: LocalDate?,
   val valorNota: Double?,
   val obs: String?,
+  val vencimento: LocalDate?,
+  val situacao: String?,
+  val obsParcela: String?,
                     ) {
   companion object {
     fun findByFornecedor(filtro: FiltroFornecedorNota): List<FornecedorNota> {
