@@ -27,11 +27,20 @@ SELECT invno,
        TRIM(MID(chave, 11, 10)) * 1 AS duedate
 FROM T_PARCELA_ULT;
 
+DROP TEMPORARY TABLE IF EXISTS T_FILES;
+CREATE TEMPORARY TABLE T_FILES (
+  PRIMARY KEY (invno)
+)
+SELECT xano AS invno, COUNT(*) AS qt
+FROM nfdevFile
+WHERE storeno = 77
+  AND pdvno = 7777
+GROUP BY xano;
+
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS;
-CREATE TEMPORARY TABLE T_NOTAS
-  (
-    nf varchar(20)
-  )
+CREATE TEMPORARY TABLE T_NOTAS (
+  nf varchar(20)
+)
 SELECT I.storeno                                          AS loja,
        invno                                              AS ni,
        IF(invse = '', nfname, CONCAT(nfname, '/', invse)) AS nf,
@@ -59,8 +68,11 @@ SELECT I.storeno                                          AS loja,
 	   THEN 'Consignacao'
 	 ELSE ''
        END                                                AS situacao,
-       X.remarks                                          AS obsParcela
+       X.remarks                                          AS obsParcela,
+       IFNULL(F.qt, 0)                                    AS quantAnexo
 FROM sqldados.inv          AS I
+  LEFT JOIN T_FILES        AS F
+	      USING (invno)
   LEFT JOIN T_PARCELA_ULT2 AS U
 	      USING (invno)
   LEFT JOIN sqldados.invxa AS X
@@ -68,6 +80,8 @@ FROM sqldados.inv          AS I
 WHERE (vendno = @VENDNO)
   AND (I.storeno = @LOJA OR @LOJA = 0)
 ORDER BY invno DESC;
+
+
 
 SELECT loja,
        ni,
@@ -78,7 +92,8 @@ SELECT loja,
        obs,
        vencimento,
        situacao,
-       obsParcela
+       obsParcela,
+       quantAnexo
 FROM T_NOTAS TN
 WHERE @QUERY = ''
    OR loja = @QUERY

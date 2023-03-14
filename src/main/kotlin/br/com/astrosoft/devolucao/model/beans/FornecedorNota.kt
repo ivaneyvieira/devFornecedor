@@ -14,7 +14,26 @@ class FornecedorNota(
   val vencimento: LocalDate?,
   val situacao: String?,
   val obsParcela: String?,
+  val quantAnexo: Int,
                     ) {
+  fun findAnexos(): List<NFFile> {
+    return saci.selectFile(this)
+  }
+  fun delAnexo(bean: NFFile) {
+    saci.deleteFile(bean)
+  }
+
+  fun addAnexo(fileName: String?, bytes: ByteArray) {
+    fileName ?: return
+    saci.insertFile(NFFile(
+      storeno = 77,
+      pdvno = 7777,
+      xano = ni,
+      date = LocalDate.now(),
+      nome = fileName,
+      file = bytes,
+                          ))
+  }
   companion object {
     fun findByFornecedor(filtro: FiltroFornecedorNota): List<FornecedorNota> {
       return saci.fornecedorNotas(filtro)

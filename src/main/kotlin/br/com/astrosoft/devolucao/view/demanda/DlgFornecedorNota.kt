@@ -14,14 +14,19 @@ import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.for
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaValor
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaVencimento
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.addColumnSeq
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import org.claspina.confirmdialog.ButtonOption
+import org.claspina.confirmdialog.ConfirmDialog
 
 class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
   private var form: SubWindowForm? = null
@@ -75,7 +80,23 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
 
+      addColumnSeq("Item")
       fornecedorNotaLoja()
+      addColumnButton(iconButton = VaadinIcon.FILE, tooltip = "Anexo", header = "Anexo") { nota ->
+        val form = FormAnexoNota(nota, false) {
+          updateGrid()
+        }
+        ConfirmDialog
+          .create()
+          .withCaption("Anexos")
+          .withMessage(form)
+          .withCloseButton(ButtonOption.caption("Fechar"))
+          .open()
+      }.apply {
+        this.setClassNameGenerator { b ->
+          if (b.quantAnexo > 0) "marcaOk" else null
+        }
+      }
       fornecedorNotaNI()
       fornecedorNotaNF()
       fornecedorNotaEmissao()
