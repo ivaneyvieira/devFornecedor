@@ -99,7 +99,7 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
   }
 
   override fun showNotas(fornecedor: FornecedorProduto) {
-    DlgFornecedorNota(fornecedor).showDialogNota()
+    DlgFornecedorNota(viewModel, fornecedor).showDialogNota()
   }
 
   override fun isAuthorized(user: IUser): Boolean {
