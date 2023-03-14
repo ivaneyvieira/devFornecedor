@@ -10,13 +10,13 @@ import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 class RelatorioFornecedorNota(val subTitulo: String, val notas: List<FornecedorNota>) : ReportBuild<FornecedorNota>() {
   init {
     columnInt(FornecedorNota::loja, width = 20, aligment = CENTER, title = "Loja")
-    columnInt(FornecedorNota::ni, width = 20, aligment = LEFT, title = "NI")
-    columnString(FornecedorNota::nf, width = 20, aligment = LEFT, title = "NF")
-    columnLocalDate(FornecedorNota::emissao, width = 20, aligment = CENTER, title = "Emissão")
-    columnLocalDate(FornecedorNota::entrada, width = 20, aligment = CENTER, title = "Entrada")
-    columnLocalDate(FornecedorNota::vencimento, width = 20, aligment = CENTER, title = "Vencimento")
+    columnInt(FornecedorNota::ni, width = 40, aligment = CENTER, title = "NI")
+    columnString(FornecedorNota::nf, width = 40, aligment = LEFT, title = "NF")
+    columnLocalDate(FornecedorNota::emissao, width = 50, aligment = CENTER, title = "Emissão")
+    columnLocalDate(FornecedorNota::entrada, width = 50, aligment = CENTER, title = "Entrada")
+    columnLocalDate(FornecedorNota::vencimento, width = 50, aligment = CENTER, title = "Vencimento")
     columnString(FornecedorNota::obs, width = 0, aligment = LEFT, title = "Observação")
-    columnString(FornecedorNota::situacao, width = 20, aligment = LEFT, title = "Situação")
+    columnString(FornecedorNota::situacao, width = 60, aligment = CENTER, title = "Situação")
   }
 
   override val propriedades =
