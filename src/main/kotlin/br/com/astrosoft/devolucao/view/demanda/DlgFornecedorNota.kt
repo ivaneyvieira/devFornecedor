@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.demanda
 
 import br.com.astrosoft.devolucao.model.beans.FiltroFornecedorNota
 import br.com.astrosoft.devolucao.model.beans.FornecedorNota
+import br.com.astrosoft.devolucao.model.beans.FornecedorNotaExcel
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaEmissao
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaEntrada
@@ -13,9 +14,12 @@ import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.for
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaSituacao
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaValor
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaVencimento
+import br.com.astrosoft.devolucao.viewmodel.demanda.TabFornecedorDemandaViewModel
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
@@ -25,10 +29,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import io.github.rushuat.ocell.document.DocumentOOXML
 import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 
-class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
+class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornecedor: FornecedorProduto?) {
   private var form: SubWindowForm? = null
   private lateinit var gridNota: Grid<FornecedorNota>
   private lateinit var edtLoja: IntegerField
@@ -38,7 +43,7 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
     fornecedor ?: return
 
     form = SubWindowForm(fornecedor.labelTitle, toolBar = {
-      edtLoja = integerField ("Loja") {
+      edtLoja = integerField("Loja") {
         valueChangeMode = ValueChangeMode.LAZY
         valueChangeTimeout = 1000
         addValueChangeListener {
@@ -53,6 +58,10 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
           updateGrid()
         }
       }
+      this.lazyDownloadButtonXlsx("Planilha", "pedidosCompra") {
+        val notas = gridNota.asMultiSelect().selectedItems.toList()
+        excelFornecedorNota(notas)
+      }
     }) {
       gridNota = createGrid()
       updateGrid()
@@ -64,12 +73,40 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
     form?.open()
   }
 
+  private fun excelFornecedorNota(notas: List<FornecedorNota>): ByteArray {
+    return if (notas.isEmpty()) {
+      viewModel.viewModel.showError("Nenhuma item foi selecionado")
+      ByteArray(0)
+    }
+    else {
+      DocumentOOXML().use { document ->
+        val notaExcel = notas.map { nota ->
+          FornecedorNotaExcel(
+            loja = nota.loja,
+            ni = nota.ni,
+            nf = nota.nf,
+            emissao = nota.emissao.format(),
+            entrada = nota.entrada.format(),
+            vencimento = nota.vencimento.format(),
+            valorNota = nota.valorNota,
+            obs = nota.obs,
+            situacao = nota.situacao,
+            obsParcela = nota.obsParcela,
+                             )
+        }
+        document.addSheet(notaExcel)
+        document.toBytes()
+      }
+    }
+  }
+
   private fun updateGrid() {
-    val notas = FornecedorNota.findByFornecedor(FiltroFornecedorNota(
-      vendno =  fornecedor?.vendno ?: 0,
-      loja = edtLoja.value ?: 0,
-      query = edtQuery.value ?: "",
-                                                                    ))
+    val notas =
+      FornecedorNota.findByFornecedor(FiltroFornecedorNota(
+        vendno = fornecedor?.vendno ?: 0,
+        loja = edtLoja.value ?: 0,
+        query = edtQuery.value ?: "",
+                                                          ))
     gridNota.setItems(notas)
   }
 
@@ -101,12 +138,11 @@ class DlgFornecedorNota(val fornecedor: FornecedorProduto?) {
       fornecedorNotaNF()
       fornecedorNotaEmissao()
       fornecedorNotaEntrada()
+      fornecedorNotaVencimento()
       fornecedorNotaValor()
       fornecedorNotaObs()
-      fornecedorNotaVencimento()
       fornecedorNotaSituacao()
       fornecedorNotaObsParcela()
     }
   }
-
 }
