@@ -36,7 +36,7 @@ class FornecedorProduto(
     saci.deleteFile(bean)
   }
 
-  fun addAnexo(fileName: String?, bytes: ByteArray) {
+    fun addAnexo(fileName: String?, bytes: ByteArray) {
     fileName ?: return
     saci.insertFile(NFFile(
       storeno = 88,

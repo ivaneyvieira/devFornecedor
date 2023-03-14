@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.demanda
 
+import br.com.astrosoft.devolucao.model.beans.FornecedorNota
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.framework.view.SubWindowView
@@ -17,7 +18,7 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
 
-class FormAnexoFornecedor(val fornecedor: FornecedorProduto, private val isReadOnly: Boolean, val updateAnexo: () -> Unit) :
+class FormAnexoNota(val nota: FornecedorNota, private val isReadOnly: Boolean, val updateAnexo: () -> Unit) :
         VerticalLayout() {
   private var gridFile: Grid<NFFile>? = null
 
@@ -29,7 +30,7 @@ class FormAnexoFornecedor(val fornecedor: FornecedorProduto, private val isReadO
       upload.addSucceededListener {
         val fileName = it.fileName
         val bytes = buffer.inputStream.readBytes()
-        fornecedor.addAnexo(fileName, bytes)
+        nota.addAnexo(fileName, bytes)
         updateItens()
       }
     }
@@ -41,7 +42,7 @@ class FormAnexoFornecedor(val fornecedor: FornecedorProduto, private val isReadO
       }
       if (!isReadOnly) {
         addColumnButton(VaadinIcon.TRASH, "Remove", "Remove") { bean ->
-          fornecedor.delAnexo(bean)
+          nota.delAnexo(bean)
           updateItens()
         }
       }
@@ -56,7 +57,7 @@ class FormAnexoFornecedor(val fornecedor: FornecedorProduto, private val isReadO
   }
 
   private fun updateItens() {
-    gridFile?.setItems(fornecedor.findAnexos())
+    gridFile?.setItems(nota.findAnexos())
     updateAnexo()
   }
 
