@@ -78,7 +78,7 @@ abstract class ReportBuild<T> {
                              block: TextColumnBuilder<Double?>.() -> Unit = {}): TextColumnBuilder<Double> =
     column(type.doubleType(), prop, title, aligment, width, pattern, oculto, block)
 
-  protected fun columnString(prop: KProperty1<T, String>,
+  protected fun columnString(prop: KProperty1<T, String?>,
                              title: String = "",
                              aligment: HorizontalTextAlignment = LEFT,
                              width: Int = -1,
@@ -86,7 +86,7 @@ abstract class ReportBuild<T> {
                              block: TextColumnBuilder<String?>.() -> Unit = {}): TextColumnBuilder<String> =
     column(type.stringType(), prop, title, aligment, width, "", oculto, block)
 
-  protected fun columnLocalDate(prop: KProperty1<T, LocalDate>,
+  protected fun columnLocalDate(prop: KProperty1<T, LocalDate?>,
                                 title: String = "",
                                 aligment: HorizontalTextAlignment = RIGHT,
                                 width: Int = -1,

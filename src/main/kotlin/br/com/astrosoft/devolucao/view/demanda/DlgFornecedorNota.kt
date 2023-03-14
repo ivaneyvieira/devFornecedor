@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.FiltroFornecedorNota
 import br.com.astrosoft.devolucao.model.beans.FornecedorNota
 import br.com.astrosoft.devolucao.model.beans.FornecedorNotaExcel
 import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
+import br.com.astrosoft.devolucao.model.reports.RelatorioFornecedorNota
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaEmissao
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaEntrada
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaLoja
@@ -16,11 +17,10 @@ import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.for
 import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaVencimento
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabFornecedorDemandaViewModel
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.SubWindowForm
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.addColumnSeq
-import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
+import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
@@ -61,6 +61,13 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
       this.lazyDownloadButtonXlsx("Planilha", "pedidosCompra") {
         val notas = gridNota.asMultiSelect().selectedItems.toList()
         excelFornecedorNota(notas)
+      }
+      button("Relatório") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          imprimirRelatorio(notas)
+        }
       }
     }) {
       gridNota = createGrid()
@@ -108,6 +115,17 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
         query = edtQuery.value ?: "",
                                                           ))
     gridNota.setItems(notas)
+  }
+
+  fun imprimirRelatorio(notas: List<FornecedorNota>) {
+    if (notas.isEmpty()) {
+      viewModel.viewModel.showError("Nenhuma item foi selecionado")
+    }
+    else {
+      val report = RelatorioFornecedorNota.processaRelatorio(fornecedor?.labelTitle ?: "", notas)
+      val chave = "DevFornecedorNota"
+      SubWindowPDF(chave, report).open()
+    }
   }
 
   private fun createGrid(): Grid<FornecedorNota> {
