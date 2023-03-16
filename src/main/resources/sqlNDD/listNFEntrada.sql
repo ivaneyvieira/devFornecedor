@@ -15,6 +15,16 @@ SELECT N.OID                                                          AS id,
                                PATINDEX('%</xNome>%', XML_NFE) - PATINDEX('%<xNome>%', XML_NFE) -
                                LEN('<xNome>'))
             ELSE '' END                                               AS nomeFornecedor,
+       CASE WHEN PATINDEX('%<nProt>%', XML_AUT) > 0 AND PATINDEX('%</nProt>%', XML_AUT) > 0
+                THEN SUBSTRING(XML_AUT, PATINDEX('%<nProt>%', XML_AUT) + len('<nProt>'),
+                               PATINDEX('%</nProt>%', XML_AUT) - PATINDEX('%<nProt>%', XML_AUT) -
+                               len('<nProt>'))
+            ELSE '' END                                               AS numeroProtocolo,
+       CASE WHEN PATINDEX('%<dhRecbto>%', XML_AUT) > 0 AND PATINDEX('%</dhRecbto>%', XML_AUT) > 0
+                THEN SUBSTRING(XML_AUT, PATINDEX('%<dhRecbto>%', XML_AUT) + len('<dhRecbto>'),
+                               PATINDEX('%</dhRecbto>%', XML_AUT) -
+                               PATINDEX('%<dhRecbto>%', XML_AUT) - len('<dhRecbto>'))
+            ELSE '' END                                               AS dataHoraRecebimento,
        DEST_CNPJ                                                      AS cnpjDestinatario,
        EMIT_IE                                                        AS ieEmitente,
        DEST_IE                                                        AS ieDestinatario,

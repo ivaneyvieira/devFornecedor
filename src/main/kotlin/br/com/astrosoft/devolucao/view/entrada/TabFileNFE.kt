@@ -121,6 +121,12 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
       val notas = itensSelecionados()
       viewModel.zipXml(notas)
     }
+    this.lazyDownloadButton(text = "XML", icon = FontAwesome.Solid.FILE.create(), fileName = {
+      "dadosDanfe${System.nanoTime()}.zip"
+    }) {
+      val notas = itensSelecionados()
+      viewModel.zipPdf(notas)
+    }
   }
 
   override fun Grid<NotaEntradaFileXML>.gridPanel() {
