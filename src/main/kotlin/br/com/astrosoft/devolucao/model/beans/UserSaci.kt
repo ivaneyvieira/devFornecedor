@@ -87,6 +87,7 @@ class UserSaci : IUser {
   var demandaAgenda by DelegateAuthorized(66)
   var demandaConcluido by DelegateAuthorized(67)
   var entradaCte by DelegateAuthorized(68)
+  var entradaFileNFE by DelegateAuthorized(69)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
@@ -106,7 +107,7 @@ class UserSaci : IUser {
   val menuAgenda
     get() = agendaAgendada || agendaPreEntrada || agendaRecebida || agendaRastreamento
   val menuEntrada
-    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo || entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte
+    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo || entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE
   val menuCompra
     get() = compraPedidos || compraConferir
   val menuSaida
