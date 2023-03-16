@@ -1,6 +1,10 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.beans.FiltroNotaEntradaFileXML
+import br.com.astrosoft.devolucao.model.beans.Loja
+import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
+import br.com.astrosoft.devolucao.model.reports.DanfeReport
+import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -63,6 +67,31 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
               zos.putNextEntry(entry)
               zos.write(xml.toByteArray())
             }
+          }
+          zos.closeEntry()
+        }
+      } catch (ioe: IOException) {
+        ioe.printStackTrace()
+      }
+      baos.toByteArray()
+    }
+  }
+
+  fun zipPdf(notas: List<NotaEntradaFileXML>): ByteArray {
+    return if (notas.isEmpty()) {
+      fail("Não ha nenhum item selecionado")
+      ByteArray(0)
+    }
+    else {
+      val baos = ByteArrayOutputStream()
+      try {
+        ZipOutputStream(baos).use { zos ->
+          notas.forEach { nota ->
+            val itensNotaReport = nota.itensNotaReport()
+            val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
+            val entry = ZipEntry("${nota.chave}.pdf")
+            zos.putNextEntry(entry)
+            zos.write(report)
           }
           zos.closeEntry()
         }
