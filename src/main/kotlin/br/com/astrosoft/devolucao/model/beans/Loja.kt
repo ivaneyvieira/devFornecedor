@@ -2,12 +2,12 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 
-class Loja(val no: Int, val sname: String, val name: String) {
+class Loja(val no: Int, val sname: String, val name: String, val cnpjLoja: String) {
   val descricao
-    get() = "$no - $sname : $name"
+    get() = "$no - $sname"
 
   companion object {
-    val lojaZero = Loja(0, "Todas", "")
+    val lojaZero = Loja(0, "Todas", "", cnpjLoja = "")
     fun allLojas() = saci.allLojas()
   }
 

@@ -30,7 +30,7 @@ class TabFretePer(val viewModel: TabFretePerViewModel) : ITabFretePerViewModel, 
   private lateinit var edtUlmNota: Checkbox
   private lateinit var edtRotulo: TextField
   private lateinit var edtCaracter: TextField
-  private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
+  private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
 
   override fun setFiltro(filtro: FiltroRelatorio) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }

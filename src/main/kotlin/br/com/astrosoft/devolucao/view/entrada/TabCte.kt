@@ -34,7 +34,7 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
   private lateinit var edtTabno: IntegerField
   private lateinit var lblTabName: Label
 
-  private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
+  private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
 
   override fun setFiltro(filtro: FiltroNFEntradaFrete) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.loja }

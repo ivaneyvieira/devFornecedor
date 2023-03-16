@@ -36,6 +36,7 @@ WHERE (EMIT_CNPJ NOT LIKE '07.483.654%') AND
       (IDE_DEMI BETWEEN :dataInicial AND :dataFinal) AND
       (IDE_NNF = :numero OR :numero = 0) AND
       (EMIT_CNPJ = :cnpj OR :cnpj = '') AND
+      (DEST_CNPJ = :cnpjLoja OR :cnpjLoja = '') AND
       (CASE WHEN PATINDEX('%<xNome>%', XML_NFE) > 0 AND PATINDEX('%</xNome>%', XML_NFE) > 0
                 THEN SUBSTRING(XML_NFE, PATINDEX('%<xNome>%', XML_NFE) + LEN('<xNome>'),
                                PATINDEX('%</xNome>%', XML_NFE) - PATINDEX('%<xNome>%', XML_NFE) -

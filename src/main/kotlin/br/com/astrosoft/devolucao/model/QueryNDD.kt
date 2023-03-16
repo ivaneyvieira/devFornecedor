@@ -39,6 +39,7 @@ class QueryNDD : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataFinal", "${filter.dataFinal.toSaciDate()}")
       addOptionalParameter("numero", filter.numero)
       addOptionalParameter("cnpj", filter.cnpj)
+      addOptionalParameter("cnpjLoja", filter.loja?.cnpjLoja ?: "")
       addOptionalParameter("fornecedor", filter.fornecedor)
     }
   }
