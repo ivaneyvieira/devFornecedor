@@ -353,6 +353,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaCte.name)
           }
+          checkBox("XML") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaFileNFE.name)
+          }
         }
         formLayout {
           h4("Recebimento") {
