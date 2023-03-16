@@ -30,7 +30,7 @@ class TabTodasEntradas(val viewModel: TabTodasEntradasViewModel) : ITabTodasEntr
   private lateinit var edtDataI: DatePicker
   private lateinit var edtLoja: ComboBox<Loja>
   private lateinit var edtCaracter: TextField
-  private val lojas: List<Loja> = viewModel.findLojas() + Loja(0, "Todas", "")
+  private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
 
   override fun setFiltro(filtro: FiltroNotaEntradaQuery) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }

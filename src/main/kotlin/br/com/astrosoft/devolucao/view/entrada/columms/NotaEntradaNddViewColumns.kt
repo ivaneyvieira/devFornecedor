@@ -5,8 +5,13 @@ import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object NotaEntradaNddViewColumns {
-  fun Grid<NotaEntradaFileXML>.nfeFileNotaSaci() = addColumnString(NotaEntradaFileXML::notaFiscal) {
-    this.setHeader("Nota Saci")
+  fun Grid<NotaEntradaFileXML>.nfeFileNotaNumero() = addColumnString(NotaEntradaFileXML::notaFiscal) {
+    this.setHeader("Número")
+    this.isResizable = true
+  }
+
+  fun Grid<NotaEntradaFileXML>.nfeFileNotaLoja() = addColumnInt(NotaEntradaFileXML::loja) {
+    this.setHeader("Loja")
     this.isResizable = true
   }
 
