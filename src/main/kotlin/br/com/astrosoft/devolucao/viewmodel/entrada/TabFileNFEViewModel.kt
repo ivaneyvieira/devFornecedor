@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroNotaEntradaFileXML
+import br.com.astrosoft.devolucao.model.beans.FiltroNotaEntradaXML
 import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
+import br.com.astrosoft.devolucao.model.beans.NotaEntradaXML
 import br.com.astrosoft.devolucao.model.reports.DanfeReport
 import br.com.astrosoft.devolucao.model.reports.ETIPO_COPIA
 import br.com.astrosoft.framework.util.format
@@ -17,19 +17,19 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabFileNFEViewModel
 
-  val list = mutableListOf<NotaEntradaFileXML>()
+  val list = mutableListOf<NotaEntradaXML>()
 
   fun findLojas(): List<Loja> {
     return Loja.allLojas().sortedBy { it.no }
   }
 
-  fun findNotas(filtro: FiltroNotaEntradaFileXML): List<NotaEntradaFileXML> {
-    return NotaEntradaFileXML.findAll(filtro)
+  fun findNotas(filtro: FiltroNotaEntradaXML): List<NotaEntradaXML> {
+    return NotaEntradaXML.findAll(filtro)
   }
 
   fun updateViewBD() {
     val filter = subView.getFiltro()
-    val listBD = NotaEntradaFileXML.findAll(filter)
+    val listBD = NotaEntradaXML.findAll(filter)
     list.clear()
     list.addAll(listBD)
     updateViewLocal()
@@ -38,20 +38,22 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
   fun updateViewLocal() {
     val query = subView.getFiltro().query
     val listLocal = list.filter { nota ->
-      val cnpj = nota.cnpjEmitente ?: ""
-      val fornecedor = nota.nomeFornecedor ?: ""
-      val chave = nota.chave ?: ""
+      val cnpj = nota.cnpjEmitente
+      val fornecedor = nota.nomeFornecedor
+      val chave = nota.chave
       val valorProduto = nota.valorTotalProdutos.format().replace(".", "")
-      val valorNota = nota.baseCalculoIcms.format().replace(".", "")
-      query == "" || cnpj == query || fornecedor.contains(query, ignoreCase = true) || chave.contains(query,
-                                                                                                      ignoreCase = true) || valorProduto.startsWith(
-        query) || valorNota.startsWith(query)
+      val valorNota = nota.valorTotal.format().replace(".", "")
+      val ni = nota.ni.toString()
+      val cfop = nota.cfop.toString()
+      query == "" || cnpj == query || fornecedor.contains(query, ignoreCase = true) ||
+      chave.contains(query, ignoreCase = true) || valorProduto.startsWith(query) ||
+      valorNota.startsWith(query) || ni == query || cfop == query
     }
 
     subView.updateList(listLocal)
   }
 
-  fun zipXml(notas: List<NotaEntradaFileXML>): ByteArray {
+  fun zipXml(notas: List<NotaEntradaXML>): ByteArray {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")
       ByteArray(0)
@@ -61,7 +63,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
       try {
         ZipOutputStream(baos).use { zos ->
           notas.forEach { nota ->
-            val xml = nota.xmlFile
+            val xml = nota.xmlFile()
             if (xml != null) {
               val entry = ZipEntry("${nota.chave}.xml")
               zos.putNextEntry(entry)
@@ -77,7 +79,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
     }
   }
 
-  fun zipPdf(notas: List<NotaEntradaFileXML>): ByteArray {
+  fun zipPdf(notas: List<NotaEntradaXML>): ByteArray {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")
       ByteArray(0)
@@ -104,6 +106,6 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
 }
 
 interface ITabFileNFEViewModel : ITabView {
-  fun getFiltro(): FiltroNotaEntradaFileXML
-  fun updateList(list: List<NotaEntradaFileXML>)
+  fun getFiltro(): FiltroNotaEntradaXML
+  fun updateList(list: List<NotaEntradaXML>)
 }

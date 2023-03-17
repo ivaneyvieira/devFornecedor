@@ -1,11 +1,9 @@
 package br.com.astrosoft.devolucao.model
 
-import br.com.astrosoft.devolucao.model.beans.FiltroNotaEntradaFileXML
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
 import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
-import br.com.astrosoft.framework.util.toSaciDate
 import java.time.LocalDate
 
 class QueryNDD : QueryDB(driver, url, username, password) {
@@ -32,16 +30,11 @@ class QueryNDD : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
-  fun listNFENtrada(filter: FiltroNotaEntradaFileXML): List<NotaEntradaFileXML>{
+  fun listNFEntrada(chave: String): NotaEntradaFileXML? {
     val sql = "/sqlNDD/listNFEntrada.sql"
     return query(sql, NotaEntradaFileXML::class) {
-      addOptionalParameter("dataInicial", "${filter.dataInicial.toSaciDate()}")
-      addOptionalParameter("dataFinal", "${filter.dataFinal.toSaciDate()}")
-      addOptionalParameter("numero", filter.numero)
-      addOptionalParameter("cnpj", filter.cnpj)
-      addOptionalParameter("cnpjLoja", filter.loja?.cnpjLoja ?: "")
-      addOptionalParameter("fornecedor", filter.fornecedor)
-    }
+      addOptionalParameter("chave", chave)
+    }.firstOrNull()
   }
 
   companion object {

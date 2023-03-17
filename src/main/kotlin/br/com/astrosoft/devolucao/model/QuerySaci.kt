@@ -883,6 +883,18 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun listNFEntrada(filter: FiltroNotaEntradaXML): List<NotaEntradaXML>{
+    val sql = "/sqlSaci/listNFEntrada.sql"
+    return query(sql, NotaEntradaXML::class) {
+      addOptionalParameter("loja", filter.loja?.no ?: 0)
+      addOptionalParameter("dataInicial", filter.dataInicial.toSaciDate())
+      addOptionalParameter("dataFinal", filter.dataFinal.toSaciDate())
+      addOptionalParameter("numero", filter.numero)
+      addOptionalParameter("cnpj", filter.cnpj)
+      addOptionalParameter("fornecedor", filter.fornecedor)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
