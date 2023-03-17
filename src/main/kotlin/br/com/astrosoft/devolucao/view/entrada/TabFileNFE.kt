@@ -1,14 +1,16 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroNotaEntradaFileXML
+import br.com.astrosoft.devolucao.model.beans.FiltroNotaEntradaXML
 import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
+import br.com.astrosoft.devolucao.model.beans.NotaEntradaXML
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileCNPJ
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileCfop
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileChave
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileData
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileEmissao
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNomeFornecedor
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaLoja
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaNI
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaNumero
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileValorProduto
@@ -36,7 +38,7 @@ import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
-        TabPanelGrid<NotaEntradaFileXML>(NotaEntradaFileXML::class) {
+        TabPanelGrid<NotaEntradaXML>(NotaEntradaXML::class) {
   private lateinit var edtNota: IntegerField
   private lateinit var edtFornecedorNota: TextField
   private lateinit var edtQuery: TextField
@@ -45,8 +47,8 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
   private lateinit var edtCNPJ: TextField
   private lateinit var cmbLoja: Select<Loja>
 
-  override fun getFiltro(): FiltroNotaEntradaFileXML {
-    return FiltroNotaEntradaFileXML(
+  override fun getFiltro(): FiltroNotaEntradaXML {
+    return FiltroNotaEntradaXML(
       loja = cmbLoja.value,
       dataInicial = edtDataI.value ?: LocalDate.now(),
       dataFinal = edtDataF.value ?: LocalDate.now(),
@@ -57,7 +59,7 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
                                    )
   }
 
-  override fun updateList(list: List<NotaEntradaFileXML>) {
+  override fun updateList(list: List<NotaEntradaXML>) {
     updateGrid(list)
   }
 
@@ -121,7 +123,7 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
       val notas = itensSelecionados()
       viewModel.zipXml(notas)
     }
-    this.lazyDownloadButton(text = "XML", icon = FontAwesome.Solid.FILE.create(), fileName = {
+    this.lazyDownloadButton(text = "PDF", icon = FontAwesome.Solid.FILE.create(), fileName = {
       "dadosDanfe${System.nanoTime()}.zip"
     }) {
       val notas = itensSelecionados()
@@ -129,13 +131,15 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
     }
   }
 
-  override fun Grid<NotaEntradaFileXML>.gridPanel() {
+  override fun Grid<NotaEntradaXML>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnSeq("Item")
     nfeFileNotaLoja()
+    nfeFileNotaNI()
     nfeFileNotaNumero()
-    nfeFileCNPJ()
-    nfeFileData()
+    nfeFileEmissao()
+    nfeFileEntrada()
+    nfeFileCfop()
     nfeFileNomeFornecedor()
     nfeFileChave()
     nfeFileValorProduto()

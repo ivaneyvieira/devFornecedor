@@ -56,4 +56,3 @@ HAVING CASE :tipo
 	   THEN TRUE
 	 ELSE FALSE
        END
-
