@@ -21,12 +21,13 @@ class NotaEntradaXML(
   val notaFiscal
     get() = "$numero/$serie"
 
-  fun itensNotaReport(): List<ItensNotaReport> {
-    return NotaEntradaFileXML.find(chave)?.itensNotaReport().orEmpty()
+  fun itensNotaReport(): List<ItensNotaReport>? {
+    val nota = NotaEntradaFileXML.find(chave) ?: return null
+    return nota?.itensNotaReport().orEmpty()
   }
 
-  fun xmlFile(): String {
-    return NotaEntradaFileXML.find(chave)?.xmlFile ?: ""
+  fun xmlFile(): String? {
+    return NotaEntradaFileXML.find(chave)?.xmlFile
   }
 
   companion object{

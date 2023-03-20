@@ -8,6 +8,7 @@ object NotaEntradaNddViewColumns {
   fun Grid<NotaEntradaXML>.nfeFileNotaNumero() = addColumnString(NotaEntradaXML::notaFiscal) {
     this.setHeader("Número")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaXML>.nfeFileNotaLoja() = addColumnInt(NotaEntradaXML::loja) {

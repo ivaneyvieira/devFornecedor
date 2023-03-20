@@ -16,7 +16,9 @@ FROM sqldados.inv            AS N
   INNER JOIN  sqldados.invnfe AS K
 	       USING (invno)
 WHERE (V.cgc NOT LIKE '07.483.654%')
-  AND (N.issue_date BETWEEN :dataInicial AND :dataFinal)
+  AND (N.bits & POW(2, 4) = 0)
+  AND (N.type = 0)
+  AND (N.date BETWEEN :dataInicial AND :dataFinal)
   AND (N.nfname = :numero OR :numero = 0)
   AND (V.cgc = :cnpj OR :cnpj = '')
   AND (N.storeno = :loja OR :loja = 0)

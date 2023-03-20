@@ -33,7 +33,7 @@ class QueryNDD : QueryDB(driver, url, username, password) {
   fun listNFEntrada(chave: String): NotaEntradaFileXML? {
     val sql = "/sqlNDD/listNFEntrada.sql"
     return query(sql, NotaEntradaFileXML::class) {
-      addOptionalParameter("chave", chave)
+      addOptionalParameter("chave", "NFe$chave")
     }.firstOrNull()
   }
 

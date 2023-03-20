@@ -17,10 +17,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns
 import br.com.astrosoft.devolucao.viewmodel.entrada.ITabFileNFEViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabFileNFEViewModel
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnSeq
-import br.com.astrosoft.framework.view.lazyDownloadButton
-import br.com.astrosoft.framework.view.localePtBr
+import br.com.astrosoft.framework.view.*
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.integerField
@@ -29,6 +26,7 @@ import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.IntegerField
@@ -134,6 +132,9 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
   override fun Grid<NotaEntradaXML>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnSeq("Item")
+    addColumnButton(iconButton = VaadinIcon.PRINT, tooltip = "Nota fiscal", header = "NF") { nota ->
+      viewModel.createDanfe(nota)
+    }
     nfeFileNotaLoja()
     nfeFileNotaNI()
     nfeFileNotaNumero()

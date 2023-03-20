@@ -15,3 +15,4 @@ class TabEntradaNddRecebido(viewModel: TabEntradaNddRecebidoViewModel) :
   override val label: String
     get() = "Recebido"
 }
+
