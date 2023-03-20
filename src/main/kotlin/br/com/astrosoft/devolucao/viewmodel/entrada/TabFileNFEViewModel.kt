@@ -90,10 +90,12 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
         ZipOutputStream(baos).use { zos ->
           notas.forEach { nota ->
             val itensNotaReport = nota.itensNotaReport()
-            val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
-            val entry = ZipEntry("${nota.chave}.pdf")
-            zos.putNextEntry(entry)
-            zos.write(report)
+            if(itensNotaReport != null) {
+              val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
+              val entry = ZipEntry("${nota.chave}.pdf")
+              zos.putNextEntry(entry)
+              zos.write(report)
+            }
           }
           zos.closeEntry()
         }
@@ -101,6 +103,14 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
         ioe.printStackTrace()
       }
       baos.toByteArray()
+    }
+  }
+
+  fun createDanfe(nota: NotaEntradaXML) {
+    val itensNotaReport = nota.itensNotaReport()
+    if(itensNotaReport != null) {
+      val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
+      viewModel.view.showReport("Danfee", report)
     }
   }
 }
