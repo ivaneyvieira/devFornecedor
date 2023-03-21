@@ -134,7 +134,7 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
   override fun Grid<NotaEntradaXML>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
     addColumnSeq("Item")
-    addColumnButton(iconButton = VaadinIcon.PRINT, tooltip = "Nota fiscal", header = "NF") { nota ->
+    addColumnButton(iconButton = VaadinIcon.FILE_TABLE, tooltip = "Nota fiscal", header = "NF") { nota ->
       viewModel.createDanfe(nota)
     }
     nfeFileNotaLoja()
