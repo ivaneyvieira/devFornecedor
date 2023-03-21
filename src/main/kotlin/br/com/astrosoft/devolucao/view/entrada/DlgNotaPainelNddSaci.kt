@@ -62,7 +62,7 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
         DlgAvariaNotaNdd(nota.produtosNotaEntradaNDD, viewModel).show()
       }
 
-      addColumnButton(iconButton = VaadinIcon.PRINT, tooltip = "Nota fiscal", header = "NF") { nota ->
+      addColumnButton(iconButton = VaadinIcon.FILE_TABLE, tooltip = "Nota fiscal", header = "NF") { nota ->
         viewModel.createDanfe(nota)
       }
 
