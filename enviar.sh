@@ -1,5 +1,7 @@
 #!/bin/bash
 
+push.sh
+
 ./gradlew clean build -Pvaadin.productionMode
 
 sshpass -p '3st02@2o&*' \

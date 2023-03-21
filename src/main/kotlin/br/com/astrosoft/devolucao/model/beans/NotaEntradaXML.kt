@@ -11,6 +11,8 @@ class NotaEntradaXML(
   val serie: Int,
   val dataEmissao: LocalDate?,
   val dataEntrada: LocalDate?,
+  val fornecedorNota: Int?,
+  val fornecedorCad: String?,
   val cnpjEmitente: String,
   val nomeFornecedor: String,
   val valorTotalProdutos: Double,

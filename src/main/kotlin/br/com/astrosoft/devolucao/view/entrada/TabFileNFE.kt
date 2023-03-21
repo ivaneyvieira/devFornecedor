@@ -9,6 +9,8 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNomeFornecedor
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaForCad
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaForNot
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaNI
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaNddViewColumns.nfeFileNotaNumero
@@ -141,6 +143,8 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
     nfeFileEmissao()
     nfeFileEntrada()
     nfeFileCfop()
+    nfeFileNotaForNot()
+    nfeFileNotaForCad()
     nfeFileNomeFornecedor()
     nfeFileChave()
     nfeFileValorProduto()
