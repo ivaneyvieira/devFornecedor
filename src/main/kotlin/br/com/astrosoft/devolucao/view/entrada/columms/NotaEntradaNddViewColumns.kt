@@ -26,6 +26,17 @@ object NotaEntradaNddViewColumns {
     this.isResizable = true
   }
 
+  fun Grid<NotaEntradaXML>.nfeFileNotaForCad() = addColumnString(NotaEntradaXML::fornecedorCad) {
+    this.setHeader("Forn. Cad")
+    this.right()
+    this.isResizable = true
+  }
+
+  fun Grid<NotaEntradaXML>.nfeFileNotaForNot() = addColumnInt(NotaEntradaXML::fornecedorNota) {
+    this.setHeader("Forn. Nota")
+    this.isResizable = true
+  }
+
   fun Grid<NotaEntradaXML>.nfeFileNomeFornecedor() = addColumnString(NotaEntradaXML::nomeFornecedor) {
     this.setHeader("Fornecedor")
     this.isResizable = true
