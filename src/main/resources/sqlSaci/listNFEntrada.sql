@@ -28,5 +28,6 @@ WHERE (V.cgc NOT LIKE '07.483.654%')
   AND (N.nfname = :numero OR :numero = 0)
   AND (V.cgc = :cnpj OR :cnpj = '')
   AND (N.storeno = :loja OR :loja = 0)
-  AND (V.name LIKE CONCAT(:fornecedor, '%') OR :fornecedor = '')
+  AND (V.name LIKE CONCAT(:fornecedor, '%') OR (P.mfno = :fornecedor OR P.mfno IS NULL) OR
+       (N.vendno = :fornecedor) OR :fornecedor = '')
 GROUP BY N.invno
