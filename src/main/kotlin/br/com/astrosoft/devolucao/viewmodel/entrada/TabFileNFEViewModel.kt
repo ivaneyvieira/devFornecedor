@@ -45,9 +45,11 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
       val valorNota = nota.valorTotal.format().replace(".", "")
       val ni = nota.ni.toString()
       val cfop = nota.cfop.toString()
+      val fornecedorCad = nota.fornecedorCad?.split(",").orEmpty()
+      val fornecedorNota = nota.fornecedorNota?.toString() ?: ""
       query == "" || cnpj == query || fornecedor.contains(query, ignoreCase = true) ||
       chave.contains(query, ignoreCase = true) || valorProduto.startsWith(query) ||
-      valorNota.startsWith(query) || ni == query || cfop == query
+      valorNota.startsWith(query) || ni == query || cfop == query || fornecedorCad.contains(query) || fornecedorNota == query
     }
 
     subView.updateList(listLocal)
@@ -90,7 +92,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
         ZipOutputStream(baos).use { zos ->
           notas.forEach { nota ->
             val itensNotaReport = nota.itensNotaReport()
-            if(itensNotaReport != null) {
+            if (itensNotaReport != null) {
               val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
               val entry = ZipEntry("${nota.chave}.pdf")
               zos.putNextEntry(entry)
@@ -108,7 +110,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
 
   fun createDanfe(nota: NotaEntradaXML) {
     val itensNotaReport = nota.itensNotaReport()
-    if(itensNotaReport != null) {
+    if (itensNotaReport != null) {
       val report = DanfeReport.create(listOf(itensNotaReport), ETIPO_COPIA.COPIA)
       viewModel.view.showReport("Danfee", report)
     }
