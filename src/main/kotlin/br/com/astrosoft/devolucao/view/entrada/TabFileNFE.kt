@@ -117,11 +117,17 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
       }
     }
 
-    this.lazyDownloadButton(text = "XML", icon = FontAwesome.Solid.FILE.create(), fileName = {
+    this.lazyDownloadButton(text = "XML NFe", icon = FontAwesome.Solid.FILE.create(), fileName = {
       "dadosXML${System.nanoTime()}.zip"
     }) {
       val notas = itensSelecionados()
       viewModel.zipXml(notas)
+    }
+    this.lazyDownloadButton(text = "XML CTe", icon = FontAwesome.Solid.FILE.create(), fileName = {
+      "dadosCte${System.nanoTime()}.zip"
+    }) {
+      val notas = itensSelecionados()
+      viewModel.zipCte(notas)
     }
     this.lazyDownloadButton(text = "PDF", icon = FontAwesome.Solid.FILE.create(), fileName = {
       "dadosDanfe${System.nanoTime()}.zip"

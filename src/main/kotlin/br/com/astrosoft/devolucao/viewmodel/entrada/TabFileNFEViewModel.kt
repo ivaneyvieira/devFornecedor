@@ -81,6 +81,32 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
     }
   }
 
+  fun zipCte(notas: List<NotaEntradaXML>): ByteArray {
+    return if (notas.isEmpty()) {
+      fail("Não ha nenhum item selecionado")
+      ByteArray(0)
+    }
+    else {
+      val baos = ByteArrayOutputStream()
+      try {
+        ZipOutputStream(baos).use { zos ->
+          notas.forEach { nota ->
+            val xml = nota.xmlCte()?.xmfFile
+            if (xml != null) {
+              val entry = ZipEntry("${nota.chave}.xml")
+              zos.putNextEntry(entry)
+              zos.write(xml.toByteArray())
+            }
+          }
+          zos.closeEntry()
+        }
+      } catch (ioe: IOException) {
+        ioe.printStackTrace()
+      }
+      baos.toByteArray()
+    }
+  }
+
   fun zipPdf(notas: List<NotaEntradaXML>): ByteArray {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")

@@ -220,7 +220,8 @@ WHERE TRIM(CONCAT(E.c4, E.c5)) != ''
    OR E.l11 != 0
    OR E.auxLong4 != 0;
 
-REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, pedidos, chaveDesconto, observacaoAuxiliar,
+REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, pedidos, chaveDesconto,
+				    observacaoAuxiliar,
 				    dataAgenda)
 SELECT storeno,
        pdvno,
@@ -233,17 +234,24 @@ FROM T_DADOS;
 
 /*************************************************************************/
 
-SELECT * FROM sqldados.agendaDemandas
+SELECT *
+FROM sqldados.agendaDemandas
 WHERE vendno != 0;
 
 
-SELECT * FROM sqldados.nfdevFile
+SELECT *
+FROM sqldados.nfdevFile
 WHERE pdvno = 8888;
 
 /*************************************************************************/
 
-CREATE table sqldados.vendComplemento(
+CREATE TABLE sqldados.vendComplemento (
   vendno int(10) NOT NULL,
-  texto text,
+  texto  text,
   PRIMARY KEY (vendno)
 );
+
+/*************************************************************************/
+/* Localiza o campo cte na tabela inv */
+SELECT I.auxLong2 AS cte
+FROM sqldados.inv AS I;
