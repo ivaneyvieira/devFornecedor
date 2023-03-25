@@ -16,6 +16,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.addColumnSeq
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
@@ -34,6 +35,7 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
 
   override fun Grid<Fornecedor>.gridPanel() {
     setSelectionMode(Grid.SelectionMode.MULTI)
+    addColumnSeq("Item")
     addColumnButton(VaadinIcon.FILE_TABLE, "Notas", "Notas") { fornecedor ->
       dlgNota = DlgNotaPedido(viewModel)
       dlgNota?.showDialogNota(fornecedor, serie, situacaoPendencia) {
