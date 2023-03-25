@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model
 
+import br.com.astrosoft.devolucao.model.beans.CteXML
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
 import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
 import br.com.astrosoft.framework.model.DB
@@ -34,6 +35,13 @@ class QueryNDD : QueryDB(driver, url, username, password) {
     val sql = "/sqlNDD/listNFEntrada.sql"
     return query(sql, NotaEntradaFileXML::class) {
       addOptionalParameter("chave", "NFe$chave")
+    }.firstOrNull()
+  }
+
+  fun listCte(cte: Int): CteXML? {
+    val sql = "/sqlNDD/listCte.sql"
+    return query(sql, CteXML::class) {
+      addOptionalParameter("cte", cte)
     }.firstOrNull()
   }
 

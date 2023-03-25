@@ -19,7 +19,8 @@ class NotaEntradaXML(
   val valorTotal: Double,
   val chave: String,
   val cfop: Int,
-                    ){
+  val cte: Int?,
+                    ) {
   val notaFiscal
     get() = "$numero/$serie"
 
@@ -32,7 +33,9 @@ class NotaEntradaXML(
     return NotaEntradaFileXML.find(chave)?.xmlFile
   }
 
-  companion object{
+  fun xmlCte() = CteXML.findByCte(cte)
+
+  companion object {
     fun findAll(filter: FiltroNotaEntradaXML) = saci.listNFEntrada(filter)
   }
 }
@@ -45,4 +48,4 @@ data class FiltroNotaEntradaXML(
   val cnpj: String,
   val fornecedor: String,
   val query: String,
-                                   )
+                               )

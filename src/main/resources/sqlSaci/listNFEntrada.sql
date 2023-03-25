@@ -11,7 +11,8 @@ SELECT N.storeno                                   AS loja,
        N.prdamt / 100                              AS valorTotalProdutos,
        N.grossamt / 100                            AS valorTotal,
        K.nfekey                                    AS chave,
-       N.cfo                                       AS cfop
+       N.cfo                                       AS cfop,
+       N.auxLong2                                  AS cte
 FROM sqldados.inv            AS N
   LEFT JOIN  sqldados.iprd   AS I
 	       USING (invno)
