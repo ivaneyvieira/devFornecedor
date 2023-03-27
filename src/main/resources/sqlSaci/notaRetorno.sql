@@ -170,7 +170,7 @@ SELECT N.storeno                                                          AS loj
        nfAjuste                                                           AS nfAjuste,
        pedidos                                                            AS pedidos,
        D.statusDup                                                        AS situacaoFatura,
-       D.obsDup                                                           AS obsFatura,
+       TRIM(MID(D.obsDup, 1, 60))                                         AS obsFatura,
        D.bankno                                                           AS banco
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
