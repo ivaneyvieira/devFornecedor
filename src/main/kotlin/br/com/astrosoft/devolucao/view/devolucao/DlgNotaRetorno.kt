@@ -11,6 +11,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNfAjuste
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObsFatura
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacaoFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
@@ -71,11 +72,7 @@ class DlgNotaRetorno<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMode
       situacaoDesconto(situacao)
 
       notaObsFatura()
-      chaveDesconto().textFieldEditor().apply {
-        this.setClassNameGenerator {
-          it.situacaoPendencia?.cssCor
-        }
-      }
+      notaObservacao()
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))

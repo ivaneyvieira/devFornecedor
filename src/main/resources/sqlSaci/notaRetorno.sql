@@ -9,8 +9,7 @@ FROM sqldados.nf          AS N
   INNER JOIN sqldados.dup AS D
 	       USING (storeno, pdvno, xano)
 WHERE D.storeno IN (2, 3, 4, 5)
-  AND D.status = 5
-  AND D.remarks LIKE '%RETORNO%'
+  AND ((D.status = 5 AND D.remarks LIKE '%RETORNO%') OR bankno = 121)
 GROUP BY storeno, pdvno, xano;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;

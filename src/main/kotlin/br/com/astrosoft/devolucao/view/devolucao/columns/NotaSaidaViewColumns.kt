@@ -52,7 +52,7 @@ object NotaSaidaViewColumns {
     isExpand = false
   }
 
-  fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDesconto) {
+  fun Grid<NotaSaida>.chaveDesconto(titulo: String = "ervação") = addColumnString(NotaSaida::chaveDesconto) {
     this.setHeader(titulo)
     isAutoWidth = false
     isExpand = true
@@ -174,7 +174,7 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.notaObsFatura() = addColumnString(NotaSaida::obsFatura) {
-    this.setHeader("Obs")
+    this.setHeader("")
     isAutoWidth = true
     isExpand = false
   }
@@ -192,7 +192,7 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.notaObservacao() = addColumnString(NotaSaida::remarks) {
-    this.setHeader("Obs")
+    this.setHeader("Observação")
   }
 
   fun Grid<NotaSaida>.notaNiBonificacao() = addColumnString(NotaSaida::niBonificacao) {
