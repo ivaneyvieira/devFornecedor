@@ -30,11 +30,11 @@ class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSub
 
 interface ITabNotaPendente : ITabNota {
   override val serie: Serie
-    get() = Serie.RET
+    get() = Serie.Serie01
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao
-    get() = SimNao.NONE
+    get() = SimNao.NAO
   override val coleta01: SimNao
     get() = SimNao.NONE
   override val remessaConserto: SimNao

@@ -140,7 +140,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       if (serie in listOf(Serie01)) {
         fornecedorPrimeiraData()
       }
-      if (this@TabDevolucaoAbstract is TabNotaPendente) {
+      if (this@TabDevolucaoAbstract is TabNotaPendente || this@TabDevolucaoAbstract is TabNotaPendenteRetorno) {
         userCol = usuarioSituacao()
         dataSitCol = dataSituacaoDesconto().apply {
           this.isVisible = false

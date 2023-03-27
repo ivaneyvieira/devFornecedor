@@ -32,7 +32,7 @@ class DevolucaoPendenteView : ViewLayout<DevolucaoPendenteViewModel>(), IDevoluc
   override val tabNotaPendenteCConta = TabNotaPendente(viewModel.tabNotaPendenteCContaViewModel) { CREDITO_CONTA }
   override val tabNotaPendenteBonificada = TabNotaPendente(viewModel.tabNotaPendenteBonificadaViewModel) { BONIFICADA }
   override val tabNotaPendenteReposicao = TabNotaPendente(viewModel.tabNotaPendenteReposicaoViewModel) { REPOSICAO }
-  override val tabNotaPendenteRetorno = TabNotaPendente(viewModel.tabNotaPendenteRetornoViewModel) { RETORNO }
+  override val tabNotaPendenteRetorno = TabNotaPendenteRetorno(viewModel.tabNotaPendenteRetornoViewModel) { RETORNO }
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
