@@ -91,7 +91,7 @@ SELECT N.nfstoreno                      AS storeno,
        N.nfno,
        N.nfse,
        D.status,
-       D.bankno,
+       D.bankno_paid,
        CASE D.status
 	 WHEN 1
 	   THEN 'Em cobranca'
@@ -171,7 +171,7 @@ SELECT N.storeno                                                          AS loj
        pedidos                                                            AS pedidos,
        D.statusDup                                                        AS situacaoFatura,
        TRIM(MID(D.obsDup, 1, 60))                                         AS obsFatura,
-       D.bankno                                                           AS banco
+       D.bankno_paid                                                      AS banco
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
