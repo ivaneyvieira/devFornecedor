@@ -641,18 +641,23 @@ class NotaSaida(
         RET  -> saci.notasRetorno()
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->
-        val situacaoPendencia = filtro.situacaoPendencia?.valueStr
-        if (situacaoPendencia == null) {
-          val situacaoPedido = filtro.situacaoPedido.map { it.valueStr }
-          if (situacaoPedido.isEmpty()) {
-            true
-          }
-          else {
-            nota.situacao in situacaoPedido
-          }
+        if (filtro.serie == RET) {
+          true
         }
         else {
-          nota.situacao == situacaoPendencia
+          val situacaoPendencia = filtro.situacaoPendencia?.valueStr
+          if (situacaoPendencia == null) {
+            val situacaoPedido = filtro.situacaoPedido.map { it.valueStr }
+            if (situacaoPedido.isEmpty()) {
+              true
+            }
+            else {
+              nota.situacao in situacaoPedido
+            }
+          }
+          else {
+            nota.situacao == situacaoPendencia
+          }
         }
       }
       val grupos =
