@@ -173,6 +173,24 @@ object NotaSaidaViewColumns {
     isExpand = false
   }
 
+  fun Grid<NotaSaida>.notaObsFatura() = addColumnString(NotaSaida::obsFatura) {
+    this.setHeader("Obs")
+    isAutoWidth = true
+    isExpand = false
+  }
+
+  fun Grid<NotaSaida>.notaBancoFatura() = addColumnString(NotaSaida::banco) {
+    this.setHeader("Banco")
+    isAutoWidth = true
+    isExpand = false
+  }
+
+  fun Grid<NotaSaida>.notaSituacaoFatura() = addColumnString(NotaSaida::situacaoFatura) {
+    this.setHeader("Situacao Fatura")
+    isAutoWidth = true
+    isExpand = false
+  }
+
   fun Grid<NotaSaida>.notaObservacao() = addColumnString(NotaSaida::remarks) {
     this.setHeader("Obs")
   }

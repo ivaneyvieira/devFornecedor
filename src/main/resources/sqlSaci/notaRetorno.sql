@@ -92,6 +92,28 @@ SELECT N.nfstoreno                      AS storeno,
        N.nfno,
        N.nfse,
        D.status,
+       D.bankno,
+       CASE D.status
+	 WHEN 1
+	   THEN 'Em cobranca'
+	 WHEN 2
+	   THEN 'Quitada'
+	 WHEN 3
+	   THEN 'Cartorio'
+	 WHEN 4
+	   THEN 'No advogado'
+	 WHEN 5
+	   THEN 'Cancelada'
+	 WHEN 6
+	   THEN 'Perda'
+	 WHEN 7
+	   THEN 'Protestada'
+	 WHEN 8
+	   THEN 'Outros'
+	 WHEN 9
+	   THEN 'Pago parcial'
+	 ELSE 'Desconhecido'
+       END                              AS statusDup,
        D.remarks                        AS obsDup,
        CAST(N.dupno AS CHAR)            AS fatura,
        MAX(duedate)                     AS vencimento,
@@ -147,7 +169,10 @@ SELECT N.storeno                                                          AS loj
        N.observacaoAuxiliar                                               AS observacaoAuxiliar,
        dataAgenda                                                         AS dataAgenda,
        nfAjuste                                                           AS nfAjuste,
-       pedidos                                                            AS pedidos
+       pedidos                                                            AS pedidos,
+       D.statusDup                                                        AS situacaoFatura,
+       D.obsDup                                                           AS obsFatura,
+       D.bankno                                                           AS banco
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno
