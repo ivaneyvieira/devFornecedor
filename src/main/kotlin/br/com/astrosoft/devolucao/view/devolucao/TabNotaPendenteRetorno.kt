@@ -39,6 +39,8 @@ class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val si
     get() = situacao().title
   override val serie: Serie
     get() = Serie.RET
+  override val pago01: SimNao
+    get() = SimNao.NONE
 
   override val situacaoPendencia: ESituacaoPendencia
     get() = situacao()
