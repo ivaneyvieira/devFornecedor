@@ -633,6 +633,7 @@ class NotaSaida(val loja: Int,
         AJC  -> saci.ajusteGarantia(filtro.serie)
         A66  -> saci.ajusteGarantia66(AJT)
         FIN  -> saci.notaFinanceiro()
+        RET  -> saci.notasRetorno()
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->
         val situacaoPendencia = filtro.situacaoPendencia?.valueStr
