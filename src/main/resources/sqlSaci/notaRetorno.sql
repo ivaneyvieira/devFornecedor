@@ -5,32 +5,13 @@ CREATE TEMPORARY TABLE TNFSACI (
   PRIMARY KEY (storeno, pdvno, xano)
 )
 SELECT N.*
-FROM sqldados.nf            AS N
-  INNER JOIN sqldados.custp AS C
-	       ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
-WHERE N.remarks LIKE 'GARANTIA %'
-  AND N.storeno IN (2, 3, 4, 5)
-  AND N.status <> 1
-  AND N.tipo = 7
-  AND N.cfo = 5949
-  AND N.nfse = '1'
-UNION
-DISTINCT
-SELECT *
-FROM sqldados.nf AS N
-WHERE (N.nfse = :serie)
-  AND N.storeno IN (2, 3, 4, 5)
-  AND N.status <> 1
-  AND N.tipo = 2
-UNION
-DISTINCT
-SELECT *
-FROM sqldados.nf AS N
-WHERE :serie = ''
-  AND N.nfse IN ('1', '66')
-  AND N.storeno IN (2, 3, 4, 5)
-  AND N.status <> 1
-  AND N.tipo = 2;
+FROM sqldados.nf          AS N
+  INNER JOIN sqldados.dup AS D
+	       USING (storeno, pdvno, xano)
+WHERE D.storeno IN (2, 3, 4, 5)
+  AND D.status = 5
+  AND D.remarks LIKE '%RETORNO%'
+GROUP BY storeno, pdvno, xano;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -100,11 +81,7 @@ FROM TNFSACI                  AS   N
 			      709327, 108751)
   LEFT JOIN sqldados.vend     AS   V
 	      ON C.cpf_cgc = V.cgc
-WHERE (N.nfse = :serie OR (N.remarks LIKE 'GARANTIA%') OR (:serie = '' AND (N.nfse IN ('1', '66'))))
-  AND N.storeno IN (2, 3, 4, 5)
-  AND N.status <> 1
-  AND N.tipo = 2
-  AND (V.no = :vendno OR :vendno = 0)
+WHERE (V.no = :vendno OR :vendno = 0)
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
@@ -182,7 +159,4 @@ FROM TNF                        AS N
 	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
   LEFT JOIN  sqldados.eordrk    AS O
 	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-WHERE (IFNULL(status, 0) <> 5)
-  AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
-  AND N.fornecedorNome IS NOT NULL
 GROUP BY loja, pdv, transacao, dataNota, custno

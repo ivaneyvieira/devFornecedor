@@ -236,6 +236,7 @@ enum class Serie(val value: String) {
   AJC("AJC"),
   A66("A66"),
   FIN("FIN"),
+  RET("RET"),
   VAZIO("")
 }
 
