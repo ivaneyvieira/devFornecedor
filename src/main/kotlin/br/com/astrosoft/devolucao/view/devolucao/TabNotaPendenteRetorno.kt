@@ -8,9 +8,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.d
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorNome
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorObservacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorPrimeiraData
-import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorUltimaData
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorValorTotal
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.niSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.notaSituacao
@@ -23,9 +20,6 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia.*
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.center
-import br.com.astrosoft.framework.view.left
-import br.com.astrosoft.framework.view.right
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
@@ -62,6 +56,7 @@ class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val si
       RETORNO           -> username.forPendenteRETORNO
       AGUARDA_COLETA    -> username.forPendenteAGUARDA_COLETA
       ASSINA_CTE        -> username.forPendenteASSINA_CTE
+      else              -> false
     }
   }
 
@@ -125,7 +120,6 @@ class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val si
     niCol = niSituacao()
     dataCol = dataAgendaDesconto()
     observacaoChaveDesconto()
-
 
     val totalCol = fornecedorValorTotal()
     this.dataProvider.addDataProviderListener {
