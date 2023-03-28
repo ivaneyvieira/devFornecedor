@@ -80,7 +80,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
         if (serie !in listOf(Serie.AJP, Serie.AJT, Serie.AJC, Serie.AJD, Serie.A66)) {
           notaNota()
         }
-        notaNfAjuste()
+        notaNfAjuste().textFieldEditor()
       }
       if (serie in listOf(Serie.AJP, Serie.AJT, Serie.AJC, Serie.AJD, Serie.A66)) {
         chaveDesconto("Observação").textFieldEditor().apply {

@@ -64,7 +64,7 @@ class DlgNotaRetorno<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMode
       notaDataNota()
       notaNota()
 
-      notaNfAjuste()
+      notaNfAjuste().textFieldEditor()
       notaFatura()
       notaBancoFatura()
       notaSituacaoFatura()

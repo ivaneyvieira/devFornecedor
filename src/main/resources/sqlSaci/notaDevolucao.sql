@@ -86,7 +86,7 @@ SELECT N.storeno,
        IFNULL(chaveDesconto, '')                                                               AS chaveDesconto,
        IFNULL(observacaoAuxiliar, '')                                                          AS observacaoAuxiliar,
        CAST(IF(dataAgenda = 0, NULL, dataAgenda) AS DATE)                                      AS dataAgenda,
-       ''                                                                                      AS nfAjuste,
+       IFNULL(nfAjuste, '')                                                                    AS nfAjuste,
        IFNULL(pedidos, '')                                                                     AS pedidos
 FROM TNFSACI                  AS   N
   LEFT JOIN sqldados.nfComplemento NC
