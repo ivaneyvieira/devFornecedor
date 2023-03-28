@@ -255,3 +255,9 @@ CREATE TABLE sqldados.vendComplemento (
 /* Localiza o campo cte na tabela inv */
 SELECT I.auxLong2 AS cte
 FROM sqldados.inv AS I;
+
+
+/*************************************************************************/
+/* Adicona campo nfAjuste na tabela nfComplemento */
+ALTER TABLE sqldados.nfComplemento
+  ADD nfAjuste VARCHAR(50) DEFAULT '';

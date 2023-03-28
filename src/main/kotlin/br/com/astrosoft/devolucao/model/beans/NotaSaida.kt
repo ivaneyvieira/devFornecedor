@@ -62,7 +62,7 @@ class NotaSaida(
   var chaveDesconto: String?,
   var observacaoAuxiliar: String?,
   var dataAgenda: LocalDate?,
-  val nfAjuste: String?,
+  var nfAjuste: String?,
   var pedidos: String?,
   val situacaoFatura: String?,
   val obsFatura: String?,
