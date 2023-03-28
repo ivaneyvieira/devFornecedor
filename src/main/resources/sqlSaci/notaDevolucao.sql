@@ -30,7 +30,16 @@ WHERE :serie = ''
   AND N.nfse IN ('1', '66')
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-  AND N.tipo = 2;
+  AND N.tipo = 2
+UNION
+DISTINCT
+SELECT N.*
+FROM sqldados.nf          AS N
+  INNER JOIN sqldados.dup AS D
+	       USING (storeno, pdvno, xano)
+WHERE D.storeno IN (2, 3, 4, 5)
+  AND (bankno_paid = 121)
+GROUP BY storeno, pdvno, xano;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF (
@@ -115,6 +124,28 @@ SELECT N.nfstoreno                      AS storeno,
        N.nfno,
        N.nfse,
        D.status,
+       D.bankno_paid,
+       CASE D.status
+	 WHEN 1
+	   THEN 'Em cobranca'
+	 WHEN 2
+	   THEN 'Quitada'
+	 WHEN 3
+	   THEN 'Cartorio'
+	 WHEN 4
+	   THEN 'No advogado'
+	 WHEN 5
+	   THEN 'Cancelada'
+	 WHEN 6
+	   THEN 'Perda'
+	 WHEN 7
+	   THEN 'Protestada'
+	 WHEN 8
+	   THEN 'Outros'
+	 WHEN 9
+	   THEN 'Pago parcial'
+	 ELSE 'Desconhecido'
+       END                              AS statusDup,
        D.remarks                        AS obsDup,
        CAST(N.dupno AS CHAR)            AS fatura,
        MAX(duedate)                     AS vencimento,
@@ -127,50 +158,54 @@ FROM sqldados.dup           AS D
 	       ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
-SELECT N.storeno                                                          AS loja,
-       S.sname                                                            AS sigla,
-       N.pdvno                                                            AS pdv,
-       N.xano                                                             AS transacao,
-       N.eordno                                                           AS pedido,
-       CAST(N.pedidoDate AS DATE)                                         AS dataPedido,
-       CAST(IF(nfAjuste = '', CONCAT(N.nfno, '/', N.nfse), '') AS CHAR)   AS nota,
-       IFNULL(CAST(D.fatura AS CHAR), '')                                 AS fatura,
-       CAST(N.issuedate AS DATE)                                          AS dataNota,
-       IFNULL(N.custno, 0)                                                AS custno,
-       IFNULL(N.fornecedorNome, '')                                       AS fornecedor,
-       IFNULL(N.email, '')                                                AS email,
-       N.fornecedorSap                                                    AS fornecedorSap,
-       N.vendno                                                           AS vendno,
-       IFNULL(R.rmk, '')                                                  AS rmk,
-       SUM(N.valor)                                                       AS valor,
-       IFNULL(obsNota, '')                                                AS obsNota,
-       serie01Rejeitada                                                   AS serie01Rejeitada,
-       @PAGO := IF((D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR
-		   (D.status IS NOT NULL AND D.status = 2) OR
-		   (N.serie01Pago = 'S' AND D.storeno IS NULL), 'S', 'N') AS serie01Pago,
-       serie01Coleta                                                      AS serie01Coleta,
-       serie66Pago                                                        AS serie66Pago,
-       remessaConserto                                                    AS remessaConserto,
-       remarks                                                            AS remarks,
-       baseIcms                                                           AS baseIcms,
-       valorIcms                                                          AS valorIcms,
-       baseIcmsSubst                                                      AS baseIcmsSubst,
-       icmsSubst                                                          AS icmsSubst,
-       valorFrete                                                         AS valorFrete,
-       valorSeguro                                                        AS valorSeguro,
-       outrasDespesas                                                     AS outrasDespesas,
-       valorIpi                                                           AS valorIpi,
-       valorTotal                                                         AS valorTotal,
-       N.obsPedido                                                        AS obsPedido,
-       N.nfse                                                             AS tipo,
-       IFNULL(RV.rmk, '')                                                 AS rmkVend,
-       chave                                                              AS chave,
-       natureza                                                           AS natureza,
-       IF(@PAGO = 'S', IFNULL(D.obsDup, ''), N.chaveDesconto)             AS chaveDesconto,
-       N.observacaoAuxiliar                                               AS observacaoAuxiliar,
-       dataAgenda                                                         AS dataAgenda,
-       nfAjuste                                                           AS nfAjuste,
-       pedidos                                                            AS pedidos
+SELECT N.storeno                                                        AS loja,
+       S.sname                                                          AS sigla,
+       N.pdvno                                                          AS pdv,
+       N.xano                                                           AS transacao,
+       N.eordno                                                         AS pedido,
+       CAST(N.pedidoDate AS DATE)                                       AS dataPedido,
+       CAST(IF(nfAjuste = '', CONCAT(N.nfno, '/', N.nfse), '') AS CHAR) AS nota,
+       IFNULL(CAST(D.fatura AS CHAR), '')                               AS fatura,
+       CAST(N.issuedate AS DATE)                                        AS dataNota,
+       IFNULL(N.custno, 0)                                              AS custno,
+       IFNULL(N.fornecedorNome, '')                                     AS fornecedor,
+       IFNULL(N.email, '')                                              AS email,
+       N.fornecedorSap                                                  AS fornecedorSap,
+       N.vendno                                                         AS vendno,
+       IFNULL(R.rmk, '')                                                AS rmk,
+       SUM(N.valor)                                                     AS valor,
+       IFNULL(obsNota, '')                                              AS obsNota,
+       serie01Rejeitada                                                 AS serie01Rejeitada,
+       @PAGO := IF(D.bankno_paid = 121, 'N', IF(
+	   (D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR
+	   (D.status IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S' AND D.storeno IS NULL),
+	   'S', 'N'))                                                   AS serie01Pago,
+       serie01Coleta                                                    AS serie01Coleta,
+       serie66Pago                                                      AS serie66Pago,
+       remessaConserto                                                  AS remessaConserto,
+       remarks                                                          AS remarks,
+       baseIcms                                                         AS baseIcms,
+       valorIcms                                                        AS valorIcms,
+       baseIcmsSubst                                                    AS baseIcmsSubst,
+       icmsSubst                                                        AS icmsSubst,
+       valorFrete                                                       AS valorFrete,
+       valorSeguro                                                      AS valorSeguro,
+       outrasDespesas                                                   AS outrasDespesas,
+       valorIpi                                                         AS valorIpi,
+       valorTotal                                                       AS valorTotal,
+       N.obsPedido                                                      AS obsPedido,
+       N.nfse                                                           AS tipo,
+       IFNULL(RV.rmk, '')                                               AS rmkVend,
+       chave                                                            AS chave,
+       natureza                                                         AS natureza,
+       IF(@PAGO = 'S', IFNULL(D.obsDup, ''), N.chaveDesconto)           AS chaveDesconto,
+       N.observacaoAuxiliar                                             AS observacaoAuxiliar,
+       dataAgenda                                                       AS dataAgenda,
+       nfAjuste                                                         AS nfAjuste,
+       pedidos                                                          AS pedidos,
+       D.statusDup                                                      AS situacaoFatura,
+       TRIM(MID(D.obsDup, 1, 60))                                       AS obsFatura,
+       D.bankno_paid                                                    AS banco
 FROM TNF                        AS N
   INNER JOIN sqldados.store     AS S
 	       ON S.no = N.storeno

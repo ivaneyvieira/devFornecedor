@@ -462,12 +462,15 @@ class NotaSaida(
 
   val situacaoStr: String
     get() {
-      return if (situacao == "") ""
-      else ESituacaoPendencia.values().firstOrNull { sit ->
-        sit.valueStr == situacao
-      }?.descricao ?: ESituacaoPedido.values().firstOrNull { sit ->
-        sit.valueStr == situacao
-      }?.descricao ?: ""
+      return when {
+        banco == "121" -> "Banco 121"
+        situacao == "" -> ""
+        else           -> ESituacaoPendencia.values().firstOrNull { sit ->
+          sit.valueStr == situacao
+        }?.descricao ?: ESituacaoPedido.values().firstOrNull { sit ->
+          sit.valueStr == situacao
+        }?.descricao ?: ""
+      }
     }
 
   val situacaoPendencia
