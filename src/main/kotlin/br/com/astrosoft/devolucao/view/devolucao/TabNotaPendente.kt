@@ -37,6 +37,9 @@ class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao:
       RETORNO           -> username.forPendenteRETORNO
       AGUARDA_COLETA    -> username.forPendenteAGUARDA_COLETA
       ASSINA_CTE        -> username.forPendenteASSINA_CTE
+      else              -> {
+        false
+      }
     }
   }
 
