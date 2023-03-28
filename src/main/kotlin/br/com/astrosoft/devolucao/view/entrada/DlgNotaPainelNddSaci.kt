@@ -40,7 +40,6 @@ class DlgNotaPainelNddSaci(val viewModel: TabAbstractEntradaNddViewModel<*>) {
   private fun createGridNdd(listParcelas: List<NotaEntradaNdd>): Grid<NotaEntradaNdd> {
     return Grid(NotaEntradaNdd::class.java, false).apply<Grid<NotaEntradaNdd>> {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)

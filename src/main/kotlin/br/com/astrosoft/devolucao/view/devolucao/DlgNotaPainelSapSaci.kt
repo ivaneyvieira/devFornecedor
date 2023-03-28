@@ -34,7 +34,7 @@ class DlgNotaPainelSapSaci(val viewModel: TabSapViewModel) {
     val gridDetail = Grid(NotaDevolucaoSap::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)

@@ -131,7 +131,7 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
   private fun createGrid(): Grid<FornecedorNota> {
     return Grid(FornecedorNota::class.java, false).apply<Grid<FornecedorNota>> {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
 

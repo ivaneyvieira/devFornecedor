@@ -71,7 +71,6 @@ class DlgRelatorioTodasEntradas(val viewModel: TabTodasEntradasViewModel, val li
   private fun createGrid(dataProvider: ListDataProvider<NotaEntradaQuery>): Grid<NotaEntradaQuery> {
     return Grid(NotaEntradaQuery::class.java, false).apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       this.dataProvider = dataProvider

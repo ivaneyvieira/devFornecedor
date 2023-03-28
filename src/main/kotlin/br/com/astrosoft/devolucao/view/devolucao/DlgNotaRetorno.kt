@@ -37,7 +37,7 @@ class DlgNotaRetorno<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMode
                                situacao: ESituacaoPendencia?): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)

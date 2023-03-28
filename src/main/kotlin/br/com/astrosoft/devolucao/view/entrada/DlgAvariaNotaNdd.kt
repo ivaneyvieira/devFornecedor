@@ -44,7 +44,6 @@ class DlgAvariaNotaNdd(val produtos: List<ProdutoNotaEntradaNdd>, val viewModel:
   private fun createGrid(): Grid<ProdutoNotaEntradaNdd> {
     return Grid(ProdutoNotaEntradaNdd::class.java, false).apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(produtos)

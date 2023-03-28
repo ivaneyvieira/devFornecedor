@@ -42,7 +42,6 @@ class DlgProdutosNotaNdd(val produtos: List<ProdutoNotaEntradaNdd>, private val 
   private fun createGrid(): Grid<ProdutoNotaEntradaNdd> {
     return Grid(ProdutoNotaEntradaNdd::class.java, false).apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(produtos)

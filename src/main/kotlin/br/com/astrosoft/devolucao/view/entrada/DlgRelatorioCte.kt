@@ -109,7 +109,6 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
   private fun createGrid(dataProvider: ListDataProvider<NfEntradaFrete>): Grid<NfEntradaFrete> {
     return Grid(NfEntradaFrete::class.java, false).apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       this.dataProvider = dataProvider

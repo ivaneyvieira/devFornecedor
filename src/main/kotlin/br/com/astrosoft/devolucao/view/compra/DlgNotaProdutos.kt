@@ -210,7 +210,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
   private fun createGrid(listParcelas: List<PedidoCompraProduto>): Grid<PedidoCompraProduto> {
     return Grid(PedidoCompraProduto::class.java, false).apply<Grid<PedidoCompraProduto>> {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)

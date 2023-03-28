@@ -46,7 +46,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
     val gridDetail = Grid(NotaDevolucaoSap::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listParcelas)
@@ -81,7 +81,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
     val gridDetail = Grid(NotaSaida::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listPedidos)

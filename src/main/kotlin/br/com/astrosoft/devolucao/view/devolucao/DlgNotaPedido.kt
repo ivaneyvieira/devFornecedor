@@ -35,7 +35,7 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
                                situacao: ESituacaoPendencia?): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {
-      this.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT, GridVariant.LUMO_COMPACT)
+      this.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT, GridVariant.LUMO_COLUMN_BORDERS)
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
