@@ -19,7 +19,6 @@ import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
-import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
@@ -57,7 +56,7 @@ class TabNotaPendente(val viewModel: TabNotaPendenteViewModel) :
   private fun createGridNotas(listNotas: List<NotaEntrada>): Grid<NotaEntrada> {
     val gridDetail = Grid(NotaEntrada::class.java, false)
     return gridDetail.apply {
-      addThemeVariants(LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(MULTI)
       setItems(listNotas) //

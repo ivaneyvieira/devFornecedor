@@ -40,7 +40,7 @@ class DlgEditFile<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
   private fun createFormEditFile(nota: NotaSaida): Grid<NFFile> {
     val gridDetail = Grid(NFFile::class.java, false)
     return gridDetail.apply {
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setItems(nota.listFiles()) //
       addColumnButton(VaadinIcon.EYE, "Visualizar", "Ver") { file ->

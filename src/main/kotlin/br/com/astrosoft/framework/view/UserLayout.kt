@@ -12,7 +12,6 @@ import com.vaadin.flow.component.ComponentEventListener
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_ERROR
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY
-import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment.END
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -60,7 +59,7 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
       columns().forEach { addColumn(it) }
     }
 
-    crud.grid.addThemeVariants(LUMO_COMPACT)
+    crud.grid.addThemeVariants()
 
     crud.crudFormFactory = UserCrudFormFactory(::layoutCrud)
     crud.setSizeFull()

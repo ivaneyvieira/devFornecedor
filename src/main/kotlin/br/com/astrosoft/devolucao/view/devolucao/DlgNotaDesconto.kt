@@ -36,7 +36,7 @@ class DlgNotaDesconto(val viewModel: TabDescontoViewModel) {
   private fun createGridNotas(listNotas: List<NotaEntradaDesconto>): Grid<NotaEntradaDesconto> {
     val gridDetail = Grid(NotaEntradaDesconto::class.java, false)
     return gridDetail.apply {
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)

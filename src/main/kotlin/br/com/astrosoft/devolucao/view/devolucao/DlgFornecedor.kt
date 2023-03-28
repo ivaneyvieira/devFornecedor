@@ -23,7 +23,7 @@ class DlgFornecedor {
   private fun createGridRepresentantes(listRepresentantes: List<Representante>): Grid<Representante> {
     val gridDetail = Grid(Representante::class.java, false)
     return gridDetail.apply {
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false
       setItems(listRepresentantes) //
       notaRepresentante()

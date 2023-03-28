@@ -27,7 +27,7 @@ class DlgSelecionaEmail<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoV
     val gridDetail = Grid(EmailDB::class.java, false)
     val lista = emails + nota.listaEmailRecebidoNota()
     return gridDetail.apply {
-      addThemeVariants(GridVariant.LUMO_COMPACT)
+      addThemeVariants()
       isMultiSort = false // setSelectionMode(MULTI)
       setItems(lista.sortedWith(compareByDescending<EmailDB> { it.data }.thenByDescending { it.hora }))
 

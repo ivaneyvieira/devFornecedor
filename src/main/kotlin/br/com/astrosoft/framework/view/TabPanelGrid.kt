@@ -4,7 +4,6 @@ import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.kaributools.fetchAll
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
@@ -29,7 +28,7 @@ abstract class TabPanelGrid<T : Any>(classGrid: KClass<T>) : ITabPanel {
       this.dataProvider = dataProviderPanel
       isExpand = true
       isMultiSort = true
-      addThemeVariants(LUMO_COMPACT)
+      //addThemeVariants()
       gridPanel()
     }
     addAndExpand(gridPanel)
