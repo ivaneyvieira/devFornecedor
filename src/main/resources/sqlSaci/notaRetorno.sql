@@ -131,7 +131,7 @@ SELECT N.storeno                                                          AS loj
        N.xano                                                             AS transacao,
        N.eordno                                                           AS pedido,
        CAST(N.pedidoDate AS DATE)                                         AS dataPedido,
-       CAST(IF(nfAjuste = '', CONCAT(N.nfno, '/', N.nfse), '') AS CHAR)   AS nota,
+       CAST(CONCAT(N.nfno, '/', N.nfse) AS CHAR)                          AS nota,
        IFNULL(CAST(D.fatura AS CHAR), '')                                 AS fatura,
        CAST(N.issuedate AS DATE)                                          AS dataNota,
        IFNULL(N.custno, 0)                                                AS custno,

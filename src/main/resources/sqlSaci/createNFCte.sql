@@ -3,7 +3,7 @@ USE sqldados;
 DO @LOJA := :loja;
 DO @DI := :di;
 DO @DF := :df;
-DO @DD := DATE_SUB(@DI, INTERVAL 6 MONTH) * 1;
+DO @DD := DATE_SUB(@DI, INTERVAL 1 MONTH) * 1;
 DO @VEND := :vend;
 DO @NI := :ni;
 DO @NFNO := TRIM(:nfno);
@@ -112,14 +112,14 @@ SELECT loja,
        cte,
        emissaoCte,
        entradaCte,
-       SUM(valorCte)                                                       AS valorCte,
+       (valorCte)                                                          AS valorCte,
        SUM(pesoBrutoUnit)                                                  AS pesoBruto,
        cub,
        freteMinimo,
        pesoMinimo,
        fretePeso,
        IFNULL(cub * fatorCub, 0.00)                                        AS pesoCub,
-       freteValor,
+       (freteValor)                                                        AS freteValor,
        freteGRIS,
        taxa,
        outro,
