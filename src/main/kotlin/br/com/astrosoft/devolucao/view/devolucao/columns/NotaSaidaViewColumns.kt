@@ -52,6 +52,12 @@ object NotaSaidaViewColumns {
     isExpand = false
   }
 
+  fun Grid<NotaSaida>.notaDataNfAjuste() = addColumnLocalDate(NotaSaida::dataNfAjuste) {
+    this.setHeader("Data")
+    isAutoWidth = true
+    isExpand = false
+  }
+
   fun Grid<NotaSaida>.chaveDesconto(titulo: String = "Observação") = addColumnString(NotaSaida::chaveDesconto) {
     this.setHeader(titulo)
     isAutoWidth = false

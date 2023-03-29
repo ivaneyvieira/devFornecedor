@@ -261,3 +261,6 @@ FROM sqldados.inv AS I;
 /* Adicona campo nfAjuste na tabela nfComplemento */
 ALTER TABLE sqldados.nfComplemento
   ADD nfAjuste VARCHAR(50) DEFAULT '';
+
+ALTER TABLE sqldados.nfComplemento
+  ADD dataNfAjuste int(10) DEFAULT 0;
