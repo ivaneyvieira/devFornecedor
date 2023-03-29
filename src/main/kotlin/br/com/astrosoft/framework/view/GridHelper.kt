@@ -1,5 +1,6 @@
 package br.com.astrosoft.framework.view
 
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.textfield.*
@@ -79,11 +80,23 @@ fun <T : Any> Grid.Column<T>.textFieldEditor(): Grid.Column<T> {
 fun <T : Any> Grid.Column<T>.dateFieldEditor(): Grid.Column<T> {
   val grid = this.grid
   val component = dateFieldComponente()
+
+  this.isAutoWidth = true
+  this.isExpand = false
   component.element.addEventListener("keydown") { _ ->
     grid.editor.cancel()
   }.filter = "event.key === 'Enter'"
   grid.editor.binder.forField(component).bind(this.key)
   this.editorComponent = component
+  this.grid.editor.addOpenListener {
+    this.isAutoWidth = false
+    this.width = "180px"
+  }
+  this.grid.editor.addCloseListener {
+    this.isAutoWidth = true
+    this.width = "100px"
+  }
+
   return this
 }
 

@@ -87,6 +87,7 @@ SELECT N.storeno,
        IFNULL(observacaoAuxiliar, '')                                                          AS observacaoAuxiliar,
        CAST(IF(dataAgenda = 0, NULL, dataAgenda) AS DATE)                                      AS dataAgenda,
        IFNULL(nfAjuste, '')                                                                    AS nfAjuste,
+       IFNULL(dataNfAjuste, 0)                                                                 AS dataNfAjuste,
        IFNULL(pedidos, '')                                                                     AS pedidos
 FROM TNFSACI                  AS   N
   LEFT JOIN sqldados.nfComplemento NC
@@ -202,6 +203,7 @@ SELECT N.storeno                                              AS loja,
        N.observacaoAuxiliar                                   AS observacaoAuxiliar,
        dataAgenda                                             AS dataAgenda,
        nfAjuste                                               AS nfAjuste,
+       CAST(IF(dataNfAjuste = 0, NULL, dataNfAjuste) AS date) AS dataNfAjuste,
        pedidos                                                AS pedidos,
        D.statusDup                                            AS situacaoFatura,
        TRIM(MID(D.obsDup, 1, 60))                             AS obsFatura,

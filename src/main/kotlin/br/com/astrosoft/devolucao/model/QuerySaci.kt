@@ -728,6 +728,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("pedidos", notaSaida.pedidos ?: "")
       addOptionalParameter("dataAgenda", notaSaida.dataAgenda?.toSaciDate() ?: 0)
       addOptionalParameter("nfAjuste", notaSaida.nfAjuste)
+      addOptionalParameter("dataNfAjuste", notaSaida.dataNfAjuste?.toSaciDate() ?: 0)
     }
   }
 

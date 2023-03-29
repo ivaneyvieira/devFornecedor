@@ -9,7 +9,7 @@ WHERE storeno = :loja
   AND xano = :transacao;
 
 REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, chaveDesconto, observacaoAuxiliar,
-				    dataAgenda, pedidos, nfAjuste)
+				    dataAgenda, pedidos, nfAjuste, dataNfAjuste)
 SELECT :loja      AS storeno,
        :pdv       AS pdvno,
        :transacao AS xano,
@@ -17,6 +17,7 @@ SELECT :loja      AS storeno,
        :observacaoAuxiliar,
        :dataAgenda,
        :pedidos,
-       :nfAjuste
+       :nfAjuste,
+       :dataNfAjuste
 FROM DUAL
 

@@ -67,6 +67,7 @@ class NotaSaida(
   val situacaoFatura: String?,
   val obsFatura: String?,
   val banco: String?,
+  var dataNfAjuste: LocalDate?,
                ) {
 
   private fun wrapString(s: String, deliminator: String, length: Int): String? {
