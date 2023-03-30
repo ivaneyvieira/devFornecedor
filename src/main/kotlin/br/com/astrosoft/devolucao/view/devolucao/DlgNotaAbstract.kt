@@ -42,10 +42,11 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             nota.nota.contains(filter, true) ||
             nota.pedido.toString().contains(filter, true) ||
             nota.pedidos.orEmpty().contains(filter, true) ||
-            nota.nfAjuste.orEmpty().contains(filter, true) ||
+            nota.usuarioSituacao.contains(filter, true) ||
             nota.dataNota.format().contains(filter, true) ||
             nota.situacaoStr.contains(filter, true) ||
-            nota.remarks.contains(filter, true)
+            nota.remarks.contains(filter, true) ||
+            nota.chaveDesconto.orEmpty().contains(filter, true)
           })
         }
       }
