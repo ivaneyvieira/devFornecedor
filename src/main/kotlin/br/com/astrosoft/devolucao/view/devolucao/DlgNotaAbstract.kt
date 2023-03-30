@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.Fornecedor
 import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.lazyDownloadButton
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
@@ -11,6 +12,7 @@ import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant
 import com.vaadin.flow.component.dependency.CssImport
@@ -18,6 +20,7 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.data.value.ValueChangeMode
 import org.claspina.confirmdialog.ConfirmDialog
 
 @CssImport("./styles/gridTotal.css")
@@ -30,6 +33,22 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
     fornecedor ?: return
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+      textField("Pesquisa") {
+        this.valueChangeTimeout = 1000
+        this.valueChangeMode = ValueChangeMode.LAZY
+        addValueChangeListener {
+          val filter = it.value
+          gridNota.setItems(listNotas.filter { nota ->
+            nota.nota.contains(filter, true) ||
+            nota.pedido.toString().contains(filter, true) ||
+            nota.pedidos.orEmpty().contains(filter, true) ||
+            nota.nfAjuste.orEmpty().contains(filter, true) ||
+            nota.dataNota.format().contains(filter, true) ||
+            nota.situacaoStr.contains(filter, true) ||
+            nota.remarks.contains(filter, true)
+          })
+        }
+      }
       if (serie == PED) {
         button("Relatório Pedido") {
           icon = VaadinIcon.PRINT.create()
