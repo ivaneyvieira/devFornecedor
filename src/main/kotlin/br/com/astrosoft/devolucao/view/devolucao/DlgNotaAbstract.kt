@@ -44,7 +44,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             nota.pedidos.orEmpty().contains(filter, true) ||
             nota.nfAjuste.orEmpty().contains(filter, true) ||
             nota.dataNota.format().contains(filter, true) ||
-            nota.situacao.contains(filter, true) ||
+            nota.situacaoStr.contains(filter, true) ||
             nota.remarks.contains(filter, true)
           })
         }
