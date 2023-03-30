@@ -10,8 +10,8 @@ class TabPedidoFornecedorViewModel(val viewModel: DevolucaoPedidoViewModel) {
     subView.updateGrid(lista)
   }
 
-  val subView
-    get() = viewModel.view.tabPedidoFornecedor
+  val subView: ITabPedidoFornecedor
+    get() = TODO() //viewModel.view.tabPedidoFornecedor
 }
 
 interface ITabPedidoFornecedor : ITabView {

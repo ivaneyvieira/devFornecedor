@@ -88,6 +88,7 @@ class UserSaci : IUser {
   var demandaConcluido by DelegateAuthorized(67)
   var entradaCte by DelegateAuthorized(68)
   var entradaFileNFE by DelegateAuthorized(69)
+  var pedidoFinalizado by DelegateAuthorized(70)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
@@ -99,7 +100,8 @@ class UserSaci : IUser {
   val menuDevolucaoInterna
     get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente || ajusteGarantia66
   val menuDevolucaoPedido
-    get() = pedidoBase || pedidoPerca || pedidoLiberado || pedidoPendente || pedidoNFD || pedidoAjuste || pedidoEmail || pedidoDescarte
+    get() = pedidoBase || pedidoPerca || pedidoLiberado || pedidoPendente || pedidoNFD || pedidoAjuste || pedidoEmail
+            || pedidoDescarte || pedidoFinalizado
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento
@@ -107,7 +109,8 @@ class UserSaci : IUser {
   val menuAgenda
     get() = agendaAgendada || agendaPreEntrada || agendaRecebida || agendaRastreamento
   val menuEntrada
-    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo || entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE
+    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo ||
+            entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE
   val menuCompra
     get() = compraPedidos || compraConferir
   val menuSaida
