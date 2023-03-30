@@ -11,7 +11,7 @@ import br.com.astrosoft.framework.model.IUser
 class TabPedidoBase(viewModel: TabPedidoBaseViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
         ITabPedidoBase {
   override val label: String
-    get() = "Base"
+    get() = "Editor"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
