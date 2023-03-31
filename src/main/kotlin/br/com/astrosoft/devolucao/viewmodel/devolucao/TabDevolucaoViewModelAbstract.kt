@@ -249,6 +249,7 @@ interface IFiltro {
   val situacaoPendencia: ESituacaoPendencia?
   val situacaoPedido: List<ESituacaoPedido>
   val filterSituacao: ESituacaoPedido
+  val filterSituacaoPendencia: ESituacaoPendencia
   fun filtro(): FiltroFornecedor
 }
 

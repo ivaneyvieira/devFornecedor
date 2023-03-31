@@ -19,11 +19,8 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.o
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNota
+import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.TabPanelGrid
@@ -62,6 +59,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   private lateinit var edtFiltro: TextField
   private lateinit var cmbLoja: Select<Loja>
   private lateinit var cmbSituacao: Select<ESituacaoPedido>
+  private lateinit var cmbSituacaoPendencia: Select<ESituacaoPendencia>
 
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
@@ -86,13 +84,30 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       }
     }
     cmbSituacao = select("Situação") {
-      val situacoes = listOf(ESituacaoPedido.VAZIO) + situacaoPedido
+      val list = situacaoPedido
+      val situacoes = if (list.isEmpty()) {
+        ESituacaoPedido.values().toList()
+      } else {
+        listOf(ESituacaoPedido.VAZIO) + list
+      }
       setItems(situacoes)
       setItemLabelGenerator { sit ->
         sit.descricao
       }
       value = ESituacaoPedido.VAZIO
       isVisible = serie == PED
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+    cmbSituacaoPendencia = select("Situação") {
+      val list = ESituacaoPendencia.values().toList()
+      setItems(list)
+      setItemLabelGenerator { sit ->
+        sit.descricao
+      }
+      value = ESituacaoPendencia.BASE
+      isVisible = serie != PED
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -275,5 +290,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
 
   override val filterSituacao: ESituacaoPedido
     get() = cmbSituacao.value ?: ESituacaoPedido.VAZIO
+  override val filterSituacaoPendencia: ESituacaoPendencia
+    get() = cmbSituacaoPendencia.value ?: ESituacaoPendencia.BASE
 }
 

@@ -649,7 +649,7 @@ class NotaSaida(
           true
         }
         else {
-          val situacaoPendencia = filtro.situacaoPendencia?.valueStr
+          val situacaoPendencia =  filtro.filterSituacaoPendencia.valueStr ?: filtro.situacaoPendencia?.valueStr
           if (situacaoPendencia == null) {
             val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.VAZIO) {
               filtro.situacaoPedido.map {
