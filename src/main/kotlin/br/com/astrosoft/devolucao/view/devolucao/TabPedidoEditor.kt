@@ -4,12 +4,12 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.values
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoPedidoView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedidoBase
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoBaseViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabPedidoEditor
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoEditorViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabPedidoBase(viewModel: TabPedidoBaseViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
-        ITabPedidoBase {
+class TabPedidoEditor(viewModel: TabPedidoEditorViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
+                                                             ITabPedidoEditor {
   override val label: String
     get() = "Editor"
   override val situacaoPendencia: ESituacaoPendencia?
@@ -17,7 +17,7 @@ class TabPedidoBase(viewModel: TabPedidoBaseViewModel) : TabPedidoAbstract<IDevo
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.pedidoBase == true
+    return username?.pedidoEditor == true
   }
 
   override val situacaoPedido

@@ -64,14 +64,14 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       notaLoja()
       notaDataPedido()
       notaPedido() //notaDataNota()
-      if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel) {
+      if (viewModel !is TabPedidoEditorViewModel && viewModel !is TabPedidoPendenteViewModel) {
         dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
         notaEditavel(situacao).textFieldEditor().marcaAzul()
       }
       usuarioSituacao(situacao).marcaAzul()
       dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
       situacaoDesconto(situacao).marcaAzul()
-      if (viewModel !is TabPedidoBaseViewModel && viewModel !is TabPedidoPendenteViewModel && viewModel !is TabPedidoNFDViewModel) {
+      if (viewModel !is TabPedidoEditorViewModel && viewModel !is TabPedidoPendenteViewModel) {
         dataBonificacao().dateFieldEditor().marcaAzul()
         notaBonificacao().textFieldEditor().marcaAzul()
         notaNiBonificacao().textFieldEditor().marcaAzul()
