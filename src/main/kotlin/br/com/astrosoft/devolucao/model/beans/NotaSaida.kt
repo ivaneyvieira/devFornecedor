@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia.BANCO121
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IFiltro
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
@@ -120,7 +121,10 @@ class NotaSaida(
     }
   var situacao: String
     get() {
-      return observacaoAuxiliar?.split(":")?.getOrNull(1) ?: ""
+      return if (banco == "121") BANCO121.valueStr ?: ""
+      else observacaoAuxiliar
+             ?.split(":")
+             ?.getOrNull(1) ?: ""
     }
     set(value) {
       val split = observacaoAuxiliar?.split(":")
@@ -649,7 +653,7 @@ class NotaSaida(
           true
         }
         else {
-          val situacaoPendencia =  filtro.filterSituacaoPendencia.valueStr ?: filtro.situacaoPendencia?.valueStr
+          val situacaoPendencia = filtro.filterSituacaoPendencia.valueStr ?: filtro.situacaoPendencia?.valueStr
           if (situacaoPendencia == null) {
             val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.VAZIO) {
               filtro.situacaoPedido.map {
