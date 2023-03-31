@@ -22,7 +22,7 @@ import kotlin.math.round
 
 class NotaSaida(
   val loja: Int,
-  val sigla: String,
+  val sigla: String?,
   val pdv: Int,
   val transacao: Int,
   val pedido: Int,
