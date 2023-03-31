@@ -203,6 +203,8 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaNiBonificacao() = addColumnString(NotaSaida::niBonificacao) {
     this.setHeader("NI")
+    isAutoWidth = true
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.notaNiValor() = addColumnString(NotaSaida::niValor) {
@@ -227,6 +229,8 @@ object NotaSaidaViewColumns {
 
   fun Grid<NotaSaida>.notaBonificacao() = addColumnString(NotaSaida::notaBonificacao) {
     this.setHeader("NFB")
+    isAutoWidth = true
+    isExpand = false
   }
 
   fun Grid<NotaSaida>.dataBonificacao() = addColumnLocalDate(NotaSaida::dataBonificacao) {
