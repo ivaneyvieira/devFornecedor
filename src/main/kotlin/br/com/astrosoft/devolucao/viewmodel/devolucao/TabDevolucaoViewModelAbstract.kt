@@ -248,6 +248,7 @@ interface IFiltro {
   val remessaConserto: SimNao
   val situacaoPendencia: ESituacaoPendencia?
   val situacaoPedido: List<ESituacaoPedido>
+  val filterSituacao: ESituacaoPedido
   fun filtro(): FiltroFornecedor
 }
 

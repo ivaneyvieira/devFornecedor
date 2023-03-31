@@ -159,6 +159,55 @@ FROM sqldados.dup           AS D
 	       ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
+DROP TEMPORARY TABLE IF EXISTS T;
+CREATE TEMPORARY TABLE `T` (
+  `loja` smallint(6) NOT NULL DEFAULT '0',
+  `sigla` char(2) DEFAULT '',
+  `pdv` smallint(6) NOT NULL DEFAULT '0',
+  `transacao` int(11) NOT NULL DEFAULT '0',
+  `pedido` int(11) NOT NULL DEFAULT '0',
+  `dataPedido` date DEFAULT NULL,
+  `nota` varchar(14) CHARACTER SET utf8 DEFAULT NULL,
+  `fatura` varchar(11) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `dataNota` date DEFAULT NULL,
+  `custno` bigint(11) NOT NULL DEFAULT '0',
+  `fornecedor` varchar(40) NOT NULL DEFAULT '',
+  `email` varchar(40) NOT NULL DEFAULT '',
+  `fornecedorSap` int(10) DEFAULT '0',
+  `vendno` int(10),
+  `rmk` varchar(200) NOT NULL,
+  `valor` decimal(45,4) DEFAULT NULL,
+  `obsNota` varchar(200) NOT NULL,
+  `serie01Rejeitada` varchar(1) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `serie01Pago` varchar(1) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `serie01Coleta` varchar(1) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `serie66Pago` varchar(1) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `remessaConserto` varchar(1) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `remarks` varchar(40) DEFAULT NULL,
+  `baseIcms` decimal(23,4) DEFAULT NULL,
+  `valorIcms` decimal(23,4) DEFAULT NULL,
+  `baseIcmsSubst` decimal(23,4) DEFAULT NULL,
+  `icmsSubst` decimal(23,4) DEFAULT NULL,
+  `valorFrete` decimal(23,4) DEFAULT NULL,
+  `valorSeguro` decimal(23,4) DEFAULT NULL,
+  `outrasDespesas` decimal(3,2) NOT NULL DEFAULT '0.00',
+  `valorIpi` decimal(23,4) DEFAULT NULL,
+  `valorTotal` decimal(23,4) DEFAULT NULL,
+  `obsPedido` varchar(200),
+  `tipo` char(2) NOT NULL DEFAULT '',
+  `rmkVend` varchar(200) NOT NULL,
+  `chave` varchar(60) NOT NULL DEFAULT '',
+  `natureza` varchar(28) NOT NULL DEFAULT '',
+  `chaveDesconto` varchar(200) NOT NULL,
+  `observacaoAuxiliar` varchar(200) NOT NULL,
+  `dataAgenda` date DEFAULT NULL,
+  `nfAjuste` varchar(50) NOT NULL DEFAULT '',
+  `dataNfAjuste` date DEFAULT NULL,
+  `pedidos` varchar(160) NOT NULL DEFAULT '',
+  `situacaoFatura` varchar(12) CHARACTER SET utf8 DEFAULT '',
+  `obsFatura` varchar(60) DEFAULT NULL,
+  `banco` int(10) DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
 SELECT N.storeno                                              AS loja,
        S.sname                                                AS sigla,
        N.pdvno                                                AS pdv,
@@ -178,9 +227,9 @@ SELECT N.storeno                                              AS loja,
        IFNULL(obsNota, '')                                    AS obsNota,
        serie01Rejeitada                                       AS serie01Rejeitada,
        @PAGO := IF(D.bankno_paid = 121, 'N', IF(
-	   (D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR
-	   (D.status IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S' AND D.storeno IS NULL),
-	   'S', 'N'))                                         AS serie01Pago,
+                 (D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR
+                 (D.status IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S' AND D.storeno IS NULL),
+                 'S', 'N'))                                         AS serie01Pago,
        serie01Coleta                                          AS serie01Coleta,
        serie66Pago                                            AS serie66Pago,
        remessaConserto                                        AS remessaConserto,
@@ -209,17 +258,65 @@ SELECT N.storeno                                              AS loja,
        TRIM(MID(D.obsDup, 1, 60))                             AS obsFatura,
        D.bankno_paid                                          AS banco
 FROM TNF                        AS N
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
+  LEFT JOIN sqldados.store     AS S
+              ON S.no = N.storeno
   LEFT JOIN  sqldados.nfdevRmk  AS R
-	       USING (storeno, pdvno, xano)
+               USING (storeno, pdvno, xano)
   LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
+               ON RV.vendno = N.vendno AND RV.tipo = N.nfse
   LEFT JOIN  TDUP               AS D
-	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+               ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
   LEFT JOIN  sqldados.eordrk    AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.eordno
+               ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
   AND N.fornecedorNome IS NOT NULL
-GROUP BY loja, pdv, transacao, dataNota, custno
+GROUP BY loja, pdv, transacao, dataNota, custno;
+
+select loja,
+       sigla,
+       pdv,
+       transacao,
+       pedido,
+       dataPedido,
+       nota,
+       fatura,
+       dataNota,
+       custno,
+       fornecedor,
+       email,
+       fornecedorSap,
+       vendno,
+       rmk,
+       valor,
+       obsNota,
+       serie01Rejeitada,
+       serie01Pago,
+       serie01Coleta,
+       serie66Pago,
+       remessaConserto,
+       remarks,
+       baseIcms,
+       valorIcms,
+       baseIcmsSubst,
+       icmsSubst,
+       valorFrete,
+       valorSeguro,
+       outrasDespesas,
+       valorIpi,
+       valorTotal,
+       obsPedido,
+       tipo,
+       rmkVend,
+       chave,
+       natureza,
+       chaveDesconto,
+       observacaoAuxiliar,
+       dataAgenda,
+       nfAjuste,
+       dataNfAjuste,
+       pedidos,
+       situacaoFatura,
+       obsFatura,
+       banco
+from T

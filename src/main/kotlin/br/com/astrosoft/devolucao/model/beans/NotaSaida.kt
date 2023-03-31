@@ -651,7 +651,15 @@ class NotaSaida(
         else {
           val situacaoPendencia = filtro.situacaoPendencia?.valueStr
           if (situacaoPendencia == null) {
-            val situacaoPedido = filtro.situacaoPedido.map { it.valueStr }
+            val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.VAZIO) {
+              filtro.situacaoPedido.map {
+                it
+                  .valueStr
+              }
+            }
+            else {
+              listOf(filtro.filterSituacao.valueStr)
+            }
             if (situacaoPedido.isEmpty()) {
               true
             }
