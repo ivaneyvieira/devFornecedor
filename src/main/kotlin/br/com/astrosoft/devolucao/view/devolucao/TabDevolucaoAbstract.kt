@@ -30,12 +30,11 @@ import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.github.mvysny.karibudsl.v10.button
-import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Html
-import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
@@ -43,6 +42,7 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon.*
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode.LAZY
@@ -60,7 +60,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
   protected lateinit var tituloCol: Grid.Column<Fornecedor>
   protected lateinit var docCol: Grid.Column<Fornecedor>
   private lateinit var edtFiltro: TextField
-  private lateinit var cmbLoja: ComboBox<Loja>
+  private lateinit var cmbLoja: Select<Loja>
+  private lateinit var cmbSituacao: Select<ESituacaoPedido>
 
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
@@ -71,16 +72,26 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         viewModel.updateView()
       }
     }
-    cmbLoja = comboBox("Loja") {
+    cmbLoja = select("Loja") {
       val lojas: List<Loja> = Loja.allLojas() + lojaZero
       setItems(lojas.sortedBy { it.no })
       setItemLabelGenerator { loja ->
         val lojaValue = loja ?: lojaZero
         "${lojaValue.no} - ${lojaValue.sname}"
       }
-      isAllowCustomValue = false
-      isClearButtonVisible = true
       value = lojaZero
+      isVisible = serie == PED
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+    cmbSituacao = select("Situação") {
+      val situacoes = listOf(ESituacaoPedido.VAZIO) + situacaoPedido
+      setItems(situacoes)
+      setItemLabelGenerator { sit ->
+        sit.descricao
+      }
+      value = ESituacaoPedido.VAZIO
       isVisible = serie == PED
       addValueChangeListener {
         viewModel.updateView()
@@ -261,5 +272,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
 
   override val situacaoPedido: List<ESituacaoPedido>
     get() = emptyList()
+
+  override val filterSituacao: ESituacaoPedido
+    get() = cmbSituacao.value ?: ESituacaoPedido.VAZIO
 }
 
