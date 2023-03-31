@@ -18,7 +18,7 @@ class UserSaci : IUser {
   override var ativo by DelegateAuthorized(0)
   var nota01 by DelegateAuthorized(1)
   var nota66 by DelegateAuthorized(2)
-  var pedidoBase by DelegateAuthorized(3)
+  var pedidoEditor by DelegateAuthorized(3)
   var nota66Pago by DelegateAuthorized(4)
   var emailRecebido by DelegateAuthorized(5)
   var notaPendente by DelegateAuthorized(6)
@@ -53,24 +53,27 @@ class UserSaci : IUser {
   var forPendenteBONIFICADA by DelegateAuthorized(34)
   var forPendenteREPOSICAO by DelegateAuthorized(35)
   var forPendenteRETORNO by DelegateAuthorized(36)
-  var pedidoNFD by DelegateAuthorized(37)
+  //var pedidoNFD by DelegateAuthorized(37)
 
-  var pedidoPago by DelegateAuthorized(38)
+  //var pedidoPago by DelegateAuthorized(38)
   var forPendenteAGUARDA_COLETA by DelegateAuthorized(39)
   var forPendenteASSINA_CTE by DelegateAuthorized(40)
   var ajusteGarantiaPerca by DelegateAuthorized(41)
-  var pedidoAjuste by DelegateAuthorized(42)
+
+  //var pedidoAjuste by DelegateAuthorized(42)
   var ajusteGarantiaPendente by DelegateAuthorized(43)
   var ajusteGarantia66 by DelegateAuthorized(44)
 
   //var pedidoBaixa by DelegateAuthorized(45)
-  var pedidoEmail by DelegateAuthorized(46)
+  //var pedidoEmail by DelegateAuthorized(46)
   var pedidoPendente by DelegateAuthorized(47)
-  var pedidoLiberado by DelegateAuthorized(48)
-  var pedidoPerca by DelegateAuthorized(49)
-  var pedidoDescarte by DelegateAuthorized(50)
+
+  //var pedidoLiberado by DelegateAuthorized(48)
+  //var pedidoPerca by DelegateAuthorized(49)
+  //var pedidoDescarte by DelegateAuthorized(50)
   var pedidoFornecedor by DelegateAuthorized(51)
-  var pedidoRetorno by DelegateAuthorized(52)
+
+  //var pedidoRetorno by DelegateAuthorized(52)
   var entradaNddNFEntrada by DelegateAuthorized(53)
   var notaSaidaCopia by DelegateAuthorized(54)
   var notaSaida2Via by DelegateAuthorized(55)
@@ -100,8 +103,7 @@ class UserSaci : IUser {
   val menuDevolucaoInterna
     get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente || ajusteGarantia66
   val menuDevolucaoPedido
-    get() = pedidoBase || pedidoPerca || pedidoLiberado || pedidoPendente || pedidoNFD || pedidoAjuste || pedidoEmail
-            || pedidoDescarte || pedidoFinalizado
+    get() = pedidoEditor || pedidoPendente || pedidoFinalizado
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento

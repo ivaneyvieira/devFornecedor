@@ -24,7 +24,6 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
-import org.apache.poi.ss.formula.functions.T
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
@@ -55,7 +54,7 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
     fornecedorCliente()
     fornecedorNome()
 
-    if (this@TabPedidoAbstract is TabPedidoPendente || this@TabPedidoAbstract is TabPedidoBase) {
+    if (this@TabPedidoAbstract is TabPedidoPendente || this@TabPedidoAbstract is TabPedidoEditor) {
       userCol = usuarioSituacao().marcaAzul()
       situacaoCol = situacaoDesconto().marcaAzul()
     }

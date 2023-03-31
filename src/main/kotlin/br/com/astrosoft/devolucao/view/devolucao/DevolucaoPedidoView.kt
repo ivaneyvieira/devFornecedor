@@ -15,17 +15,8 @@ import com.vaadin.flow.router.Route
 @CssImport("./styles/gridTotal.css")
 class DevolucaoPedidoView : ViewLayout<DevolucaoPedidoViewModel>(), IDevolucaoPedidoView {
   override val viewModel: DevolucaoPedidoViewModel = DevolucaoPedidoViewModel(this)
-  override val tabPedidoBase = TabPedidoBase(viewModel.tabPedidoBaseViewModel)
+  override val tabPedidoEditor = TabPedidoEditor(viewModel.tabPedidoEditorViewModel)
   override val tabPedidoPendente = TabPedidoPendente(viewModel.tabPedidoPendenteViewModel)
-  override val tabPedidoNFD = TabPedidoNFD(viewModel.tabPedidoNFDViewModel)
-  override val tabPedidoPago = TabPedidoPago(viewModel.tabPedidoPagoViewModel)
-  override val tabPedidoRetorno = TabPedidoRetorno(viewModel.tabPedidoRetornoViewModel)
-  override val tabPedidoAjuste = TabPedidoAjuste(viewModel.tabPedidoAjusteViewModel)
-  override val tabPedidoPerca = TabPedidoPerca(viewModel.tabPedidoPercaViewModel)
-  override val tabPedidoEmail = TabPedidoEmail(viewModel.tabPedidoEmailViewModel)
-  override val tabPedidoLiberado = TabPedidoLiberado(viewModel.tabPedidoLiberadoViewModel)
-  override val tabPedidoBaixa = TabPedidoBaixa(viewModel.tabPedidoBaixaViewModel)
-  override val tabPedidoDescarte = TabPedidoDescarte(viewModel.tabPedidoDescarteViewModel)
   override val tabPedidoFinalizado = TabPedidoFinalizado(viewModel.tabPedidoFinalizadoViewModel)
   //override val tabPedidoFornecedor = TabPedidoFornecedor(viewModel.tabPedidoFornecedorViewModel)
 

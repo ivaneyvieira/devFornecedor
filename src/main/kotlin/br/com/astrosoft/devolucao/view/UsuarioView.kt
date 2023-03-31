@@ -188,50 +188,15 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             colspan = 2
           }
 
-          checkBox("Base") {
+          checkBox("eDITOR") {
             isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoBase.name)
-          }
-          checkBox("Liberado") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoLiberado.name)
+            binder.bind(this, UserSaci::pedidoEditor.name)
           }
           checkBox("Pendente") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoPendente.name)
           }
-          checkBox("NFD") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoNFD.name)
-          }
-          checkBox("Baixa") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoAjuste.name)
-          }
-          checkBox("Pago") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoPago.name)
-          }
-          checkBox("Retorno") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoRetorno.name)
-          }
-          checkBox("Email") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoEmail.name)
-          }
-          checkBox("Perca") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoPerca.name)
-          }
-          checkBox("Descarte") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::pedidoDescarte.name)
-          }
-          //checkBox("Fornecedor") {
-          //   isReadOnly = readOnly
-          //   binder.bind(this, UserSaci::pedidoFornecedor.name)
-          // }
+
           checkBox("Finalizado") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::pedidoFinalizado.name)

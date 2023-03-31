@@ -1,50 +1,20 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractViewModel<IDevolucaoPedidoView>(view) {
-  val tabPedidoBaseViewModel = TabPedidoBaseViewModel(this)
+  val tabPedidoEditorViewModel = TabPedidoEditorViewModel(this)
   val tabPedidoPendenteViewModel = TabPedidoPendenteViewModel(this)
-  val tabPedidoNFDViewModel = TabPedidoNFDViewModel(this)
-  val tabPedidoPagoViewModel = TabPedidoPagoViewModel(this)
-  val tabPedidoRetornoViewModel = TabPedidoRetornoViewModel(this)
-  val tabPedidoAjusteViewModel = TabPedidoAjusteViewModel(this)
-  val tabPedidoPercaViewModel = TabPedidoPercaViewModel(this)
-  val tabPedidoEmailViewModel = TabPedidoEmailViewModel(this)
-  val tabPedidoLiberadoViewModel = TabPedidoLiberadoViewModel(this)
-  val tabPedidoBaixaViewModel = TabPedidoBaixaViewModel(this)
-  val tabPedidoDescarteViewModel = TabPedidoDescarteViewModel(this)
   val tabPedidoFinalizadoViewModel = TabPedidoFinalizadoViewModel(this)
-  //val tabPedidoFornecedorViewModel = TabPedidoFornecedorViewModel(this)
 
   override fun listTab() = listOf(
-    //view.tabPedidoFornecedor,
-    view.tabPedidoBase,
+    view.tabPedidoEditor,
     view.tabPedidoPendente,
-    view.tabPedidoLiberado,
-    view.tabPedidoEmail,
-    view.tabPedidoNFD,
-    view.tabPedidoAjuste,
-    view.tabPedidoPago,
-    view.tabPedidoRetorno,
-    view.tabPedidoPerca, //view.tabPedidoBaixa,
-    view.tabPedidoDescarte,
     view.tabPedidoFinalizado,
                                  )
 }
 
 interface IDevolucaoPedidoView : IDevolucaoAbstractView {
-  val tabPedidoBase: ITabPedidoBase
+  val tabPedidoEditor: ITabPedidoEditor
   val tabPedidoPendente: ITabPedidoPendente
-  val tabPedidoNFD: ITabPedidoNFD
-  val tabPedidoPago: ITabPedidoPago
-  val tabPedidoRetorno: ITabPedidoRetorno
-  val tabPedidoAjuste: ITabPedidoAjuste
-  val tabPedidoPerca: ITabPedidoPerca
-  val tabPedidoLiberado: ITabPedidoLiberado
-  val tabPedidoEmail: ITabPedidoEmail
-  val tabPedidoBaixa: ITabPedidoBaixa
-  val tabPedidoDescarte: ITabPedidoDescarte
   val tabPedidoFinalizado: ITabPedidoFinalizado
-
-  //val tabPedidoFornecedor: ITabPedidoFornecedor
 }
 
