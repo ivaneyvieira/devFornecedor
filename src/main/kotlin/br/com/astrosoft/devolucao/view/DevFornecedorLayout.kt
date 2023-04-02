@@ -22,6 +22,7 @@ import com.vaadin.flow.theme.lumo.Lumo
 @JsModule("./styles/shared-styles.js")
 class DevFornecedorLayout : MainLayout() {
   override fun Tabs.menuConfig() {
+    menuRoute(FORM, "NFD Fornecedores", NFDFornecedoresView::class)
     menuRoute(FORM, "Pendentes", DevolucaoPendenteView::class)
     menuRoute(FORM, "Série 1", Devolucao01View::class)
     menuRoute(FORM, "Interna", DevolucaoInternaView::class)
