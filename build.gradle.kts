@@ -88,6 +88,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
   implementation(kotlin("stdlib"))
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
 
   implementation(kotlin("reflect")) // https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core
   implementation("net.sourceforge.dynamicreports:dynamicreports-core:6.12.1") {
