@@ -6,6 +6,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.da
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataSituacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.docSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaBancoFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNfAjuste
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
@@ -16,6 +17,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacao
+import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacaoFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValorPago
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
@@ -98,6 +100,8 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
           notaFatura()
         }
       }
+      notaBancoFatura()
+      notaSituacaoFatura()
       if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao(situacao)
         dataSituacaoDesconto(situacao).apply {

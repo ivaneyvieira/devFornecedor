@@ -88,7 +88,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       val situacoes = if (list.isEmpty()) {
         ESituacaoPedido.values().toList()
       } else {
-        listOf(ESituacaoPedido.VAZIO) + list
+        listOf(ESituacaoPedido.TODOS) + list
       }
       setItems(situacoes)
       setItemLabelGenerator { sit ->
