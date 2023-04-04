@@ -35,4 +35,4 @@ src/main/resources/report/.metadata/
 pnpm-lock.yaml
 pnpmfile.js
 pedidosPDF
-./enviar.sh
+compile.sh
