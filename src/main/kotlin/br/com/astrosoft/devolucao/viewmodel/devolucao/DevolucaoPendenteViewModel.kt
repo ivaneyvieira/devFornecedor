@@ -60,7 +60,7 @@ class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
     view.tabNotaPendenteCConta,
     view.tabNotaPendenteBonificada,
     view.tabNotaPendenteReposicao,
-    view.tabNotaPendenteRetorno,
+   // view.tabNotaPendenteRetorno,
                                  )
 }
 
@@ -82,7 +82,6 @@ interface IDevolucaoPendenteView : IDevolucaoAbstractView {
 }
 
 enum class ESituacaoPedido(val valueStr: String, val descricao: String, val pendente: Boolean) {
-  TODOS(valueStr = "", descricao = "Todos", pendente = true),
   VAZIO(valueStr = "", descricao = "", pendente = true),
   PAGO(valueStr = "PAGO", descricao = "Pago", pendente = false),
   RETORNO(valueStr = "RETORNO", descricao = "Retorno", pendente = false),

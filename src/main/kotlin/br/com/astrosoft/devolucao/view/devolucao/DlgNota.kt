@@ -6,7 +6,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.da
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.dataSituacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.docSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.niSituacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaBancoFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNfAjuste
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataNota
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaDataPedido
@@ -17,13 +16,13 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaObservacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacao
-import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaSituacaoFatura
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValorPago
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.tituloSituacao
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.*
 import com.github.mvysny.kaributools.getColumnBy
@@ -47,7 +46,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
-      if (serie in listOf(Serie.Serie01, Serie.PED, Serie.AJC, Serie.AJT, Serie.AJP, Serie.AJD, Serie.A66)) {
+      if (serie in listOf(Serie01, NFD, PED, AJC, AJT, AJP, AJD, A66)) {
         this.withEditor(NotaSaida::class, openEditor = {
           val colunas = this.columns
           val componente = colunas.firstOrNull {
@@ -74,19 +73,19 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
       }
 
       notaLoja()
-      if (serie !in listOf(Serie.Serie01, Serie.FIN)) {
+      if (serie !in listOf(Serie01, FIN, NFD)) {
         notaDataPedido()
         notaPedido()
       }
       notaDataNota()
-      if (serie !in listOf(Serie.PED)) {
-        if (serie !in listOf(Serie.AJP, Serie.AJT, Serie.AJC, Serie.AJD, Serie.A66)) {
+      if (serie !in listOf(PED)) {
+        if (serie !in listOf(AJP, AJT, AJC, AJD, A66)) {
           notaNota()
         }
         notaDataNfAjuste().dateFieldEditor()
         notaNfAjuste().textFieldEditor()
       }
-      if (serie in listOf(Serie.AJP, Serie.AJT, Serie.AJC, Serie.AJD, Serie.A66)) {
+      if (serie in listOf(AJP, AJT, AJC, AJD, A66)) {
         chaveDesconto("Observação").textFieldEditor().apply {
           this.setClassNameGenerator {
             it.situacaoPendencia?.cssCor
@@ -96,12 +95,10 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
         notaValorPago().decimalFieldEditor()
       }
       else {
-        if (serie !in listOf(Serie.PED)) {
+        if (serie !in listOf(PED)) {
           notaFatura()
         }
       }
-      notaBancoFatura()
-      notaSituacaoFatura()
       if (viewModel is TabNotaPendenteViewModel) {
         usuarioSituacao(situacao)
         dataSituacaoDesconto(situacao).apply {
@@ -123,8 +120,8 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
           }
         }
       }
-      if (serie in listOf(Serie.Serie01, Serie.FIN, Serie.PED)) {
-        if (serie in listOf(Serie.PED)) {
+      if (serie in listOf(Serie01, NFD, FIN, PED)) {
+        if (serie in listOf(PED)) {
           usuarioSituacao(situacao)
           situacaoDesconto(situacao)
         }
@@ -139,7 +136,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
         val totalPedido = listNotas.sumOf { it.valorNota }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      if (serie in listOf(Serie.PED, Serie.AJT, Serie.AJC, Serie.AJD, Serie.AJP, Serie.A66)) {
+      if (serie in listOf(PED, AJT, AJC, AJD, AJP, A66)) {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
       }
       else {

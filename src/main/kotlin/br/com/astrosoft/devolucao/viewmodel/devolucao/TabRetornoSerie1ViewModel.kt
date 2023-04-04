@@ -1,14 +1,16 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabNFDFornecedoresAbertaViewModel(viewModel: NFDFornecedoresViewModel) :
-        TabDevolucaoViewModelAbstract<INFDFornecedoresView>(viewModel) {
+import br.com.astrosoft.devolucao.view.devolucao.TabDevolucaoAbstract
+
+class TabRetornoSerie1ViewModel(viewModel: Devolucao01ViewModel) :
+        TabDevolucaoViewModelAbstract<IDevolucao01View>(viewModel) {
   override val subView
-    get() = viewModel.view.tabNFDFornecedoresAberta
+    get() = viewModel.view.tabRetorno
 }
 
-interface ITabNFDFornecedoresAbertaViewModel : ITabNota {
+interface ITabRetornoSerie1 : ITabNota {
   override val serie: Serie
-    get() = Serie.NFD
+    get() = Serie.Serie01
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao

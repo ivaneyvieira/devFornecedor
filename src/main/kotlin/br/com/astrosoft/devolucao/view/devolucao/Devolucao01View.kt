@@ -25,6 +25,7 @@ class Devolucao01View : ViewLayout<Devolucao01ViewModel>(), IDevolucao01View {
   override val tabConferenciaSap = TabConferenciaSap(viewModel.tabConferenciaSap)
   override val tabSap = TabSap(viewModel.tabSap)
   override val tabDesconto = TabDesconto(viewModel.tabDesconto)
+  override val tabRetorno = TabNotaPendenteRetornoSerie1(viewModel.tabRetorno)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false

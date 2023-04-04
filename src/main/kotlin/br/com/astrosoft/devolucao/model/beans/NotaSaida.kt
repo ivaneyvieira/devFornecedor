@@ -647,6 +647,7 @@ class NotaSaida(
         A66  -> saci.ajusteGarantia66(AJT)
         FIN  -> saci.notaFinanceiro()
         RET  -> saci.notasRetorno()
+        NFD  -> saci.notasNFD()
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->
         if (filtro.serie == RET) {
@@ -655,8 +656,11 @@ class NotaSaida(
         else {
           val situacaoPendencia = filtro.filterSituacaoPendencia.valueStr ?: filtro.situacaoPendencia?.valueStr
           if (situacaoPendencia == null) {
-            val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.TODOS) {
-              filtro.situacaoPedido.map { it.valueStr }
+            val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.VAZIO) {
+              filtro.situacaoPedido.map {
+                it
+                  .valueStr
+              }
             }
             else {
               listOf(filtro.filterSituacao.valueStr)
