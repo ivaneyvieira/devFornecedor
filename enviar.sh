@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#push.sh
+push.sh
 
 ./gradlew clean build -Pvaadin.productionMode
 
