@@ -4,7 +4,7 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
   val tabNotaSerie01ViewModel = TabNotaSerie01ViewModel(this)
   val tabNotaSerie01PagoViewModel = TabNotaSerie01PagoViewModel(this)
 
-  // val tabNotaSerie01ColetaViewModel = TabNotaSerie01ColetaViewModel(this)
+  val tabNotaSerie01ColetaViewModel = TabNotaSerie01ColetaViewModel(this)
   val tabNotaRemessaConsertoViewModel = TabNotaRemessaConsertoViewModel(this)
   val tabNotaFinanceiroViewModel = TabNotaFinanceiroViewModel(this)
   val tabConferenciaSap = TabConferenciaSapViewModel(this)
@@ -14,7 +14,8 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
 
   override fun listTab() = listOf(
     view.tabNotaSerie01,
-    view.tabNotaSerie01Pago, // view.tabNotaSerie01Coleta,
+    view.tabNotaSerie01Pago,
+    view.tabNotaSerie01Coleta,
     view.tabNotaRemessaConserto,
     view.tabNotaFinanceiro,
     view.tabConferenciaSap,
@@ -28,7 +29,7 @@ interface IDevolucao01View : IDevolucaoAbstractView {
   val tabNotaSerie01: ITabNotaSerie01
   val tabNotaSerie01Pago: ITabNotaSerie01Pago
 
-  // val tabNotaSerie01Coleta: ITabNotaSerie01Coleta
+  val tabNotaSerie01Coleta: ITabNotaSerie01Coleta
   val tabNotaRemessaConserto: ITabNotaRemessaConserto
   val tabNotaFinanceiro: ITabNotaFinanceiro
   val tabConferenciaSap: ITabConferenciaSap
