@@ -88,7 +88,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       val situacoes = if (list.isEmpty()) {
         ESituacaoPedido.values().toList()
       } else {
-        listOf(ESituacaoPedido.TODOS) + list
+        listOf(ESituacaoPedido.VAZIO) + list
       }
       setItems(situacoes)
       setItemLabelGenerator { sit ->
@@ -162,8 +162,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     fornecedorCliente()
     fornecedorNome()
 
-    if (serie in listOf(FIN, Serie01, RET, PED)) {
-      if (serie in listOf(Serie01)) {
+    if (serie in listOf(FIN, Serie01, NFD, RET, PED)) {
+      if (serie in listOf(Serie01, NFD)) {
         fornecedorPrimeiraData()
       }
       if (this@TabDevolucaoAbstract is TabNotaPendente || this@TabDevolucaoAbstract is TabNotaPendenteRetorno) {

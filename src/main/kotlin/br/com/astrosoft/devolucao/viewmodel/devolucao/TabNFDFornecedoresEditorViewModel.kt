@@ -8,7 +8,7 @@ class TabNFDFornecedoresEditorViewModel(viewModel: NFDFornecedoresViewModel) :
 
 interface ITabNFDFornecedoresEditorViewModel : ITabNota {
   override val serie: Serie
-    get() = Serie.Serie01
+    get() = Serie.NFD
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao

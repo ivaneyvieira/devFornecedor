@@ -59,6 +59,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  fun notasNFD(vendno: Int = 0): List<NotaSaida> {
+    val sql = "/sqlSaci/notaNFD.sql"
+    return query(sql, NotaSaida::class) {
+      addOptionalParameter("vendno", vendno)
+    }
+  }
+
   fun notasRetorno(vendno: Int = 0): List<NotaSaida> {
     val sql = "/sqlSaci/notaRetorno.sql"
     return query(sql, NotaSaida::class) {
