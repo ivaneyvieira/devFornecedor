@@ -15,7 +15,7 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
   override fun listTab() = listOf(
     view.tabNotaSerie01,
     view.tabNotaSerie01Pago,
-    view.tabNotaSerie01Coleta,
+    //view.tabNotaSerie01Coleta,
     view.tabNotaRemessaConserto,
     view.tabNotaFinanceiro,
     view.tabConferenciaSap,

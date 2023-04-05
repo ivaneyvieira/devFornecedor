@@ -99,12 +99,12 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
           notaFatura()
         }
       }
+      usuarioSituacao(situacao)
+      dataSituacaoDesconto(situacao).apply {
+        this.isVisible = false
+      }
+      situacaoDesconto(situacao)
       if (viewModel is TabNotaPendenteViewModel) {
-        usuarioSituacao(situacao)
-        dataSituacaoDesconto(situacao).apply {
-          this.isVisible = false
-        }
-        situacaoDesconto(situacao)
         if (situacao == ESituacaoPendencia.CREDITO_CONTA) {
           niSituacao(situacao).textFieldEditor()
           docSituacao(situacao).textFieldEditor()
