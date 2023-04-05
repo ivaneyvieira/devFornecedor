@@ -166,20 +166,16 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       if (serie in listOf(Serie01, NFD)) {
         fornecedorPrimeiraData()
       }
-      if (this@TabDevolucaoAbstract is TabNotaPendente || this@TabDevolucaoAbstract is TabNotaPendenteRetorno) {
-        userCol = usuarioSituacao()
-        dataSitCol = dataSituacaoDesconto().apply {
-          this.isVisible = false
-        }
-        situacaoCol = situacaoDesconto()
+      userCol = usuarioSituacao()
+      dataSitCol = dataSituacaoDesconto().apply {
+        this.isVisible = false
+      }
+      situacaoCol = situacaoDesconto()
+      if ((this@TabDevolucaoAbstract is TabNotaPendente) || (this@TabDevolucaoAbstract is TabNotaPendenteRetorno)       ) {
         notaCol = notaSituacao()
         docCol = docSituacao()
         tituloCol = tituloSituacao()
         niCol = niSituacao()
-      }
-      else if (this@TabDevolucaoAbstract is TabPedidoPendente) {
-        userCol = usuarioSituacao()
-        situacaoCol = situacaoDesconto()
       }
       dataCol = dataAgendaDesconto()
       observacaoChaveDesconto()
