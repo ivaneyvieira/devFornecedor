@@ -23,8 +23,8 @@ import com.vaadin.flow.theme.lumo.Lumo
 class DevFornecedorLayout : MainLayout() {
   override fun Tabs.menuConfig() {
     menuRoute(FORM, "Pendentes", DevolucaoPendenteView::class)
-    menuRoute(FORM, "NFD", NFDFornecedoresView::class)
-    menuRoute(FORM, "Série 1", Devolucao01View::class)
+    //menuRoute(FORM, "NFD", NFDFornecedoresView::class)
+    menuRoute(FORM, "NFD", Devolucao01View::class)
     menuRoute(FORM, "Interna", DevolucaoInternaView::class)
     menuRoute(FORM, "Pedido", DevolucaoPedidoView::class)
     menuRoute(FORM, "Série 66", Devolucao66View::class)
