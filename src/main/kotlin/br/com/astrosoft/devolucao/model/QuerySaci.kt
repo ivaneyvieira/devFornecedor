@@ -652,10 +652,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  private fun <R : Any> filtroNfPrec(filter: FiltroRelatorio,
-                                     sql: String,
-                                     complemento: String? = null,
-                                     result: (Query) -> R): R {
+  private fun <R : Any> filtroNfPrec(
+    filter: FiltroRelatorio,
+    sql: String,
+    complemento: String? = null,
+    result: (Query) -> R
+  ): R {
     return querySerivce(sql, complemento, lambda = {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
@@ -890,7 +892,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
-  fun saveVendComplemento(fornecedor: FornecedorProduto){
+  fun saveVendComplemento(fornecedor: FornecedorProduto) {
     val sql = "/sqlSaci/saveVendComplemento.sql"
 
     script(sql) {
@@ -899,7 +901,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun listNFEntrada(filter: FiltroNotaEntradaXML): List<NotaEntradaXML>{
+  fun listNFEntrada(filter: FiltroNotaEntradaXML): List<NotaEntradaXML> {
     val sql = "/sqlSaci/listNFEntrada.sql"
     return query(sql, NotaEntradaXML::class) {
       addOptionalParameter("loja", filter.loja?.no ?: 0)

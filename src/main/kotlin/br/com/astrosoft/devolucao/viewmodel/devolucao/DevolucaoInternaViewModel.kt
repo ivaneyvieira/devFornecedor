@@ -13,7 +13,7 @@ class DevolucaoInternaViewModel(view: IDevolucaoInternaView) : DevolucaoAbstract
     view.tabAjusteGarantiaPago,
     view.tabAjusteGarantiaPerca,
     view.tabAjusteGarantia66,
-                                 )
+  )
 }
 
 interface IDevolucaoInternaView : IDevolucaoAbstractView {

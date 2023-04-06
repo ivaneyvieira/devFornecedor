@@ -2,8 +2,6 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
-import br.com.astrosoft.devolucao.viewmodel.devolucao.Devolucao01ViewModel
-import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
 import br.com.astrosoft.devolucao.viewmodel.devolucao.INFDFornecedoresView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.NFDFornecedoresViewModel
 import br.com.astrosoft.framework.model.IUser

@@ -9,38 +9,40 @@ import br.com.astrosoft.devolucao.viewmodel.entrada.ETemIPI
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
-class NotaEntradaNdd(val id: Int,
-                     val storeno: Int,
-                     val custno: Int,
-                     val nome: String,
-                     val codigoSaci: Int,
-                     val fornecedorSap: Int,
-                     val email: String,
-                     val obs: String,
-                     val numero: Int,
-                     val serie: Int,
-                     val dataEmissao: LocalDate?,
-                     val cnpjEmitente: String,
-                     val cnpjDestinatario: String,
-                     val ieEmitente: String,
-                     val ieDestinatario: String,
-                     val baseCalculoIcms: Double,
-                     val baseCalculoSt: Double,
-                     val valorTotalProdutos: Double,
-                     val valorTotalIcms: Double,
-                     val valorTotalSt: Double,
-                     val baseCalculoIssqn: Double,
-                     val chave: String,
-                     val status: String,
-                     val xmlAut: String,
-                     val xmlCancelado: String,
-                     val xmlNfe: String,
-                     val xmlDadosAdicionais: String,
-                     val notaSaci: String,
-                     var ordno: Int,
-                     val transportadora: String,
-                     val conhecimentoFrete: String,
-                     val temIPIS: String) {
+class NotaEntradaNdd(
+  val id: Int,
+  val storeno: Int,
+  val custno: Int,
+  val nome: String,
+  val codigoSaci: Int,
+  val fornecedorSap: Int,
+  val email: String,
+  val obs: String,
+  val numero: Int,
+  val serie: Int,
+  val dataEmissao: LocalDate?,
+  val cnpjEmitente: String,
+  val cnpjDestinatario: String,
+  val ieEmitente: String,
+  val ieDestinatario: String,
+  val baseCalculoIcms: Double,
+  val baseCalculoSt: Double,
+  val valorTotalProdutos: Double,
+  val valorTotalIcms: Double,
+  val valorTotalSt: Double,
+  val baseCalculoIssqn: Double,
+  val chave: String,
+  val status: String,
+  val xmlAut: String,
+  val xmlCancelado: String,
+  val xmlNfe: String,
+  val xmlDadosAdicionais: String,
+  val notaSaci: String,
+  var ordno: Int,
+  val transportadora: String,
+  val conhecimentoFrete: String,
+  val temIPIS: String
+) {
   val aliquotaICMSCalculo
     get() = valorTotalIcms / valorTotalProdutos
 
@@ -84,9 +86,9 @@ class NotaEntradaNdd(val id: Int,
     return@lazy produtosNfe.produtosNotaEntradaNDD().filter {
       when (temIPIS) {
         ETemIPI.TODOS.toString() -> true
-        ETemIPI.SIM.toString()   -> it.temIPI
-        ETemIPI.NAO.toString()   -> !it.temIPI
-        else                     -> false
+        ETemIPI.SIM.toString() -> it.temIPI
+        ETemIPI.NAO.toString() -> !it.temIPI
+        else -> false
       }
     }
   }

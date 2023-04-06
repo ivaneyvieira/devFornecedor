@@ -46,7 +46,7 @@ class TabCteViewModel(val viewModel: EntradaViewModel) {
         cte = nota.cte,
         valorNota = nota.valorCte.format(),
         valorCalculado = nota.totalFrete.format(),
-                  )
+      )
     }
 
     val listaRelatorio = listaRelatorioFrete

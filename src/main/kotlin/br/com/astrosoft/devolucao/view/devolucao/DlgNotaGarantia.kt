@@ -19,16 +19,17 @@ import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 @CssImport("./styles/gridTotal.css")
 class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
-        DlgNotaAbstract<T>(viewModel) {
-  override fun createGridNotas(listNotas: List<NotaSaida>,
-                               serie: Serie,
-                               situacao: ESituacaoPendencia?): Grid<NotaSaida> {
+  DlgNotaAbstract<T>(viewModel) {
+  override fun createGridNotas(
+    listNotas: List<NotaSaida>,
+    serie: Serie,
+    situacao: ESituacaoPendencia?
+  ): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {
       addThemeVariants()

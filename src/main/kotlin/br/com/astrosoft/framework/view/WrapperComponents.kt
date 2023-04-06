@@ -22,7 +22,7 @@ fun (@VaadinDsl HasComponents).lazyDownloadButton(
   extensao: String,
   icon: Component? = null,
   byteArray: () -> ByteArray,
-                                                 ): LazyDownloadButton {
+): LazyDownloadButton {
   val ldb =
     LazyDownloadButton(
       text,
@@ -35,7 +35,7 @@ fun (@VaadinDsl HasComponents).lazyDownloadButton(
       {
         ByteArrayInputStream(byteArray())
       },
-                      )
+    )
   return init(ldb)
 }
 
@@ -45,13 +45,13 @@ fun (@VaadinDsl HasComponents).lazyDownloadButton(
   icon: Component? = null,
   fileName: () -> String,
   byteArray: () -> ByteArray,
-                                                 ): LazyDownloadButton {
+): LazyDownloadButton {
   val ldb =
     LazyDownloadButton(
       text,
       icon,
       fileName,
-                      ) {
+    ) {
       ByteArrayInputStream(byteArray())
     }
   return init(ldb)
@@ -62,5 +62,5 @@ fun (@VaadinDsl HasComponents).lazyDownloadButtonXlsx(
   text: String? = null,
   prefixo: String,
   byteArray: () -> ByteArray,
-                                                     ) =
+) =
   lazyDownloadButton(text, prefixo, "xlsx", FontAwesome.Solid.FILE_EXCEL.create(), byteArray)

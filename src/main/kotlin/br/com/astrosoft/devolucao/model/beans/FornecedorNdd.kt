@@ -5,19 +5,20 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.entrada.ETemIPI
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.util.format
-import com.fasterxml.jackson.databind.BeanDescription
 import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
-data class FornecedorNdd(val cnpj: String,
-                         val custno: Int,
-                         val nome: String,
-                         val vendno: Int,
-                         val fornecedorSap: Int,
-                         val email: String,
-                         val obs: String,
-                         val notas: List<NotaEntradaNdd>) {
+data class FornecedorNdd(
+  val cnpj: String,
+  val custno: Int,
+  val nome: String,
+  val vendno: Int,
+  val fornecedorSap: Int,
+  val email: String,
+  val obs: String,
+  val notas: List<NotaEntradaNdd>
+) {
   val temIPI: Boolean by lazy {
     notas.any { it.temIPI }
   }
@@ -45,13 +46,15 @@ data class FornecedorNdd(val cnpj: String,
 
     fun findNota(chave: String): NotaEntradaNdd? {
       return saci
-        .notasEntrada(FiltroEntradaNdd(
-          query = "",
-          tipo = ETipoNota.TODOS,
-          dataInicial = LocalDate.of(2000, 1, 1),
-          dataFinal = LocalDate.now(),
-          chave = chave,
-                                      ))
+        .notasEntrada(
+          FiltroEntradaNdd(
+            query = "",
+            tipo = ETipoNota.TODOS,
+            dataInicial = LocalDate.of(2000, 1, 1),
+            dataFinal = LocalDate.now(),
+            chave = chave,
+          )
+        )
         .firstOrNull()
     }
 
@@ -60,8 +63,8 @@ data class FornecedorNdd(val cnpj: String,
       val notaFilter = saci.notasEntrada(filtro).filter {
         when (filtro.temIPI) {
           ETemIPI.TODOS -> true
-          ETemIPI.SIM   -> it.temIPI
-          ETemIPI.NAO   -> !it.temIPI
+          ETemIPI.SIM -> it.temIPI
+          ETemIPI.NAO -> !it.temIPI
         }
       }
       return notaFilter.groupBy { it.cnpjEmitente }.mapNotNull { entry ->
@@ -69,14 +72,16 @@ data class FornecedorNdd(val cnpj: String,
         if (notas.isEmpty()) null
         else {
           val nota = notas.firstOrNull() ?: return@mapNotNull null
-          FornecedorNdd(cnpj = nota.cnpjEmitente,
-                        custno = nota.custno,
-                        nome = nota.nome,
-                        vendno = nota.codigoSaci,
-                        fornecedorSap = nota.fornecedorSap,
-                        email = nota.email,
-                        obs = nota.obs,
-                        notas = notas)
+          FornecedorNdd(
+            cnpj = nota.cnpjEmitente,
+            custno = nota.custno,
+            nome = nota.nome,
+            vendno = nota.codigoSaci,
+            fornecedorSap = nota.fornecedorSap,
+            email = nota.email,
+            obs = nota.obs,
+            notas = notas
+          )
         }
       }
     }
@@ -94,12 +99,14 @@ data class FornecedorNdd(val cnpj: String,
   }
 }
 
-data class FiltroEntradaNdd(val query: String,
-                            val tipo: ETipoNota,
-                            val dataInicial: LocalDate,
-                            val dataFinal: LocalDate,
-                            val chave: String = "",
-                            val temIPI: ETemIPI = ETemIPI.TODOS)
+data class FiltroEntradaNdd(
+  val query: String,
+  val tipo: ETipoNota,
+  val dataInicial: LocalDate,
+  val dataFinal: LocalDate,
+  val chave: String = "",
+  val temIPI: ETemIPI = ETemIPI.TODOS
+)
 
 enum class ETipoNota {
   RECEBER, RECEBIDO, TODOS

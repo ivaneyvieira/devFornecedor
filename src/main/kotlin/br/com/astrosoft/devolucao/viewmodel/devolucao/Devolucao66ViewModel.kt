@@ -16,7 +16,7 @@ class Devolucao66ViewModel(view: IDevolucao66View) : DevolucaoAbstractViewModel<
     view.tabNotaSerie66Pago,
     view.tabEntrada,
     view.tabEmailRecebido,
-                                 )
+  )
 }
 
 interface IDevolucao66View : IDevolucaoAbstractView {

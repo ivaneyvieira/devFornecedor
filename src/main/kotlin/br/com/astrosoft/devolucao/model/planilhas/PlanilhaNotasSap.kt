@@ -25,7 +25,7 @@ class PlanilhaNotasSap {
       CampoString("Data de Lancamento") { dataLancamento.format() },
       CampoString("Data de Vencimento") { dataVencimento.format() },
       CampoNumber("Saldo") { saldo },
-          )
+    )
 
   fun grava(listaNotas: List<NotaDevolucaoSap>): ByteArray {
     val wb = workbook {

@@ -20,7 +20,7 @@ class PlanilhaFornecedorResumo {
       CampoString("Primeira Data") { primeiraDataStr },
       CampoString("Ultima Data") { ultimaDataStr },
       CampoNumber("Saldo") { valorTotal },
-          )
+    )
 
   fun grava(listaNotas: List<Fornecedor>): ByteArray {
     val wb = workbook {

@@ -131,11 +131,13 @@ class MailGMail {
           if (subjectSearch == "") it.receivedDate.toLocalDate()?.isAfter(dataInicial) == true
           else it.subject?.contains(subjectSearch) ?: false
         }.mapNotNull { message ->
-          EmailMessage(messageID = (message as? IMAPMessage)?.messageID ?: "",
-                       subject = message.subject ?: "",
-                       data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-                       from = message.from.toList(),
-                       to = message.allRecipients.toList())
+          EmailMessage(
+            messageID = (message as? IMAPMessage)?.messageID ?: "",
+            subject = message.subject ?: "",
+            data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+            from = message.from.toList(),
+            to = message.allRecipients.toList()
+          )
         }
       }
     } catch (e: AuthenticationFailedException) {
@@ -186,7 +188,7 @@ class MailGMail {
 
 private fun Message.contentBean(): Content {
   val result = when {
-    this.isMimeType("text/plain")  -> {
+    this.isMimeType("text/plain") -> {
       this.content.toString()
     }
 
@@ -195,7 +197,7 @@ private fun Message.contentBean(): Content {
       getTextFromMimeMultipart(mimeMultipart)
     }
 
-    else                           -> ""
+    else -> ""
   }
   return Content(result, emptyList())
 }
@@ -212,8 +214,7 @@ private fun getTextFromMimeMultipart(mimeMultipart: MimeMultipart): String {
             ${bodyPart.content}
             """.trimIndent()
       break // without break same text appears twice in my tests
-    }
-    else if (bodyPart.content is MimeMultipart) {
+    } else if (bodyPart.content is MimeMultipart) {
       result += getTextFromMimeMultipart(bodyPart.content as MimeMultipart)
     }
   }
@@ -226,11 +227,13 @@ class GmailAuthenticator(val username: String, val password: String) : Authentic
   }
 }
 
-data class EmailMessage(val messageID: String,
-                        val subject: String,
-                        val data: LocalDateTime,
-                        val from: List<Address>,
-                        val to: List<Address>) {
+data class EmailMessage(
+  val messageID: String,
+  val subject: String,
+  val data: LocalDateTime,
+  val from: List<Address>,
+  val to: List<Address>
+) {
   fun content(): Content {
     val gmail = MailGMail()
     return gmail.listMessageContent(GamilFolder.Todos, messageID).firstOrNull() ?: Content("", emptyList())

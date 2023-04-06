@@ -14,7 +14,7 @@ class PedidoCompraFornecedor(
   val vlRecebido: Double,
   val vlPendente: Double,
   val pedidos: List<PedidoCompra>,
-                            ) {
+) {
 
   val dataPedidoInicioStr
     get() = dataPedidoInicio.format()
@@ -41,7 +41,7 @@ class PedidoCompraFornecedor(
         vlRecebido = pedidos.sumOf { it.vlRecebido },
         vlPendente = pedidos.sumOf { it.vlPendente },
         pedidos = pedidos,
-                            )
+      )
     }
   }
 }

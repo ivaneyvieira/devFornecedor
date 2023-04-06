@@ -32,11 +32,13 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
       NfPrecEntradaGrupo("Diferenças de Ref", nota, nota.pedidoCompra ?: 0, nota.refPrdn, nota.refPrdp)
     }
     val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de Frete",
-                         nota,
-                         nota.pedidoCompra ?: 0,
-                         nota.freten.format(),
-                         nota.fretep.format())
+      NfPrecEntradaGrupo(
+        "Diferenças de Frete",
+        nota,
+        nota.pedidoCompra ?: 0,
+        nota.freten.format(),
+        nota.fretep.format()
+      )
     }
     val barCodeDifList = listNotas.filter { it.barcodeDif != "S" }.map { nota ->
       NfPrecEntradaGrupo("Diferenças de Barras", nota, nota.pedidoCompra ?: 0, nota.barcoden, nota.barcodep)

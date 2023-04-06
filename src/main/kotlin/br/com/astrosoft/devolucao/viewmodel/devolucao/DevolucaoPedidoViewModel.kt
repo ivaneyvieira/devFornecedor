@@ -9,7 +9,7 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
     view.tabPedidoEditor,
     view.tabPedidoPendente,
     view.tabPedidoFinalizado,
-                                 )
+  )
 }
 
 interface IDevolucaoPedidoView : IDevolucaoAbstractView {

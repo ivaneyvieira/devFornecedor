@@ -21,7 +21,6 @@ import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.fetchAll
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 

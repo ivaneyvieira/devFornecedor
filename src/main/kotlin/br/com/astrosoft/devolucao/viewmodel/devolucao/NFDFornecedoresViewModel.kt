@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 class NFDFornecedoresViewModel(view: INFDFornecedoresView) :
-        DevolucaoAbstractViewModel<INFDFornecedoresView>(view) {
+  DevolucaoAbstractViewModel<INFDFornecedoresView>(view) {
 
   val tabNFDFornecedoresEditorViewModel = TabNFDFornecedoresEditorViewModel(this)
   val tabNFDFornecedoresAbertaViewModel = TabNFDFornecedoresAbertaViewModel(this)
@@ -11,7 +11,7 @@ class NFDFornecedoresViewModel(view: INFDFornecedoresView) :
     view.tabNFDFornecedoresEditor,
     view.tabNFDFornecedoresAberta,
     view.tabNFDFornecedoresPaga,
-                                 )
+  )
 }
 
 interface INFDFornecedoresView : IDevolucaoAbstractView {

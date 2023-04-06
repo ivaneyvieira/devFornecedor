@@ -30,8 +30,7 @@ class TabEmailRecebidoViewModel(val viewModel: Devolucao66ViewModel) : IEmailVie
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       gmail.salvaEmail(idEmail)
-    }
-    else fail("Erro ao enviar e-mail")
+    } else fail("Erro ao enviar e-mail")
   }
 }
 

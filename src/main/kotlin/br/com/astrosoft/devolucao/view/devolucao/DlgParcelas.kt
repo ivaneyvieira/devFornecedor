@@ -23,7 +23,6 @@ import com.github.mvysny.karibudsl.v10.h3
 import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -125,8 +124,10 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     }
   }
 
-  private fun HorizontalLayout.createGridNotaEntradas(listEntradas: List<NotaEntradaNdd>,
-                                                      flex: Double): VerticalLayout {
+  private fun HorizontalLayout.createGridNotaEntradas(
+    listEntradas: List<NotaEntradaNdd>,
+    flex: Double
+  ): VerticalLayout {
     val gridDetail = Grid(NotaEntradaNdd::class.java, false)
     val grid = gridDetail.apply {
       setSizeFull()
@@ -146,9 +147,11 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
         """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div>[[item.fatura]]</div>
           |</div>""".trimMargin()
-      this.setItemDetailsRenderer(TemplateRenderer
-                                    .of<NotaEntradaNdd?>(strTemplate)
-                                    .withProperty("fatura", NotaEntradaNdd::linhaFatura))
+      this.setItemDetailsRenderer(
+        TemplateRenderer
+          .of<NotaEntradaNdd?>(strTemplate)
+          .withProperty("fatura", NotaEntradaNdd::linhaFatura)
+      )
       listEntradas.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }

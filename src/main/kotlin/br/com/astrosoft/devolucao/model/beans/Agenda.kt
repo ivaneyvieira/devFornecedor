@@ -26,7 +26,7 @@ class Agenda(
   val pedido: Int,
   val frete: String?,
   val coleta: LocalDate?,
-            ) {
+) {
   val dataHoraRecebimento
     get() = "${dataRecbedor.format()} $horaRecebedor".trim()
 
@@ -39,7 +39,7 @@ class Agenda(
     conhecimento = conhecimento,
     dataRecbedor = dataRecbedor,
     horaRecebedor = horaRecebedor,
-                                   )
+  )
 
   companion object {
     fun listaAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja: Int) =

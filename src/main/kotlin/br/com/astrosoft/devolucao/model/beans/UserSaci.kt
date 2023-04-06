@@ -112,7 +112,7 @@ class UserSaci : IUser {
     get() = agendaAgendada || agendaPreEntrada || agendaRecebida || agendaRastreamento
   val menuEntrada
     get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo ||
-            entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE
+        entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE
   val menuCompra
     get() = compraPedidos || compraConferir
   val menuSaida
@@ -147,7 +147,7 @@ class DelegateAuthorized(numBit: Int) {
     thisRef ?: return
     val v = value ?: false
     thisRef.bitAcesso = when {
-      v    -> thisRef.bitAcesso or bit
+      v -> thisRef.bitAcesso or bit
       else -> thisRef.bitAcesso and bit.inv()
     }
   }

@@ -25,7 +25,7 @@ class PlanilhaFreteDif() {
       CampoString("descrição") { descricao },
       CampoNumber("freten") { freten },
       CampoNumber("fretep") { fretep },
-          )
+    )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

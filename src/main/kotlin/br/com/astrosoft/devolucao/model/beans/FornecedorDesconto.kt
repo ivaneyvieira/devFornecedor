@@ -7,7 +7,7 @@ class FornecedorDesconto(
   val custno: Int,
   val fornecedor: String,
   val notas: List<NotaEntradaDesconto>,
-                        ) {
+) {
   val labelTitle: String
     get() = "Fornecedor: $vendno - $fornecedor"
   val ultimaData
@@ -29,16 +29,17 @@ class FornecedorDesconto(
       if (filtro.query == "") {
         val listFor = saci.descontoDevolucao(filtro).groupBy { it.vendno }.mapNotNull { ent ->
           val nota = ent.value.firstOrNull() ?: return@mapNotNull null
-          FornecedorDesconto(vendno = nota.vendno,
-                             custno = nota.custno,
-                             fornecedor = nota.fornecedor,
-                             notas = ent.value)
+          FornecedorDesconto(
+            vendno = nota.vendno,
+            custno = nota.custno,
+            fornecedor = nota.fornecedor,
+            notas = ent.value
+          )
         }
         fornecedores.clear()
         fornecedores.addAll(listFor)
         return fornecedores
-      }
-      else {
+      } else {
         return fornecedores.filter { fornecedor ->
           fornecedor.filtroByNoLoja(filtro.loja.no) && fornecedor.filtroByQuery(filtro.query)
         }

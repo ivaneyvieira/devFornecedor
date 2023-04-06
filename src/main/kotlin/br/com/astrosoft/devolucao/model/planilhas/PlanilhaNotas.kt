@@ -36,7 +36,7 @@ class PlanilhaNotas {
         text.substring(0, 6.coerceAtMost(text.length))
       },
       CampoString("Chave Sefaz") { chaveSefaz ?: "" },
-          )
+    )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
     val wb = workbook {

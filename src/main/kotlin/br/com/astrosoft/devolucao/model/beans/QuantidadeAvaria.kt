@@ -6,4 +6,4 @@ class QuantidadeAvaria(
   val codigo: String,
   val codBarra: String,
   val quantidade: Double,
-                      )
+)

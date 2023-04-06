@@ -26,7 +26,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class TabAgendaPreEntrada(viewModel: TabAgendaPreEntradaViewModel) : TabAgendaAbstract(viewModel),
-        ITabAgendaPreEntrada {
+  ITabAgendaPreEntrada {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.agendaPreEntrada == true

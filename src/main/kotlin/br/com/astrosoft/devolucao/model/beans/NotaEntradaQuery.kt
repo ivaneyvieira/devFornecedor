@@ -28,7 +28,7 @@ class NotaEntradaQuery(
   val aliqIcms: Double,
   val aliqIpiP: Double,
   val aliqIcmsP: Double,
-                      ) {
+) {
   val dataStr
     get() = data.format()
 
@@ -53,7 +53,7 @@ class NotaEntradaQuery(
       descricaoGrupo,
       valorNota,
       valorProduto,
-                                )
+    )
   }
 
   companion object {
@@ -63,25 +63,27 @@ class NotaEntradaQuery(
   }
 }
 
-class NotaEntradaQueryGrupo(val lj: Int,
-                            val ni: Int,
-                            val data: LocalDate,
-                            val dataStr: String,
-                            val nfe: String,
-                            val fornCad: Int,
-                            val fornNota: Int,
-                            val prod: String,
-                            val descricao: String,
-                            val ncm: String,
-                            val cfop: String,
-                            val un: String,
-                            val quant: Int,
-                            val valorUnit: Double,
-                            val valorTotal: Double,
-                            val baseIcms: Double,
-                            val descricaoGrupo: String,
-                            val valorNota: String,
-                            val valorProduto: String)
+class NotaEntradaQueryGrupo(
+  val lj: Int,
+  val ni: Int,
+  val data: LocalDate,
+  val dataStr: String,
+  val nfe: String,
+  val fornCad: Int,
+  val fornNota: Int,
+  val prod: String,
+  val descricao: String,
+  val ncm: String,
+  val cfop: String,
+  val un: String,
+  val quant: Int,
+  val valorUnit: Double,
+  val valorTotal: Double,
+  val baseIcms: Double,
+  val descricaoGrupo: String,
+  val valorNota: String,
+  val valorProduto: String
+)
 
 private fun NotaEntradaQuery.filtroCaracter(listaCaracter: List<String>): Boolean {
   return if (listaCaracter.isEmpty()) true
@@ -93,15 +95,17 @@ private fun NotaEntradaQuery.filtroCaracter(listaCaracter: List<String>): Boolea
   }
 }
 
-data class FiltroNotaEntradaQuery(val storeno: Int,
-                                  val di: LocalDate,
-                                  val df: LocalDate,
-                                  val vendno: Int,
-                                  val mfno: Int,
-                                  val ni: Int,
-                                  val nf: String,
-                                  val listaProdutos: String,
-                                  val caraterInicial: String) {
+data class FiltroNotaEntradaQuery(
+  val storeno: Int,
+  val di: LocalDate,
+  val df: LocalDate,
+  val vendno: Int,
+  val mfno: Int,
+  val ni: Int,
+  val nf: String,
+  val listaProdutos: String,
+  val caraterInicial: String
+) {
   val listaCaracter
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
 }

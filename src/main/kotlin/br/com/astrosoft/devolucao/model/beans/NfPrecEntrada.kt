@@ -60,7 +60,7 @@ class NfPrecEntrada(
   val freteTotal: Double?,
   val preconTotal: Double?,
   val estoque: Int?,
-                   ) {
+) {
   val precoDifValue
     get() = precon - precop
 
@@ -129,7 +129,7 @@ open class FiltroRelatorio(
   open val caraterInicial: String,
   open val comGrade: Boolean,
   open val listaProdutos: String,
-                          ) {
+) {
   val listaCaracter
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
 }
@@ -142,11 +142,13 @@ enum class EDiferencaStr(val str: String, val descricao: String) {
   S("S", "Igual"), N("N", "Diferente"), T("T", "Todos")
 }
 
-data class NfPrecEntradaGrupo(val nomeGrupo: String,
-                              val nota: NfPrecEntrada,
-                              val pedidoCompra: Int,
-                              val valorNota: String,
-                              val valorPrecificacao: String) {
+data class NfPrecEntradaGrupo(
+  val nomeGrupo: String,
+  val nota: NfPrecEntrada,
+  val pedidoCompra: Int,
+  val valorNota: String,
+  val valorPrecificacao: String
+) {
   val lj = nota.lj
   val ni = nota.ni
   val dataStr = nota.dataStr

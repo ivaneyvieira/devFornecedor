@@ -42,8 +42,7 @@ class PlanilhaDevolucaoSap(val filename: String) {
       val notas = findNotas(codigo, nome)
       if (notas.isNotEmpty()) FornecedorSap(codigo = codigo, nome = nome, quantidadeNotas = notas.size, notas = notas)
       else null
-    }
-    else null
+    } else null
   }
 
   private fun findNotas(codigoFor: Int, nomeFor: String): List<NotaDevolucaoSap> {
@@ -58,17 +57,19 @@ class PlanilhaDevolucaoSap(val filename: String) {
           val saldo = row.getCell(9).getDoubleValue()
           val storeno = row.getCell(19).getformatValue().mid(0, 2).toIntOrNull() ?: 0
           val nota =
-            NotaDevolucaoSap(codigoFor = codigoFor,
-                             nomeFor = nomeFor,
-                             storeno = storeno,
-                             numero = numero,
-                             dataLancamento = dataLancamento,
-                             dataVencimento = dataVencimento,
-                             saldo = saldo)
+            NotaDevolucaoSap(
+              codigoFor = codigoFor,
+              nomeFor = nomeFor,
+              storeno = storeno,
+              numero = numero,
+              dataLancamento = dataLancamento,
+              dataVencimento = dataVencimento,
+              saldo = saldo
+            )
           listaNotas.add(nota)
         }
 
-        row.tipoLinha() == FORNECEDOR     -> {
+        row.tipoLinha() == FORNECEDOR -> {
           posicao--
           break@loop
         }
@@ -83,13 +84,13 @@ private fun Row.tipoLinha(): ETipoLinha {
   val cell03 = this.getCell(3).getformatValue()
   return when {
     cell01 == "" -> when (cell03) {
-      ""   -> VAZIO
+      "" -> VAZIO
       "DE" -> NOTA_DEVOLUCAO
       else -> NOTA_OUTRAS
     }
 
     cell03 == "" -> FORNECEDOR
-    else         -> CABECALHO
+    else -> CABECALHO
   }
 }
 

@@ -23,7 +23,6 @@ import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.IntegerField
@@ -84,8 +83,7 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
     return if (notas.isEmpty()) {
       viewModel.viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
-    }
-    else {
+    } else {
       DocumentOOXML().use { document ->
         val notaExcel = notas.map { nota ->
           FornecedorNotaExcel(
@@ -99,7 +97,7 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
             obs = nota.obs,
             situacao = nota.situacao,
             obsParcela = nota.obsParcela,
-                             )
+          )
         }
         document.addSheet(notaExcel)
         document.toBytes()
@@ -109,19 +107,20 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
 
   private fun updateGrid() {
     val notas =
-      FornecedorNota.findByFornecedor(FiltroFornecedorNota(
-        vendno = fornecedor?.vendno ?: 0,
-        loja = edtLoja.value ?: 0,
-        query = edtQuery.value ?: "",
-                                                          ))
+      FornecedorNota.findByFornecedor(
+        FiltroFornecedorNota(
+          vendno = fornecedor?.vendno ?: 0,
+          loja = edtLoja.value ?: 0,
+          query = edtQuery.value ?: "",
+        )
+      )
     gridNota.setItems(notas)
   }
 
   fun imprimirRelatorio(notas: List<FornecedorNota>) {
     if (notas.isEmpty()) {
       viewModel.viewModel.showError("Nenhuma item foi selecionado")
-    }
-    else {
+    } else {
       val report = RelatorioFornecedorNota.processaRelatorio(fornecedor?.labelTitle ?: "", notas)
       val chave = "DevFornecedorNota"
       SubWindowPDF(chave, report).open()

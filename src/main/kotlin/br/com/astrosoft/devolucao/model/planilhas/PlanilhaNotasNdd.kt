@@ -22,7 +22,7 @@ class PlanilhaNotasNdd {
       CampoString("Data de Lancamento") { dataEmissao.format() },
       CampoString("Data de Vencimento") { dataEmissao.format() },
       CampoNumber("Saldo") { baseCalculoIcms },
-          )
+    )
 
   fun grava(listaNotas: List<NotaEntradaNdd>): ByteArray {
     val wb = workbook {

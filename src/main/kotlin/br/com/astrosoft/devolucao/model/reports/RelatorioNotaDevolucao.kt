@@ -200,9 +200,9 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
           gradeCol,
           unCol,
           qtdeCol,
-                          )
+        )
 
-        else     -> listOf(
+        else -> listOf(
           itemCol,
           barcodeCol,
           refForCol,
@@ -217,23 +217,25 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
           ipiCol,
           vstCol,
           valorTotalIpiCol,
-                          )
+        )
       }
 
-      "PED"              -> when {
-        resumida -> if (pendente) listOf(itemCol,
-                                         barcodeCol,
-                                         refForCol,
-                                         codigoCol,
-                                         descricaoCol,
-                                         gradeCol,
-                                         unCol,
-                                         qtdeCol,
-                                         valorUnitarioCol,
-                                         valorTotalCol)
+      "PED" -> when {
+        resumida -> if (pendente) listOf(
+          itemCol,
+          barcodeCol,
+          refForCol,
+          codigoCol,
+          descricaoCol,
+          gradeCol,
+          unCol,
+          qtdeCol,
+          valorUnitarioCol,
+          valorTotalCol
+        )
         else listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
 
-        else     -> listOf(
+        else -> listOf(
           invnoCol,
           dataInvCol,
           notaInvCol,
@@ -253,20 +255,22 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
           valorIPICol,
           aliqICMSCol,
           aliqIPICol,
-                          )
+        )
       }
 
-      else               -> listOf(itemCol,
-                                   barcodeCol,
-                                   codigoCol,
-                                   descricaoCol,
-                                   gradeCol,
-                                   cstCol,
-                                   cfopCol,
-                                   unCol,
-                                   qtdeCol,
-                                   valorUnitarioCol,
-                                   valorTotalCol)
+      else -> listOf(
+        itemCol,
+        barcodeCol,
+        codigoCol,
+        descricaoCol,
+        gradeCol,
+        cstCol,
+        cfopCol,
+        unCol,
+        qtdeCol,
+        valorUnitarioCol,
+        valorTotalCol
+      )
     }
   }
 
@@ -311,8 +315,10 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         val dataNota = notaSaida.dataNota.format()
         val fornecedorSap = notaSaida.fornecedorSap
 
-        text("$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota",
-             LEFT)
+        text(
+          "$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota",
+          LEFT
+        )
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
     }
@@ -396,15 +402,15 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
       "PED" -> titleBuiderPedido()
       "AJT" -> titleBuiderAjuste()
       "FIN" -> titleBuilderFinanceiro()
-      "66"  -> titleBuiderNota66()
-      else  -> titleBuiderNota01()
+      "66" -> titleBuiderNota66()
+      else -> titleBuiderNota01()
     }
   }
 
   private fun sumaryBuild(): ComponentBuilder<*, *> {
     return verticalBlock {
       when (notaSaida.tipo) {
-        "1"   -> sumaryNota()
+        "1" -> sumaryNota()
         "PED" -> sumaryPedido()
       }
 
@@ -581,7 +587,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return when (notaSaida.tipo) {
-      in listOf("PED")              -> emptyList()
+      in listOf("PED") -> emptyList()
       in listOf("66", "AJT", "FIN") -> listOf(
         sbt.text("Total R$", valorUnitarioCol),
         sbt.sum(valorTotalCol),
@@ -591,15 +597,15 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         sbt.sum(ipiCol),
         sbt.sum(vstCol),
         sbt.sum(valorTotalIpiCol),
-                                             )
+      )
 
-      else                          -> listOf(
+      else -> listOf(
         sbt.text("Total R$", valorUnitarioCol),
         sbt.sum(valorTotalCol),
         sbt.sum(ipiCol),
         sbt.sum(vstCol),
         sbt.sum(valorTotalIpiCol),
-                                             )
+      )
     }
   }
 

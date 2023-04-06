@@ -20,7 +20,6 @@ import br.com.astrosoft.framework.view.list
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -115,15 +114,14 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
 }
 
 class GridLabel<T : Any>(val grid: Grid<T>, label: String, val toolbar: HorizontalLayout.() -> Unit = {}) :
-        VerticalLayout() {
+  VerticalLayout() {
   fun selectRow(notaSaida: T?) {
     if (notaSaida != null) {
       grid.select(notaSaida)
       val list = grid.list()
       val index = list.indexOf(notaSaida)
       if (index >= 0) grid.scrollToIndex(index)
-    }
-    else grid.deselectAll()
+    } else grid.deselectAll()
   }
 
   fun onSelect(selectBlock: (T?) -> Unit) {

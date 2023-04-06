@@ -19,7 +19,7 @@ class PlanilhaFornecedorNdd {
       CampoString("Primeira Data") { primeiraDataStr },
       CampoString("Ultima Data") { ultimaDataStr },
       CampoNumber("Saldo") { valorTotal },
-          )
+    )
 
   fun grava(listaNotas: List<FornecedorNdd>): ByteArray {
     val wb = workbook {

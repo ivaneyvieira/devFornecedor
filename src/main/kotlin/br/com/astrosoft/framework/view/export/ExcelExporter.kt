@@ -111,14 +111,14 @@ class ExcelExporter<T : Any>(val grid: Grid<T>) {
       cellList.add(row.createCell(col++).apply {
         cellStyle = style
         when (cellValue) {
-          null             -> setCellValue("")
-          is String        -> setCellValue(cellValue)
-          is Int           -> {
+          null -> setCellValue("")
+          is String -> setCellValue(cellValue)
+          is Int -> {
             cellStyle = cloneAndFormat(style, integerFormat)
             setCellValue(cellValue.toDouble())
           }
 
-          is Number        -> {
+          is Number -> {
             cellStyle = cloneAndFormat(style, numberFormat)
             setCellValue(cellValue.toDouble())
           }
@@ -128,17 +128,17 @@ class ExcelExporter<T : Any>(val grid: Grid<T>) {
             setCellValue(cellValue)
           }
 
-          is LocalDate     -> {
+          is LocalDate -> {
             cellStyle = cloneAndFormat(style, dateFormat)
             setCellValue(cellValue)
           }
 
-          is Calendar      -> {
+          is Calendar -> {
             cellStyle = cloneAndFormat(style, calendarFormat)
             setCellValue(cellValue)
           }
 
-          else             -> setCellValue(cellValue.toString())
+          else -> setCellValue(cellValue.toString())
         }
       })
     }

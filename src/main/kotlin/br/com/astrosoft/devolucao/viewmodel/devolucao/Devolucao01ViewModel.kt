@@ -22,7 +22,7 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
     view.tabSap,
     view.tabDesconto,
     view.tabRetorno,
-                                 )
+  )
 }
 
 interface IDevolucao01View : IDevolucaoAbstractView {

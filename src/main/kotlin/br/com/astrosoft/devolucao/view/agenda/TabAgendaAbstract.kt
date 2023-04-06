@@ -44,7 +44,7 @@ import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.value.ValueChangeMode.LAZY
 
 abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : TabPanelGrid<Agenda>(Agenda::class),
-        ITabAgenda {
+  ITabAgenda {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() { //Falta definir o filtro
@@ -101,8 +101,12 @@ abstract class TabAgendaAbstract(val viewModel: TabAgendaViewModelAbstract) : Ta
       }
     }
 
-    sort(listOf(GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
-                GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)))
+    sort(
+      listOf(
+        GridSortOrder(getColumnBy(Agenda::data), ASCENDING),
+        GridSortOrder(getColumnBy(Agenda::hora), ASCENDING)
+      )
+    )
   }
 
   override fun updateComponent() {

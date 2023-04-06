@@ -28,7 +28,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabPedidos(val viewModel: TabPedidosViewModel) :
-        TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabPedidosViewModel {
+  TabPanelGrid<PedidoCompraFornecedor>(PedidoCompraFornecedor::class), ITabPedidosViewModel {
   private var dialog: DlgNotaPedidoCompra? = null
   private lateinit var edtPedquisa: TextField
   private lateinit var edtDataPedido: DatePicker
@@ -102,7 +102,7 @@ class TabPedidos(val viewModel: TabPedidosViewModel) :
       onlyPendente = false,
       onlyConferido = false,
       onlyNotConferido = false,
-                             )
+    )
   }
 
   override fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>) {

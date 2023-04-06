@@ -24,7 +24,6 @@ import br.com.astrosoft.framework.view.decimalFieldEditor
 import br.com.astrosoft.framework.view.withEditor
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class DlgAvariaNotaNdd(val produtos: List<ProdutoNotaEntradaNdd>, val viewModel: TabAbstractEntradaNddViewModel<*>) {

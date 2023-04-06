@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.view.demanda
 
 import br.com.astrosoft.devolucao.model.beans.FornecedorNota
-import br.com.astrosoft.devolucao.model.beans.FornecedorProduto
 import br.com.astrosoft.devolucao.model.beans.NFFile
 import br.com.astrosoft.framework.view.SubWindowView
 import br.com.astrosoft.framework.view.addColumnButton
@@ -19,7 +18,7 @@ import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
 
 class FormAnexoNota(val nota: FornecedorNota, private val isReadOnly: Boolean, val updateAnexo: () -> Unit) :
-        VerticalLayout() {
+  VerticalLayout() {
   private var gridFile: Grid<NFFile>? = null
 
   init {

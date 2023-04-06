@@ -17,8 +17,12 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
 
-class FormAnexoFornecedor(val fornecedor: FornecedorProduto, private val isReadOnly: Boolean, val updateAnexo: () -> Unit) :
-        VerticalLayout() {
+class FormAnexoFornecedor(
+  val fornecedor: FornecedorProduto,
+  private val isReadOnly: Boolean,
+  val updateAnexo: () -> Unit
+) :
+  VerticalLayout() {
   private var gridFile: Grid<NFFile>? = null
 
   init {

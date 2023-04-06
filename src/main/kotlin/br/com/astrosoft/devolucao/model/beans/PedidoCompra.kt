@@ -22,7 +22,7 @@ class PedidoCompra(
   val vlRecebido: Double,
   val vlPendente: Double,
   val produtos: List<PedidoCompraProduto>,
-                  ) {
+) {
   var fileText: FileText? = null
 
   fun processaQuantPDF() {
@@ -34,9 +34,12 @@ class PedidoCompra(
       if (prd.linePDF != null) {
         val line = prd.linePDF
         val quant =
-          line?.getInt(startQuant, endQuant) ?: line?.getInt(startQuant?.minus(5), endQuant) ?: line?.getInt(startQuant,
-                                                                                                             endQuant?.plus(
-                                                                                                               5))
+          line?.getInt(startQuant, endQuant) ?: line?.getInt(startQuant?.minus(5), endQuant) ?: line?.getInt(
+            startQuant,
+            endQuant?.plus(
+              5
+            )
+          )
         val valor = line?.getDouble(startValor, endValor)
         prd.quantidadeCt = quant
         prd.valorUnitarioCt = valor
@@ -85,23 +88,27 @@ class PedidoCompra(
 
   fun saveExcel(bytes: ByteArray) {
     val nfFile =
-      NFFile(storeno = loja,
-             pdvno = PDV_COMPRA_EXCEL,
-             xano = numeroPedido,
-             date = DATA_COMPRA,
-             nome = "Pedido${numeroPedido}.xlsx",
-             file = bytes)
+      NFFile(
+        storeno = loja,
+        pdvno = PDV_COMPRA_EXCEL,
+        xano = numeroPedido,
+        date = DATA_COMPRA,
+        nome = "Pedido${numeroPedido}.xlsx",
+        file = bytes
+      )
     nfFile.insert()
   }
 
   fun savePDF(bytes: ByteArray) {
     val nfFile =
-      NFFile(storeno = loja,
-             pdvno = PDV_COMPRA_PDF,
-             xano = numeroPedido,
-             date = DATA_COMPRA,
-             nome = "Pedido${numeroPedido}.pdf",
-             file = bytes)
+      NFFile(
+        storeno = loja,
+        pdvno = PDV_COMPRA_PDF,
+        xano = numeroPedido,
+        date = DATA_COMPRA,
+        nome = "Pedido${numeroPedido}.pdf",
+        file = bytes
+      )
     nfFile.insert()
   }
 
@@ -115,23 +122,27 @@ class PedidoCompra(
 
   fun removeExcel() {
     val nfFile =
-      NFFile(storeno = loja,
-             pdvno = PDV_COMPRA_EXCEL,
-             xano = numeroPedido,
-             date = DATA_COMPRA,
-             nome = "Pedido${numeroPedido}.xls",
-             file = ByteArray(0))
+      NFFile(
+        storeno = loja,
+        pdvno = PDV_COMPRA_EXCEL,
+        xano = numeroPedido,
+        date = DATA_COMPRA,
+        nome = "Pedido${numeroPedido}.xls",
+        file = ByteArray(0)
+      )
     saci.deleteFile(nfFile)
   }
 
   fun removePDF() {
     val nfFile =
-      NFFile(storeno = loja,
-             pdvno = PDV_COMPRA_PDF,
-             xano = numeroPedido,
-             date = DATA_COMPRA,
-             nome = "Pedido${numeroPedido}.pdf",
-             file = ByteArray(0))
+      NFFile(
+        storeno = loja,
+        pdvno = PDV_COMPRA_PDF,
+        xano = numeroPedido,
+        date = DATA_COMPRA,
+        nome = "Pedido${numeroPedido}.pdf",
+        file = ByteArray(0)
+      )
     saci.deleteFile(nfFile)
   }
 
@@ -176,7 +187,7 @@ class PedidoCompra(
           vlRecebido = produtos.sumOf { it.vlRecebido ?: 0.00 },
           vlPendente = produtos.sumOf { it.vlPendente ?: 0.00 },
           produtos = produtos,
-                    )
+        )
       }
     }
   }

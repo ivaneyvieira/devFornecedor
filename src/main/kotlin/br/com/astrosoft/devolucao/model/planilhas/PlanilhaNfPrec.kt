@@ -36,22 +36,22 @@ class PlanilhaNfPrec(val fiscal: Boolean) {
       CampoString("cstp") { cstp },
       CampoNumber("mvan") { mvanApŕox },
       CampoNumber("mvap") { mvap },
-                      )
+    )
     else listOf(CampoInt("lj") { lj },
-                CampoInt("ni") { ni },
-                CampoString("data") { data.format() },
-                CampoString("nfe") { nfe },
-                CampoString("forn Cad") { fornCad },
-                CampoString("forn Nota") { fornNota },
-                CampoString("prod") { prod },
-                CampoString("descrição") { descricao },
-                CampoString("grade") { grade },
-                CampoString("refn") { refPrdn },
-                CampoString("refp") { refPrdp },
-                CampoString("barrasn") { barcoden },
-                CampoString("barrasp") { barcodep },
-                CampoString("ncmn") { ncmn },
-                CampoString("ncmp") { ncmp })
+      CampoInt("ni") { ni },
+      CampoString("data") { data.format() },
+      CampoString("nfe") { nfe },
+      CampoString("forn Cad") { fornCad },
+      CampoString("forn Nota") { fornNota },
+      CampoString("prod") { prod },
+      CampoString("descrição") { descricao },
+      CampoString("grade") { grade },
+      CampoString("refn") { refPrdn },
+      CampoString("refp") { refPrdp },
+      CampoString("barrasn") { barcoden },
+      CampoString("barrasp") { barcodep },
+      CampoString("ncmn") { ncmn },
+      CampoString("ncmp") { ncmp })
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {
@@ -88,15 +88,15 @@ fun <T> PSheet.row(campos: List<Campo<*, T>>, bean: T) {
     autoSizeColumn(index)
     row.createCell(index).apply {
       when (cellValue) {
-        is String    -> setCellValue(cellValue)
-        is Int       -> {
+        is String -> setCellValue(cellValue)
+        is Int -> {
           val style = workbook.createCellStyle()
           style.dataFormat = creationHelper.createDataFormat().getFormat("0")
           cellStyle = style
           setCellValue(cellValue.toDouble())
         }
 
-        is Number    -> {
+        is Number -> {
           val style = workbook.createCellStyle()
           style.dataFormat = creationHelper.createDataFormat().getFormat("0.00")
           cellStyle = style
@@ -104,7 +104,7 @@ fun <T> PSheet.row(campos: List<Campo<*, T>>, bean: T) {
         }
 
         is LocalDate -> setCellValue(cellValue.format())
-        else         -> setCellValue(cellValue.toString())
+        else -> setCellValue(cellValue.toString())
       }
     }
   }

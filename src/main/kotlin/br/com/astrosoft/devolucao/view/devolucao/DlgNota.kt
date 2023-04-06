@@ -31,15 +31,16 @@ import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 @CssImport("./styles/gridTotal.css")
 class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) : DlgNotaAbstract<T>(viewModel) {
-  override fun createGridNotas(listNotas: List<NotaSaida>,
-                               serie: Serie,
-                               situacao: ESituacaoPendencia?): Grid<NotaSaida> {
+  override fun createGridNotas(
+    listNotas: List<NotaSaida>,
+    serie: Serie,
+    situacao: ESituacaoPendencia?
+  ): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {
       //addThemeVariants()
@@ -93,8 +94,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
         }
         notaObservacao()
         notaValorPago().decimalFieldEditor()
-      }
-      else {
+      } else {
         if (serie !in listOf(PED)) {
           notaFatura()
         }
@@ -110,8 +110,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
           docSituacao(situacao).textFieldEditor()
           notaSituacao(situacao).textFieldEditor()
           tituloSituacao(situacao).textFieldEditor()
-        }
-        else {
+        } else {
           if (situacao != ESituacaoPendencia.BASE) {
             docSituacao(situacao).textFieldEditor()
             notaSituacao(situacao).textFieldEditor()
@@ -138,8 +137,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
       }
       if (serie in listOf(PED, AJT, AJC, AJD, AJP, A66)) {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
-      }
-      else {
+      } else {
         sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataNota), SortDirection.ASCENDING)))
       }
     }

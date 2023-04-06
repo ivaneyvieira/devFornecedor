@@ -59,8 +59,7 @@ class FileText {
           val str = line.lineStr
           if (strNext.length < (str.length / 4)) {
             lineNext?.findInDescricao(text) == true
-          }
-          else false
+          } else false
         }
       }
       lineFound01

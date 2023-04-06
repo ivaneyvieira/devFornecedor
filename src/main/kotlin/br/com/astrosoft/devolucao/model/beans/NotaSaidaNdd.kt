@@ -7,16 +7,18 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.Config
 import java.time.LocalDate
 
-class NotaSaidaNdd(val loja: Int,
-                   val numero: Int,
-                   val serie: Int,
-                   val nota: String,
-                   val codigoCliente: Int,
-                   val nomeCliente: String,
-                   val pedido: Int,
-                   val data: LocalDate,
-                   val valor: Double,
-                   val chave: String) {
+class NotaSaidaNdd(
+  val loja: Int,
+  val numero: Int,
+  val serie: Int,
+  val nota: String,
+  val codigoCliente: Int,
+  val nomeCliente: String,
+  val pedido: Int,
+  val data: LocalDate,
+  val valor: Double,
+  val chave: String
+) {
 
   fun produtosNDD(): ProdutoNotaEntradaVO? {
     return ndd.produtosNotasSaida(loja, numero, serie)
@@ -38,12 +40,14 @@ class NotaSaidaNdd(val loja: Int,
   }
 }
 
-class FiltroNotaSaidaNdd(val loja: Int?,
-                         val nota: String?,
-                         val codigoCliente: Int?,
-                         val nomeCliente: String?,
-                         val dataI: LocalDate?,
-                         val dataF: LocalDate?) {
+class FiltroNotaSaidaNdd(
+  val loja: Int?,
+  val nota: String?,
+  val codigoCliente: Int?,
+  val nomeCliente: String?,
+  val dataI: LocalDate?,
+  val dataF: LocalDate?
+) {
   val numero
     get() = nota?.split("/")?.getOrNull(0)?.toIntOrNull()
   val serie

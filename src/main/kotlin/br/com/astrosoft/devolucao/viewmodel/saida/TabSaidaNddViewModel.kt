@@ -13,8 +13,7 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     val filtro = subView.filtro()
     if (filtro.isEmpty()) {
       limparView()
-    }
-    else {
+    } else {
       val resultList = NotaSaidaNdd.findAll(subView.filtro())
       subView.limparFiltro()
       subView.updateGrid(resultList)

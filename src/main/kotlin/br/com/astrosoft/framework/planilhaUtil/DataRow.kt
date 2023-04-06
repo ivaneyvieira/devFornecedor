@@ -23,7 +23,7 @@ class DataRow(private val tipo: ETipoFindCol) {
     val key = map.keys.firstOrNull { k ->
       val dea = deAccent(k)
       when (tipo) {
-        ETipoFindCol.EXATO      -> dea.uppercase().equals(colname, ignoreCase = true) || k == colname
+        ETipoFindCol.EXATO -> dea.uppercase().equals(colname, ignoreCase = true) || k == colname
         ETipoFindCol.APROXIMADO -> dea.uppercase().contains(colname, ignoreCase = true) || k == colname
       }
     }
@@ -33,8 +33,7 @@ class DataRow(private val tipo: ETipoFindCol) {
         println("Coluna '$colname' não encontrada")
       }
       null
-    }
-    else {
+    } else {
       val value = map[key]
       value
     }

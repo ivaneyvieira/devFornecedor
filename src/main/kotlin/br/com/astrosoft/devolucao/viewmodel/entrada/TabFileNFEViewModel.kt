@@ -48,8 +48,8 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
       val fornecedorCad = nota.fornecedorCad?.split(",").orEmpty()
       val fornecedorNota = nota.fornecedorNota?.toString() ?: ""
       query == "" || cnpj == query || fornecedor.contains(query, ignoreCase = true) ||
-      chave.contains(query, ignoreCase = true) || valorProduto.startsWith(query) ||
-      valorNota.startsWith(query) || ni == query || cfop == query || fornecedorCad.contains(query) || fornecedorNota == query
+          chave.contains(query, ignoreCase = true) || valorProduto.startsWith(query) ||
+          valorNota.startsWith(query) || ni == query || cfop == query || fornecedorCad.contains(query) || fornecedorNota == query
     }
 
     subView.updateList(listLocal)
@@ -59,8 +59,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")
       ByteArray(0)
-    }
-    else {
+    } else {
       val baos = ByteArrayOutputStream()
       try {
         ZipOutputStream(baos).use { zos ->
@@ -85,8 +84,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")
       ByteArray(0)
-    }
-    else {
+    } else {
       val baos = ByteArrayOutputStream()
       try {
         ZipOutputStream(baos).use { zos ->
@@ -111,8 +109,7 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")
       ByteArray(0)
-    }
-    else {
+    } else {
       val baos = ByteArrayOutputStream()
       try {
         ZipOutputStream(baos).use { zos ->

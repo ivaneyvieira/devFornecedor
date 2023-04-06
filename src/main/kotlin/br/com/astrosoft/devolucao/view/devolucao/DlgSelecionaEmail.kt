@@ -12,7 +12,6 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstr
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class DlgSelecionaEmail<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {

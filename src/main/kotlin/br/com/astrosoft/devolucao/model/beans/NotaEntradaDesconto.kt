@@ -18,7 +18,7 @@ class NotaEntradaDesconto(
   val pagamento: Double,
   val obsNota: String,
   val chaveDesconto: String,
-                         ) {
+) {
 
   val obsFormat1: String
     get() {

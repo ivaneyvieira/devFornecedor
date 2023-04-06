@@ -20,7 +20,7 @@ class NotaEntradaXML(
   val chave: String,
   val cfop: Int,
   val cte: Int?,
-                    ) {
+) {
   val notaFiscal
     get() = "$numero/$serie"
 
@@ -48,4 +48,4 @@ data class FiltroNotaEntradaXML(
   val cnpj: String,
   val fornecedor: String,
   val query: String,
-                               )
+)

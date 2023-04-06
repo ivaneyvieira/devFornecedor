@@ -5,12 +5,14 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.framework.util.format
 
-data class FornecedorSap(val codigo: Int,
-                         val vendno: Int = 0,
-                         val custno: Int = 0,
-                         val nome: String,
-                         val quantidadeNotas: Int,
-                         val notas: List<NotaDevolucaoSap>) {
+data class FornecedorSap(
+  val codigo: Int,
+  val vendno: Int = 0,
+  val custno: Int = 0,
+  val nome: String,
+  val quantidadeNotas: Int,
+  val notas: List<NotaDevolucaoSap>
+) {
   private val notasSaci = calculaNotasSaci()
 
   fun notasSaci() = notasSaci
@@ -48,12 +50,14 @@ data class FornecedorSap(val codigo: Int,
       val listNotaSap = saci.listNotaSap(filtro)
       val fornecedores = listNotaSap.groupBy { it.codigoFor }.mapNotNull { ent ->
         val nota = ent.value.firstOrNull() ?: return@mapNotNull null
-        FornecedorSap(codigo = nota.codigoFor,
-                      vendno = nota.vendno,
-                      custno = nota.custno,
-                      nome = nota.nomeFor,
-                      quantidadeNotas = ent.value.size,
-                      notas = ent.value)
+        FornecedorSap(
+          codigo = nota.codigoFor,
+          vendno = nota.vendno,
+          custno = nota.custno,
+          nome = nota.nomeFor,
+          quantidadeNotas = ent.value.size,
+          notas = ent.value
+        )
       }
       return fornecedores
     }

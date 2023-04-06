@@ -12,7 +12,7 @@ data class AgendaUpdate(
   var conhecimento: String?,
   val dataRecbedor: LocalDate?,
   val horaRecebedor: String?,
-                       ) {
+) {
   fun save() {
     saci.updateAgenda(this)
   }

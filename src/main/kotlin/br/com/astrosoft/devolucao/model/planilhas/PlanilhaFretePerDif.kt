@@ -33,7 +33,7 @@ class PlanilhaFretePerDif() {
       CampoNumber("R$ Frete") { freteTotal ?: 0.00 },
       CampoNumber("% F NF") { fretePerNf ?: 0.00 },
       CampoNumber("% F Prc") { fretePerPrc ?: 0.00 },
-          )
+    )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

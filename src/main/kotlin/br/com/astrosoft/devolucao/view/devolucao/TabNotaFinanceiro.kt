@@ -10,7 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class TabNotaFinanceiro(viewModel: TabNotaFinanceiroViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel),
-        ITabNotaFinanceiro {
+  ITabNotaFinanceiro {
   override val label: String
     get() = "Financeiro"
   override val situacaoPendencia: ESituacaoPendencia?

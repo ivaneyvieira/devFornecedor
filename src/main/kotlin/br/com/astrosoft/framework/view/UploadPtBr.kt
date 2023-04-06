@@ -14,18 +14,22 @@ class UploadPtBr : UploadI18N() {
         .setIncorrectFileType("Formato de arquivo incorreto.")
     uploading =
       Uploading()
-        .setStatus(Uploading
-                     .Status()
-                     .setConnecting("Conectando...")
-                     .setStalled("Parou")
-                     .setProcessing("Processando arquivo...")
-                     .setHeld("Em arquivo único"))
+        .setStatus(
+          Uploading
+            .Status()
+            .setConnecting("Conectando...")
+            .setStalled("Parou")
+            .setProcessing("Processando arquivo...")
+            .setHeld("Em arquivo único")
+        )
         .setRemainingTime(RemainingTime().setPrefix("tempo restante: ").setUnknown("tempo restante não disponível"))
-        .setError(Uploading
-                    .Error()
-                    .setServerUnavailable("Servidor não responde\n")
-                    .setUnexpectedServerError("Erro de servidor\n")
-                    .setForbidden("Negado"))
+        .setError(
+          Uploading
+            .Error()
+            .setServerUnavailable("Servidor não responde\n")
+            .setUnexpectedServerError("Erro de servidor\n")
+            .setForbidden("Negado")
+        )
     units = Units().setSize(listOf("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"))
   }
 }

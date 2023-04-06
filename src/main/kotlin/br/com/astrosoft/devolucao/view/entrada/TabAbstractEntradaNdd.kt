@@ -32,7 +32,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class TabAbstractEntradaNdd<T : ITabAbstractEntradaNddViewModel>(val viewModel: TabAbstractEntradaNddViewModel<T>) :
-        TabPanelGrid<FornecedorNdd>(FornecedorNdd::class), ITabAbstractEntradaNddViewModel {
+  TabPanelGrid<FornecedorNdd>(FornecedorNdd::class), ITabAbstractEntradaNddViewModel {
   private lateinit var edtFiltro: TextField
   private lateinit var edtDataInicial: DatePicker
   private lateinit var edtDataFinal: DatePicker

@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import io.github.rushuat.ocell.annotation.FieldName
-import java.time.LocalDate
 
 class FornecedorNotaExcel(
   @FieldName("Loja")
@@ -24,4 +23,4 @@ class FornecedorNotaExcel(
   val situacao: String?,
   @FieldName("Observação Parcela")
   val obsParcela: String?,
-                         )
+)

@@ -14,7 +14,7 @@ class ReimpressaoNota(
   val codcli: Int?,
   val nomecli: String?,
   val valor: Double?,
-                     ) {
+) {
   companion object {
     fun findReimpressao(filtro: FiltroReimpressao): List<ReimpressaoNota> = saci.findReimpressao(filtro)
   }

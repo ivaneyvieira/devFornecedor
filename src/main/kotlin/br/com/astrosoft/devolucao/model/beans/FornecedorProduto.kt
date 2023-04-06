@@ -13,7 +13,7 @@ class FornecedorProduto(
   val cidade: String,
   val uf: String,
   var texto: String,
-                       ) {
+) {
   private fun createDemanda(): AgendaDemanda {
     val agenda =
       AgendaDemanda(
@@ -23,7 +23,7 @@ class FornecedorProduto(
         vendno = vendno,
         destino = "",
         origem = "",
-                   )
+      )
     agenda.save()
     return agenda
   }
@@ -36,16 +36,18 @@ class FornecedorProduto(
     saci.deleteFile(bean)
   }
 
-    fun addAnexo(fileName: String?, bytes: ByteArray) {
+  fun addAnexo(fileName: String?, bytes: ByteArray) {
     fileName ?: return
-    saci.insertFile(NFFile(
-      storeno = 88,
-      pdvno = 8888,
-      xano = vendno,
-      date = LocalDate.now(),
-      nome = fileName,
-      file = bytes,
-                          ))
+    saci.insertFile(
+      NFFile(
+        storeno = 88,
+        pdvno = 8888,
+        xano = vendno,
+        date = LocalDate.now(),
+        nome = fileName,
+        file = bytes,
+      )
+    )
   }
 
   val labelTitle
