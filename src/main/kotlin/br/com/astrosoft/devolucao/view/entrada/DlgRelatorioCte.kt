@@ -38,7 +38,6 @@ import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.select.Select
@@ -53,8 +52,12 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
 
   fun updateGrid() {
     val list =
-      viewModel.findNotas(FiltroDialog(status = cmbStatus?.value ?: EStatusFrete.TODOS,
-                                       diferenca = cmbDifFrete?.value ?: EDifFrete.TODOS))
+      viewModel.findNotas(
+        FiltroDialog(
+          status = cmbStatus?.value ?: EStatusFrete.TODOS,
+          diferenca = cmbDifFrete?.value ?: EDifFrete.TODOS
+        )
+      )
     gridNota.setItems(list)
   }
 

@@ -16,7 +16,7 @@ class NotaEntradaSaci(
   dataEmissao: LocalDate,
   ordno: Int,
   chave: String,
-                     ) {
+) {
   companion object {
     fun findAll(filtro: FiltroEntradaSaci) = saci.notasEntradaSaci(filtro)
   }
@@ -27,4 +27,4 @@ data class FiltroEntradaSaci(
   val dataInicial: LocalDate,
   val dataFinal: LocalDate,
   val chave: String = "",
-                            )
+)

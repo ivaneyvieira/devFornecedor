@@ -72,7 +72,7 @@ class TabFretePer(val viewModel: TabFretePerViewModel) : ITabFretePerViewModel, 
       comGrade = true,
       pesquisa = "",
       listaProdutos = "",
-                          )
+    )
   }
 
   override fun openRelatorio() {

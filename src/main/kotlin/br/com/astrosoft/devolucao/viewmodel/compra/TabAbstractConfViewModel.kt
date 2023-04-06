@@ -90,16 +90,15 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   final override fun pedidoOK(): EFileType {
     return when {
       listPedidoExcel.isNotEmpty() -> EFileType.XLSX
-      fileText.isNotEmpty()        -> EFileType.PDF
-      else                         -> EFileType.NONE
+      fileText.isNotEmpty() -> EFileType.PDF
+      else -> EFileType.NONE
     }
   }
 
   final override fun setFileExcel(fileText: ByteArray?) = viewModel.exec {
     if (fileText == null) {
       listPedidoExcel.clear()
-    }
-    else {
+    } else {
       try {
         val df = DataFrame.readExcel(ByteArrayInputStream(fileText))
         val list = df.map { row ->
@@ -116,7 +115,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
             quantidade = quantidade.toInt(),
             valorUnitario = valorUnitario.toDouble(),
             valorTotal = valorTotal.toDouble(),
-                     )
+          )
         }
         listPedidoExcel.clear()
         listPedidoExcel.addAll(list)
@@ -140,8 +139,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   final override fun setFilePDF(fileText: ByteArray?) {
     if (fileText == null) {
       this.fileText.clear()
-    }
-    else {
+    } else {
       this.fileText.loadPDF(fileText)
     }
   }
@@ -177,8 +175,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     return if (pedidos.isEmpty()) {
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
-    }
-    else {
+    } else {
       DocumentOOXML().use { document ->
         document.addSheet(pedidos.flatMap { it.produtos }.sortedWith(compareBy({ it.vendno }, { it.loja }, {
           it.dataPedido
@@ -192,10 +189,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     this ?: return null
     return when (this) {
       is String -> this
-      is Int    -> this.toString()
-      is Long   -> this.toString()
+      is Int -> this.toString()
+      is Long -> this.toString()
       is Double -> this.toLong().toString()
-      else      -> this.toString()
+      else -> this.toString()
     }
   }
 
@@ -203,10 +200,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     this ?: return null
     return when (this) {
       is String -> this.toIntOrNull()
-      is Int    -> this.toInt()
-      is Long   -> this.toInt()
+      is Int -> this.toInt()
+      is Long -> this.toInt()
       is Double -> this.toInt()
-      else      -> this.toString().toIntOrNull()
+      else -> this.toString().toIntOrNull()
     }
   }
 
@@ -214,10 +211,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     this ?: return null
     return when (this) {
       is String -> this.toDoubleOrNull()
-      is Int    -> this.toDouble()
-      is Long   -> this.toDouble()
+      is Int -> this.toDouble()
+      is Long -> this.toDouble()
       is Double -> this
-      else      -> this.toString().toDoubleOrNull()
+      else -> this.toString().toDoubleOrNull()
     }
   }
 
@@ -225,8 +222,7 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     return if (pedidos.isEmpty()) {
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
-    }
-    else DocumentOOXML().use { document ->
+    } else DocumentOOXML().use { document ->
       document.addSheet(pedidos.sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido })))
       document.toBytes()
     }

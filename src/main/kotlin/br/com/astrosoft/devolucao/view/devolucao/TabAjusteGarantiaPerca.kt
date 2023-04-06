@@ -23,7 +23,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 class TabAjusteGarantiaPerca(viewModel: TabAjusteGarantiaPercaViewModel) :
-        TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPerca {
+  TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPerca {
   override val label: String
     get() = "Perca"
   override val situacaoPendencia: ESituacaoPendencia?

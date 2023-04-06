@@ -27,10 +27,12 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel) : IVie
   fun salvaAgendamento(bean: AgendaUpdate?) = viewModel.exec {
     bean ?: fail("Agendamento inválido")
     val newbean =
-      if (bean.dataRecbedor == null && !bean.recebedor.isNullOrEmpty()) bean.copy(dataRecbedor = LocalDate.now(),
-                                                                                  horaRecebedor = LocalTime
-                                                                                    .now()
-                                                                                    .format())
+      if (bean.dataRecbedor == null && !bean.recebedor.isNullOrEmpty()) bean.copy(
+        dataRecbedor = LocalDate.now(),
+        horaRecebedor = LocalTime
+          .now()
+          .format()
+      )
       else bean
     newbean.save()
     updateView()

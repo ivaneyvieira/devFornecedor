@@ -38,7 +38,7 @@ import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
-        TabPanelGrid<NotaEntradaXML>(NotaEntradaXML::class) {
+  TabPanelGrid<NotaEntradaXML>(NotaEntradaXML::class) {
   private lateinit var edtNota: IntegerField
   private lateinit var edtFornecedorNota: TextField
   private lateinit var edtQuery: TextField
@@ -56,7 +56,7 @@ class TabFileNFE(val viewModel: TabFileNFEViewModel) : ITabFileNFEViewModel,
       cnpj = edtCNPJ.value ?: "",
       fornecedor = edtFornecedorNota.value ?: "",
       query = edtQuery.value ?: "",
-                                   )
+    )
   }
 
   override fun updateList(list: List<NotaEntradaXML>) {

@@ -28,7 +28,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val situacao: () -> ESituacaoPendencia) :
-        TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
+  TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
   override val label: String
     get() = situacao().title
   override val serie: Serie
@@ -42,21 +42,21 @@ class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val si
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci ?: return false
     return when (situacao()) {
-      BASE              -> username.forPendenteBASE
-      NOTA              -> username.forPendenteNOTA
-      EMAIL             -> username.forPendenteEMAIL
-      TRANSITO          -> username.forPendenteTRANSITO
-      FABRICA           -> username.forPendenteFABRICA
-      CREDITO_AGUARDAR  -> username.forPendenteCREDITO_AGUARDAR
+      BASE -> username.forPendenteBASE
+      NOTA -> username.forPendenteNOTA
+      EMAIL -> username.forPendenteEMAIL
+      TRANSITO -> username.forPendenteTRANSITO
+      FABRICA -> username.forPendenteFABRICA
+      CREDITO_AGUARDAR -> username.forPendenteCREDITO_AGUARDAR
       CREDITO_CONCEDIDO -> username.forPendenteCREDITO_CONCEDIDO
-      CREDITO_APLICADO  -> username.forPendenteCREDITO_APLICADO
-      CREDITO_CONTA     -> username.forPendenteCREDITO_CONTA
-      BONIFICADA        -> username.forPendenteBONIFICADA
-      REPOSICAO         -> username.forPendenteREPOSICAO
-      RETORNO           -> username.forPendenteRETORNO
-      AGUARDA_COLETA    -> username.forPendenteAGUARDA_COLETA
-      ASSINA_CTE        -> username.forPendenteASSINA_CTE
-      else              -> false
+      CREDITO_APLICADO -> username.forPendenteCREDITO_APLICADO
+      CREDITO_CONTA -> username.forPendenteCREDITO_CONTA
+      BONIFICADA -> username.forPendenteBONIFICADA
+      REPOSICAO -> username.forPendenteREPOSICAO
+      RETORNO -> username.forPendenteRETORNO
+      AGUARDA_COLETA -> username.forPendenteAGUARDA_COLETA
+      ASSINA_CTE -> username.forPendenteASSINA_CTE
+      else -> false
     }
   }
 
@@ -79,8 +79,7 @@ class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val si
         columns.add(pSit, niCol)
       }
       gridPanel.setColumnOrder(columns)
-    }
-    else if (situacao == BASE) {
+    } else if (situacao == BASE) {
       niCol.isVisible = false
       tituloCol.isVisible = false
       docCol.isVisible = false

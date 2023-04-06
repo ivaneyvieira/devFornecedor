@@ -23,7 +23,7 @@ class PedidoExcel(
   @FieldName("VALOR TOTAL")
   @FieldOrder(5)
   val valorTotal: Double?,
-                 ) {
+) {
   @FieldExclude
   var linha: Int = 0
 }

@@ -31,7 +31,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabFretePerViewModel,
     view.tabCteViewModel,
     view.tabFileNFEViewModel,
-                                 )
+  )
 }
 
 interface IEntradaView : IView {

@@ -40,7 +40,7 @@ object CupsUtils {
   fun printCups(impressora: String, text: String, resultMsg: (String) -> Unit = {}) {
     val printer =
       findPrinter(impressora)
-      ?: throw ECupsPrinter("Impressora $impressora não está configurada no sistema operacional")
+        ?: throw ECupsPrinter("Impressora $impressora não está configurada no sistema operacional")
     printer.printText(text, resultMsg)
   }
 

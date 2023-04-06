@@ -21,15 +21,17 @@ class FormEmail(val viewModel: IEmailView, notas: List<NotaSaida>, emailEnviado:
   private lateinit var chkRelatorioResumido: Checkbox
   private lateinit var cmbEmail: ComboBox<String>
   private var gmail: EmailGmail
-    get() = EmailGmail(email = cmbEmail.value ?: "",
-                       assunto = edtAssunto.value ?: "",
-                       msg = { rteMessage.value ?: "" },
-                       msgHtml = rteMessage.value ?: "",
-                       planilha = if (chkPlanilha.value) "S" else "N",
-                       relatorio = if (chkRelatorio.value) "S" else "N",
-                       relatorioResumido = if (chkRelatorioResumido.value) "S" else "N",
-                       anexos = if (chkAnexos.value) "S" else "N",
-                       messageID = "")
+    get() = EmailGmail(
+      email = cmbEmail.value ?: "",
+      assunto = edtAssunto.value ?: "",
+      msg = { rteMessage.value ?: "" },
+      msgHtml = rteMessage.value ?: "",
+      planilha = if (chkPlanilha.value) "S" else "N",
+      relatorio = if (chkRelatorio.value) "S" else "N",
+      relatorioResumido = if (chkRelatorioResumido.value) "S" else "N",
+      anexos = if (chkAnexos.value) "S" else "N",
+      messageID = ""
+    )
     set(value) {
       cmbEmail.value = value.email
       edtAssunto.value = value.assunto

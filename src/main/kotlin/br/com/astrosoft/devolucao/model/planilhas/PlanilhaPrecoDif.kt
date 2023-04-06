@@ -30,7 +30,7 @@ class PlanilhaPrecoDif() {
       CampoNumber("R$ Prec") { precopc },
       CampoNumber("Dif") { precoDifValue },
       CampoNumber("%") { precoPercen },
-          )
+    )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

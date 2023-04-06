@@ -15,7 +15,7 @@ import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
 
 class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Boolean) :
-        ReportBuild<NfPrecEntradaGrupo>() {
+  ReportBuild<NfPrecEntradaGrupo>() {
   init {
     if (!fiscal) {
       columnInt(NfPrecEntradaGrupo::pedidoCompra, width = 40, title = "Pedido")
@@ -52,11 +52,13 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
   override fun labelTitleCol() = columnString(NfPrecEntradaGrupo::nomeGrupo)
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "NF x Precificação",
-                         subTitulo = "",
-                         color = Color.WHITE,
-                         detailFonteSize = 8,
-                         pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT)
+    PropriedadeRelatorio(
+      titulo = "NF x Precificação",
+      subTitulo = "",
+      color = Color.WHITE,
+      detailFonteSize = 8,
+      pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT
+    )
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 

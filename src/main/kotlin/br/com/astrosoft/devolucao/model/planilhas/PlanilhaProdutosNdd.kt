@@ -29,7 +29,7 @@ class PlanilhaProdutosNdd {
       CampoNumber("Valor IPI") { valorIPI },
       CampoNumber("Alíq IPI") { aliqIPI },
       CampoNumber("Alíq ICMS") { aliqICMS },
-          )
+    )
 
   fun grava(listaNotas: List<ProdutoNotaEntradaNdd>, titulo: String): ByteArray {
     val wb = workbook {

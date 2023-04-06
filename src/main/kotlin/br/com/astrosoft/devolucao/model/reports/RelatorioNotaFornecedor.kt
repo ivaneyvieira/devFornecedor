@@ -125,16 +125,18 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) 
       sbt.sum(valorCol).apply {
         this.setStyle(stl.style().setForegroundColor(colorFont).setTopBorder(stl.pen1Point()))
       },
-                 )
+    )
   }
 
   fun makeReport(): JasperReportBuilder {
     val grupoOrigem =
-      grid.titleGroup("Dados da Nota Fiscal de Origem",
-                      dataNfOrigemStrCol,
-                      nfOrigemCol,
-                      conhecimentoFreteCol,
-                      transfortadoraCol)
+      grid.titleGroup(
+        "Dados da Nota Fiscal de Origem",
+        dataNfOrigemStrCol,
+        nfOrigemCol,
+        conhecimentoFreteCol,
+        transfortadoraCol
+      )
     val grupoDevolucao =
       grid.titleGroup("Dados da Nota Fiscal de Devolução", lojaCol, dataNotaCol, notaInvCol, obsNotaCol, valorCol)
     val pageOrientation = PageOrientation.LANDSCAPE
@@ -144,16 +146,18 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) 
     return report()
       .title(titleBuider())
       .setTemplate(Templates.reportTemplate)
-      .columns(emptyColumnValues,
-               dataNfOrigemStrCol,
-               nfOrigemCol,
-               conhecimentoFreteCol,
-               transfortadoraCol,
-               lojaCol,
-               dataNotaCol,
-               notaInvCol,
-               obsNotaCol,
-               valorCol)
+      .columns(
+        emptyColumnValues,
+        dataNfOrigemStrCol,
+        nfOrigemCol,
+        conhecimentoFreteCol,
+        transfortadoraCol,
+        lojaCol,
+        dataNotaCol,
+        notaInvCol,
+        obsNotaCol,
+        valorCol
+      )
       .columnGrid(emptyColumnValues, grupoOrigem, grupoDevolucao, emptyColumnValues)
       .setDataSource(notas.sortedWith(compareBy({ it.loja }, { it.dataNota })))
       .setPageFormat(A4, pageOrientation)
@@ -162,10 +166,12 @@ class RelatorioNotaFornecedor(val notas: List<NotaSaida>, val isExcel: Boolean) 
       .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
       .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal
-                        .setForegroundColor(colorFont)
-                        .setFontSize(8)
-                        .setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnStyle(
+        fieldFontNormal
+          .setForegroundColor(colorFont)
+          .setFontSize(8)
+          .setPadding(stl.padding().setRight(4).setLeft(4))
+      )
       .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(colorFont).setFontSize(10))
       .setPageMargin(margin(0))
       .setTitleStyle(stl.style().setForegroundColor(colorFont).setPadding(Styles.padding().setTop(20)))

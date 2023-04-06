@@ -26,11 +26,13 @@ class RelatorioTodasEntradasGrupo(val notas: List<NotaEntradaQueryGrupo>) : Repo
   }
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "Entrada",
-                         subTitulo = "",
-                         color = Color.WHITE,
-                         detailFonteSize = 8,
-                         pageOrientation = PORTRAIT)
+    PropriedadeRelatorio(
+      titulo = "Entrada",
+      subTitulo = "",
+      color = Color.WHITE,
+      detailFonteSize = 8,
+      pageOrientation = PORTRAIT
+    )
 
   override fun labelTitleCol() = columnString(NotaEntradaQueryGrupo::descricaoGrupo)
 

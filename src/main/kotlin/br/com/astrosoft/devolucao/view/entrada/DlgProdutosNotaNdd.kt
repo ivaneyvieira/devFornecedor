@@ -18,7 +18,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.ProdutosNotaNddColumns.pr
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 
 class DlgProdutosNotaNdd(val produtos: List<ProdutoNotaEntradaNdd>, private val doPLanilha: () -> ByteArray) {

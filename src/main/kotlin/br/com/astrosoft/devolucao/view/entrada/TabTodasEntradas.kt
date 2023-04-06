@@ -45,15 +45,17 @@ class TabTodasEntradas(val viewModel: TabTodasEntradasViewModel) : ITabTodasEntr
   }
 
   override fun getFiltro(): FiltroNotaEntradaQuery {
-    return FiltroNotaEntradaQuery(storeno = edtLoja.value?.no ?: 0,
-                                  di = edtDataI.value ?: LocalDate.now(),
-                                  df = edtDataF.value ?: LocalDate.now(),
-                                  vendno = edtFornecedorNota.value ?: 0,
-                                  mfno = edtFornecedorCad.value ?: 0,
-                                  ni = edtNi.value ?: 0,
-                                  nf = edtNota.value ?: "",
-                                  listaProdutos = edtProduto.value ?: "",
-                                  caraterInicial = edtCaracter.value ?: "")
+    return FiltroNotaEntradaQuery(
+      storeno = edtLoja.value?.no ?: 0,
+      di = edtDataI.value ?: LocalDate.now(),
+      df = edtDataF.value ?: LocalDate.now(),
+      vendno = edtFornecedorNota.value ?: 0,
+      mfno = edtFornecedorCad.value ?: 0,
+      ni = edtNi.value ?: 0,
+      nf = edtNota.value ?: "",
+      listaProdutos = edtProduto.value ?: "",
+      caraterInicial = edtCaracter.value ?: ""
+    )
   }
 
   override fun openRelatorio(list: List<NotaEntradaQuery>) {

@@ -18,7 +18,7 @@ import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer
 
 class FormAnexoDemanda(val demanda: AgendaDemanda, private val isReadOnly: Boolean, val updateAnexo: () -> Unit) :
-        VerticalLayout() {
+  VerticalLayout() {
   private var gridFile: Grid<NFFile>? = null
 
   init {

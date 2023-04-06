@@ -26,8 +26,7 @@ abstract class PlanilhaBase<T : IDadosPlanilha>(private val list: List<T> = empt
               row.iterator().forEach { cell ->
                 colunas.add(cell.stringCellValue)
               }
-            }
-            else {
+            } else {
               val map = DataRow(tipo)
               var colIndex = 0
               colunas.forEachIndexed { index, col ->

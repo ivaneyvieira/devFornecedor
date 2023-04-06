@@ -84,7 +84,7 @@ class RelatorioFornecedorResumido(val fornecedores: List<Fornecedor>) {
     return listOf(
       sbt.text("Total R$", dataUltimaNotaCol),
       sbt.sum(saldoCol),
-                 )
+    )
   }
 
   fun makeReport(): JasperReportBuilder {

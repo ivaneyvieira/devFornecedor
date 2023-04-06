@@ -10,7 +10,7 @@ class CompraViewModel(view: ICompraView) : ViewModel<ICompraView>(view) {
 
   override fun listTab() = listOf(
     view.tabPedidosViewModel, view.tabConferirViewModel, view.tabConferidoViewModel,
-                                 )
+  )
 }
 
 interface ICompraView : IView {

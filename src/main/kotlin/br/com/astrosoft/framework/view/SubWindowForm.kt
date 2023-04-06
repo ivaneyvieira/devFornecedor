@@ -12,7 +12,7 @@ class SubWindowForm(
   val onClose: (Dialog) -> Unit = {},
   val fullSize: Boolean = true,
   val blockForm: () -> Component,
-                   ) : Dialog() {
+) : Dialog() {
   init {
     if (fullSize) {
       width = "100%"

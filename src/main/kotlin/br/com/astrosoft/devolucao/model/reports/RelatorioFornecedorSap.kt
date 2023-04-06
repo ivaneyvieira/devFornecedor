@@ -78,7 +78,7 @@ class RelatorioFornecedorSap(val notas: List<NotaDevolucaoSap>) {
     return listOf(
       sbt.text(label, notaInvCol),
       sbt.sum(valorCol),
-                 )
+    )
   }
 
   fun makeReport(): JasperReportBuilder {

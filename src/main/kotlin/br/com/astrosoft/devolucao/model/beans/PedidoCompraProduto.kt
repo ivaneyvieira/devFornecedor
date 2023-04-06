@@ -81,7 +81,7 @@ class PedidoCompraProduto(
   @FieldName("Valor Total")
   val valorTotal: Double,
   var calcEmbalagem: String,
-                         ) {
+) {
   @FieldExclude
   var codigoMatch: String? = null
 
@@ -109,8 +109,7 @@ class PedidoCompraProduto(
       val qtPed = qtPedida ?: return null
       return if (calcEmbalagem == "S") {
         quantEmbalagem
-      }
-      else qtPed * 1.00
+      } else qtPed * 1.00
     }
 
   val valorEmbalagem: Double?
@@ -126,8 +125,7 @@ class PedidoCompraProduto(
       val custo = custoUnit ?: return null
       val valor = if (calcEmbalagem == "S") {
         valorEmbalagem
-      }
-      else custo * 1.00
+      } else custo * 1.00
 
       return valor.roundDouble()
     }
@@ -202,15 +200,13 @@ class PedidoCompraProduto(
 
     quantidadeDif = if (quantPed == null || qtCot == null) {
       null
-    }
-    else {
+    } else {
       quantPed - (qtCot * 1.0)
     }.roundDouble()
 
     valorUnitarioDif = if (valorPed == null || valorCot == null) {
       null
-    }
-    else {
+    } else {
       valorPed - valorCot
     }.roundDouble()
   }
@@ -246,4 +242,4 @@ data class FiltroPedidoCompra(
   val onlyPendente: Boolean,
   val onlyConferido: Boolean,
   val onlyNotConferido: Boolean,
-                             )
+)

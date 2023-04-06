@@ -46,7 +46,7 @@ import com.vaadin.flow.data.value.ValueChangeMode.LAZY
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
-        TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
+  TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   protected var dlgNota: DlgNotaAbstract<T>? = null
   protected lateinit var dataSitCol: Grid.Column<Fornecedor>
   protected lateinit var userCol: Grid.Column<Fornecedor>
@@ -171,7 +171,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         this.isVisible = false
       }
       situacaoCol = situacaoDesconto()
-      if ((this@TabDevolucaoAbstract is TabNotaPendente) || (this@TabDevolucaoAbstract is TabNotaPendenteRetorno)       ) {
+      if ((this@TabDevolucaoAbstract is TabNotaPendente) || (this@TabDevolucaoAbstract is TabNotaPendenteRetorno)) {
         notaCol = notaSituacao()
         docCol = docSituacao()
         tituloCol = tituloSituacao()
@@ -179,8 +179,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       }
       dataCol = dataAgendaDesconto()
       observacaoChaveDesconto()
-    }
-    else {
+    } else {
       fornecedorPrimeiraData()
       if (serie !in listOf(AJT, AJD, AJP, AJC, A66)) {
         fornecedorUltimaData()

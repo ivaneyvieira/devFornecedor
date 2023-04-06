@@ -13,7 +13,7 @@ class AgendaDemanda(
   var vendno: Int = 0,
   var destino: String,
   var origem: String,
-                   ) {
+) {
 
   val conteudoSingle
     get() = conteudo.split("\n").firstOrNull()

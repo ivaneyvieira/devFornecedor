@@ -101,7 +101,7 @@ class RelatorioFornecedorCompra(val pedido: List<PedidoCompra>) {
       sbt.sum(colVlCancelada),
       sbt.sum(colVlRecebida),
       sbt.sum(colVlPendente),
-                 )
+    )
   }
 
   fun makeReport(): JasperReportBuilder {

@@ -3,10 +3,8 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.ndd
 import br.com.astrosoft.devolucao.model.nfeXml.ItensNotaReport
 import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
-import br.com.astrosoft.framework.util.format
 import com.fincatto.documentofiscal.nfe400.classes.nota.NFNota
 import com.fincatto.documentofiscal.utils.DFPersister
-import java.time.LocalDate
 
 class NotaEntradaFileXML(
   val id: Int,
@@ -14,7 +12,7 @@ class NotaEntradaFileXML(
   val xmlFile: String?,
   val dataHoraRecebimento: String?,
   val numeroProtocolo: String?,
-                        ) {
+) {
   fun itensNotaReport(): List<ItensNotaReport> {
     return try {
       xmlFile ?: return emptyList()

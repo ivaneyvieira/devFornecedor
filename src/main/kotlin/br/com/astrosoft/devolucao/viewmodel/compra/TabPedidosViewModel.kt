@@ -56,8 +56,7 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
     return if (pedidos.isEmpty()) {
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
-    }
-    else {
+    } else {
       DocumentOOXML().use { document ->
         document.addSheet(pedidos.flatMap { it.produtos }.sortedWith(compareBy({ it.vendno }, { it.loja }, {
           it.dataPedido
@@ -71,8 +70,7 @@ class TabPedidosViewModel(val viewModel: CompraViewModel) : ITabCompraViewModel 
     return if (pedidos.isEmpty()) {
       viewModel.showError("Nenhuma item foi selecionado")
       ByteArray(0)
-    }
-    else DocumentOOXML().use { document ->
+    } else DocumentOOXML().use { document ->
       document.addSheet(pedidos.sortedWith(compareBy({ it.vendno }, { it.loja }, { it.dataPedido })))
       document.toBytes()
     }

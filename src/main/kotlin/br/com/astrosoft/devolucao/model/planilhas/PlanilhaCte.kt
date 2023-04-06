@@ -39,7 +39,7 @@ class PlanilhaCte() {
       CampoNumber("Taxa") { taxa ?: 0.00 },
       CampoNumber("Outros") { outro ?: 0.00 },
       CampoNumber("ICMS") { icms ?: 0.00 },
-          )
+    )
 
   fun grava(listaNotas: List<NfEntradaFrete>): ByteArray {
     val wb = workbook {

@@ -81,7 +81,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
       unCol,
       qtdeCol,
       emptyCol(),
-                 )
+    )
   }
 
   private fun emptyCol() = col.emptyColumn().apply {
@@ -217,17 +217,21 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
       .setDetailStyle(stl.style().setFontSize(10))
       .setSubtotalStyle(stl.style().setFontSize(10).setPadding(2).setTopBorder(stl.pen1Point()))
       .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(10)))
-      .setColumnStyle(Templates.fieldFontNormal
-                        .setForegroundColor(Color.WHITE)
-                        .setFontSize(10)
-                        .setPadding(stl.padding().setRight(4).setLeft(4)))
+      .setColumnStyle(
+        Templates.fieldFontNormal
+          .setForegroundColor(Color.WHITE)
+          .setFontSize(10)
+          .setPadding(stl.padding().setRight(4).setLeft(4))
+      )
       .setColumnTitleStyle(Templates.fieldFontNormalCol.setForegroundColor(Color.BLACK).setFontSize(10))
       .setPageMargin(margin(0))
-      .setTitleStyle(stl
-                       .style()
-                       .setFontSize(10)
-                       .setForegroundColor(Color.WHITE)
-                       .setPadding(Styles.padding().setTop(20)))
+      .setTitleStyle(
+        stl
+          .style()
+          .setFontSize(10)
+          .setForegroundColor(Color.WHITE)
+          .setPadding(Styles.padding().setTop(20))
+      )
       .setGroupStyle(stl.style().setForegroundColor(Color.WHITE))
       .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }

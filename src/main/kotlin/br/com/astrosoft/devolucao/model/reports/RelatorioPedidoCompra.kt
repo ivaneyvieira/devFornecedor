@@ -102,7 +102,7 @@ class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {
       qtdeCol,
       valorUnitarioCol,
       valorTotalCol,
-                 )
+    )
   }
 
   private fun titleBuiderPedido(): ComponentBuilder<*, *> {

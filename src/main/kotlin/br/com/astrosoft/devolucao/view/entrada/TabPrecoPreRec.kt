@@ -74,7 +74,7 @@ class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecVi
       comGrade = true,
       pesquisa = "",
       listaProdutos = edtListaProduto.value ?: "",
-                          )
+    )
   }
 
   override fun openRelatorio() {

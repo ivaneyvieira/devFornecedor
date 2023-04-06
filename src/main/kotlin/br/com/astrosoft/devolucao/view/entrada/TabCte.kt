@@ -61,7 +61,7 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
       niCte = edtNICte.value ?: 0,
       cte = edtCte.value ?: 0,
       tabno = edtTabno.value ?: 0,
-                               )
+    )
   }
 
   override fun openRelatorio() {

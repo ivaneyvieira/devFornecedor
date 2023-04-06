@@ -5,7 +5,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.NONE
 import br.com.astrosoft.devolucao.viewmodel.devolucao.SimNao.SIM
 
 class TabNotaSerie01PagoViewModel(viewModel: Devolucao01ViewModel) :
-        TabDevolucaoViewModelAbstract<IDevolucao01View>(viewModel) {
+  TabDevolucaoViewModelAbstract<IDevolucao01View>(viewModel) {
   override val subView
     get() = viewModel.view.tabNotaSerie01Pago
 }

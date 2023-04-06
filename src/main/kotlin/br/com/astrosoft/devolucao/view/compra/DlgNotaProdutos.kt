@@ -40,7 +40,6 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.Column
 import com.vaadin.flow.component.grid.GridSortOrder
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.upload.FileRejectedEvent
@@ -74,8 +73,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             pedidoCompraProduto.seqItem = index + 1
           }
         }
-      }
-      else {
+      } else {
         byteExcel.let { bytes ->
           viewModel.setFileExcel(bytes)
           pedido.produtos.forEach { produto ->
@@ -110,8 +108,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               val bytes = buffer.inputStream.readBytes()
               if (buffer.fileName.endsWith(".pdf", ignoreCase = true)) { //PDF
                 viewModel.savePDFPedido(pedido, bytes)
-              }
-              else if (buffer.fileName.endsWith(".xlsx", ignoreCase = true)) {
+              } else if (buffer.fileName.endsWith(".xlsx", ignoreCase = true)) {
                 viewModel.saveExcelPedido(pedido, bytes)
               }
               gridNota.dataProvider.refreshAll()
@@ -159,8 +156,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               gridNota.refresh()
             }
           }
-        }
-        else {
+        } else {
           this.button("Voltar") {
             icon = VaadinIcon.CHECK.create()
             onLeftClick {
@@ -261,7 +257,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             else ""
           }
 
-          PDF  -> {
+          PDF -> {
             val line = produto.linePDF ?: return@setClassNameGenerator ""
             val ref2 = produto.codigo
             if (line.findRef(ref2)) "marcaOk"
@@ -270,8 +266,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
 
           else -> ""
         }
-      }
-      else ""
+      } else ""
     }
   }
 
@@ -288,7 +283,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             else "marcaError"
           }
 
-          PDF  -> {
+          PDF -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val ref2 = produto.refFab?.split("\t") ?: return@setClassNameGenerator ""
             if (ref1 in ref2) "marcaOk"
@@ -297,8 +292,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
 
           else -> ""
         }
-      }
-      else ""
+      } else ""
     }
   }
 
@@ -315,7 +309,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             else "marcaError"
           }
 
-          PDF  -> {
+          PDF -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("\t") ?: return@setClassNameGenerator ""
             if (ref1 in listRef) "marcaOk"
@@ -324,8 +318,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
 
           else -> ""
         }
-      }
-      else ""
+      } else ""
     }
   }
 
@@ -340,17 +333,15 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               else "marcaError"
             }
 
-            PDF  -> {
+            PDF -> {
               if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
               else "marcaError"
             }
 
             else -> ""
           }
-        }
-        else ""
-      }
-      else ""
+        } else ""
+      } else ""
     }
   }
 
@@ -365,27 +356,27 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               else "marcaError"
             }
 
-            PDF  -> {
+            PDF -> {
               if (produto.valorCalculado.format() == produto.valorUnitarioCt.format()) "marcaOk"
               else "marcaError"
             }
 
             else -> ""
           }
-        }
-        else ""
-      }
-      else ""
+        } else ""
+      } else ""
     }
   }
 
   private fun HasComponents.uploadArquivo(exec: (buffer: MemoryBuffer, upload: Upload) -> Unit) {
     val buffer = MemoryBuffer()
     val upload = Upload(buffer)
-    upload.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                ".xlsx",
-                                "application/pdf",
-                                ".pdf")
+    upload.setAcceptedFileTypes(
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      ".xlsx",
+      "application/pdf",
+      ".pdf"
+    )
     val uploadButton = Button("Carregar Pedido")
     uploadButton.icon = VaadinIcon.PLUS.create()
     upload.uploadButton = uploadButton

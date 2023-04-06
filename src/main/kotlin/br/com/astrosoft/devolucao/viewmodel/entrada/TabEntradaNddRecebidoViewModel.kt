@@ -4,7 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.ETipoNota
 import br.com.astrosoft.devolucao.model.beans.ETipoNota.RECEBIDO
 
 class TabEntradaNddRecebidoViewModel(viewModel: EntradaViewModel) :
-        TabAbstractEntradaNddViewModel<ITabEntradaNddRecebidoViewModel>(viewModel) {
+  TabAbstractEntradaNddViewModel<ITabEntradaNddRecebidoViewModel>(viewModel) {
   override val subView
     get() = viewModel.view.tabEntradaNddRecebidoViewModel
 

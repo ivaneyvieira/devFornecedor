@@ -8,16 +8,18 @@ val titleQuant = listOf("Quantidade", "Qnt", "Quant", "Qtd", "Qtde").map {
 }
 
 val titleValor =
-  listOf("Preco Unit",
-         "Un. Liq",
-         "Valor Unit",
-         "VR.UNIT",
-         "Pr.Unit",
-         "P.Unitario",
-         "Preco",
-         "Unitario",
-         "Unit",
-         "Liq").map {
+  listOf(
+    "Preco Unit",
+    "Un. Liq",
+    "Valor Unit",
+    "VR.UNIT",
+    "Pr.Unit",
+    "P.Unitario",
+    "Preco",
+    "Unitario",
+    "Unit",
+    "Liq"
+  ).map {
     it.unaccent()
   }
 private val titleWord = listOf("Cod", "Codigo", "Descricao", "Un", "Item", "Produto", "Total").map {
@@ -58,8 +60,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     val endIndex = lineStr.length - 1
     return if (start in startIndex..endIndex) {
       LinePosition(start, text.trim())
-    }
-    else null
+    } else null
   }
 
   private fun midLine(index: Int): String {
@@ -67,8 +68,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     val endIndex = lineStr.length - 1
     return if (index in startIndex..endIndex) {
       lineStr.substring(index)
-    }
-    else ""
+    } else ""
   }
 
   private fun midLine(start: Int?, end: Int?): String? {
@@ -78,8 +78,7 @@ data class Line(val num: Int, val lineStr: String, val fileText: FileText, val d
     val endIndex = if (end > lineStr.length) lineStr.length else end
     return if (start in startIndex..endIndex) {
       lineStr.substring(start, end)
-    }
-    else ""
+    } else ""
   }
 
   private fun item() = listPosTokens(split1).toList().getOrNull(0)?.text ?: ""

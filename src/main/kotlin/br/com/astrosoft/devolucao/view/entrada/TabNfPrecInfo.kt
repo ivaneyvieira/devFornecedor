@@ -72,7 +72,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
       comGrade = true,
       pesquisa = "",
       listaProdutos = "",
-                          )
+    )
   }
 
   override fun openRelatorio() {

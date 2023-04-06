@@ -17,7 +17,7 @@ class ProdutoNotaEntradaVO(
   val numeroProtocolo: String?,
   val dataHoraRecebimento: String?,
   val refNFe: String?,
-                          ) {
+) {
   fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
     xmlNfe ?: return emptyList()
     val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
@@ -62,7 +62,7 @@ class ProdutoNotaEntradaVO(
       aliqIPI = imposto?.ipi?.tributado?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
       valorOutros = produto?.valorOutrasDespesasAcessorias?.toDoubleOrNull() ?: 0.00,
       valorFrete = produto?.valorFrete?.toDoubleOrNull() ?: 0.00,
-                                )
+    )
   }
 
   companion object {
@@ -256,7 +256,7 @@ class ItensNotaReport(private val nota: NFNota, private val protocoloAlt: String
 private fun NFNotaInfoItem.icms(): DFBase? {
   val root = this.imposto.icms
   return root?.icms00 ?: root?.icms10 ?: root?.icms20 ?: root?.icms30 ?: root?.icms40 ?: root?.icms51 ?: root?.icms60
-         ?: root?.icms70 ?: root?.icms90
+  ?: root?.icms70 ?: root?.icms90
 }
 
 private fun DFBase?.percentualAliquota(): String? {
@@ -269,7 +269,7 @@ private fun DFBase?.percentualAliquota(): String? {
     is NFNotaInfoItemImpostoICMS60 -> this.percentualAliquotaICMSSTSuportadaConsumidorFinal
     is NFNotaInfoItemImpostoICMS70 -> this.percentualAliquota
     is NFNotaInfoItemImpostoICMS90 -> this.percentualAliquota
-    else                           -> null
+    else -> null
   }
 }
 
@@ -283,7 +283,7 @@ private fun DFBase?.valorTributo(): String? {
     is NFNotaInfoItemImpostoICMS60 -> this.valorICMSSTRetido
     is NFNotaInfoItemImpostoICMS70 -> this.valorTributo
     is NFNotaInfoItemImpostoICMS90 -> this.valorTributo
-    else                           -> null
+    else -> null
   }
 }
 
@@ -297,7 +297,7 @@ private fun DFBase?.valorBaseCalculo(): String? {
     is NFNotaInfoItemImpostoICMS51 -> this.valorBCICMS
     is NFNotaInfoItemImpostoICMS70 -> this.valorBC
     is NFNotaInfoItemImpostoICMS90 -> this.valorBC
-    else                           -> null
+    else -> null
   }
 }
 
@@ -313,7 +313,7 @@ private fun DFBase?.cst(): String? {
     is NFNotaInfoItemImpostoICMS60 -> this.origem?.codigo + this.situacaoTributaria?.codigo
     is NFNotaInfoItemImpostoICMS70 -> this.origem?.codigo + this.situacaoTributaria?.codigo
     is NFNotaInfoItemImpostoICMS90 -> this.origem?.codigo + this.situacaoTributaria?.codigo
-    else                           -> null
+    else -> null
   }
 }
 
@@ -325,7 +325,7 @@ private fun String?.formatInscricaoEstadual(): String {
 private fun NFNotaInfoTransportador?.formatCpfj(): String {
   this ?: return ""
   return when {
-    StringUtils.isNotBlank(cpf)  -> {
+    StringUtils.isNotBlank(cpf) -> {
       cpf
     }
 
@@ -333,7 +333,7 @@ private fun NFNotaInfoTransportador?.formatCpfj(): String {
       cnpj
     }
 
-    else                         -> ""
+    else -> ""
   }.formatCpfj()
 }
 
@@ -350,7 +350,7 @@ private fun String?.formatCpfj(): String {
       "${substring(0, 2)}.${substring(2, 5)}.${substring(5, 8)}/${substring(8, 12)}-${substring(12, 14)}"
     }
 
-    else                           -> this
+    else -> this
   }
 }
 
@@ -374,17 +374,17 @@ private fun String?.formatTelefone(): String {
   this ?: return ""
   return when {
     this.matches("[0-9]{8}".toRegex()) -> this.substring(0, 5) + "-" + this.substring(5, 8)
-    else                               -> this
+    else -> this
   }
 }
 
 private fun String?.formatCep(): String {
   this ?: return ""
   return when {
-    matches("[0-9]{9}".toRegex())  -> "(${substring(0, 2)}) ${substring(2, 5)} ${substring(5, 9)}"
+    matches("[0-9]{9}".toRegex()) -> "(${substring(0, 2)}) ${substring(2, 5)} ${substring(5, 9)}"
     matches("[0-9]{10}".toRegex()) -> "(${substring(0, 2)}) ${substring(2, 6)}-${substring(6, 10)}"
     matches("[0-9]{11}".toRegex()) -> "(${substring(0, 2)}) ${substring(2, 3)} ${substring(3, 7)}-${substring(7, 11)}"
-    else                           -> this
+    else -> this
   }
 }
 

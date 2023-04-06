@@ -26,10 +26,12 @@ import org.claspina.confirmdialog.ConfirmDialog
 @CssImport("./styles/gridTotal.css")
 abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   lateinit var gridNota: Grid<NotaSaida>
-  fun showDialogNota(fornecedor: Fornecedor?,
-                     serie: Serie,
-                     situacao: ESituacaoPendencia?,
-                     onClose: (Dialog) -> Unit = {}) {
+  fun showDialogNota(
+    fornecedor: Fornecedor?,
+    serie: Serie,
+    situacao: ESituacaoPendencia?,
+    onClose: (Dialog) -> Unit = {}
+  ) {
     fornecedor ?: return
     val listNotas = fornecedor.notas
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
@@ -40,13 +42,13 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
           val filter = it.value
           gridNota.setItems(listNotas.filter { nota ->
             nota.nota.contains(filter, true) ||
-            nota.pedido.toString().contains(filter, true) ||
-            nota.pedidos.orEmpty().contains(filter, true) ||
-            nota.usuarioSituacao.contains(filter, true) ||
-            nota.dataNota.format().contains(filter, true) ||
-            nota.situacaoStr.contains(filter, true) ||
-            nota.remarks.contains(filter, true) ||
-            nota.chaveDesconto.orEmpty().contains(filter, true)
+                nota.pedido.toString().contains(filter, true) ||
+                nota.pedidos.orEmpty().contains(filter, true) ||
+                nota.usuarioSituacao.contains(filter, true) ||
+                nota.dataNota.format().contains(filter, true) ||
+                nota.situacaoStr.contains(filter, true) ||
+                nota.remarks.contains(filter, true) ||
+                nota.chaveDesconto.orEmpty().contains(filter, true)
           })
         }
       }
@@ -83,14 +85,14 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
               .withCaption("Lista de Ocorrência")
               .withMessage(multList)
               .withOkButton({
-                              val notas =
-                                gridNota.asMultiSelect().selectedItems.toList()
-                              viewModel.imprimirNotaFornecedor(notas,
-                                                               multList.value
-                                                                 .toList()
-                                                                 .sortedBy { it.num }
-                                                                 .map { it.descricao })
-                            })
+                val notas =
+                  gridNota.asMultiSelect().selectedItems.toList()
+                viewModel.imprimirNotaFornecedor(notas,
+                  multList.value
+                    .toList()
+                    .sortedBy { it.num }
+                    .map { it.descricao })
+              })
               .withCancelButton()
               .open()
           }
@@ -151,8 +153,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-      }
-      else {
+      } else {
         if (viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel) {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
             setItems(ESituacaoPedido.values().toList())

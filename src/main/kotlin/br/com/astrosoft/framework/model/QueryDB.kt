@@ -45,10 +45,12 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
-  protected fun <R : Any> querySerivce(file: String,
-                                       complemento: String?,
-                                       lambda: QueryHandle = {},
-                                       result: (Query) -> R): R {
+  protected fun <R : Any> querySerivce(
+    file: String,
+    complemento: String?,
+    lambda: QueryHandle = {},
+    result: (Query) -> R
+  ): R {
     val statements = toStratments(file, complemento)
     val lastIndex = statements.lastIndex
     val query = statements[lastIndex]

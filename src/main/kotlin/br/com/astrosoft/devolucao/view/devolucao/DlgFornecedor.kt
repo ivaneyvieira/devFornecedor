@@ -8,7 +8,6 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumn
 import br.com.astrosoft.devolucao.view.devolucao.columns.RepresentanteViewColumns.notaTelefone
 import br.com.astrosoft.framework.view.SubWindowForm
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 
 class DlgFornecedor {
   fun showDialogRepresentante(fornecedor: Fornecedor?) {

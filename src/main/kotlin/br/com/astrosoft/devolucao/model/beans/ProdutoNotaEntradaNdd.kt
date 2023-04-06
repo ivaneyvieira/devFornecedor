@@ -22,7 +22,7 @@ data class ProdutoNotaEntradaNdd(
   val aliqIPI: Double,
   val valorOutros: Double?,
   val valorFrete: Double?,
-                                ) {
+) {
   val temIPI
     get() = valorIPI.absoluteValue > 0.001
 

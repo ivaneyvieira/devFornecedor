@@ -77,14 +77,16 @@ class RelatorioFornecedorCompraResumido(val fornecedores: List<PedidoCompraForne
     }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
-    return listOf(codigoSaciCol,
-                  nomeFornecedorCol,
-                  dataPrimeiraNotaCol,
-                  dataUltimaNotaCol,
-                  colVlPedida,
-                  colVlCancelada,
-                  colVlRecebida,
-                  colVlPendente)
+    return listOf(
+      codigoSaciCol,
+      nomeFornecedorCol,
+      dataPrimeiraNotaCol,
+      dataUltimaNotaCol,
+      colVlPedida,
+      colVlCancelada,
+      colVlRecebida,
+      colVlPendente
+    )
   }
 
   private fun titleBuider(): ComponentBuilder<*, *> {
@@ -107,7 +109,7 @@ class RelatorioFornecedorCompraResumido(val fornecedores: List<PedidoCompraForne
       sbt.sum(colVlCancelada),
       sbt.sum(colVlRecebida),
       sbt.sum(colVlPendente),
-                 )
+    )
   }
 
   fun makeReport(): JasperReportBuilder {

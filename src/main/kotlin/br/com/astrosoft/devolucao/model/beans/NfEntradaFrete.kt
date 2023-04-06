@@ -31,7 +31,7 @@ data class NfEntradaFrete(
   val aliquota: Double?,
   val icms: Double?,
   val totalFrete: Double?,
-                         ) {
+) {
 
   val dataStr
     get() = entradaCte.format()
@@ -64,15 +64,17 @@ data class FiltroNFEntradaFrete(
   val niCte: Int,
   val cte: Int,
   val tabno: Int,
-                               )
+)
 
 data class FiltroDialog(val status: EStatusFrete, val diferenca: EDifFrete)
 
-data class NfFreteGrupo(val nomeGrupo: String,
-                        val nota: NfEntradaFrete,
-                        val cte: Int,
-                        val valorNota: String,
-                        val valorCalculado: String) {
+data class NfFreteGrupo(
+  val nomeGrupo: String,
+  val nota: NfEntradaFrete,
+  val cte: Int,
+  val valorNota: String,
+  val valorCalculado: String
+) {
   val lj = nota.loja
   val ni = nota.ni
   val dataStr = nota.dataStr

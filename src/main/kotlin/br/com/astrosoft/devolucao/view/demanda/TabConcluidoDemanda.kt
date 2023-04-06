@@ -26,7 +26,7 @@ import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 
 class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
-        TabPanelGrid<AgendaDemanda>(AgendaDemanda::class), ITabConcluidoDemanda {
+  TabPanelGrid<AgendaDemanda>(AgendaDemanda::class), ITabConcluidoDemanda {
   private lateinit var edtFiltro: TextField
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {

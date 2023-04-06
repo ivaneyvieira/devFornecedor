@@ -72,7 +72,7 @@ class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPre
       comGrade = false,
       pesquisa = "",
       listaProdutos = "",
-                          )
+    )
   }
 
   override fun openRelatorio() {

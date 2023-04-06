@@ -28,10 +28,12 @@ class RelatorioPrecoDif(val notas: List<NfPrecEntrada>) : ReportBuild<NfPrecEntr
   }
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "Diferença de preço",
-                         subTitulo = "",
-                         detailFonteSize = 8,
-                         pageOrientation = LANDSCAPE)
+    PropriedadeRelatorio(
+      titulo = "Diferença de preço",
+      subTitulo = "",
+      detailFonteSize = 8,
+      pageOrientation = LANDSCAPE
+    )
 
   override fun listDataSource(): List<NfPrecEntrada> = notas
 
