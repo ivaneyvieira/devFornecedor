@@ -10,7 +10,7 @@ import br.com.astrosoft.framework.model.IUser
 class TabNotaSerie01(viewModel: TabNotaSerie01ViewModel) : TabDevolucaoAbstract<IDevolucao01View>(viewModel),
         ITabNotaSerie01 {
   override val label: String
-    get() = "Notas"
+    get() = "Abertas"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
