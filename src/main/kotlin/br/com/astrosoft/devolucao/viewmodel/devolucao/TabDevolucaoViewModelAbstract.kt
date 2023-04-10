@@ -13,9 +13,27 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
 
-abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
+abstract class  TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
   IEmailView {
   protected abstract val subView: ITabNota
+
+  open fun  salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
+    situacao ?: fail("A situação não foi selecionada")
+    itens.ifEmpty {
+      fail("Não foi selecionado nenhuma nota")
+    }
+    itens.forEach { nota ->
+      val userSaci = Config.user?.login ?: ""
+      nota.situacao = situacao.valueStr ?: ""
+      if (!situacao.valueStr.isNullOrBlank()) {
+        nota.dataSituacao = LocalDate.now()
+        nota.usuarioSituacao = userSaci
+      }
+      NotaSaida.salvaDesconto(nota)
+    }
+    subView.updateComponent()
+  }
+
 
   fun salvaSituacaoPedido(situacao: ESituacaoPedido?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")

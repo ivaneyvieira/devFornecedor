@@ -134,7 +134,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
         }
       }
 
-      if (viewModel is TabNotaPendenteViewModel) {
+      if (serie in listOf(Serie01)) {
         val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
           setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
           setItemLabelGenerator {
