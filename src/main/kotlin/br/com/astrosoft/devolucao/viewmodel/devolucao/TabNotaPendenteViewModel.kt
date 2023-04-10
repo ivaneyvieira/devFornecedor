@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSubView: () -> ITabNota) :
   TabDevolucaoViewModelAbstract<IDevolucaoPendenteView>(viewModel) {
-  fun salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
+  override fun  salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")
     itens.ifEmpty {
       fail("Não foi selecionado nenhuma nota")
