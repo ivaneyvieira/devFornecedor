@@ -23,6 +23,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValidade
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
@@ -135,6 +136,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaQuant()
+      notaValidade()
       notaEstoque()
       //notaFrete().marcaDiferenca { freteDif == "N" }
       //notaFreten().marcaDiferenca { freteDif == "N" }

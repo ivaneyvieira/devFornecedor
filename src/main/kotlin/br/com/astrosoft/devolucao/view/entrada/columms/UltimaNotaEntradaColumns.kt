@@ -223,6 +223,11 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaValidade() = addColumnInt(NfPrecEntrada::mesesValidade) {
+    this.setHeader("Validade")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaEstoque() = addColumnInt(NfPrecEntrada::estoque) {
     this.setHeader("Estoque")
     this.isResizable = true
