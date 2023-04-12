@@ -18,7 +18,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabNfPrecFiscalFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPrecFiscalViewModel, ITabPanel {
+class TabNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPrecFiscalViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
