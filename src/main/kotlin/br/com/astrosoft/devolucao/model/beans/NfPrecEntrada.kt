@@ -86,7 +86,11 @@ class NfPrecEntrada(
 
   companion object {
     fun findNotas(filter: FiltroRelatorio) = saci.ultimasNfPrec(filter).filter {
-      it.filtroCaracter(filter.listaCaracter)
+      it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
+        EValidade.TODAS -> true
+        EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
+        EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
+      }
     }
 
     fun findNotasPreRec(filter: FiltroRelatorio) = saci.ultimasPreRecebimento(filter).filter {
@@ -130,6 +134,7 @@ open class FiltroRelatorio(
   open val caraterInicial: String,
   open val comGrade: Boolean,
   open val listaProdutos: String,
+  var tipoValidade: EValidade = EValidade.TODAS,
 ) {
   val listaCaracter
     get() = caraterInicial.split(",").map { it.trim() }.filter { it != "" }
@@ -137,6 +142,10 @@ open class FiltroRelatorio(
 
 enum class EDiferencaNum(val str: String, val descricao: String) {
   S("S", "Igual"), DP("DP", "Diferente >"), DN("DN", "Diferente <"), T("T", "Todos")
+}
+
+enum class EValidade(val descricao: String) {
+  TODAS("Todas"), ComValidade("Com Validade"), SemValidade("Sem Validade")
 }
 
 enum class EDiferencaStr(val str: String, val descricao: String) {

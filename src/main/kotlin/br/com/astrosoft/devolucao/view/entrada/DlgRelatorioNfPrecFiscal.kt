@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
+import br.com.astrosoft.devolucao.model.beans.EValidade
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
@@ -30,10 +31,12 @@ import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecFiscalViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
+import br.com.astrosoft.framework.view.multiselectComboBox
 import br.com.astrosoft.framework.view.selectedItemsSort
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
@@ -70,6 +73,21 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
           val list = viewModel.findNotas(filtro)
           gridNota.setItems(list)
         }
+      }
+      this.select<EValidade> {
+        label = "Validade"
+        setItems(EValidade.values().toList())
+        value = EValidade.TODAS
+        this.setItemLabelGenerator {
+          it.descricao
+        }
+
+        this.addValueChangeListener {
+          filtro.tipoValidade = it.value
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
+        }
+
       }
       this.comboDiferencaStr("ICMS") {
         value = filtro.icms
