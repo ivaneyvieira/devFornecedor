@@ -65,6 +65,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           isReadOnly = readOnly
           binder.bind(this, UserSaci::senhaPrint.name)
         }
+        /*
         formLayout {
           h4("Pendentes") {
             colspan = 2
@@ -126,6 +127,7 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             binder.bind(this, UserSaci::forPendenteASSINA_CTE.name)
           }
         }
+        */
         formLayout {
           h4("NFD") {
             colspan = 2
