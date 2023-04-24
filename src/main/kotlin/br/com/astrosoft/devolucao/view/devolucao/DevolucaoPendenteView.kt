@@ -11,7 +11,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-//@Route("", layout = DevFornecedorLayout::class)
+@Route(layout = DevFornecedorLayout::class)
 @PageTitle("Pendente")
 @CssImport("./styles/gridTotal.css")
 class DevolucaoPendenteView : ViewLayout<DevolucaoPendenteViewModel>(), IDevolucaoPendenteView {
