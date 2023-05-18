@@ -12,7 +12,7 @@ interface ITabPedidoPendente : ITabNota {
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao
-    get() = SimNao.NAO
+    get() = SimNao.NONE
   override val coleta01: SimNao
     get() = SimNao.NONE
   override val remessaConserto: SimNao
