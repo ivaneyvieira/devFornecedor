@@ -21,5 +21,5 @@ class TabPedidoPendente(viewModel: TabPedidoPendenteViewModel) : TabPedidoAbstra
   }
 
   override val situacaoPedido
-    get() = listOf(VAZIO, LIBERADO, EMAIL_ENVIADO)
+    get() = listOf(VAZIO, LIBERADO, EMAIL_ENVIADO, ASSISTENCIA)
 }

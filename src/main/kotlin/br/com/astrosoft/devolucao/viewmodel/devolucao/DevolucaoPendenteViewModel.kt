@@ -91,6 +91,7 @@ enum class ESituacaoPedido(val valueStr: String, val descricao: String, val pend
 
   //PRODUTO_BAIXADO(valueStr = "PROD_BAIX", descricao = "Prod Baixado"),
   ASSISTENCIA(valueStr = "ASSISTENCIA", descricao = "Assistencia", pendente = true),
+  ASSISTENCIA_RETORNO(valueStr = "ASSIST_RET", descricao = "Assistencia Retorno", pendente = false),
 
   //SUCATA(valueStr = "SUCATA", descricao = "Sucata"),
   LIBERADO(valueStr = "LIBERADO", descricao = "Liberado", pendente = true),
