@@ -656,11 +656,14 @@ class NotaSaida(
         NFD -> saci.notasNFD()
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->
+        if(nota.pedido == 3402445)
+          println("nota.pedido = ${nota.pedido}")
         if (filtro.serie == RET) {
           true
         } else {
-          val situacaoPendencia =
-            filtro.filterSituacaoPendencia.valueStr ?: filtro.situacaoPendencia?.valueStr
+          val filterSituacaoPendenciaStr = filtro.filterSituacaoPendencia.valueStr
+          val situacaoPendenciaStr = filtro.situacaoPendencia?.valueStr
+          val situacaoPendencia = filterSituacaoPendenciaStr ?: situacaoPendenciaStr
           if (situacaoPendencia == null) {
             val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.VAZIO) {
               filtro.situacaoPedido.map {
@@ -673,7 +676,8 @@ class NotaSaida(
             if (situacaoPedido.isEmpty()) {
               true
             } else {
-              nota.situacao in situacaoPedido
+              val situacao = nota.situacao
+              situacao in situacaoPedido
             }
           } else {
             nota.situacao == situacaoPendencia
