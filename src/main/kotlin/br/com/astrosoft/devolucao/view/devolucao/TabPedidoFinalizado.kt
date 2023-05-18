@@ -23,6 +23,6 @@ class TabPedidoFinalizado(viewModel: TabPedidoFinalizadoViewModel) : TabPedidoAb
   override val situacaoPedido
     get() = listOf(
       NFD_AUTOZ, BAIXA, PAGO, RETORNO,
-      PERCA, DESCARTE
+      PERCA, DESCARTE, ASSISTENCIA_RETORNO
     )
 }
