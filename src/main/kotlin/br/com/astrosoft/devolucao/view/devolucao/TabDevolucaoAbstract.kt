@@ -287,5 +287,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     get() = cmbSituacao.value ?: ESituacaoPedido.VAZIO
   override val filterSituacaoPendencia: ESituacaoPendencia
     get() = cmbSituacaoPendencia.value ?: ESituacaoPendencia.BASE
+
+  override fun excelPedido(notas: List<NotaSaida>): ByteArray {
+    val report = RelatorioPedido.processaExcel(notas)
+    return report
+  }
 }
 

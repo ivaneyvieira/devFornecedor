@@ -85,6 +85,13 @@ abstract class  TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vi
     return@exec subView.excelRelatorio(notas)
   }
 
+  fun excelPedido(notas: List<NotaSaida>) = viewModel.exec {
+    notas.ifEmpty {
+      fail("Nenhuma item foi selecionado")
+    }
+    return@exec subView.excelPedido(notas)
+  }
+
   override fun updateView() = viewModel.exec {
     subView.updateGrid(listFornecedores())
     FornecedorNdd.updateNotas()
@@ -279,6 +286,7 @@ interface ITabNota : ITabView, IFiltro {
   fun imprimirRelatorioFornecedor(notas: List<NotaSaida>)
   fun imprimirRelatorio(notas: List<NotaSaida>)
   fun excelRelatorio(notas: List<NotaSaida>): ByteArray
+  fun excelPedido(notas: List<NotaSaida>): ByteArray
   fun imprimirRelatorioResumido(fornecedores: List<Fornecedor>)
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit)
   fun editFile(nota: NotaSaida, insert: (NFFile) -> Unit)

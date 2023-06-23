@@ -523,6 +523,10 @@ class NotaSaida(
     get() = if (tipo == "PED") listaProdutos().sumOf { it.baseICMS } else baseIcms
   val dataNotaStr
     get() = (if (tipo == "PED") dataPedido else dataNota).format()
+  val dataNotaEditavelStr
+    get() = dataNotaEditavel.format()
+  val dataAgendaStr
+    get() = dataAgenda.format()
   val numeroNotaPedido
     get() = if (tipo == "PED") pedido.toString() else nota
 
@@ -628,6 +632,8 @@ class NotaSaida(
     get() = notaOrigem?.conhecimentoFrete ?: ""
   val dataNfOrigemStr: String
     get() = notaOrigem?.dataEmissaoStr ?: ""
+  val dataPedidoStr: String
+    get() = dataPedido?.format() ?: ""
   val nfOrigem: String
     get() = notaOrigem?.notaFiscal ?: ""
   val dataCteStr: String

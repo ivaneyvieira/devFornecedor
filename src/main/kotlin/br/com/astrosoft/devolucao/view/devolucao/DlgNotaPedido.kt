@@ -29,73 +29,76 @@ import com.vaadin.flow.data.provider.SortDirection
 
 @CssImport("./styles/gridTotal.css")
 class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
-  DlgNotaAbstract<T>(viewModel) {
-  override fun createGridNotas(
-    listNotas: List<NotaSaida>,
-    serie: Serie,
-    situacao: ESituacaoPendencia?
-  ): Grid<NotaSaida> {
-    val gridDetail = Grid(NotaSaida::class.java, false)
-    return gridDetail.apply {
-      this.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT, GridVariant.LUMO_COLUMN_BORDERS)
-      isMultiSort = false
-      setSelectionMode(Grid.SelectionMode.MULTI)
-      setItems(listNotas)
-      this.withEditor(NotaSaida::class, openEditor = {
-        val colunas = this.columns
-        val componente = colunas.firstOrNull {
-          it.editorComponent != null && (it.editorComponent is Focusable<*>)
-        }
-        val focusable = componente?.editorComponent as? Focusable<*>
-        focusable?.focus()
-      }, closeEditor = { binder ->
-        viewModel.salvaDesconto(binder.bean)
-        this.dataProvider.refreshItem(binder.bean)
-      })
+    DlgNotaAbstract<T>(viewModel) {
+    override fun createGridNotas(
+        listNotas: List<NotaSaida>,
+        serie: Serie,
+        situacao: ESituacaoPendencia?
+    ): Grid<NotaSaida> {
+        val gridDetail = Grid(NotaSaida::class.java, false)
+        return gridDetail.apply {
+            this.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT, GridVariant.LUMO_COLUMN_BORDERS)
+            isMultiSort = false
+            setSelectionMode(Grid.SelectionMode.MULTI)
+            setItems(listNotas)
+            this.withEditor(NotaSaida::class, openEditor = {
+                val colunas = this.columns
+                val componente = colunas.firstOrNull {
+                    it.editorComponent != null && (it.editorComponent is Focusable<*>)
+                }
+                val focusable = componente?.editorComponent as? Focusable<*>
+                focusable?.focus()
+            }, closeEditor = { binder ->
+                viewModel.salvaDesconto(binder.bean)
+                this.dataProvider.refreshItem(binder.bean)
+            })
 
-      addColumnButton(VaadinIcon.FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) { nota ->
-        viewModel.editFile(nota)
-      }
-      addColumnButton(VaadinIcon.EDIT, "Editor", "Edt", ::configIconEdt) { nota ->
-        viewModel.editRmk(nota)
-      }
-      addColumnButton(VaadinIcon.ENVELOPE_O, "Editor", "Email", ::configMostraEmail) { nota ->
-        viewModel.mostrarEmailNota(nota)
-      }
+            addColumnButton(VaadinIcon.FILE_PICTURE, "Arquivos", "Arq", ::configIconArq) { nota ->
+                viewModel.editFile(nota)
+            }
+            addColumnButton(VaadinIcon.EDIT, "Editor", "Edt", ::configIconEdt) { nota ->
+                viewModel.editRmk(nota)
+            }
+            addColumnButton(VaadinIcon.ENVELOPE_O, "Editor", "Email", ::configMostraEmail) { nota ->
+                viewModel.mostrarEmailNota(nota)
+            }
 
-      notaLoja()
-      notaDataPedido()
-      notaPedido() //notaDataNota()
-      if (viewModel !is TabPedidoEditorViewModel && viewModel !is TabPedidoPendenteViewModel) {
-        dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
-        notaEditavel(situacao).textFieldEditor().marcaAzul()
-      }
-      usuarioSituacao(situacao).marcaAzul()
-      dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
-      situacaoDesconto(situacao).marcaAzul()
-      if (viewModel !is TabPedidoEditorViewModel && viewModel !is TabPedidoPendenteViewModel) {
-        dataBonificacao().dateFieldEditor().marcaAzul()
-        notaBonificacao().textFieldEditor().marcaAzul()
-        notaNiBonificacao().textFieldEditor().marcaAzul()
-      }
-      chaveDesconto().textFieldEditor().apply {
-        this.setClassNameGenerator {
-          it.situacaoPendencia?.cssCor
+            notaLoja()
+            notaDataPedido()
+            notaPedido() //notaDataNota()
+            if (viewModel !is TabPedidoEditorViewModel && viewModel !is TabPedidoPendenteViewModel) {
+                dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
+                notaEditavel(situacao).textFieldEditor().marcaAzul()
+            }
+            usuarioSituacao(situacao).marcaAzul()
+            dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
+            situacaoDesconto(situacao).marcaAzul()
+            if (viewModel !is TabPedidoEditorViewModel &&
+                viewModel !is TabPedidoPendenteViewModel &&
+                viewModel !is TabPedidoFinalizadoViewModel
+            ) {
+                dataBonificacao().dateFieldEditor().marcaAzul()
+                notaBonificacao().textFieldEditor().marcaAzul()
+                notaNiBonificacao().textFieldEditor().marcaAzul()
+            }
+            chaveDesconto().textFieldEditor().apply {
+                this.setClassNameGenerator {
+                    it.situacaoPendencia?.cssCor
+                }
+                marcaAzul()
+            }
+            notaValor().apply {
+                val totalPedido = listNotas.sumOf { it.valorNota }.format()
+                setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
+            }
+            sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
         }
-        marcaAzul()
-      }
-      notaValor().apply {
-        val totalPedido = listNotas.sumOf { it.valorNota }.format()
-        setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
-      }
-      sort(listOf(GridSortOrder(getColumnBy(NotaSaida::dataPedido), SortDirection.ASCENDING)))
     }
-  }
 }
 
 fun Grid.Column<NotaSaida>.marcaAzul(): Grid.Column<NotaSaida> {
-  this.setClassNameGenerator {
-    it.situacaoPendencia?.cssCor ?: "marcaRed"
-  }
-  return this
+    this.setClassNameGenerator {
+        it.situacaoPendencia?.cssCor ?: "marcaRed"
+    }
+    return this
 }
