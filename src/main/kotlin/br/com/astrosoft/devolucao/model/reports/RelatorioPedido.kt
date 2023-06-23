@@ -80,7 +80,7 @@ class RelatorioPedido(val notas: List<NotaSaida>, val isExcel: Boolean) {
   private val chaveDescontoCol: TextColumnBuilder<String> =
       col.column("Observação", NotaSaida::chaveDesconto.name, type.stringType()).apply {
         this.setHorizontalTextAlignment(LEFT)
-        this.setTextAdjust(TextAdjust.SCALE_FONT) //this.setFixedWidth(200)
+        this.setTextAdjust(TextAdjust.STRETCH_HEIGHT) //this.setFixedWidth(200)
       }
 
   private val valorNotaCol: TextColumnBuilder<Double> =
