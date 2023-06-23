@@ -22,6 +22,7 @@ import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.value.ValueChangeMode
 import org.claspina.confirmdialog.ConfirmDialog
+import javax.print.DocFlavor.BYTE_ARRAY
 
 @CssImport("./styles/gridTotal.css")
 abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
@@ -59,6 +60,16 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             val notas = gridNota.asMultiSelect().selectedItems.toList()
             viewModel.imprimirRelatorioPedidos(notas)
           }
+        }
+        this.lazyDownloadButton(text = "Planilha Pedido", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
+          "Pedido ${fornecedor.fornecedor.trim().split(" ").getOrNull(0) ?: ""}.xlsx"
+        }) {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          if(notas.isEmpty()) {
+            ByteArray(0)
+          }
+          else
+            viewModel.excelPedido(notas)
         }
       }
 

@@ -1,6 +1,8 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.Fornecedor
+import br.com.astrosoft.devolucao.model.beans.NotaSaida
+import br.com.astrosoft.devolucao.model.reports.RelatorioPedido
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataAgendaDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.dataNotaEditavel
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.fornecedorCliente
@@ -71,6 +73,11 @@ abstract class TabPedidoAbstract<T : IDevolucaoAbstractView>(viewModel: TabDevol
     }
 
     sort(listOf(GridSortOrder(getColumnBy(Fornecedor::fornecedor), SortDirection.ASCENDING)))
+  }
+
+  override fun excelPedido(notas: List<NotaSaida>): ByteArray {
+    val report = RelatorioPedido.processaExcel(notas)
+    return report
   }
 }
 
