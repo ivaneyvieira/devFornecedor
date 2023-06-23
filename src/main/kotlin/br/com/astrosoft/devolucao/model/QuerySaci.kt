@@ -653,10 +653,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   }
 
   private fun <R : Any> filtroNfPrec(
-    filter: FiltroRelatorio,
-    sql: String,
-    complemento: String? = null,
-    result: (Query) -> R
+      filter: FiltroRelatorio,
+      sql: String,
+      complemento: String? = null,
+      result: (Query) -> R
   ): R {
     return querySerivce(sql, complemento, lambda = {
       addOptionalParameter("storeno", filter.storeno)

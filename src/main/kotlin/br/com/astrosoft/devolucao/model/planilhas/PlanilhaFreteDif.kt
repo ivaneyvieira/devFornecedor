@@ -12,20 +12,20 @@ import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 
-class PlanilhaFreteDif() {
+class PlanilhaFreteDif {
   private val campos: List<Campo<*, NfPrecEntrada>> =
-    listOf(
-      CampoInt("lj") { lj },
-      CampoInt("ni") { ni },
-      CampoString("data") { data.format() },
-      CampoString("nfe") { nfe },
-      CampoString("forn Cad") { fornCad },
-      CampoString("forn Nota") { fornNota },
-      CampoString("prod") { prod },
-      CampoString("descrição") { descricao },
-      CampoNumber("freten") { freten },
-      CampoNumber("fretep") { fretep },
-    )
+      listOf(
+          CampoInt("lj") { lj },
+          CampoInt("ni") { ni },
+          CampoString("data") { data.format() },
+          CampoString("nfe") { nfe },
+          CampoString("forn Cad") { fornCad },
+          CampoString("forn Nota") { fornNota },
+          CampoString("prod") { prod },
+          CampoString("descrição") { descricao },
+          CampoNumber("freten") { freten },
+          CampoNumber("fretep") { fretep },
+      )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

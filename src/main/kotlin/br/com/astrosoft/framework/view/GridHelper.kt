@@ -19,9 +19,9 @@ import kotlin.reflect.KClass
 //***********************************************************************************************
 
 fun <T : Any> Grid<T>.withEditor(
-  classBean: KClass<T>,
-  openEditor: (Binder<T>) -> Unit,
-  closeEditor: (Binder<T>) -> Unit
+    classBean: KClass<T>,
+    openEditor: (Binder<T>) -> Unit,
+    closeEditor: (Binder<T>) -> Unit
 ) {
   val binder = Binder(classBean.java)
   editor.binder = binder

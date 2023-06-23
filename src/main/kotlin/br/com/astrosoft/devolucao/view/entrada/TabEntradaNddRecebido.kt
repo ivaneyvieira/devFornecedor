@@ -6,7 +6,7 @@ import br.com.astrosoft.devolucao.viewmodel.entrada.TabEntradaNddRecebidoViewMod
 import br.com.astrosoft.framework.model.IUser
 
 class TabEntradaNddRecebido(viewModel: TabEntradaNddRecebidoViewModel) :
-  TabAbstractEntradaNdd<ITabEntradaNddRecebidoViewModel>(viewModel), ITabEntradaNddRecebidoViewModel {
+    TabAbstractEntradaNdd<ITabEntradaNddRecebidoViewModel>(viewModel), ITabEntradaNddRecebidoViewModel {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.entradaNddRecebido == true

@@ -87,16 +87,16 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
       DocumentOOXML().use { document ->
         val notaExcel = notas.map { nota ->
           FornecedorNotaExcel(
-            loja = nota.loja,
-            ni = nota.ni,
-            nf = nota.nf,
-            emissao = nota.emissao.format(),
-            entrada = nota.entrada.format(),
-            vencimento = nota.vencimento.format(),
-            valorNota = nota.valorNota,
-            obs = nota.obs,
-            situacao = nota.situacao,
-            obsParcela = nota.obsParcela,
+              loja = nota.loja,
+              ni = nota.ni,
+              nf = nota.nf,
+              emissao = nota.emissao.format(),
+              entrada = nota.entrada.format(),
+              vencimento = nota.vencimento.format(),
+              valorNota = nota.valorNota,
+              obs = nota.obs,
+              situacao = nota.situacao,
+              obsParcela = nota.obsParcela,
           )
         }
         document.addSheet(notaExcel)
@@ -107,13 +107,13 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
 
   private fun updateGrid() {
     val notas =
-      FornecedorNota.findByFornecedor(
-        FiltroFornecedorNota(
-          vendno = fornecedor?.vendno ?: 0,
-          loja = edtLoja.value ?: 0,
-          query = edtQuery.value ?: "",
+        FornecedorNota.findByFornecedor(
+            FiltroFornecedorNota(
+                vendno = fornecedor?.vendno ?: 0,
+                loja = edtLoja.value ?: 0,
+                query = edtQuery.value ?: "",
+            )
         )
-      )
     gridNota.setItems(notas)
   }
 
@@ -141,11 +141,11 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
           updateGrid()
         }
         ConfirmDialog
-          .create()
-          .withCaption("Anexos")
-          .withMessage(form)
-          .withCloseButton(ButtonOption.caption("Fechar"))
-          .open()
+            .create()
+            .withCaption("Anexos")
+            .withMessage(form)
+            .withCloseButton(ButtonOption.caption("Fechar"))
+            .open()
       }.apply {
         this.setClassNameGenerator { b ->
           if (b.quantAnexo > 0) "marcaOk" else null

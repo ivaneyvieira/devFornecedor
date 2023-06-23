@@ -29,247 +29,247 @@ import java.time.LocalTime
 
 class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boolean, val pendente: Boolean) {
   private val codigoCol: TextColumnBuilder<String> =
-    col.column("Cód Saci", ProdutosNotaSaida::codigoStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(35)
-    }
+      col.column("Cód Saci", ProdutosNotaSaida::codigoStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(35)
+      }
   private val dataInvCol: TextColumnBuilder<String> =
-    col.column("Emissão", ProdutosNotaSaida::dateInvStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(40)
-    }
+      col.column("Emissão", ProdutosNotaSaida::dateInvStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(40)
+      }
   private val notaInvCol: TextColumnBuilder<String> =
-    col.column("NF", ProdutosNotaSaida::notaInv.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(40)
-    }
+      col.column("NF", ProdutosNotaSaida::notaInv.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(40)
+      }
   private val ncmInvCol: TextColumnBuilder<String> =
-    col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(40)
-    }
+      col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(40)
+      }
   private val refForCol: TextColumnBuilder<String> =
-    col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(60)
-    }
+      col.column("Ref do Fab", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(60)
+      }
   private val descricaoCol: TextColumnBuilder<String> =
-    col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setTextAdjust(CUT_TEXT)
-    }
+      col.column("Descrição", ProdutosNotaSaida::descricao.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(LEFT)
+        this.setTextAdjust(CUT_TEXT)
+      }
   private val gradeCol: TextColumnBuilder<String> =
-    col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(40)
-    }
+      col.column("Grade", ProdutosNotaSaida::grade.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(40)
+      }
   private val stCol: TextColumnBuilder<String> = col.column("ST", ProdutosNotaSaida::st.name, type.stringType()).apply {
     this.setHorizontalTextAlignment(CENTER)
     this.setFixedWidth(25)
   }
   private val invnoCol: TextColumnBuilder<String> =
-    col.column("NI", ProdutosNotaSaida::invnoObs.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("0")
-      this.setFixedWidth(30)
-    }
+      col.column("NI", ProdutosNotaSaida::invnoObs.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("0")
+        this.setFixedWidth(30)
+      }
   private val qtdeCol: TextColumnBuilder<Int> =
-    col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("0")
-      this.setFixedWidth(35)
-    }
+      col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("0")
+        this.setFixedWidth(35)
+      }
   private val itemCol: TextColumnBuilder<Int> =
-    col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setPattern("000")
-      this.setFixedWidth(25)
-    }
+      col.column("Item", ProdutosNotaSaida::item.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setPattern("000")
+        this.setFixedWidth(25)
+      }
   private val valorUnitarioCol: TextColumnBuilder<Double> =
-    col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("V. Unit", ProdutosNotaSaida::valorUnitario.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val valorTotalCol: TextColumnBuilder<Double> =
-    col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("V. Total", ProdutosNotaSaida::valorTotal.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val valorTotalIpiCol: TextColumnBuilder<Double> =
-    col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("R$ Total Geral", ProdutosNotaSaida::valorTotalIpi.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val ipiCol: TextColumnBuilder<Double> =
-    col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("Valor Ipi", ProdutosNotaSaida::ipi.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val vstCol: TextColumnBuilder<Double> =
-    col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("Valor ST", ProdutosNotaSaida::vst.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val baseICMSCol: TextColumnBuilder<Double> =
-    col.column("B. Cálc. ICMS", ProdutosNotaSaida::baseICMS.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("B. Cálc. ICMS", ProdutosNotaSaida::baseICMS.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val valorICMSCol: TextColumnBuilder<Double> =
-    col.column("Valor ICMS", ProdutosNotaSaida::valorICMS.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("Valor ICMS", ProdutosNotaSaida::valorICMS.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val valorIPICol: TextColumnBuilder<Double> =
-    col.column("Valor IPI", ProdutosNotaSaida::valorIPI.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("Valor IPI", ProdutosNotaSaida::valorIPI.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val aliqICMSCol: TextColumnBuilder<Double> =
-    col.column("Alíq. ICMS", ProdutosNotaSaida::icmsAliq.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("Alíq. ICMS", ProdutosNotaSaida::icmsAliq.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val aliqIPICol: TextColumnBuilder<Double> =
-    col.column("Alíq. IPI", ProdutosNotaSaida::ipiAliq.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("Alíq. IPI", ProdutosNotaSaida::ipiAliq.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
 
   private val barcodeCol: TextColumnBuilder<String> =
-    col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(80)
-    }
+      col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(80)
+      }
 
   private val cstCol: TextColumnBuilder<String> =
-    col.column("CST", ProdutosNotaSaida::cst.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(25)
-    }
+      col.column("CST", ProdutosNotaSaida::cst.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(25)
+      }
 
   private val cfopCol: TextColumnBuilder<String> =
-    col.column("CFOP", ProdutosNotaSaida::cfop.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(25)
-    }
+      col.column("CFOP", ProdutosNotaSaida::cfop.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(25)
+      }
 
   private val unCol: TextColumnBuilder<String> =
-    col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(30)
-    }
+      col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(30)
+      }
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return when (notaSaida.tipo) {
       "66", "AJT", "FIN" -> when {
         resumida -> listOf(
-          itemCol,
-          barcodeCol,
-          refForCol,
-          codigoCol,
-          descricaoCol,
-          gradeCol,
-          unCol,
-          qtdeCol,
+            itemCol,
+            barcodeCol,
+            refForCol,
+            codigoCol,
+            descricaoCol,
+            gradeCol,
+            unCol,
+            qtdeCol,
         )
 
         else -> listOf(
-          itemCol,
-          barcodeCol,
-          refForCol,
-          codigoCol,
-          descricaoCol,
-          gradeCol,
-          unCol,
-          stCol,
-          qtdeCol,
-          valorUnitarioCol,
-          valorTotalCol,
-          ipiCol,
-          vstCol,
-          valorTotalIpiCol,
+            itemCol,
+            barcodeCol,
+            refForCol,
+            codigoCol,
+            descricaoCol,
+            gradeCol,
+            unCol,
+            stCol,
+            qtdeCol,
+            valorUnitarioCol,
+            valorTotalCol,
+            ipiCol,
+            vstCol,
+            valorTotalIpiCol,
         )
       }
 
       "PED" -> when {
         resumida -> if (pendente) listOf(
-          itemCol,
-          barcodeCol,
-          refForCol,
-          codigoCol,
-          descricaoCol,
-          gradeCol,
-          unCol,
-          qtdeCol,
-          valorUnitarioCol,
-          valorTotalCol
+            itemCol,
+            barcodeCol,
+            refForCol,
+            codigoCol,
+            descricaoCol,
+            gradeCol,
+            unCol,
+            qtdeCol,
+            valorUnitarioCol,
+            valorTotalCol
         )
         else listOf(itemCol, barcodeCol, refForCol, codigoCol, descricaoCol, gradeCol, unCol, qtdeCol)
 
         else -> listOf(
-          invnoCol,
-          dataInvCol,
-          notaInvCol,
-          refForCol,
+            invnoCol,
+            dataInvCol,
+            notaInvCol,
+            refForCol,
+            codigoCol,
+            descricaoCol,
+            gradeCol,
+            ncmInvCol,
+            cstCol,
+            cfopCol,
+            unCol,
+            qtdeCol,
+            valorUnitarioCol,
+            valorTotalCol,
+            baseICMSCol,
+            valorICMSCol,
+            valorIPICol,
+            aliqICMSCol,
+            aliqIPICol,
+        )
+      }
+
+      else -> listOf(
+          itemCol,
+          barcodeCol,
           codigoCol,
           descricaoCol,
           gradeCol,
-          ncmInvCol,
           cstCol,
           cfopCol,
           unCol,
           qtdeCol,
           valorUnitarioCol,
-          valorTotalCol,
-          baseICMSCol,
-          valorICMSCol,
-          valorIPICol,
-          aliqICMSCol,
-          aliqIPICol,
-        )
-      }
-
-      else -> listOf(
-        itemCol,
-        barcodeCol,
-        codigoCol,
-        descricaoCol,
-        gradeCol,
-        cstCol,
-        cfopCol,
-        unCol,
-        qtdeCol,
-        valorUnitarioCol,
-        valorTotalCol
+          valorTotalCol
       )
     }
   }
@@ -316,8 +316,8 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         val fornecedorSap = notaSaida.fornecedorSap
 
         text(
-          "$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota",
-          LEFT
+            "$custno - $fornecedor (FOR - $vendno  SAP - $fornecedorSap)   PED. $pedido - $dataPedido   NOTA $nota - $dataNota",
+            LEFT
         )
         text("$dataAtual-$horaAtual", RIGHT, 100)
       }
@@ -589,22 +589,22 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
     return when (notaSaida.tipo) {
       in listOf("PED") -> emptyList()
       in listOf("66", "AJT", "FIN") -> listOf(
-        sbt.text("Total R$", valorUnitarioCol),
-        sbt.sum(valorTotalCol),
-        sbt.sum(baseICMSCol),
-        sbt.sum(valorICMSCol),
-        sbt.sum(valorIPICol),
-        sbt.sum(ipiCol),
-        sbt.sum(vstCol),
-        sbt.sum(valorTotalIpiCol),
+          sbt.text("Total R$", valorUnitarioCol),
+          sbt.sum(valorTotalCol),
+          sbt.sum(baseICMSCol),
+          sbt.sum(valorICMSCol),
+          sbt.sum(valorIPICol),
+          sbt.sum(ipiCol),
+          sbt.sum(vstCol),
+          sbt.sum(valorTotalIpiCol),
       )
 
       else -> listOf(
-        sbt.text("Total R$", valorUnitarioCol),
-        sbt.sum(valorTotalCol),
-        sbt.sum(ipiCol),
-        sbt.sum(vstCol),
-        sbt.sum(valorTotalIpiCol),
+          sbt.text("Total R$", valorUnitarioCol),
+          sbt.sum(valorTotalCol),
+          sbt.sum(ipiCol),
+          sbt.sum(vstCol),
+          sbt.sum(valorTotalIpiCol),
       )
     }
   }
@@ -620,19 +620,19 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
     val pageOrientation = if ((notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) && resumida) PORTRAIT
     else LANDSCAPE
     return report()
-      .title(titleBuider())
-      .setTemplate(Templates.reportTemplate)
-      .columns(* colunms)
-      .setColumnStyle(stl.style().setFontSize(7))
-      .columnGrid(* colunms)
-      .setDataSource(itens)
-      .summary(sumaryBuild())
-      .setPageFormat(A4, pageOrientation)
-      .setPageMargin(margin(28))
-      .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
-      .setSubtotalStyle(stl.style().setFontSize(8).setPadding(2).setTopBorder(stl.pen1Point()))
-      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+        .title(titleBuider())
+        .setTemplate(Templates.reportTemplate)
+        .columns(* colunms)
+        .setColumnStyle(stl.style().setFontSize(7))
+        .columnGrid(* colunms)
+        .setDataSource(itens)
+        .summary(sumaryBuild())
+        .setPageFormat(A4, pageOrientation)
+        .setPageMargin(margin(28))
+        .summary(pageFooterBuilder())
+        .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+        .setSubtotalStyle(stl.style().setFontSize(8).setPadding(2).setTopBorder(stl.pen1Point()))
+        .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
   }
 
   companion object {

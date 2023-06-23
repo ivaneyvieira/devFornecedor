@@ -109,12 +109,12 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
           val valorUnitario = row.getValue("VALOR UNITÁRIO") ?: row.getValue("V. Unit")
           val valorTotal = row.getValue("VALOR TOTAL") ?: row.getValue("V. total")
           PedidoExcel(
-            item = item.toStr(),
-            referencia = referencia.toStr(),
-            descricao = descricao.toStr(),
-            quantidade = quantidade.toInt(),
-            valorUnitario = valorUnitario.toDouble(),
-            valorTotal = valorTotal.toDouble(),
+              item = item.toStr(),
+              referencia = referencia.toStr(),
+              descricao = descricao.toStr(),
+              quantidade = quantidade.toInt(),
+              valorUnitario = valorUnitario.toDouble(),
+              valorTotal = valorTotal.toDouble(),
           )
         }
         listPedidoExcel.clear()

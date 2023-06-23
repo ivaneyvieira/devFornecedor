@@ -9,7 +9,6 @@ import com.vaadin.flow.data.provider.SortDirection.DESCENDING
 import org.apache.poi.ss.formula.functions.T
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
-import kotlin.streams.toList
 
 fun <T : Any> @VaadinDsl Grid<T>.shiftSelect() {
   var pedidoInicial: T? = null

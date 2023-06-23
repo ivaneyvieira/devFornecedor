@@ -16,7 +16,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabPedidoFornecedor(private val viewModel: TabPedidoFornecedorViewModel) :
-  TabPanelGrid<FornecedorProduto>(FornecedorProduto::class), ITabPedidoFornecedor {
+    TabPanelGrid<FornecedorProduto>(FornecedorProduto::class), ITabPedidoFornecedor {
 
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {

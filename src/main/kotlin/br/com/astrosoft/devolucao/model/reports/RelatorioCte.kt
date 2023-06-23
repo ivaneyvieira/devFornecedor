@@ -32,7 +32,7 @@ class RelatorioCte(val notas: List<NfEntradaFrete>) : ReportBuild<NfEntradaFrete
   }
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "Nota Frete", subTitulo = "", detailFonteSize = 8, pageOrientation = LANDSCAPE)
+      PropriedadeRelatorio(titulo = "Nota Frete", subTitulo = "", detailFonteSize = 8, pageOrientation = LANDSCAPE)
 
   override fun listDataSource(): List<NfEntradaFrete> = notas
 

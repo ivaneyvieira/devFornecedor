@@ -26,7 +26,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class TabAgendaRastreamento(viewModel: TabAgendaRastreamentoViewModel) : TabAgendaAbstract(viewModel),
-  ITabAgendaRastreamento {
+    ITabAgendaRastreamento {
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.agendaRastreamento == true

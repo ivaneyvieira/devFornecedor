@@ -12,11 +12,11 @@ import org.apache.commons.lang3.StringUtils
 import java.math.BigDecimal
 
 class ProdutoNotaEntradaVO(
-  val id: Int,
-  val xmlNfe: String?,
-  val numeroProtocolo: String?,
-  val dataHoraRecebimento: String?,
-  val refNFe: String?,
+    val id: Int,
+    val xmlNfe: String?,
+    val numeroProtocolo: String?,
+    val dataHoraRecebimento: String?,
+    val refNFe: String?,
 ) {
   fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
     xmlNfe ?: return emptyList()
@@ -44,24 +44,24 @@ class ProdutoNotaEntradaVO(
     val produto: NFNotaInfoItemProduto? = item.produto
     val imposto: NFNotaInfoItemImposto? = item.imposto
     return ProdutoNotaEntradaNdd(
-      id = id,
-      numeroProtocolo = numeroProtocolo ?: "",
-      codigo = produto?.codigo?.toString() ?: "",
-      codBarra = produto?.codigoDeBarras ?: "",
-      descricao = produto?.descricao ?: "",
-      ncm = produto?.ncm ?: "",
-      cst = item.icms().cst() ?: "",
-      cfop = produto?.cfop ?: "",
-      un = produto?.unidadeComercial ?: "",
-      quantidade = produto?.quantidadeComercial?.toDoubleOrNull() ?: 0.00,
-      valorUnitario = produto?.valorUnitario?.toDoubleOrNull() ?: 0.00,
-      valorTotal = produto?.valorTotalBruto?.toDoubleOrNull() ?: 0.00,
-      baseICMS = imposto?.icms?.icms00?.valorBaseCalculo?.toDoubleOrNull() ?: 0.00,
-      valorIPI = imposto?.ipi?.tributado?.valorTributo?.toDoubleOrNull() ?: 0.00,
-      aliqICMS = imposto?.icms?.icms00?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
-      aliqIPI = imposto?.ipi?.tributado?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
-      valorOutros = produto?.valorOutrasDespesasAcessorias?.toDoubleOrNull() ?: 0.00,
-      valorFrete = produto?.valorFrete?.toDoubleOrNull() ?: 0.00,
+        id = id,
+        numeroProtocolo = numeroProtocolo ?: "",
+        codigo = produto?.codigo?.toString() ?: "",
+        codBarra = produto?.codigoDeBarras ?: "",
+        descricao = produto?.descricao ?: "",
+        ncm = produto?.ncm ?: "",
+        cst = item.icms().cst() ?: "",
+        cfop = produto?.cfop ?: "",
+        un = produto?.unidadeComercial ?: "",
+        quantidade = produto?.quantidadeComercial?.toDoubleOrNull() ?: 0.00,
+        valorUnitario = produto?.valorUnitario?.toDoubleOrNull() ?: 0.00,
+        valorTotal = produto?.valorTotalBruto?.toDoubleOrNull() ?: 0.00,
+        baseICMS = imposto?.icms?.icms00?.valorBaseCalculo?.toDoubleOrNull() ?: 0.00,
+        valorIPI = imposto?.ipi?.tributado?.valorTributo?.toDoubleOrNull() ?: 0.00,
+        aliqICMS = imposto?.icms?.icms00?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
+        aliqIPI = imposto?.ipi?.tributado?.percentualAliquota?.toDoubleOrNull() ?: 0.00,
+        valorOutros = produto?.valorOutrasDespesasAcessorias?.toDoubleOrNull() ?: 0.00,
+        valorFrete = produto?.valorFrete?.toDoubleOrNull() ?: 0.00,
     )
   }
 

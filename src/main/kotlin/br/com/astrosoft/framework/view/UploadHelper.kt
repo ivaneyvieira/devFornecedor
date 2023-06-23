@@ -18,16 +18,16 @@ private fun createComponent(fileName: String, byteArray: ByteArray): Component {
     }
 
     fileName.endsWith("jpg", ignoreCase = true) || fileName.endsWith(
-      "jpeg",
-      ignoreCase = true
+        "jpeg",
+        ignoreCase = true
     ) || fileName.endsWith(
-      "png",
-      ignoreCase = true
+        "png",
+        ignoreCase = true
     ) -> {
       val image = Image()
       try {
         image.element.setAttribute("src",
-          StreamResource(fileName, InputStreamFactory { ByteArrayInputStream(byteArray) })
+            StreamResource(fileName, InputStreamFactory { ByteArrayInputStream(byteArray) })
         )
         ImageIO.createImageInputStream(ByteArrayInputStream(byteArray)).use { `in` ->
           val readers = ImageIO.getImageReaders(`in`)

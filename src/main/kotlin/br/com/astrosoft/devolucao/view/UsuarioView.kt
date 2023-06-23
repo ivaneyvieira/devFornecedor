@@ -25,10 +25,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override fun createGrid() = GridCrud(UserSaci::class.java)
 
   override fun formCrud(
-    operation: CrudOperation?,
-    domainObject: UserSaci?,
-    readOnly: Boolean,
-    binder: Binder<UserSaci>
+      operation: CrudOperation?,
+      domainObject: UserSaci?,
+      readOnly: Boolean,
+      binder: Binder<UserSaci>
   ): Component {
     return FormLayout().apply {
       if (operation in listOf(READ, DELETE, UPDATE)) integerField("Número") {

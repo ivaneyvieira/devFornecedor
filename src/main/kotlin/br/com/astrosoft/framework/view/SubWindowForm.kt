@@ -7,11 +7,11 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.VaadinIcon
 
 class SubWindowForm(
-  protected val title: String,
-  val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
-  val onClose: (Dialog) -> Unit = {},
-  val fullSize: Boolean = true,
-  val blockForm: () -> Component,
+    protected val title: String,
+    val toolBar: HasComponents.(SubWindowForm) -> Unit = {},
+    val onClose: (Dialog) -> Unit = {},
+    val fullSize: Boolean = true,
+    val blockForm: () -> Component,
 ) : Dialog() {
   init {
     if (fullSize) {

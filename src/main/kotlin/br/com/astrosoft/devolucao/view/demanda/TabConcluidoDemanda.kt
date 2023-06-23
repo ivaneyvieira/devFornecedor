@@ -26,7 +26,7 @@ import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 
 class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
-  TabPanelGrid<AgendaDemanda>(AgendaDemanda::class), ITabConcluidoDemanda {
+    TabPanelGrid<AgendaDemanda>(AgendaDemanda::class), ITabConcluidoDemanda {
   private lateinit var edtFiltro: TextField
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
@@ -74,21 +74,21 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
       updateComponent()
     }
     ConfirmDialog
-      .create()
-      .withCaption("Anexos")
-      .withMessage(form)
-      .withCloseButton(ButtonOption.caption("Fechar"))
-      .open()
+        .create()
+        .withCaption("Anexos")
+        .withMessage(form)
+        .withCloseButton(ButtonOption.caption("Fechar"))
+        .open()
   }
 
   override fun showForm(demanda: AgendaDemanda) {
     val form = FormAgendaDemanda(demanda, true)
     ConfirmDialog
-      .create()
-      .withCaption("Agenda")
-      .withMessage(form)
-      .withCloseButton(ButtonOption.caption("Fechar"))
-      .open()
+        .create()
+        .withCaption("Agenda")
+        .withMessage(form)
+        .withCloseButton(ButtonOption.caption("Fechar"))
+        .open()
   }
 
   override fun filter(): FilterAgendaDemanda {

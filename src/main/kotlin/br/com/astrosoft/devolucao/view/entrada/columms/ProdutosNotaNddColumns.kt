@@ -122,14 +122,14 @@ object ProdutosNotaNddColumns {
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorUnitarioAvaria() =
-    addColumnDouble(ProdutoNotaEntradaNdd::valorUnitAvaria) {
-      this.setHeader("V. Unt Av")
-      this.isResizable = true
-    }
+      addColumnDouble(ProdutoNotaEntradaNdd::valorUnitAvaria) {
+        this.setHeader("V. Unt Av")
+        this.isResizable = true
+      }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorFinalAvaria() =
-    addColumnDouble(ProdutoNotaEntradaNdd::valorTotalFinalAvaria) {
-      this.setHeader("V. Total Av")
-      this.isResizable = true
-    }
+      addColumnDouble(ProdutoNotaEntradaNdd::valorTotalFinalAvaria) {
+        this.setHeader("V. Total Av")
+        this.isResizable = true
+      }
 }

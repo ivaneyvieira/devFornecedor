@@ -37,7 +37,7 @@ import org.claspina.confirmdialog.ConfirmDialog
 import java.time.LocalDate
 
 class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaNdd>(NotaSaidaNdd::class),
-  ITabSaidaNddViewModel {
+    ITabSaidaNddViewModel {
   private lateinit var cmbLoja: IntegerField
   private lateinit var edtNota: TextField
   private lateinit var edtDataI: DatePicker
@@ -47,12 +47,12 @@ class TabSaidaNdd(val viewModel: TabSaidaNddViewModel) : TabPanelGrid<NotaSaidaN
 
   override fun filtro(): FiltroNotaSaidaNdd {
     return FiltroNotaSaidaNdd(
-      loja = cmbLoja.value,
-      nota = edtNota.value,
-      codigoCliente = edtCodigo.value,
-      nomeCliente = edtNome.value,
-      dataI = edtDataI.value,
-      dataF = edtDataF.value
+        loja = cmbLoja.value,
+        nota = edtNota.value,
+        codigoCliente = edtCodigo.value,
+        nomeCliente = edtNome.value,
+        dataI = edtDataI.value,
+        dataF = edtDataF.value
     )
   }
 

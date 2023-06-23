@@ -13,14 +13,14 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaFornecedorResumo {
   private val campos: List<Campo<*, Fornecedor>> =
-    listOf(
-      CampoInt("Código Saci") { vendno },
-      CampoInt("Código SAP") { fornecedorSap },
-      CampoString("Fornecedor") { fornecedor },
-      CampoString("Primeira Data") { primeiraDataStr },
-      CampoString("Ultima Data") { ultimaDataStr },
-      CampoNumber("Saldo") { valorTotal },
-    )
+      listOf(
+          CampoInt("Código Saci") { vendno },
+          CampoInt("Código SAP") { fornecedorSap },
+          CampoString("Fornecedor") { fornecedor },
+          CampoString("Primeira Data") { primeiraDataStr },
+          CampoString("Ultima Data") { ultimaDataStr },
+          CampoNumber("Saldo") { valorTotal },
+      )
 
   fun grava(listaNotas: List<Fornecedor>): ByteArray {
     val wb = workbook {

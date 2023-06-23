@@ -7,8 +7,8 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNFDFornecedoresEditorVi
 import br.com.astrosoft.framework.model.IUser
 
 class TabNFDFornecedoresEditor(viewModel: TabNFDFornecedoresEditorViewModel) :
-  TabDevolucaoAbstract<INFDFornecedoresView>(viewModel),
-  ITabNFDFornecedoresEditorViewModel {
+    TabDevolucaoAbstract<INFDFornecedoresView>(viewModel),
+    ITabNFDFornecedoresEditorViewModel {
   override val label: String
     get() = "Editor"
   override val situacaoPendencia: ESituacaoPendencia?

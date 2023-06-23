@@ -3,10 +3,8 @@ package br.com.astrosoft.devolucao.view.entrada.columms
 import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.select.Select
 

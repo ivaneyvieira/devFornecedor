@@ -14,22 +14,22 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaProdutosNdd {
   private val campos: List<Campo<*, ProdutoNotaEntradaNdd>> =
-    listOf(
-      CampoInt("Código") { codigo.toIntOrNull() ?: 0 },
-      CampoString("Código de Barras") { codBarra },
-      CampoString("Descrição") { descricao },
-      CampoString("NCM") { ncm },
-      CampoString("CST") { cst },
-      CampoString("CFOP") { cfop },
-      CampoString("UN") { un },
-      CampoInt("Quantidade") { quantidade.toInt() },
-      CampoNumber("Valor Unitário") { valorUnitario },
-      CampoNumber("Valor Total") { valorTotal },
-      CampoNumber("B. Calc ICMS") { baseICMS },
-      CampoNumber("Valor IPI") { valorIPI },
-      CampoNumber("Alíq IPI") { aliqIPI },
-      CampoNumber("Alíq ICMS") { aliqICMS },
-    )
+      listOf(
+          CampoInt("Código") { codigo.toIntOrNull() ?: 0 },
+          CampoString("Código de Barras") { codBarra },
+          CampoString("Descrição") { descricao },
+          CampoString("NCM") { ncm },
+          CampoString("CST") { cst },
+          CampoString("CFOP") { cfop },
+          CampoString("UN") { un },
+          CampoInt("Quantidade") { quantidade.toInt() },
+          CampoNumber("Valor Unitário") { valorUnitario },
+          CampoNumber("Valor Total") { valorTotal },
+          CampoNumber("B. Calc ICMS") { baseICMS },
+          CampoNumber("Valor IPI") { valorIPI },
+          CampoNumber("Alíq IPI") { aliqIPI },
+          CampoNumber("Alíq ICMS") { aliqICMS },
+      )
 
   fun grava(listaNotas: List<ProdutoNotaEntradaNdd>, titulo: String): ByteArray {
     val wb = workbook {

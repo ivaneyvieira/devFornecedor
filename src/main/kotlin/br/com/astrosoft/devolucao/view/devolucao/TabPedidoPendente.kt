@@ -9,7 +9,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoPendenteViewModel
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedidoPendente(viewModel: TabPedidoPendenteViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
-  ITabPedidoPendente {
+    ITabPedidoPendente {
   override val label: String
     get() = "Pendente"
   override val situacaoPendencia: ESituacaoPendencia?
