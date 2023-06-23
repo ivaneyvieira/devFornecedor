@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.NotaSaida
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
@@ -10,12 +9,11 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoFinalizadoViewMod
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedidoFinalizado(viewModel: TabPedidoFinalizadoViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
-  ITabPedidoFinalizado {
+    ITabPedidoFinalizado {
   override val label: String
     get() = "Finalizado"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
-
 
 
   override fun isAuthorized(user: IUser): Boolean {
@@ -25,7 +23,7 @@ class TabPedidoFinalizado(viewModel: TabPedidoFinalizadoViewModel) : TabPedidoAb
 
   override val situacaoPedido
     get() = listOf(
-      NFD_AUTOZ, BAIXA, PAGO, RETORNO,
-      PERCA, DESCARTE, ASSISTENCIA_RETORNO
+        NFD_AUTOZ, BAIXA, PAGO, RETORNO,
+        PERCA, DESCARTE, ASSISTENCIA_RETORNO
     )
 }

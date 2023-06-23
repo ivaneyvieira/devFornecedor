@@ -8,11 +8,11 @@ class DevolucaoInternaViewModel(view: IDevolucaoInternaView) : DevolucaoAbstract
   val tabAjusteGarantia66ViewModel = TabAjusteGarantia66ViewModel(this)
 
   override fun listTab() = listOf(
-    view.tabAjusteGarantia,
-    view.tabAjusteGarantiaPendente,
-    view.tabAjusteGarantiaPago,
-    view.tabAjusteGarantiaPerca,
-    view.tabAjusteGarantia66,
+      view.tabAjusteGarantia,
+      view.tabAjusteGarantiaPendente,
+      view.tabAjusteGarantiaPago,
+      view.tabAjusteGarantiaPerca,
+      view.tabAjusteGarantia66,
   )
 }
 

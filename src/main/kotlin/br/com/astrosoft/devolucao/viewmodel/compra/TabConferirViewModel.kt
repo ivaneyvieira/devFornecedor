@@ -12,14 +12,14 @@ class TabConferirViewModel(viewModel: CompraViewModel) : TabAbstractConfViewMode
   val subView
     get() = viewModel.view.tabConferirViewModel
 
-  final override fun imprimirPedidoCompra(pedidos: List<PedidoCompra>) = viewModel.exec {
+  override fun imprimirPedidoCompra(pedidos: List<PedidoCompra>) = viewModel.exec {
     pedidos.ifEmpty {
       fail("Nenhuma item foi selecionado")
     }
     subView.imprimeSelecionados(pedidos)
   }
 
-  final override fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>) = viewModel.exec {
+  override fun imprimirRelatorioFornecedor(pedido: List<PedidoCompra>) = viewModel.exec {
     pedido.ifEmpty {
       fail("Nenhuma item foi selecionado")
     }

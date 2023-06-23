@@ -4,6 +4,6 @@ import br.com.astrosoft.devolucao.model.ndd
 
 class CteXML(val xmfFile: String) {
   companion object {
-    final fun findByCte(cte: Int?) = if (cte == null) null else ndd.listCte(cte)
+    fun findByCte(cte: Int?) = if (cte == null) null else ndd.listCte(cte)
   }
 }

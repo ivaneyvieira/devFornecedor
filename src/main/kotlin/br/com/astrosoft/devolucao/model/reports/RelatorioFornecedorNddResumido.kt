@@ -24,35 +24,35 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorNddResumido(val fornecedores: List<FornecedorNdd>) {
   private val codigoSaciCol: TextColumnBuilder<Int> =
-    col.column("Codigo Saci", FornecedorNdd::vendno.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-      this.setPattern("0")
-    }
+      col.column("Codigo Saci", FornecedorNdd::vendno.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(50)
+        this.setPattern("0")
+      }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
-    col.column("Fornecedor", FornecedorNdd::nome.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setTextAdjust(CUT_TEXT)
-    }
+      col.column("Fornecedor", FornecedorNdd::nome.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(LEFT)
+        this.setTextAdjust(CUT_TEXT)
+      }
 
   private val dataPrimeiraNotaCol: TextColumnBuilder<String> =
-    col.column("Inicio", FornecedorNdd::primeiraDataStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(70)
-    }
+      col.column("Inicio", FornecedorNdd::primeiraDataStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(70)
+      }
   private val dataUltimaNotaCol: TextColumnBuilder<String> =
-    col.column("Fim", FornecedorNdd::primeiraDataStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(70)
-    }
+      col.column("Fim", FornecedorNdd::primeiraDataStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(70)
+      }
 
   private val saldoCol: TextColumnBuilder<Double> =
-    col.column("Saldo Total", FornecedorNdd::valorTotal.name, type.doubleType()).apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(80)
-    }
+      col.column("Saldo Total", FornecedorNdd::valorTotal.name, type.doubleType()).apply {
+        this.setPattern("#,##0.00")
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(80)
+      }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(codigoSaciCol, nomeFornecedorCol, dataPrimeiraNotaCol, dataUltimaNotaCol, saldoCol)
@@ -74,8 +74,8 @@ class RelatorioFornecedorNddResumido(val fornecedores: List<FornecedorNdd>) {
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return listOf(
-      sbt.text("Total R$", dataUltimaNotaCol),
-      sbt.sum(saldoCol),
+        sbt.text("Total R$", dataUltimaNotaCol),
+        sbt.sum(saldoCol),
     )
   }
 
@@ -83,19 +83,19 @@ class RelatorioFornecedorNddResumido(val fornecedores: List<FornecedorNdd>) {
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = LANDSCAPE
     return report()
-      .title(titleBuider())
-      .setTemplate(Templates.reportTemplate)
-      .columns(* colunms)
-      .columnGrid(* colunms)
-      .setDataSource(fornecedores)
-      .setPageFormat(A4, pageOrientation)
-      .setPageMargin(margin(28))
-      .summary(pageFooterBuilder())
-      .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
-      .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
-      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-      .setColumnStyle(fieldFontNormal)
-      .setColumnTitleStyle(fieldFontNormalCol)
+        .title(titleBuider())
+        .setTemplate(Templates.reportTemplate)
+        .columns(* colunms)
+        .columnGrid(* colunms)
+        .setDataSource(fornecedores)
+        .setPageFormat(A4, pageOrientation)
+        .setPageMargin(margin(28))
+        .summary(pageFooterBuilder())
+        .subtotalsAtSummary(* subtotalBuilder().toTypedArray())
+        .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
+        .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+        .setColumnStyle(fieldFontNormal)
+        .setColumnTitleStyle(fieldFontNormalCol)
   }
 
   companion object {

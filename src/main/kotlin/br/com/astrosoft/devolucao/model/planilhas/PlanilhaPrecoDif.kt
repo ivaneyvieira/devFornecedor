@@ -12,25 +12,25 @@ import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 
-class PlanilhaPrecoDif() {
+class PlanilhaPrecoDif {
   private val campos: List<Campo<*, NfPrecEntrada>> =
-    listOf(
-      CampoInt("lj") { lj },
-      CampoInt("pedido") { pedidoCompra ?: 0 },
-      CampoInt("ni") { ni },
-      CampoString("data") { data.format() },
-      CampoString("nfe") { nfe },
-      CampoString("forn Cad") { fornCad },
-      CampoString("forn Nota") { fornNota },
-      CampoString("prod") { prod },
-      CampoString("descrição") { descricao },
-      CampoString("grade") { grade },
-      CampoNumber("R$ NF") { precon },
-      CampoNumber("R$ Ped") { precop },
-      CampoNumber("R$ Prec") { precopc },
-      CampoNumber("Dif") { precoDifValue },
-      CampoNumber("%") { precoPercen },
-    )
+      listOf(
+          CampoInt("lj") { lj },
+          CampoInt("pedido") { pedidoCompra ?: 0 },
+          CampoInt("ni") { ni },
+          CampoString("data") { data.format() },
+          CampoString("nfe") { nfe },
+          CampoString("forn Cad") { fornCad },
+          CampoString("forn Nota") { fornNota },
+          CampoString("prod") { prod },
+          CampoString("descrição") { descricao },
+          CampoString("grade") { grade },
+          CampoNumber("R$ NF") { precon },
+          CampoNumber("R$ Ped") { precop },
+          CampoNumber("R$ Prec") { precopc },
+          CampoNumber("Dif") { precoDifValue },
+          CampoNumber("%") { precoPercen },
+      )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

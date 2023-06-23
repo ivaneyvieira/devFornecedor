@@ -27,7 +27,7 @@ import org.claspina.confirmdialog.ConfirmDialog
 import java.time.LocalDate
 
 class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<AgendaDemanda>(AgendaDemanda::class),
-  ITabAgendaDemanda {
+    ITabAgendaDemanda {
   private lateinit var edtFiltro: TextField
   override fun HorizontalLayout.toolBarConfig() {
     button("Adicionar") {
@@ -82,10 +82,10 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   private fun showAgendaForm(
-    demanda: AgendaDemanda?,
-    title: String,
-    isReadOnly: Boolean,
-    exec: (demanda: AgendaDemanda?) -> Unit
+      demanda: AgendaDemanda?,
+      title: String,
+      isReadOnly: Boolean,
+      exec: (demanda: AgendaDemanda?) -> Unit
   ) {
     val form = FormAgendaDemanda(demanda, isReadOnly)
     ConfirmDialog.create().withCaption(title).withMessage(form).withOkButton({
@@ -99,11 +99,11 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
       updateComponent()
     }
     ConfirmDialog
-      .create()
-      .withCaption("Anexos")
-      .withMessage(form)
-      .withCloseButton(ButtonOption.caption("Fechar"))
-      .open()
+        .create()
+        .withCaption("Anexos")
+        .withMessage(form)
+        .withCloseButton(ButtonOption.caption("Fechar"))
+        .open()
   }
 
   override fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit) {

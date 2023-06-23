@@ -8,16 +8,16 @@ import br.com.astrosoft.framework.model.Config
 import java.time.LocalDate
 
 class NotaSaidaNdd(
-  val loja: Int,
-  val numero: Int,
-  val serie: Int,
-  val nota: String,
-  val codigoCliente: Int,
-  val nomeCliente: String,
-  val pedido: Int,
-  val data: LocalDate,
-  val valor: Double,
-  val chave: String
+    val loja: Int,
+    val numero: Int,
+    val serie: Int,
+    val nota: String,
+    val codigoCliente: Int,
+    val nomeCliente: String,
+    val pedido: Int,
+    val data: LocalDate,
+    val valor: Double,
+    val chave: String
 ) {
 
   fun produtosNDD(): ProdutoNotaEntradaVO? {
@@ -41,12 +41,12 @@ class NotaSaidaNdd(
 }
 
 class FiltroNotaSaidaNdd(
-  val loja: Int?,
-  val nota: String?,
-  val codigoCliente: Int?,
-  val nomeCliente: String?,
-  val dataI: LocalDate?,
-  val dataF: LocalDate?
+    val loja: Int?,
+    val nota: String?,
+    val codigoCliente: Int?,
+    val nomeCliente: String?,
+    val dataI: LocalDate?,
+    val dataF: LocalDate?
 ) {
   val numero
     get() = nota?.split("/")?.getOrNull(0)?.toIntOrNull()
@@ -54,5 +54,5 @@ class FiltroNotaSaidaNdd(
     get() = nota?.split("/")?.getOrNull(1)
 
   fun isEmpty() =
-    (nota == null || nota == "") && (codigoCliente == null || codigoCliente == 0) && (nomeCliente == null || nomeCliente == "") && (dataI == null) && (dataF == null)
+      (nota == null || nota == "") && (codigoCliente == null || codigoCliente == 0) && (nomeCliente == null || nomeCliente == "") && (dataI == null) && (dataF == null)
 }

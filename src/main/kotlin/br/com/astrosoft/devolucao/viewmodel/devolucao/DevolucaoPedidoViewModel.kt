@@ -6,9 +6,9 @@ class DevolucaoPedidoViewModel(view: IDevolucaoPedidoView) : DevolucaoAbstractVi
   val tabPedidoFinalizadoViewModel = TabPedidoFinalizadoViewModel(this)
 
   override fun listTab() = listOf(
-    view.tabPedidoPendente,
-    view.tabPedidoFinalizado,
-    view.tabPedidoEditor,
+      view.tabPedidoPendente,
+      view.tabPedidoFinalizado,
+      view.tabPedidoEditor,
   )
 }
 

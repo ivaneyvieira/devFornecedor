@@ -15,28 +15,28 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaNotas {
   private val campos: List<Campo<*, ProdutosNotaSaida>> =
-    listOf(
-      CampoString("Rótulo") { rotulo },
-      CampoInt("Fornecedor") { vendnoNota ?: vendno },
-      CampoInt("NI") { invno },
-      CampoString("NF") { notaInv },
-      CampoString("Emissão") { dateInv.format() },
-      CampoInt("Qnt NI") { quantInv },
-      CampoInt("Qnt Dev") { qtde },
-      CampoInt("Código") { codigo },
-      CampoString("Descrição") { descricao },
-      CampoString("Grade") { grade },
-      CampoString("Ref Forn") { refFor },
-      CampoNumber("R$ Unit") { valorUnitario },
-      CampoNumber("R$ IPI") { ipi },
-      CampoNumber("R$ ST") { vst },
-      CampoNumber("R$ Total") { valorTotalIpi },
-      CampoString("Chave") {
-        val text = chaveUlt ?: ""
-        text.substring(0, 6.coerceAtMost(text.length))
-      },
-      CampoString("Chave Sefaz") { chaveSefaz ?: "" },
-    )
+      listOf(
+          CampoString("Rótulo") { rotulo },
+          CampoInt("Fornecedor") { vendnoNota ?: vendno },
+          CampoInt("NI") { invno },
+          CampoString("NF") { notaInv },
+          CampoString("Emissão") { dateInv.format() },
+          CampoInt("Qnt NI") { quantInv },
+          CampoInt("Qnt Dev") { qtde },
+          CampoInt("Código") { codigo },
+          CampoString("Descrição") { descricao },
+          CampoString("Grade") { grade },
+          CampoString("Ref Forn") { refFor },
+          CampoNumber("R$ Unit") { valorUnitario },
+          CampoNumber("R$ IPI") { ipi },
+          CampoNumber("R$ ST") { vst },
+          CampoNumber("R$ Total") { valorTotalIpi },
+          CampoString("Chave") {
+            val text = chaveUlt ?: ""
+            text.substring(0, 6.coerceAtMost(text.length))
+          },
+          CampoString("Chave Sefaz") { chaveSefaz ?: "" },
+      )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
     val wb = workbook {

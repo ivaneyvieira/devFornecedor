@@ -372,10 +372,10 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
     val buffer = MemoryBuffer()
     val upload = Upload(buffer)
     upload.setAcceptedFileTypes(
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      ".xlsx",
-      "application/pdf",
-      ".pdf"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ".xlsx",
+        "application/pdf",
+        ".pdf"
     )
     val uploadButton = Button("Carregar Pedido")
     uploadButton.icon = VaadinIcon.PLUS.create()

@@ -25,7 +25,7 @@ import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 
 class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel) :
-  TabPanelGrid<FornecedorProduto>(FornecedorProduto::class), ITabFornecedorDemanda {
+    TabPanelGrid<FornecedorProduto>(FornecedorProduto::class), ITabFornecedorDemanda {
 
   override fun HorizontalLayout.toolBarConfig() {
     edtFiltro = textField("Filtro") {
@@ -72,11 +72,11 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
       updateComponent()
     }
     ConfirmDialog
-      .create()
-      .withCaption("Anexos")
-      .withMessage(form)
-      .withCloseButton(ButtonOption.caption("Fechar"))
-      .open()
+        .create()
+        .withCaption("Anexos")
+        .withMessage(form)
+        .withCloseButton(ButtonOption.caption("Fechar"))
+        .open()
   }
 
   override fun showUpdateForm(fornecedor: FornecedorProduto, execUpdate: (demanda: FornecedorProduto?) -> Unit) {
@@ -84,10 +84,10 @@ class TabFornecedorDemanda(private val viewModel: TabFornecedorDemandaViewModel)
   }
 
   private fun showAgendaForm(
-    fornecedor: FornecedorProduto?,
-    title: String,
-    isReadOnly: Boolean,
-    exec: (demanda: FornecedorProduto?) -> Unit
+      fornecedor: FornecedorProduto?,
+      title: String,
+      isReadOnly: Boolean,
+      exec: (demanda: FornecedorProduto?) -> Unit
   ) {
     val form = FormFornecedor(fornecedor, isReadOnly)
     ConfirmDialog.create().withCaption(title).withMessage(form).withOkButton({

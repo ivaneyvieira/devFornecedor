@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
   list.add(1500.1)
   list.add(63.63)
 
-  val mode = list.mode();
+  val mode = list.mode()
 
   val outliers = list.notOutliers()
   System.out.printf("%d outliers\n", outliers.size)

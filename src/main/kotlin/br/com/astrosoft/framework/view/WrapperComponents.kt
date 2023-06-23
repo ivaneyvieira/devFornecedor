@@ -13,54 +13,54 @@ import java.time.format.DateTimeFormatter
 
 @VaadinDsl
 fun <T> (@VaadinDsl HasComponents).multiselectComboBox(block: (@VaadinDsl MultiselectComboBox<T>).() -> Unit = {}) =
-  init(MultiselectComboBox(), block)
+    init(MultiselectComboBox(), block)
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).lazyDownloadButton(
-  text: String? = null,
-  prefixo: String,
-  extensao: String,
-  icon: Component? = null,
-  byteArray: () -> ByteArray,
+    text: String? = null,
+    prefixo: String,
+    extensao: String,
+    icon: Component? = null,
+    byteArray: () -> ByteArray,
 ): LazyDownloadButton {
   val ldb =
-    LazyDownloadButton(
-      text,
-      icon,
-      {
-        val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
-        val textTime = LocalDateTime.now().format(sdf)
-        "$prefixo$textTime.$extensao"
-      },
-      {
-        ByteArrayInputStream(byteArray())
-      },
-    )
+      LazyDownloadButton(
+          text,
+          icon,
+          {
+            val sdf = DateTimeFormatter.ofPattern("yyMMddHHmmss")
+            val textTime = LocalDateTime.now().format(sdf)
+            "$prefixo$textTime.$extensao"
+          },
+          {
+            ByteArrayInputStream(byteArray())
+          },
+      )
   return init(ldb)
 }
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).lazyDownloadButton(
-  text: String,
-  icon: Component? = null,
-  fileName: () -> String,
-  byteArray: () -> ByteArray,
+    text: String,
+    icon: Component? = null,
+    fileName: () -> String,
+    byteArray: () -> ByteArray,
 ): LazyDownloadButton {
   val ldb =
-    LazyDownloadButton(
-      text,
-      icon,
-      fileName,
-    ) {
-      ByteArrayInputStream(byteArray())
-    }
+      LazyDownloadButton(
+          text,
+          icon,
+          fileName,
+      ) {
+        ByteArrayInputStream(byteArray())
+      }
   return init(ldb)
 }
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).lazyDownloadButtonXlsx(
-  text: String? = null,
-  prefixo: String,
-  byteArray: () -> ByteArray,
+    text: String? = null,
+    prefixo: String,
+    byteArray: () -> ByteArray,
 ) =
-  lazyDownloadButton(text, prefixo, "xlsx", FontAwesome.Solid.FILE_EXCEL.create(), byteArray)
+    lazyDownloadButton(text, prefixo, "xlsx", FontAwesome.Solid.FILE_EXCEL.create(), byteArray)

@@ -4,26 +4,26 @@ import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
 class FornecedorProduto(
-  val vendno: Int,
-  val custno: Int?,
-  val nomeFornecedor: String,
-  val quantAnexo: Int,
-  val nomeFantasia: String,
-  val cnpj: String,
-  val cidade: String,
-  val uf: String,
-  var texto: String,
+    val vendno: Int,
+    val custno: Int?,
+    val nomeFornecedor: String,
+    val quantAnexo: Int,
+    val nomeFantasia: String,
+    val cnpj: String,
+    val cidade: String,
+    val uf: String,
+    var texto: String,
 ) {
   private fun createDemanda(): AgendaDemanda {
     val agenda =
-      AgendaDemanda(
-        date = LocalDate.now(),
-        titulo = "",
-        conteudo = "",
-        vendno = vendno,
-        destino = "",
-        origem = "",
-      )
+        AgendaDemanda(
+            date = LocalDate.now(),
+            titulo = "",
+            conteudo = "",
+            vendno = vendno,
+            destino = "",
+            origem = "",
+        )
     agenda.save()
     return agenda
   }
@@ -39,14 +39,14 @@ class FornecedorProduto(
   fun addAnexo(fileName: String?, bytes: ByteArray) {
     fileName ?: return
     saci.insertFile(
-      NFFile(
-        storeno = 88,
-        pdvno = 8888,
-        xano = vendno,
-        date = LocalDate.now(),
-        nome = fileName,
-        file = bytes,
-      )
+        NFFile(
+            storeno = 88,
+            pdvno = 8888,
+            xano = vendno,
+            date = LocalDate.now(),
+            nome = fileName,
+            file = bytes,
+        )
     )
   }
 

@@ -41,5 +41,5 @@ object Config {
   @Suppress("UNCHECKED_CAST")
   val mainClass: KClass<Component> = Class.forName(prop.getProperty("mainClass")).kotlin as KClass<Component>
   val userUtilImpl: IUserUtil =
-    Class.forName(prop.getProperty("userUtilImpl")).getDeclaredConstructor().newInstance() as IUserUtil
+      Class.forName(prop.getProperty("userUtilImpl")).getDeclaredConstructor().newInstance() as IUserUtil
 }

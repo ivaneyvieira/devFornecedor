@@ -17,9 +17,7 @@ class Loja(val no: Int, val sname: String, val name: String, val cnpjLoja: Strin
 
     other as Loja
 
-    if (no != other.no) return false
-
-    return true
+    return no == other.no
   }
 
   override fun hashCode(): Int {

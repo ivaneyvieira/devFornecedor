@@ -26,24 +26,24 @@ class RelatorioNfCte(val notas: List<NfFreteGrupo>) : ReportBuild<NfFreteGrupo>(
 
   override fun makeReport(): JasperReportBuilder {
     return super
-      .makeReport()
-      .setPageMargin(margin(0))
-      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setTop(20)))
-      .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setFontSize(8))
-      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(4)))
-      .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
+        .makeReport()
+        .setPageMargin(margin(0))
+        .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setTop(20)))
+        .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setFontSize(8))
+        .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(4)))
+        .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
   }
 
   override fun labelTitleCol() = columnString(NfFreteGrupo::nomeGrupo)
 
   override val propriedades =
-    PropriedadeRelatorio(
-      titulo = "CTe",
-      subTitulo = "",
-      color = Color.WHITE,
-      detailFonteSize = 8,
-      pageOrientation = PORTRAIT
-    )
+      PropriedadeRelatorio(
+          titulo = "CTe",
+          subTitulo = "",
+          color = Color.WHITE,
+          detailFonteSize = 8,
+          pageOrientation = PORTRAIT
+      )
 
   override fun listDataSource(): List<NfFreteGrupo> = notas
 

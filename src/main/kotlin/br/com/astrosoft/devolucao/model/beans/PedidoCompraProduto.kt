@@ -10,77 +10,77 @@ import java.time.LocalDate
 import kotlin.math.roundToLong
 
 class PedidoCompraProduto(
-  @FieldName("Item")
-  var seqItem: Int? = null,
-  @FieldExclude
-  val origem: String,
-  @FieldExclude
-  val vendno: Int,
-  @FieldExclude
-  val fornecedor: String,
-  @FieldExclude
-  val cnpj: String,
-  @FieldExclude
-  val loja: Int,
-  @FieldExclude
-  val sigla: String,
-  @FieldExclude
-  val numeroPedido: Int,
-  @FieldExclude
-  val status: Int,
-  @FieldExclude
-  val dataPedido: LocalDate,
-  @FieldExclude
-  val dataEntrega: LocalDate,
-  @FieldExclude
-  val obsercacaoPedido: String,
-  @FieldName("Código")
-  val codigo: String?,
-  @FieldExclude
-  val seqno: Int?,
-  @FieldName("Descrição")
-  val descricao: String?,
-  @FieldName("Grade")
-  val grade: String?,
-  @FieldName("Qt Embalagem")
-  val qtEmbalagem: Int?,
-  @FieldName("Ref Fab")
-  val refFab: String?,
-  @FieldExclude
-  var linha: Int = 0,
-  @FieldName("Ref NF")
-  val refno: String?,
-  @FieldExclude
-  val refname: String?,
-  @FieldName("Dif Ref")
-  var difRef: String?,
-  @FieldName("Und")
-  val unidade: String?,
-  @FieldName("Qtd Ped")
-  val qtPedida: Int?,
-  @FieldExclude
-  val qtCancelada: Int?,
-  @FieldExclude
-  val qtRecebida: Int?,
-  @FieldExclude
-  val qtPendente: Int?,
-  @FieldName("Qtd Cot")
-  var quantidadeCt: Int? = null,
-  @FieldName("Dif Qtd")
-  var quantidadeDif: Double? = null,
-  @FieldName("V. Unt Ped")
-  val custoUnit: Double?,
-  @FieldName("V. Unt Cot")
-  var valorUnitarioCt: Double? = null,
-  @FieldName("Dif Valor")
-  var valorUnitarioDif: Double? = null,
-  @FieldExclude
-  val barcode: String?,
-  @FieldExclude
-  var confirmado: String?,
-  @FieldName("Valor Total")
-  val valorTotal: Double,
-  var calcEmbalagem: String,
+    @FieldName("Item")
+    var seqItem: Int? = null,
+    @FieldExclude
+    val origem: String,
+    @FieldExclude
+    val vendno: Int,
+    @FieldExclude
+    val fornecedor: String,
+    @FieldExclude
+    val cnpj: String,
+    @FieldExclude
+    val loja: Int,
+    @FieldExclude
+    val sigla: String,
+    @FieldExclude
+    val numeroPedido: Int,
+    @FieldExclude
+    val status: Int,
+    @FieldExclude
+    val dataPedido: LocalDate,
+    @FieldExclude
+    val dataEntrega: LocalDate,
+    @FieldExclude
+    val obsercacaoPedido: String,
+    @FieldName("Código")
+    val codigo: String?,
+    @FieldExclude
+    val seqno: Int?,
+    @FieldName("Descrição")
+    val descricao: String?,
+    @FieldName("Grade")
+    val grade: String?,
+    @FieldName("Qt Embalagem")
+    val qtEmbalagem: Int?,
+    @FieldName("Ref Fab")
+    val refFab: String?,
+    @FieldExclude
+    var linha: Int = 0,
+    @FieldName("Ref NF")
+    val refno: String?,
+    @FieldExclude
+    val refname: String?,
+    @FieldName("Dif Ref")
+    var difRef: String?,
+    @FieldName("Und")
+    val unidade: String?,
+    @FieldName("Qtd Ped")
+    val qtPedida: Int?,
+    @FieldExclude
+    val qtCancelada: Int?,
+    @FieldExclude
+    val qtRecebida: Int?,
+    @FieldExclude
+    val qtPendente: Int?,
+    @FieldName("Qtd Cot")
+    var quantidadeCt: Int? = null,
+    @FieldName("Dif Qtd")
+    var quantidadeDif: Double? = null,
+    @FieldName("V. Unt Ped")
+    val custoUnit: Double?,
+    @FieldName("V. Unt Cot")
+    var valorUnitarioCt: Double? = null,
+    @FieldName("Dif Valor")
+    var valorUnitarioDif: Double? = null,
+    @FieldExclude
+    val barcode: String?,
+    @FieldExclude
+    var confirmado: String?,
+    @FieldName("Valor Total")
+    val valorTotal: Double,
+    var calcEmbalagem: String,
 ) {
   @FieldExclude
   var codigoMatch: String? = null
@@ -236,10 +236,10 @@ class PedidoCompraProduto(
 }
 
 data class FiltroPedidoCompra(
-  val loja: Int,
-  val pesquisa: String,
-  val dataPedido: LocalDate?,
-  val onlyPendente: Boolean,
-  val onlyConferido: Boolean,
-  val onlyNotConferido: Boolean,
+    val loja: Int,
+    val pesquisa: String,
+    val dataPedido: LocalDate?,
+    val onlyPendente: Boolean,
+    val onlyConferido: Boolean,
+    val onlyNotConferido: Boolean,
 )

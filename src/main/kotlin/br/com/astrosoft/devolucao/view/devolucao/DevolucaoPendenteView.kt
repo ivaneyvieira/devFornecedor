@@ -24,11 +24,11 @@ class DevolucaoPendenteView : ViewLayout<DevolucaoPendenteViewModel>(), IDevoluc
   override val tabNotaPendenteTransito = TabNotaPendente(viewModel.tabNotaPendenteTransitoViewModel) { TRANSITO }
   override val tabNotaPendenteFabrica = TabNotaPendente(viewModel.tabNotaPendenteFabricaViewModel) { FABRICA }
   override val tabNotaPendenteCConcedido =
-    TabNotaPendente(viewModel.tabNotaPendenteCConcedidoViewModel) { CREDITO_CONCEDIDO }
+      TabNotaPendente(viewModel.tabNotaPendenteCConcedidoViewModel) { CREDITO_CONCEDIDO }
   override val tabNotaPendenteCAplicado =
-    TabNotaPendente(viewModel.tabNotaPendenteCAplicadoViewModel) { CREDITO_APLICADO }
+      TabNotaPendente(viewModel.tabNotaPendenteCAplicadoViewModel) { CREDITO_APLICADO }
   override val tabNotaPendenteCAguardar =
-    TabNotaPendente(viewModel.tabNotaPendenteCAguardarViewModel) { CREDITO_AGUARDAR }
+      TabNotaPendente(viewModel.tabNotaPendenteCAguardarViewModel) { CREDITO_AGUARDAR }
   override val tabNotaPendenteCConta = TabNotaPendente(viewModel.tabNotaPendenteCContaViewModel) { CREDITO_CONTA }
   override val tabNotaPendenteBonificada = TabNotaPendente(viewModel.tabNotaPendenteBonificadaViewModel) { BONIFICADA }
   override val tabNotaPendenteReposicao = TabNotaPendente(viewModel.tabNotaPendenteReposicaoViewModel) { REPOSICAO }

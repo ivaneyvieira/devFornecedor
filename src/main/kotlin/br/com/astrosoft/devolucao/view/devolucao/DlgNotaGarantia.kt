@@ -24,11 +24,11 @@ import com.vaadin.flow.data.provider.SortDirection
 
 @CssImport("./styles/gridTotal.css")
 class DlgNotaGarantia<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
-  DlgNotaAbstract<T>(viewModel) {
+    DlgNotaAbstract<T>(viewModel) {
   override fun createGridNotas(
-    listNotas: List<NotaSaida>,
-    serie: Serie,
-    situacao: ESituacaoPendencia?
+      listNotas: List<NotaSaida>,
+      serie: Serie,
+      situacao: ESituacaoPendencia?
   ): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {

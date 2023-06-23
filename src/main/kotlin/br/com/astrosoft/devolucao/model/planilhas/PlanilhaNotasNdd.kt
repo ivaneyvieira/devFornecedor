@@ -14,15 +14,15 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaNotasNdd {
   private val campos: List<Campo<*, NotaEntradaNdd>> =
-    listOf(
-      CampoInt("Código") { codigoSaci },
-      CampoString("Nome Fornecedor") { nome },
-      CampoInt("Loja") { storeno },
-      CampoString("Nota") { notaFiscal },
-      CampoString("Data de Lancamento") { dataEmissao.format() },
-      CampoString("Data de Vencimento") { dataEmissao.format() },
-      CampoNumber("Saldo") { baseCalculoIcms },
-    )
+      listOf(
+          CampoInt("Código") { codigoSaci },
+          CampoString("Nome Fornecedor") { nome },
+          CampoInt("Loja") { storeno },
+          CampoString("Nota") { notaFiscal },
+          CampoString("Data de Lancamento") { dataEmissao.format() },
+          CampoString("Data de Vencimento") { dataEmissao.format() },
+          CampoNumber("Saldo") { baseCalculoIcms },
+      )
 
   fun grava(listaNotas: List<NotaEntradaNdd>): ByteArray {
     val wb = workbook {

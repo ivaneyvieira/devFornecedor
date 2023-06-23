@@ -25,11 +25,11 @@ import com.vaadin.flow.component.icon.VaadinIcon
 
 @CssImport("./styles/gridTotal.css")
 class DlgNotaRetorno<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstract<T>) :
-  DlgNotaAbstract<T>(viewModel) {
+    DlgNotaAbstract<T>(viewModel) {
   override fun createGridNotas(
-    listNotas: List<NotaSaida>,
-    serie: Serie,
-    situacao: ESituacaoPendencia?
+      listNotas: List<NotaSaida>,
+      serie: Serie,
+      situacao: ESituacaoPendencia?
   ): Grid<NotaSaida> {
     val gridDetail = Grid(NotaSaida::class.java, false)
     return gridDetail.apply {

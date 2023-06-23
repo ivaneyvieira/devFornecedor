@@ -13,7 +13,7 @@ import br.com.astrosoft.framework.view.right
 import com.vaadin.flow.component.grid.Grid
 
 class TabNotaPendente(viewModel: TabNotaPendenteViewModel, private val situacao: () -> ESituacaoPendencia) :
-  TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
+    TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
   override val label: String
     get() = situacao().title
 

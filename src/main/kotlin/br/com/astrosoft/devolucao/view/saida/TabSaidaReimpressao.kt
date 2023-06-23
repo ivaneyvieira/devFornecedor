@@ -27,7 +27,7 @@ import org.claspina.confirmdialog.ButtonOption
 import org.claspina.confirmdialog.ConfirmDialog
 
 class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
-  TabPanelGrid<ReimpressaoNota>(ReimpressaoNota::class), ITabSaidaReimpressaoViewModel {
+    TabPanelGrid<ReimpressaoNota>(ReimpressaoNota::class), ITabSaidaReimpressaoViewModel {
   private lateinit var edtFiltro: TextField
   override fun filtro(): FiltroReimpressao {
     val userSaci = user as? UserSaci
@@ -41,17 +41,17 @@ class TabSaidaReimpressao(val viewModel: TabSaidaReimpressaoViewModel) :
 
   private fun showQuestion(msg: String, execYes: () -> Unit, execNo: () -> Unit) {
     ConfirmDialog
-      .createQuestion()
-      .withCaption("Confirmação")
-      .withMessage(msg)
-      .withYesButton(
-        {
-          execYes()
-        },
-        ButtonOption.caption("Sim")
-      )
-      .withNoButton({ execNo() }, ButtonOption.caption("Não"))
-      .open()
+        .createQuestion()
+        .withCaption("Confirmação")
+        .withMessage(msg)
+        .withYesButton(
+            {
+              execYes()
+            },
+            ButtonOption.caption("Sim")
+        )
+        .withNoButton({ execNo() }, ButtonOption.caption("Não"))
+        .open()
   }
 
   override fun confirmaRemocao(exec: () -> Unit) {

@@ -13,11 +13,11 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
 
-abstract class  TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
-  IEmailView {
+abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
+    IEmailView {
   protected abstract val subView: ITabNota
 
-  open fun  salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
+  open fun salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")
     itens.ifEmpty {
       fail("Não foi selecionado nenhuma nota")
@@ -145,7 +145,7 @@ abstract class  TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vi
     val filesPlanilha = createPlanilha(gmail, notas, subView.serie)
     val filesAnexo = createAnexos(gmail, notas)
     val enviadoComSucesso =
-      mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
+        mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->

@@ -7,8 +7,8 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNFDFornecedoresPagaView
 import br.com.astrosoft.framework.model.IUser
 
 class TabNFDFornecedoresPaga(viewModel: TabNFDFornecedoresPagaViewModel) :
-  TabDevolucaoAbstract<INFDFornecedoresView>(viewModel),
-  ITabNFDFornecedoresPagaViewModel {
+    TabDevolucaoAbstract<INFDFornecedoresView>(viewModel),
+    ITabNFDFornecedoresPagaViewModel {
   override val label: String
     get() = "Paga"
   override val situacaoPendencia: ESituacaoPendencia?
