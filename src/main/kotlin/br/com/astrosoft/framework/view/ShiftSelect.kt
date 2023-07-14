@@ -6,7 +6,6 @@ import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.SortDirection.ASCENDING
 import com.vaadin.flow.data.provider.SortDirection.DESCENDING
-import org.apache.poi.ss.formula.functions.T
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
