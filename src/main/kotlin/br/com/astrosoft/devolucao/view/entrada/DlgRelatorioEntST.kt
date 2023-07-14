@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.EValidade
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
@@ -25,8 +24,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValidade
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabEntSTViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -35,7 +32,6 @@ import br.com.astrosoft.framework.view.selectedItemsSort
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
-import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
@@ -49,12 +45,6 @@ class DlgRelatorioEntST(val viewModel: TabEntSTViewModel, val filtro: FiltroRela
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
-      this.button("Relatório") {
-        icon = PRINT.create()
-        onLeftClick {
-          viewModel.imprimeRelatorio(gridNota.selectedItemsSort())
-        }
-      }
       this.button("Relatório Resumo") {
         icon = PRINT.create()
         onLeftClick {
@@ -63,66 +53,6 @@ class DlgRelatorioEntST(val viewModel: TabEntSTViewModel, val filtro: FiltroRela
       }
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
-      }
-      this.comboDiferencaNum("Frete") {
-        value = filtro.frete
-
-        this.addValueChangeListener {
-          filtro.frete = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.select<EValidade> {
-        label = "Validade"
-        setItems(EValidade.values().toList())
-        value = EValidade.TODAS
-        this.setItemLabelGenerator {
-          it.descricao
-        }
-
-        this.addValueChangeListener {
-          filtro.tipoValidade = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-
-      }
-      this.comboDiferencaStr("ICMS") {
-        value = filtro.icms
-
-        this.addValueChangeListener {
-          filtro.icms = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferencaStr("IPI") {
-        value = filtro.ipi
-
-        this.addValueChangeListener {
-          filtro.ipi = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferencaStr("CST") {
-        value = filtro.cst
-
-        this.addValueChangeListener {
-          filtro.cst = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.comboDiferencaStr("MVA") {
-        value = filtro.mva
-
-        this.addValueChangeListener {
-          filtro.mva = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
       }
     }) {
       gridNota = createGrid(dataProviderGrid)
@@ -153,17 +83,8 @@ class DlgRelatorioEntST(val viewModel: TabEntSTViewModel, val filtro: FiltroRela
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaQuant()
-      notaValidade()
-      notaEstoque()
-      //notaFrete().marcaDiferenca { freteDif == "N" }
-      //notaFreten().marcaDiferenca { freteDif == "N" }
-      //notaFretep().marcaDiferenca { freteDif == "N" }
-      notaRedIcms().marcaDiferenca { icmsDif == "N" }
-      notaIcmsr().marcaDiferenca { icmsDif == "N" }
       notaIcmsn().marcaDiferenca { icmsDif == "N" }
-      notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
-      notaIpip().marcaDiferenca { ipiDif == "N" }
       notaCstn().marcaDiferenca { cstDif == "N" }
       notaCstp().marcaDiferenca { cstDif == "N" }
       notaMvan().marcaDiferenca { mvaDif == "N" }
