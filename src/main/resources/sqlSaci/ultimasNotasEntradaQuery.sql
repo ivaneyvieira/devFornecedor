@@ -21,7 +21,7 @@ DO @listaProdutos := TRIM(:listaProdutos);
 DROP TEMPORARY TABLE IF EXISTS T_MFPRD;
 CREATE TEMPORARY TABLE T_MFPRD
 (
-    PRIMARY KEY (prdno, grade)
+  PRIMARY KEY (prdno, grade)
 )
 SELECT prdnoRef                                                           AS prdno,
        grade,
@@ -34,8 +34,8 @@ GROUP BY prdnoRef, grade;
 DROP TEMPORARY TABLE IF EXISTS T_NCM;
 CREATE TEMPORARY TABLE T_NCM
 (
-    PRIMARY KEY (prdnoRef),
-    ncm varchar(20)
+  PRIMARY KEY (prdnoRef),
+  ncm varchar(20)
 )
 SELECT DISTINCT prdnoRef, MID(MAX(CONCAT(LPAD(seqnoAuto, 20, '0'), ncm)), 21, 20) AS ncm
 FROM sqldados.mfprd
@@ -44,7 +44,7 @@ GROUP BY prdnoRef;
 DROP TEMPORARY TABLE IF EXISTS T_VEND;
 CREATE TEMPORARY TABLE T_VEND
 (
-    PRIMARY KEY (no)
+  PRIMARY KEY (no)
 )
 SELECT no, name
 FROM sqldados.vend
@@ -53,7 +53,7 @@ WHERE name NOT LIKE 'ENGECOPI%';
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
 CREATE TEMPORARY TABLE T_PRD
 (
-    PRIMARY KEY (no)
+  PRIMARY KEY (no)
 )
 SELECT no,
        name,
@@ -63,10 +63,10 @@ SELECT no,
        lucroTributado,
        mfno_ref                             AS refPrd,
        weight_g,
-       if(tipoGarantia = 2, garantia, null) AS mesesValidade
+       IF(tipoGarantia = 2, garantia, NULL) AS mesesValidade
 FROM sqldados.prd
-         LEFT JOIN sqldados.prdalq
-                   ON prdalq.prdno = prd.no
+       LEFT JOIN sqldados.prdalq
+                 ON prdalq.prdno = prd.no
 WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
@@ -74,12 +74,12 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
 DROP TEMPORARY TABLE IF EXISTS T_STK;
 CREATE TEMPORARY TABLE T_STK
 (
-    PRIMARY KEY (prdno)
+  PRIMARY KEY (prdno)
 )
 SELECT prdno, SUM(qtty_varejo / 1000) AS estoque
 FROM sqldados.stk AS S
-         INNER JOIN T_PRD AS P
-                    ON P.no = S.prdno
+       INNER JOIN T_PRD AS P
+                  ON P.no = S.prdno
 GROUP BY prdno;
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
@@ -132,31 +132,33 @@ SELECT iprd.storeno                                                             
        prp.freight / 100                                                                 AS fretePerPrc,
        iprd.qtty / 1000                                                                  AS quant,
        S.estoque                                                                         AS estoque,
-       mesesValidade                                                                     AS mesesValidade
+       mesesValidade                                                                     AS mesesValidade,
+       iprd.cstIcms                                                                      AS cstIcms,
+       iprd.cfop                                                                         AS cfop
 FROM sqldados.iprd
-         INNER JOIN sqldados.inv
-                    USING (invno)
-         LEFT JOIN T_STK AS S
-                   USING (prdno)
-         INNER JOIN T_VEND AS vend
-                    ON vend.no = inv.vendno
-         INNER JOIN T_PRD AS prd
-                    ON (prd.no = iprd.prdno)
-         LEFT JOIN sqldados.prdbar AS B
-                   USING (prdno, grade)
-         LEFT JOIN T_MFPRD AS M
-                   USING (prdno, grade)
-         LEFT JOIN sqldados.prp
-                   ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
-         INNER JOIN sqldados.cfo
-                    ON (cfo.no = iprd.cfop)
-         LEFT JOIN sqldados.spedprd
-                   ON (spedprd.prdno = prd.no)
-         LEFT JOIN T_NCM AS mfprd
-                   ON (iprd.prdno = mfprd.prdnoRef)
-         LEFT JOIN sqldados.oprd
-                   ON (oprd.storeno = inv.storeno AND oprd.ordno = inv.ordno AND
-                       oprd.prdno = iprd.prdno AND oprd.grade = iprd.grade)
+       INNER JOIN sqldados.inv
+                  USING (invno)
+       LEFT JOIN T_STK AS S
+                 USING (prdno)
+       INNER JOIN T_VEND AS vend
+                  ON vend.no = inv.vendno
+       INNER JOIN T_PRD AS prd
+                  ON (prd.no = iprd.prdno)
+       LEFT JOIN sqldados.prdbar AS B
+                 USING (prdno, grade)
+       LEFT JOIN T_MFPRD AS M
+                 USING (prdno, grade)
+       LEFT JOIN sqldados.prp
+                 ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
+       INNER JOIN sqldados.cfo
+                  ON (cfo.no = iprd.cfop)
+       LEFT JOIN sqldados.spedprd
+                 ON (spedprd.prdno = prd.no)
+       LEFT JOIN T_NCM AS mfprd
+                 ON (iprd.prdno = mfprd.prdnoRef)
+       LEFT JOIN sqldados.oprd
+                 ON (oprd.storeno = inv.storeno AND oprd.ordno = inv.ordno AND
+                     oprd.prdno = iprd.prdno AND oprd.grade = iprd.grade)
 WHERE inv.date BETWEEN @di AND @df
   AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (iprd.storeno = @storeno OR @storeno = 0)
@@ -175,12 +177,12 @@ GROUP BY inv.invno, iprd.prdno, grade;
 DROP TABLE IF EXISTS sqldados.query1234567;
 CREATE TABLE sqldados.query1234567
 (
-    INDEX (cstDif),
-    INDEX (icmsDif),
-    INDEX (ipiDif),
-    INDEX (mvaDif),
-    INDEX (ncmDif),
-    INDEX (barcodeDif)
+  INDEX (cstDif),
+  INDEX (icmsDif),
+  INDEX (ipiDif),
+  INDEX (mvaDif),
+  INDEX (ncmDif),
+  INDEX (barcodeDif)
 )
 SELECT lj,
        ni,
@@ -241,5 +243,7 @@ SELECT lj,
              'DN'))                                              AS fretePerDif,
        quant,
        estoque,
-       mesesValidade
+       mesesValidade,
+       cstIcms,
+       cfop
 FROM sqldados.T_QUERY

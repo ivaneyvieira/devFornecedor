@@ -69,7 +69,7 @@ class TabEntST(val viewModel: TabEntSTViewModel) : ITabEntSTViewModel, ITabPanel
         ultimaNota = edtUlmNota.value ?: false,
         rotulo = edtRotulo.value ?: "",
         caraterInicial = edtCaracter.value ?: "",
-        comGrade = false,
+        comGrade = true,
         pesquisa = "",
         listaProdutos = "",
     )

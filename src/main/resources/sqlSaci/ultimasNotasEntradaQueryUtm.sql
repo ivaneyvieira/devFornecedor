@@ -16,7 +16,8 @@ DO @rotulo := :rotulo;
 DO @comGrade := :comGrade;
 
 DROP TEMPORARY TABLE IF EXISTS T_MFPRD;
-CREATE TEMPORARY TABLE T_MFPRD (
+CREATE TEMPORARY TABLE T_MFPRD
+(
   PRIMARY KEY (prdno, grade)
 )
 SELECT prdnoRef                                                           AS prdno,
@@ -29,7 +30,8 @@ GROUP BY prdnoRef, grade;
 
 
 DROP TEMPORARY TABLE IF EXISTS T_NCM;
-CREATE TEMPORARY TABLE T_NCM (
+CREATE TEMPORARY TABLE T_NCM
+(
   PRIMARY KEY (prdnoRef),
   ncm varchar(20)
 )
@@ -38,7 +40,8 @@ FROM sqldados.mfprd
 GROUP BY prdnoRef;
 
 DROP TEMPORARY TABLE IF EXISTS T_VEND;
-CREATE TEMPORARY TABLE T_VEND (
+CREATE TEMPORARY TABLE T_VEND
+(
   PRIMARY KEY (no)
 )
 SELECT no, name
@@ -46,7 +49,8 @@ FROM sqldados.vend
 WHERE name NOT LIKE 'ENGECOPI%';
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
-CREATE TEMPORARY TABLE T_PRD (
+CREATE TEMPORARY TABLE T_PRD
+(
   PRIMARY KEY (no)
 )
 SELECT no,
@@ -57,8 +61,8 @@ SELECT no,
        taxno,
        lucroTributado
 FROM sqldados.prd
-  LEFT JOIN sqldados.prdalq
-	      ON prdalq.prdno = prd.no
+       LEFT JOIN sqldados.prdalq
+                 ON prdalq.prdno = prd.no
 WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
@@ -81,40 +85,42 @@ SELECT iprd.storeno                                                             
        ROUND(iprd.ipi / 100, 2)                                                     AS ipin,
        ROUND(IFNULL(prp.ipi, 0) / 100, 2)                                           AS ipip,
        IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.icms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL)     AS icmsc,
+          ROUND(iprd.icms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL)     AS icmsc,
        ROUND(iprd.icmsAliq / 100, 2)                                                AS icmsn,
        ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 2)                                   AS icmsp,
        prd.taxno                                                                    AS cstp,
        MID(iprd.cstIcms, 2, 3)                                                      AS cstn,
        inv.nfname                                                                   AS nfe,
        IF(MID(iprd.cstIcms, 2, 3) = '20',
-	  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
+          ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
        TRIM(IFNULL(B.barcode, prd.barcode))                                         AS barcodep,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
        TRIM(IFNULL(prd.refPrd, ''))                                                 AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
        inv.freight * 100.00 / inv.grossamt                                          AS freten,
-       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)            AS frete
+       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)            AS frete,
+       cstIcms                                                                      AS cstIcms,
+       cfop                                                                         AS cfop
 FROM sqldados.iprd
-  INNER JOIN sqldados.inv
-	       USING (invno)
-  INNER JOIN T_VEND          AS vend
-	       ON vend.no = inv.vendno
-  INNER JOIN T_PRD           AS prd
-	       ON (prd.no = iprd.prdno)
-  LEFT JOIN  sqldados.prdbar AS B
-	       USING (prdno, grade)
-  LEFT JOIN  T_MFPRD         AS M
-	       USING (prdno, grade)
-  LEFT JOIN  sqldados.prp
-	       ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
-  INNER JOIN sqldados.cfo
-	       ON (cfo.no = iprd.cfop)
-  LEFT JOIN  sqldados.spedprd
-	       ON (spedprd.prdno = prd.no)
-  LEFT JOIN  T_NCM           AS mfprd
-	       ON (iprd.prdno = mfprd.prdnoRef)
+       INNER JOIN sqldados.inv
+                  USING (invno)
+       INNER JOIN T_VEND AS vend
+                  ON vend.no = inv.vendno
+       INNER JOIN T_PRD AS prd
+                  ON (prd.no = iprd.prdno)
+       LEFT JOIN sqldados.prdbar AS B
+                 USING (prdno, grade)
+       LEFT JOIN T_MFPRD AS M
+                 USING (prdno, grade)
+       LEFT JOIN sqldados.prp
+                 ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
+       INNER JOIN sqldados.cfo
+                  ON (cfo.no = iprd.cfop)
+       LEFT JOIN sqldados.spedprd
+                 ON (spedprd.prdno = prd.no)
+       LEFT JOIN T_NCM AS mfprd
+                 ON (iprd.prdno = mfprd.prdnoRef)
 WHERE inv.date BETWEEN @di AND @df
   AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (iprd.storeno = @storeno OR @storeno = 0)
@@ -130,7 +136,8 @@ WHERE inv.date BETWEEN @di AND @df
 GROUP BY inv.invno, iprd.prdno, iprd.grade;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
-CREATE TEMPORARY TABLE sqldados.T_MAX (
+CREATE TEMPORARY TABLE sqldados.T_MAX
+(
   PRIMARY KEY (Prod, grade, NI)
 )
 SELECT Prod,
@@ -140,7 +147,8 @@ FROM sqldados.T_QUERY
 GROUP BY Prod, grade;
 
 DROP TABLE IF EXISTS sqldados.query1234567;
-CREATE TABLE sqldados.query1234567 (
+CREATE TABLE sqldados.query1234567
+(
   INDEX (cstDif),
   INDEX (icmsDif),
   INDEX (ipiDif),
@@ -171,7 +179,7 @@ SELECT lj,
        ncmn,
        ncmp,
        IF((CSTp = '06' AND CSTn = '10' OR CSTp = '06' AND CSTn = '60' OR CSTp = CSTn), 'S',
-	  'N')                                                                       AS cstDif,
+          'N')                                                                       AS cstDif,
        IF(ROUND(IF(CSTn = '20', ICMSc, ICMSn) * 100) = ROUND(ICMSp * 100), 'S', 'N') AS icmsDif,
        IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')                           AS ipiDif,
        IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                           AS mvaDif,
@@ -185,8 +193,10 @@ SELECT lj,
        freten,
        fretep,
        IF(freten = fretep, 'S', IF(freten = fretep, 'DP', 'DN'))                     AS freteDif,
-       frete
+       frete,
+       cstIcms,
+       cfop
 FROM sqldados.T_QUERY
-  INNER JOIN sqldados.T_MAX
-	       USING (Prod, grade, NI)
+       INNER JOIN sqldados.T_MAX
+                  USING (Prod, grade, NI)
 

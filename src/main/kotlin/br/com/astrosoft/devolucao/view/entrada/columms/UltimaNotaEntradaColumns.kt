@@ -242,4 +242,14 @@ object UltimaNotaEntradaColumns {
     this.setHeader("NCM P")
     this.isResizable = true
   }
+
+  fun Grid<NfPrecEntrada>.notaCFOP() = addColumnString(NfPrecEntrada::cfop) {
+    this.setHeader("CFPO")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaCst() = addColumnString(NfPrecEntrada::cstIcms) {
+    this.setHeader("Cst N")
+    this.isResizable = true
+  }
 }
