@@ -63,6 +63,16 @@ class NfPrecEntrada(
   val mesesValidade: Int?,
   val cstIcms: String?,
   val cfop: String?,
+  val valor: Double?,
+  val vlDesconto: Double?,
+  val vlLiquido: Double?,
+  val vlFrete: Double?,
+  val vlDespesas: Double?,
+  val vlIcms: Double?,
+  val vlIpi: Double?,
+  val baseSubst: Double?,
+  val vlIcmsSubst: Double?,
+  val vlTotal: Double?,
 ) {
   val precoDifValue
     get() = precon - precop

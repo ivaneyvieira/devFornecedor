@@ -2,22 +2,18 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOP
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaEstoque
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornCad
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsp
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsr
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpip
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvan
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvap
@@ -25,8 +21,15 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValidade
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValor
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDesconto
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDespesa
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlFrete
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpi
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlLiquido
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubst
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabEntSTViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -77,23 +80,30 @@ class DlgRelatorioEntST(val viewModel: TabEntSTViewModel, val filtro: FiltroRela
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi().marcaDiferenca { difGeral(true) }
-      notaData()
+      notaNi()
       notaDataEmissao()
-      notaNfe().marcaDiferenca { difGeral(true) }
-      notaFornCad()
-      notaFornNota()
-      notaProd().marcaDiferenca { difGeral(true) }
-      notaDescricao()
-      notaGrade()
-      notaQuant()
-      notaIcmsn().marcaDiferenca { icmsDif == "N" }
-      notaIpin().marcaDiferenca { ipiDif == "N" }
+      notaData()
+      notaNfe()
+      notaFornNota().setHeader("For")
+      notaProd().setHeader("Produto")
+      notaDescricao().setHeader("Descrição")
+      notaGrade().setHeader("Grade")
       notaCFOP()
-      notaCst().marcaDiferenca { cstDif == "N" }
-      notaCstp().marcaDiferenca { cstDif == "N" }
-      notaMvan().marcaDiferenca { mvaDif == "N" }
-      notaMvap().marcaDiferenca { mvaDif == "N" }
+      notaCst()
+      notaCstp()
+      notaIcmsn().setHeader("ICMS")
+      notaIpin().setHeader("IPI")
+      notaQuant().setHeader("Qtd")
+      notaValor()
+      notaVlDesconto()
+      notaVlLiquido()
+      notaVlFrete()
+      notaVlDespesa()
+      notaVlIcms()
+      notaVlIpi()
+      notaBaseSubst()
+      notaVlSubst()
+      notaVlTotal()
     }
   }
 }
