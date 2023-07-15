@@ -65,7 +65,8 @@ class DlgRelatorioPreEnt(val viewModel: TabPreEntViewModel, val filtro: FiltroRe
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
     }) {
-      val list = viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }))
+      val list =
+        viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }, { it.prod }, { it.grade }))
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)
@@ -122,7 +123,7 @@ class DlgRelatorioPreEnt(val viewModel: TabPreEntViewModel, val filtro: FiltroRe
     val lista = this.grid.dataProvider.fetchAll()
     val total = lista.sumOf {
       val bean = it as? NfPrecEntrada ?: return@sumOf 0.0
-      if(bean.lj == 999) return@sumOf 0.0
+      if (bean.lj == 999) return@sumOf 0.0
       prop.get(bean) ?: 0.0
     }.format()
     val foot = setFooter(Html("<b><font size=4>${total}</font></b>"))
