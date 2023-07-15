@@ -155,9 +155,6 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       notaQuant()
       notaValidade()
       notaEstoque()
-      //notaFrete().marcaDiferenca { freteDif == "N" }
-      //notaFreten().marcaDiferenca { freteDif == "N" }
-      //notaFretep().marcaDiferenca { freteDif == "N" }
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
       notaIcmsn().marcaDiferenca { icmsDif == "N" }
