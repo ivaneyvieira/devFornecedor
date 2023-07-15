@@ -88,7 +88,7 @@ class NotaSaida(
   var chaveDescontoWrap
     get() = wrapString(chaveDesconto ?: "", "\n", 80)
     set(value) {
-      chaveDesconto = value?.replace("\n", " ")
+      chaveDesconto = value.replace("\n", " ")
     }
 
   val remarksChaveNova

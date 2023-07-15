@@ -29,7 +29,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
     val refPrdDifList = listNotas.filter { it.refPrdDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de Ref", nota, nota.pedidoCompra ?: 0, nota.refPrdn, nota.refPrdp)
+      NfPrecEntradaGrupo("Diferenças de Ref", nota, nota.pedidoCompra ?: 0, nota.refPrdn ?: "", nota.refPrdp ?: "")
     }
     val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
@@ -41,10 +41,10 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
       )
     }
     val barCodeDifList = listNotas.filter { it.barcodeDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de Barras", nota, nota.pedidoCompra ?: 0, nota.barcoden, nota.barcodep)
+      NfPrecEntradaGrupo("Diferenças de Barras", nota, nota.pedidoCompra ?: 0, nota.barcoden ?: "", nota.barcodep ?: "")
     }
     val ncmDifList = listNotas.filter { it.ncmDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de NCM", nota, nota.pedidoCompra ?: 0, nota.ncmn, nota.ncmp)
+      NfPrecEntradaGrupo("Diferenças de NCM", nota, nota.pedidoCompra ?: 0, nota.ncmn ?: "", nota.ncmp ?: "")
     }
     val listaRelatorio = freteDifList + refPrdDifList + barCodeDifList + ncmDifList
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, false)

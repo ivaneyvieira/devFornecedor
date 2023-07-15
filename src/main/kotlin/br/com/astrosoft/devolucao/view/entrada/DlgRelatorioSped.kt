@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.group
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOP
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
@@ -60,7 +61,7 @@ class DlgRelatorioSped(val viewModel: TabSpedViewModel, val filtro: FiltroRelato
       }
     }) {
       gridNota = createGrid(dataProviderGrid)
-      val list = viewModel.findNotas(filtro)
+      val list = viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }))
       gridNota.setItems(list)
       HorizontalLayout().apply {
         setSizeFull()
@@ -94,16 +95,22 @@ class DlgRelatorioSped(val viewModel: TabSpedViewModel, val filtro: FiltroRelato
       notaIcmsn().setHeader("ICMS")
       notaIpin().setHeader("IPI")
       notaQuant().setHeader("Qtd")
-      notaValor()
-      notaVlDesconto()
-      notaVlLiquido()
-      notaVlFrete()
-      notaVlDespesa()
-      notaVlIcms()
-      notaVlIpi()
-      notaBaseSubst()
-      notaVlSubst()
-      notaVlTotal()
+      notaValor().marcaTotal()
+      notaVlDesconto().marcaTotal()
+      notaVlLiquido().marcaTotal()
+      notaVlFrete().marcaTotal()
+      notaVlDespesa().marcaTotal()
+      notaVlIcms().marcaTotal()
+      notaVlIpi().marcaTotal()
+      notaBaseSubst().marcaTotal()
+      notaVlSubst().marcaTotal()
+      notaVlTotal().marcaTotal()
+    }
+  }
+
+  private fun Grid.Column<NfPrecEntrada>.marcaTotal() {
+    setClassNameGenerator {
+      if(it?.lj == 999) "marcaTotal" else null
     }
   }
 }

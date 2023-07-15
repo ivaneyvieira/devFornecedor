@@ -25,11 +25,11 @@ class PlanilhaPrecoDif {
       CampoString("prod") { prod },
       CampoString("descrição") { descricao },
       CampoString("grade") { grade },
-      CampoNumber("R$ NF") { precon },
-      CampoNumber("R$ Ped") { precop },
-      CampoNumber("R$ Prec") { precopc },
-      CampoNumber("Dif") { precoDifValue },
-      CampoNumber("%") { precoPercen },
+      CampoNumber("R$ NF") { precon ?: 0.0 },
+      CampoNumber("R$ Ped") { precop ?: 0.0 },
+      CampoNumber("R$ Prec") { precopc ?: 0.0 },
+      CampoNumber("Dif") { precoDifValue ?: 0.0 },
+      CampoNumber("%") { precoPercen ?: 0.0 },
     )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {

@@ -26,7 +26,7 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
       columnDouble(NfPrecEntrada::ipip, width = 40)
       columnString(NfPrecEntrada::cstn, width = 30, aligment = CENTER)
       columnString(NfPrecEntrada::cstp, width = 30, aligment = CENTER)
-      columnDouble(NfPrecEntrada::mvanApŕox, width = 40)
+      columnDouble(NfPrecEntrada::mvanAprox, width = 40)
       columnDouble(NfPrecEntrada::mvap, width = 40)
     } else {
       columnString(NfPrecEntrada::grade, width = 50, aligment = CENTER)

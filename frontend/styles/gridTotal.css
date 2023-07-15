@@ -59,3 +59,10 @@
     color: #FF4136;
     font-weight: bold;
 }
+
+[part~="cell"].marcaTotal {
+    border-top: solid 2px white;
+    background-color: hsla(214, 90%, 52%, 0.1);
+    font-size: 120%;
+    font-weight: bold;
+}

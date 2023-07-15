@@ -16,38 +16,38 @@ class NfPrecEntrada(
   val prod: String,
   val grade: String,
   val descricao: String,
-  val icmsn: Double,
-  val icmsp: Double,
+  val icmsn: Double?,
+  val icmsp: Double?,
   val icmsd: Double?,
   val icmsc: Double?,
-  val ipin: Double,
-  val ipip: Double,
-  val cstn: String,
-  val cstp: String,
-  val mvan: Double,
-  val mvap: Double,
-  val ncmn: String,
-  val ncmp: String,
-  val cstDif: String,
-  val icmsDif: String,
-  val ipiDif: String,
-  val mvaDif: String,
-  val ncmDif: String,
-  val barcodep: String,
-  val barcoden: String,
-  val barcodeDif: String,
-  val refPrdp: String,
-  val refPrdn: String,
-  val refPrdDif: String,
-  val freten: Double,
-  val fretep: Double,
-  val freteDif: String,
-  val frete: Double,
-  val precon: Double,
-  val precop: Double,
-  val precopc: Double,
-  val precoDif: String,
-  val pesoBruto: Double,
+  val ipin: Double?,
+  val ipip: Double?,
+  val cstn: String?,
+  val cstp: String?,
+  val mvan: Double?,
+  val mvap: Double?,
+  val ncmn: String?,
+  val ncmp: String?,
+  val cstDif: String?,
+  val icmsDif: String?,
+  val ipiDif: String?,
+  val mvaDif: String?,
+  val ncmDif: String?,
+  val barcodep: String?,
+  val barcoden: String?,
+  val barcodeDif: String?,
+  val refPrdp: String?,
+  val refPrdn: String?,
+  val refPrdDif: String?,
+  val freten: Double?,
+  val fretep: Double?,
+  val freteDif: String?,
+  val frete: Double?,
+  val precon: Double?,
+  val precop: Double?,
+  val precopc: Double?,
+  val precoDif: String?,
+  val pesoBruto: Double?,
   val pedidoCompra: Int?,
   val pesoBrutoTotal: Double?,
   val pesoBrutoPrd: Double?,
@@ -55,7 +55,7 @@ class NfPrecEntrada(
   val freteUnit: Double?,
   val fretePerNf: Double?,
   val fretePerPrc: Double?,
-  val fretePerDif: String,
+  val fretePerDif: String?,
   val quant: Int?,
   val freteTotal: Double?,
   val preconTotal: Double?,
@@ -74,15 +74,31 @@ class NfPrecEntrada(
   val vlIcmsSubst: Double?,
   val vlTotal: Double?,
 ) {
-  val precoDifValue
-    get() = precon - precop
+  val ljCol
+    get() = if(lj == 999) null else lj
 
-  val precoPercen
-    get() = precoDifValue * 100.00 / (precop * 1.00)
+  val niCol
+    get() = if(lj == 999) null else ni
 
-  val mvanApŕox: Double
+  val precoDifValue: Double?
     get() {
-      val dif = (mvan - mvap).absoluteValue
+      val pn = precon ?: return null
+      val pp = precop ?: return null
+      return pn - pp
+    }
+
+  val precoPercen: Double?
+    get() {
+      val pd = precoDifValue ?: return null
+      val pp = precop ?: return null
+      return pd * 100.00 / (pp * 1.00)
+    }
+
+  val mvanAprox: Double?
+    get() {
+      val mp = mvap ?: return null
+      val mn = mvan ?: return null
+      val dif = (mn - mp).absoluteValue
       return if (dif < 0.01) mvap
       else mvan
     }
@@ -180,4 +196,83 @@ data class NfPrecEntradaGrupo(
   val prod = nota.prod
   val descricao = nota.descricao
   val grade = nota.grade
+}
+
+fun List<NfPrecEntrada>.group(): List<NfPrecEntrada> {
+  val group = this.groupBy { it.ni }
+
+  val listGroup = group.mapNotNull { (ni, list) ->
+    val first = list.firstOrNull() ?: return@mapNotNull null
+    NfPrecEntrada(
+      lj = 999,
+      ni = ni,
+      data = null,
+      dataEmissao = null,
+      nfe = "",
+      fornCad = "",
+      fornNota = "",
+      prod = "",
+      grade = "",
+      descricao = "",
+      icmsn = null,
+      icmsp = null,
+      icmsd = null,
+      icmsc = null,
+      ipin = null,
+      ipip = null,
+      cstn = null,
+      cstp = null,
+      mvan = null,
+      mvap = null,
+      ncmn = null,
+      ncmp = null,
+      cstDif = null,
+      icmsDif = null,
+      ipiDif = null,
+      mvaDif = null,
+      ncmDif = null,
+      barcodep = null,
+      barcoden = null,
+      barcodeDif = null,
+      refPrdp = null,
+      refPrdn = null,
+      refPrdDif = null,
+      freten = null,
+      fretep = null,
+      freteDif = null,
+      frete = null,
+      precon = null,
+      precop = null,
+      precopc = null,
+      precoDif = null,
+      pesoBruto = null,
+      pedidoCompra = null,
+      pesoBrutoTotal = null,
+      pesoBrutoPrd = null,
+      freteKg = null,
+      freteUnit = null,
+      fretePerNf = null,
+      fretePerPrc = null,
+      fretePerDif = null,
+      quant = null,
+      freteTotal = null,
+      preconTotal = null,
+      estoque = null,
+      mesesValidade = null,
+      cstIcms = null,
+      cfop = null,
+      valor = list.sumOf { it.valor ?: 0.00 },
+      vlDesconto = list.sumOf { it.vlDesconto ?: 0.00 },
+      vlLiquido = list.sumOf { it.vlLiquido ?: 0.00 },
+      vlFrete = list.sumOf { it.vlFrete ?: 0.00 },
+      vlDespesas = list.sumOf { it.vlDespesas ?: 0.00 },
+      vlIcms = list.sumOf { it.vlIcms ?: 0.00 },
+      vlIpi = list.sumOf { it.vlIpi ?: 0.00 },
+      baseSubst = list.sumOf { it.baseSubst ?: 0.00 },
+      vlIcmsSubst = list.sumOf { it.vlIcmsSubst ?: 0.00 },
+      vlTotal = list.sumOf { it.vlTotal ?: 0.00 },
+    )
+  }
+
+  return this + listGroup
 }
