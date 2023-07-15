@@ -10,11 +10,11 @@ SELECT N.invno                  AS invno,
        DATE(N.issue_date)       AS dataEmissao,
        N.ordno                  AS ordno,
        IFNULL(CHAVE.nfekey, '') AS chave
-FROM sqldados.inv           AS N
-  LEFT JOIN sqldados.vend   AS V
-	      ON V.no = N.vendno
-  LEFT JOIN sqldados.invnfe AS CHAVE
-	      ON N.invno = CHAVE.invno
+FROM sqldados.inv AS N
+       LEFT JOIN sqldados.vend AS V
+                 ON V.no = N.vendno
+       LEFT JOIN sqldados.invnfe AS CHAVE
+                 ON N.invno = CHAVE.invno
 WHERE N.issue_date BETWEEN :dataInicial AND :dataFinal
   AND (CHAVE.nfekey = :chave OR :chave = '')
   AND (V.name LIKE CONCAT(:filtro, '%') OR IFNULL(V.no, 0) = (:filtro * 1) OR :filtro = '')

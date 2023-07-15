@@ -11,7 +11,7 @@ SELECT storeno,
        planilha,
        relatorio,
        anexos
-FROM sqldados.nfdevEmail       AS NE
-  INNER JOIN sqldados.devEmail AS E
-	       USING (idEmail)
+FROM sqldados.nfdevEmail AS NE
+       INNER JOIN sqldados.devEmail AS E
+                  USING (idEmail)
 WHERE data >= 20201230

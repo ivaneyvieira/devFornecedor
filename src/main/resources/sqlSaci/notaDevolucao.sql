@@ -3,12 +3,12 @@ USE sqldados;
 DROP TEMPORARY TABLE IF EXISTS TNFSACI;
 CREATE TEMPORARY TABLE TNFSACI
 (
-    PRIMARY KEY (storeno, pdvno, xano)
+  PRIMARY KEY (storeno, pdvno, xano)
 )
 SELECT N.*
 FROM sqldados.nf AS N
-         INNER JOIN sqldados.custp AS C
-                    ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
+       INNER JOIN sqldados.custp AS C
+                  ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.remarks LIKE 'GARANTIA %'
   AND N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
@@ -36,8 +36,8 @@ UNION
 DISTINCT
 SELECT N.*
 FROM sqldados.nf AS N
-         INNER JOIN sqldados.dup AS D
-                    USING (storeno, pdvno, xano)
+       INNER JOIN sqldados.dup AS D
+                  USING (storeno, pdvno, xano)
 WHERE D.storeno IN (2, 3, 4, 5)
   AND ((D.status = 5 AND D.remarks LIKE '%RETORNO%') OR bankno_paid = 121)
 GROUP BY storeno, pdvno, xano;
@@ -45,7 +45,7 @@ GROUP BY storeno, pdvno, xano;
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF
 (
-    PRIMARY KEY (storeno, nfno, nfse)
+  PRIMARY KEY (storeno, nfno, nfse)
 )
 SELECT N.storeno,
        N.pdvno,
@@ -92,26 +92,26 @@ SELECT N.storeno,
        IFNULL(dataNfAjuste, 0)                                    AS dataNfAjuste,
        IFNULL(pedidos, '')                                        AS pedidos
 FROM TNFSACI AS N
-         LEFT JOIN sqldados.nfComplemento NC
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN sqldados.natop AS OP
-                   ON OP.no = N.natopno
-         LEFT JOIN sqldados.nfes AS X
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN sqldados.nfdevRmk AS R
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN sqldados.nfrmk AS R2
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN sqldados.eord AS O
-                   ON O.storeno = N.storeno AND O.ordno = N.eordno
-         LEFT JOIN sqldados.eordrk AS OBS
-                   ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
-         LEFT JOIN sqldados.custp AS C
-                   ON C.no = N.custno AND
-                      C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
-                                   709327, 108751)
-         LEFT JOIN sqldados.vend AS V
-                   ON C.cpf_cgc = V.cgc
+       LEFT JOIN sqldados.nfComplemento NC
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.natop AS OP
+                 ON OP.no = N.natopno
+       LEFT JOIN sqldados.nfes AS X
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.nfrmk AS R2
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.eord AS O
+                 ON O.storeno = N.storeno AND O.ordno = N.eordno
+       LEFT JOIN sqldados.eordrk AS OBS
+                 ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
+       LEFT JOIN sqldados.custp AS C
+                 ON C.no = N.custno AND
+                    C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+                                 709327, 108751)
+       LEFT JOIN sqldados.vend AS V
+                 ON C.cpf_cgc = V.cgc
 WHERE (N.nfse = :serie OR (N.remarks LIKE 'GARANTIA%') OR (:serie = '' AND (N.nfse IN ('1', '66'))))
   AND (V.no = :vendno OR :vendno = 0)
 GROUP BY N.storeno, N.nfno, N.nfse;
@@ -119,7 +119,7 @@ GROUP BY N.storeno, N.nfno, N.nfse;
 DROP TEMPORARY TABLE IF EXISTS TDUP;
 CREATE TEMPORARY TABLE TDUP
 (
-    PRIMARY KEY (storeno, nfno, nfse)
+  PRIMARY KEY (storeno, nfno, nfse)
 )
 SELECT N.nfstoreno                      AS storeno,
        N.nfno,
@@ -127,90 +127,90 @@ SELECT N.nfstoreno                      AS storeno,
        D.status,
        D.bankno_paid,
        CASE D.status
-           WHEN 1
-               THEN 'Em cobranca'
-           WHEN 2
-               THEN 'Quitada'
-           WHEN 3
-               THEN 'Cartorio'
-           WHEN 4
-               THEN 'No advogado'
-           WHEN 5
-               THEN 'Cancelada'
-           WHEN 6
-               THEN 'Perda'
-           WHEN 7
-               THEN 'Protestada'
-           WHEN 8
-               THEN 'Outros'
-           WHEN 9
-               THEN 'Pago parcial'
-           ELSE 'Desconhecido'
-           END                          AS statusDup,
+         WHEN 1
+           THEN 'Em cobranca'
+         WHEN 2
+           THEN 'Quitada'
+         WHEN 3
+           THEN 'Cartorio'
+         WHEN 4
+           THEN 'No advogado'
+         WHEN 5
+           THEN 'Cancelada'
+         WHEN 6
+           THEN 'Perda'
+         WHEN 7
+           THEN 'Protestada'
+         WHEN 8
+           THEN 'Outros'
+         WHEN 9
+           THEN 'Pago parcial'
+         ELSE 'Desconhecido'
+         END                            AS statusDup,
        D.remarks                        AS obsDup,
        CAST(N.dupno AS CHAR)            AS fatura,
        MAX(duedate)                     AS vencimento,
        SUM(amtdue - disc_amt - amtpaid) AS valorDevido
 FROM sqldados.dup AS D
-         INNER JOIN sqldados.nfdup AS N
-                    ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
-                       N.dupse = D.dupse
-         INNER JOIN TNF NF
-                    ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
+       INNER JOIN sqldados.nfdup AS N
+                  ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
+                     N.dupse = D.dupse
+       INNER JOIN TNF NF
+                  ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS T;
 CREATE TEMPORARY TABLE `T`
 (
-    `loja`               smallint(6)                    NOT NULL DEFAULT '0',
-    `sigla`              char(2)                                 DEFAULT '',
-    `pdv`                smallint(6)                    NOT NULL DEFAULT '0',
-    `transacao`          int(11)                        NOT NULL DEFAULT '0',
-    `pedido`             int(11)                        NOT NULL DEFAULT '0',
-    `dataPedido`         date                                    DEFAULT NULL,
-    `nota`               varchar(14) CHARACTER SET utf8          DEFAULT NULL,
-    `fatura`             varchar(11) CHARACTER SET utf8 NOT NULL DEFAULT '',
-    `dataNota`           date                                    DEFAULT NULL,
-    `custno`             bigint(11)                     NOT NULL DEFAULT '0',
-    `fornecedor`         varchar(40)                    NOT NULL DEFAULT '',
-    `email`              varchar(40)                    NOT NULL DEFAULT '',
-    `fornecedorSap`      int(10)                                 DEFAULT '0',
-    `vendno`             int(10),
-    `rmk`                varchar(500)                   NOT NULL,
-    `valor`              decimal(45, 4)                          DEFAULT NULL,
-    `obsNota`            varchar(500)                   NOT NULL,
-    `serie01Rejeitada`   varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
-    `serie01Pago`        varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
-    `serie01Coleta`      varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
-    `serie66Pago`        varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
-    `remessaConserto`    varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
-    `remarks`            varchar(40)                             DEFAULT NULL,
-    `baseIcms`           decimal(23, 4)                          DEFAULT NULL,
-    `valorIcms`          decimal(23, 4)                          DEFAULT NULL,
-    `baseIcmsSubst`      decimal(23, 4)                          DEFAULT NULL,
-    `icmsSubst`          decimal(23, 4)                          DEFAULT NULL,
-    `valorFrete`         decimal(23, 4)                          DEFAULT NULL,
-    `valorSeguro`        decimal(23, 4)                          DEFAULT NULL,
-    `outrasDespesas`     decimal(3, 2)                  NOT NULL DEFAULT '0.00',
-    `valorIpi`           decimal(23, 4)                          DEFAULT NULL,
-    `valorTotal`         decimal(23, 4)                          DEFAULT NULL,
-    `obsPedido`          varchar(200),
-    `tipo`               char(2)                        NOT NULL DEFAULT '',
-    `rmkVend`            varchar(200)                   NOT NULL,
-    `chave`              varchar(60)                    NOT NULL DEFAULT '',
-    `natureza`           varchar(28)                    NOT NULL DEFAULT '',
-    `chaveDesconto`      varchar(200)                   NOT NULL,
-    `observacaoAuxiliar` varchar(200)                   NOT NULL,
-    `dataAgenda`         date                                    DEFAULT NULL,
-    `nfAjuste`           varchar(50)                    NOT NULL DEFAULT '',
-    `dataNfAjuste`       date                                    DEFAULT NULL,
-    `pedidos`            varchar(160)                   NOT NULL DEFAULT '',
-    `situacaoFatura`     varchar(12) CHARACTER SET utf8          DEFAULT '',
-    `obsFatura`          varchar(60)                             DEFAULT NULL,
-    `banco`              int(10)                                 DEFAULT '0'
+  `loja`               smallint(6)                    NOT NULL DEFAULT '0',
+  `sigla`              char(2)                                 DEFAULT '',
+  `pdv`                smallint(6)                    NOT NULL DEFAULT '0',
+  `transacao`          int(11)                        NOT NULL DEFAULT '0',
+  `pedido`             int(11)                        NOT NULL DEFAULT '0',
+  `dataPedido`         date                                    DEFAULT NULL,
+  `nota`               varchar(14) CHARACTER SET utf8          DEFAULT NULL,
+  `fatura`             varchar(11) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `dataNota`           date                                    DEFAULT NULL,
+  `custno`             bigint(11)                     NOT NULL DEFAULT '0',
+  `fornecedor`         varchar(40)                    NOT NULL DEFAULT '',
+  `email`              varchar(40)                    NOT NULL DEFAULT '',
+  `fornecedorSap`      int(10)                                 DEFAULT '0',
+  `vendno`             int(10),
+  `rmk`                varchar(500)                   NOT NULL,
+  `valor`              decimal(45, 4)                          DEFAULT NULL,
+  `obsNota`            varchar(500)                   NOT NULL,
+  `serie01Rejeitada`   varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
+  `serie01Pago`        varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
+  `serie01Coleta`      varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
+  `serie66Pago`        varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
+  `remessaConserto`    varchar(1) CHARACTER SET utf8  NOT NULL DEFAULT '',
+  `remarks`            varchar(40)                             DEFAULT NULL,
+  `baseIcms`           decimal(23, 4)                          DEFAULT NULL,
+  `valorIcms`          decimal(23, 4)                          DEFAULT NULL,
+  `baseIcmsSubst`      decimal(23, 4)                          DEFAULT NULL,
+  `icmsSubst`          decimal(23, 4)                          DEFAULT NULL,
+  `valorFrete`         decimal(23, 4)                          DEFAULT NULL,
+  `valorSeguro`        decimal(23, 4)                          DEFAULT NULL,
+  `outrasDespesas`     decimal(3, 2)                  NOT NULL DEFAULT '0.00',
+  `valorIpi`           decimal(23, 4)                          DEFAULT NULL,
+  `valorTotal`         decimal(23, 4)                          DEFAULT NULL,
+  `obsPedido`          varchar(200),
+  `tipo`               char(2)                        NOT NULL DEFAULT '',
+  `rmkVend`            varchar(200)                   NOT NULL,
+  `chave`              varchar(60)                    NOT NULL DEFAULT '',
+  `natureza`           varchar(28)                    NOT NULL DEFAULT '',
+  `chaveDesconto`      varchar(200)                   NOT NULL,
+  `observacaoAuxiliar` varchar(200)                   NOT NULL,
+  `dataAgenda`         date                                    DEFAULT NULL,
+  `nfAjuste`           varchar(50)                    NOT NULL DEFAULT '',
+  `dataNfAjuste`       date                                    DEFAULT NULL,
+  `pedidos`            varchar(160)                   NOT NULL DEFAULT '',
+  `situacaoFatura`     varchar(12) CHARACTER SET utf8          DEFAULT '',
+  `obsFatura`          varchar(60)                             DEFAULT NULL,
+  `banco`              int(10)                                 DEFAULT '0'
 )
-    ENGINE = MyISAM
-    DEFAULT CHARSET = latin1
+  ENGINE = MyISAM
+  DEFAULT CHARSET = latin1
 SELECT N.storeno                                              AS loja,
        S.sname                                                AS sigla,
        N.pdvno                                                AS pdv,
@@ -261,16 +261,16 @@ SELECT N.storeno                                              AS loja,
        TRIM(MID(D.obsDup, 1, 60))                             AS obsFatura,
        D.bankno_paid                                          AS banco
 FROM TNF AS N
-         LEFT JOIN sqldados.store AS S
-                   ON S.no = N.storeno
-         LEFT JOIN sqldados.nfdevRmk AS R
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN sqldados.nfvendRmk AS RV
-                   ON RV.vendno = N.vendno AND RV.tipo = N.nfse
-         LEFT JOIN TDUP AS D
-                   ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-         LEFT JOIN sqldados.eordrk AS O
-                   ON O.storeno = N.storeno AND O.ordno = N.eordno
+       LEFT JOIN sqldados.store AS S
+                 ON S.no = N.storeno
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.nfvendRmk AS RV
+                 ON RV.vendno = N.vendno AND RV.tipo = N.nfse
+       LEFT JOIN TDUP AS D
+                 ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+       LEFT JOIN sqldados.eordrk AS O
+                 ON O.storeno = N.storeno AND O.ordno = N.eordno
 WHERE (IFNULL(status, 0) <> 5)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
   AND N.fornecedorNome IS NOT NULL

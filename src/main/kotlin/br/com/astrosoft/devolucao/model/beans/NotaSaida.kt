@@ -22,53 +22,53 @@ import javax.mail.internet.InternetAddress
 import kotlin.math.round
 
 class NotaSaida(
-    val loja: Int,
-    val sigla: String?,
-    val pdv: Int,
-    val transacao: Int,
-    val pedido: Int,
-    val dataPedido: LocalDate?,
-    val nota: String,
-    val fatura: String,
-    val dataNota: LocalDate?,
-    val custno: Int,
-    val fornecedor: String,
-    val email: String,
-    val vendno: Int,
-    val fornecedorSap: Int,
-    var rmk: String,
-    val valor: Double,
-    val obsNota: String,
-    val serie01Rejeitada: String,
-    val serie01Pago: String,
-    val serie01Coleta: String,
-    val serie66Pago: String,
-    val remessaConserto: String,
-    val remarks: String,
-    val baseIcms: Double = 0.00,
-    val valorIcms: Double = 0.00,
-    val baseIcmsSubst: Double = 0.00,
-    val icmsSubst: Double = 0.00,
-    val valorFrete: Double = 0.00,
-    val valorSeguro: Double = 0.00,
-    val valorDesconto: Double = 0.00,
-    val outrasDespesas: Double = 0.00,
-    val valorIpi: Double = 0.00,
-    val valorTotal: Double = 0.00,
-    val obsPedido: String,
-    val tipo: String,
-    val rmkVend: String,
-    val chave: String,
-    val natureza: String,
-    var chaveDesconto: String?,
-    var observacaoAuxiliar: String?,
-    var dataAgenda: LocalDate?,
-    var nfAjuste: String?,
-    var pedidos: String?,
-    val situacaoFatura: String?,
-    val obsFatura: String?,
-    val banco: String?,
-    var dataNfAjuste: LocalDate?,
+  val loja: Int,
+  val sigla: String?,
+  val pdv: Int,
+  val transacao: Int,
+  val pedido: Int,
+  val dataPedido: LocalDate?,
+  val nota: String,
+  val fatura: String,
+  val dataNota: LocalDate?,
+  val custno: Int,
+  val fornecedor: String,
+  val email: String,
+  val vendno: Int,
+  val fornecedorSap: Int,
+  var rmk: String,
+  val valor: Double,
+  val obsNota: String,
+  val serie01Rejeitada: String,
+  val serie01Pago: String,
+  val serie01Coleta: String,
+  val serie66Pago: String,
+  val remessaConserto: String,
+  val remarks: String,
+  val baseIcms: Double = 0.00,
+  val valorIcms: Double = 0.00,
+  val baseIcmsSubst: Double = 0.00,
+  val icmsSubst: Double = 0.00,
+  val valorFrete: Double = 0.00,
+  val valorSeguro: Double = 0.00,
+  val valorDesconto: Double = 0.00,
+  val outrasDespesas: Double = 0.00,
+  val valorIpi: Double = 0.00,
+  val valorTotal: Double = 0.00,
+  val obsPedido: String,
+  val tipo: String,
+  val rmkVend: String,
+  val chave: String,
+  val natureza: String,
+  var chaveDesconto: String?,
+  var observacaoAuxiliar: String?,
+  var dataAgenda: LocalDate?,
+  var nfAjuste: String?,
+  var pedidos: String?,
+  val situacaoFatura: String?,
+  val obsFatura: String?,
+  val banco: String?,
+  var dataNfAjuste: LocalDate?,
 ) {
 
   private fun wrapString(s: String, deliminator: String, length: Int): String {
@@ -116,14 +116,14 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var situacao: String
     get() {
       return if (banco == "121") BANCO121.valueStr ?: ""
       else observacaoAuxiliar
-          ?.split(":")
-          ?.getOrNull(1) ?: ""
+        ?.split(":")
+        ?.getOrNull(1) ?: ""
     }
     set(value) {
       val split = observacaoAuxiliar?.split(":")
@@ -143,7 +143,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var usuarioSituacao: String
     get() {
@@ -167,7 +167,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var tituloSituacao: String
     get() {
@@ -191,7 +191,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var niSituacao: String
     get() {
@@ -215,7 +215,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var docSituacao: String
     get() {
@@ -239,7 +239,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var notaSituacao: String
     get() {
@@ -263,7 +263,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var valorSituacao: Double?
     get() {
@@ -288,7 +288,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var pedidoEditavel: Int?
     get() {
@@ -313,7 +313,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var niBonificacao: String
     get() {
@@ -337,7 +337,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var niValor: String
     get() {
@@ -361,7 +361,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var dataNotaEditavel: LocalDate?
     get() {
@@ -386,7 +386,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var notaEditavel: String
     get() {
@@ -410,7 +410,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
 
   var notaBonificacao: String
@@ -435,7 +435,7 @@ class NotaSaida(
       val notaBoni = value
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
 
   var dataBonificacao: LocalDate?
@@ -461,7 +461,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13) ?: ""
       val dataBoni = value?.toSaciDate()?.toString() ?: ""
       observacaoAuxiliar =
-          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
 
   val situacaoStr: String
@@ -500,11 +500,11 @@ class NotaSaida(
     val chave = this.chaveDesconto?.uppercase(Locale.getDefault()) ?: return false
     val chaveMaiuscula = StringUtils.stripAccents(chave).uppercase()
     return chaveMaiuscula.contains("CREDITO NA CONTA") || chaveMaiuscula.contains("DESCONTO NA NOTA") || chaveMaiuscula.contains(
-        "DESCONTO NO TITULO"
+      "DESCONTO NO TITULO"
     ) || chaveMaiuscula.contains("REPOSICAO") || chaveMaiuscula.contains("RETORNO") || chaveMaiuscula.contains(
-        "DESC TITULO"
+      "DESC TITULO"
     ) || chaveMaiuscula.contains("CREDITO CONTA") || chaveMaiuscula.contains("CREDITO TITULO") || chaveMaiuscula.contains(
-        "CREDITO APLICADO"
+      "CREDITO APLICADO"
     ) || chaveMaiuscula.contains("CREDITO DUP") || chaveMaiuscula.contains("BONIFICADA")
   }
 
@@ -552,13 +552,13 @@ class NotaSaida(
   fun listFiles() = saci.selectFile(this)
 
   fun chaveFornecedor() = ChaveFornecedor(
-      custno = custno,
-      fornecedor = fornecedor,
-      vendno = vendno,
-      fornecedorSap = fornecedorSap,
-      email = email,
-      tipo = tipo,
-      obs = rmkVend
+    custno = custno,
+    fornecedor = fornecedor,
+    vendno = vendno,
+    fornecedorSap = fornecedorSap,
+    email = email,
+    tipo = tipo,
+    obs = rmkVend
   )
 
   fun salvaEmail(gmail: EmailGmail, idEmail: Int) {
@@ -572,19 +572,19 @@ class NotaSaida(
     val numero = if (tipo == "PED") pedido.toString() else nota.split("/")[0]
     return gmail.listEmail(Todos, numero).map { msg: EmailMessage ->
       EmailDB(
-          storeno = loja,
-          pdvno = pdv,
-          xano = transacao,
-          data = msg.data.toLocalDate(),
-          hora = msg.data.toLocalTime(),
-          idEmail = 0,
-          messageID = msg.messageID,
-          email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
-          assunto = msg.subject,
-          msg = msg.content().messageTxt,
-          planilha = "N",
-          relatorio = "N",
-          anexos = "N"
+        storeno = loja,
+        pdvno = pdv,
+        xano = transacao,
+        data = msg.data.toLocalDate(),
+        hora = msg.data.toLocalTime(),
+        idEmail = 0,
+        messageID = msg.messageID,
+        email = (msg.from.getOrNull(0) as? InternetAddress)?.address ?: "",
+        assunto = msg.subject,
+        msg = msg.content().messageTxt,
+        planilha = "N",
+        relatorio = "N",
+        anexos = "N"
       )
     }
   }
@@ -672,7 +672,7 @@ class NotaSaida(
             val situacaoPedido = if (filtro.filterSituacao == ESituacaoPedido.VAZIO) {
               filtro.situacaoPedido.map {
                 it
-                    .valueStr
+                  .valueStr
               }
             } else {
               listOf(filtro.filterSituacao.valueStr)
@@ -689,25 +689,25 @@ class NotaSaida(
         }
       }
       val grupos =
-          notas
-              .asSequence()
-              .filter { it.loja == loja || loja == 0 }
-              .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
-              .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
-              .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
-              .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
-              .groupBy { it.chaveFornecedor() }
+        notas
+          .asSequence()
+          .filter { it.loja == loja || loja == 0 }
+          .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
+          .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
+          .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
+          .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
+          .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
         Fornecedor(
-            custno = entry.key.custno,
-            fornecedor = entry.key.fornecedor,
-            vendno = entry.key.vendno,
-            fornecedorSap = entry.key.fornecedorSap,
-            email = entry.key.email,
-            tipo = entry.key.tipo,
-            obs = entry.key.obs,
-            notas = entry.value
+          custno = entry.key.custno,
+          fornecedor = entry.key.fornecedor,
+          vendno = entry.key.vendno,
+          fornecedorSap = entry.key.fornecedorSap,
+          email = entry.key.email,
+          tipo = entry.key.tipo,
+          obs = entry.key.obs,
+          notas = entry.value
         )
       })
     }
@@ -721,8 +721,8 @@ class NotaSaida(
         else {
           val filtroNum = txtFiltro.toIntOrNull() ?: 0
           it.custno == filtroNum || it.vendno == filtroNum || it.fornecedor.startsWith(
-              txtFiltro,
-              ignoreCase = true
+            txtFiltro,
+            ignoreCase = true
           )
         }
       }
@@ -735,11 +735,11 @@ class NotaSaida(
 }
 
 data class ChaveFornecedor(
-    val custno: Int,
-    val fornecedor: String,
-    val vendno: Int,
-    val fornecedorSap: Int,
-    val email: String,
-    val tipo: String,
-    val obs: String,
+  val custno: Int,
+  val fornecedor: String,
+  val vendno: Int,
+  val fornecedorSap: Int,
+  val email: String,
+  val tipo: String,
+  val obs: String,
 )

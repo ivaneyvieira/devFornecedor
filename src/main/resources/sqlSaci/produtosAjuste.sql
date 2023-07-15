@@ -15,20 +15,21 @@ SELECT X.storeno                       AS loja,
        P.mfno_ref                      AS refFor,
        TRIM(MID(P.name, 37, 3))        AS un,
        P.taxno                         AS st
-FROM sqldados.xaprd          AS X
-  LEFT JOIN  sqldados.prp    AS I
-	       ON I.storeno = 10 AND I.prdno = X.prdno
-  LEFT JOIN  sqldados.prdbar AS B
-	       ON B.prdno = X.prdno AND B.grade = X.grade
-  INNER JOIN sqldados.prd    AS P
-	       ON X.prdno = P.no
+FROM sqldados.xaprd AS X
+       LEFT JOIN sqldados.prp AS I
+                 ON I.storeno = 10 AND I.prdno = X.prdno
+       LEFT JOIN sqldados.prdbar AS B
+                 ON B.prdno = X.prdno AND B.grade = X.grade
+       INNER JOIN sqldados.prd AS P
+                  ON X.prdno = P.no
 WHERE X.storeno = :loja
   AND X.pdvno = :pdv
   AND X.xano = :transacao
 GROUP BY X.storeno, X.pdvno, X.xano, X.prdno, X.grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
-CREATE TEMPORARY TABLE T_PRD (
+CREATE TEMPORARY TABLE T_PRD
+(
   PRIMARY KEY (prdno, grade)
 )
 SELECT codigo AS prdno, grade
@@ -36,17 +37,18 @@ FROM T_NF
 GROUP BY codigo, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD_ULT;
-CREATE TEMPORARY TABLE T_PRD_ULT (
+CREATE TEMPORARY TABLE T_PRD_ULT
+(
   PRIMARY KEY (invno, prdno, grade)
 )
 SELECT prdno,
        grade,
        MAX(invno) AS invno
-FROM sqldados.inv          AS I
-  INNER JOIN sqldados.iprd AS P
-	       USING (invno)
-  INNER JOIN T_PRD
-	       USING (prdno, grade)
+FROM sqldados.inv AS I
+       INNER JOIN sqldados.iprd AS P
+                  USING (invno)
+       INNER JOIN T_PRD
+                  USING (prdno, grade)
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & POW(2, 15) = 0
   AND I.cfo NOT IN (1910, 2910, 1916, 2916, 1949, 2949)
@@ -54,7 +56,8 @@ WHERE I.bits & POW(2, 4) = 0
 GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_INV;
-CREATE TEMPORARY TABLE T_INV (
+CREATE TEMPORARY TABLE T_INV
+(
   PRIMARY KEY (codigo, grade)
 )
 SELECT prdno                                                        AS codigo,
@@ -72,15 +75,15 @@ SELECT prdno                                                        AS codigo,
        IF(LENGTH(P.c1) < 30 AND P.c1 <> '', 'N', 'S')               AS sefazOk,
        P.c1                                                         AS chaveSefaz,
        P.cfop                                                       AS cfopProduto
-FROM sqldados.iprd           AS P
-  INNER JOIN sqldados.inv    AS I
-	       USING (invno)
-  LEFT JOIN  sqldados.invnfe AS X
-	       USING (invno)
-  INNER JOIN T_PRD_ULT
-	       USING (invno, prdno, grade)
-  LEFT JOIN  sqldados.prdalq AS R
-	       USING (prdno)
+FROM sqldados.iprd AS P
+       INNER JOIN sqldados.inv AS I
+                  USING (invno)
+       LEFT JOIN sqldados.invnfe AS X
+                 USING (invno)
+       INNER JOIN T_PRD_ULT
+                  USING (invno, prdno, grade)
+       LEFT JOIN sqldados.prdalq AS R
+                 USING (prdno)
 GROUP BY prdno, grade;
 
 SELECT loja,
@@ -124,6 +127,6 @@ SELECT loja,
        IFNULL(chaveSefaz, '')                                                    AS chaveSefaz,
        IFNULL(T_INV.cfopProduto, 0)                                              AS cfopProduto
 FROM T_NF
-  LEFT JOIN T_INV
-	      USING (codigo, grade)
+       LEFT JOIN T_INV
+                 USING (codigo, grade)
 

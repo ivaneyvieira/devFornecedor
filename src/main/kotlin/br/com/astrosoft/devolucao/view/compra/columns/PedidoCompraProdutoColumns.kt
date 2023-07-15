@@ -73,18 +73,18 @@ object PedidoCompraProdutoColumns {
   }
 
   fun Grid<PedidoCompraProduto>.colQtdeEmb() =
-      addColumnDouble(PedidoCompraProduto::quantEmbalagem, pattern = "#,##0.##") {
-        this.setHeader("Qtd Emb")
-      }
+    addColumnDouble(PedidoCompraProduto::quantEmbalagem, pattern = "#,##0.##") {
+      this.setHeader("Qtd Emb")
+    }
 
   fun Grid<PedidoCompraProduto>.colQtdeCt() = addColumnInt(PedidoCompraProduto::quantidadeCt) {
     this.setHeader("Qtd Cot")
   }
 
   fun Grid<PedidoCompraProduto>.colQtdeDif() =
-      addColumnDouble(PedidoCompraProduto::quantidadeDif, pattern = "#,##0.##") {
-        this.setHeader("Dif Qtd")
-      }
+    addColumnDouble(PedidoCompraProduto::quantidadeDif, pattern = "#,##0.##") {
+      this.setHeader("Dif Qtd")
+    }
 
   fun Grid<PedidoCompraProduto>.colVlTotal() = addColumnDouble(PedidoCompraProduto::vlPedido) {
     this.setHeader("Valor Total")

@@ -14,7 +14,7 @@ import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
 
 abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val viewModel: DevolucaoAbstractViewModel<T>) :
-    IEmailView {
+  IEmailView {
   protected abstract val subView: ITabNota
 
   open fun salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
@@ -145,7 +145,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     val filesPlanilha = createPlanilha(gmail, notas, subView.serie)
     val filesAnexo = createAnexos(gmail, notas)
     val enviadoComSucesso =
-        mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
+      mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->

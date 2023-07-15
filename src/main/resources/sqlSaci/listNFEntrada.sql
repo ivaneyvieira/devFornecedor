@@ -13,15 +13,15 @@ SELECT N.storeno                                   AS loja,
        K.nfekey                                    AS chave,
        N.cfo                                       AS cfop,
        N.auxLong2                                  AS cte
-FROM sqldados.inv            AS N
-  LEFT JOIN  sqldados.iprd   AS I
-	       USING (invno)
-  LEFT JOIN  sqldados.prd    AS P
-	       ON P.no = I.prdno
-  INNER JOIN sqldados.vend   AS V
-	       ON V.no = N.vendno
-  INNER JOIN sqldados.invnfe AS K
-	       USING (invno)
+FROM sqldados.inv AS N
+       LEFT JOIN sqldados.iprd AS I
+                 USING (invno)
+       LEFT JOIN sqldados.prd AS P
+                 ON P.no = I.prdno
+       INNER JOIN sqldados.vend AS V
+                  ON V.no = N.vendno
+       INNER JOIN sqldados.invnfe AS K
+                  USING (invno)
 WHERE (V.cgc NOT LIKE '07.483.654%')
   AND (N.bits & POW(2, 4) = 0)
   AND (N.type = 0)

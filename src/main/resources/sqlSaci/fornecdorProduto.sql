@@ -4,7 +4,8 @@ DO @filtroStr := :filtro;
 DO @FiltroNum := IF(:filtro REGEXP '^[0-9]+$', :filtro * 1, 0);
 
 DROP TEMPORARY TABLE IF EXISTS T_PRDVEND;
-CREATE TEMPORARY TABLE T_PRDVEND (
+CREATE TEMPORARY TABLE T_PRDVEND
+(
   PRIMARY KEY (vendno)
 )
 SELECT V.no             AS vendno,
@@ -14,9 +15,9 @@ SELECT V.no             AS vendno,
        V.cgc            AS cnpj,
        V.city           AS cidade,
        V.state          AS uf
-FROM sqldados.vend         AS V
-  LEFT JOIN sqldados.custp AS C
-	      ON V.cgc = C.cpf_cgc
+FROM sqldados.vend AS V
+       LEFT JOIN sqldados.custp AS C
+                 ON V.cgc = C.cpf_cgc
 WHERE @filtroStr = ''
    OR V.name LIKE CONCAT('%', @filtroStr, '%')
    OR V.no = @FiltroNum
@@ -28,7 +29,8 @@ WHERE @filtroStr = ''
 GROUP BY V.no;
 
 DROP TEMPORARY TABLE IF EXISTS T_FILE;
-CREATE TEMPORARY TABLE T_FILE (
+CREATE TEMPORARY TABLE T_FILE
+(
   PRIMARY KEY (vendno)
 )
 SELECT xano AS vendno, COUNT(*) AS quantAnexo
@@ -47,7 +49,7 @@ SELECT vendno,
        uf,
        IFNULL(C.texto, '')   AS texto
 FROM T_PRDVEND
-  LEFT JOIN T_FILE                   AS F
-	      USING (vendno)
-  LEFT JOIN sqldados.vendComplemento AS C
-	      USING (vendno)
+       LEFT JOIN T_FILE AS F
+                 USING (vendno)
+       LEFT JOIN sqldados.vendComplemento AS C
+                 USING (vendno)

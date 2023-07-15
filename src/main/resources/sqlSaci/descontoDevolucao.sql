@@ -3,7 +3,8 @@ DO @FILTRO := :filtro;
 DO @FILTRO_INT := IF(TRIM(@FILTRO) REGEXP '^[0-9]+$', TRIM(@FILTRO) * 1, 0);
 
 DROP TEMPORARY TABLE IF EXISTS TVEND;
-CREATE TEMPORARY TABLE TVEND (
+CREATE TEMPORARY TABLE TVEND
+(
   PRIMARY KEY (vendno)
 )
 SELECT V.no       AS vendno,
@@ -11,25 +12,26 @@ SELECT V.no       AS vendno,
        V.name     AS fornecedorNome,
        V.email,
        V.auxLong4 AS fornecedorSap
-FROM sqldados.vend         AS V
-  LEFT JOIN sqldados.custp AS C
-	      ON C.cpf_cgc = V.cgc
+FROM sqldados.vend AS V
+       LEFT JOIN sqldados.custp AS C
+                 ON C.cpf_cgc = V.cgc
 WHERE V.name NOT LIKE 'ENGECOPI%'
   AND ((V.name LIKE CONCAT('%', @FILTRO, '%') OR @FILTRO = '') AND
        (C.no = @FILTRO_INT OR V.no = @FILTRO_INT OR @FILTRO_INT = 0))
 GROUP BY V.no;
 
 DROP TEMPORARY TABLE IF EXISTS TINV;
-CREATE TEMPORARY TABLE TINV (
+CREATE TEMPORARY TABLE TINV
+(
   PRIMARY KEY (invno)
 )
 SELECT I.*,
        SUM(X.amtpaid)  AS pagamento,
        MAX(X.duedate)  AS vencimento,
        TRIM(X.remarks) AS xObs
-FROM sqldados.inv           AS I
-  INNER JOIN sqldados.invxa AS X
-	       USING (invno)
+FROM sqldados.inv AS I
+       INNER JOIN sqldados.invxa AS X
+                  USING (invno)
 WHERE X.amtpaid > 0
   AND X.paiddate > 0
   AND X.duedate >= 20100101
@@ -56,6 +58,6 @@ SELECT N.storeno                                    AS loja,
        N.pagamento / 100                            AS pagamento,
        IFNULL(N.xObs, '')                           AS obsNota,
        ''                                           AS chaveDesconto
-FROM TINV          AS N
-  INNER JOIN TVEND AS V
-	       ON N.vendno = V.vendno
+FROM TINV AS N
+       INNER JOIN TVEND AS V
+                  ON N.vendno = V.vendno

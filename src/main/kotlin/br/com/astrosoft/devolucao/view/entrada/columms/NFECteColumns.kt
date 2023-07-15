@@ -64,16 +64,16 @@ object NFECteColumns {
   }
 
   fun Grid<NfEntradaFrete>.notaEmissaoCte() =
-      addColumnLocalDate(NfEntradaFrete::emissaoCte, formatPattern = "dd/MM/yy") {
-        this.setHeader("Emissão")
-        this.isResizable = true
-      }
+    addColumnLocalDate(NfEntradaFrete::emissaoCte, formatPattern = "dd/MM/yy") {
+      this.setHeader("Emissão")
+      this.isResizable = true
+    }
 
   fun Grid<NfEntradaFrete>.notaEntradaCte() =
-      addColumnLocalDate(NfEntradaFrete::entradaCte, formatPattern = "dd/MM/yy") {
-        this.setHeader("Entrada")
-        this.isResizable = true
-      }
+    addColumnLocalDate(NfEntradaFrete::entradaCte, formatPattern = "dd/MM/yy") {
+      this.setHeader("Entrada")
+      this.isResizable = true
+    }
 
   fun Grid<NfEntradaFrete>.notaValorFrete() = addColumnDouble(NfEntradaFrete::valorCte) {
     this.setHeader("R$ Frete Fat")

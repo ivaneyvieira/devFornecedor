@@ -9,7 +9,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoFinalizadoViewMod
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedidoFinalizado(viewModel: TabPedidoFinalizadoViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
-    ITabPedidoFinalizado {
+  ITabPedidoFinalizado {
   override val label: String
     get() = "Finalizado"
   override val situacaoPendencia: ESituacaoPendencia?
@@ -23,7 +23,7 @@ class TabPedidoFinalizado(viewModel: TabPedidoFinalizadoViewModel) : TabPedidoAb
 
   override val situacaoPedido
     get() = listOf(
-        NFD_AUTOZ, BAIXA, PAGO, RETORNO,
-        PERCA, DESCARTE, ASSISTENCIA_RETORNO
+      NFD_AUTOZ, BAIXA, PAGO, RETORNO,
+      PERCA, DESCARTE, ASSISTENCIA_RETORNO
     )
 }

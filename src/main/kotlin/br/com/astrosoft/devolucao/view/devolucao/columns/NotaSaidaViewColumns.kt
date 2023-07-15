@@ -83,16 +83,16 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.dataSituacaoDesconto(situacao: ESituacaoPendencia?) =
-      addColumnLocalDate(NotaSaida::dataSituacao) {
-        this.setHeader("Data Sit")
-        isAutoWidth = true
-        isExpand = false
+    addColumnLocalDate(NotaSaida::dataSituacao) {
+      this.setHeader("Data Sit")
+      isAutoWidth = true
+      isExpand = false
 
-        this.setClassNameGenerator {
-          it.situacaoPendencia?.cssCor
-        }
-        this.configCol(situacao?.dataSitCol)
+      this.setClassNameGenerator {
+        it.situacaoPendencia?.cssCor
       }
+      this.configCol(situacao?.dataSitCol)
+    }
 
   fun Grid<NotaSaida>.situacaoDesconto(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::situacaoStr) {
     this.setHeader("Situação")
@@ -105,16 +105,16 @@ object NotaSaidaViewColumns {
   }
 
   fun Grid<NotaSaida>.dataNotaEditavel(situacao: ESituacaoPendencia?) =
-      addColumnLocalDate(NotaSaida::dataNotaEditavel) {
-        this.setHeader("Data Nota")
-        isAutoWidth = true
-        isExpand = false
+    addColumnLocalDate(NotaSaida::dataNotaEditavel) {
+      this.setHeader("Data Nota")
+      isAutoWidth = true
+      isExpand = false
 
-        this.setClassNameGenerator {
-          it.situacaoPendencia?.cssCor
-        }
-        this.configCol(situacao?.situacaoCol)
+      this.setClassNameGenerator {
+        it.situacaoPendencia?.cssCor
       }
+      this.configCol(situacao?.situacaoCol)
+    }
 
   fun Grid<NotaSaida>.usuarioSituacao(situacao: ESituacaoPendencia?) = addColumnString(NotaSaida::usuarioSituacao) {
     this.setHeader("Usuário")

@@ -5,14 +5,14 @@ import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 class Fornecedor(
-    val custno: Int,
-    val fornecedor: String,
-    val vendno: Int,
-    val fornecedorSap: Int,
-    val email: String,
-    val tipo: String,
-    var obs: String,
-    val notas: List<NotaSaida>,
+  val custno: Int,
+  val fornecedor: String,
+  val vendno: Int,
+  val fornecedorSap: Int,
+  val email: String,
+  val tipo: String,
+  var obs: String,
+  val notas: List<NotaSaida>,
 ) {
   fun listRepresentantes() = saci.representante(vendno)
 
@@ -97,12 +97,12 @@ class Fornecedor(
 
   fun notasNaoRecebidasFornecedor(): List<NotaEntradaNdd> {
     val filtro =
-        FiltroEntradaNdd(
-            query = vendno.toString(),
-            tipo = ETipoNota.RECEBER,
-            dataInicial = LocalDate.of(2021, 1, 1),
-            dataFinal = LocalDate.now()
-        )
+      FiltroEntradaNdd(
+        query = vendno.toString(),
+        tipo = ETipoNota.RECEBER,
+        dataInicial = LocalDate.of(2021, 1, 1),
+        dataFinal = LocalDate.now()
+      )
     return saci.notasEntrada(filtro)
   }
 

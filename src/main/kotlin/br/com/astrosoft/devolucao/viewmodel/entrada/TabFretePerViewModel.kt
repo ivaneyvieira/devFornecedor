@@ -30,11 +30,11 @@ class TabFretePerViewModel(val viewModel: EntradaViewModel) {
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
     val listaRelatorio = listNotas.filter { it.fretePerDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
-          nomeGrupo = "Diferenças de Frete %",
-          nota = nota,
-          pedidoCompra = nota.pedidoCompra ?: 0,
-          valorNota = nota.fretePerNf.format(),
-          valorPrecificacao = nota.fretePerPrc.format()
+        nomeGrupo = "Diferenças de Frete %",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.fretePerNf.format(),
+        valorPrecificacao = nota.fretePerPrc.format()
       )
     }
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)

@@ -31,28 +31,28 @@ SELECT id,
        IFNULL(CAST(IF(I.auxLong2 = 0, '', I.auxLong2) AS CHAR), '') AS conhecimentoFrete,
        :temIPI                                                      AS temIPIS
 FROM sqldados.notasEntradaNdd AS N
-  LEFT JOIN sqldados.vend     AS V
-	      ON V.cgc = N.cnpjEmitente
-  LEFT JOIN sqldados.store    AS S
-	      ON S.cgc = N.cnpjDestinatario
-  LEFT JOIN sqldados.custp    AS C
-	      ON C.cpf_cgc = N.cnpjDestinatario
-  LEFT JOIN sqldados.invnfe  AS    CHAVE
-	      ON N.chave = CONCAT('NFe', CHAVE.nfekey)
-  LEFT JOIN sqldados.inv      AS I
-	      ON I.invno = CHAVE.invno
-  LEFT JOIN sqldados.carr     AS T
-	      ON T.no = I.carrno
+       LEFT JOIN sqldados.vend AS V
+                 ON V.cgc = N.cnpjEmitente
+       LEFT JOIN sqldados.store AS S
+                 ON S.cgc = N.cnpjDestinatario
+       LEFT JOIN sqldados.custp AS C
+                 ON C.cpf_cgc = N.cnpjDestinatario
+       LEFT JOIN sqldados.invnfe AS CHAVE
+                 ON N.chave = CONCAT('NFe', CHAVE.nfekey)
+       LEFT JOIN sqldados.inv AS I
+                 ON I.invno = CHAVE.invno
+       LEFT JOIN sqldados.carr AS T
+                 ON T.no = I.carrno
 WHERE dataEmissao BETWEEN :dataInicial AND :dataFinal
   AND (chave = CONCAT('NFe', :chave) OR :chave = '')
   AND (IFNULL(V.name, N.nomeFornecedor) LIKE CONCAT(:filtro, '%') OR
        IFNULL(V.no, 0) = (:filtro * 1) OR :filtro = '')
 HAVING CASE :tipo
-	 WHEN 'RECEBER'
-	   THEN notaSaci = 'N'
-	 WHEN 'RECEBIDO'
-	   THEN notaSaci = 'S'
-	 WHEN 'TODOS'
-	   THEN TRUE
-	 ELSE FALSE
-       END
+         WHEN 'RECEBER'
+           THEN notaSaci = 'N'
+         WHEN 'RECEBIDO'
+           THEN notaSaci = 'S'
+         WHEN 'TODOS'
+           THEN TRUE
+         ELSE FALSE
+         END

@@ -36,60 +36,60 @@ class RelatorioPedido(val notas: List<NotaSaida>, val isExcel: Boolean) {
   }
 
   private val dataAgendaCol: TextColumnBuilder<String> =
-      col.column("Data", NotaSaida::dataAgendaStr.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(CENTER)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("Data", NotaSaida::dataAgendaStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val dataNotaEditavelCol: TextColumnBuilder<String> =
-      col.column("Data Nota", NotaSaida::dataNotaEditavelStr.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(CENTER)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("Data Nota", NotaSaida::dataNotaEditavelStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val pedidoCol: TextColumnBuilder<Int> =
-      col.column("Pedido", NotaSaida::pedido.name, type.integerType()).apply {
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("Pedido", NotaSaida::pedido.name, type.integerType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val notaEditavelCol: TextColumnBuilder<String> =
-      col.column("NF Baixa", NotaSaida::notaEditavel.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("NF Baixa", NotaSaida::notaEditavel.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val dataPedidoStrCol: TextColumnBuilder<String> =
-      col.column("Data", NotaSaida::dataPedidoStr.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(CENTER)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("Data", NotaSaida::dataPedidoStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val situacaoStrCol: TextColumnBuilder<String> =
-      col.column("Situação", NotaSaida::situacaoStr.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(CENTER)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("Situação", NotaSaida::situacaoStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(CENTER)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val chaveDescontoCol: TextColumnBuilder<String> =
-      col.column("Observação", NotaSaida::chaveDesconto.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(LEFT)
-        this.setTextAdjust(TextAdjust.STRETCH_HEIGHT) //this.setFixedWidth(200)
-      }
+    col.column("Observação", NotaSaida::chaveDesconto.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(LEFT)
+      this.setTextAdjust(TextAdjust.STRETCH_HEIGHT) //this.setFixedWidth(200)
+    }
 
   private val valorNotaCol: TextColumnBuilder<Double> =
-      col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
-        this.setPattern("#,##0.00")
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(60)
-        this.setTextAdjust(TextAdjust.SCALE_FONT)
-      }
+    col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+      this.setTextAdjust(TextAdjust.SCALE_FONT)
+    }
 
   private val emptyColumnValues = col.emptyColumn().apply {
     this.setFixedWidth(10)
@@ -120,37 +120,37 @@ class RelatorioPedido(val notas: List<NotaSaida>, val isExcel: Boolean) {
   fun makeReport(): JasperReportBuilder {
     val pageOrientation = PageOrientation.LANDSCAPE
     return report()
-        .title(titleBuider())
-        .setTemplate(Templates.reportTemplate)
-        .columns(
-            emptyColumnValues,
-            lojaCol,
-            dataPedidoStrCol,
-            pedidoCol,
-            dataNotaEditavelCol,
-            notaEditavelCol,
-            dataAgendaCol,
-            situacaoStrCol,
-            chaveDescontoCol,
-            valorNotaCol,
-        )
-        .setDataSource(notas.sortedWith(compareBy({ it.loja }, { it.dataNota })))
-        .setPageFormat(A4, pageOrientation)
-        .setPageMargin(margin(28))
-        .summary(pageFooterBuilder())
-        .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
-        .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-        .setColumnStyle(
-            fieldFontNormal
-                .setForegroundColor(colorFont)
-                .setFontSize(8)
-                .setPadding(stl.padding().setRight(4).setLeft(4))
-        )
-        .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(colorFont).setFontSize(10))
-        .setPageMargin(margin(0))
-        .setTitleStyle(stl.style().setForegroundColor(colorFont).setPadding(Styles.padding().setTop(20)))
-        .setGroupStyle(stl.style().setForegroundColor(colorFont))
-        .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
+      .title(titleBuider())
+      .setTemplate(Templates.reportTemplate)
+      .columns(
+        emptyColumnValues,
+        lojaCol,
+        dataPedidoStrCol,
+        pedidoCol,
+        dataNotaEditavelCol,
+        notaEditavelCol,
+        dataAgendaCol,
+        situacaoStrCol,
+        chaveDescontoCol,
+        valorNotaCol,
+      )
+      .setDataSource(notas.sortedWith(compareBy({ it.loja }, { it.dataNota })))
+      .setPageFormat(A4, pageOrientation)
+      .setPageMargin(margin(28))
+      .summary(pageFooterBuilder())
+      .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
+      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .setColumnStyle(
+        fieldFontNormal
+          .setForegroundColor(colorFont)
+          .setFontSize(8)
+          .setPadding(stl.padding().setRight(4).setLeft(4))
+      )
+      .setColumnTitleStyle(fieldFontNormalCol.setForegroundColor(colorFont).setFontSize(10))
+      .setPageMargin(margin(0))
+      .setTitleStyle(stl.style().setForegroundColor(colorFont).setPadding(Styles.padding().setTop(20)))
+      .setGroupStyle(stl.style().setForegroundColor(colorFont))
+      .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)).setPadding(Styles.padding(20)))
   }
 
   companion object {

@@ -23,7 +23,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 class TabAjusteGarantiaPago(viewModel: TabAjusteGarantiaPagoViewModel) :
-    TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPago {
+  TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPago {
   override val label: String
     get() = "Pago"
   override val situacaoPendencia: ESituacaoPendencia?

@@ -9,7 +9,8 @@ DO @listaProdutos := TRIM(:listaProdutos);
 DO @rotulo := '';
 
 DROP TEMPORARY TABLE IF EXISTS T_VEND;
-CREATE TEMPORARY TABLE T_VEND (
+CREATE TEMPORARY TABLE T_VEND
+(
   PRIMARY KEY (no)
 )
 SELECT no, name
@@ -17,7 +18,8 @@ FROM sqldados.vend
 WHERE name NOT LIKE 'ENGECOPI%';
 
 DROP TEMPORARY TABLE IF EXISTS T_PRD;
-CREATE TEMPORARY TABLE T_PRD (
+CREATE TEMPORARY TABLE T_PRD
+(
   PRIMARY KEY (no)
 )
 SELECT no,
@@ -26,8 +28,8 @@ SELECT no,
        taxno,
        lucroTributado
 FROM sqldados.prd
-  LEFT JOIN sqldados.prdalq
-	      ON prdalq.prdno = prd.no
+       LEFT JOIN sqldados.prdalq
+                 ON prdalq.prdno = prd.no
 WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
@@ -42,7 +44,7 @@ SELECT D.storeno                                                                
        TRIM(MID(P.name, 1, 37))                                                          AS descricao,
        IFNULL(S.ncm, '')                                                                 AS ncm,
        IF((taxno = '06' AND MID(D.cstIcms, 2, 3) = '10') OR
-	  (taxno = '06' AND MID(D.cstIcms, 2, 3) = '60'), P.taxno, MID(D.cstIcms, 2, 3)) AS cstn,
+          (taxno = '06' AND MID(D.cstIcms, 2, 3) = '60'), P.taxno, MID(D.cstIcms, 2, 3)) AS cstn,
        P.taxno                                                                           AS cstp,
        D.cfop                                                                            AS cfop,
        TRIM(MID(P.name, 38, 3))                                                          AS un,
@@ -56,19 +58,19 @@ SELECT D.storeno                                                                
        IF(D.baseIcms = 0, 0.00, D.icmsAliq / 100)                                        AS aliqIcms,
        PP.ipi / 100                                                                      AS aliqIpiP,
        IFNULL(PP.dicm, 0) * (-1) / 100                                                   AS aliqIcmsP
-FROM sqldados.iprd            AS D
-  INNER JOIN sqldados.inv     AS I
-	       USING (invno)
-  INNER JOIN T_VEND           AS V
-	       ON V.no = I.vendno
-  INNER JOIN T_PRD            AS P
-	       ON (P.no = D.prdno)
-  INNER JOIN sqldados.cfo     AS C
-	       ON (C.no = D.cfop)
-  LEFT JOIN  sqldados.spedprd AS S
-	       ON (S.prdno = P.no)
-  LEFT JOIN  sqldados.prp     AS PP
-	       ON (PP.prdno = P.no AND PP.storeno = 10)
+FROM sqldados.iprd AS D
+       INNER JOIN sqldados.inv AS I
+                  USING (invno)
+       INNER JOIN T_VEND AS V
+                  ON V.no = I.vendno
+       INNER JOIN T_PRD AS P
+                  ON (P.no = D.prdno)
+       INNER JOIN sqldados.cfo AS C
+                  ON (C.no = D.cfop)
+       LEFT JOIN sqldados.spedprd AS S
+                 ON (S.prdno = P.no)
+       LEFT JOIN sqldados.prp AS PP
+                 ON (PP.prdno = P.no AND PP.storeno = 10)
 WHERE I.date BETWEEN @di AND @df
   AND D.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (D.storeno = @storeno OR @storeno = 0)

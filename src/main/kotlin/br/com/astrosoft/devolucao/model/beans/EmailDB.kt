@@ -9,31 +9,31 @@ import java.time.LocalTime
 import javax.mail.internet.InternetAddress
 
 class EmailDB(
-    val storeno: Int,
-    val pdvno: Int,
-    val xano: Int,
-    val data: LocalDate,
-    val hora: LocalTime,
-    val idEmail: Int,
-    val messageID: String,
-    val email: String,
-    val assunto: String,
-    val msg: String,
-    val planilha: String,
-    val relatorio: String,
-    val anexos: String
+  val storeno: Int,
+  val pdvno: Int,
+  val xano: Int,
+  val data: LocalDate,
+  val hora: LocalTime,
+  val idEmail: Int,
+  val messageID: String,
+  val email: String,
+  val assunto: String,
+  val msg: String,
+  val planilha: String,
+  val relatorio: String,
+  val anexos: String
 ) {
   fun notasEmail() = saci.listNotasEmailNota(idEmail)
   fun emailBean() = EmailGmail(
-      email = email,
-      assunto = assunto,
-      msg = { msg },
-      msgHtml = "",
-      planilha = planilha,
-      relatorio = relatorio,
-      relatorioResumido = "N",
-      anexos = anexos,
-      messageID = messageID
+    email = email,
+    assunto = assunto,
+    msg = { msg },
+    msgHtml = "",
+    planilha = planilha,
+    relatorio = relatorio,
+    relatorioResumido = "N",
+    anexos = anexos,
+    messageID = messageID
   )
 
   fun isEmailEnviado() = idEmail != 0
@@ -58,19 +58,19 @@ class EmailDB(
         }
         if (emailResposta.isNotEmpty()) null
         else EmailDB(
-            storeno = 0,
-            pdvno = 0,
-            xano = 0,
-            data = msgRecebido.data.toLocalDate(),
-            hora = msgRecebido.data.toLocalTime(),
-            idEmail = 0,
-            messageID = msgRecebido.messageID,
-            email = from,
-            assunto = msgRecebido.subject,
-            msg = msgRecebido.content().messageTxt,
-            planilha = "N",
-            relatorio = "N",
-            anexos = "N"
+          storeno = 0,
+          pdvno = 0,
+          xano = 0,
+          data = msgRecebido.data.toLocalDate(),
+          hora = msgRecebido.data.toLocalTime(),
+          idEmail = 0,
+          messageID = msgRecebido.messageID,
+          email = from,
+          assunto = msgRecebido.subject,
+          msg = msgRecebido.content().messageTxt,
+          planilha = "N",
+          relatorio = "N",
+          anexos = "N"
         )
       }
     }

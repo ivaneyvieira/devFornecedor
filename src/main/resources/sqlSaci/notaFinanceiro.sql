@@ -1,5 +1,6 @@
 DROP TEMPORARY TABLE IF EXISTS T_FORNECEDOR;
-CREATE TEMPORARY TABLE T_FORNECEDOR (
+CREATE TEMPORARY TABLE T_FORNECEDOR
+(
   PRIMARY KEY (custno)
 )
 SELECT C.no       AS custno,
@@ -7,15 +8,16 @@ SELECT C.no       AS custno,
        C.name     AS fornecedorName,
        V.auxLong4 AS fornecedorSap,
        V.email
-FROM sqldados.custp        AS C
-  INNER JOIN sqldados.vend AS V
-	       ON C.cpf_cgc = V.cgc
+FROM sqldados.custp AS C
+       INNER JOIN sqldados.vend AS V
+                  ON C.cpf_cgc = V.cgc
 /*  INNER JOIN T_VEND        AS T
 	       ON T.vendno = V.no*/
 GROUP BY custno;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
-CREATE TEMPORARY TABLE TNF (
+CREATE TEMPORARY TABLE TNF
+(
   PRIMARY KEY (storeno, nfno, nfse)
 )
 SELECT N.storeno,
@@ -25,53 +27,53 @@ SELECT N.storeno,
        N.nfse,
        N.issuedate,
        N.eordno,
-       O.date                                                                                  AS pedidoDate,
-       N.grossamt / 100                                                                        AS valor,
+       O.date                                                     AS pedidoDate,
+       N.grossamt / 100                                           AS valor,
        SUBSTRING_INDEX(SUBSTRING_INDEX(MID(N.remarks, LOCATE('FOR', N.remarks), 100), ' ', 2), ' ',
-		       -1) *
-       1                                                                                       AS custnoObs,
+                       -1) *
+       1                                                          AS custnoObs,
        CONCAT(TRIM(N.remarks), '\n',
-	      TRIM(IFNULL(R2.remarks__480, '')))                                               AS obsNota,
+              TRIM(IFNULL(R2.remarks__480, '')))                  AS obsNota,
        IF(N.remarks LIKE 'REJEI% NF% RETOR%' AND N.nfse = '1', 'S',
-	  'N')                                                                                 AS serie01Rejeitada,
+          'N')                                                    AS serie01Rejeitada,
        IF((N.remarks LIKE '%PAGO%' || N.remarks LIKE '%RETORNO%') AND N.nfse = '1', 'S',
-	  'N')                                                                                 AS serie01Pago,
-       IF((N.remarks LIKE '%COLETA%') AND N.nfse = '1', 'S', 'N')                              AS serie01Coleta,
+          'N')                                                    AS serie01Pago,
+       IF((N.remarks LIKE '%COLETA%') AND N.nfse = '1', 'S', 'N') AS serie01Coleta,
        IF((N.remarks LIKE '%PAGO%' || N.remarks LIKE '%RETORNO%') AND N.nfse = '66', 'S',
-	  'N')                                                                                 AS serie66Pago,
-       IF((N.remarks LIKE '%REMESSA%CONSERTO%'), 'S', 'N')                                     AS remessaConserto,
-       TRIM(N.remarks)                                                                         AS remarks,
-       N.netamt / 100                                                                          AS baseIcms,
-       N.icms_amt / 100                                                                        AS valorIcms,
-       N.baseIcmsSubst / 100                                                                   AS baseIcmsSubst,
-       N.icmsSubst / 100                                                                       AS icmsSubst,
-       N.fre_amt / 100                                                                         AS valorFrete,
-       N.sec_amt / 100                                                                         AS valorSeguro,
-       N.discount / 100                                                                        AS valorDesconto,
-       0.00                                                                                    AS outrasDespesas,
-       N.ipi_amt / 100                                                                         AS valorIpi,
-       grossamt / 100                                                                          AS valorTotal,
-       TRIM(IFNULL(OBS.remarks__480, ''))                                                      AS obsPedido,
-       IFNULL(X.nfekey, '')                                                                    AS chave,
-       IFNULL(chaveDesconto, '')                                                               AS chaveDesconto,
-       IFNULL(observacaoAuxiliar, '')                                                          AS observacaoAuxiliar,
+          'N')                                                    AS serie66Pago,
+       IF((N.remarks LIKE '%REMESSA%CONSERTO%'), 'S', 'N')        AS remessaConserto,
+       TRIM(N.remarks)                                            AS remarks,
+       N.netamt / 100                                             AS baseIcms,
+       N.icms_amt / 100                                           AS valorIcms,
+       N.baseIcmsSubst / 100                                      AS baseIcmsSubst,
+       N.icmsSubst / 100                                          AS icmsSubst,
+       N.fre_amt / 100                                            AS valorFrete,
+       N.sec_amt / 100                                            AS valorSeguro,
+       N.discount / 100                                           AS valorDesconto,
+       0.00                                                       AS outrasDespesas,
+       N.ipi_amt / 100                                            AS valorIpi,
+       grossamt / 100                                             AS valorTotal,
+       TRIM(IFNULL(OBS.remarks__480, ''))                         AS obsPedido,
+       IFNULL(X.nfekey, '')                                       AS chave,
+       IFNULL(chaveDesconto, '')                                  AS chaveDesconto,
+       IFNULL(observacaoAuxiliar, '')                             AS observacaoAuxiliar,
        natopno,
        F.*
-FROM sqldados.nf               AS N
-  LEFT JOIN  sqldados.nfComplemento NC
-	       USING (storeno, pdvno, xano)
-  INNER JOIN T_FORNECEDOR      AS F
-	       USING (custno)
-  LEFT JOIN  sqldados.nfes     AS X
-	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.nfdevRmk AS R
-	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.nfrmk    AS R2
-	       USING (storeno, pdvno, xano)
-  LEFT JOIN  sqldados.eord     AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  sqldados.eordrk   AS OBS
-	       ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
+FROM sqldados.nf AS N
+       LEFT JOIN sqldados.nfComplemento NC
+                 USING (storeno, pdvno, xano)
+       INNER JOIN T_FORNECEDOR AS F
+                  USING (custno)
+       LEFT JOIN sqldados.nfes AS X
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.nfrmk AS R2
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.eord AS O
+                 ON O.storeno = N.storeno AND O.ordno = N.eordno
+       LEFT JOIN sqldados.eordrk AS OBS
+                 ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
   AND N.nfse = 1
@@ -80,7 +82,8 @@ WHERE N.storeno IN (2, 3, 4, 5)
 GROUP BY N.storeno, N.nfno, N.nfse;
 
 DROP TEMPORARY TABLE IF EXISTS TDUP;
-CREATE TEMPORARY TABLE TDUP (
+CREATE TEMPORARY TABLE TDUP
+(
   PRIMARY KEY (storeno, nfno, nfse)
 )
 SELECT N.nfstoreno                      AS storeno,
@@ -90,12 +93,12 @@ SELECT N.nfstoreno                      AS storeno,
        CAST(N.dupno AS CHAR)            AS fatura,
        MAX(duedate)                     AS vencimento,
        SUM(amtdue - disc_amt - amtpaid) AS valorDevido
-FROM sqldados.dup           AS D
-  INNER JOIN sqldados.nfdup AS N
-	       ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
-		  N.dupse = D.dupse
-  INNER JOIN TNF               NF
-	       ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
+FROM sqldados.dup AS D
+       INNER JOIN sqldados.nfdup AS N
+                  ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
+                     N.dupse = D.dupse
+       INNER JOIN TNF NF
+                  ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 SELECT N.storeno                                 AS loja,
@@ -117,8 +120,8 @@ SELECT N.storeno                                 AS loja,
        IFNULL(obsNota, '')                       AS obsNota,
        serie01Rejeitada                          AS serie01Rejeitada,
        IF((D.valorDevido IS NOT NULL AND D.valorDevido <= 0) OR
-	  (D.status IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S' AND D.storeno IS NULL),
-	  'S', 'N')                              AS serie01Pago,
+          (D.status IS NOT NULL AND D.status = 2) OR (N.serie01Pago = 'S' AND D.storeno IS NULL),
+          'S', 'N')                              AS serie01Pago,
        serie01Coleta                             AS serie01Coleta,
        serie66Pago                               AS serie66Pago,
        remessaConserto                           AS remessaConserto,
@@ -139,19 +142,19 @@ SELECT N.storeno                                 AS loja,
        IFNULL(OP.name, '')                       AS natureza,
        N.chaveDesconto                           AS chaveDesconto,
        ''                                        AS observacaoAuxiliar
-FROM TNF                        AS N
-  LEFT JOIN  sqldados.natop     AS OP
-	       ON OP.no = N.natopno
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS R
-	       USING (storeno, pdvno, xano)
-  LEFT JOIN  TDUP               AS D
-	       ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-  LEFT JOIN  sqldados.eordrk    AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.eordno
-  LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = N.vendno AND RV.tipo = N.nfse
+FROM TNF AS N
+       LEFT JOIN sqldados.natop AS OP
+                 ON OP.no = N.natopno
+       INNER JOIN sqldados.store AS S
+                  ON S.no = N.storeno
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN TDUP AS D
+                 ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+       LEFT JOIN sqldados.eordrk AS O
+                 ON O.storeno = N.storeno AND O.ordno = N.eordno
+       LEFT JOIN sqldados.nfvendRmk AS RV
+                 ON RV.vendno = N.vendno AND RV.tipo = N.nfse
 WHERE N.chaveDesconto <> ''
 GROUP BY loja, pdv, transacao, dataNota, custno
 

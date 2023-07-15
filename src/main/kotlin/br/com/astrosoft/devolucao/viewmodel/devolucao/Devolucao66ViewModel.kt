@@ -12,10 +12,10 @@ class Devolucao66ViewModel(view: IDevolucao66View) : DevolucaoAbstractViewModel<
   val tabEmailRecebidoViewModel = TabEmailRecebidoViewModel(this)
 
   override fun listTab() = listOf(
-      view.tabNotaSerie66,
-      view.tabNotaSerie66Pago,
-      view.tabEntrada,
-      view.tabEmailRecebido,
+    view.tabNotaSerie66,
+    view.tabNotaSerie66Pago,
+    view.tabEntrada,
+    view.tabEmailRecebido,
   )
 }
 

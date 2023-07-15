@@ -20,19 +20,19 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabTodasEntradasViewModel = TabTodasEntradasViewModel(this)
 
   override fun listTab() = listOf(
-      view.tabEntradaNddViewModel,
-      view.tabEntradaNddReceberViewModel,
-      view.tabEntradaNddRecebidoViewModel,
-      view.tabNfPrecFiscalViewModel,
-      view.tabEntSTViewModel,
-      view.tabNfPrecInfoViewModel,
-      view.tabTodasEntradasViewModel,
-      view.tabFreteViewModel,
-      view.tabPrecoViewModel,
-      view.tabPrecoPreRecViewModel,
-      view.tabFretePerViewModel,
-      view.tabCteViewModel,
-      view.tabFileNFEViewModel,
+    view.tabEntradaNddViewModel,
+    view.tabEntradaNddReceberViewModel,
+    view.tabEntradaNddRecebidoViewModel,
+    view.tabNfPrecFiscalViewModel,
+    view.tabEntSTViewModel,
+    view.tabNfPrecInfoViewModel,
+    view.tabTodasEntradasViewModel,
+    view.tabFreteViewModel,
+    view.tabPrecoViewModel,
+    view.tabPrecoPreRecViewModel,
+    view.tabFretePerViewModel,
+    view.tabCteViewModel,
+    view.tabFileNFEViewModel,
   )
 }
 

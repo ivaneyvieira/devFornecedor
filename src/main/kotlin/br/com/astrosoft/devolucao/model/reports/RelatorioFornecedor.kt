@@ -25,9 +25,9 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedor(val notas: List<NotaSaida>) {
   private val labelTitleCol: TextColumnBuilder<String> =
-      col.column("", NotaSaida::labelTitle.name, type.stringType()).apply {
-        setHeight(50)
-      }
+    col.column("", NotaSaida::labelTitle.name, type.stringType()).apply {
+      setHeight(50)
+    }
 
   private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(RIGHT)
@@ -35,23 +35,23 @@ class RelatorioFornecedor(val notas: List<NotaSaida>) {
   }
 
   private val dataNotaCol: TextColumnBuilder<String> =
-      col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(60)
-      }
+    col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+    }
 
   private val notaInvCol: TextColumnBuilder<String> =
-      col.column("Nota", NotaSaida::numeroNotaPedido.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(60)
-      }
+    col.column("Nota", NotaSaida::numeroNotaPedido.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(60)
+    }
 
   private val valorCol: TextColumnBuilder<Double> =
-      col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
-        this.setPattern("#,##0.00")
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(100)
-      }
+    col.column("Valor", NotaSaida::valor.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(100)
+    }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(lojaCol, dataNotaCol, notaInvCol, valorCol)
@@ -74,35 +74,35 @@ class RelatorioFornecedor(val notas: List<NotaSaida>) {
 
   private fun subtotalBuilder(label: String): List<SubtotalBuilder<*, *>> {
     return listOf(
-        sbt.text(label, notaInvCol),
-        sbt.sum(valorCol),
+      sbt.text(label, notaInvCol),
+      sbt.sum(valorCol),
     )
   }
 
   fun makeReport(): JasperReportBuilder {
     val itemGroup =
-        grp.group(labelTitleCol).setTitleWidth(0).setHeaderLayout(GroupHeaderLayout.VALUE).showColumnHeaderAndFooter()
+      grp.group(labelTitleCol).setTitleWidth(0).setHeaderLayout(GroupHeaderLayout.VALUE).showColumnHeaderAndFooter()
 
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
     return report()
-        .title(titleBuider())
-        .setTemplate(Templates.reportTemplate)
-        .setShowColumnTitle(false)
-        .columns(* colunms)
-        .columnGrid(* colunms)
-        .groupBy(itemGroup)
-        .addGroupFooter(itemGroup, cmp.text(""))
-        .setDataSource(notas.sortedWith(compareBy({ it.custno }, { it.dataNota })))
-        .setPageFormat(A4, pageOrientation)
-        .setPageMargin(margin(28))
-        .summary(pageFooterBuilder())
-        .subtotalsAtGroupFooter(itemGroup, * subtotalBuilder("Total R$").toTypedArray())
-        .subtotalsAtSummary(* subtotalBuilder("Total Geral").toTypedArray())
-        .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
-        .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-        .setColumnStyle(fieldFontNormal)
-        .setColumnTitleStyle(fieldFontNormalCol)
+      .title(titleBuider())
+      .setTemplate(Templates.reportTemplate)
+      .setShowColumnTitle(false)
+      .columns(* colunms)
+      .columnGrid(* colunms)
+      .groupBy(itemGroup)
+      .addGroupFooter(itemGroup, cmp.text(""))
+      .setDataSource(notas.sortedWith(compareBy({ it.custno }, { it.dataNota })))
+      .setPageFormat(A4, pageOrientation)
+      .setPageMargin(margin(28))
+      .summary(pageFooterBuilder())
+      .subtotalsAtGroupFooter(itemGroup, * subtotalBuilder("Total R$").toTypedArray())
+      .subtotalsAtSummary(* subtotalBuilder("Total Geral").toTypedArray())
+      .setSubtotalStyle(stl.style().setPadding(2).setTopBorder(stl.pen1Point()))
+      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .setColumnStyle(fieldFontNormal)
+      .setColumnTitleStyle(fieldFontNormalCol)
   }
 
   companion object {

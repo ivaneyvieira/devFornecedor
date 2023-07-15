@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 class TabNFDFornecedoresPagaViewModel(viewModel: NFDFornecedoresViewModel) :
-    TabDevolucaoViewModelAbstract<INFDFornecedoresView>(viewModel) {
+  TabDevolucaoViewModelAbstract<INFDFornecedoresView>(viewModel) {
   override val subView
     get() = viewModel.view.tabNFDFornecedoresPaga
 }

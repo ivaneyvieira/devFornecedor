@@ -14,18 +14,18 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaNotasSap {
   private val campos: List<Campo<*, NotaDevolucaoSap>> =
-      listOf(
-          CampoInt("Código") { codigoFor },
-          CampoString("Nome Fornecedor") { nomeFor },
-          CampoInt("Código Saci") { vendno },
-          CampoInt("Código Cliente") { custno },
-          CampoInt("Loja") { storeno },
-          CampoString("Nota Sap") { numero },
-          CampoString("Nota Saci") { nfSaci },
-          CampoString("Data de Lancamento") { dataLancamento.format() },
-          CampoString("Data de Vencimento") { dataVencimento.format() },
-          CampoNumber("Saldo") { saldo },
-      )
+    listOf(
+      CampoInt("Código") { codigoFor },
+      CampoString("Nome Fornecedor") { nomeFor },
+      CampoInt("Código Saci") { vendno },
+      CampoInt("Código Cliente") { custno },
+      CampoInt("Loja") { storeno },
+      CampoString("Nota Sap") { numero },
+      CampoString("Nota Saci") { nfSaci },
+      CampoString("Data de Lancamento") { dataLancamento.format() },
+      CampoString("Data de Vencimento") { dataVencimento.format() },
+      CampoNumber("Saldo") { saldo },
+    )
 
   fun grava(listaNotas: List<NotaDevolucaoSap>): ByteArray {
     val wb = workbook {

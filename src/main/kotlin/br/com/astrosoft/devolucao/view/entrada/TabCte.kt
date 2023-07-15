@@ -51,16 +51,16 @@ class TabCte(val viewModel: TabCteViewModel) : ITabCteViewModel, ITabPanel {
 
   override fun getFiltro(): FiltroNFEntradaFrete {
     return FiltroNFEntradaFrete(
-        loja = edtLoja.value?.no ?: 0,
-        di = edtDataI.value ?: LocalDate.now(),
-        df = edtDataF.value ?: LocalDate.now(),
-        ni = edtNi.value ?: 0,
-        nfno = edtNota.value ?: "",
-        vend = edtFornecedorNota.value ?: 0,
-        carrno = edtCarr.value ?: 0,
-        niCte = edtNICte.value ?: 0,
-        cte = edtCte.value ?: 0,
-        tabno = edtTabno.value ?: 0,
+      loja = edtLoja.value?.no ?: 0,
+      di = edtDataI.value ?: LocalDate.now(),
+      df = edtDataF.value ?: LocalDate.now(),
+      ni = edtNi.value ?: 0,
+      nfno = edtNota.value ?: "",
+      vend = edtFornecedorNota.value ?: 0,
+      carrno = edtCarr.value ?: 0,
+      niCte = edtNICte.value ?: 0,
+      cte = edtCte.value ?: 0,
+      tabno = edtTabno.value ?: 0,
     )
   }
 
