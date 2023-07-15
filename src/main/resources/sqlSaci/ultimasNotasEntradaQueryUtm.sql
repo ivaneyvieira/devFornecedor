@@ -101,7 +101,16 @@ SELECT iprd.storeno                                                             
        inv.freight * 100.00 / inv.grossamt                                          AS freten,
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)            AS frete,
        cstIcms                                                                      AS cstIcms,
-       cfop                                                                         AS cfop
+       cfop                                                                         AS cfop,
+       ROUND(iprd.dfob * iprd.qtty / 1000, 2)                                       AS valor,
+       ROUND(iprd.discount / 100, 2)                                                AS vlDesconto,
+       ROUND(iprd.dfob * iprd.qtty / 1000, 2) - ROUND(iprd.discount / 100, 2)       AS vlLiquido,
+       ROUND(ROUND(iprd.dfob * iprd.qtty / 1000, 2) * iprd.frete / 10000, 2)        AS vlFrete,
+       ROUND(ROUND(iprd.dfob * iprd.qtty / 1000, 2) * iprd.despesas / 10000, 2)     AS vlDespesas,
+       ROUND(iprd.icms / 100, 2)                                                    AS vlIcms,
+       ROUND(iprd.ipiAmt / 100, 2)                                                  AS vlIpi,
+       ROUND(iprd.baseIcmsSubst / 100, 2)                                           AS baseSubst,
+       ROUND(iprd.icmsSubst / 100, 2)                                               AS vlIcmsSubst
 FROM sqldados.iprd
        INNER JOIN sqldados.inv
                   USING (invno)
@@ -195,7 +204,17 @@ SELECT lj,
        IF(freten = fretep, 'S', IF(freten = fretep, 'DP', 'DN'))                     AS freteDif,
        frete,
        cstIcms,
-       cfop
+       cfop,
+       valor,
+       vlDesconto,
+       vlLiquido,
+       vlFrete,
+       vlDespesas,
+       vlIcms,
+       vlIpi,
+       baseSubst,
+       vlIcmsSubst,
+       vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst                 AS vlTotal
 FROM sqldados.T_QUERY
        INNER JOIN sqldados.T_MAX
                   USING (Prod, grade, NI)

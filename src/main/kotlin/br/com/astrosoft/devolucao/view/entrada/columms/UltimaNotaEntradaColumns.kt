@@ -19,7 +19,7 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaData() = addColumnLocalDate(NfPrecEntrada::data) {
-    this.setHeader("Data")
+    this.setHeader("Entrada")
     this.isResizable = true
   }
 
@@ -29,7 +29,7 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaNfe() = addColumnString(NfPrecEntrada::nfe) {
-    this.setHeader("Nfe")
+    this.setHeader("Nota")
     this.isResizable = true
   }
 
@@ -250,6 +250,56 @@ object UltimaNotaEntradaColumns {
 
   fun Grid<NfPrecEntrada>.notaCst() = addColumnString(NfPrecEntrada::cstIcms) {
     this.setHeader("Cst N")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaValor() = addColumnDouble(NfPrecEntrada::valor) {
+    this.setHeader("Valor")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlDesconto() = addColumnDouble(NfPrecEntrada::vlDesconto) {
+    this.setHeader("Desc")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlLiquido() = addColumnDouble(NfPrecEntrada::vlLiquido) {
+    this.setHeader("V Liq")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlFrete() = addColumnDouble(NfPrecEntrada::vlFrete) {
+    this.setHeader("V Fret")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlDespesa() = addColumnDouble(NfPrecEntrada::vlDespesas) {
+    this.setHeader("V Desp")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlIcms() = addColumnDouble(NfPrecEntrada::vlIcms) {
+    this.setHeader("V ICMS")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlIpi() = addColumnDouble(NfPrecEntrada::vlIpi) {
+    this.setHeader("V IPI")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaBaseSubst() = addColumnDouble(NfPrecEntrada::baseSubst) {
+    this.setHeader("Base ST")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlSubst() = addColumnDouble(NfPrecEntrada::vlIcmsSubst) {
+    this.setHeader("Valor ST")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlTotal() = addColumnDouble(NfPrecEntrada::vlTotal) {
+    this.setHeader("V Total")
     this.isResizable = true
   }
 }
