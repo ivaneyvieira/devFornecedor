@@ -8,12 +8,12 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 object UltimaNotaEntradaColumns {
-  fun Grid<NfPrecEntrada>.notaLoja() = addColumnInt(NfPrecEntrada::lj) {
+  fun Grid<NfPrecEntrada>.notaLoja() = addColumnInt(NfPrecEntrada::ljCol) {
     this.setHeader("Loja")
     this.isResizable = true
   }
 
-  fun Grid<NfPrecEntrada>.notaNi() = addColumnInt(NfPrecEntrada::ni) {
+  fun Grid<NfPrecEntrada>.notaNi() = addColumnInt(NfPrecEntrada::niCol) {
     this.setHeader("NI")
     this.isResizable = true
   }
@@ -103,7 +103,7 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfPrecEntrada>.notaMvan() = addColumnDouble(NfPrecEntrada::mvanApŕox) {
+  fun Grid<NfPrecEntrada>.notaMvan() = addColumnDouble(NfPrecEntrada::mvanAprox) {
     this.setHeader("MVA N")
     this.isResizable = true
   }

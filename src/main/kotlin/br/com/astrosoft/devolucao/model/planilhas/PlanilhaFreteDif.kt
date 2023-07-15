@@ -23,8 +23,8 @@ class PlanilhaFreteDif {
       CampoString("forn Nota") { fornNota },
       CampoString("prod") { prod },
       CampoString("descrição") { descricao },
-      CampoNumber("freten") { freten },
-      CampoNumber("fretep") { fretep },
+      CampoNumber("freten") { freten ?: 0.0 },
+      CampoNumber("fretep") { fretep ?: 0.0 },
     )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {

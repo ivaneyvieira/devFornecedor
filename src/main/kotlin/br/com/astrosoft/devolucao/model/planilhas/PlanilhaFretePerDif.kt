@@ -27,7 +27,7 @@ class PlanilhaFretePerDif {
       CampoNumber("P NF") { pesoBrutoTotal ?: 0.00 },
       CampoNumber("P Prd") { pesoBrutoPrd ?: 0.00 },
       CampoNumber("Qtd") { (quant ?: 0) * 1.00 },
-      CampoNumber("P Bruto") { pesoBruto },
+      CampoNumber("P Bruto") { pesoBruto ?: 0.0 },
       CampoNumber("R$ NF") { preconTotal ?: 0.00 },
       CampoNumber("$ F Kg") { freteKg ?: 0.00 },
       CampoNumber("R$ Frete") { freteTotal ?: 0.00 },
