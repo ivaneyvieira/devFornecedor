@@ -99,7 +99,18 @@ SELECT iprd2.storeno                                                            
        TRIM(IFNULL(M.refPrd, ''))                                                      AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                                 AS fretep,
        inv2.freight * 100.00 / inv2.grossamt                                           AS freten,
-       IF(inv2.weight = 0, NULL, (inv2.freight / 100) / inv2.weight * 1.00)            AS frete
+       IF(inv2.weight = 0, NULL, (inv2.freight / 100) / inv2.weight * 1.00)            AS frete,
+       cstIcms                                                                         AS cstIcms,
+       cfop                                                                            AS cfop,
+       ROUND(iprd2.dfob * iprd2.qtty / 1000, 2)                                        AS valor,
+       ROUND(iprd2.discount / 100, 2)                                                  AS vlDesconto,
+       ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) - ROUND(iprd2.discount / 100, 2)       AS vlLiquido,
+       ROUND(ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) * iprd2.frete / 10000, 2)        AS vlFrete,
+       ROUND(ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) * iprd2.despesas / 10000, 2)     AS vlDespesas,
+       ROUND(iprd2.icms / 100, 2)                                                      AS vlIcms,
+       ROUND(iprd2.ipiAmt / 100, 2)                                                    AS vlIpi,
+       ROUND(iprd2.baseIcmsSubst / 100, 2)                                             AS baseSubst,
+       ROUND(iprd2.icmsSubst / 100, 2)                                                 AS vlIcmsSubst
 FROM sqldados.iprd2
        INNER JOIN sqldados.inv2
                   USING (invno)
@@ -191,7 +202,19 @@ SELECT lj,
        freten,
        fretep,
        IF(freten = fretep, 'S', IF(freten = fretep, 'DP', 'DN'))                     AS freteDif,
-       frete
+       frete,
+       cstIcms,
+       cfop,
+       valor,
+       vlDesconto,
+       vlLiquido,
+       vlFrete,
+       vlDespesas,
+       vlIcms,
+       vlIpi,
+       baseSubst,
+       vlIcmsSubst,
+       vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst                 AS vlTotal
 FROM sqldados.T_QUERY
        INNER JOIN sqldados.T_MAX
                   USING (Prod, grade, NI)
