@@ -5,32 +5,32 @@ import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 data class NfEntradaFrete(
-    val loja: Int,
-    val ni: String,
-    val nf: String,
-    val emissao: LocalDate,
-    val entrada: LocalDate,
-    val vendno: Int,
-    val totalPrd: Double,
-    val valorNF: Double,
-    val carrno: Int,
-    val carrName: String,
-    val cte: Int,
-    val status: String,
-    val emissaoCte: LocalDate?,
-    val entradaCte: LocalDate?,
-    val valorCte: Double?,
-    val pesoBruto: Double?,
-    val cub: Double?,
-    val pesoCub: Double?,
-    val fretePeso: Double?,
-    val adValore: Double?,
-    val gris: Double?,
-    val taxa: Double?,
-    val outro: Double?,
-    val aliquota: Double?,
-    val icms: Double?,
-    val totalFrete: Double?,
+  val loja: Int,
+  val ni: String,
+  val nf: String,
+  val emissao: LocalDate,
+  val entrada: LocalDate,
+  val vendno: Int,
+  val totalPrd: Double,
+  val valorNF: Double,
+  val carrno: Int,
+  val carrName: String,
+  val cte: Int,
+  val status: String,
+  val emissaoCte: LocalDate?,
+  val entradaCte: LocalDate?,
+  val valorCte: Double?,
+  val pesoBruto: Double?,
+  val cub: Double?,
+  val pesoCub: Double?,
+  val fretePeso: Double?,
+  val adValore: Double?,
+  val gris: Double?,
+  val taxa: Double?,
+  val outro: Double?,
+  val aliquota: Double?,
+  val icms: Double?,
+  val totalFrete: Double?,
 ) {
 
   val dataStr
@@ -54,26 +54,26 @@ enum class EDifFrete(val cod: String, val descricao: String) {
 }
 
 data class FiltroNFEntradaFrete(
-    val loja: Int,
-    val di: LocalDate,
-    val df: LocalDate,
-    val vend: Int,
-    val ni: Int,
-    val nfno: String,
-    val carrno: Int,
-    val niCte: Int,
-    val cte: Int,
-    val tabno: Int,
+  val loja: Int,
+  val di: LocalDate,
+  val df: LocalDate,
+  val vend: Int,
+  val ni: Int,
+  val nfno: String,
+  val carrno: Int,
+  val niCte: Int,
+  val cte: Int,
+  val tabno: Int,
 )
 
 data class FiltroDialog(val status: EStatusFrete, val diferenca: EDifFrete)
 
 data class NfFreteGrupo(
-    val nomeGrupo: String,
-    val nota: NfEntradaFrete,
-    val cte: Int,
-    val valorNota: String,
-    val valorCalculado: String
+  val nomeGrupo: String,
+  val nota: NfEntradaFrete,
+  val cte: Int,
+  val valorNota: String,
+  val valorCalculado: String
 ) {
   val lj = nota.loja
   val ni = nota.ni

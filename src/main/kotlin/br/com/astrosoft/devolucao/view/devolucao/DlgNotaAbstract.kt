@@ -27,10 +27,10 @@ import org.claspina.confirmdialog.ConfirmDialog
 abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) {
   lateinit var gridNota: Grid<NotaSaida>
   fun showDialogNota(
-      fornecedor: Fornecedor?,
-      serie: Serie,
-      situacao: ESituacaoPendencia?,
-      onClose: (Dialog) -> Unit = {}
+    fornecedor: Fornecedor?,
+    serie: Serie,
+    situacao: ESituacaoPendencia?,
+    onClose: (Dialog) -> Unit = {}
   ) {
     fornecedor ?: return
     val listNotas = fornecedor.notas
@@ -90,20 +90,20 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             multList.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL)
             multList.setItemLabelGenerator { it.descricao }
             ConfirmDialog
-                .createQuestion()
-                .withCaption("Lista de Ocorrência")
-                .withMessage(multList)
-                .withOkButton({
-                  val notas =
-                      gridNota.asMultiSelect().selectedItems.toList()
-                  viewModel.imprimirNotaFornecedor(notas,
-                      multList.value
-                          .toList()
-                          .sortedBy { it.num }
-                          .map { it.descricao })
-                })
-                .withCancelButton()
-                .open()
+              .createQuestion()
+              .withCaption("Lista de Ocorrência")
+              .withMessage(multList)
+              .withOkButton({
+                val notas =
+                  gridNota.asMultiSelect().selectedItems.toList()
+                viewModel.imprimirNotaFornecedor(notas,
+                  multList.value
+                    .toList()
+                    .sortedBy { it.num }
+                    .map { it.descricao })
+              })
+              .withCancelButton()
+              .open()
           }
         }
       }

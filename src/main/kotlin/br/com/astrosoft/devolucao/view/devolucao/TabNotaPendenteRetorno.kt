@@ -28,7 +28,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 class TabNotaPendenteRetorno(viewModel: TabNotaPendenteViewModel, private val situacao: () -> ESituacaoPendencia) :
-    TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
+  TabDevolucaoAbstract<IDevolucaoPendenteView>(viewModel), ITabNotaPendente {
   override val label: String
     get() = situacao().title
   override val serie: Serie

@@ -13,15 +13,15 @@ class Devolucao01ViewModel(view: IDevolucao01View) : DevolucaoAbstractViewModel<
   val tabRetorno = TabRetornoSerie1ViewModel(this)
 
   override fun listTab() = listOf(
-      view.tabNotaSerie01,
-      view.tabNotaSerie01Pago,
-      //view.tabNotaSerie01Coleta,
-      view.tabNotaRemessaConserto,
-      view.tabNotaFinanceiro,
-      view.tabConferenciaSap,
-      view.tabSap,
-      view.tabDesconto,
-      view.tabRetorno,
+    view.tabNotaSerie01,
+    view.tabNotaSerie01Pago,
+    //view.tabNotaSerie01Coleta,
+    view.tabNotaRemessaConserto,
+    view.tabNotaFinanceiro,
+    view.tabConferenciaSap,
+    view.tabSap,
+    view.tabDesconto,
+    view.tabRetorno,
   )
 }
 

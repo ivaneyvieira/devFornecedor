@@ -114,7 +114,7 @@ class DlgNotaSapSaci(val viewModel: TabConferenciaSapViewModel) {
 }
 
 class GridLabel<T : Any>(val grid: Grid<T>, label: String, val toolbar: HorizontalLayout.() -> Unit = {}) :
-    VerticalLayout() {
+  VerticalLayout() {
   fun selectRow(notaSaida: T?) {
     if (notaSaida != null) {
       grid.select(notaSaida)

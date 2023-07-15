@@ -6,7 +6,8 @@ DO @PEDIDO := IF(:pesquisa REGEXP '^[0-9]+$', :pesquisa * 1, 0);
 DO @FORNECEDOR := IF(:pesquisa NOT REGEXP '^[0-9]+$', :pesquisa, '');
 
 DROP TABLE IF EXISTS T_BARCODE;
-CREATE TEMPORARY TABLE T_BARCODE (
+CREATE TEMPORARY TABLE T_BARCODE
+(
   PRIMARY KEY (prdno, grade)
 )
 SELECT prdno,
@@ -16,7 +17,8 @@ FROM sqldados.prdbar
 GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_REF;
-CREATE TEMPORARY TABLE T_REF (
+CREATE TEMPORARY TABLE T_REF
+(
   PRIMARY KEY (prdno, grade)
 )
 SELECT prdno                                                                          AS prdno,
@@ -28,7 +30,8 @@ FROM sqldados.prdref
 GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_REF_SEMGRADE;
-CREATE TEMPORARY TABLE T_REF_SEMGRADE (
+CREATE TEMPORARY TABLE T_REF_SEMGRADE
+(
   PRIMARY KEY (prdno)
 )
 SELECT prdno                                                                  AS prdno,
@@ -39,7 +42,8 @@ WHERE grade = ''
 GROUP BY prdno;
 
 DROP TEMPORARY TABLE IF EXISTS T_RESULT;
-CREATE TEMPORARY TABLE T_RESULT (
+CREATE TEMPORARY TABLE T_RESULT
+(
   PRIMARY KEY (loja, numeroPedido, codigo, grade, seqno),
   refno varchar(40)
 )
@@ -53,7 +57,7 @@ SELECT 'SACI'                                                                   
        O.status                                                                     AS status,/*0 - Aberto,  1 - Entregue, 2 - Cancelado*/
        CAST(O.date AS DATE)                                                         AS dataPedido,
        CAST(ROUND(IF(O.dataEntrega = 0, DATE_ADD(O.date, INTERVAL O.deliv DAY) * 1,
-		     O.dataEntrega)) AS DATE)                                       AS dataEntrega,
+                     O.dataEntrega)) AS DATE)                                       AS dataEntrega,
        O.remarks                                                                    AS obsercacaoPedido,
        TRIM(E.prdno)                                                                AS codigo,
        E.seqno                                                                      AS seqno,
@@ -72,21 +76,21 @@ SELECT 'SACI'                                                                   
        TRIM(IFNULL(B.barcode, P.barcode))                                           AS barcode,
        E.padbyte                                                                    AS confirmado,
        E.auxStr                                                                     AS calcEmbalagem
-FROM sqldados.ords          AS O
-  INNER JOIN sqldados.store AS S
-	       ON S.no = O.storeno
-  INNER JOIN sqldados.vend  AS V
-	       ON O.vendno = V.no
-  INNER JOIN sqldados.oprd  AS E
-	       ON O.storeno = E.storeno AND O.no = E.ordno
-  LEFT JOIN  T_REF          AS R
-	       ON E.prdno = R.prdno AND E.grade = R.grade
-  LEFT JOIN  T_REF_SEMGRADE AS RS
-	       ON E.prdno = RS.prdno
-  LEFT JOIN  T_BARCODE      AS B
-	       ON E.prdno = B.prdno AND E.grade = B.grade
-  INNER JOIN sqldados.prd   AS P
-	       ON P.no = E.prdno
+FROM sqldados.ords AS O
+       INNER JOIN sqldados.store AS S
+                  ON S.no = O.storeno
+       INNER JOIN sqldados.vend AS V
+                  ON O.vendno = V.no
+       INNER JOIN sqldados.oprd AS E
+                  ON O.storeno = E.storeno AND O.no = E.ordno
+       LEFT JOIN T_REF AS R
+                 ON E.prdno = R.prdno AND E.grade = R.grade
+       LEFT JOIN T_REF_SEMGRADE AS RS
+                 ON E.prdno = RS.prdno
+       LEFT JOIN T_BARCODE AS B
+                 ON E.prdno = B.prdno AND E.grade = B.grade
+       INNER JOIN sqldados.prd AS P
+                  ON P.no = E.prdno
 WHERE (O.storeno = :loja OR :loja = 0)
   AND ((V.no = @VENDNO AND @VENDNO != 0) OR (O.no = @PEDIDO AND @PEDIDO != 0) OR
        (V.name LIKE CONCAT(@FORNECEDOR, '%') AND @FORNECEDOR != '') OR
@@ -96,18 +100,18 @@ WHERE (O.storeno = :loja OR :loja = 0)
   AND IF(:onlyConfirmado = 'S', E.padbyte = 'S', TRUE)
 GROUP BY loja, numeroPedido, codigo, grade, seqno
 HAVING CASE :onlyPendente
-	 WHEN 'S'
-	   THEN ROUND(qtPendente * 100) != 0
-	 WHEN 'N'
-	   THEN TRUE
-	 ELSE FALSE
-       END;
+         WHEN 'S'
+           THEN ROUND(qtPendente * 100) != 0
+         WHEN 'N'
+           THEN TRUE
+         ELSE FALSE
+         END;
 
 REPLACE INTO sqldados.pedidosCompra(origem, vendno, fornecedor, cnpj, loja, sigla, numeroPedido,
-				    status, dataPedido, dataEntrega, obsercacaoPedido, codigo,
-				    seqno, descricao, refFab, grade, unidade, refno, refname,
-				    qtPedida, qtCancelada, qtRecebida, qtPendente, custoUnit,
-				    barcode, confirmado)
+                                    status, dataPedido, dataEntrega, obsercacaoPedido, codigo,
+                                    seqno, descricao, refFab, grade, unidade, refno, refname,
+                                    qtPedida, qtCancelada, qtRecebida, qtPendente, custoUnit,
+                                    barcode, confirmado)
 SELECT origem,
        vendno,
        fornecedor,
@@ -174,10 +178,10 @@ WHERE (loja = :loja OR :loja = 0)
   AND IF(:onlyConfirmado = 'S', confirmado = 'S', TRUE)
   AND IF(:onlyNotConfirmado = 'S', confirmado != 'S', TRUE)
   AND CASE :onlyPendente
-	WHEN 'S'
-	  THEN ROUND(qtPendente * 100) != 0
-	WHEN 'N'
-	  THEN TRUE
-	ELSE FALSE
-      END
+        WHEN 'S'
+          THEN ROUND(qtPendente * 100) != 0
+        WHEN 'N'
+          THEN TRUE
+        ELSE FALSE
+  END
   AND (dataPedido = :dataPedido OR :dataPedido = 0)

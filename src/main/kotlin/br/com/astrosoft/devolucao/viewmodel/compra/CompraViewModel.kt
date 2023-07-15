@@ -9,7 +9,7 @@ class CompraViewModel(view: ICompraView) : ViewModel<ICompraView>(view) {
   val tabConferidoViewModel = TabConferidoViewModel(this)
 
   override fun listTab() = listOf(
-      view.tabPedidosViewModel, view.tabConferirViewModel, view.tabConferidoViewModel,
+    view.tabPedidosViewModel, view.tabConferirViewModel, view.tabConferidoViewModel,
   )
 }
 

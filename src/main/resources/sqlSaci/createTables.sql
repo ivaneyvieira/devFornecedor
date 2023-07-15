@@ -1,5 +1,6 @@
 DROP TABLE vendSap;
-CREATE TABLE vendSap (
+CREATE TABLE vendSap
+(
   codigo          Int,
   nome            varchar(100),
   quantidadeNotas Int,
@@ -7,7 +8,8 @@ CREATE TABLE vendSap (
 );
 
 DROP TABLE nfSap;
-CREATE TABLE nfSap (
+CREATE TABLE nfSap
+(
   codigoFor      Int,
   storeno        INT,
   numero         varchar(20),
@@ -18,14 +20,16 @@ CREATE TABLE nfSap (
 );
 
 DROP TABLE vendSap;
-CREATE TABLE vendSap (
+CREATE TABLE vendSap
+(
   codigo INT,
   nome   VARCHAR(100),
   PRIMARY KEY (codigo)
 );
 
 DROP TABLE nfSap;
-CREATE TABLE nfSap (
+CREATE TABLE nfSap
+(
   codigoFor      INT,
   storeno        INT,
   numero         VARCHAR(20),
@@ -37,7 +41,8 @@ CREATE TABLE nfSap (
 
 
 DROP TABLE sqldados.notasEntradaNdd;
-CREATE TABLE sqldados.notasEntradaNdd (
+CREATE TABLE sqldados.notasEntradaNdd
+(
   id                 int,
   numero             int,
   serie              int,
@@ -61,7 +66,7 @@ CREATE TABLE sqldados.notasEntradaNdd (
   xmlDadosAdicionais longtext,
   ordno              int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
-  INDEX i1(dataEmissao)
+  INDEX i1 (dataEmissao)
 );
 
 ALTER TABLE sqldados.notasEntradaNdd
@@ -70,7 +75,8 @@ ALTER TABLE sqldados.notasEntradaNdd
 ALTER TABLE sqldados.notasEntradaNdd
   MODIFY COLUMN SERIE VARCHAR(4);
 
-CREATE TABLE sqldados.reimpressaoNota (
+CREATE TABLE sqldados.reimpressaoNota
+(
   data    int,
   hora    varchar(10),
   loja    int,
@@ -101,7 +107,8 @@ ALTER TABLE sqldados.userApp
 
 
 DROP TABLE IF EXISTS sqldados.quantAvaria;
-CREATE TABLE sqldados.quantAvaria (
+CREATE TABLE sqldados.quantAvaria
+(
   id              Int,
   numeroProtocolo VARCHAR(50),
   codigo          VARCHAR(30),
@@ -111,7 +118,8 @@ CREATE TABLE sqldados.quantAvaria (
 );
 
 DROP TABLE IF EXISTS sqldados.pedidosCompra;
-CREATE TABLE sqldados.pedidosCompra (
+CREATE TABLE sqldados.pedidosCompra
+(
   `origem`           varchar(4)           DEFAULT '',
   `vendno`           int(10)     NOT NULL,
   `fornecedor`       char(40)    NOT NULL DEFAULT '',
@@ -157,7 +165,8 @@ WHERE ordno = 404632
 /*** Tabelas da agenda ***/
 
 DROP TABLE IF EXISTS sqldados.agendaDemandas;
-CREATE TABLE sqldados.agendaDemandas (
+CREATE TABLE sqldados.agendaDemandas
+(
   id       int NOT NULL AUTO_INCREMENT,
   date     int(10),
   titulo   VARCHAR(100),
@@ -171,7 +180,7 @@ ALTER TABLE sqldados.agendaDemandas
 ALTER TABLE sqldados.agendaDemandas
   ADD vendno INT DEFAULT 0;
 
-CREATE INDEX i1 ON sqldados.agendaDemandas(vendno);
+CREATE INDEX i1 ON sqldados.agendaDemandas (vendno);
 
 /*************************/
 
@@ -181,7 +190,7 @@ ALTER TABLE sqldados.nfComplemento
   ADD dataAgenda         int(10) DEFAULT 0;
 
 REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, chaveDesconto, observacaoAuxiliar,
-				    dataAgenda, pedidos)
+                                    dataAgenda, pedidos)
 SELECT storeno,
        pdvno,
        xano,
@@ -190,8 +199,8 @@ SELECT storeno,
        l15                 AS dataAgenda,
        IFNULL(pedidos, '') AS pedidos
 FROM sqldados.nf
-  LEFT JOIN sqldados.nfComplemento
-	      USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.nfComplemento
+                 USING (storeno, pdvno, xano)
 WHERE c6 != ''
    OR c4 != ''
    OR l15 != 0;
@@ -221,8 +230,8 @@ WHERE TRIM(CONCAT(E.c4, E.c5)) != ''
    OR E.auxLong4 != 0;
 
 REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, pedidos, chaveDesconto,
-				    observacaoAuxiliar,
-				    dataAgenda)
+                                    observacaoAuxiliar,
+                                    dataAgenda)
 SELECT storeno,
        pdvno,
        xano,
@@ -245,7 +254,8 @@ WHERE pdvno = 8888;
 
 /*************************************************************************/
 
-CREATE TABLE sqldados.vendComplemento (
+CREATE TABLE sqldados.vendComplemento
+(
   vendno int(10) NOT NULL,
   texto  text,
   PRIMARY KEY (vendno)

@@ -9,7 +9,7 @@ WHERE storeno = :loja
   AND xano = :transacao;
 
 REPLACE INTO sqldados.nfComplemento(storeno, pdvno, xano, chaveDesconto, observacaoAuxiliar,
-				    dataAgenda, pedidos, nfAjuste, dataNfAjuste)
+                                    dataAgenda, pedidos, nfAjuste, dataNfAjuste)
 SELECT :loja      AS storeno,
        :pdv       AS pdvno,
        :transacao AS xano,

@@ -8,7 +8,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabNotaSerie66ViewModel
 import br.com.astrosoft.framework.model.IUser
 
 class TabNotaSerie66(viewModel: TabNotaSerie66ViewModel) : TabDevolucaoAbstract<IDevolucao66View>(viewModel),
-    ITabNotaSerie66 {
+  ITabNotaSerie66 {
   override val label: String
     get() = "Notas"
   override val situacaoPendencia: ESituacaoPendencia?

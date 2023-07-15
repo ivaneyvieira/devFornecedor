@@ -28,9 +28,9 @@ import java.io.ByteArrayOutputStream
 class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
   private val ESPACAMENTO = 125
   private val labelTitleCol: TextColumnBuilder<String> =
-      col.column("", NotaSaida::labelTitlePedido.name, type.stringType()).apply {
-        setHeight(50)
-      }
+    col.column("", NotaSaida::labelTitlePedido.name, type.stringType()).apply {
+      setHeight(50)
+    }
 
   private val lojaCol: TextColumnBuilder<Int> = col.column("Loja", NotaSaida::loja.name, type.integerType()).apply {
     this.setHorizontalTextAlignment(CENTER)
@@ -38,23 +38,23 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
   }
 
   private val dataNotaCol: TextColumnBuilder<String> =
-      col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(80)
-      }
+    col.column("Data", NotaSaida::dataNotaStr.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(80)
+    }
 
   private val notaInvCol: TextColumnBuilder<String> =
-      col.column("Pedido", NotaSaida::numeroNotaPedido.name, type.stringType()).apply {
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(80)
-      }
+    col.column("Pedido", NotaSaida::numeroNotaPedido.name, type.stringType()).apply {
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(80)
+    }
 
   private val valorCol: TextColumnBuilder<Double> =
-      col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
-        this.setPattern("#,##0.00")
-        this.setHorizontalTextAlignment(RIGHT)
-        this.setFixedWidth(100)
-      }
+    col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
+      this.setPattern("#,##0.00")
+      this.setHorizontalTextAlignment(RIGHT)
+      this.setFixedWidth(100)
+    }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(emptyCol, lojaCol, dataNotaCol, notaInvCol, valorCol)
@@ -80,29 +80,29 @@ class RelatorioFornecedorPedido(val notas: List<NotaSaida>) {
 
   fun makeReport(): JasperReportBuilder {
     val itemGroup =
-        grp.group(labelTitleCol).setTitleWidth(0).setHeaderLayout(GroupHeaderLayout.VALUE).showColumnHeaderAndFooter()
+      grp.group(labelTitleCol).setTitleWidth(0).setHeaderLayout(GroupHeaderLayout.VALUE).showColumnHeaderAndFooter()
 
     val colunms = columnBuilder().toTypedArray()
     val pageOrientation = PORTRAIT
     return report()
-        .title(titleBuider())
-        .setTemplate(Templates.reportTemplate)
-        .setShowColumnTitle(false)
-        .columns(* colunms)
-        .columnGrid(* colunms)
-        .groupBy(itemGroup)
-        .addGroupFooter(itemGroup, cmp.text(""))
-        .setDataSource(notas.sortedWith(compareBy({ it.custno }, { it.dataNota })))
-        .setPageFormat(A4, pageOrientation)
-        .summary(pageFooterBuilder())
-        .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
-        .setColumnStyle(fieldFontNormal)
-        .setColumnTitleStyle(fieldFontNormalCol)
-        .setPageMargin(margin(0))
-        .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
-        .setColumnStyle(stl.style().setForegroundColor(Color.WHITE))
-        .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setLeft(ESPACAMENTO + 10)))
-        .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
+      .title(titleBuider())
+      .setTemplate(Templates.reportTemplate)
+      .setShowColumnTitle(false)
+      .columns(* colunms)
+      .columnGrid(* colunms)
+      .groupBy(itemGroup)
+      .addGroupFooter(itemGroup, cmp.text(""))
+      .setDataSource(notas.sortedWith(compareBy({ it.custno }, { it.dataNota })))
+      .setPageFormat(A4, pageOrientation)
+      .summary(pageFooterBuilder())
+      .pageFooter(cmp.pageNumber().setHorizontalTextAlignment(RIGHT).setStyle(stl.style().setFontSize(8)))
+      .setColumnStyle(fieldFontNormal)
+      .setColumnTitleStyle(fieldFontNormalCol)
+      .setPageMargin(margin(0))
+      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
+      .setColumnStyle(stl.style().setForegroundColor(Color.WHITE))
+      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setLeft(ESPACAMENTO + 10)))
+      .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
   }
 
   companion object {

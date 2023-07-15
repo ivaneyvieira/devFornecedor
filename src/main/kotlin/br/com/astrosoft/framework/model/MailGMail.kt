@@ -94,7 +94,7 @@ class MailGMail {
     val toSplit = toList.split(",").toList().map { it.trim() }
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
     val iaTo =
-        arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
+      arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
     toSplit.forEachIndexed { index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
@@ -132,11 +132,11 @@ class MailGMail {
           else it.subject?.contains(subjectSearch) ?: false
         }.mapNotNull { message ->
           EmailMessage(
-              messageID = (message as? IMAPMessage)?.messageID ?: "",
-              subject = message.subject ?: "",
-              data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
-              from = message.from.toList(),
-              to = message.allRecipients.toList()
+            messageID = (message as? IMAPMessage)?.messageID ?: "",
+            subject = message.subject ?: "",
+            data = message.receivedDate.toLocalDateTime() ?: LocalDateTime.now(),
+            from = message.from.toList(),
+            to = message.allRecipients.toList()
           )
         }
       }
@@ -228,11 +228,11 @@ class GmailAuthenticator(val username: String, val password: String) : Authentic
 }
 
 data class EmailMessage(
-    val messageID: String,
-    val subject: String,
-    val data: LocalDateTime,
-    val from: List<Address>,
-    val to: List<Address>
+  val messageID: String,
+  val subject: String,
+  val data: LocalDateTime,
+  val from: List<Address>,
+  val to: List<Address>
 ) {
   fun content(): Content {
     val gmail = MailGMail()

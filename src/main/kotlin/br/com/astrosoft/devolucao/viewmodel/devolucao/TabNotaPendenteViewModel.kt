@@ -6,7 +6,7 @@ import br.com.astrosoft.framework.viewmodel.fail
 import java.time.LocalDate
 
 class TabNotaPendenteViewModel(viewModel: DevolucaoPendenteViewModel, val getSubView: () -> ITabNota) :
-    TabDevolucaoViewModelAbstract<IDevolucaoPendenteView>(viewModel) {
+  TabDevolucaoViewModelAbstract<IDevolucaoPendenteView>(viewModel) {
   override fun salvaSituacao(situacao: ESituacaoPendencia?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")
     itens.ifEmpty {

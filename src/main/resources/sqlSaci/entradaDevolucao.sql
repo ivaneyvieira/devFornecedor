@@ -1,5 +1,6 @@
 DROP TEMPORARY TABLE IF EXISTS TVEND;
-CREATE TEMPORARY TABLE TVEND (
+CREATE TEMPORARY TABLE TVEND
+(
   PRIMARY KEY (vendno)
 )
 SELECT V.no       AS vendno,
@@ -7,9 +8,9 @@ SELECT V.no       AS vendno,
        V.name     AS fornecedorNome,
        V.email,
        V.auxLong4 AS fornecedorSap
-FROM sqldados.vend         AS V
-  LEFT JOIN sqldados.custp AS C
-	      ON C.cpf_cgc = V.cgc
+FROM sqldados.vend AS V
+       LEFT JOIN sqldados.custp AS C
+                 ON C.cpf_cgc = V.cgc
 WHERE V.name NOT LIKE 'ENGECOPI%'
 GROUP BY V.no;
 
@@ -53,19 +54,19 @@ SELECT N.storeno                                    AS loja,
        ''                                           AS chaveDesconto,
        ''                                           AS observacaoAuxiliar,
        ''                                           AS pedidos
-FROM sqldados.inv               AS N
-  LEFT JOIN  sqldados.invnfe    AS X
-	       USING (invno)
-  INNER JOIN sqldados.store     AS S
-	       ON S.no = N.storeno
-  LEFT JOIN  sqldados.nfdevRmk  AS R
-	       ON N.storeno = R.storeno AND R.pdvno = 9999 AND N.invno = R.xano
-  LEFT JOIN  sqldados.nfvendRmk AS RV
-	       ON RV.vendno = N.vendno AND RV.tipo = N.invse
-  INNER JOIN TVEND              AS V
-	       ON N.vendno = V.vendno
-  INNER JOIN sqldados.eord      AS O
-	       ON O.storeno = N.storeno AND O.ordno = N.ordno AND O.paymno = 316
+FROM sqldados.inv AS N
+       LEFT JOIN sqldados.invnfe AS X
+                 USING (invno)
+       INNER JOIN sqldados.store AS S
+                  ON S.no = N.storeno
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 ON N.storeno = R.storeno AND R.pdvno = 9999 AND N.invno = R.xano
+       LEFT JOIN sqldados.nfvendRmk AS RV
+                 ON RV.vendno = N.vendno AND RV.tipo = N.invse
+       INNER JOIN TVEND AS V
+                  ON N.vendno = V.vendno
+       INNER JOIN sqldados.eord AS O
+                  ON O.storeno = N.storeno AND O.ordno = N.ordno AND O.paymno = 316
 WHERE N.invse = '66'
   AND (N.bits & POW(2, 4) = 0)
 GROUP BY loja, pdv, transacao, dataNota, custno

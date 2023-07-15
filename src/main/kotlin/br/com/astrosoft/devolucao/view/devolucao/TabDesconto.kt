@@ -28,7 +28,7 @@ import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode
 
 class TabDesconto(val viewModel: TabDescontoViewModel) : TabPanelGrid<FornecedorDesconto>(FornecedorDesconto::class),
-    ITabDesconto {
+  ITabDesconto {
 
   override val label: String
     get() = "Desconto"

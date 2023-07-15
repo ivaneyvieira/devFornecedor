@@ -1,2 +1,3 @@
-DELETE FROM sqldados.agendaDemandas
+DELETE
+FROM sqldados.agendaDemandas
 WHERE id = :id

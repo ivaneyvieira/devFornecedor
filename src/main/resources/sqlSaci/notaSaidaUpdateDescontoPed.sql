@@ -20,12 +20,12 @@ WHERE storeno = :loja
  */
 
 REPLACE INTO sqldados.nfComplemento(storeno,
-				    pdvno,
-				    xano,
-				    pedidos,
-				    chaveDesconto,
-				    observacaoAuxiliar,
-				    dataAgenda)
+                                    pdvno,
+                                    xano,
+                                    pedidos,
+                                    chaveDesconto,
+                                    observacaoAuxiliar,
+                                    dataAgenda)
 SELECT :loja               AS storeno,
        980                 AS pdvno,
        :pedido             AS xano,

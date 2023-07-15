@@ -15,7 +15,7 @@ import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
 
 class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Boolean) :
-    ReportBuild<NfPrecEntradaGrupo>() {
+  ReportBuild<NfPrecEntradaGrupo>() {
   init {
     if (!fiscal) {
       columnInt(NfPrecEntradaGrupo::pedidoCompra, width = 40, title = "Pedido")
@@ -41,24 +41,24 @@ class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Bool
 
   override fun makeReport(): JasperReportBuilder {
     return super
-        .makeReport()
-        .setPageMargin(margin(0))
-        .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setTop(20)))
-        .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setFontSize(8))
-        .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(4)))
-        .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
+      .makeReport()
+      .setPageMargin(margin(0))
+      .setTitleStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setTop(20)))
+      .setColumnStyle(stl.style().setForegroundColor(Color.WHITE).setFontSize(8))
+      .setGroupStyle(stl.style().setForegroundColor(Color.WHITE).setPadding(padding().setLeft(4)))
+      .setBackgroundStyle(stl.style().setBackgroundColor(Color(35, 51, 72)))
   }
 
   override fun labelTitleCol() = columnString(NfPrecEntradaGrupo::nomeGrupo)
 
   override val propriedades =
-      PropriedadeRelatorio(
-          titulo = "NF x Precificação",
-          subTitulo = "",
-          color = Color.WHITE,
-          detailFonteSize = 8,
-          pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT
-      )
+    PropriedadeRelatorio(
+      titulo = "NF x Precificação",
+      subTitulo = "",
+      color = Color.WHITE,
+      detailFonteSize = 8,
+      pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT
+    )
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 

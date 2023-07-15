@@ -57,15 +57,15 @@ class PlanilhaDevolucaoSap(val filename: String) {
           val saldo = row.getCell(9).getDoubleValue()
           val storeno = row.getCell(19).getformatValue().mid(0, 2).toIntOrNull() ?: 0
           val nota =
-              NotaDevolucaoSap(
-                  codigoFor = codigoFor,
-                  nomeFor = nomeFor,
-                  storeno = storeno,
-                  numero = numero,
-                  dataLancamento = dataLancamento,
-                  dataVencimento = dataVencimento,
-                  saldo = saldo
-              )
+            NotaDevolucaoSap(
+              codigoFor = codigoFor,
+              nomeFor = nomeFor,
+              storeno = storeno,
+              numero = numero,
+              dataLancamento = dataLancamento,
+              dataVencimento = dataVencimento,
+              saldo = saldo
+            )
           listaNotas.add(nota)
         }
 

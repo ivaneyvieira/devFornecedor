@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
 class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
-    DevolucaoAbstractViewModel<IDevolucaoPendenteView>(view) {
+  DevolucaoAbstractViewModel<IDevolucaoPendenteView>(view) {
 
   val tabNotaPendenteBaseViewModel = TabNotaPendenteViewModel(this) {
     view.tabNotaPendenteBase
@@ -47,20 +47,20 @@ class DevolucaoPendenteViewModel(view: IDevolucaoPendenteView) :
   }
 
   override fun listTab() = listOf(
-      view.tabNotaPendenteBase,
-      view.tabNotaPendenteNota,
-      view.tabNotaPendenteCte,
-      view.tabNotaPendenteColeta,
-      view.tabNotaPendenteEmail,
-      view.tabNotaPendenteTransito,
-      view.tabNotaPendenteFabrica,
-      view.tabNotaPendenteCAguardar,
-      view.tabNotaPendenteCConcedido,
-      view.tabNotaPendenteCAplicado,
-      view.tabNotaPendenteCConta,
-      view.tabNotaPendenteBonificada,
-      view.tabNotaPendenteReposicao,
-      // view.tabNotaPendenteRetorno,
+    view.tabNotaPendenteBase,
+    view.tabNotaPendenteNota,
+    view.tabNotaPendenteCte,
+    view.tabNotaPendenteColeta,
+    view.tabNotaPendenteEmail,
+    view.tabNotaPendenteTransito,
+    view.tabNotaPendenteFabrica,
+    view.tabNotaPendenteCAguardar,
+    view.tabNotaPendenteCConcedido,
+    view.tabNotaPendenteCAplicado,
+    view.tabNotaPendenteCConta,
+    view.tabNotaPendenteBonificada,
+    view.tabNotaPendenteReposicao,
+    // view.tabNotaPendenteRetorno,
   )
 }
 
@@ -100,125 +100,125 @@ enum class ESituacaoPedido(val valueStr: String, val descricao: String, val pend
 }
 
 enum class ESituacaoPendencia(
-    val title: String,
-    val valueStr: String?,
-    val descricao: String,
-    val userCol: String? = null,
-    val dataSitCol: String? = null,
-    val situacaoCol: String? = null,
-    val notaCol: String? = "",
-    val docCol: String? = null,
-    val numeroCol: String? = null,
-    val niCol: String? = null,
-    val dataCol: String? = null,
-    val cssCor: String = "marcaRed"
+  val title: String,
+  val valueStr: String?,
+  val descricao: String,
+  val userCol: String? = null,
+  val dataSitCol: String? = null,
+  val situacaoCol: String? = null,
+  val notaCol: String? = "",
+  val docCol: String? = null,
+  val numeroCol: String? = null,
+  val niCol: String? = null,
+  val dataCol: String? = null,
+  val cssCor: String = "marcaRed"
 ) {
   BASE(title = "Todas", valueStr = null, descricao = "Todas"),
   NOTA(
-      title = "Nota",
-      valueStr = "",
-      descricao = "Nota",
-      notaCol = "Aguadar",
-      userCol = "",
-      dataSitCol = "",
-      docCol = "",
-      numeroCol = "",
-      niCol = "",
-      dataCol = "Saída"
+    title = "Nota",
+    valueStr = "",
+    descricao = "Nota",
+    notaCol = "Aguadar",
+    userCol = "",
+    dataSitCol = "",
+    docCol = "",
+    numeroCol = "",
+    niCol = "",
+    dataCol = "Saída"
   ),
   EMAIL(title = "E-mail", valueStr = "E-MAIL", descricao = "E-mail", docCol = "", numeroCol = "", niCol = ""),
   TRANSITO(
-      title = "Trânsito",
-      valueStr = "TRANSITO",
-      descricao = "Trânsito",
-      dataCol = "Saída",
-      docCol = "",
-      numeroCol = "",
-      niCol = ""
+    title = "Trânsito",
+    valueStr = "TRANSITO",
+    descricao = "Trânsito",
+    dataCol = "Saída",
+    docCol = "",
+    numeroCol = "",
+    niCol = ""
   ),
   FABRICA(title = "Fabrica", valueStr = "FABRICA", descricao = "Fábrica", docCol = "", numeroCol = "", niCol = ""),
   CREDITO_AGUARDAR(
-      title = "Aguarda",
-      valueStr = "CREDITO_AGUARDAR",
-      descricao = "Aguardar Crédito",
-      docCol = "",
-      niCol = "",
-      numeroCol = "Tipo:L"
+    title = "Aguarda",
+    valueStr = "CREDITO_AGUARDAR",
+    descricao = "Aguardar Crédito",
+    docCol = "",
+    niCol = "",
+    numeroCol = "Tipo:L"
   ),
   CREDITO_CONCEDIDO(
-      title = "Concedido",
-      valueStr = "CREDITO_CONCEDIDO",
-      descricao = "Crédito Concedido",
-      dataCol = "Previsão",
-      docCol = "Título",
-      numeroCol = ""
+    title = "Concedido",
+    valueStr = "CREDITO_CONCEDIDO",
+    descricao = "Crédito Concedido",
+    dataCol = "Previsão",
+    docCol = "Título",
+    numeroCol = ""
   ),
   CREDITO_APLICADO(
-      title = "Aplicado",
-      valueStr = "CREDITO_APLICADO",
-      descricao = "Crédito Aplicado",
-      docCol = "",
-      numeroCol = "Título",
-      dataCol = "Vencimento"
+    title = "Aplicado",
+    valueStr = "CREDITO_APLICADO",
+    descricao = "Crédito Aplicado",
+    docCol = "",
+    numeroCol = "Título",
+    dataCol = "Vencimento"
   ),
   CREDITO_CONTA(
-      title = "Conta",
-      valueStr = "CREDITO_CONTA",
-      descricao = "Crédito Conta",
-      docCol = "Ag",
-      numeroCol = "CC",
-      niCol = "Banco:L",
-      dataCol = "Previsão"
+    title = "Conta",
+    valueStr = "CREDITO_CONTA",
+    descricao = "Crédito Conta",
+    docCol = "Ag",
+    numeroCol = "CC",
+    niCol = "Banco:L",
+    dataCol = "Previsão"
   ),
   BONIFICADA(
-      title = "Bonificada",
-      valueStr = "BONIFICADA",
-      descricao = "Bonificado",
-      docCol = "",
-      numeroCol = "Nota",
-      dataCol = "Emissão"
+    title = "Bonificada",
+    valueStr = "BONIFICADA",
+    descricao = "Bonificado",
+    docCol = "",
+    numeroCol = "Nota",
+    dataCol = "Emissão"
   ),
   REPOSICAO(
-      title = "Reposição",
-      valueStr = "REPOSICAO",
-      descricao = "Reposição",
-      docCol = "",
-      numeroCol = "Nota",
-      dataCol = "Emissão"
+    title = "Reposição",
+    valueStr = "REPOSICAO",
+    descricao = "Reposição",
+    docCol = "",
+    numeroCol = "Nota",
+    dataCol = "Emissão"
   ),
   RETORNO(
-      title = "Retorno",
-      valueStr = "RETORNO",
-      descricao = "Retorno",
-      docCol = "",
-      numeroCol = "Nota",
-      dataCol = "Emissão"
+    title = "Retorno",
+    valueStr = "RETORNO",
+    descricao = "Retorno",
+    docCol = "",
+    numeroCol = "Nota",
+    dataCol = "Emissão"
   ),
   AGUARDA_COLETA(
-      title = "Coleta",
-      valueStr = "Aguarda Coleta",
-      descricao = "Aguarda Coleta",
-      docCol = "",
-      numeroCol = "",
-      niCol = "",
-      cssCor = "marcaDiferenca"
+    title = "Coleta",
+    valueStr = "Aguarda Coleta",
+    descricao = "Aguarda Coleta",
+    docCol = "",
+    numeroCol = "",
+    niCol = "",
+    cssCor = "marcaDiferenca"
   ),
   ASSINA_CTE(
-      title = "CTe",
-      valueStr = "Assinar CTe",
-      descricao = "Assinar CTe",
-      docCol = "",
-      numeroCol = "",
-      niCol = "",
-      cssCor = "marcaDiferenca"
+    title = "CTe",
+    valueStr = "Assinar CTe",
+    descricao = "Assinar CTe",
+    docCol = "",
+    numeroCol = "",
+    niCol = "",
+    cssCor = "marcaDiferenca"
   ),
   BANCO121(
-      title = "Banco 121",
-      valueStr = "Banco 121",
-      descricao = "Banco 121",
-      docCol = "",
-      numeroCol = "",
-      niCol = "",
-      cssCor = "marcaDiferenca"
+    title = "Banco 121",
+    valueStr = "Banco 121",
+    descricao = "Banco 121",
+    docCol = "",
+    numeroCol = "",
+    niCol = "",
+    cssCor = "marcaDiferenca"
   ),
 }

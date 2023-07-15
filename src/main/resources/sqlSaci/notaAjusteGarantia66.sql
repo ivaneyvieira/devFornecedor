@@ -1,8 +1,8 @@
 DROP TEMPORARY TABLE IF EXISTS T_CUST_VEND;
 CREATE TEMPORARY TABLE T_CUST_VEND
 (
-    PRIMARY KEY (custno, vendno),
-    INDEX (vendno)
+  PRIMARY KEY (custno, vendno),
+  INDEX (vendno)
 )
 SELECT IFNULL(C.no, -1) AS custno,
        V.no             AS vendno,
@@ -10,13 +10,13 @@ SELECT IFNULL(C.no, -1) AS custno,
        V.email,
        V.name
 FROM sqldados.vend AS V
-         INNER JOIN sqldados.custp AS C
-                    ON C.cpf_cgc = V.cgc;
+       INNER JOIN sqldados.custp AS C
+                  ON C.cpf_cgc = V.cgc;
 
 DROP TEMPORARY TABLE IF EXISTS TNF;
 CREATE TEMPORARY TABLE TNF
 (
-    PRIMARY KEY (storeno, nfno, nfse)
+  PRIMARY KEY (storeno, nfno, nfse)
 )
 SELECT N.storeno,
        N.pdvno,
@@ -51,34 +51,34 @@ SELECT N.storeno,
        IFNULL(chaveDesconto, '')                                         AS chaveDesconto,
        IFNULL(observacaoAuxiliar, '')                                    AS observacaoAuxiliar
 FROM sqldados.nf AS N /*FORCE INDEX (e3)*/
-         LEFT JOIN sqldados.nfComplemento NC
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN sqldados.natop AS OP
-                   ON OP.no = N.natopno
-         LEFT JOIN sqldados.nfes AS X
-                   ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
-         LEFT JOIN sqldados.nfdevRmk AS R
-                   ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
-         LEFT JOIN sqldados.nfrmk AS R2
-                   ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
-         LEFT JOIN sqldados.eord AS O
-                   ON O.storeno = N.storeno AND O.ordno = N.eordno
-         LEFT JOIN sqldados.eordrk AS OBS
-                   ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
+       LEFT JOIN sqldados.nfComplemento NC
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN sqldados.natop AS OP
+                 ON OP.no = N.natopno
+       LEFT JOIN sqldados.nfes AS X
+                 ON X.storeno = N.storeno AND X.pdvno = N.pdvno AND X.xano = N.xano
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 ON R.storeno = N.storeno AND R.pdvno = N.pdvno AND R.xano = N.xano
+       LEFT JOIN sqldados.nfrmk AS R2
+                 ON R2.storeno = N.storeno AND R2.pdvno = N.pdvno AND R2.xano = N.xano
+       LEFT JOIN sqldados.eord AS O
+                 ON O.storeno = N.storeno AND O.ordno = N.eordno
+       LEFT JOIN sqldados.eordrk AS OBS
+                 ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
 WHERE N.storeno IN (2, 3, 4, 5)
   AND N.status <> 1
-    /* AND CASE :TIPO_NOTA
-     WHEN 'AJT'
-       THEN N.remarks LIKE 'GARANTIA %'
-     WHEN 'AJD'
-       THEN N.remarks LIKE 'GARANTIA %' AND N.remarks NOT LIKE '%PERCA%' AND
-            N.remarks NOT LIKE '%PAGO%'
-     WHEN 'AJP'
-       THEN N.remarks LIKE 'GARANTIA %PAGO%' AND N.remarks NOT LIKE '%PERCA%'
-     WHEN 'AJC'
-       THEN N.remarks LIKE 'GARANTIA %PERCA%'
-     ELSE FALSE
-         END*/
+  /* AND CASE :TIPO_NOTA
+   WHEN 'AJT'
+     THEN N.remarks LIKE 'GARANTIA %'
+   WHEN 'AJD'
+     THEN N.remarks LIKE 'GARANTIA %' AND N.remarks NOT LIKE '%PERCA%' AND
+          N.remarks NOT LIKE '%PAGO%'
+   WHEN 'AJP'
+     THEN N.remarks LIKE 'GARANTIA %PAGO%' AND N.remarks NOT LIKE '%PERCA%'
+   WHEN 'AJC'
+     THEN N.remarks LIKE 'GARANTIA %PERCA%'
+   ELSE FALSE
+       END*/
   AND N.nfse = '66'
   AND N.cfo IN (6949, 5949)
   AND N.tipo = 2
@@ -87,7 +87,7 @@ GROUP BY N.storeno, N.nfno, N.nfse;
 DROP TEMPORARY TABLE IF EXISTS TDUP;
 CREATE TEMPORARY TABLE TDUP
 (
-    PRIMARY KEY (storeno, nfno, nfse)
+  PRIMARY KEY (storeno, nfno, nfse)
 )
 SELECT N.nfstoreno                      AS storeno,
        N.nfno,
@@ -97,11 +97,11 @@ SELECT N.nfstoreno                      AS storeno,
        MAX(duedate)                     AS vencimento,
        SUM(amtdue - disc_amt - amtpaid) AS valorDevido
 FROM sqldados.dup AS D
-         INNER JOIN sqldados.nfdup AS N
-                    ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
-                       N.dupse = D.dupse
-         INNER JOIN TNF NF
-                    ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
+       INNER JOIN sqldados.nfdup AS N
+                  ON N.dupstoreno = D.storeno AND N.duptype = D.type AND N.dupno = D.dupno AND
+                     N.dupse = D.dupse
+       INNER JOIN TNF NF
+                  ON N.nfstoreno = NF.storeno AND N.nfno = NF.nfno AND N.nfse = NF.nfse
 GROUP BY N.nfstoreno, N.nfno, N.nfse;
 
 SELECT N.storeno                                 AS loja,
@@ -148,19 +148,19 @@ SELECT N.storeno                                 AS loja,
        NC.observacaoAuxiliar                     AS observacaoAuxiliar,
        NC.pedidos                                AS pedidos
 FROM TNF AS N
-         LEFT JOIN sqldados.nfComplemento NC
-                   USING (storeno, pdvno, xano)
-         INNER JOIN sqldados.store AS S
-                    ON S.no = N.storeno
-         LEFT JOIN sqldados.nfdevRmk AS R
-                   USING (storeno, pdvno, xano)
-         LEFT JOIN TDUP AS D
-                   ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
-         LEFT JOIN sqldados.eordrk AS O
-                   ON O.storeno = N.storeno AND O.ordno = N.eordno
-         LEFT JOIN T_CUST_VEND AS C
-                   ON C.custno = N.custno
-         LEFT JOIN sqldados.nfvendRmk AS RV
-                   ON RV.vendno = C.vendno AND RV.tipo = N.nfse
+       LEFT JOIN sqldados.nfComplemento NC
+                 USING (storeno, pdvno, xano)
+       INNER JOIN sqldados.store AS S
+                  ON S.no = N.storeno
+       LEFT JOIN sqldados.nfdevRmk AS R
+                 USING (storeno, pdvno, xano)
+       LEFT JOIN TDUP AS D
+                 ON D.storeno = N.storeno AND D.nfno = N.nfno AND D.nfse = N.nfse
+       LEFT JOIN sqldados.eordrk AS O
+                 ON O.storeno = N.storeno AND O.ordno = N.eordno
+       LEFT JOIN T_CUST_VEND AS C
+                 ON C.custno = N.custno
+       LEFT JOIN sqldados.nfvendRmk AS RV
+                 ON RV.vendno = C.vendno AND RV.tipo = N.nfse
 WHERE (IFNULL(status, 0) <> 5)
 GROUP BY loja, pdv, transacao, dataNota, custno

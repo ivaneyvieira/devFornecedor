@@ -20,12 +20,12 @@ class RelatorioFornecedorNota(val subTitulo: String, val notas: List<FornecedorN
   }
 
   override val propriedades =
-      PropriedadeRelatorio(
-          titulo = "Notas do Fornecedor",
-          subTitulo = subTitulo,
-          detailFonteSize = 8,
-          pageOrientation = PORTRAIT
-      )
+    PropriedadeRelatorio(
+      titulo = "Notas do Fornecedor",
+      subTitulo = subTitulo,
+      detailFonteSize = 8,
+      pageOrientation = PORTRAIT
+    )
 
   override fun listDataSource(): List<FornecedorNota> = notas
 

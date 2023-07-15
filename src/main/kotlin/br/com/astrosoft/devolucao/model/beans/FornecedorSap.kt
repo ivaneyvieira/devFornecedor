@@ -6,12 +6,12 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.framework.util.format
 
 data class FornecedorSap(
-    val codigo: Int,
-    val vendno: Int = 0,
-    val custno: Int = 0,
-    val nome: String,
-    val quantidadeNotas: Int,
-    val notas: List<NotaDevolucaoSap>
+  val codigo: Int,
+  val vendno: Int = 0,
+  val custno: Int = 0,
+  val nome: String,
+  val quantidadeNotas: Int,
+  val notas: List<NotaDevolucaoSap>
 ) {
   private val notasSaci = calculaNotasSaci()
 
@@ -51,12 +51,12 @@ data class FornecedorSap(
       val fornecedores = listNotaSap.groupBy { it.codigoFor }.mapNotNull { ent ->
         val nota = ent.value.firstOrNull() ?: return@mapNotNull null
         FornecedorSap(
-            codigo = nota.codigoFor,
-            vendno = nota.vendno,
-            custno = nota.custno,
-            nome = nota.nomeFor,
-            quantidadeNotas = ent.value.size,
-            notas = ent.value
+          codigo = nota.codigoFor,
+          vendno = nota.vendno,
+          custno = nota.custno,
+          nome = nota.nomeFor,
+          quantidadeNotas = ent.value.size,
+          notas = ent.value
         )
       }
       return fornecedores

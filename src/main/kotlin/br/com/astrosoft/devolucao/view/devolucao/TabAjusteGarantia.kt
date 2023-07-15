@@ -25,7 +25,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 class TabAjusteGarantia(viewModel: TabAjusteGarantiaViewModel) : TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel),
-    ITabAjusteGarantia {
+  ITabAjusteGarantia {
   override val label: String
     get() = "Base"
   override val situacaoPendencia: ESituacaoPendencia?

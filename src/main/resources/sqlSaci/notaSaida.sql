@@ -8,11 +8,11 @@ SELECT N.storeno                                 AS loja,
        CAST(N.issuedate AS date)                 AS data,
        N.grossamt / 100                          AS valor,
        IFNULL(K.nfekey, '')                      AS chave
-FROM sqldados.nf            AS N
-  LEFT JOIN  sqldados.nfes  AS K
-	       USING (storeno, pdvno, xano)
-  INNER JOIN sqldados.custp AS C
-	       ON C.no = N.custno
+FROM sqldados.nf AS N
+       LEFT JOIN sqldados.nfes AS K
+                 USING (storeno, pdvno, xano)
+       INNER JOIN sqldados.custp AS C
+                  ON C.no = N.custno
 WHERE N.status <> 1
   AND N.tipo = 0
   AND (N.storeno = :loja)

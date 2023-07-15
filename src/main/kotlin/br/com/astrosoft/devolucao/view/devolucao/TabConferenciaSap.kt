@@ -36,7 +36,7 @@ import com.vaadin.flow.data.value.ValueChangeMode
 import java.io.File
 
 class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGrid<FornecedorSap>(FornecedorSap::class),
-    ITabConferenciaSap {
+  ITabConferenciaSap {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -61,7 +61,7 @@ class TabConferenciaSap(val viewModel: TabConferenciaSapViewModel) : TabPanelGri
   private fun HasComponents.uploadFileXls(): Pair<MultiFileMemoryBuffer, Upload> {
     val buffer = MultiFileMemoryBuffer()
     val upload =
-        Upload(buffer) //upload.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+      Upload(buffer) //upload.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     val uploadButton = Button("Planilha SAP")
     upload.uploadButton = uploadButton
     upload.isAutoUpload = true

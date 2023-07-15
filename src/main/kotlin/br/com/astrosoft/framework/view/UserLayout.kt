@@ -38,9 +38,9 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
 
   private fun setOperationd(crud: GridCrud<B>) {
     crud.setOperations({ viewModel.findAll() },
-        { user: B? -> viewModel.add(user) },
-        { user: B? -> viewModel.update(user) },
-        { user: B? -> viewModel.delete(user) })
+      { user: B? -> viewModel.add(user) },
+      { user: B? -> viewModel.update(user) },
+      { user: B? -> viewModel.delete(user) })
   }
 
   private fun layoutCrud(operation: CrudOperation?, domainObject: B?, readOnly: Boolean, binder: Binder<B>): Component {
@@ -68,13 +68,13 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
 }
 
 class UserCrudFormFactory<B : IUser>(private val createForm: (CrudOperation?, B?, Boolean, Binder<B>) -> Component) :
-    AbstractCrudFormFactory<B>() {
+  AbstractCrudFormFactory<B>() {
   override fun buildNewForm(
-      operation: CrudOperation?,
-      domainObject: B?,
-      readOnly: Boolean,
-      cancelButtonClickListener: ComponentEventListener<ClickEvent<Button>>?,
-      operationButtonClickListener: ComponentEventListener<ClickEvent<Button>>?
+    operation: CrudOperation?,
+    domainObject: B?,
+    readOnly: Boolean,
+    cancelButtonClickListener: ComponentEventListener<ClickEvent<Button>>?,
+    operationButtonClickListener: ComponentEventListener<ClickEvent<Button>>?
   ): Component {
     val binder = Binder(domainObject?.javaClass)
     return VerticalLayout().apply {

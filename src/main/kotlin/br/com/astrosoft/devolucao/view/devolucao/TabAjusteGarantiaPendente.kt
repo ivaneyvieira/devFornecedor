@@ -23,7 +23,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 class TabAjusteGarantiaPendente(viewModel: TabAjusteGarantiaPendenteViewModel) :
-    TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPendente {
+  TabDevolucaoAbstract<IDevolucaoInternaView>(viewModel), ITabAjusteGarantiaPendente {
   override val label: String
     get() = "Pendente"
   override val situacaoPendencia: ESituacaoPendencia?

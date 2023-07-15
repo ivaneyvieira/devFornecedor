@@ -3,10 +3,10 @@ package br.com.astrosoft.devolucao.model.beans
 import br.com.astrosoft.devolucao.model.saci
 
 class FornecedorDesconto(
-    val vendno: Int,
-    val custno: Int,
-    val fornecedor: String,
-    val notas: List<NotaEntradaDesconto>,
+  val vendno: Int,
+  val custno: Int,
+  val fornecedor: String,
+  val notas: List<NotaEntradaDesconto>,
 ) {
   val labelTitle: String
     get() = "Fornecedor: $vendno - $fornecedor"
@@ -30,10 +30,10 @@ class FornecedorDesconto(
         val listFor = saci.descontoDevolucao(filtro).groupBy { it.vendno }.mapNotNull { ent ->
           val nota = ent.value.firstOrNull() ?: return@mapNotNull null
           FornecedorDesconto(
-              vendno = nota.vendno,
-              custno = nota.custno,
-              fornecedor = nota.fornecedor,
-              notas = ent.value
+            vendno = nota.vendno,
+            custno = nota.custno,
+            fornecedor = nota.fornecedor,
+            notas = ent.value
           )
         }
         fornecedores.clear()

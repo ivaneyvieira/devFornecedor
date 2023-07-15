@@ -41,11 +41,11 @@ class TabCteViewModel(val viewModel: EntradaViewModel) {
   fun imprimeRelatorioResumo(listNotas: List<NfEntradaFrete>) {
     val listaRelatorioFrete = listNotas.filter { it.freteDif }.map { nota ->
       NfFreteGrupo(
-          nomeGrupo = "Diferenças de Frete",
-          nota = nota,
-          cte = nota.cte,
-          valorNota = nota.valorCte.format(),
-          valorCalculado = nota.totalFrete.format(),
+        nomeGrupo = "Diferenças de Frete",
+        nota = nota,
+        cte = nota.cte,
+        valorNota = nota.valorCte.format(),
+        valorCalculado = nota.totalFrete.format(),
       )
     }
 

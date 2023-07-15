@@ -9,7 +9,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.TabPedidoEditorViewModel
 import br.com.astrosoft.framework.model.IUser
 
 class TabPedidoEditor(viewModel: TabPedidoEditorViewModel) : TabPedidoAbstract<IDevolucaoPedidoView>(viewModel),
-    ITabPedidoEditor {
+  ITabPedidoEditor {
   override val label: String
     get() = "Editor"
   override val situacaoPendencia: ESituacaoPendencia?

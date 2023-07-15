@@ -4,15 +4,15 @@ import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
 class AgendaDemanda(
-    var id: Int = 0,
-    var date: LocalDate,
-    var titulo: String,
-    var conteudo: String,
-    var concluido: String = "N",
-    var quantAnexo: Int = 0,
-    var vendno: Int = 0,
-    var destino: String,
-    var origem: String,
+  var id: Int = 0,
+  var date: LocalDate,
+  var titulo: String,
+  var conteudo: String,
+  var concluido: String = "N",
+  var quantAnexo: Int = 0,
+  var vendno: Int = 0,
+  var destino: String,
+  var origem: String,
 ) {
 
   val conteudoSingle

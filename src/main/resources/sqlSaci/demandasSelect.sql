@@ -13,7 +13,8 @@ SELECT @QUERY, @QINT, @QDOUBLE, @QDATESTR
 */
 
 DROP TEMPORARY TABLE IF EXISTS T_FILE;
-CREATE TEMPORARY TABLE T_FILE (
+CREATE TEMPORARY TABLE T_FILE
+(
   PRIMARY KEY (id)
 )
 SELECT xano AS id, COUNT(*) AS quantAnexo
@@ -32,8 +33,8 @@ SELECT id,
        destino,
        origem
 FROM sqldados.agendaDemandas AS A
-  LEFT JOIN T_FILE           AS F
-	      USING (id)
+       LEFT JOIN T_FILE AS F
+                 USING (id)
 WHERE (concluido = :concluido OR :concluido = '')
   AND (titulo LIKE @QTEXT_LIKE OR conteudo LIKE @QTEXT_LIKE OR destino LIKE @QTEXT_LIKE OR
        @QTEXT IS NULL)
