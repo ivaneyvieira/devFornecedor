@@ -125,7 +125,7 @@ class TabSped(val viewModel: TabSpedViewModel) : ITabSpedViewModel, ITabPanel {
   }
 
   override val label: String
-    get() = "Ent ST"
+    get() = "Sped"
 
   override fun updateComponent() {
   }
