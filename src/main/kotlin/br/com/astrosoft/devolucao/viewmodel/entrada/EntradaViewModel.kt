@@ -10,6 +10,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebidoViewModel(this)
   val tabNfPrecFiscalViewModel = TabNfPrecFiscalViewModel(this)
   val tabSpedViewModel = TabSpedViewModel(this)
+  val tabPreEntViewModel = TabPreEntViewModel(this)
   val tabFreteViewModel = TabFreteViewModel(this)
   val tabFretePerViewModel = TabFretePerViewModel(this)
   val tabCteViewModel = TabCteViewModel(this)
@@ -23,6 +24,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabEntradaNddViewModel,
     view.tabEntradaNddReceberViewModel,
     view.tabEntradaNddRecebidoViewModel,
+    view.tabPreEntViewModel,
     view.tabNfPrecFiscalViewModel,
     view.tabSpedViewModel,
     view.tabNfPrecInfoViewModel,
@@ -42,6 +44,7 @@ interface IEntradaView : IView {
   val tabEntradaNddReceberViewModel: ITabEntradaNddReceberViewModel
   val tabNfPrecFiscalViewModel: ITabNfPrecFiscalViewModel
   val tabSpedViewModel: ITabSpedViewModel
+  val tabPreEntViewModel: ITabPreEntViewModel
   val tabFretePerViewModel: ITabFretePerViewModel
   val tabCteViewModel: ITabCteViewModel
   val tabFreteViewModel: ITabFreteViewModel
