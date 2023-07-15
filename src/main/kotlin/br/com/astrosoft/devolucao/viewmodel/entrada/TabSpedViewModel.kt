@@ -12,9 +12,9 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabEntSTViewModel(val viewModel: EntradaViewModel) {
+class TabSpedViewModel(val viewModel: EntradaViewModel) {
   val subView
-    get() = viewModel.view.tabEntSTViewModel
+    get() = viewModel.view.tabSpedViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro())
@@ -68,7 +68,7 @@ class TabEntSTViewModel(val viewModel: EntradaViewModel) {
   }
 }
 
-interface ITabEntSTViewModel : ITabView {
+interface ITabSpedViewModel : ITabView {
   fun setFiltro(filtro: FiltroRelatorio)
   fun getFiltro(): FiltroRelatorio
   fun openRelatorio()

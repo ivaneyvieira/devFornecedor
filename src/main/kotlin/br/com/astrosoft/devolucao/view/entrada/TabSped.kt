@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabEntSTViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabEntSTViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabSpedViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabSpedViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabEntST(val viewModel: TabEntSTViewModel) : ITabEntSTViewModel, ITabPanel {
+class TabSped(val viewModel: TabSpedViewModel) : ITabSpedViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -76,7 +76,7 @@ class TabEntST(val viewModel: TabEntSTViewModel) : ITabEntSTViewModel, ITabPanel
   }
 
   override fun openRelatorio() {
-    DlgRelatorioEntST(viewModel, getFiltro()).show()
+    DlgRelatorioSped(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
