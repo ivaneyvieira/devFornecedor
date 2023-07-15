@@ -31,17 +31,22 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotal
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabSpedViewModel
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
+import com.github.mvysny.kaributools.fetchAll
+import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.component.grid.ColumnTextAlign
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
+import kotlin.reflect.KProperty1
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioSped(val viewModel: TabSpedViewModel, val filtro: FiltroRelatorio) {
@@ -60,8 +65,10 @@ class DlgRelatorioSped(val viewModel: TabSpedViewModel, val filtro: FiltroRelato
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
     }) {
-      gridNota = createGrid(dataProviderGrid)
       val list = viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }))
+      dataProviderGrid.items.clear()
+      dataProviderGrid.items.addAll(list)
+      gridNota = createGrid(dataProviderGrid)
       gridNota.setItems(list)
       HorizontalLayout().apply {
         setSizeFull()
@@ -95,23 +102,31 @@ class DlgRelatorioSped(val viewModel: TabSpedViewModel, val filtro: FiltroRelato
       notaIcmsn().setHeader("ICMS")
       notaIpin().setHeader("IPI")
       notaQuant().setHeader("Qtd")
-      notaValor().marcaTotal()
-      notaVlDesconto().marcaTotal()
-      notaVlLiquido().marcaTotal()
-      notaVlFrete().marcaTotal()
-      notaVlDespesa().marcaTotal()
-      notaVlIcms().marcaTotal()
-      notaVlIpi().marcaTotal()
-      notaBaseSubst().marcaTotal()
-      notaVlSubst().marcaTotal()
-      notaVlTotal().marcaTotal()
+      notaValor().marcaTotal(NfPrecEntrada::valor)
+      notaVlDesconto().marcaTotal(NfPrecEntrada::vlDesconto)
+      notaVlLiquido().marcaTotal(NfPrecEntrada::vlLiquido)
+      notaVlFrete().marcaTotal(NfPrecEntrada::vlFrete)
+      notaVlDespesa().marcaTotal(NfPrecEntrada::vlDespesas)
+      notaVlIcms().marcaTotal(NfPrecEntrada::vlIcms)
+      notaVlIpi().marcaTotal(NfPrecEntrada::vlIpi)
+      notaBaseSubst().marcaTotal(NfPrecEntrada::baseSubst)
+      notaVlSubst().marcaTotal(NfPrecEntrada::vlIcmsSubst)
+      notaVlTotal().marcaTotal(NfPrecEntrada::vlTotal)
+      setClassNameGenerator {
+        if (it?.lj == 999) "marcaTotal" else null
+      }
     }
   }
 
-  private fun Grid.Column<NfPrecEntrada>.marcaTotal() {
-    setClassNameGenerator {
-      if(it?.lj == 999) "marcaTotal" else null
-    }
+  private fun Grid.Column<NfPrecEntrada>.marcaTotal(prop: KProperty1<NfPrecEntrada, Double?>) {
+    val lista = this.grid.dataProvider.fetchAll()
+    val total = lista.sumOf {
+      val bean = it as? NfPrecEntrada ?: return@sumOf 0.0
+      if(bean.lj == 999) return@sumOf 0.0
+      prop.get(bean) ?: 0.0
+    }.format()
+    val foot = setFooter(Html("<b><font size=4>${total}</font></b>"))
+    foot.textAlign = ColumnTextAlign.END
   }
 }
 
