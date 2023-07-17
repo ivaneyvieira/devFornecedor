@@ -1,8 +1,8 @@
-package br.com.astrosoft.devolucao.view.entrada
+package br.com.astrosoft.devolucao.view.preentrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabPrecoPreRecViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabPrecoPreRecViewModel
+import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabPreEntViewModel
+import br.com.astrosoft.devolucao.viewmodel.preentrada.TabPreEntViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -18,9 +18,8 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecViewModel, ITabPanel {
+class TabPreEnt(val viewModel: TabPreEntViewModel) : ITabPreEntViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
-  private lateinit var edtListaProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
   private lateinit var edtFornecedorCad: IntegerField
@@ -45,7 +44,6 @@ class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecVi
     edtUlmNota.value = filtro.ultimaNota
     edtRotulo.value = filtro.rotulo
     edtCaracter.value = filtro.caraterInicial
-    edtListaProduto.value = filtro.listaProdutos
   }
 
   override fun getFiltro(): FiltroRelatorio {
@@ -73,12 +71,12 @@ class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecVi
       caraterInicial = edtCaracter.value ?: "",
       comGrade = true,
       pesquisa = "",
-      listaProdutos = edtListaProduto.value ?: "",
+      listaProdutos = "",
     )
   }
 
   override fun openRelatorio() {
-    DlgRelatorioPrecoPreRec(viewModel, getFiltro()).show()
+    DlgRelatorioPreEnt(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -111,11 +109,6 @@ class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecVi
       edtProduto = textField("Produto")
       edtRotulo = textField("Rótulo")
     }
-    horizontalLayout {
-      edtListaProduto = textField("Lista de Produto") {
-        this.width = "600px"
-      }
-    }
     br()
     button("Relatório") {
       icon = VaadinIcon.RECORDS.create()
@@ -128,11 +121,11 @@ class TabPrecoPreRec(val viewModel: TabPrecoPreRecViewModel) : ITabPrecoPreRecVi
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaPrecoPreRec == true
+    return username?.entradaNddNFPrec == true
   }
 
   override val label: String
-    get() = "Pre Recebimento"
+    get() = "Pre Ent"
 
   override fun updateComponent() {
   }
