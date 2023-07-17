@@ -17,7 +17,7 @@ class TabPreEntViewModel(val viewModel: EntradaViewModel) {
     get() = viewModel.view.tabPreEntViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro())
+    saci.queryPreRecebimento(subView.getFiltro())
     subView.openRelatorio()
   }
 
