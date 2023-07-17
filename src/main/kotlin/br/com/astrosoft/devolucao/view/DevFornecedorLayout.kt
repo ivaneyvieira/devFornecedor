@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.view.compra.CompraView
 import br.com.astrosoft.devolucao.view.demanda.DemandaView
 import br.com.astrosoft.devolucao.view.devolucao.*
 import br.com.astrosoft.devolucao.view.entrada.EntradaView
+import br.com.astrosoft.devolucao.view.preentrada.PreEntradaView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
 import br.com.astrosoft.devolucao.view.saida.SaidaView
 import br.com.astrosoft.devolucao.view.teste.AssinaturaView
@@ -29,6 +30,7 @@ class DevFornecedorLayout : MainLayout() {
     menuRoute(FORM, "Pedido", DevolucaoPedidoView::class)
     menuRoute(FORM, "Série 66", Devolucao66View::class)
     menuRoute(FORM, "Compra", CompraView::class)
+    menuRoute(FORM, "Pré-entrada", PreEntradaView::class)
     menuRoute(FORM, "Entrada", EntradaView::class)
     menuRoute(FORM, "Saida", SaidaView::class)
     menuRoute(TRUCK, "Recebimento", RecebimentoView::class)

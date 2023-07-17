@@ -1,4 +1,4 @@
-package br.com.astrosoft.devolucao.viewmodel.entrada
+package br.com.astrosoft.devolucao.viewmodel.preentrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.Loja
@@ -12,7 +12,7 @@ import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabPreEntViewModel(val viewModel: EntradaViewModel) {
+class TabPreEntViewModel(val viewModel: PreEntradaViewModel) {
   val subView
     get() = viewModel.view.tabPreEntViewModel
 
