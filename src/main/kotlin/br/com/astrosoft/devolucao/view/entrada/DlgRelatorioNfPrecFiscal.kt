@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.EValidade
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
@@ -63,30 +64,6 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       }
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
-      }
-      this.comboDiferencaNum("Frete") {
-        value = filtro.frete
-
-        this.addValueChangeListener {
-          filtro.frete = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-      }
-      this.select<EValidade> {
-        label = "Validade"
-        setItems(EValidade.values().toList())
-        value = EValidade.TODAS
-        this.setItemLabelGenerator {
-          it.descricao
-        }
-
-        this.addValueChangeListener {
-          filtro.tipoValidade = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
-        }
-
       }
       this.comboDiferencaStr("ICMS") {
         value = filtro.icms
@@ -153,15 +130,13 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       notaProd().marcaDiferenca { difGeral(true) }
       notaDescricao()
       notaQuant()
-      notaValidade()
-      notaEstoque()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
       notaIcmsn().marcaDiferenca { icmsDif == "N" }
       notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
       notaIpip().marcaDiferenca { ipiDif == "N" }
-      notaCstn().marcaDiferenca { cstDif == "N" }
+      notaCst().marcaDiferenca { cstDif == "N" }
       notaCstp().marcaDiferenca { cstDif == "N" }
       notaMvan().marcaDiferenca { mvaDif == "N" }
       notaMvap().marcaDiferenca { mvaDif == "N" }
