@@ -1,10 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada.columms
 
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object UltimaNotaEntradaColumns {
@@ -31,21 +28,25 @@ object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaNfe() = addColumnString(NfPrecEntrada::nfe) {
     this.setHeader("Nota")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaFornCad() = addColumnString(NfPrecEntrada::fornCad) {
     this.setHeader("F Cad")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaFornNota() = addColumnString(NfPrecEntrada::fornNota) {
     this.setHeader("F Nota")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaProd() = addColumnString(NfPrecEntrada::prod) {
     this.setHeader("Prod")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaDescricao() = addColumnString(NfPrecEntrada::descricao) {
@@ -96,11 +97,13 @@ object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaCstn() = addColumnString(NfPrecEntrada::cstn) {
     this.setHeader("CST N")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCstp() = addColumnString(NfPrecEntrada::cstp) {
     this.setHeader("CST P")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaMvan() = addColumnDouble(NfPrecEntrada::mvanAprox) {
@@ -116,11 +119,13 @@ object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaBarcodep() = addColumnString(NfPrecEntrada::barcodep) {
     this.setHeader("Barras P")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaBarcoden() = addColumnString(NfPrecEntrada::barcoden) {
     this.setHeader("Barras N")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaRefPrdp() = addColumnString(NfPrecEntrada::refPrdp) {
@@ -236,21 +241,25 @@ object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaNcmn() = addColumnString(NfPrecEntrada::ncmn) {
     this.setHeader("NCM N")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaNcmp() = addColumnString(NfPrecEntrada::ncmp) {
     this.setHeader("NCM P")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCFOP() = addColumnString(NfPrecEntrada::cfop) {
     this.setHeader("CFPO")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCst() = addColumnString(NfPrecEntrada::cstIcms) {
     this.setHeader("Cst N")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaValor() = addColumnDouble(NfPrecEntrada::valor) {
