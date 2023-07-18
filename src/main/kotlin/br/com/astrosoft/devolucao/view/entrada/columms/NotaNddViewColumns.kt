@@ -13,6 +13,7 @@ object NotaNddViewColumns {
   fun Grid<NotaEntradaNdd>.notaNotaSaci() = addColumnString(NotaEntradaNdd::notaFiscal) {
     this.setHeader("Nota Saci")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaNdd>.notaNumeroPedido() = addColumnInt(NotaEntradaNdd::ordno) {

@@ -1,10 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada.columms
 
 import br.com.astrosoft.devolucao.model.beans.NfEntradaFrete
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object NFECteColumns {
@@ -16,11 +13,13 @@ object NFECteColumns {
   fun Grid<NfEntradaFrete>.notaNI() = addColumnString(NfEntradaFrete::ni) {
     this.setHeader("NI")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfEntradaFrete>.notaNF() = addColumnString(NfEntradaFrete::nf) {
     this.setHeader("NF")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NfEntradaFrete>.notaEmissao() = addColumnLocalDate(NfEntradaFrete::emissao, formatPattern = "dd/MM/yy") {
