@@ -3,17 +3,20 @@ package br.com.astrosoft.devolucao.view.entrada.columms
 import br.com.astrosoft.devolucao.model.beans.ProdutoNotaEntradaNdd
 import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.right
 import com.vaadin.flow.component.grid.Grid
 
 object ProdutosNotaNddColumns {
   fun Grid<ProdutoNotaEntradaNdd>.produtoCodigo() = addColumnString(ProdutoNotaEntradaNdd::codigo) {
     this.setHeader("Código")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoCodBarra() = addColumnString(ProdutoNotaEntradaNdd::codBarra) {
     this.setHeader("Código de Barras")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoDescricao() = addColumnString(ProdutoNotaEntradaNdd::descricao) {
@@ -24,16 +27,19 @@ object ProdutosNotaNddColumns {
   fun Grid<ProdutoNotaEntradaNdd>.produtoNcm() = addColumnString(ProdutoNotaEntradaNdd::ncm) {
     this.setHeader("NCM")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoCst() = addColumnString(ProdutoNotaEntradaNdd::cst) {
     this.setHeader("CST")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoCfop() = addColumnString(ProdutoNotaEntradaNdd::cfop) {
     this.setHeader("CFOP")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoUn() = addColumnString(ProdutoNotaEntradaNdd::un) {

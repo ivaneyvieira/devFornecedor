@@ -1,10 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada.columms
 
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaQuery
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object NotaEntradaQueryColumns {
@@ -26,6 +23,7 @@ object NotaEntradaQueryColumns {
   fun Grid<NotaEntradaQuery>.notaQueryNfe() = addColumnString(NotaEntradaQuery::nfe) {
     this.setHeader("NF")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryFornCad() = addColumnInt(NotaEntradaQuery::fornCad) {
@@ -41,6 +39,7 @@ object NotaEntradaQueryColumns {
   fun Grid<NotaEntradaQuery>.notaQueryProd() = addColumnString(NotaEntradaQuery::prod) {
     this.setHeader("Prod")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryDescricao() = addColumnString(NotaEntradaQuery::descricao) {
@@ -51,16 +50,19 @@ object NotaEntradaQueryColumns {
   fun Grid<NotaEntradaQuery>.notaQueryNcm() = addColumnString(NotaEntradaQuery::ncm) {
     this.setHeader("NCM")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryCst() = addColumnString(NotaEntradaQuery::cstn) {
     this.setHeader("CST")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryCfop() = addColumnString(NotaEntradaQuery::cfop) {
     this.setHeader("CFOP")
     this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaEntradaQuery>.notaQueryUn() = addColumnString(NotaEntradaQuery::un) {
