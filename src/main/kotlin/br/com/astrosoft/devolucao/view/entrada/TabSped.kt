@@ -121,7 +121,7 @@ class TabSped(val viewModel: TabSpedViewModel) : ITabSpedViewModel, ITabPanel {
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddNFPrec == true
+    return username?.entradaSped == true
   }
 
   override val label: String

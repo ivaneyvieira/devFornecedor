@@ -122,7 +122,7 @@ class TabPreEntFiscal(val viewModel: TabPreEntFiscalViewModel) : ITabPreEntFisca
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddNFPrec == true
+    return username?.preEntradaFiscal == true
   }
 
   override val label: String

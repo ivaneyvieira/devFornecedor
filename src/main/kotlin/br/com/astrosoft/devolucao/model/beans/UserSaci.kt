@@ -92,6 +92,9 @@ class UserSaci : IUser {
   var entradaCte by DelegateAuthorized(68)
   var entradaFileNFE by DelegateAuthorized(69)
   var pedidoFinalizado by DelegateAuthorized(70)
+  var entradaSped by DelegateAuthorized(71)
+  var preEntradaPreEnt by DelegateAuthorized(72)
+  var preEntradaFiscal by DelegateAuthorized(73)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
