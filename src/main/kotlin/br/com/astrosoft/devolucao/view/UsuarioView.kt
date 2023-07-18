@@ -65,69 +65,6 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           isReadOnly = readOnly
           binder.bind(this, UserSaci::senhaPrint.name)
         }
-        /*
-        formLayout {
-          h4("Pendentes") {
-            colspan = 2
-          }
-          checkBox("Base") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteBASE.name)
-          }
-          checkBox("Nota") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteNOTA.name)
-          }
-          checkBox("E-mail") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteEMAIL.name)
-          }
-          checkBox("Trânsito") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteTRANSITO.name)
-          }
-          checkBox("Fábrica") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteFABRICA.name)
-          }
-          checkBox("Aguardar Crédito") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteCREDITO_AGUARDAR.name)
-          }
-          checkBox("Crédito Concedido") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteCREDITO_CONCEDIDO.name)
-          }
-          checkBox("Crédito Aplicado") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteCREDITO_APLICADO.name)
-          }
-          checkBox("Crédito Conta") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteCREDITO_CONTA.name)
-          }
-          checkBox("Bonificada") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteBONIFICADA.name)
-          }
-          checkBox("Reposição") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteREPOSICAO.name)
-          }
-          checkBox("Retorno") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteRETORNO.name)
-          }
-          checkBox("Coleta Pendente") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteAGUARDA_COLETA.name)
-          }
-          checkBox("Cte Pendente") {
-            isReadOnly = readOnly
-            binder.bind(this, UserSaci::forPendenteASSINA_CTE.name)
-          }
-        }
-        */
         formLayout {
           h4("NFD") {
             colspan = 2
@@ -274,6 +211,19 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           }
         }
         formLayout {
+          h4("Pré-entrada") {
+            colspan = 2
+          }
+          checkBox("Pre Ent") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::preEntradaPreEnt.name)
+          }
+          checkBox("Fiscal") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::preEntradaFiscal.name)
+          }
+        }
+        formLayout {
           h4("Entrada") {
             colspan = 2
           }
@@ -288,6 +238,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
           checkBox("Recebido") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaNddRecebido.name)
+          }
+          checkBox("Sped") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaSped.name)
           }
           checkBox("NF x Prec Fiscal") {
             isReadOnly = readOnly

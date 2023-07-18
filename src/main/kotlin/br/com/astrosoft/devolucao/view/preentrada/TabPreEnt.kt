@@ -121,7 +121,7 @@ class TabPreEnt(val viewModel: TabPreEntViewModel) : ITabPreEntViewModel, ITabPa
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddNFPrec == true
+    return username?.preEntradaPreEnt == true
   }
 
   override val label: String
