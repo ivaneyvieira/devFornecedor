@@ -6,6 +6,6 @@ fun main() {
   val timei = System.currentTimeMillis()
   val nfe = parseNotaFiscal(xml)
   val timef = System.currentTimeMillis()
+  nfe.infNFe.detalhes.forEach {println(it.prod?.xProd)}
   println("Tempo: ${timef - timei}")
-  println(nfe)
 }
