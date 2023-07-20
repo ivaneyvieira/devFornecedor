@@ -15,6 +15,7 @@ typealias QueryHandle = Query.() -> Unit
 
 open class QueryDB(driver: String, url: String, username: String, password: String) {
   protected val sql2o: Sql2o
+  val BATCH_SIZE = 500
 
   init {
     registerDriver(driver)
@@ -44,6 +45,23 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
       ret
     }
   }
+
+  protected fun <T : Any> queryLazy(
+    file: String, classes: KClass<T>,
+    process: (bean: List<T>) -> Unit,
+    lambda: QueryHandle = {}
+  ) {
+    val statements = toStratments(file)
+    if (statements.isEmpty()) return
+    val lastIndex = statements.lastIndex
+    val query = statements[lastIndex]
+    val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
+    transaction { con ->
+      scriptSQL(con, updates, lambda)
+      querySQLLazy(con, query, classes, process, lambda)
+    }
+  }
+
 
   protected fun <R : Any> querySerivce(
     file: String,
@@ -82,6 +100,33 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return query.executeAndFetch(classes.java)
   }
 
+  private fun <T : Any> querySQLLazy(
+    con: Connection,
+    sql: String?,
+    classes: KClass<T>,
+    process: (bean: List<T>) -> Unit,
+    lambda: QueryHandle = {}
+  ) {
+    val query = con.createQueryConfig(sql)
+    query.lambda()
+    println(sql)
+    val batch = mutableListOf<T>()
+    query.executeAndFetchLazy(classes.java).use { beans ->
+      beans.forEach { bean ->
+        if (batch.size == BATCH_SIZE) {
+          process(batch)
+          batch.clear()
+        }
+        batch.add(bean)
+      }
+    }
+
+    if (batch.isNotEmpty()) {
+      process(batch)
+      batch.clear()
+    }
+  }
+
   protected fun script(file: String, lambda: QueryHandle = {}) {
     val stratments = toStratments(file)
     transaction { con ->
@@ -113,9 +158,9 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
 
   private fun scriptSQL(con: Connection, stratments: List<String>, lambda: List<QueryHandle>) {
-    stratments.forEach { sql ->
-      val query = con.createQueryConfig(sql)
-      lambda.forEach { lamb ->
+    lambda.forEach { lamb ->
+      stratments.forEach { sql ->
+        val query = con.createQueryConfig(sql)
         query.lamb()
         query.executeUpdate()
         println(sql)

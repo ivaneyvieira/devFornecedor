@@ -19,12 +19,21 @@ fun Element.getElements(tagName: String): List<Element> {
   return elements.toList()
 }
 
-fun Element.getElement(tagName: String): Element? {
+fun Element.getElement(tagName: Regex): Element? {
+  val nodeList = getElementsByTagName("*")
+  for (i in 0 until nodeList.length) {
+    val element = nodeList.item(i) as? Element
+    if (element != null && tagName.matches(element.tagName)) return element
+  }
+  return null
+}
+
+fun Document.getElement(tagName: String): Element? {
   val nodeList = getElementsByTagName(tagName)
   return if (nodeList.length > 0) nodeList.item(0) as Element else null
 }
 
-fun Document.getElement(tagName: String): Element? {
+fun Element.getElement(tagName: String): Element? {
   val nodeList = getElementsByTagName(tagName)
   return if (nodeList.length > 0) nodeList.item(0) as Element else null
 }
@@ -140,7 +149,7 @@ fun parseNotaFiscal(xmlString: String): NFe {
       )
     }
 
-    val icmsElement = impostoElement.getElement("ICMS00")
+    val icmsElement = impostoElement.getElement("ICMS.+".toRegex())
     val ipiElement = impostoElement.getElement("IPITrib")
     val pisElement = impostoElement.getElement("PISAliq")
     val cofinsElement = impostoElement.getElement("COFINSAliq")

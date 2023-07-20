@@ -90,8 +90,9 @@ data class FornecedorNdd(
       val agora = LocalDateTime.now()
       if (agora > datahoraUpdate.plusMinutes(5) && !DB.test) {
         thread(start = true) {
-          val notas = ndd.notasEntrada()
-          saci.saveNotaNdd(notas)
+          ndd.notasEntrada { notas ->
+            saci.saveNotaNdd(notas)
+          }
           datahoraUpdate = agora
         }
       }

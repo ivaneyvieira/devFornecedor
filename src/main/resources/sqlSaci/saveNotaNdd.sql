@@ -26,4 +26,4 @@ REPLACE INTO sqldados.notasEntradaNdd (id, numero, serie, dataEmissao, cnpjEmite
 DELETE
 FROM sqldados.notasEntradaNdd
 WHERE id = :id
-  AND :cancelado = 'S';
+  AND :cancelado = 'S'
