@@ -7,7 +7,9 @@ fun main() {
   val nfe = parseNotaFiscal(xml)
   val timef = System.currentTimeMillis()
   nfe.infNFe.detalhes.forEach {
+    println(it.prod?.cProd)
     println(it.prod?.xProd)
+    println(it.imposto?.icms?.orig)
     println(it.imposto?.icms?.cst)
     println(it.imposto?.icms?.pICMS)
   }

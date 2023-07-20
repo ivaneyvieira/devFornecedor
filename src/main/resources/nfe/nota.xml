@@ -1,144 +1,89 @@
 <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-    <infNFe Id="NFe22230707727035000338550010001560831842252880" versao="4.00">
+    <infNFe Id="NFe26230633081704002139550140000615891571845393" versao="4.00">
         <ide>
-            <cUF>22</cUF>
-            <cNF>84225288</cNF>
-            <natOp>VENDA SUBST S/IPI/ VENDA S/SUBST C/IPI/ VENDA C/SUBS C/IPI</natOp>
+            <cUF>26</cUF>
+            <cNF>57184539</cNF>
+            <natOp>Venda merc.adq.receb.de terceiros / Vnd mer.adq.rec.ter.op.</natOp>
             <mod>55</mod>
-            <serie>1</serie>
-            <nNF>156083</nNF>
-            <dhEmi>2023-07-10T10:23:00-03:00</dhEmi>
-            <dhSaiEnt>2023-07-10T10:23:00-03:00</dhSaiEnt>
+            <serie>14</serie>
+            <nNF>61589</nNF>
+            <dhEmi>2023-06-27T17:27:12-03:00</dhEmi>
             <tpNF>1</tpNF>
-            <idDest>1</idDest>
-            <cMunFG>2203305</cMunFG>
+            <idDest>2</idDest>
+            <cMunFG>2610707</cMunFG>
             <tpImp>1</tpImp>
             <tpEmis>1</tpEmis>
-            <cDV>0</cDV>
+            <cDV>3</cDV>
             <tpAmb>1</tpAmb>
             <finNFe>1</finNFe>
             <indFinal>0</indFinal>
             <indPres>9</indPres>
             <indIntermed>0</indIntermed>
             <procEmi>0</procEmi>
-            <verProc>12.1.033 | 3.0</verProc>
+            <verProc>SAP NFE 10.0</verProc>
         </ide>
         <emit>
-            <CNPJ>07727035000338</CNPJ>
-            <xNome>VERBRAS-INDUSTRIA E COMERCIO DE TINTAS LTDA.</xNome>
-            <xFant>DEMERVAL LOBAO</xFant>
+            <CNPJ>33081704002139</CNPJ>
+            <xNome>Sika S.A.</xNome>
+            <xFant>PAULISTA</xFant>
             <enderEmit>
-                <xLgr>AV PE JOAQUIM NONATO</xLgr>
-                <nro>SN</nro>
-                <xCpl>KM 31</xCpl>
-                <xBairro>SANTA RITA</xBairro>
-                <cMun>2203305</cMun>
-                <xMun>DEMERVAL LOBAO</xMun>
-                <UF>PI</UF>
-                <CEP>64390000</CEP>
-                <cPais>1058</cPais>
-                <xPais>BRASIL</xPais>
-                <fone>8621063750</fone>
+                <xLgr>Avenida Doutor Rinaldo de Pinho Alves</xLgr>
+                <nro>2680</nro>
+                <xCpl>Parte B</xCpl>
+                <xBairro>Paratibe</xBairro>
+                <cMun>2610707</cMun>
+                <xMun>Paulista</xMun>
+                <UF>PE</UF>
+                <CEP>53411902</CEP>
+                <xPais>Brasil</xPais>
             </enderEmit>
-            <IE>194733947</IE>
+            <IE>044410956</IE>
+            <IEST>195102037</IEST>
+            <IM>512.902-8</IM>
+            <CNAE>2330399</CNAE>
             <CRT>3</CRT>
         </emit>
         <dest>
-            <CNPJ>07483654000324</CNPJ>
-            <xNome>ENGECOPI - COM DE MAT DE CONST LTDA(MR)</xNome>
+            <CNPJ>07483654000405</CNPJ>
+            <xNome>ENGECOPI COMERCIO DE MATERIAIS DE C</xNome>
             <enderDest>
-                <xLgr>AVE MIGUEL ROSA</xLgr>
-                <nro>7015</nro>
-                <xBairro>TABULETA</xBairro>
+                <xLgr>R MAGALHAES FILHO</xLgr>
+                <nro>2001</nro>
+                <xBairro>MARGUES</xBairro>
                 <cMun>2211001</cMun>
                 <xMun>TERESINA</xMun>
                 <UF>PI</UF>
-                <CEP>64018550</CEP>
+                <CEP>64002450</CEP>
                 <cPais>1058</cPais>
-                <xPais>BRASIL</xPais>
-                <fone>08632171900</fone>
+                <xPais>Brasil</xPais>
+                <fone>8631316565</fone>
             </enderDest>
             <indIEDest>1</indIEDest>
-            <IE>194387178</IE>
-            <email>engecopi.nfe@engecopi.com.br;oliviamiranda1@gmail.com;contas</email>
+            <IE>194459969</IE>
         </dest>
         <det nItem="1">
             <prod>
-                <cProd>260018102641</cProd>
-                <cEAN>7899023847616</cEAN>
-                <xProd>STANDARD FOSCO INT/EXT BP 18L AREIA 2641</xProd>
-                <NCM>32091010</NCM>
-                <CEST>2400100</CEST>
-                <cBenef></cBenef>
-                <CFOP>5401</CFOP>
-                <uCom>LT</uCom>
-                <qCom>10.0000</qCom>
-                <vUnCom>157.18000000</vUnCom>
-                <vProd>1571.80</vProd>
-                <cEANTrib>7899023847616</cEANTrib>
-                <uTrib>LT</uTrib>
-                <qTrib>10.0000</qTrib>
-                <vUnTrib>157.18000000</vUnTrib>
+                <cProd>000000000000512806</cProd>
+                <cEAN>17896785314674</cEAN>
+                <xProd>SikaMultiSeal Primer /6x1L</xProd>
+                <NCM>27150000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>5.0000</qCom>
+                <vUnCom>74.9940000000</vUnCom>
+                <vProd>374.97</vProd>
+                <cEANTrib>17896785314674</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>5.0000</qTrib>
+                <vUnTrib>74.9940000000</vUnTrib>
                 <indTot>1</indTot>
-            </prod>
-            <imposto>
-                <ICMS>
-                    <ICMS10>
-                        <orig>0</orig>
-                        <CST>10</CST>
-                        <modBC>3</modBC>
-                        <vBC>1571.80</vBC>
-                        <pICMS>21.0000</pICMS>
-                        <vICMS>330.08</vICMS>
-                        <modBCST>4</modBCST>
-                        <pMVAST>35.0000</pMVAST>
-                        <vBCST>2121.93</vBCST>
-                        <pICMSST>21.0000</pICMSST>
-                        <vICMSST>115.53</vICMSST>
-                    </ICMS10>
-                </ICMS>
-                <IPI>
-                    <cEnq>999</cEnq>
-                    <IPINT>
-                        <CST>53</CST>
-                    </IPINT>
-                </IPI>
-                <PIS>
-                    <PISAliq>
-                        <CST>01</CST>
-                        <vBC>1571.80</vBC>
-                        <pPIS>1.6500</pPIS>
-                        <vPIS>25.93</vPIS>
-                    </PISAliq>
-                </PIS>
-                <COFINS>
-                    <COFINSAliq>
-                        <CST>01</CST>
-                        <vBC>1571.80</vBC>
-                        <pCOFINS>7.6000</pCOFINS>
-                        <vCOFINS>119.46</vCOFINS>
-                    </COFINSAliq>
-                </COFINS>
-            </imposto>
-            <infAdProd>- PROD BASE D'AGUA, NAO CLASSIF. COMO INFLAMAVEL,</infAdProd>
-        </det>
-        <det nItem="2">
-            <prod>
-                <cProd>000420109990</cProd>
-                <cEAN>7899023861636</cEAN>
-                <xProd>M. CORRIDA PVA VERLATEX MASSA BD PLAST 20KG</xProd>
-                <NCM>32141020</NCM>
-                <cBenef></cBenef>
-                <CFOP>5101</CFOP>
-                <uCom>BD</uCom>
-                <qCom>70.0000</qCom>
-                <vUnCom>32.90000000</vUnCom>
-                <vProd>2303.00</vProd>
-                <cEANTrib>7899023861636</cEANTrib>
-                <uTrib>BD</uTrib>
-                <qTrib>70.0000</qTrib>
-                <vUnTrib>32.90000000</vUnTrib>
-                <indTot>1</indTot>
+                <nItemPed>10</nItemPed>
+                <rastro>
+                    <nLote>3007184295</nLote>
+                    <qLote>5.000</qLote>
+                    <dFab>2023-05-05</dFab>
+                    <dVal>2024-05-05</dVal>
+                </rastro>
             </prod>
             <imposto>
                 <ICMS>
@@ -146,56 +91,437 @@
                         <orig>0</orig>
                         <CST>00</CST>
                         <modBC>3</modBC>
-                        <vBC>2303.00</vBC>
-                        <pICMS>21.0000</pICMS>
-                        <vICMS>483.63</vICMS>
+                        <vBC>374.97</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>45.00</vICMS>
                     </ICMS00>
                 </ICMS>
                 <IPI>
                     <cEnq>999</cEnq>
-                    <IPITrib>
-                        <CST>50</CST>
-                        <vBC>2303.00</vBC>
-                        <pIPI>1.3000</pIPI>
-                        <vIPI>29.94</vIPI>
-                    </IPITrib>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
                 </IPI>
                 <PIS>
                     <PISAliq>
                         <CST>01</CST>
-                        <vBC>2303.00</vBC>
+                        <vBC>329.97</vBC>
                         <pPIS>1.6500</pPIS>
-                        <vPIS>38.00</vPIS>
+                        <vPIS>5.44</vPIS>
                     </PISAliq>
                 </PIS>
                 <COFINS>
                     <COFINSAliq>
                         <CST>01</CST>
-                        <vBC>2303.00</vBC>
+                        <vBC>329.97</vBC>
                         <pCOFINS>7.6000</pCOFINS>
-                        <vCOFINS>175.02</vCOFINS>
+                        <vCOFINS>25.08</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="2">
+            <prod>
+                <cProd>000000000000530085</cProd>
+                <cEAN>17896785315435</cEAN>
+                <xProd>Sika ECO Primer /4x3,6L</xProd>
+                <NCM>27150000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>10.0000</qCom>
+                <vUnCom>131.9930000000</vUnCom>
+                <vProd>1319.93</vProd>
+                <cEANTrib>17896785315435</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>10.0000</qTrib>
+                <vUnTrib>131.9930000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>20</nItemPed>
+                <rastro>
+                    <nLote>3007196141</nLote>
+                    <qLote>10.000</qLote>
+                    <dFab>2023-05-10</dFab>
+                    <dVal>2024-05-10</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>1319.93</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>158.39</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>1161.54</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>19.17</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>1161.54</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>88.28</vCOFINS>
                     </COFINSAliq>
                 </COFINS>
             </imposto>
         </det>
         <det nItem="3">
             <prod>
-                <cProd>002110200001</cProd>
-                <cEAN>7899023863012</cEAN>
-                <xProd>VERNIZ TRIPLO FILT SOLAR GL 3L NATURAL</xProd>
-                <NCM>32089010</NCM>
-                <CEST>2400100</CEST>
-                <cBenef></cBenef>
-                <CFOP>5401</CFOP>
-                <uCom>GL</uCom>
-                <qCom>20.0000</qCom>
-                <vUnCom>74.25000000</vUnCom>
-                <vProd>1485.00</vProd>
-                <cEANTrib>7899023863012</cEANTrib>
-                <uTrib>GL</uTrib>
-                <qTrib>20.0000</qTrib>
-                <vUnTrib>74.25000000</vUnTrib>
+                <cProd>000000000000530011</cProd>
+                <cEAN>7896785315421</cEAN>
+                <xProd>Sika ECO Primer Bd 18L</xProd>
+                <NCM>27150000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>PC</uCom>
+                <qCom>10.0000</qCom>
+                <vUnCom>131.9930000000</vUnCom>
+                <vProd>1319.93</vProd>
+                <cEANTrib>7896785315421</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>10.0000</qTrib>
+                <vUnTrib>131.9930000000</vUnTrib>
                 <indTot>1</indTot>
+                <nItemPed>30</nItemPed>
+                <rastro>
+                    <nLote>3007021382</nLote>
+                    <qLote>4.000</qLote>
+                    <dFab>2023-03-13</dFab>
+                    <dVal>2024-03-13</dVal>
+                </rastro>
+                <rastro>
+                    <nLote>3007045803</nLote>
+                    <qLote>6.000</qLote>
+                    <dFab>2023-03-23</dFab>
+                    <dVal>2024-03-23</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>1319.93</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>158.39</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>1161.54</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>19.17</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>1161.54</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>88.28</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="4">
+            <prod>
+                <cProd>000000000000501546</cProd>
+                <cEAN>17896785312465</cEAN>
+                <xProd>SikaMultiSeal S alu.10m/100mm BR /16 ROL</xProd>
+                <NCM>68071000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>1.0000</qCom>
+                <vUnCom>352.0000000000</vUnCom>
+                <vProd>352.00</vProd>
+                <cEANTrib>17896785312465</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>1.0000</qTrib>
+                <vUnTrib>352.0000000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>40</nItemPed>
+                <rastro>
+                    <nLote>3007081937</nLote>
+                    <qLote>1.000</qLote>
+                    <dFab>2023-04-04</dFab>
+                    <dVal>2025-04-04</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>352.00</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>42.24</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>352.00</vBC>
+                        <pIPI>3.2500</pIPI>
+                        <vIPI>11.44</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>309.76</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>5.11</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>309.76</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>23.54</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="5">
+            <prod>
+                <cProd>000000000000501549</cProd>
+                <cEAN>17896785312489</cEAN>
+                <xProd>SikaMultiSeal S alu.10m/200mm BR /8 ROL</xProd>
+                <NCM>68071000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>6.0000</qCom>
+                <vUnCom>352.0033333333</vUnCom>
+                <vProd>2112.02</vProd>
+                <cEANTrib>17896785312489</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>6.0000</qTrib>
+                <vUnTrib>352.0033333333</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>50</nItemPed>
+                <rastro>
+                    <nLote>3007137927</nLote>
+                    <qLote>6.000</qLote>
+                    <dFab>2023-04-20</dFab>
+                    <dVal>2025-04-20</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>2112.02</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>253.44</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>2112.02</vBC>
+                        <pIPI>3.2500</pIPI>
+                        <vIPI>68.64</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>1858.58</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>30.67</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>1858.58</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>141.25</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="6">
+            <prod>
+                <cProd>000000000000501550</cProd>
+                <cEAN>17896785312496</cEAN>
+                <xProd>SikaMultiSeal S alum.10m/300mm BR /8 ROL</xProd>
+                <NCM>68071000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>10.0000</qCom>
+                <vUnCom>503.9940000000</vUnCom>
+                <vProd>5039.94</vProd>
+                <cEANTrib>17896785312496</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>10.0000</qTrib>
+                <vUnTrib>503.9940000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>60</nItemPed>
+                <rastro>
+                    <nLote>3007171789</nLote>
+                    <qLote>10.000</qLote>
+                    <dFab>2023-05-02</dFab>
+                    <dVal>2025-05-02</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>5039.94</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>604.79</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>5039.94</vBC>
+                        <pIPI>3.2500</pIPI>
+                        <vIPI>163.80</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>4435.15</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>73.18</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>4435.15</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>337.07</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="7">
+            <prod>
+                <cProd>000000000000556369</cProd>
+                <cEAN>7896785316572</cEAN>
+                <xProd>SikaMultiSeal Cobertu.100cm alu(10m) ROL</xProd>
+                <NCM>68071000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>ROL</uCom>
+                <qCom>30.0000</qCom>
+                <vUnCom>183.9970000000</vUnCom>
+                <vProd>5519.91</vProd>
+                <cEANTrib>7896785316572</cEANTrib>
+                <uTrib>ROL</uTrib>
+                <qTrib>30.0000</qTrib>
+                <vUnTrib>183.9970000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>70</nItemPed>
+                <rastro>
+                    <nLote>3007021468</nLote>
+                    <qLote>30.000</qLote>
+                    <dFab>2023-03-15</dFab>
+                    <dVal>2025-03-15</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>5519.91</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>662.39</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>5519.91</vBC>
+                        <pIPI>3.2500</pIPI>
+                        <vIPI>179.40</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>4857.52</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>80.15</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>4857.52</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>369.17</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="8">
+            <prod>
+                <cProd>000000000000561381</cProd>
+                <cEAN>7896785316947</cEAN>
+                <xProd>Igolflex Fachada white Lt 4,7KG</xProd>
+                <NCM>32091010</NCM>
+                <CEST>2400100</CEST>
+                <CFOP>6403</CFOP>
+                <uCom>PC</uCom>
+                <qCom>40.0000</qCom>
+                <vUnCom>46.9947500000</vUnCom>
+                <vProd>1879.79</vProd>
+                <cEANTrib>7896785316947</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>40.0000</qTrib>
+                <vUnTrib>46.9947500000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>90</nItemPed>
+                <rastro>
+                    <nLote>3007178201</nLote>
+                    <qLote>11.000</qLote>
+                    <dFab>2023-05-02</dFab>
+                    <dVal>2024-11-02</dVal>
+                </rastro>
+                <rastro>
+                    <nLote>3007262903</nLote>
+                    <qLote>29.000</qLote>
+                    <dFab>2023-05-26</dFab>
+                    <dVal>2024-11-26</dVal>
+                </rastro>
             </prod>
             <imposto>
                 <ICMS>
@@ -203,146 +529,732 @@
                         <orig>0</orig>
                         <CST>10</CST>
                         <modBC>3</modBC>
-                        <vBC>1485.00</vBC>
-                        <pICMS>21.0000</pICMS>
-                        <vICMS>311.85</vICMS>
+                        <vBC>1879.79</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>225.57</vICMS>
                         <modBCST>4</modBCST>
-                        <pMVAST>35.0000</pMVAST>
-                        <vBCST>2069.90</vBCST>
+                        <pMVAST>50.3800</pMVAST>
+                        <vBCST>2826.83</vBCST>
                         <pICMSST>21.0000</pICMSST>
-                        <vICMSST>122.82</vICMSST>
+                        <vICMSST>368.06</vICMSST>
                     </ICMS10>
                 </ICMS>
                 <IPI>
                     <cEnq>999</cEnq>
-                    <IPITrib>
-                        <CST>50</CST>
-                        <vBC>1485.00</vBC>
-                        <pIPI>3.2500</pIPI>
-                        <vIPI>48.26</vIPI>
-                    </IPITrib>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
                 </IPI>
                 <PIS>
                     <PISAliq>
                         <CST>01</CST>
-                        <vBC>1485.00</vBC>
+                        <vBC>1654.22</vBC>
                         <pPIS>1.6500</pPIS>
-                        <vPIS>24.51</vPIS>
+                        <vPIS>27.29</vPIS>
                     </PISAliq>
                 </PIS>
                 <COFINS>
                     <COFINSAliq>
                         <CST>01</CST>
-                        <vBC>1485.00</vBC>
+                        <vBC>1654.22</vBC>
                         <pCOFINS>7.6000</pCOFINS>
-                        <vCOFINS>112.86</vCOFINS>
+                        <vCOFINS>125.72</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="9">
+            <prod>
+                <cProd>000000000000679661</cProd>
+                <cEAN>7896785321200</cEAN>
+                <xProd>Igolflex Fachada branco Ka 20KG</xProd>
+                <NCM>32091010</NCM>
+                <CEST>2400100</CEST>
+                <CFOP>6403</CFOP>
+                <uCom>PC</uCom>
+                <qCom>30.0000</qCom>
+                <vUnCom>183.9970000000</vUnCom>
+                <vProd>5519.91</vProd>
+                <cEANTrib>7896785321200</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>30.0000</qTrib>
+                <vUnTrib>183.9970000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>100</nItemPed>
+                <rastro>
+                    <nLote>3007137643</nLote>
+                    <qLote>30.000</qLote>
+                    <dFab>2023-04-24</dFab>
+                    <dVal>2024-10-24</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS10>
+                        <orig>0</orig>
+                        <CST>10</CST>
+                        <modBC>3</modBC>
+                        <vBC>5519.91</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>662.39</vICMS>
+                        <modBCST>4</modBCST>
+                        <pMVAST>50.3800</pMVAST>
+                        <vBCST>8300.84</vBCST>
+                        <pICMSST>21.0000</pICMSST>
+                        <vICMSST>1080.79</vICMSST>
+                    </ICMS10>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>4857.52</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>80.15</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>4857.52</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>369.17</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="10">
+            <prod>
+                <cProd>000000000000696222</cProd>
+                <cEAN>7896785322108</cEAN>
+                <xProd>SSH P44 PE Tipo I 3 mm 1,00/10m ROL</xProd>
+                <NCM>68071000</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>ROL</uCom>
+                <qCom>40.0000</qCom>
+                <vUnCom>252.0035000000</vUnCom>
+                <vProd>10080.14</vProd>
+                <cEANTrib>7896785322108</cEANTrib>
+                <uTrib>ROL</uTrib>
+                <qTrib>40.0000</qTrib>
+                <vUnTrib>252.0035000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>110</nItemPed>
+                <rastro>
+                    <nLote>3006581845</nLote>
+                    <qLote>2.000</qLote>
+                    <dFab>2022-09-16</dFab>
+                    <dVal>2027-09-16</dVal>
+                </rastro>
+                <rastro>
+                    <nLote>3006912162</nLote>
+                    <qLote>38.000</qLote>
+                    <dFab>2023-02-02</dFab>
+                    <dVal>2028-02-02</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>10080.14</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>1209.62</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>10080.14</vBC>
+                        <pIPI>3.2500</pIPI>
+                        <vIPI>327.60</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>8870.52</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>146.36</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>8870.52</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>674.16</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="11">
+            <prod>
+                <cProd>000000000000499358</cProd>
+                <cEAN>17896785306624</cEAN>
+                <xProd>Sikadur Epoxi (AB) BR /6x1KG</xProd>
+                <NCM>32141010</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>10.0000</qCom>
+                <vUnCom>263.9990000000</vUnCom>
+                <vProd>2639.99</vProd>
+                <cEANTrib>17896785306624</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>10.0000</qTrib>
+                <vUnTrib>263.9990000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>120</nItemPed>
+                <rastro>
+                    <nLote>3007257166</nLote>
+                    <qLote>10.000</qLote>
+                    <dFab>2023-05-25</dFab>
+                    <dVal>2025-05-25</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>2639.99</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>316.80</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>2639.99</vBC>
+                        <pIPI>1.3000</pIPI>
+                        <vIPI>34.32</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>2323.19</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>38.33</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>2323.19</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>176.56</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="12">
+            <prod>
+                <cProd>000000000000517139</cProd>
+                <cEAN>17896785303760</cEAN>
+                <xProd>Sikadur Epoxi Tix (AB) BR /6x1KG</xProd>
+                <NCM>32141010</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>10.0000</qCom>
+                <vUnCom>237.0020000000</vUnCom>
+                <vProd>2370.02</vProd>
+                <cEANTrib>17896785303760</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>10.0000</qTrib>
+                <vUnTrib>237.0020000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>130</nItemPed>
+                <rastro>
+                    <nLote>3007078817</nLote>
+                    <qLote>10.000</qLote>
+                    <dFab>2023-04-03</dFab>
+                    <dVal>2024-10-03</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>2370.02</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>284.40</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>2370.02</vBC>
+                        <pIPI>1.3000</pIPI>
+                        <vIPI>30.81</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>2085.62</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>34.41</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>2085.62</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>158.51</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="13">
+            <prod>
+                <cProd>000000000000454417</cProd>
+                <cEAN>7896785302315</cEAN>
+                <xProd>SikaFill Rapido branco BR Bd 15KG</xProd>
+                <NCM>32091010</NCM>
+                <CEST>2400100</CEST>
+                <CFOP>6403</CFOP>
+                <uCom>PC</uCom>
+                <qCom>30.0000</qCom>
+                <vUnCom>183.9970000000</vUnCom>
+                <vProd>5519.91</vProd>
+                <cEANTrib>7896785302315</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>30.0000</qTrib>
+                <vUnTrib>183.9970000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>150</nItemPed>
+                <rastro>
+                    <nLote>3007217243</nLote>
+                    <qLote>30.000</qLote>
+                    <dFab>2023-05-15</dFab>
+                    <dVal>2024-11-15</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS10>
+                        <orig>0</orig>
+                        <CST>10</CST>
+                        <modBC>3</modBC>
+                        <vBC>5519.91</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>662.39</vICMS>
+                        <modBCST>4</modBCST>
+                        <pMVAST>50.3800</pMVAST>
+                        <vBCST>8300.84</vBCST>
+                        <pICMSST>21.0000</pICMSST>
+                        <vICMSST>1080.79</vICMSST>
+                    </ICMS10>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>4857.52</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>80.15</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>4857.52</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>369.17</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="14">
+            <prod>
+                <cProd>000000000000504858</cProd>
+                <cEAN>17896785313295</cEAN>
+                <xProd>Sikaflex-101 Sela Plus branBR/12 CTR400G</xProd>
+                <NCM>32141010</NCM>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>3.0000</qCom>
+                <vUnCom>197.9966666667</vUnCom>
+                <vProd>593.99</vProd>
+                <cEANTrib>17896785313295</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>3.0000</qTrib>
+                <vUnTrib>197.9966666667</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>160</nItemPed>
+                <nFCI>1E8C218A-1AF9-4F73-AE6B-D6DDFA25A562</nFCI>
+                <rastro>
+                    <nLote>3007184816</nLote>
+                    <qLote>3.000</qLote>
+                    <dFab>2023-05-06</dFab>
+                    <dVal>2024-05-06</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>5</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>593.99</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>71.28</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPITrib>
+                        <CST>50</CST>
+                        <vBC>593.99</vBC>
+                        <pIPI>1.3000</pIPI>
+                        <vIPI>7.72</vIPI>
+                    </IPITrib>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>522.71</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>8.62</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>522.71</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>39.73</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+            <infAdProd>nº FCI: 1E8C218A-1AF9-4F73-AE6B-D6DDFA25A562</infAdProd>
+        </det>
+        <det nItem="15">
+            <prod>
+                <cProd>000000000000428058</cProd>
+                <cEAN>SEM GTIN</cEAN>
+                <xProd>SikaTop-100 (AB) BR /4x4KG</xProd>
+                <NCM>32149000</NCM>
+                <CEST>1000300</CEST>
+                <CFOP>6102</CFOP>
+                <uCom>CXC</uCom>
+                <qCom>6.0000</qCom>
+                <vUnCom>62.9983333333</vUnCom>
+                <vProd>377.99</vProd>
+                <cEANTrib>SEM GTIN</cEANTrib>
+                <uTrib>CXC</uTrib>
+                <qTrib>6.0000</qTrib>
+                <vUnTrib>62.9983333333</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>180</nItemPed>
+                <rastro>
+                    <nLote>3007133414</nLote>
+                    <qLote>6.000</qLote>
+                    <dFab>2023-04-20</dFab>
+                    <dVal>2024-01-20</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>377.99</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>45.36</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>332.63</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>5.49</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>332.63</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>25.28</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="16">
+            <prod>
+                <cProd>000000000000428057</cProd>
+                <cEAN>7896785304227</cEAN>
+                <xProd>SikaTop-100 (AB) BR Cx 18KG</xProd>
+                <NCM>32149000</NCM>
+                <CEST>1000300</CEST>
+                <CFOP>6101</CFOP>
+                <uCom>PC</uCom>
+                <qCom>30.0000</qCom>
+                <vUnCom>41.9983333333</vUnCom>
+                <vProd>1259.95</vProd>
+                <cEANTrib>7896785304227</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>30.0000</qTrib>
+                <vUnTrib>41.9983333333</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>190</nItemPed>
+                <rastro>
+                    <nLote>3007309859</nLote>
+                    <qLote>30.000</qLote>
+                    <dFab>2023-06-12</dFab>
+                    <dVal>2024-03-12</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>1259.95</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>151.19</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>1108.76</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>18.29</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>1108.76</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>84.27</vCOFINS>
+                    </COFINSAliq>
+                </COFINS>
+            </imposto>
+        </det>
+        <det nItem="17">
+            <prod>
+                <cProd>000000000000428037</cProd>
+                <cEAN>7896785304654</cEAN>
+                <xProd>SikaTop Flex (AB) Cx 18KG</xProd>
+                <NCM>32149000</NCM>
+                <CEST>1000300</CEST>
+                <CFOP>6102</CFOP>
+                <uCom>PC</uCom>
+                <qCom>2.0000</qCom>
+                <vUnCom>110.0050000000</vUnCom>
+                <vProd>220.01</vProd>
+                <cEANTrib>7896785304654</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>2.0000</qTrib>
+                <vUnTrib>110.0050000000</vUnTrib>
+                <indTot>1</indTot>
+                <nItemPed>200</nItemPed>
+                <rastro>
+                    <nLote>3007173395</nLote>
+                    <qLote>2.000</qLote>
+                    <dFab>2023-05-04</dFab>
+                    <dVal>2024-02-04</dVal>
+                </rastro>
+            </prod>
+            <imposto>
+                <ICMS>
+                    <ICMS00>
+                        <orig>0</orig>
+                        <CST>00</CST>
+                        <modBC>3</modBC>
+                        <vBC>220.01</vBC>
+                        <pICMS>12.0000</pICMS>
+                        <vICMS>26.40</vICMS>
+                    </ICMS00>
+                </ICMS>
+                <IPI>
+                    <cEnq>999</cEnq>
+                    <IPINT>
+                        <CST>51</CST>
+                    </IPINT>
+                </IPI>
+                <PIS>
+                    <PISAliq>
+                        <CST>01</CST>
+                        <vBC>193.61</vBC>
+                        <pPIS>1.6500</pPIS>
+                        <vPIS>3.19</vPIS>
+                    </PISAliq>
+                </PIS>
+                <COFINS>
+                    <COFINSAliq>
+                        <CST>01</CST>
+                        <vBC>193.61</vBC>
+                        <pCOFINS>7.6000</pCOFINS>
+                        <vCOFINS>14.71</vCOFINS>
                     </COFINSAliq>
                 </COFINS>
             </imposto>
         </det>
         <total>
             <ICMSTot>
-                <vBC>5359.80</vBC>
-                <vICMS>1125.56</vICMS>
-                <vICMSDeson>0</vICMSDeson>
-                <vFCPUFDest>0</vFCPUFDest>
-                <vICMSUFDest>0</vICMSUFDest>
-                <vICMSUFRemet>0</vICMSUFRemet>
-                <vFCP>0</vFCP>
-                <vBCST>4191.83</vBCST>
-                <vST>238.35</vST>
-                <vFCPST>0</vFCPST>
-                <vFCPSTRet>0</vFCPSTRet>
-                <vProd>5359.80</vProd>
-                <vFrete>0</vFrete>
-                <vSeg>0</vSeg>
-                <vDesc>0</vDesc>
-                <vII>0</vII>
-                <vIPI>78.20</vIPI>
-                <vIPIDevol>0</vIPIDevol>
-                <vPIS>88.44</vPIS>
-                <vCOFINS>407.34</vCOFINS>
-                <vOutro>0</vOutro>
-                <vNF>5676.35</vNF>
+                <vBC>46500.40</vBC>
+                <vICMS>5580.04</vICMS>
+                <vICMSDeson>0.00</vICMSDeson>
+                <vFCP>0.00</vFCP>
+                <vBCST>19428.51</vBCST>
+                <vST>2529.64</vST>
+                <vFCPST>0.00</vFCPST>
+                <vFCPSTRet>0.00</vFCPSTRet>
+                <vProd>46500.40</vProd>
+                <vFrete>0.00</vFrete>
+                <vSeg>0.00</vSeg>
+                <vDesc>0.00</vDesc>
+                <vII>0.00</vII>
+                <vIPI>823.73</vIPI>
+                <vIPIDevol>0.00</vIPIDevol>
+                <vPIS>675.17</vPIS>
+                <vCOFINS>3109.95</vCOFINS>
+                <vOutro>0.00</vOutro>
+                <vNF>49853.77</vNF>
             </ICMSTot>
         </total>
         <transp>
             <modFrete>0</modFrete>
             <transporta>
-                <CPF>74427636349</CPF>
-                <xNome>REGINALDO DOS SANTOS LEAL</xNome>
-                <xEnder>AV. JOSE SOARES DA SILVA ,76</xEnder>
-                <xMun>LAGOA DO PIAUI</xMun>
-                <UF>PI</UF>
+                <CNPJ>09411448000415</CNPJ>
+                <xNome>Ldb Transportes De Cargas Ltda</xNome>
+                <IE>019741901</IE>
+                <xEnder>R Xavantina 42</xEnder>
+                <xMun>Jaboatao Dos Guarara</xMun>
+                <UF>PE</UF>
             </transporta>
             <vol>
-                <qVol>5</qVol>
-                <esp>CAIXA</esp>
-                <pesoL>1684.400</pesoL>
-                <pesoB>1722.142</pesoB>
-            </vol>
-            <vol>
-                <qVol>10</qVol>
-                <esp>LATA</esp>
-            </vol>
-            <vol>
-                <qVol>70</qVol>
-                <esp>BALDE</esp>
+                <qVol>273</qVol>
+                <esp>Volume</esp>
+                <pesoL>4940.200</pesoL>
+                <pesoB>5129.140</pesoB>
             </vol>
         </transp>
         <cobr>
             <fat>
-                <nFat>1000156083</nFat>
-                <vOrig>5676.35</vOrig>
-                <vDesc>0</vDesc>
-                <vLiq>5676.35</vLiq>
+                <nFat>0000000000</nFat>
+                <vOrig>49853.77</vOrig>
+                <vDesc>0.00</vDesc>
+                <vLiq>49853.77</vLiq>
             </fat>
             <dup>
                 <nDup>001</nDup>
-                <dVenc>2023-09-04</dVenc>
-                <vDup>5676.35</vDup>
+                <dVenc>2023-09-10</dVenc>
+                <vDup>49853.77</vDup>
             </dup>
         </cobr>
         <pag>
             <detPag>
-                <indPag>1</indPag>
                 <tPag>15</tPag>
-                <vPag>5676.35</vPag>
+                <vPag>49853.77</vPag>
             </detPag>
         </pag>
         <infAdic>
-            <infCpl>- PGTO REFERENTE A NOTA FISCAL SO PODE SER EFETUADO EM REDE BANCARIA.BOAS
-                VENDAS! DECLARAMOS QUE O(S) PRODUTO(S) CONSIDERADOS PERIGOSOS, ESTAO EMBALADO(S)
-                ADEQUADAMENTE PARA SUPORTAR OS RISCOS NORMAIS DE CARREGAMENTO, DESCARREGAMENTO,
-                TRANSBORDO E TRANSPORTE CONFORME A REGULAMENTACAO EM VIGOR ( ESPECIE/VOLUME - CAIXA
-                = 5 / LATA = 10 / BALDES 15/25/20 = 70 ). MR-31284</infCpl>
+            <infAdFisco>EMERGÊNCIA QUÍMICA: 0800 110 82 70</infAdFisco>
+            <infCpl>EMERGÊNCIA QUÍMICA: 0800 110 82 70</infCpl>
         </infAdic>
         <infRespTec>
-            <CNPJ>53113791000122</CNPJ>
-            <xContato>Rodrigo de Almeida Sartorio</xContato>
-            <email>resp_tecnico_dfe_protheus@totvs.com.br</email>
-            <fone>1128593904</fone>
+            <CNPJ>74544297000192</CNPJ>
+            <xContato>SAP PRODUCT ENGINEERING</xContato>
+            <email>RESPONSAVEL.TECNICO@SAP.COM</email>
+            <fone>00001155032400</fone>
         </infRespTec>
     </infNFe>
     <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-        <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></CanonicalizationMethod>
-            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-            <Reference URI="#NFe22230707727035000338550010001560831842252880">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+            <Reference URI="#NFe26230633081704002139550140000615891571845393">
                 <Transforms>
-                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
-                    <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></Transform>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                    <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
                 </Transforms>
-                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-                <DigestValue>ppxq+S9X7rQ88OHN3E5jLUBTVok=</DigestValue>
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                <DigestValue>BUphYtGHBhO3GNaO8BuemYiA66I=</DigestValue>
             </Reference>
         </SignedInfo>
-        <SignatureValue>
-            gm/5jn5lWB8X3VuzV+fvTivjWfRLdF+vlVpR0qVlemB1w+HcObLKmSqxzIJoEv/ct1yQxciBxnbJxeCCiZ2+AZR0l8kNrTobjfI/R+RkTOu7G8MMDPS0fBcf6ZT3oLg66kD+hbXdQ6yRPmDOAe5YJyCia/EwgH+4aFoKSGdmX5BTkcTI+foDjZTCijfNag0HEowPgLk3pq9bY9SLYUY+141D5GwgG93LZJuRyyq4UPoGeLsf/Nj77UfRpYl0tHJrLewRO+MQko5zF21iIR3pHIhlwM8+nC+fxyMrIKD45fnSprrPSI/ZS7OlGcu7mSCGuqJXcngBakuFHHjhCXgh1A==</SignatureValue>
+        <SignatureValue>Z4glDVMRfczwJ/4BcE9zr0K7I0Rd31NqbTTDHgHYFOMTVAlJl3hLsdxC7h/dIXoX9EvVsG2M+7Ac
+            PfiB81o/ew8jJWpy41aGZ1fo50ygrbl7ZXn6YWS5dNOFUvycZssUl5wSepB/MisW9L9E74koAL9n
+            9dc8FB9j/5BGLcF5Q0G4QiYeQ2rju7KN6zmNT3ckfJInnBXBnIg0KclL1LSmJrdJC8fHsmqWQhe/
+            +Wkux988FxgiTmbNxR+FJ7lMj8Tf+bNy18M6MWp4e7KuRvUNVA7GnG3u+z956yjAYCCON8o96r6x
+            OMJ3rIiyWFsVZT2MmLWybMhkP22LsenVQR4RqA==</SignatureValue>
         <KeyInfo>
             <X509Data>
-                <X509Certificate>
-                    MIIHhTCCBW2gAwIBAgIMNJjshz/0hcIiXH/hMA0GCSqGSIb3DQEBCwUAMIGJMQswCQYDVQQGEwJCUjETMBEGA1UECgwKSUNQLUJyYXNpbDE2MDQGA1UECwwtU2VjcmV0YXJpYSBkYSBSZWNlaXRhIEZlZGVyYWwgZG8gQnJhc2lsIC0gUkZCMS0wKwYDVQQDDCRBdXRvcmlkYWRlIENlcnRpZmljYWRvcmEgU0VSUFJPUkZCdjUwHhcNMjIxMTI1MTE1NzM3WhcNMjMxMTI1MTE1NzM3WjCCAR4xCzAJBgNVBAYTAkJSMQswCQYDVQQIDAJQSTERMA8GA1UEBwwIVEVSRVNJTkExEzARBgNVBAoMCklDUC1CcmFzaWwxGTAXBgNVBAsMEHZpZGVvY29uZmVyZW5jaWExFzAVBgNVBAsMDjMzNjgzMTExMDAwMTA3MTYwNAYDVQQLDC1TZWNyZXRhcmlhIGRhIFJlY2VpdGEgRmVkZXJhbCBkbyBCcmFzaWwgLSBSRkIxETAPBgNVBAsMCEFSU0VSUFJPMRYwFAYDVQQLDA1SRkIgZS1DTlBKIEExMUMwQQYDVQQDDDpWRVJCUkFTIElORFVTVFJJQSBFIENPTUVSQ0lPIERFIFRJTlRBUyBMVERBOjA3NzI3MDM1MDAwMTc2MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuT1WpLGCIfYq46pEEoCOYs06up+fQq2ER45QBZvKfvXoGuIrlVRUae+PrV0MUYpiiUJs0tFb4XKVdkzwtWA4qtlFcKiU3ax/1RIKqSXdkwapBY7Ncuc+G98VJiWhQDZmojAgHLB55BUJFApEQ0Unr/adRbGe2A54yb3QoYEL65L/dNOU19sR/uVKAQoJuHmseAIuFmHqvMGRSjkwlFeBxeAHW6+tG52+pKGRPa8FEbpQwQ/fcnc/0AphpSk6kqatGBlBATbR4/KnnA6GzaQ4sbMGCNWmGKGGLDQjM/BVS/PIIoYOpu5hueSTPDLQUItx6H4jXhy/FdIt9fvzQz4THwIDAQABo4ICUzCCAk8wHwYDVR0jBBgwFoAUFIAtnX6aRcDxWz8Z1UCwby9l4OkwgYgGA1UdHwSBgDB+MDygOqA4hjZodHRwOi8vcmVwb3NpdG9yaW8uc2VycHJvLmdvdi5ici9sY3IvYWNzZXJwcm9yZmJ2NS5jcmwwPqA8oDqGOGh0dHA6Ly9jZXJ0aWZpY2Fkb3MyLnNlcnByby5nb3YuYnIvbGNyL2Fjc2VycHJvcmZidjUuY3JsMFYGCCsGAQUFBwEBBEowSDBGBggrBgEFBQcwAoY6aHR0cDovL3JlcG9zaXRvcmlvLnNlcnByby5nb3YuYnIvY2FkZWlhcy9hY3NlcnByb3JmYnY1LnA3YjCBvAYDVR0RBIG0MIGxoD0GBWBMAQMEoDQEMjE0MDExOTQwMDg0OTAxNzE4MTUwMDAwMDAwMDAwMDAwMDAwMDAwMjcwNDYxMFNTUFBJoCIGBWBMAQMCoBkEF01FTENJQURFUyBBTFZFUyBCUkFOREFPoBkGBWBMAQMDoBAEDjA3NzI3MDM1MDAwMTc2oBcGBWBMAQMHoA4EDDAwMDAwMDAwMDAwMIEYdmVyYnJhc2JyYW5kYW9AZ21haWwuY29tMA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwWwYDVR0gBFQwUjBQBgZgTAECAQowRjBEBggrBgEFBQcCARY4aHR0cDovL3JlcG9zaXRvcmlvLnNlcnByby5nb3YuYnIvZG9jcy9kcGNhY3NlcnByb3JmYi5wZGYwDQYJKoZIhvcNAQELBQADggIBAF9OeZtr8XdwB2k6j6UaGiHBRqfKobglnVsKZTRuRqOO0rqYpEoLBFcvX8nvEhvriDWlOcNOKAgwXxMV+jnScBI+DIrgzQqTo4PHW4/rwxRohEnMU/54EjV2YxWT1909APUW8pCKKovrW9FfpSg7hhivzhy70BFHyCc6ainwxs50NBaeuqSLt/fLDpjxI7lTpOPIGZKkg/CCsOInXjysArbFThXX5euIQtnYcjWUxq8m9swJsnhLFtlBwYEE/GmN/2Pmfo5+LOToBomA9Kl1ohqviGShWsq9/yt5asirR9t+YVTAgGbhqzlId0Zdop9wXPmU7cTzdjEBKk5/UsPsCvjr+yYQCxQe4cM1OuLgXUxNy+qP0S9BlnR4mO7TXUqs1pi990q7rAg9oQ7ocx2yvjeVtinmKAd5YtuBL84SM/A3yIAKN7IMSCiKCEoPbKRLdN1YLNla7dZNUnPQ+lOadU6P1Nnqe38VxaKhickhpEVrNtn4nwtvVAiZYCgpGQd1WMQU8WVwGbmdOij7bMq3hprTKso9uv/9y7GwQqkgVKo9cl+1PXDTEr4oJV9/rDaB2KMkiVFMEcrXcxwPdhwe+DKKlWWfv+L14/HEjfFZqwP0oEBZBZOpA/bUePCNS9F/OR/qrYFf+KFE0B6ZWmRZja5EnZ4JWc2oCVuriB6rQGgD</X509Certificate>
+                <X509Certificate>MIIH8DCCBdigAwIBAgIIboEgpMOvjEQwDQYJKoZIhvcNAQELBQAwdTELMAkGA1UEBhMCQlIxEzAR
+                    BgNVBAoMCklDUC1CcmFzaWwxNjA0BgNVBAsMLVNlY3JldGFyaWEgZGEgUmVjZWl0YSBGZWRlcmFs
+                    IGRvIEJyYXNpbCAtIFJGQjEZMBcGA1UEAwwQQUMgU0VSQVNBIFJGQiB2NTAeFw0yMzA1MzAxNDAz
+                    MDBaFw0yNDA1MjkxNDAyNTlaMIIBATELMAkGA1UEBhMCQlIxCzAJBgNVBAgMAlNQMRIwEAYDVQQH
+                    DAlTYW8gUGF1bG8xEzARBgNVBAoMCklDUC1CcmFzaWwxNjA0BgNVBAsMLVNlY3JldGFyaWEgZGEg
+                    UmVjZWl0YSBGZWRlcmFsIGRvIEJyYXNpbCAtIFJGQjEWMBQGA1UECwwNUkZCIGUtQ05QSiBBMTEW
+                    MBQGA1UECwwNQUMgU0VSQVNBIFJGQjEXMBUGA1UECwwOMjc5MTQ4OTgwMDAxNjAxGTAXBgNVBAsM
+                    EFZJREVPQ09ORkVSRU5DSUExIDAeBgNVBAMMF1NJS0EgUyBBOjMzMDgxNzA0MDAwMTk1MIIBIjAN
+                    BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1kpNT2FOgy9Xv/VVqsihg6OtnWKdNqYixYaheRrM
+                    lMjULaBuP6agV6OEvGPXrHbqBsH5omKddSyIqJpTZtiXe0Y6bRKUB4IPUL+UwUMyPy/+4sQXpJzs
+                    xx314gf9v1Gj70oaBLabHcB5Cei3mzdK+g3Bm+w8nklgpohEAW1OReRb32I5JqWf831V8f3PswjJ
+                    5R9dG/De2v4qCiqVNhJzSrwVtwTaX1uFJ+zupAQynRhgZSmnNAbzhrVR8vOpmSeSio9v0wmlWLr+
+                    43m1YHu7xp545LBIF8/lRlXM6BMOux3MXn+6ih+vQm50hSk6leqfXzt8CL5b4MhoLW2t8tnh6QID
+                    AQABo4IC9DCCAvAwCQYDVR0TBAIwADAfBgNVHSMEGDAWgBTs8UFRV6jmOules6Ai+QiKtTqHjzCB
+                    mQYIKwYBBQUHAQEEgYwwgYkwSAYIKwYBBQUHMAKGPGh0dHA6Ly93d3cuY2VydGlmaWNhZG9kaWdp
+                    dGFsLmNvbS5ici9jYWRlaWFzL3NlcmFzYXJmYnY1LnA3YjA9BggrBgEFBQcwAYYxaHR0cDovL29j
+                    c3AuY2VydGlmaWNhZG9kaWdpdGFsLmNvbS5ici9zZXJhc2FyZmJ2NTCBxAYDVR0RBIG8MIG5gRlE
+                    VUFSVEUuU0FORFJPQEJSLlNJS0EuQ09NoCgGBWBMAQMCoB8THVNBTkRSTyBBVUdVU1RPIE1BUlRJ
+                    TlMgRFVBUlRFoBkGBWBMAQMDoBATDjMzMDgxNzA0MDAwMTk1oD4GBWBMAQMEoDUTMzMxMDcxOTc4
+                    NjM4OTgyNDExNDkwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMKAXBgVgTAEDB6AOEwww
+                    MDAwMDAwMDAwMDAwcQYDVR0gBGowaDBmBgZgTAECAQ0wXDBaBggrBgEFBQcCARZOaHR0cDovL3B1
+                    YmxpY2FjYW8uY2VydGlmaWNhZG9kaWdpdGFsLmNvbS5ici9yZXBvc2l0b3Jpby9kcGMvZGVjbGFy
+                    YWNhby1yZmIucGRmMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDCBnQYDVR0fBIGVMIGS
+                    MEqgSKBGhkRodHRwOi8vd3d3LmNlcnRpZmljYWRvZGlnaXRhbC5jb20uYnIvcmVwb3NpdG9yaW8v
+                    bGNyL3NlcmFzYXJmYnY1LmNybDBEoEKgQIY+aHR0cDovL2xjci5jZXJ0aWZpY2Fkb3MuY29tLmJy
+                    L3JlcG9zaXRvcmlvL2xjci9zZXJhc2FyZmJ2NS5jcmwwHQYDVR0OBBYEFF50kJLk+bNv+BF7wgB5
+                    1QSbEVM0MA4GA1UdDwEB/wQEAwIF4DANBgkqhkiG9w0BAQsFAAOCAgEASNGJgsoywde+fWhW3Nrh
+                    B+1pW6Iz1SMbZjedpsw8nA5Wq7K/Wt0Sp3r3oqpRKTQUMkWtd+i1Tx7tj46L1BOJrcJIAqWrVatz
+                    VYORRrOYVJlLRwapTLTjnWOWUTkJwQhSJg+Jmw6R3ZaS8onJoAJfZYmv0sW10RPB6lEj1NuFsHDB
+                    Q/P2lPAMBHFn5E3Tdb5ZHyXu260t+OE6daQJiW3g6UeFrc/ZQ1cXxPD1t+msplWM/Ev9Gqfj73vx
+                    xDGSyXh0oqKm5I+E+MQsh5O6eG11QN3FZkRMDrZ58GNmV9kR6PfpkRPh8qdXVoRNo4e2kCqOliRB
+                    8HsE17RUsoLC3dMYFY5dY35mq8exFCZUl3tx8Eb7umlovoeGBsMZ91wSW5J021UgnDV8rYWkBnPh
+                    ove6BOM3f819jqBTxzRsZRYRV9Wc5wmkBm4v2F1JVeq3c0T8dvjQBEaDw1ua6TDPDAU7c/nTHMDD
+                    kiXz+R4Qdym9eQQ/T+KlRR9glpHfp3K0oe4QRJNPr3IiP0WGcE/He8hcu3AE1PGH23HdFgjkebO5
+                    lQB1gi/+KQBqzH8aHu1BNLv3Zwdxgo3uT5Nn35iXukwTdOFJ3Qb9YrssEXoJ/3VkCKTqWo7GVjjO
+                    mj/YLmNlVpUfwQBRp0H2MtqhsXTD2bDPvWhlVmwp4m6kr8rZ9Qq4R3A=</X509Certificate>
             </X509Data>
         </KeyInfo>
     </Signature>
