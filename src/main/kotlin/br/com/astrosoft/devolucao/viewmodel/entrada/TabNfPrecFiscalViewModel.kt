@@ -1,9 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
-import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
@@ -64,7 +61,15 @@ class TabNfPrecFiscalViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro)
+    val cst = filtro.cst
+    filtro.cst = EDiferencaStr.T
+    return NfPrecEntrada.findNotas(filtro).filter { nota ->
+      when (cst) {
+        EDiferencaStr.S -> (nota.cstIcms ?: "") == (nota.cstx ?: "")
+        EDiferencaStr.N -> (nota.cstIcms ?: "") != (nota.cstx ?: "")
+        EDiferencaStr.T -> true
+      }
+    }
   }
 }
 
