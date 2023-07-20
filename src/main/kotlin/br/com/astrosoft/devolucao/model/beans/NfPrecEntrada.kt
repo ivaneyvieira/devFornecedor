@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
-import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 import kotlin.math.absoluteValue
@@ -78,7 +77,7 @@ class NfPrecEntrada(
   val cstx: String?
     get() {
       val ref = refPrdn ?: return null
-      return  NddXml.cst(ni, ref)
+      return NddXml.cst(ni, ref)
     }
 
   val ljCol
@@ -113,8 +112,9 @@ class NfPrecEntrada(
   val dataStr
     get() = data.format()
 
-  fun difGeral(fiscal: Boolean) = if (fiscal) cstDif == "N" || icmsDif == "N" || ipiDif == "N" || mvaDif == "N"
-  else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N" || freteDif == "N" || (cstIcms ?: "") != (cstx ?: "")
+  fun difGeral(fiscal: Boolean) =
+    if (fiscal) (cstIcms ?: "") != (cstx ?: "") || icmsDif == "N" || ipiDif == "N" || mvaDif == "N"
+    else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N" || freteDif == "N"
 
   val icmsRN
     get() = icmsc ?: icmsn
