@@ -39,6 +39,7 @@ import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
@@ -132,6 +133,7 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
       this.dataProvider = dataProvider
+      this.addThemeVariants(GridVariant.LUMO_COMPACT, GridVariant.LUMO_COLUMN_BORDERS)
 
       notaLoja()
       notaNi().marcaDiferenca { difGeral(true) }
@@ -152,9 +154,9 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
       notaIpip().marcaDiferenca { ipiDif == "N" }
+      notaCstx()
       notaCst().marcaDiferenca { cstDif == "N" }
       notaCstp().marcaDiferenca { cstDif == "N" }
-      notaCstx()
       notaMvan().marcaDiferenca { mvaDif == "N" }
       notaMvap().marcaDiferenca { mvaDif == "N" }
     }
