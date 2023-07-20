@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
 import br.com.astrosoft.devolucao.model.beans.EValidade
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
@@ -154,9 +155,9 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
       notaIpip().marcaDiferenca { ipiDif == "N" }
-      notaCstx()
-      notaCst().marcaDiferenca { cstDif == "N" }
-      notaCstp().marcaDiferenca { cstDif == "N" }
+      notaCstx().marcaDiferenca { (cstIcms ?: "") != (cstx ?: "") }
+      notaCst().marcaDiferenca { (cstIcms ?: "") != (cstx ?: "") }
+      notaCstp()
       notaMvan().marcaDiferenca { mvaDif == "N" }
       notaMvap().marcaDiferenca { mvaDif == "N" }
     }

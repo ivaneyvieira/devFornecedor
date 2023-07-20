@@ -103,14 +103,14 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaCstp() = addColumnString(NfPrecEntrada::cstp) {
-    this.setHeader("CST P")
+    this.setHeader("Cst P")
     this.isResizable = true
     this.isExpand = false
     this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCstx() = addColumnString(NfPrecEntrada::cstx) {
-    this.setHeader("CST X")
+    this.setHeader("Cst X")
     this.isResizable = true
     this.isExpand = false
     this.right()
@@ -239,7 +239,7 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaValidade() = addColumnInt(NfPrecEntrada::mesesValidade) {
-    this.setHeader("Validade")
+    this.setHeader("Val")
     this.isResizable = true
   }
 
