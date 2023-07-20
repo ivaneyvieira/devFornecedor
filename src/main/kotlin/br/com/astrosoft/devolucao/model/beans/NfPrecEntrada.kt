@@ -74,11 +74,17 @@ class NfPrecEntrada(
   val vlIcmsSubst: Double?,
   val vlTotal: Double?,
 ) {
+  val cstx: String?
+    get() {
+      val ref = refPrdn ?: return null
+      return  NddXml.cst(ni, ref)
+    }
+
   val ljCol
-    get() = if(lj == 999) null else lj
+    get() = if (lj == 999) null else lj
 
   val niCol
-    get() = if(lj == 999) null else ni
+    get() = if (lj == 999) null else ni
 
   val precoDifValue: Double?
     get() {

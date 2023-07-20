@@ -450,6 +450,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
+  fun findXmlNfe(ni : Int): NddXml? {
+    val sql = "/sqlSaci/notasEntradaXml.sql"
+    return query(sql, NddXml::class) {
+      addOptionalParameter("ni", ni)
+    }.firstOrNull()
+  }
+
   private fun saveNotaSap(codigoFor: Int, nota: NotaDevolucaoSap) {
     val sql = "/sqlSaci/saveNotaSap.sql"
     script(sql) {
