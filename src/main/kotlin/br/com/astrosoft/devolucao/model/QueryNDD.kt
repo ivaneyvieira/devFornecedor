@@ -5,12 +5,13 @@ import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
 import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
+import org.sql2o.ResultSetIterable
 import java.time.LocalDate
 
 class QueryNDD : QueryDB(driver, url, username, password) {
-  fun notasEntrada(): List<NotaEntradaVO> {
+  fun notasEntrada(process: (bean: List<NotaEntradaVO>) -> Unit,) {
     val sql = "/sqlNDD/notasEntrada.sql"
-    return query(sql, NotaEntradaVO::class) {
+    queryLazy(sql, NotaEntradaVO::class, process) {
       addOptionalParameter("dataInicial", LocalDate.now().minusMonths(7))
     }
   }

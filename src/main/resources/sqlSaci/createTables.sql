@@ -274,3 +274,7 @@ ALTER TABLE sqldados.nfComplemento
 
 ALTER TABLE sqldados.nfComplemento
   ADD dataNfAjuste int(10) DEFAULT 0;
+
+
+CREATE INDEX i2
+  ON sqldados.notasEntradaNdd (chave);

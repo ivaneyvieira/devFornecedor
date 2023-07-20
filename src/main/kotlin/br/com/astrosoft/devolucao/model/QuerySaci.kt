@@ -9,6 +9,7 @@ import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
+import org.sql2o.ResultSetIterable
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -507,9 +508,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/notasEntrada.sql"
     return query(sql, NotaEntradaSaci::class) {
       addOptionalParameter("filtro", filtro.query)
+      addOptionalParameter("tipo", "TODOS")
       addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
       addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
       addOptionalParameter("chave", filtro.chave)
+      addOptionalParameter("temIPI", "TODOS")
     }
   }
 

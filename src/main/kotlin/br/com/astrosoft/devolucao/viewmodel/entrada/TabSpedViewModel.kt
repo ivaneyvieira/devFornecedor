@@ -1,9 +1,6 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
-import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
@@ -17,6 +14,7 @@ class TabSpedViewModel(val viewModel: EntradaViewModel) {
     get() = viewModel.view.tabSpedViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
+    FornecedorNdd.updateNotas()
     saci.queryNfPrec(subView.getFiltro())
     subView.openRelatorio()
   }
