@@ -1,8 +1,54 @@
 package br.com.astrosoft.devolucao.model.knfe
 
+import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.xml.sax.InputSource
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import javax.xml.parsers.DocumentBuilderFactory
+
+fun Element.getElements(tagName: String): List<Element> {
+  val elements = mutableListOf<Element>()
+  val nodes = getElementsByTagName(tagName)
+  for (i in 0 until nodes.length) {
+    val element = nodes.item(i) as? Element
+    if (element != null) elements.add(element)
+  }
+  return elements.toList()
+}
+
+fun Element.getElement(tagName: String): Element? {
+  val nodeList = getElementsByTagName(tagName)
+  return if (nodeList.length > 0) nodeList.item(0) as Element else null
+}
+
+fun Document.getElement(tagName: String): Element? {
+  val nodeList = getElementsByTagName(tagName)
+  return if (nodeList.length > 0) nodeList.item(0) as Element else null
+}
+
+fun Element?.getTextContent(tagName: String): String {
+  return this?.getElement(tagName)?.textContent?.trim() ?: ""
+}
+
+fun Element?.getDoubleContent(tagName: String): Double {
+  val text = this?.getElement(tagName)?.textContent?.trim() ?: return 0.0
+  return text.toDoubleOrNull() ?: 0.0
+}
+
+fun Element?.getDateContent(tagName: String): LocalDateTime? {
+  return try {
+    val text = this?.getElement(tagName)?.textContent?.trim() ?: return null
+    val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+    val zonedDateTime = ZonedDateTime.parse(text, formatter)
+    zonedDateTime.toLocalDateTime()
+  } catch (ex: DateTimeParseException) {
+    null
+  }
+}
+
 
 fun parseNotaFiscal(xmlString: String): NFe {
   val factory = DocumentBuilderFactory.newInstance()
@@ -10,109 +56,172 @@ fun parseNotaFiscal(xmlString: String): NFe {
   val inputSource = InputSource(xmlString.reader())
   val doc = builder.parse(inputSource)
 
-  fun getTextContent(node: Element, tagName: String): String {
-    return node.getElementsByTagName(tagName).item(0)?.textContent?.trim() ?: ""
-  }
 
-  fun parseEndereco(element: Element): Endereco {
+  fun parseEndereco(element: Element?): Endereco? {
+    element ?: return null
     return Endereco(
-      getTextContent(element, "xLgr"),
-      getTextContent(element, "nro"),
-      getTextContent(element, "xBairro"),
-      getTextContent(element, "cMun"),
-      getTextContent(element, "xMun"),
-      getTextContent(element, "UF"),
-      getTextContent(element, "CEP"),
-      getTextContent(element, "cPais"),
-      getTextContent(element, "xPais"),
-      getTextContent(element, "fone")
+      xLgr = element.getTextContent("xLgr"),
+      nro = element.getTextContent("nro"),
+      xBairro = element.getTextContent("xBairro"),
+      cMun = element.getTextContent("cMun"),
+      xMun = element.getTextContent("xMun"),
+      uf = element.getTextContent("UF"),
+      cpf = element.getTextContent("CEP"),
+      cPais = element.getTextContent("cPais"),
+      xPais = element.getTextContent("xPais"),
+      fone = element.getTextContent("fone")
     )
   }
 
-  fun parseProduto(element: Element): Produto {
+  fun parseProduto(element: Element?): Produto? {
+    element ?: return null
     return Produto(
-      getTextContent(element, "cProd"),
-      getTextContent(element, "cEAN"),
-      getTextContent(element, "xProd"),
-      getTextContent(element, "NCM"),
-      getTextContent(element, "CFOP"),
-      getTextContent(element, "uCom"),
-      getTextContent(element, "qCom"),
-      getTextContent(element, "vUnCom"),
-      getTextContent(element, "vProd"),
-      getTextContent(element, "cEANTrib"),
-      getTextContent(element, "uTrib"),
-      getTextContent(element, "qTrib"),
-      getTextContent(element, "vUnTrib"),
-      getTextContent(element, "indTot"),
-      getTextContent(element, "xPed"),
-      getTextContent(element, "nItemPed")
+      cProd = element.getTextContent("cProd"),
+      cEAN = element.getTextContent("cEAN"),
+      xProd = element.getTextContent("xProd"),
+      ncm = element.getTextContent("NCM"),
+      cfop = element.getTextContent("CFOP"),
+      uCom = element.getTextContent("uCom"),
+      qCom = element.getDoubleContent("qCom"),
+      vUnCom = element.getDoubleContent("vUnCom"),
+      vProd = element.getDoubleContent("vProd"),
+      cEANTrib = element.getTextContent("cEANTrib"),
+      uTrib = element.getTextContent("uTrib"),
+      qTrib = element.getDoubleContent("qTrib"),
+      vUnTrib = element.getDoubleContent("vUnTrib"),
+      indTot = element.getTextContent("indTot"),
+      xPed = element.getTextContent("xPed"),
+      nItemPed = element.getTextContent("nItemPed")
     )
   }
 
-  val nfeElement = doc.getElementsByTagName("NFe").item(0) as Element
-  val infNFeElement = nfeElement.getElementsByTagName("infNFe").item(0) as Element
-  val ideElement = infNFeElement.getElementsByTagName("ide").item(0) as Element
-  val emitElement = infNFeElement.getElementsByTagName("emit").item(0) as Element
-  val destElement = infNFeElement.getElementsByTagName("dest").item(0) as Element
-  val produtosElement = infNFeElement.getElementsByTagName("prod")
+  fun parseImposto(impostoElement: Element?): Imposto? {
+    impostoElement ?: return null
+    fun parseICMS(icmsElement: Element?): ICMS? {
+      icmsElement ?: return null
+      return ICMS(
+        orig = icmsElement.getTextContent("orig"),
+        cst = icmsElement.getTextContent("CST"),
+        modBC = icmsElement.getTextContent("modBC"),
+        vBC = icmsElement.getTextContent("vBC").toDoubleOrNull() ?: 0.0,
+        pICMS = icmsElement.getTextContent("pICMS").toDoubleOrNull() ?: 0.0,
+        vICMS = icmsElement.getTextContent("vICMS").toDoubleOrNull() ?: 0.0
+      )
+    }
+
+    fun parseIPI(ipiElement: Element?): IPI? {
+      ipiElement ?: return null
+      return IPI(
+        cEnq = ipiElement.getTextContent("cEnq"),
+        tributado = ipiElement.getTextContent("CST") != "99",
+        vBC = ipiElement.getTextContent("vBC").toDoubleOrNull() ?: 0.0,
+        pIPI = ipiElement.getTextContent("pIPI").toDoubleOrNull() ?: 0.0,
+        vIPI = ipiElement.getTextContent("vIPI").toDoubleOrNull() ?: 0.0
+      )
+    }
+
+    fun parsePIS(pisElement: Element?): PIS? {
+      pisElement ?: return null
+      return PIS(
+        cst = pisElement.getTextContent("CST"),
+        vBC = pisElement.getTextContent("vBC").toDoubleOrNull() ?: 0.0,
+        pPIS = pisElement.getTextContent("pPIS").toDoubleOrNull() ?: 0.0,
+        vPIS = pisElement.getTextContent("vPIS").toDoubleOrNull() ?: 0.0
+      )
+    }
+
+    fun parseCOFINS(cofinsElement: Element?): COFINS? {
+      cofinsElement ?: return null
+      return COFINS(
+        cst = cofinsElement.getTextContent("CST"),
+        vBC = cofinsElement.getTextContent("vBC").toDoubleOrNull() ?: 0.0,
+        pCOFINS = cofinsElement.getTextContent("pCOFINS").toDoubleOrNull() ?: 0.0,
+        vCOFINS = cofinsElement.getTextContent("vCOFINS").toDoubleOrNull() ?: 0.0
+      )
+    }
+
+    val icmsElement = impostoElement.getElement("ICMS00")
+    val ipiElement = impostoElement.getElement("IPITrib")
+    val pisElement = impostoElement.getElement("PISAliq")
+    val cofinsElement = impostoElement.getElement("COFINSAliq")
+
+    return Imposto(
+      icms = parseICMS(icmsElement),
+      ipi = parseIPI(ipiElement),
+      pis = parsePIS(pisElement),
+      cofins = parseCOFINS(cofinsElement)
+    )
+  }
+
+  fun parseDetalhe(element: Element): Detalhe {
+    return Detalhe(
+      nItem = element.getAttribute("nItem").toIntOrNull() ?: 0,
+      prod = parseProduto(element.getElement("prod")),
+      imposto = parseImposto(element.getElement("imposto"))
+    )
+  }
+
+  val nfeElement = doc.getElement("NFe")
+  val infNFeElement = nfeElement?.getElement("infNFe")
+  val ideElement = infNFeElement?.getElement("ide")
+  val emitElement = infNFeElement?.getElement("emit")
+  val destElement = infNFeElement?.getElement("dest")
+  val detalhesElement = infNFeElement?.getElements("det").orEmpty()
 
   val ide = Ide(
-    getTextContent(ideElement, "cUF"),
-    getTextContent(ideElement, "cNF"),
-    getTextContent(ideElement, "natOp"),
-    getTextContent(ideElement, "mod"),
-    getTextContent(ideElement, "serie"),
-    getTextContent(ideElement, "nNF"),
-    getTextContent(ideElement, "dhEmi"),
-    getTextContent(ideElement, "dhSaiEnt"),
-    getTextContent(ideElement, "tpNF"),
-    getTextContent(ideElement, "idDest"),
-    getTextContent(ideElement, "cMunFG"),
-    getTextContent(ideElement, "tpImp"),
-    getTextContent(ideElement, "tpEmis"),
-    getTextContent(ideElement, "cDV"),
-    getTextContent(ideElement, "tpAmb"),
-    getTextContent(ideElement, "finNFe"),
-    getTextContent(ideElement, "indFinal"),
-    getTextContent(ideElement, "indPres"),
-    getTextContent(ideElement, "procEmi"),
-    getTextContent(ideElement, "verProc")
+    cUF = ideElement.getTextContent("cUF"),
+    cNF = ideElement.getTextContent("cNF"),
+    natOp = ideElement.getTextContent("natOp"),
+    mod = ideElement.getTextContent("mod"),
+    serie = ideElement.getTextContent("serie"),
+    nNF = ideElement.getTextContent("nNF"),
+    dhEmi = ideElement.getDateContent("dhEmi"),
+    dhSaiEnt = ideElement.getDateContent("dhSaiEnt"),
+    tpNF = ideElement.getTextContent("tpNF"),
+    idDest = ideElement.getTextContent("idDest"),
+    cMunFG = ideElement.getTextContent("cMunFG"),
+    tpImp = ideElement.getTextContent("tpImp"),
+    tpEmis = ideElement.getTextContent("tpEmis"),
+    cDV = ideElement.getTextContent("cDV"),
+    tpAmb = ideElement.getTextContent("tpAmb"),
+    finNFe = ideElement.getTextContent("finNFe"),
+    indFinal = ideElement.getTextContent("indFinal"),
+    indPres = ideElement.getTextContent("indPres"),
+    procEmi = ideElement.getTextContent("procEmi"),
+    verProc = ideElement.getTextContent("verProc")
   )
 
   val emitente = Emitente(
-    getTextContent(emitElement, "CNPJ"),
-    getTextContent(emitElement, "xNome"),
-    getTextContent(emitElement, "xFant"),
-    parseEndereco(emitElement.getElementsByTagName("enderEmit").item(0) as Element),
-    getTextContent(emitElement, "IE"),
-    getTextContent(emitElement, "CRT")
+    cnpj = emitElement.getTextContent("CNPJ"),
+    xNome = emitElement.getTextContent("xNome"),
+    xFant = emitElement.getTextContent("xFant"),
+    enderEmit = parseEndereco(emitElement?.getElement("enderEmit")),
+    ie = emitElement.getTextContent("IE"),
+    crt = emitElement.getTextContent("CRT")
   )
 
   val destinatario = Destinatario(
-    getTextContent(destElement, "CNPJ"),
-    getTextContent(destElement, "xNome"),
-    parseEndereco(destElement.getElementsByTagName("enderDest").item(0) as Element),
-    getTextContent(destElement, "indIEDest"),
-    getTextContent(destElement, "IE")
+    cnpj = destElement.getTextContent("CNPJ"),
+    xNome = destElement.getTextContent("xNome"),
+    enderDest = parseEndereco(destElement?.getElement("enderDest") as Element),
+    indIEDest = destElement.getTextContent("indIEDest"),
+    ie = destElement.getTextContent("IE")
   )
 
-  val produtos = mutableListOf<Produto>()
-  for (i in 0 until produtosElement.length) {
-    val produtoElement = produtosElement.item(i) as Element
-    produtos.add(parseProduto(produtoElement))
+  val detalhes = detalhesElement.map { element ->
+    parseDetalhe(element)
   }
 
-  val totalElement = infNFeElement.getElementsByTagName("total").item(0) as Element
-  val ICMSTotElement = totalElement.getElementsByTagName("ICMSTot").item(0) as Element
+  val totalElement = infNFeElement.getElement("total")
+  val icmsTotElement = totalElement?.getElement("ICMSTot")
   val total = Total(
-    ICMSTot(
-      getTextContent(ICMSTotElement, "vBC"),
-      getTextContent(ICMSTotElement, "vICMS"),
-      getTextContent(ICMSTotElement, "vProd"),
-      getTextContent(ICMSTotElement, "vNF")
+    icmsTot = ICMSTot(
+      vBC = icmsTotElement.getDoubleContent("vBC"),
+      vICMS = icmsTotElement.getDoubleContent("vICMS"),
+      vProd = icmsTotElement.getDoubleContent("vProd"),
+      vNF = icmsTotElement.getDoubleContent("vNF")
     )
   )
 
-  return NFe(InfNFe(ide, emitente, destinatario, produtos, total))
+  return NFe(InfNFe(ide = ide, emit = emitente, dest = destinatario, detalhes = detalhes, total = total))
 }

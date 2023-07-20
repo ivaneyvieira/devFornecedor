@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.model.knfe
 
+import java.time.LocalDateTime
+
 data class NFe(
   val infNFe: InfNFe
 )
@@ -8,7 +10,7 @@ data class InfNFe(
   val ide: Ide,
   val emit: Emitente,
   val dest: Destinatario,
-  val produtos: List<Produto>,
+  val detalhes: List<Detalhe>,
   val total: Total
 )
 
@@ -19,8 +21,8 @@ data class Ide(
   val mod: String,
   val serie: String,
   val nNF: String,
-  val dhEmi: String,
-  val dhSaiEnt: String,
+  val dhEmi: LocalDateTime?,
+  val dhSaiEnt: LocalDateTime?,
   val tpNF: String,
   val idDest: String,
   val cMunFG: String,
@@ -36,50 +38,94 @@ data class Ide(
 )
 
 data class Emitente(
-  val CNPJ: String,
+  val cnpj: String,
   val xNome: String,
   val xFant: String,
-  val enderEmit: Endereco,
-  val IE: String,
-  val CRT: String
+  val enderEmit: Endereco?,
+  val ie: String,
+  val crt: String
 )
 
 data class Destinatario(
-  val CNPJ: String,
+  val cnpj: String,
   val xNome: String,
-  val enderDest: Endereco,
+  val enderDest: Endereco?,
   val indIEDest: String,
-  val IE: String
+  val ie: String
+)
+
+data class Detalhe(
+  val nItem: Int,
+  val prod: Produto?,
+  val imposto: Imposto?
 )
 
 data class Produto(
   val cProd: String,
   val cEAN: String,
   val xProd: String,
-  val NCM: String,
-  val CFOP: String,
+  val ncm: String,
+  val cfop: String,
   val uCom: String,
-  val qCom: String,
-  val vUnCom: String,
-  val vProd: String,
+  val qCom: Double,
+  val vUnCom: Double,
+  val vProd: Double,
   val cEANTrib: String,
   val uTrib: String,
-  val qTrib: String,
-  val vUnTrib: String,
+  val qTrib: Double,
+  val vUnTrib: Double,
   val indTot: String,
   val xPed: String,
   val nItemPed: String
 )
 
+data class Imposto(
+  val icms: ICMS?,
+  val ipi: IPI?,
+  val pis: PIS?,
+  val cofins: COFINS?
+)
+
+data class ICMS(
+  val orig: String,
+  val cst: String,
+  val modBC: String,
+  val vBC: Double,
+  val pICMS: Double,
+  val vICMS: Double
+)
+
+data class IPI(
+  val cEnq: String,
+  val tributado: Boolean,
+  val vBC: Double,
+  val pIPI: Double,
+  val vIPI: Double
+)
+
+data class PIS(
+  val cst: String,
+  val vBC: Double,
+  val pPIS: Double,
+  val vPIS: Double
+)
+
+data class COFINS(
+  val cst: String,
+  val vBC: Double,
+  val pCOFINS: Double,
+  val vCOFINS: Double
+)
+
 data class Total(
-  val ICMSTot: ICMSTot
+  val icmsTot: ICMSTot
 )
 
 data class ICMSTot(
-  val vBC: String,
-  val vICMS: String,
-  val vProd: String,
-  val vNF: String
+  val vBC: Double,
+  val vICMS: Double,
+  val vProd: Double,
+  val vNF: Double
 )
 
 data class Endereco(
@@ -88,8 +134,8 @@ data class Endereco(
   val xBairro: String,
   val cMun: String,
   val xMun: String,
-  val UF: String,
-  val CEP: String,
+  val uf: String,
+  val cpf: String,
   val cPais: String,
   val xPais: String,
   val fone: String
