@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.view.entrada.columms
 
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.framework.view.*
+import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object UltimaNotaEntradaColumns {
@@ -97,18 +98,21 @@ object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaCstn() = addColumnString(NfPrecEntrada::cstn) {
     this.setHeader("CST N")
     this.isResizable = true
+    this.isExpand = false
     this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCstp() = addColumnString(NfPrecEntrada::cstp) {
     this.setHeader("CST P")
     this.isResizable = true
+    this.isExpand = false
     this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCstx() = addColumnString(NfPrecEntrada::cstx) {
     this.setHeader("CST X")
     this.isResizable = true
+    this.isExpand = false
     this.right()
   }
 
@@ -265,6 +269,7 @@ object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaCst() = addColumnString(NfPrecEntrada::cstIcms) {
     this.setHeader("Cst N")
     this.isResizable = true
+    this.isExpand = false
     this.right()
   }
 

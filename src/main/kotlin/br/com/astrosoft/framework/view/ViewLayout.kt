@@ -224,7 +224,6 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnText(
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnString(
   property: KProperty1<T, String?>,
-
   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
   return this.addColumnFor(property) {
