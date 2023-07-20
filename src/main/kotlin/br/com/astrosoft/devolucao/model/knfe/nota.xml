@@ -268,7 +268,8 @@
         </pag>
         <infAdic>
             <infCpl>Cod. Cliente.:8132//NR. Pedido:40153944//Ponto Ref.:PROX. AO DETRAN//Num.
-                Trans.:10850658//Num. Carreg.:1262568//Cod. Cob.:D//RCA:40</infCpl>
+                Trans.:10850658//Num. Carreg.:1262568//Cod. Cob.:D//RCA:40
+            </infCpl>
         </infAdic>
         <infRespTec>
             <CNPJ>07577599000501</CNPJ>
@@ -279,14 +280,14 @@
     </infNFe>
     <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
         <SignedInfo>
-            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
-            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
             <Reference URI="#NFe22230702709009000100550010000636381222206247">
                 <Transforms>
-                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
-                    <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                    <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
                 </Transforms>
-                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
                 <DigestValue>KdtYpRoND9SQncHug7olE5uwsrE=</DigestValue>
             </Reference>
         </SignedInfo>
@@ -294,7 +295,8 @@
             M3fKoFsTg39mODAwV5D6NMzMh8kEFLQ8CU9Dmr6c8j2Tkbow1/9Do4OV/IOpd2TkfBl7TxX57QEr
             vSOecVKkB8W51+Z5h/iHq76eDm/hepixEmJwYRIDd/dHh2wWDcQncxXQW41xsT1pVQ2OffUlslLN
             hvgKk5vAf/217d1vVxcJmoUG/IFUwH3IaNCcBMZSCZB/eMdj8UBqwZsvMPMJuw/tlzP8IGPNW8yJ
-            kIVOuGrB/X7Gs7OWiaeBkxOfkGSxJafT0dN1EA==</SignatureValue>
+            kIVOuGrB/X7Gs7OWiaeBkxOfkGSxJafT0dN1EA==
+        </SignatureValue>
         <KeyInfo>
             <X509Data>
                 <X509Certificate>MIIH4zCCBcugAwIBAgIUUmYI3IvGi28Me7Qka41gzcvnVrowDQYJKoZIhvcNAQELBQAwejELMAkG
@@ -332,7 +334,8 @@
                     XAH8pzG+WYzTPEhT28GoflZZkV5bcKGT3TYGbT6TgeFKQJR+tTN6IMIOaPDYBmRfJxj09das0NBK
                     xlJSLq2vFHlQVDHSVGlErjbyy0qcSAIIxJXFjlxvz2YwVl3cit0S7aL6xgMwrNtY8J2yXSj016Wt
                     dx/vnr/SozgqA5WkxqonkHaBErHPMFU33iX0B5Tx17tb7mLatpRiO5vhDRPnjnKsov+7o1A9VGj2
-                    iIBytkJ3aK2cFhdoY9uA55CiB9zRNDyUjqhj4Q==</X509Certificate>
+                    iIBytkJ3aK2cFhdoY9uA55CiB9zRNDyUjqhj4Q==
+                </X509Certificate>
             </X509Data>
         </KeyInfo>
     </Signature>
