@@ -214,7 +214,6 @@ fun List<NfPrecEntrada>.group(): List<NfPrecEntrada> {
   val group = this.groupBy { it.ni }
 
   val listGroup = group.mapNotNull { (ni, list) ->
-    val first = list.firstOrNull() ?: return@mapNotNull null
     NfPrecEntrada(
       lj = 999,
       ni = ni,
