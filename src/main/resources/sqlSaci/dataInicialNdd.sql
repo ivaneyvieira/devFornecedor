@@ -1,0 +1,1 @@
+select MIN(dataEmissao*1) as data from sqldados.notasEntradaNdd

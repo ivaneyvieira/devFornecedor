@@ -9,6 +9,7 @@ import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
+import java.time.LocalDate
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -466,6 +467,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataVencimento", nota.dataVencimento)
       addOptionalParameter("saldo", nota.saldo)
     }
+  }
+
+  fun dataInicialNdd(): LocalDate {
+    val sql = "/sqlSaci/dataInicialNdd.sql"
+    val dataAntiga = LocalDate.now().minusYears(6)
+    val data = query(sql, BeanData::class).firstOrNull()?.data ?: return dataAntiga
+    return if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
   }
 
   fun saveNotaNdd(notas: List<NotaEntradaVO>) {
