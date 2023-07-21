@@ -9,7 +9,6 @@ import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
-import org.sql2o.ResultSetIterable
 
 class QuerySaci : QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
@@ -450,7 +449,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
-  fun findXmlNfe(ni : Int): NddXml? {
+  fun findXmlNfe(ni: Int): NddXml? {
     val sql = "/sqlSaci/notasEntradaXml.sql"
     return query(sql, NddXml::class) {
       addOptionalParameter("ni", ni)
@@ -663,10 +662,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   }
 
   private fun <R : Any> filtroNfPrec(
-    filter: FiltroRelatorio,
-    sql: String,
-    complemento: String? = null,
-    result: (Query) -> R
+    filter: FiltroRelatorio, sql: String, complemento: String? = null, result: (Query) -> R
   ): R {
     return querySerivce(sql, complemento, lambda = {
       addOptionalParameter("storeno", filter.storeno)
@@ -921,6 +917,25 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("cnpj", filter.cnpj)
       addOptionalParameter("fornecedor", filter.fornecedor)
     }
+  }
+
+  fun listPrdRef(codigo: String, grade: String): List<PrdRef> {
+    val sql = "/sqlSaci/prdRefSelect.sql"
+    return query(sql, PrdRef::class) {
+      addOptionalParameter("codigo", codigo)
+      addOptionalParameter("grade", grade)
+    }
+  }
+
+  fun addPrdRef(listPrdRef: List<PrdRef>) {
+    val sql = "/sqlSaci/prdRefInsert.sql"
+    script(sql, listPrdRef.map { prdRef ->
+      { q: Query ->
+        q.addOptionalParameter("codigo", prdRef.codigo)
+        q.addOptionalParameter("grade", prdRef.grade)
+        q.addOptionalParameter("prdrefno", prdRef.prdrefno)
+      }
+    })
   }
 
   companion object {

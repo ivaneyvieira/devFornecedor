@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import br.com.astrosoft.devolucao.model.knfe.Detalhe
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
@@ -74,12 +75,34 @@ class NfPrecEntrada(
   val vlIcmsSubst: Double?,
   val vlTotal: Double?,
 ) {
-  val cstx: String?
-    get() {
+  private fun detalheXml() : Detalhe? {
       val ref = refPrdn ?: ""
       val barcode = barcodep ?: ""
-      return NddXml.cst(ni, ref, barcode)
+      return NddXml.detalheProduto(ni, ref, barcode)
+  }
+
+  val cstx: String?
+    get() {
+      val icms = detalheXml()?.imposto?.icms ?: return null
+      val orig = icms.orig
+      val cst = icms.cst
+      return "$orig$cst"
     }
+
+  val refPrdx: String?
+    get() {
+      return detalheXml()?.prod?.cProd ?: return null
+    }
+
+  val barcodex: String?
+    get() {
+      return detalheXml()?.prod?.cEAN ?: return null
+    }
+
+  val ncmx
+    get() = detalheXml()?.prod?.ncm
+
+
 
   val ljCol
     get() = if (lj == 999) null else lj
