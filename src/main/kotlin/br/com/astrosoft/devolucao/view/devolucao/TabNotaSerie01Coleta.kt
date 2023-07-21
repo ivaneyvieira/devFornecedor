@@ -15,7 +15,6 @@ class TabNotaSerie01Coleta(viewModel: TabNotaSerie01ColetaViewModel) :
     get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
-    val username = user as? UserSaci
     return true
   }
 }

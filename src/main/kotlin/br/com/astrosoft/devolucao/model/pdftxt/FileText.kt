@@ -145,6 +145,7 @@ fun main() {
   val filename = "/home/ivaneyvieira/git/devFornecedor/pedidosPDF/pedido01.txt"
   val file = FileText.fromFile(filename)
   val lineColumn = file.localizaColunas()
+  println(lineColumn)
 }
 
 private fun teste01(lineColumn: Line) {
