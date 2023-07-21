@@ -37,8 +37,8 @@ class DlgNotaPedidoCompra(val viewModel: ITabCompraViewModel, val fornecedor: Pe
       button("Relatorio") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
-          val pedidos = gridNota.asMultiSelect().selectedItems.toList()
-          viewModel.imprimirRelatorioFornecedor(pedidos)
+          val ped = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirRelatorioFornecedor(ped)
         }
       }
       button("PDF") {

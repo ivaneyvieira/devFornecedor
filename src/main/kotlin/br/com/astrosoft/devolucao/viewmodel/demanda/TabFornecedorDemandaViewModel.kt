@@ -13,8 +13,8 @@ class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
   }
 
   fun editar(fornecedor: FornecedorProduto) {
-    subView.showUpdateForm(fornecedor) { fornecedor ->
-      fornecedor?.save()
+    subView.showUpdateForm(fornecedor) { forn ->
+      forn?.save()
       updateView()
     }
   }
