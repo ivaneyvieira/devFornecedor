@@ -76,8 +76,9 @@ class NfPrecEntrada(
 ) {
   val cstx: String?
     get() {
-      val ref = refPrdn ?: return null
-      return NddXml.cst(ni, ref)
+      val ref = refPrdn ?: ""
+      val barcode = barcodep ?: ""
+      return NddXml.cst(ni, ref, barcode)
     }
 
   val ljCol
