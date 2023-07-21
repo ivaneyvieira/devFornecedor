@@ -20,9 +20,13 @@ class ProdutoNotaEntradaVO(
 ) {
   fun produtosNotaEntradaNDD(): List<ProdutoNotaEntradaNdd> {
     xmlNfe ?: return emptyList()
-    val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
-    val produtosNota = nota.info?.itens ?: emptyList()
-    return produtosNota.mapNotNull(::mapProduto)
+    return try {
+      val nota: NFNota = DFPersister(false).read(NFNota::class.java, xmlNfe)
+      val produtosNota = nota.info?.itens ?: emptyList()
+      produtosNota.mapNotNull(::mapProduto)
+    }catch (e: Throwable) {
+      emptyList()
+    }
   }
 
   fun itensNotaReport(): List<ItensNotaReport> {
