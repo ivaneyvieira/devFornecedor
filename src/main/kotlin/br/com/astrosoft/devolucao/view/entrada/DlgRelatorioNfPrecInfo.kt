@@ -60,8 +60,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
 
         this.addValueChangeListener {
           filtro.refPrd = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
+          updateGrid()
         }
       }
       this.comboDiferencaStr("Código de Barras") {
@@ -69,8 +68,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
 
         this.addValueChangeListener {
           filtro.barcode = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
+          updateGrid()
         }
       }
       this.comboDiferencaStr("NCM") {
@@ -78,8 +76,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
 
         this.addValueChangeListener {
           filtro.ncm = it.value
-          val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
+          updateGrid()
         }
       }
       this.button("Ref XML") {
@@ -91,8 +88,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       }
     }) {
       gridNota = createGrid(dataProviderGrid)
-      val list = viewModel.findNotas(filtro)
-      gridNota.setItems(list)
+      updateGrid()
       HorizontalLayout().apply {
         setSizeFull()
         addAndExpand(gridNota)
@@ -124,6 +120,15 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       notaNcmn().marcaDiferenca { ncmDif == "N" }
       notaNcmp().marcaDiferenca { ncmDif == "N" }
     }
+  }
+
+  fun selectedItemsSort(): List<NfPrecEntrada>? {
+    return gridNota.selectedItemsSort()
+  }
+
+  fun updateGrid() {
+    val list = viewModel.findNotas(filtro)
+    gridNota.setItems(list)
   }
 }
 

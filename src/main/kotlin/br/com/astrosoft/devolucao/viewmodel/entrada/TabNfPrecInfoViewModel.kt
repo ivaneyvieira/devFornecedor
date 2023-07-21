@@ -72,6 +72,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
         prdrefno = nf.refPrdx ?: ""
       )
     }.distinct()
+    subView.updateGrid()
   }
 }
 
@@ -81,4 +82,5 @@ interface ITabNfPrecInfoViewModel : ITabView {
   fun openRelatorio()
 
   fun selectItens(): List<NfPrecEntrada>
+  fun updateGrid()
 }

@@ -31,6 +31,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
   private lateinit var edtRotulo: TextField
   private lateinit var edtCaracter: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
+  private var dialog : DlgRelatorioNfPrecInfo? = null
 
   override fun setFiltro(filtro: FiltroRelatorio) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
@@ -76,7 +77,16 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
   }
 
   override fun openRelatorio() {
-    DlgRelatorioNfPrecInfo(viewModel, getFiltro()).show()
+    dialog = DlgRelatorioNfPrecInfo(viewModel, getFiltro())
+    dialog?.show()
+  }
+
+  override fun selectItens(): List<NfPrecEntrada> {
+    return dialog?.selectedItemsSort() ?: emptyList()
+  }
+
+  override fun updateGrid() {
+    dialog?.updateGrid()
   }
 
   override val createComponent = VerticalLayout().apply {
