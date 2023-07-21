@@ -11,7 +11,7 @@ class NddXml(val id: Int, val xml: String) {
       return mapNddXml.getOrPut(NiProd(ni, cProd, barcode)) {
         val xml = saci.findXmlNfe(ni)?.xml ?: return@getOrPut null
         val nfe = parseNotaFiscal(xml)
-        nfe.infNFe.detalhes.firstOrNull { det ->
+        nfe?.infNFe?.detalhes?.firstOrNull { det ->
           det.prod?.cProd == cProd || det.prod?.cEAN == barcode
         }
       }
