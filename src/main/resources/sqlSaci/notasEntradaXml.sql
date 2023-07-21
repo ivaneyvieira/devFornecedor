@@ -3,4 +3,4 @@ SELECT id,
 FROM sqldados.notasEntradaNdd AS N
        LEFT JOIN sqldados.invnfe AS CHAVE
                  ON N.chave = CONCAT('NFe', CHAVE.nfekey)
-WHERE (invno = :ni)
+WHERE (invno = :ni AND xmlNfe != 'NULL')
