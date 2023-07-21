@@ -4,18 +4,18 @@ import br.com.astrosoft.devolucao.model.saci
 import java.time.LocalDate
 
 class NotaEntradaSaci(
-  invno: Int,
-  storeno: Long,
-  nomefornecedor: String,
-  codigoFornecedor: Long,
-  fornecedorSap: Long,
-  email: String,
-  obs: String,
-  numero: String,
-  serie: String,
-  dataEmissao: LocalDate,
-  ordno: Int,
-  chave: String,
+  val invno: Int,
+  val storeno: Long,
+  val nomefornecedor: String,
+  val codigoFornecedor: Long,
+  val fornecedorSap: Long,
+  val email: String,
+  val obs: String,
+  val numero: String,
+  val serie: String,
+  val dataEmissao: LocalDate,
+  val ordno: Int,
+  val chave: String,
 ) {
   companion object {
     fun findAll(filtro: FiltroEntradaSaci) = saci.notasEntradaSaci(filtro)

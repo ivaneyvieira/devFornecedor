@@ -48,7 +48,7 @@ class FileText {
     }
 
     val lineFound = lineFound01.ifEmpty {
-      val lineFound01 = dataLines.filter { line ->
+      val lineFound01New = dataLines.filter { line ->
         val result = line.findInDescricao(text)
 
         if (result) true
@@ -62,7 +62,7 @@ class FileText {
           } else false
         }
       }
-      lineFound01
+      lineFound01New
     }
 
     return lineFound

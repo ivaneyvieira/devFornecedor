@@ -108,7 +108,6 @@ class TabFileNFEViewModel(val viewModel: EntradaViewModel) {
   fun zipPdf(notas: List<NotaEntradaXML>): ByteArray {
     return if (notas.isEmpty()) {
       fail("Não ha nenhum item selecionado")
-      ByteArray(0)
     } else {
       val baos = ByteArrayOutputStream()
       try {
