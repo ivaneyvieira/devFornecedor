@@ -138,6 +138,12 @@ object UltimaNotaEntradaColumns {
     this.right()
   }
 
+  fun Grid<NfPrecEntrada>.notaBarcodex() = addColumnString(NfPrecEntrada::barcodex) {
+    this.setHeader("Barras X")
+    this.isResizable = true
+    this.right()
+  }
+
   fun Grid<NfPrecEntrada>.notaRefPrdp() = addColumnString(NfPrecEntrada::refPrdp) {
     this.setHeader("Ref P")
     this.isResizable = true
@@ -145,6 +151,11 @@ object UltimaNotaEntradaColumns {
 
   fun Grid<NfPrecEntrada>.notaRefPrdn() = addColumnString(NfPrecEntrada::refPrdn) {
     this.setHeader("Ref N")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaRefPrdx() = addColumnString(NfPrecEntrada::refPrdx) {
+    this.setHeader("Ref X")
     this.isResizable = true
   }
 
@@ -250,6 +261,12 @@ object UltimaNotaEntradaColumns {
 
   fun Grid<NfPrecEntrada>.notaNcmn() = addColumnString(NfPrecEntrada::ncmn) {
     this.setHeader("NCM N")
+    this.isResizable = true
+    this.right()
+  }
+
+  fun Grid<NfPrecEntrada>.notaNcmx() = addColumnString(NfPrecEntrada::ncmx) {
+    this.setHeader("NCM X")
     this.isResizable = true
     this.right()
   }
