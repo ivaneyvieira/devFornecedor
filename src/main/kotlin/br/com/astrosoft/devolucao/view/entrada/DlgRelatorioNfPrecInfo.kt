@@ -88,6 +88,13 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
           viewModel.refXml()
         }
       }
+      this.button("Barras XML") {
+        this.icon = VaadinIcon.COGS.create()
+
+        onLeftClick {
+          viewModel.barrasXml()
+        }
+      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       updateGrid()

@@ -946,6 +946,17 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     })
   }
 
+  fun addPrdBar(listPrdBar: List<PrdBar>) {
+    val sql = "/sqlSaci/prdBarInsert.sql"
+    script(sql, listPrdBar.map { prdBar ->
+      { q: Query ->
+        q.addOptionalParameter("codigo", prdBar.codigo)
+        q.addOptionalParameter("grade", prdBar.grade)
+        q.addOptionalParameter("barcode", prdBar.barcode)
+      }
+    })
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

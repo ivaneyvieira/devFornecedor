@@ -93,7 +93,7 @@ SELECT iprd.storeno                                                             
        inv.nfname                                                                   AS nfe,
        IF(MID(iprd.cstIcms, 2, 3) = '20',
           ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
-       TRIM(IFNULL(B.barcode, prd.barcode))                                         AS barcodep,
+       CAST(TRIM(IFNULL(GROUP_CONCAT(TRIM(B.barcode)), prd.barcode)) AS CHAR)       AS barcodepl,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
@@ -123,7 +123,7 @@ FROM sqldados.iprd
        LEFT JOIN T_MFPRD AS M
                  USING (prdno, grade)
        LEFT JOIN sqldados.prdrefpq AS R
-                 ON R.prdno = iprd.prdno AND R.grade = iprd.grade AND M.refPrd = R.prdrefno
+                 USING (prdno, grade)
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo
@@ -144,7 +144,7 @@ WHERE inv.date BETWEEN @di AND @df
   AND (inv.nfname = @nf OR @nf = '')
   AND (inv.vendno = @vendno OR @vendno = 0)
   AND (iprd.prdno = @prd OR @CODIGO = '')
-GROUP BY inv.invno, iprd.prdno, iprd.grade;
+GROUP BY iprd.invno, iprd.prdno, iprd.grade;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;
 CREATE TEMPORARY TABLE sqldados.T_MAX
@@ -195,9 +195,9 @@ SELECT lj,
        IF(ROUND(IPIn * 100) = ROUND(IPIp * 100), 'S', 'N')                           AS ipiDif,
        IF(ROUND(mvan * 100) = ROUND(mvap * 100), 'S', 'N')                           AS mvaDif,
        IF(NCMn = NCMp, 'S', 'N')                                                     AS ncmDif,
-       barcodep,
+       barcodepl,
        barcoden,
-       IF(barcodep = barcoden, 'S', 'N')                                             AS barcodeDif,
+       'S'                                                                           AS barcodeDif,
        refPrdn,
        refPrdp,
        IF(refPrdn = refPrdp, 'S', 'N')                                               AS refPrdDif,
