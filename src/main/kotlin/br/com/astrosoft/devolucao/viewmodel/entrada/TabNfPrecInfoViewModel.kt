@@ -80,7 +80,6 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
     }
   }
 
-
   fun barrasXml() {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
@@ -94,6 +93,21 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
         )
       }.distinct()
       PrdBar.add(list)
+      saci.queryNfPrec(subView.getFiltro())
+      subView.updateGrid()
+    }
+  }
+
+  fun ncmXml() {
+    val itens = subView.selectItens()
+    if (itens.isEmpty()) fail("Nenhum item selecionado")
+
+    viewModel.showQuestion("Confirma a atualização dos itens selecionados?") {
+      itens.forEach { nf ->
+        val ncm = nf.ncmx
+        if (ncm.isNullOrBlank())
+          saci.addNCM(nf.prod, ncm ?: "")
+      }
       saci.queryNfPrec(subView.getFiltro())
       subView.updateGrid()
     }

@@ -10,7 +10,7 @@ WHERE prdno = LPAD(:codigo, 16, ' ')
   AND grade = :grade
   AND prdrefno = :prdrefno;
 
-INSERT INTO sqldados.prdrefpq(l1, l2, l3, l4, l5, l6, l7, l8, m1, m2, m3, m4, m5, m6, m7, m8, bits, padbyte, s1, s2, s3,
+REPLACE INTO sqldados.prdrefpq(l1, l2, l3, l4, l5, l6, l7, l8, m1, m2, m3, m4, m5, m6, m7, m8, bits, padbyte, s1, s2, s3,
                               s4, s5, s6, s7, s8, prdno, grade, prdrefno, prdrefname, c1, c2)
 SELECT 0                      AS l1,
        0                      AS l2,

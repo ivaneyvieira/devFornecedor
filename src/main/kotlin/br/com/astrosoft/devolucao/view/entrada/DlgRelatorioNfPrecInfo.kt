@@ -95,6 +95,13 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
           viewModel.barrasXml()
         }
       }
+      this.button("NCM XML") {
+        this.icon = VaadinIcon.COGS.create()
+
+        onLeftClick {
+          viewModel.ncmXml()
+        }
+      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       updateGrid()
