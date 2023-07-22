@@ -64,32 +64,39 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
   fun refXml() {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
-    val list = itens.map { nf->
-      PrdRef(
-        prdno = nf.prod,
-        grade = nf.grade,
-        prdrefname = nf.refPrdx ?: "",
-        prdrefno = nf.refPrdx ?: ""
-      )
-    }.distinct()
-    PrdRef.add(list)
-    saci.queryNfPrec(subView.getFiltro())
-    subView.updateGrid()
+
+    viewModel.showQuestion("Confirma a atualização dos itens selecionados?") {
+      val list = itens.map { nf ->
+        PrdRef(
+          prdno = nf.prod,
+          grade = nf.grade,
+          prdrefname = nf.refPrdx ?: "",
+          prdrefno = nf.refPrdx ?: ""
+        )
+      }.distinct()
+      PrdRef.add(list)
+      saci.queryNfPrec(subView.getFiltro())
+      subView.updateGrid()
+    }
   }
+
 
   fun barrasXml() {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
-    val list = itens.map { nf->
-      PrdBar(
-        prdno = nf.prod,
-        grade = nf.grade,
-        barcode = nf.barcodex ?: ""
-      )
-    }.distinct()
-    PrdBar.add(list)
-    saci.queryNfPrec(subView.getFiltro())
-    subView.updateGrid()
+
+    viewModel.showQuestion("Confirma a atualização dos itens selecionados?") {
+      val list = itens.map { nf ->
+        PrdBar(
+          prdno = nf.prod,
+          grade = nf.grade,
+          barcode = nf.barcodex ?: ""
+        )
+      }.distinct()
+      PrdBar.add(list)
+      saci.queryNfPrec(subView.getFiltro())
+      subView.updateGrid()
+    }
   }
 }
 
