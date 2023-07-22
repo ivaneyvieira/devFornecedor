@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodep
@@ -10,8 +11,8 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmp
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
@@ -115,12 +116,12 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       notaProd().marcaDiferenca { difGeral(false) }
       notaDescricao()
       notaGrade()
-      notaRefPrdx().marcaDiferenca { refPrdDif == "N" }
-      notaRefPrdp().marcaDiferenca { refPrdDif == "N" }
-      notaBarcodex().marcaDiferenca { barcodeDif == "N" }
-      notaBarcodep().marcaDiferenca { barcodeDif == "N" }
-      notaNcmn().marcaDiferenca { ncmDif == "N" }
-      notaNcmp().marcaDiferenca { ncmDif == "N" }
+      notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
+      notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
+      notaBarcodex().marcaDiferenca { barcodeDifx == "N" }
+      notaBarcodep().marcaDiferenca { barcodeDifx == "N" }
+      notaNcmx().marcaDiferenca { ncmDifx == "N" }
+      notaNcmp().marcaDiferenca { ncmDifx == "N" }
     }
   }
 
@@ -129,7 +130,17 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
   }
 
   fun updateGrid() {
-    val list = viewModel.findNotas(filtro)
+    val refPrd = filtro.refPrd
+    filtro.refPrd = T
+    val barcode = filtro.barcode
+    filtro.barcode = T
+    val ncm = filtro.ncm
+    filtro.ncm = T
+    val list = viewModel.findNotas(filtro).filter { nf ->
+      (nf.refPrdDifx == refPrd.str || refPrd == T) &&
+          (nf.barcodeDifx == barcode.str || barcode == T) &&
+          (nf.ncmDifx == ncm.str || ncm == T)
+    }
     gridNota.setItems(list)
   }
 }
