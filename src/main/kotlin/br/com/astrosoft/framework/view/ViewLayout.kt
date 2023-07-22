@@ -46,14 +46,18 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
     this.setSizeFull()
   }
 
-  fun addTabSheat(viewModel: VM) {
+  fun addTabSheat(viewModel: VM, indexTab : Int = 0) {
     tabSheet {
       setSizeFull()
       val tabs = viewModel.tabsAuthorized()
       tabs.forEach { tab ->
         tabPanel(tab as ITabPanel)
       }
+      if(indexTab == 0)
       tabs.firstOrNull()?.updateComponent()
+      else
+        tabs.getOrNull(indexTab)?.updateComponent()
+      this.selectedIndex = indexTab
     }
   }
 
