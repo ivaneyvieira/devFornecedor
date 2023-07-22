@@ -81,6 +81,15 @@ class NfPrecEntrada(
       return NddXml.detalheProduto(ni, ref, barcode)
   }
 
+  val refPrdDifx
+    get()=if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
+
+  val barcodeDifx
+    get()=if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
+
+  val ncmDifx
+    get()=if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
+
   val cstx: String?
     get() {
       val icms = detalheXml()?.imposto?.icms ?: return null
