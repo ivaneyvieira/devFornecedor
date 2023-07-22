@@ -75,20 +75,26 @@ class NfPrecEntrada(
   val vlIcmsSubst: Double?,
   val vlTotal: Double?,
 ) {
-  private fun detalheXml() : Detalhe? {
-      val ref = refPrdn ?: ""
-      val barcode = barcodep ?: ""
-      return NddXml.detalheProduto(ni, ref, barcode)
+  private fun detalheXml(): Detalhe? {
+    val ref = refPrdn ?: ""
+    val barcode = barcodep ?: ""
+    return NddXml.detalheProduto(ni, ref, barcode)
   }
 
   val refPrdDifx
-    get()=if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
+    get() = if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
 
   val barcodeDifx
-    get()=if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
+    get() = if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
 
   val ncmDifx
-    get()=if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
+    get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
+
+  val cstDifxn
+    get() = if ((cstx ?: "") == (cstIcms ?: "")) "S" else "N"
+
+  val cstDifnp
+    get() = if ((cstIcms?.subSequence(1, 3) ?: "") == (cstp ?: "")) "S" else "N"
 
   val cstx: String?
     get() {
@@ -110,7 +116,6 @@ class NfPrecEntrada(
 
   val ncmx
     get() = detalheXml()?.prod?.ncm
-
 
 
   val ljCol
