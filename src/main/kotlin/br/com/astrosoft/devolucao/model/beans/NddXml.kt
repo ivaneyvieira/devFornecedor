@@ -7,7 +7,12 @@ import br.com.astrosoft.devolucao.model.saci
 class NddXml(val id: Int, val xml: String) {
   companion object {
     private val mapNddXml = mutableMapOf<NiProd, Detalhe?>()
-    fun detalheProduto(ni: Int, cProd: String, barcode: String): Detalhe? {
+    fun detalheProduto(ni: Int, cProd: String, listBarcode: List<String>): Detalhe? {
+      return listBarcode.firstNotNullOfOrNull { barcode ->
+        detalheProduto(ni, cProd, barcode)
+      }
+    }
+    private fun detalheProduto(ni: Int, cProd: String, barcode: String): Detalhe? {
       return mapNddXml.getOrPut(NiProd(ni, cProd, barcode)) {
         val xml = saci.findXmlNfe(ni)?.xml ?: return@getOrPut null
         val nfe = parseNotaFiscal(xml)

@@ -2,12 +2,8 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
 
-class PrdRef(val prdno: String, val grade: String, val prdrefname: String, val prdrefno: String) {
+class PrdBar(val prdno: String, val grade: String, val barcode: String) {
   val codigo get() = prdno.trim()
-
-  fun list(): List<PrdRef> {
-    return listPrdRef(codigo, grade)
-  }
 
   fun add() {
     add(listOf(this))
@@ -17,28 +13,23 @@ class PrdRef(val prdno: String, val grade: String, val prdrefname: String, val p
     if (this === other) return true
     if (javaClass != other?.javaClass) return false
 
-    other as PrdRef
+    other as PrdBar
 
     if (prdno != other.prdno) return false
     if (grade != other.grade) return false
-    if (prdrefname != other.prdrefname) return false
-    return prdrefno == other.prdrefno
+    return barcode == other.barcode
   }
 
   override fun hashCode(): Int {
     var result = prdno.hashCode()
     result = 31 * result + grade.hashCode()
-    result = 31 * result + prdrefname.hashCode()
-    result = 31 * result + prdrefno.hashCode()
+    result = 31 * result + barcode.hashCode()
     return result
   }
 
-
   companion object {
-    fun listPrdRef(codigo: String, grade: String) = saci.listPrdRef(codigo, grade)
-
-    fun add(listPrdRef: List<PrdRef>) {
-      saci.addPrdRef(listPrdRef)
+    fun add(listPrdBar: List<PrdBar>) {
+      saci.addPrdBar(listPrdBar)
     }
   }
 }
