@@ -10,7 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route("", layout = DevFornecedorLayout::class)
+@Route(layout = DevFornecedorLayout::class)
 @PageTitle("Série 01")
 @CssImport("./styles/gridTotal.css")
 class Devolucao01View : ViewLayout<Devolucao01ViewModel>(), IDevolucao01View {
