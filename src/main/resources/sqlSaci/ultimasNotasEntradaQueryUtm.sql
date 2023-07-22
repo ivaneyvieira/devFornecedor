@@ -95,7 +95,7 @@ SELECT iprd.storeno                                                             
           ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
        TRIM(IFNULL(B.barcode, prd.barcode))                                         AS barcodep,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
-       TRIM(IFNULL(prd.refPrd, ''))                                                 AS refPrdp,
+       TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
        inv.freight * 100.00 / inv.grossamt                                          AS freten,
@@ -122,6 +122,8 @@ FROM sqldados.iprd
                  USING (prdno, grade)
        LEFT JOIN T_MFPRD AS M
                  USING (prdno, grade)
+       LEFT JOIN sqldados.prdrefpq AS R
+                 ON R.prdno = iprd.prdno AND R.grade = iprd.grade AND M.refPrd = R.prdrefno
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo

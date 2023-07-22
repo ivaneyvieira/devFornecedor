@@ -141,6 +141,9 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
           (nf.barcodeDifx == barcode.str || barcode == T) &&
           (nf.ncmDifx == ncm.str || ncm == T)
     }
+    filtro.refPrd = refPrd
+    filtro.barcode = barcode
+    filtro.ncm = ncm
     gridNota.setItems(list)
   }
 }
