@@ -155,9 +155,9 @@ class DlgRelatorioNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel, val filt
       notaIcmsp().marcaDiferenca { icmsDif == "N" }
       notaIpin().marcaDiferenca { ipiDif == "N" }
       notaIpip().marcaDiferenca { ipiDif == "N" }
-      notaCstx().marcaDiferenca { (cstIcms ?: "") != (cstx ?: "") }
-      notaCst().marcaDiferenca { (cstIcms ?: "") != (cstx ?: "") }
-      notaCstp()
+      notaCstx().marcaDiferenca { cstDifxn == "N" }
+      notaCst().marcaDiferenca { cstDifxn == "N" || cstDifnp == "N" }
+      notaCstp().marcaDiferenca { cstDifnp == "N" }
       notaMvan().marcaDiferenca { mvaDif == "N" }
       notaMvap().marcaDiferenca { mvaDif == "N" }
     }
