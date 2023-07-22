@@ -957,6 +957,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     })
   }
 
+  fun addNCM(codigo: String, ncm: String) {
+    val sql = "/sqlSaci/ncmInsert.sql"
+    script(sql) {
+      addOptionalParameter("codigo", codigo)
+      addOptionalParameter("ncm", ncm)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver
