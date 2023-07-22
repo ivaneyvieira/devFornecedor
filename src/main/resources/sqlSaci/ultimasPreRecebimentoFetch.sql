@@ -10,7 +10,7 @@ DO @icms := :icms;
 DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
-DO @barcode := :barcode;
+DO @barcode := 'T';
 DO @refPrd := :refPrd;
 DO @frete := :frete;
 DO @preco := :preco;
@@ -45,7 +45,7 @@ SELECT lj,
        ipiDif,
        mvaDif,
        ncmDif,
-       barcodep,
+       barcodepl,
        barcoden,
        barcodeDif,
        refPrdp,
