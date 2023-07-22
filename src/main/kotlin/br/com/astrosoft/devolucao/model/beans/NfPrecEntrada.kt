@@ -99,8 +99,18 @@ class NfPrecEntrada(
   val cstDifxn
     get() = if ((cstx ?: "") == (cstIcms ?: "")) "S" else "N"
 
-  val cstDifnp
-    get() = if ((cstIcms?.subSequence(1, 3) ?: "") == (cstp ?: "")) "S" else "N"
+  val cstDifnp: String
+    get() {
+      val vcstn =cstIcms?.subSequence(1, 3).let{
+        when (it) {
+          "10" -> "06"
+          "60" -> "06"
+          else -> it
+        }
+      } ?: ""
+      val vcstp = cstp ?: ""
+      return if (vcstp == vcstn) "S" else "N"
+    }
 
   val cstx: String?
     get() {
