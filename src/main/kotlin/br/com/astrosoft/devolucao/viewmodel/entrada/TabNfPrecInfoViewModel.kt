@@ -72,6 +72,8 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
         prdrefno = nf.refPrdx ?: ""
       )
     }.distinct()
+    PrdRef.addPrdRef(list)
+    saci.queryNfPrec(subView.getFiltro())
     subView.updateGrid()
   }
 }
