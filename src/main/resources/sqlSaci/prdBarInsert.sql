@@ -49,4 +49,4 @@ SELECT 0                       AS auxLong1,
        ''                      AS c3,
        ''                      AS c4
 FROM dual
-WHERE NOT EXISTS(SELECT * FROM T_BAR)
+WHERE NOT EXISTS(SELECT * FROM T_BAR) AND :grade != ''
