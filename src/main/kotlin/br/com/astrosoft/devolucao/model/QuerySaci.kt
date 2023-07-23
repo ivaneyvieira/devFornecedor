@@ -473,7 +473,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/dataInicialNdd.sql"
     val dataAntiga = LocalDate.now().minusYears(6)
     val data = query(sql, BeanData::class).firstOrNull()?.data ?: return dataAntiga
-    return dataAntiga //if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
+    return LocalDate.now().minusDays(45)// if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
   }
 
   fun saveNotaNdd(notas: List<NotaEntradaVO>) {
