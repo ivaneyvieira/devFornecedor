@@ -15,7 +15,7 @@ typealias QueryHandle = Query.() -> Unit
 
 open class QueryDB(driver: String, url: String, username: String, password: String) {
   protected val sql2o: Sql2o
-  val BATCH_SIZE = 500
+  val BATCH_SIZE = 1500
 
   init {
     registerDriver(driver)
@@ -158,14 +158,18 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
 
   private fun scriptSQL(con: Connection, stratments: List<String>, lambda: List<QueryHandle>) {
+    val listQuery = stratments.map { sql ->
+      val query = con.createQueryConfig(sql)
+      println(query.toString())
+      query
+    }
     lambda.forEach { lamb ->
-      stratments.forEach { sql ->
-        val query = con.createQueryConfig(sql)
+      listQuery.forEach { query ->
         query.lamb()
         query.executeUpdate()
-        println(sql)
       }
     }
+    println()
   }
 
   fun Query.addOptionalParameter(name: String, value: String?): Query {

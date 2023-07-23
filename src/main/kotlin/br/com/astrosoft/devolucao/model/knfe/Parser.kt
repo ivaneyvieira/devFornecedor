@@ -173,6 +173,8 @@ fun parseNotaFiscal(xmlString: String): NFe? {
 
     val nfeElement = doc.getElement("NFe")
     val infNFeElement = nfeElement?.getElement("infNFe")
+    val id : String = infNFeElement?.getAttribute("Id") ?: ""
+    val versao = infNFeElement?.getAttribute("versao") ?: ""
     val ideElement = infNFeElement?.getElement("ide")
     val emitElement = infNFeElement?.getElement("emit")
     val destElement = infNFeElement?.getElement("dest")
@@ -233,7 +235,7 @@ fun parseNotaFiscal(xmlString: String): NFe? {
       )
     )
 
-    return NFe(InfNFe(ide = ide, emit = emitente, dest = destinatario, detalhes = detalhes, total = total))
+    return NFe(InfNFe(id = id, versao = versao, ide = ide, emit = emitente, dest = destinatario, detalhes = detalhes, total = total))
   } catch (e: Exception) {
     return null
   }

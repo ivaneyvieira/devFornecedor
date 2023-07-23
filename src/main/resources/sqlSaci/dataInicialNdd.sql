@@ -1,1 +1,3 @@
-select MIN(dataEmissao*1) as data from sqldados.notasEntradaNdd
+SELECT MIN(dataEmissao * 1) AS data
+FROM sqldados.notasEntradaNdd
+       INNER JOIN sqldados.produtosNdd USING (id)

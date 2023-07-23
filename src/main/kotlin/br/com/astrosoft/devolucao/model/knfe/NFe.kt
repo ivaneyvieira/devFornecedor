@@ -7,6 +7,8 @@ data class NFe(
 )
 
 data class InfNFe(
+  val id: String,
+  val versao: String,
   val ide: Ide,
   val emit: Emitente,
   val dest: Destinatario,

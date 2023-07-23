@@ -504,6 +504,9 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         q.addOptionalParameter("xmlDadosAdicionais", nota.xmlDadosAdicionais)
       }
     })
+    notas.forEach { nota ->
+      addProdutosNdd(ProdutosNdd.fromNdd(nota))
+    }
   }
 
   fun notasEntrada(filtro: FiltroEntradaNdd): List<NotaEntradaNdd> {
@@ -963,6 +966,40 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("codigo", codigo)
       addOptionalParameter("ncm", ncm)
     }
+  }
+
+  fun addProdutosNdd(produtos: List<ProdutosNdd>) {
+    val sql = "/sqlSaci/insertProdutoNdd.sql"
+
+    script(sql, lambda = produtos.map { produto ->
+      {
+        addOptionalParameter("id", produto.id)
+        addOptionalParameter("nItem", produto.nItem)
+        addOptionalParameter("cProd", produto.cProd)
+        addOptionalParameter("cEAN", produto.cEAN)
+        addOptionalParameter("xProd", produto.xProd)
+        addOptionalParameter("ncm", produto.ncm)
+        addOptionalParameter("cfop", produto.cfop)
+        addOptionalParameter("uCom", produto.uCom)
+        addOptionalParameter("qCom", produto.qCom)
+        addOptionalParameter("vUnCom", produto.vUnCom)
+        addOptionalParameter("vProd", produto.vProd)
+        addOptionalParameter("indTot", produto.indTot)
+        addOptionalParameter("cstIcms", produto.cstIcms)
+        addOptionalParameter("baseIcms", produto.baseIcms)
+        addOptionalParameter("percIcms", produto.percIcms)
+        addOptionalParameter("valorIcms", produto.valorIcms)
+        addOptionalParameter("baseIpi", produto.baseIpi)
+        addOptionalParameter("percIpi", produto.percIpi)
+        addOptionalParameter("valorIpi", produto.valorIpi)
+        addOptionalParameter("basePis", produto.basePis)
+        addOptionalParameter("percPis", produto.percPis)
+        addOptionalParameter("valorPis", produto.valorPis)
+        addOptionalParameter("baseCofins", produto.baseCofins)
+        addOptionalParameter("percCofins", produto.percCofins)
+        addOptionalParameter("valorCofins", produto.valorCofins)
+      }
+    })
   }
 
   companion object {
