@@ -278,3 +278,35 @@ ALTER TABLE sqldados.nfComplemento
 
 CREATE INDEX i2
   ON sqldados.notasEntradaNdd (chave);
+
+
+DROP TABLE IF EXISTS sqldados.produtosNdd;
+CREATE TABLE sqldados.produtosNdd
+(
+  id          int NOT NULL,
+  nItem       int NOT NULL,
+  cProd       VARCHAR(60),
+  cEAN        VARCHAR(14),
+  xProd       VARCHAR(120),
+  ncm         VARCHAR(8),
+  cfop        VARCHAR(4),
+  uCom        VARCHAR(6),
+  qCom        DECIMAL(13, 4),
+  vUnCom      DECIMAL(13, 4),
+  vProd       DECIMAL(13, 4),
+  indTot      VARCHAR(1),
+  cstIcms     VARCHAR(3),
+  baseIcms    DECIMAL(13, 4),
+  percIcms    DECIMAL(13, 4),
+  valorIcms   DECIMAL(13, 4),
+  baseIpi     DECIMAL(13, 4),
+  percIpi     DECIMAL(13, 4),
+  valorIpi    DECIMAL(13, 4),
+  basePis     DECIMAL(13, 4),
+  percPis     DECIMAL(13, 4),
+  valorPis    DECIMAL(13, 4),
+  baseCofins  DECIMAL(13, 4),
+  percCofins  DECIMAL(13, 4),
+  valorCofins DECIMAL(13, 4),
+  PRIMARY KEY (id, nItem, cProd)
+);
