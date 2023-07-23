@@ -473,35 +473,36 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/dataInicialNdd.sql"
     val dataAntiga = LocalDate.now().minusYears(6)
     val data = query(sql, BeanData::class).firstOrNull()?.data ?: return dataAntiga
-    return LocalDate.now().minusDays(45)// if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
+    return LocalDate.now()
+      .minusDays(45)// if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
   }
 
   fun saveNotaNdd(notas: List<NotaEntradaVO>) {
     val sql = "/sqlSaci/saveNotaNdd.sql"
     script(sql, notas.map { nota ->
-      { q: Query ->
-        q.addOptionalParameter("id", nota.id)
-        q.addOptionalParameter("numero", nota.numero)
-        q.addOptionalParameter("cancelado", nota.cancelado)
-        q.addOptionalParameter("serie", nota.serie)
-        q.addOptionalParameter("dataEmissao", nota.dataEmissao?.toSaciDate() ?: 0)
-        q.addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
-        q.addOptionalParameter("nomeFornecedor", nota.nomeFornecedor)
-        q.addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
-        q.addOptionalParameter("ieEmitente", nota.ieEmitente)
-        q.addOptionalParameter("ieDestinatario", nota.ieDestinatario)
-        q.addOptionalParameter("baseCalculoIcms", nota.valorNota ?: nota.baseCalculoIcms)
-        q.addOptionalParameter("baseCalculoSt", nota.baseCalculoSt)
-        q.addOptionalParameter("valorTotalProdutos", nota.valorTotalProdutos)
-        q.addOptionalParameter("valorTotalIcms", nota.valorTotalIcms)
-        q.addOptionalParameter("valorTotalSt", nota.valorTotalSt)
-        q.addOptionalParameter("baseCalculoIssqn", nota.baseCalculoIssqn)
-        q.addOptionalParameter("chave", nota.chave)
-        q.addOptionalParameter("status", nota.status)
-        q.addOptionalParameter("xmlAut", nota.xmlAut)
-        q.addOptionalParameter("xmlCancelado", nota.xmlCancelado)
-        q.addOptionalParameter("xmlNfe", nota.xmlNfe)
-        q.addOptionalParameter("xmlDadosAdicionais", nota.xmlDadosAdicionais)
+      {
+        addOptionalParameter("id", nota.id)
+        addOptionalParameter("numero", nota.numero)
+        addOptionalParameter("cancelado", nota.cancelado)
+        addOptionalParameter("serie", nota.serie)
+        addOptionalParameter("dataEmissao", nota.dataEmissao?.toSaciDate() ?: 0)
+        addOptionalParameter("cnpjEmitente", nota.cnpjEmitente)
+        addOptionalParameter("nomeFornecedor", nota.nomeFornecedor)
+        addOptionalParameter("cnpjDestinatario", nota.cnpjDestinatario)
+        addOptionalParameter("ieEmitente", nota.ieEmitente)
+        addOptionalParameter("ieDestinatario", nota.ieDestinatario)
+        addOptionalParameter("baseCalculoIcms", nota.valorNota ?: nota.baseCalculoIcms)
+        addOptionalParameter("baseCalculoSt", nota.baseCalculoSt)
+        addOptionalParameter("valorTotalProdutos", nota.valorTotalProdutos)
+        addOptionalParameter("valorTotalIcms", nota.valorTotalIcms)
+        addOptionalParameter("valorTotalSt", nota.valorTotalSt)
+        addOptionalParameter("baseCalculoIssqn", nota.baseCalculoIssqn)
+        addOptionalParameter("chave", nota.chave)
+        addOptionalParameter("status", nota.status)
+        addOptionalParameter("xmlAut", nota.xmlAut)
+        addOptionalParameter("xmlCancelado", nota.xmlCancelado)
+        addOptionalParameter("xmlNfe", nota.xmlNfe)
+        addOptionalParameter("xmlDadosAdicionais", nota.xmlDadosAdicionais)
       }
     })
     notas.forEach { nota ->
