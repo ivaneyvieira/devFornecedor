@@ -77,6 +77,8 @@ class NfPrecEntrada(
 ) {
   val barcodepList = barcodepl?.split(",") ?: emptyList()
 
+  fun toHead() = NotaEntradaHead(lj, ni, data, dataEmissao, nfe, fornCad, fornNota)
+
   val barcodep
     get() = barcodepList.firstOrNull{
       it == barcodex
