@@ -70,52 +70,52 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
-SELECT iprd2.storeno                                                                     AS lj,
-       inv2.invno                                                                        AS ni,
-       CAST(inv2.date AS DATE)                                                           AS data,
-       CAST(inv2.issue_date AS DATE)                                                     AS dataEmissao,
-       prd.mfno                                                                          AS fornCad,
-       inv2.vendno                                                                       AS fornNota,
-       iprd2.prdno                                                                       AS prod,
-       IF(@comGrade = 'S', iprd2.grade, '')                                              AS grade,
-       TRIM(MID(prd.name, 1, 37))                                                        AS descricao,
-       spedprd.ncm                                                                       AS ncmp,
-       IFNULL(mfprd.ncm, spedprd.ncm)                                                    AS ncmn,
+SELECT iprd2.storeno                                                                   AS lj,
+       inv2.invno                                                                      AS ni,
+       CAST(inv2.date AS DATE)                                                         AS data,
+       CAST(inv2.issue_date AS DATE)                                                   AS dataEmissao,
+       prd.mfno                                                                        AS fornCad,
+       inv2.vendno                                                                     AS fornNota,
+       iprd2.prdno                                                                     AS prod,
+       IF(@comGrade = 'S', iprd2.grade, '')                                            AS grade,
+       TRIM(MID(prd.name, 1, 37))                                                      AS descricao,
+       spedprd.ncm                                                                     AS ncmp,
+       IFNULL(mfprd.ncm, spedprd.ncm)                                                  AS ncmn,
        IF(prd.taxno = '06', IF(iprd2.baseIcmsSubst = 0, 0, ROUND(((iprd2.baseIcmsSubst / 100) /
                                                                   (((iprd2.qtty / 1000) * (iprd2.dfob)) + (iprd2.ipiAmt / 100)) -
                                                                   1.00) * 100, 4)),
-          ROUND(iprd2.lucroTributado / 100, 4))                                          AS mvan,
-       ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 2)            AS mvap,
-       ROUND(iprd2.ipi / 100, 2)                                                         AS ipin,
-       ROUND(IFNULL(prp.ipi, 0) / 100, 2)                                                AS ipip,
+          ROUND(iprd2.lucroTributado / 100, 4))                                        AS mvan,
+       ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 2)          AS mvap,
+       ROUND(iprd2.ipi / 100, 2)                                                       AS ipin,
+       ROUND(IFNULL(prp.ipi, 0) / 100, 2)                                              AS ipip,
        IF(MID(iprd2.cstIcms, 2, 3) = '20',
-          ROUND(iprd2.icms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL)       AS icmsc,
-       ROUND(iprd2.icmsAliq / 100, 2)                                                    AS icmsn,
-       ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 2)                                        AS icmsp,
-       prd.taxno                                                                         AS cstp,
-       MID(iprd2.cstIcms, 2, 3)                                                          AS cstn,
-       inv2.nfname                                                                       AS nfe,
+          ROUND(iprd2.icms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL)     AS icmsc,
+       ROUND(iprd2.icmsAliq / 100, 2)                                                  AS icmsn,
+       ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 2)                                      AS icmsp,
+       prd.taxno                                                                       AS cstp,
+       MID(iprd2.cstIcms, 2, 3)                                                        AS cstn,
+       inv2.nfname                                                                     AS nfe,
        IF(MID(iprd2.cstIcms, 2, 3) = '20',
-          ROUND(iprd2.baseIcms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL)   AS icmsd,
-       CAST(TRIM(COALESCE(GROUP_CONCAT(TRIM(B.barcode)), P2.gtin, prd.barcode)) AS CHAR) AS barcodepl,
-       TRIM(prd.barcode)                                                                 AS barcodec,
-       TRIM(IFNULL(M.barcode, ''))                                                       AS barcoden,
-       TRIM(IFNULL(prd.refPrd, ''))                                                      AS refPrdp,
-       TRIM(IFNULL(M.refPrd, ''))                                                        AS refPrdn,
-       IFNULL(prp.freight / 100, 0.00)                                                   AS fretep,
-       inv2.freight * 100.00 / inv2.grossamt                                             AS freten,
-       IF(inv2.weight = 0, NULL, (inv2.freight / 100) / inv2.weight * 1.00)              AS frete,
-       cstIcms                                                                           AS cstIcms,
-       cfop                                                                              AS cfop,
-       ROUND(iprd2.dfob * iprd2.qtty / 1000, 2)                                          AS valor,
-       ROUND(iprd2.discount / 100, 2)                                                    AS vlDesconto,
-       ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) - ROUND(iprd2.discount / 100, 2)         AS vlLiquido,
-       ROUND(ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) * iprd2.frete / 10000, 2)          AS vlFrete,
-       ROUND(ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) * iprd2.despesas / 10000, 2)       AS vlDespesas,
-       ROUND(iprd2.icms / 100, 2)                                                        AS vlIcms,
-       ROUND(iprd2.ipiAmt / 100, 2)                                                      AS vlIpi,
-       ROUND(iprd2.baseIcmsSubst / 100, 2)                                               AS baseSubst,
-       ROUND(iprd2.icmsSubst / 100, 2)                                                   AS vlIcmsSubst
+          ROUND(iprd2.baseIcms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL) AS icmsd,
+       CAST(TRIM(COALESCE(GROUP_CONCAT(TRIM(B.barcode)), P2.gtin)) AS CHAR)            AS barcodepl,
+       TRIM(prd.barcode)                                                               AS barcodec,
+       TRIM(IFNULL(M.barcode, ''))                                                     AS barcoden,
+       TRIM(IFNULL(prd.refPrd, ''))                                                    AS refPrdp,
+       TRIM(IFNULL(M.refPrd, ''))                                                      AS refPrdn,
+       IFNULL(prp.freight / 100, 0.00)                                                 AS fretep,
+       inv2.freight * 100.00 / inv2.grossamt                                           AS freten,
+       IF(inv2.weight = 0, NULL, (inv2.freight / 100) / inv2.weight * 1.00)            AS frete,
+       cstIcms                                                                         AS cstIcms,
+       cfop                                                                            AS cfop,
+       ROUND(iprd2.dfob * iprd2.qtty / 1000, 2)                                        AS valor,
+       ROUND(iprd2.discount / 100, 2)                                                  AS vlDesconto,
+       ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) - ROUND(iprd2.discount / 100, 2)       AS vlLiquido,
+       ROUND(ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) * iprd2.frete / 10000, 2)        AS vlFrete,
+       ROUND(ROUND(iprd2.dfob * iprd2.qtty / 1000, 2) * iprd2.despesas / 10000, 2)     AS vlDespesas,
+       ROUND(iprd2.icms / 100, 2)                                                      AS vlIcms,
+       ROUND(iprd2.ipiAmt / 100, 2)                                                    AS vlIpi,
+       ROUND(iprd2.baseIcmsSubst / 100, 2)                                             AS baseSubst,
+       ROUND(iprd2.icmsSubst / 100, 2)                                                 AS vlIcmsSubst
 FROM sqldados.iprd2
        INNER JOIN sqldados.inv2
                   USING (invno)
@@ -128,7 +128,7 @@ FROM sqldados.iprd2
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd2.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd2.grade)
        LEFT JOIN sqldados.prdbar AS B
-                 ON B.prdno = iprd2.prdno AND B.grade = iprd2.grade AND B.grade != ''
+                 ON B.prdno = iprd2.prdno AND B.grade = iprd2.grade AND B.grade != '' AND prd.groupno != 10000
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd2.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo

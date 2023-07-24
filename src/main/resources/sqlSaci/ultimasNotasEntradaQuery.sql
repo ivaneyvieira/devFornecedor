@@ -163,7 +163,7 @@ FROM sqldados.iprd
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd.grade)
        LEFT JOIN sqldados.prdbar AS B
-                 ON B.prdno = iprd.prdno AND B.grade = iprd.grade AND B.grade != ''
+                 ON B.prdno = iprd.prdno AND B.grade = iprd.grade AND B.grade != '' AND prd.groupno != 10000
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo
