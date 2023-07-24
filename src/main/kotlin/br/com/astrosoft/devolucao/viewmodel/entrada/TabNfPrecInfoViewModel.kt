@@ -65,7 +65,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
-    viewModel.showQuestion("Confirma a atualização dos itens selecionados?") {
+    viewModel.showQuestion("Confirma a atualização de REFERÊNCIA para os itens selecionados?") {
       val list = itens.map { nf ->
         PrdRef(
           prdno = nf.prod,
@@ -84,7 +84,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
-    viewModel.showQuestion("Confirma a atualização dos itens selecionados?") {
+    viewModel.showQuestion("Confirma a atualização de CÓD BARRAS paras os itens selecionados?") {
       val list = itens.map { nf ->
         PrdBar(
           prdno = nf.prod,
@@ -102,7 +102,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
-    viewModel.showQuestion("Confirma a atualização dos itens selecionados?") {
+    viewModel.showQuestion("Confirma a atualização do NCM para os itens selecionados?") {
       itens.forEach { nf ->
         val ncm = nf.ncmx
         if (ncm.isNullOrBlank())

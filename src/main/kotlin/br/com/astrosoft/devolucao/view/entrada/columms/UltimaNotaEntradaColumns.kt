@@ -127,13 +127,13 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaBarcodep() = addColumnString(NfPrecEntrada::barcodep) {
-    this.setHeader("Barras P")
+    this.setHeader("Cód Barras Gtin")
     this.isResizable = true
     this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaBarcodec() = addColumnString(NfPrecEntrada::barcodec) {
-    this.setHeader("Barras C")
+    this.setHeader("Cód Barras Cad")
     this.isResizable = true
     this.right()
   }
@@ -145,7 +145,7 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaBarcodex() = addColumnString(NfPrecEntrada::barcodex) {
-    this.setHeader("Barras X")
+    this.setHeader("Cód Barras XML")
     this.isResizable = true
     this.right()
   }
