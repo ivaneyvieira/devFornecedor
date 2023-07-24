@@ -978,6 +978,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         addOptionalParameter("nItem", produto.nItem)
         addOptionalParameter("cProd", produto.cProd)
         addOptionalParameter("cEAN", produto.cEAN)
+        addOptionalParameter("cEANTrib", produto.cEANTrib)
         addOptionalParameter("xProd", produto.xProd)
         addOptionalParameter("ncm", produto.ncm)
         addOptionalParameter("cfop", produto.cfop)

@@ -133,7 +133,7 @@ class NfPrecEntrada(
 
   val barcodex: String?
     get() {
-      return detalheXml()?.prod?.cEAN ?: return null
+      return detalheXml()?.prod?.cEANTrib ?: return null
     }
 
   val ncmx
