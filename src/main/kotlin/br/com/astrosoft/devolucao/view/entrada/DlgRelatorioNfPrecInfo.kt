@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodec
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodep
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodex
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
@@ -132,8 +133,9 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       notaGrade()
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
-      notaBarcodex().marcaDiferenca { barcodeDifx == "N" }
-      notaBarcodep().marcaDiferenca { barcodeDifx == "N" }
+      notaBarcodex().marcaDiferenca { barcodeDifxp == "N" }
+      notaBarcodep().marcaDiferenca { barcodeDifxp == "N" || barcodeDifpc == "N" }
+      notaBarcodec().marcaDiferenca { barcodeDifpc == "N" }
       notaNcmx().marcaDiferenca { ncmDifx == "N" }
       notaNcmp().marcaDiferenca { ncmDifx == "N" }
     }
@@ -152,7 +154,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
     filtro.ncm = T
     val list = viewModel.findNotas(filtro).filter { nf ->
       (nf.refPrdDifx == refPrd.str || refPrd == T) &&
-          (nf.barcodeDifx == barcode.str || barcode == T) &&
+          (nf.barcodeDifxp == barcode.str || nf.barcodeDifpc == barcode.str || barcode == T) &&
           (nf.ncmDifx == ncm.str || ncm == T)
     }
     filtro.refPrd = refPrd
