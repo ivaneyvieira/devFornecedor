@@ -97,8 +97,6 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaIcmsn().setHeader("ICMS")
       notaIpin().setHeader("IPI")
       notaVlLiquido()
-      notaVlFrete()
-      notaVlDespesa()
       notaVlIcms()
       notaVlIpi()
       notaBaseSubst()
