@@ -102,6 +102,13 @@ class NfPrecEntrada(
       else "N"
     } else "S"
 
+  val mvaDifxn
+    get() = if ((mvax ?: "") == (mvan ?: "")) "S" else "N"
+
+  val mvaDifnp
+    get() = if ((mvan ?: "") == (mvap ?: "")) "S" else "N"
+
+
   val ncmDifx
     get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
 

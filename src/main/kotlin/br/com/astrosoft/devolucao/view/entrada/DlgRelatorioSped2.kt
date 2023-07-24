@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.group
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOP
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOPX
@@ -10,9 +9,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
@@ -23,9 +20,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValor
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDesconto
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDespesa
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcms
@@ -33,23 +27,19 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlLiquido
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotal
+import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabSped2ViewModel
-import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome.Solid.FILE_EXCEL
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
-import com.github.mvysny.kaributools.fetchAll
-import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
-import com.vaadin.flow.component.grid.ColumnTextAlign
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
-import kotlin.reflect.KProperty1
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRelatorio) {
@@ -69,7 +59,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
     }) {
       val list =
-        viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }, { it.prod }, { it.grade }))
+        viewModel.findNotas(filtro)
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)
@@ -98,36 +88,22 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaGrade().setHeader("Grade")
       notaCFOPX()
       notaCFOP()
-      notaCst()
-      notaCstx()
-      notaCstp()
-      notaMvax()
-      notaMvan()
-      notaMvap()
+      notaCst().marcaDiferenca { cstDifnp == "N" || cstDifxn == "N" }
+      notaCstx().marcaDiferenca { cstDifxn == "N" }
+      notaCstp().marcaDiferenca { cstDifnp == "N" }
+      notaMvax().marcaDiferenca { mvaDifxn == "N" }
+      notaMvan().marcaDiferenca { mvaDifnp == "N" || mvaDifxn == "N" }
+      notaMvap().marcaDiferenca { mvaDifnp == "N" }
       notaIcmsn().setHeader("ICMS")
       notaIpin().setHeader("IPI")
-      notaVlLiquido().marcaTotal(NfPrecEntrada::vlLiquido)
-      notaVlFrete().marcaTotal(NfPrecEntrada::vlFrete)
-      notaVlDespesa().marcaTotal(NfPrecEntrada::vlDespesas)
-      notaVlIcms().marcaTotal(NfPrecEntrada::vlIcms)
-      notaVlIpi().marcaTotal(NfPrecEntrada::vlIpi)
-      notaBaseSubst().marcaTotal(NfPrecEntrada::baseSubst)
-      notaVlSubst().marcaTotal(NfPrecEntrada::vlIcmsSubst)
-      notaVlTotal().marcaTotal(NfPrecEntrada::vlTotal)
-      setClassNameGenerator {
-        if (it?.lj == 999) "marcaTotal" else null
-      }
+      notaVlLiquido()
+      notaVlFrete()
+      notaVlDespesa()
+      notaVlIcms()
+      notaVlIpi()
+      notaBaseSubst()
+      notaVlSubst()
+      notaVlTotal()
     }
-  }
-
-  private fun Grid.Column<NfPrecEntrada>.marcaTotal(prop: KProperty1<NfPrecEntrada, Double?>) {
-    val lista = this.grid.dataProvider.fetchAll()
-    val total = lista.sumOf {
-      val bean = it as? NfPrecEntrada ?: return@sumOf 0.0
-      if (bean.lj == 999) return@sumOf 0.0
-      prop.get(bean) ?: 0.0
-    }.format()
-    val foot = setFooter(Html("<b><font size=4>${total}</font></b>"))
-    foot.textAlign = ColumnTextAlign.END
   }
 }
