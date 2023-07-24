@@ -5,8 +5,10 @@ import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.model.beans.group
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOP
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOPX
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
@@ -17,6 +19,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvan
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvap
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvax
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
@@ -93,16 +96,16 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
+      notaCFOPX()
       notaCFOP()
       notaCst()
+      notaCstx()
       notaCstp()
+      notaMvax()
       notaMvan()
       notaMvap()
       notaIcmsn().setHeader("ICMS")
       notaIpin().setHeader("IPI")
-      notaQuant().setHeader("Qtd")
-      notaValor().marcaTotal(NfPrecEntrada::valor)
-      notaVlDesconto().marcaTotal(NfPrecEntrada::vlDesconto)
       notaVlLiquido().marcaTotal(NfPrecEntrada::vlLiquido)
       notaVlFrete().marcaTotal(NfPrecEntrada::vlFrete)
       notaVlDespesa().marcaTotal(NfPrecEntrada::vlDespesas)
