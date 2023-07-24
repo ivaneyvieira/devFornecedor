@@ -94,13 +94,13 @@ class NfPrecEntrada(
     get() = if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
 
   val barcodeDifxp
-    get() = if (grade == "") {
-      if ((barcodex ?: "") == (barcodep ?: "")) "S"
-      else "N"
-    } else "S"
+    get() = if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
 
   val barcodeDifpc
-    get() = if ((barcodep ?: "") == (barcodec ?: "")) "S" else "N"
+    get() = if (grade == "") {
+      if ((barcodep ?: "") == (barcodec ?: "")) "S"
+      else "N"
+    } else "S"
 
   val ncmDifx
     get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
