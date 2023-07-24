@@ -311,6 +311,8 @@ CREATE TABLE sqldados.produtosNdd
   PRIMARY KEY (id, nItem, cProd)
 );
 
+alter TABLE sqldados.produtosNdd
+  ADD COLUMN   cEANTrib    VARCHAR(14) AFTER cEAN;
 
 
 REPLACE INTO sqldados.prdref(vendno, auxLong1, auxLong2, auxMoney1, auxMoney2, l1, l2, l3, l4, m1, m2, m3, m4, bits,
