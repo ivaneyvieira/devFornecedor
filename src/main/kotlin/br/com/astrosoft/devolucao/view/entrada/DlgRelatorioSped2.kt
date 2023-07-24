@@ -86,8 +86,8 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
-      notaCFOPX()
-      notaCFOP()
+      notaCFOPX().marcaDiferenca { cfopDifxp == "N" }
+      notaCFOP().marcaDiferenca { cfopDifxp == "N" }
       notaCst().marcaDiferenca { cstDifnp == "N" || cstDifxn == "N" }
       notaCstx().marcaDiferenca { cstDifxn == "N" }
       notaCstp().marcaDiferenca { cstDifnp == "N" }
