@@ -129,6 +129,18 @@ class NfPrecEntrada(
       return "$orig$cst"
     }
 
+  val mvax: Double?
+    get() {
+      val icms = detalheXml()?.imposto?.icms ?: return null
+      return icms.mvaST
+    }
+
+  val cfopx: String?
+    get() {
+      val prod = detalheXml()?.prod ?: return null
+      return prod.cfop
+    }
+
   val refPrdx: String?
     get() {
       return detalheXml()?.prod?.cProd ?: return null

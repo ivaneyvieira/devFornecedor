@@ -92,6 +92,7 @@ data class ICMS(
   val orig: String,
   val cst: String,
   val modBC: String,
+  val mvaST: Double,
   val vBC: Double,
   val pICMS: Double,
   val vICMS: Double

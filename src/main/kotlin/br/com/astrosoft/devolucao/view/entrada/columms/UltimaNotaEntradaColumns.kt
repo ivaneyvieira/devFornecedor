@@ -121,6 +121,11 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaMvax() = addColumnDouble(NfPrecEntrada::mvax) {
+    this.setHeader("MVA X")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaMvap() = addColumnDouble(NfPrecEntrada::mvap) {
     this.setHeader("MVA P")
     this.isResizable = true
@@ -285,6 +290,12 @@ object UltimaNotaEntradaColumns {
 
   fun Grid<NfPrecEntrada>.notaCFOP() = addColumnString(NfPrecEntrada::cfop) {
     this.setHeader("CFPO")
+    this.isResizable = true
+    this.right()
+  }
+
+  fun Grid<NfPrecEntrada>.notaCFOPX() = addColumnString(NfPrecEntrada::cfopx) {
+    this.setHeader("CFPO X")
     this.isResizable = true
     this.right()
   }
