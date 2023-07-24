@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Defs {
   const val vaadinonkotlin_version = "1.1.0"
-  const val vaadin10_version = "14.9.5"
+  const val vaadin10_version = "14.10.3"
   const val kotlin_version = "1.7.20"
   const val vaadin_plugin = "0.14.9.1"
 }
