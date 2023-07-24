@@ -58,7 +58,7 @@ class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: 
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferencaStr("Ref") {
+      this.comboDiferencaStr("Referência") {
         value = filtro.refPrd
 
         this.addValueChangeListener {
