@@ -2,24 +2,23 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.NotaEntradaHeadList
 import br.com.astrosoft.devolucao.model.beans.group
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaHeadColumns.notaData
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaHeadColumns.notaDataEmissao
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaHeadColumns.notaFornNota
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaHeadColumns.notaLoja
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaHeadColumns.notaNfe
-import br.com.astrosoft.devolucao.view.entrada.columms.NotaEntradaHeadColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOP
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvan
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvap
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValor
@@ -42,56 +41,36 @@ import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.fetchAll
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
-import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.grid.ColumnTextAlign
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.Grid.Column
-import com.vaadin.flow.component.grid.Grid.SelectionMode
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
-import com.vaadin.flow.data.renderer.ComponentRenderer
 import kotlin.reflect.KProperty1
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRelatorio) {
-  private lateinit var gridNota: Grid<NotaEntradaHeadList>
-  private val dataProviderGrid = ListDataProvider<NotaEntradaHeadList>(mutableListOf())
+  private lateinit var gridNota: Grid<NfPrecEntrada>
+  private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
       this.button("Relatório Resumo") {
         icon = PRINT.create()
         onLeftClick {
-          viewModel.imprimeRelatorioResumo(gridNota.selectedItemsSort().flatMap { it.list })
+          viewModel.imprimeRelatorioResumo(gridNota.selectedItemsSort())
         }
       }
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
-        viewModel.geraPlanilha(gridNota.selectedItemsSort().flatMap { it.list })
+        viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
     }) {
       val list =
-        viewModel.findNotas(filtro).groupBy { it.toHead() }.map {
-          val nota = it.key
-          val list = it.value
-          NotaEntradaHeadList(
-            nota.lj,
-            nota.ni,
-            nota.data,
-            nota.dataEmissao,
-            nota.nfe,
-            nota.fornCad,
-            nota.fornNota,
-            list
-          )
-        }
+        viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }, { it.prod }, { it.grade }))
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)
-      list.forEach {
-        gridNota.setDetailsVisible(it, true)
-      }
-
+      gridNota.setItems(list)
       HorizontalLayout().apply {
         setSizeFull()
         addAndExpand(gridNota)
@@ -100,46 +79,19 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
     form.open()
   }
 
-  private fun createGrid(dataProvider: ListDataProvider<NotaEntradaHeadList>): Grid<NotaEntradaHeadList> {
-    return Grid(NotaEntradaHeadList::class.java, false).apply {
+  private fun createGrid(dataProvider: ListDataProvider<NfPrecEntrada>): Grid<NfPrecEntrada> {
+    return Grid(NfPrecEntrada::class.java, false).apply {
       setSizeFull()
       isMultiSort = false
-      setSelectionMode(SelectionMode.MULTI)
+      setSelectionMode(Grid.SelectionMode.MULTI)
       this.dataProvider = dataProvider
-      this.addThemeVariants()
 
       notaLoja()
       notaNi()
       notaDataEmissao()
       notaData()
       notaNfe()
-      notaFornNota()
-
-      this.isDetailsVisibleOnClick = false
-      this.setItemDetailsRenderer(createDetailsRenderer())
-    }
-  }
-
-  private fun createDetailsRenderer() = ComponentRenderer(
-    { GridProdutos() }, GridProdutos::setNota)
-}
-
-class GridProdutos : FormLayout(){
-  val grid : Grid<NfPrecEntrada>
-  fun setNota(nota: NotaEntradaHeadList) {
-    val items = nota.list.group().sortedWith(compareBy({ it.ni }, { it.lj }, { it.prod }, { it.grade }))
-    grid.setItems(items)
-  }
-
-  init {
-    setResponsiveSteps(ResponsiveStep("0", 1))
-    setHeightFull()
-
-    grid = Grid<NfPrecEntrada>(NfPrecEntrada::class.java, false).apply {
-      setSizeFull()
-      isMultiSort = false
-      setSelectionMode(SelectionMode.MULTI)
-
+      notaFornNota().setHeader("For")
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
@@ -165,10 +117,9 @@ class GridProdutos : FormLayout(){
         if (it?.lj == 999) "marcaTotal" else null
       }
     }
-    add(grid)
   }
 
-  private fun Column<NfPrecEntrada>.marcaTotal(prop: KProperty1<NfPrecEntrada, Double?>) {
+  private fun Grid.Column<NfPrecEntrada>.marcaTotal(prop: KProperty1<NfPrecEntrada, Double?>) {
     val lista = this.grid.dataProvider.fetchAll()
     val total = lista.sumOf {
       val bean = it as? NfPrecEntrada ?: return@sumOf 0.0
