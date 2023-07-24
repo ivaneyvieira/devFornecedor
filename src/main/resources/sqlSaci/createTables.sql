@@ -310,3 +310,44 @@ CREATE TABLE sqldados.produtosNdd
   valorCofins DECIMAL(13, 4),
   PRIMARY KEY (id, nItem, cProd)
 );
+
+
+
+REPLACE INTO sqldados.prdref(vendno, auxLong1, auxLong2, auxMoney1, auxMoney2, l1, l2, l3, l4, m1, m2, m3, m4, bits,
+                             bits2, auxShort1, auxShort2, auxShort3, auxShort4, s1, s2, s3, s4, prdno, grade, prdrefno,
+                             prdrefname, auxChar1, auxChar2, c1, c2, c3, c4)
+SELECT mfno                   AS vendno,
+       0                      AS auxLong1,
+       0                      AS auxLong2,
+       0                      AS auxMoney1,
+       0                      AS auxMoney2,
+       CURDATE() * 1          AS l1,
+       0                      AS l2,
+       0                      AS l3,
+       0                      AS l4,
+       0                      AS m1,
+       0                      AS m2,
+       0                      AS m3,
+       0                      AS m4,
+       0                      AS bits,
+       0                      AS bits2,
+       0                      AS auxShort1,
+       0                      AS auxShort2,
+       0                      AS auxShort3,
+       0                      AS auxShort4,
+       0                      AS s1,
+       0                      AS s2,
+       0                      AS s3,
+       0                      AS s4,
+       no                     AS prdno,
+       ''                     AS grade,
+       mfno_ref                  prdrefno,
+       TRIM(MID(name, 1, 37)) AS prdrefname,
+       TRIM(MID(name, 37, 3)) AS auxChar1,
+       ''                     AS auxChar2,
+       ''                     AS c1,
+       ''                     AS c2,
+       ''                     AS c3,
+       ''                     AS c4
+FROM sqldados.prd
+WHERE grade_l = '0         0         0         0         0         0         0         0';
