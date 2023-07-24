@@ -35,6 +35,7 @@ class NfPrecEntrada(
   val mvaDif: String?,
   val ncmDif: String?,
   val barcodepl: String?,
+  val barcodec: String?,
   val barcoden: String?,
   val barcodeDif: String?,
   val refPrdp: String?,
@@ -92,8 +93,11 @@ class NfPrecEntrada(
   val refPrdDifx
     get() = if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
 
-  val barcodeDifx
+  val barcodeDifxp
     get() = if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
+
+  val barcodeDifpc
+    get() = if ((barcodep ?: "") == (barcodec ?: "")) "S" else "N"
 
   val ncmDifx
     get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
@@ -299,6 +303,7 @@ fun List<NfPrecEntrada>.group(): List<NfPrecEntrada> {
       ncmDif = null,
       barcodepl = null,
       barcoden = null,
+      barcodec = null,
       barcodeDif = null,
       refPrdp = null,
       refPrdn = null,
