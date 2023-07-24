@@ -81,9 +81,9 @@ class NfPrecEntrada(
   fun toHead() = NotaEntradaHead(lj, ni, data, dataEmissao, nfe, fornCad, fornNota)
 
   val barcodep
-    get() = barcodepList.firstOrNull{
+    get() = barcodepList.firstOrNull {
       it == barcodex
-    }?: barcodepList.firstOrNull()
+    } ?: barcodepList.firstOrNull()
 
   private fun detalheXml(): Detalhe? {
     val ref = refPrdn ?: ""
@@ -94,7 +94,10 @@ class NfPrecEntrada(
     get() = if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
 
   val barcodeDifxp
-    get() = if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
+    get() = if (grade == "") {
+      if ((barcodex ?: "") == (barcodep ?: "")) "S"
+      else "N"
+    } else "S"
 
   val barcodeDifpc
     get() = if ((barcodep ?: "") == (barcodec ?: "")) "S" else "N"
@@ -107,7 +110,7 @@ class NfPrecEntrada(
 
   val cstDifnp: String
     get() {
-      val vcstn =cstIcms?.subSequence(1, 3).let{
+      val vcstn = cstIcms?.subSequence(1, 3).let {
         when (it) {
           "10" -> "06"
           "60" -> "06"

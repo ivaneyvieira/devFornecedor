@@ -102,7 +102,7 @@ SELECT iprd2.storeno                                                            
                                  ROUND(iprd2.baseIcms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)),
                                        4), NULL))                                        AS icmsd,
        CAST(TRIM(COALESCE(GROUP_CONCAT(TRIM(B.barcode)), P2.gtin, prd.barcode)) AS CHAR) AS barcodepl,
-       prd.barcode                                                                       AS barcodec,
+       TRIM(prd.barcode)                                                                 AS barcodec,
        TRIM(IFNULL(M.barcode, ''))                                                       AS barcoden,
        TRIM(IFNULL(prd.refPrd, ''))                                                      AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                        AS refPrdn,
