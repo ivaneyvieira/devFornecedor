@@ -57,6 +57,7 @@ SELECT no,
        name,
        barcode,
        mfno_ref AS refPrd,
+       groupno,
        mfno,
        taxno,
        lucroTributado
@@ -125,7 +126,7 @@ FROM sqldados.iprd2
        LEFT JOIN sqldados.prd2 AS P2
                  USING (prdno)
        LEFT JOIN T_MFPRD AS M
-                 USING (prdno, grade)
+                 ON M.prdno = iprd2.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd2.grade)
        LEFT JOIN sqldados.prdbar AS B
                  ON B.prdno = iprd2.prdno AND B.grade = iprd2.grade AND B.grade != ''
        LEFT JOIN sqldados.prp
