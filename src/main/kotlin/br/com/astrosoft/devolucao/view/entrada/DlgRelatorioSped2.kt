@@ -88,10 +88,8 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
 
       notaLoja()
       notaNi()
-      notaDataEmissao()
       notaData()
       notaNfe()
-      notaFornNota().setHeader("For")
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
