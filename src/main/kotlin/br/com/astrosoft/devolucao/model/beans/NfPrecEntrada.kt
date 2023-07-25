@@ -130,7 +130,7 @@ class NfPrecEntrada(
     get() {
       val icx = vlIcmsx
       val icn = vlIcms ?: 0.00
-      val dif = (truncate(icx*100).roundToInt() - truncate(icn*100).roundToInt()).absoluteValue
+      val dif = (truncate(icx * 100).roundToInt() - truncate(icn * 100).roundToInt()).absoluteValue
       return if (dif <= 2) "S" else "N"
     }
 
@@ -143,8 +143,13 @@ class NfPrecEntrada(
   val vlIcmsSubstxn
     get() = if (vlIcmsSubstx.format() == vlIcmsSubst.format()) "S" else "N"
 
-  val vlTotalxn
-    get() = if (vlTotalx.format() == vlTotal.format()) "S" else "N"
+  val vlTotalxn: String
+    get() {
+      val icx = vlTotalx
+      val icn = vlTotal ?: 0.00
+      val dif = (truncate(icx * 100).roundToInt() - truncate(icn * 100).roundToInt()).absoluteValue
+      return if (dif <= 2) "S" else "N"
+    }
 
   val ncmDifx
     get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
