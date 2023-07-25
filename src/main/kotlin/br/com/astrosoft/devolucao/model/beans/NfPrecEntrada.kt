@@ -12,6 +12,7 @@ class NfPrecEntrada(
   val data: LocalDate?,
   val dataEmissao: LocalDate?,
   val nfe: String,
+  val serie: String,
   val fornCad: String,
   val fornNota: String,
   val prod: String,
@@ -87,7 +88,7 @@ class NfPrecEntrada(
 
   private fun detalheXml(): Detalhe? {
     val ref = refPrdn ?: ""
-    return NddXml.detalheProduto(ni, ref, barcodepList)
+    return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodepList)
   }
 
   val refPrdDifx
@@ -337,6 +338,7 @@ fun List<NfPrecEntrada>.group(): List<NfPrecEntrada> {
       data = null,
       dataEmissao = null,
       nfe = "",
+      serie = "",
       fornCad = "",
       fornNota = "",
       prod = "",
