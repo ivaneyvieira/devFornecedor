@@ -95,7 +95,10 @@ data class ICMS(
   val mvaST: Double,
   val vBC: Double,
   val pICMS: Double,
-  val vICMS: Double
+  val vICMS: Double,
+  val vBCST: Double,
+  val pICMSST: Double,
+  val vICMSST: Double,
 )
 
 data class IPI(

@@ -337,7 +337,17 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaVlIcmsx() = addColumnDouble(NfPrecEntrada::vlIcmsx) {
+    this.setHeader("V ICMS")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaVlIpi() = addColumnDouble(NfPrecEntrada::vlIpi) {
+    this.setHeader("V IPI")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlIpix() = addColumnDouble(NfPrecEntrada::vlIpix) {
     this.setHeader("V IPI")
     this.isResizable = true
   }
@@ -347,12 +357,27 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaBaseSubstx() = addColumnDouble(NfPrecEntrada::baseSubstx) {
+    this.setHeader("Base ST")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaVlSubst() = addColumnDouble(NfPrecEntrada::vlIcmsSubst) {
     this.setHeader("Valor ST")
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaVlSubstx() = addColumnDouble(NfPrecEntrada::vlIcmsSubstx) {
+    this.setHeader("Valor ST")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaVlTotal() = addColumnDouble(NfPrecEntrada::vlTotal) {
+    this.setHeader("V Total")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaVlTotalx() = addColumnDouble(NfPrecEntrada::vlTotalx) {
     this.setHeader("V Total")
     this.isResizable = true
   }
