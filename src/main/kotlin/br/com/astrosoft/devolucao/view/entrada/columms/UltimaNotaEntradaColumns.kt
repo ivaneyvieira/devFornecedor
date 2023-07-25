@@ -290,13 +290,13 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaCFOP() = addColumnString(NfPrecEntrada::cfop) {
-    this.setHeader("CFPO")
+    this.setHeader("CFOP")
     this.isResizable = true
     this.right()
   }
 
   fun Grid<NfPrecEntrada>.notaCFOPX() = addColumnString(NfPrecEntrada::cfopx) {
-    this.setHeader("CFPO X")
+    this.setHeader("CFOP X")
     this.isResizable = true
     this.right()
   }

@@ -103,8 +103,16 @@ class NfPrecEntrada(
       else "N"
     } else "S"
 
-  val cfopDifxp
-    get() = if ((mvax ?: "") == (mvan ?: "")) "S" else "N"
+  val cfopDifxp: String
+    get() {
+      val cp = cfop?.let {
+        if (it.length > 1) it.substring(1) else ""
+      }
+      val cx = cfopx?.let {
+        if (it.length > 1) it.substring(1) else ""
+      }
+      return if ((cp ?: "") == (cx ?: "")) "S" else "N"
+    }
 
   val mvaDifxn
     get() = if (mvan.format() == mvax.format()) "S" else "N"
