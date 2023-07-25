@@ -15,7 +15,8 @@ class TabSTEstadoViewModel(val viewModel: EntradaViewModel) {
 
   fun openDlgRelatorio() = viewModel.exec {
     FornecedorNdd.updateNotas()
-    saci.queryNfPrec(subView.getFiltro())
+    val filtro = subView.getFiltro()
+    saci.queryNfPrec(filtro)
     subView.openRelatorio()
   }
 
