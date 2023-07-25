@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOP
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOPX
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
@@ -23,10 +24,14 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDespesa
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlFrete
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcms
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcmsx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpi
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpix
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlLiquido
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubst
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotal
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotalx
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabSped2ViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -94,14 +99,16 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaMvax().marcaDiferenca { mvaDifxn == "N" }
       notaMvan().marcaDiferenca { mvaDifnp == "N" || mvaDifxn == "N" }
       notaMvap().marcaDiferenca { mvaDifnp == "N" }
-      notaIcmsn().setHeader("ICMS")
-      notaIpin().setHeader("IPI")
-      notaVlLiquido()
-      notaVlIcms()
-      notaVlIpi()
-      notaBaseSubst()
-      notaVlSubst()
-      notaVlTotal()
+      notaVlIcmsx().setHeader("ICMS X")
+      notaVlIcms().setHeader("ICMS N")
+      notaVlIpix().setHeader("IPI X")
+      notaVlIpi().setHeader("IPI N")
+      notaBaseSubstx().setHeader("B ST X")
+      notaBaseSubst().setHeader("B ST N")
+      notaVlSubstx().setHeader("V ST X")
+      notaVlSubst().setHeader("V ST N")
+      notaVlTotalx().setHeader("Total X")
+      notaVlTotal().setHeader("Total N")
     }
   }
 }

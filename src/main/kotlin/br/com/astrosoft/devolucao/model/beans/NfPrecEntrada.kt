@@ -147,6 +147,22 @@ class NfPrecEntrada(
       return "$orig$cst"
     }
 
+  val vlIcmsx
+    get() = detalheXml()?.imposto?.icms?.vICMS
+
+  val vlIpix
+    get() = detalheXml()?.imposto?.ipi?.vIPI
+
+  val baseSubstx
+    get() = detalheXml()?.imposto?.icms?.vBCST
+
+  val vlIcmsSubstx
+    get() = detalheXml()?.imposto?.icms?.vICMSST
+
+  val vlTotalx
+    get() = (detalheXml()?.prod?.vProd ?: 0.00) + (vlFrete ?: 0.00) + (vlIcmsx ?: 0.00) + (vlIpix ?: 0.00) + (baseSubstx
+      ?: 0.00)
+
   val mvax: Double?
     get() {
       val icms = detalheXml()?.imposto?.icms ?: return null

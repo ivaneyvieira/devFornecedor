@@ -116,7 +116,10 @@ fun parseNotaFiscal(xmlString: String): NFe? {
           mvaST = icmsElement.getTextContent("pMVAST").toDoubleOrNull() ?: 0.0,
           vBC = icmsElement.getTextContent("vBC").toDoubleOrNull() ?: 0.0,
           pICMS = icmsElement.getTextContent("pICMS").toDoubleOrNull() ?: 0.0,
-          vICMS = icmsElement.getTextContent("vICMS").toDoubleOrNull() ?: 0.0
+          vICMS = icmsElement.getTextContent("vICMS").toDoubleOrNull() ?: 0.0,
+          vBCST = icmsElement.getTextContent("vBCST").toDoubleOrNull() ?: 0.0,
+          pICMSST = icmsElement.getTextContent("pICMSST").toDoubleOrNull() ?: 0.0,
+          vICMSST = icmsElement.getTextContent("vICMSST").toDoubleOrNull() ?: 0.0,
         )
       }
 
