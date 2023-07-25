@@ -181,7 +181,6 @@ WHERE inv.date BETWEEN @di AND @df
   AND (iprd.storeno = @storeno OR @storeno = 0)
   AND cfo.name1 NOT LIKE 'TRANSF%'
   AND cfo.name1 NOT LIKE 'DEVOL%'
-  AND cfo.name1 NOT LIKE '%BONIF%'
   AND cfo.no NOT IN (2949, 2353, 2916)
   AND cfo.no NOT IN (1949, 1353, 1916)
   AND (iprd.invno = @ni OR @ni = 0)
