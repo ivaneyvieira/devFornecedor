@@ -104,27 +104,19 @@ class NfPrecEntrada(
     } else "S"
 
   val cfopDifxp: String
-    get() {
-      val cp = cfop?.let {
-        if (it.length > 1) it.substring(1) else ""
-      }?.let{
-        when (it) {
-          "401" -> "403"
-          "101" -> "102"
-          else -> it
-        }
+    get() = if (cfop.ajustaCFOP() == cfopx.ajustaCFOP()) "S" else "N"
+
+  fun String?.ajustaCFOP(): String {
+    return this?.let {
+      if (it.length > 1) it.substring(1) else ""
+    }?.let {
+      when (it) {
+        "401" -> "403"
+        "101" -> "102"
+        else -> it
       }
-      val cx = cfopx?.let {
-        if (it.length > 1) it.substring(1) else ""
-      }?.let{
-        when (it) {
-          "401" -> "403"
-          "101" -> "102"
-          else -> it
-        }
-      }
-      return if ((cp ?: "") == (cx ?: "")) "S" else "N"
-    }
+    } ?: ""
+  }
 
   val mvaDifxn
     get() = if (mvan.format() == mvax.format()) "S" else "N"
