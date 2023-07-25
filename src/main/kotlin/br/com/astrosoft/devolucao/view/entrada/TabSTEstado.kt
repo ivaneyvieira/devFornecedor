@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabSped2ViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabSped2ViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabSTEstadoViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabSTEstadoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabSped2(val viewModel: TabSped2ViewModel) : ITabSped2ViewModel, ITabPanel {
+class TabSTEstado(val viewModel: TabSTEstadoViewModel) : ITabSTEstadoViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -80,7 +80,7 @@ class TabSped2(val viewModel: TabSped2ViewModel) : ITabSped2ViewModel, ITabPanel
   }
 
   override fun openRelatorio() {
-    DlgRelatorioSped2(viewModel, getFiltro()).show()
+    DlgRelatorioSTEstado(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -125,11 +125,11 @@ class TabSped2(val viewModel: TabSped2ViewModel) : ITabSped2ViewModel, ITabPanel
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaSped2 == true
+    return username?.entradaSTEstado == true
   }
 
   override val label: String
-    get() = "Sped 2"
+    get() = "ST Estado"
 
   override fun updateComponent() {
   }
