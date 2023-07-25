@@ -112,10 +112,10 @@ class NfPrecEntrada(
     get() = if (mvan.format() == mvap.format()) "S" else "N"
 
   val icmsDifxn
-    get() = if (vlIcmsx.format() == icmsn.format()) "S" else "N"
+    get() = if (vlIcmsx.format() == vlIcms.format()) "S" else "N"
 
   val ipiDifxn
-    get() = if (vlIpix.format() == ipin.format()) "S" else "N"
+    get() = if (vlIpix.format() == vlIpi.format()) "S" else "N"
 
   val baseSubstxn
     get() = if (baseSubstx.format() == baseSubst.format()) "S" else "N"

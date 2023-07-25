@@ -7,7 +7,7 @@ import com.vaadin.flow.component.grid.Grid
 
 object UltimaNotaEntradaColumns {
   fun Grid<NfPrecEntrada>.notaLoja() = addColumnInt(NfPrecEntrada::ljCol) {
-    this.setHeader("Loja")
+    this.setHeader("Lj")
     this.isResizable = true
   }
 
@@ -16,7 +16,7 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfPrecEntrada>.notaData() = addColumnLocalDate(NfPrecEntrada::data) {
+  fun Grid<NfPrecEntrada>.notaData() = addColumnLocalDate(NfPrecEntrada::data, formatPattern = "dd/MM/yy") {
     this.setHeader("Entrada")
     this.isResizable = true
   }
