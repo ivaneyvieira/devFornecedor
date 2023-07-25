@@ -107,9 +107,21 @@ class NfPrecEntrada(
     get() {
       val cp = cfop?.let {
         if (it.length > 1) it.substring(1) else ""
+      }?.let{
+        when (it) {
+          "401" -> "403"
+          "101" -> "102"
+          else -> it
+        }
       }
       val cx = cfopx?.let {
         if (it.length > 1) it.substring(1) else ""
+      }?.let{
+        when (it) {
+          "401" -> "403"
+          "101" -> "102"
+          else -> it
+        }
       }
       return if ((cp ?: "") == (cx ?: "")) "S" else "N"
     }
