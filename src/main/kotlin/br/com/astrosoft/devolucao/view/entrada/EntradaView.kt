@@ -2,7 +2,6 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
-import br.com.astrosoft.devolucao.view.preentrada.TabPreEnt
 import br.com.astrosoft.devolucao.viewmodel.entrada.EntradaViewModel
 import br.com.astrosoft.devolucao.viewmodel.entrada.IEntradaView
 import br.com.astrosoft.framework.model.IUser
@@ -22,6 +21,7 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val tabNfPrecFiscalViewModel = TabNfPrecFiscal(viewModel.tabNfPrecFiscalViewModel)
   override val tabSpedViewModel = TabSped(viewModel.tabSpedViewModel)
   override val tabSped2ViewModel = TabSped2(viewModel.tabSped2ViewModel)
+  override val tabSTEstadoViewModel = TabSTEstado(viewModel.tabSTEstadoViewModel)
   override val tabFreteViewModel = TabFrete(viewModel.tabFreteViewModel)
   override val tabFretePerViewModel = TabFretePer(viewModel.tabFretePerViewModel)
   override val tabCteViewModel = TabCte(viewModel.tabCteViewModel)
