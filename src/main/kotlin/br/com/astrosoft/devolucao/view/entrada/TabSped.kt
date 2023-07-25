@@ -72,6 +72,10 @@ class TabSped(val viewModel: TabSpedViewModel) : ITabSpedViewModel, ITabPanel {
       comGrade = true,
       pesquisa = "",
       listaProdutos = "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 

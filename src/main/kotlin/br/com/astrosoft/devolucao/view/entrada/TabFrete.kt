@@ -72,6 +72,10 @@ class TabFrete(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
       comGrade = false,
       pesquisa = "",
       listaProdutos = "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 

@@ -74,6 +74,10 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
       comGrade = true,
       pesquisa = "",
       listaProdutos = edtListaProduto.value ?: "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 

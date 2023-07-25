@@ -470,9 +470,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   }
 
   fun dataInicialNdd(): LocalDate {
-    val sql = "/sqlSaci/dataInicialNdd.sql"
-    val dataAntiga = LocalDate.now().minusYears(6)
-    val data = query(sql, BeanData::class).firstOrNull()?.data ?: return dataAntiga
+//    val sql = "/sqlSaci/dataInicialNdd.sql"
     return LocalDate.now()
       .minusDays(45)// if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
   }

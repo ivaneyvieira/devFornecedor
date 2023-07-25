@@ -72,6 +72,10 @@ class TabPreEnt(val viewModel: TabPreEntViewModel) : ITabPreEntViewModel, ITabPa
       comGrade = true,
       pesquisa = "",
       listaProdutos = "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 

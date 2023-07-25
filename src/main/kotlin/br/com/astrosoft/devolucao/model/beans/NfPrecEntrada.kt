@@ -105,20 +105,26 @@ class NfPrecEntrada(
   val cfopDifxp
     get() = if ((mvax ?: "") == (mvan ?: "")) "S" else "N"
 
-  val mvaDifxn: String
-    get() {
-      val cp = cfop?.let {
-        if (it.length > 1) it.substring(1) else ""
-      }
-      val cx = cfopx?.let {
-        if (it.length > 1) it.substring(1) else ""
-      }
-      return if ((cp ?: "") == (cx ?: "")) "S" else "N"
-    }
+  val mvaDifxn
+    get() = if (mvan.format() == mvax.format()) "S" else "N"
 
   val mvaDifnp
-    get() = if ((mvan ?: "") == (mvap ?: "")) "S" else "N"
+    get() = if (mvan.format() == mvap.format()) "S" else "N"
 
+  val icmsDifxn
+    get() = if (vlIcmsx.format() == icmsn.format()) "S" else "N"
+
+  val ipiDifxn
+    get() = if (vlIpix.format() == ipin.format()) "S" else "N"
+
+  val baseSubstxn
+    get() = if (baseSubstx.format() == baseSubst.format()) "S" else "N"
+
+  val vlIcmsSubstxn
+    get() = if (vlIcmsSubstx.format() == vlIcmsSubst.format()) "S" else "N"
+
+  val vlTotalxn
+    get() = if (vlTotalx.format() != vlTotal.format()) "S" else "N"
 
   val ncmDifx
     get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
@@ -148,20 +154,19 @@ class NfPrecEntrada(
     }
 
   val vlIcmsx
-    get() = detalheXml()?.imposto?.icms?.vICMS
+    get() = detalheXml()?.imposto?.icms?.vICMS ?: 0.00
 
   val vlIpix
-    get() = detalheXml()?.imposto?.ipi?.vIPI
+    get() = detalheXml()?.imposto?.ipi?.vIPI ?: 0.00
 
   val baseSubstx
-    get() = detalheXml()?.imposto?.icms?.vBCST
+    get() = detalheXml()?.imposto?.icms?.vBCST ?: 0.00
 
   val vlIcmsSubstx
-    get() = detalheXml()?.imposto?.icms?.vICMSST
+    get() = detalheXml()?.imposto?.icms?.vICMSST ?: 0.00
 
   val vlTotalx
-    get() = (detalheXml()?.prod?.vProd ?: 0.00) + (vlFrete ?: 0.00) + (vlIcmsx ?: 0.00) + (vlIpix ?: 0.00) + (baseSubstx
-      ?: 0.00)
+    get() = (detalheXml()?.prod?.vProd ?: 0.00) + (vlFrete ?: 0.00) + vlIcmsx + vlIpix + baseSubstx
 
   val mvax: Double?
     get() {
@@ -266,6 +271,10 @@ open class FiltroRelatorio(
   open val ni: Int,
   open val nf: String,
   open val prd: String,
+  open var cfop: EDiferencaStr,
+  open var baseST: EDiferencaStr,
+  open var valorST: EDiferencaStr,
+  open var totalNF: EDiferencaStr,
   open var cst: EDiferencaStr,
   open var icms: EDiferencaStr,
   open var ipi: EDiferencaStr,
