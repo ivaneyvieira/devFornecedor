@@ -188,16 +188,13 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi()
-      notaData()
-      notaNfe()
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
       notaCFOPX().marcaDiferenca { cfopDifxp == "N" }
       notaCFOP().marcaDiferenca { cfopDifxp == "N" }
-      notaCst().marcaDiferenca { cstDifnp == "N" || cstDifxn == "N" }
       notaCstx().marcaDiferenca { cstDifxn == "N" }
+      notaCst().marcaDiferenca { cstDifnp == "N" || cstDifxn == "N" }
       notaCstp().marcaDiferenca { cstDifnp == "N" }
       notaMvax().marcaDiferenca { mvaDifxn == "N" }
       notaMvan().marcaDiferenca { mvaDifnp == "N" || mvaDifxn == "N" }
@@ -212,6 +209,9 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaVlSubst().setHeader("V ST N").marcaDiferenca { vlIcmsSubstxn == "N" }
       notaVlTotalx().setHeader("Total X").marcaDiferenca { vlTotalxn == "N" }
       notaVlTotal().setHeader("Total N").marcaDiferenca { vlTotalxn == "N" }
+      notaNi()
+      notaData()
+      notaNfe()
     }
   }
 }
