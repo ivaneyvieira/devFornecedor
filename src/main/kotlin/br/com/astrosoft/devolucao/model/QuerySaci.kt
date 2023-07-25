@@ -450,10 +450,13 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
-  fun findXmlNfe(ni: Int): NddXml? {
+  fun findXmlNfe(ni: Int, loja: Int, numero: String, serie: String): NddXml? {
     val sql = "/sqlSaci/notasEntradaXml.sql"
     return query(sql, NddXml::class) {
       addOptionalParameter("ni", ni)
+      addOptionalParameter("loja", loja)
+      addOptionalParameter("numero", numero)
+      addOptionalParameter("serie", serie)
     }.firstOrNull()
   }
 

@@ -353,3 +353,6 @@ SELECT mfno                   AS vendno,
        ''                     AS c4
 FROM sqldados.prd
 WHERE grade_l = '0         0         0         0         0         0         0         0';
+
+
+CREATE INDEX id1 ON sqldados.notasEntradaNdd (cnpjDestinatario, numero, serie);
