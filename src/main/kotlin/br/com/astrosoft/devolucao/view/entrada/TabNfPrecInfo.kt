@@ -31,7 +31,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
   private lateinit var edtRotulo: TextField
   private lateinit var edtCaracter: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
-  private var dialog : DlgRelatorioNfPrecInfo? = null
+  private var dialog: DlgRelatorioNfPrecInfo? = null
 
   override fun setFiltro(filtro: FiltroRelatorio) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
@@ -73,6 +73,10 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
       comGrade = true,
       pesquisa = "",
       listaProdutos = "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 

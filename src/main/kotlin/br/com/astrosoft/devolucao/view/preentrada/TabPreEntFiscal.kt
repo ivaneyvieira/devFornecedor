@@ -1,7 +1,6 @@
 package br.com.astrosoft.devolucao.view.preentrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecFiscalViewModel
 import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabPreEntFiscalViewModel
 import br.com.astrosoft.devolucao.viewmodel.preentrada.TabPreEntFiscalViewModel
 import br.com.astrosoft.framework.model.IUser
@@ -73,6 +72,10 @@ class TabPreEntFiscal(val viewModel: TabPreEntFiscalViewModel) : ITabPreEntFisca
       comGrade = false,
       pesquisa = "",
       listaProdutos = "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 

@@ -72,6 +72,10 @@ class TabNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPrecFisca
       comGrade = true,
       pesquisa = "",
       listaProdutos = "",
+      cfop = EDiferencaStr.T,
+      baseST = EDiferencaStr.T,
+      valorST = EDiferencaStr.T,
+      totalNF = EDiferencaStr.T,
     )
   }
 
