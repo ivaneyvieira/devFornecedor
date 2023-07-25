@@ -5,6 +5,8 @@ import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
+import kotlin.math.truncate
 
 class NfPrecEntrada(
   val lj: Int,
@@ -124,8 +126,13 @@ class NfPrecEntrada(
   val mvaDifnp
     get() = if (mvan.format() == mvap.format()) "S" else "N"
 
-  val icmsDifxn
-    get() = if (vlIcmsx.format() == vlIcms.format()) "S" else "N"
+  val icmsDifxn: String
+    get() {
+      val icx = vlIcmsx
+      val icn = vlIcms ?: 0.00
+      val dif = (truncate(icx*100).roundToInt() - truncate(icn*100).roundToInt()).absoluteValue
+      return if (dif <= 2) "S" else "N"
+    }
 
   val ipiDifxn
     get() = if (vlIpix.format() == vlIpi.format()) "S" else "N"
@@ -137,7 +144,7 @@ class NfPrecEntrada(
     get() = if (vlIcmsSubstx.format() == vlIcmsSubst.format()) "S" else "N"
 
   val vlTotalxn
-    get() = if (vlTotalx.format() != vlTotal.format()) "S" else "N"
+    get() = if (vlTotalx.format() == vlTotal.format()) "S" else "N"
 
   val ncmDifx
     get() = if ((ncmx ?: "") == (ncmp ?: "")) "S" else "N"
