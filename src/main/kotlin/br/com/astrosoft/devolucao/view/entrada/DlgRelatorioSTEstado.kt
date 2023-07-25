@@ -1,7 +1,5 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
-import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBaseSubst
@@ -29,11 +27,8 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotalx
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabSTEstadoViewModel
-import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -62,73 +57,13 @@ class DlgRelatorioSTEstado(val viewModel: TabSTEstadoViewModel, val filtro: Filt
       this.buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferencaStr("CFOP") {
-        value = filtro.cfop
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.cfop = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("CST") {
-        value = filtro.cst
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.cst = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("MVA") {
-        value = filtro.mva
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.mva = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("ICMS") {
-        value = filtro.icms
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.icms = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("IPI") {
-        value = filtro.ipi
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.ipi = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("Base ST") {
-        value = filtro.baseST
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.baseST = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("valor ST") {
-        value = filtro.valorST
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.valorST = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("Totla Nota") {
-        value = filtro.totalNF
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
-        this.addValueChangeListener {
-          filtro.totalNF = it.value
-          updateGrid()
-        }
-      }
     }) {
       val list =
-        viewModel.findNotas(filtro)
+        viewModel.findNotas(filtro).filter {
+          val cx = it.cstx ?: ""
+          val cp = it.cstp ?: ""
+          cx.endsWith("00") && cp == "06"
+        }
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)
@@ -139,45 +74,6 @@ class DlgRelatorioSTEstado(val viewModel: TabSTEstadoViewModel, val filtro: Filt
       }
     }
     form.open()
-  }
-
-  private fun updateGrid() {
-    val cfop = filtro.cfop
-    filtro.cfop = EDiferencaStr.T
-    val cst = filtro.cst
-    filtro.cst = EDiferencaStr.T
-    val mva = filtro.mva
-    filtro.mva = EDiferencaStr.T
-    val icms = filtro.icms
-    filtro.icms = EDiferencaStr.T
-    val ipi = filtro.ipi
-    filtro.ipi = EDiferencaStr.T
-    val baseST = filtro.baseST
-    filtro.baseST = EDiferencaStr.T
-    val valorST = filtro.valorST
-    filtro.valorST = EDiferencaStr.T
-    val totalNF = filtro.totalNF
-    filtro.totalNF = EDiferencaStr.T
-    val list = viewModel.findNotas(filtro).filter { nf ->
-      (nf.cfopDifxp == cfop.str || cfop == EDiferencaStr.T) &&
-          (nf.cstDifnp == cst.str || nf.cstDifxn == cst.str || cst == EDiferencaStr.T) &&
-          (nf.mvaDifnp == mva.str || nf.mvaDifxn == mva.str || mva == EDiferencaStr.T) &&
-          (nf.icmsDifxn == icms.str || icms == EDiferencaStr.T) &&
-          (nf.ipiDifxn == ipi.str || ipi == EDiferencaStr.T) &&
-          (nf.baseSubstxn == baseST.str || baseST == EDiferencaStr.T) &&
-          (nf.vlIcmsSubstxn == valorST.str || valorST == EDiferencaStr.T) &&
-          (nf.vlTotalxn == totalNF.str || totalNF == EDiferencaStr.T)
-    }
-    filtro.cfop = cfop
-    filtro.cst = cst
-    filtro.mva = mva
-    filtro.icms = icms
-    filtro.ipi = ipi
-    filtro.baseST = baseST
-    filtro.valorST = valorST
-    filtro.totalNF = totalNF
-
-    gridNota.setItems(list)
   }
 
   private fun createGrid(dataProvider: ListDataProvider<NfPrecEntrada>): Grid<NfPrecEntrada> {
