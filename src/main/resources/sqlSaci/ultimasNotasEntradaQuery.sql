@@ -83,6 +83,19 @@ FROM sqldados.stk AS S
                   ON P.no = S.prdno
 GROUP BY prdno;
 
+DROP TEMPORARY TABLE IF EXISTS T_BAR;
+CREATE TEMPORARY TABLE T_BAR
+(
+  PRIMARY KEY (prdno, grade)
+)
+SELECT prdno, grade, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
+FROM sqldados.prdbar AS B
+       INNER JOIN sqldados.prd AS P
+                  ON P.no = B.prdno
+WHERE grade != ''
+  AND P.groupno != 10000
+GROUP BY prdno, grade;
+
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
 SELECT iprd.storeno                                                             AS lj,
@@ -115,7 +128,7 @@ SELECT iprd.storeno                                                             
        IF(baseIcms = 0, 0.00, IF(MID(iprd.cstIcms, 2, 3) = '20',
                                  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 4),
                                  NULL))                                         AS icmsd,
-       CAST(TRIM(COALESCE(GROUP_CONCAT(TRIM(B.barcode)), P2.gtin)) AS CHAR)     AS barcodepl,
+       CAST(TRIM(IFNULL(B.barcodes, P2.gtin)) AS CHAR)                          AS barcodepl,
        TRIM(prd.barcode)                                                        AS barcodec,
        TRIM(IFNULL(M.barcode, ''))                                              AS barcoden,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                               AS refPrdp,
@@ -163,7 +176,7 @@ FROM sqldados.iprd
                  USING (prdno, grade)
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd.grade)
-       LEFT JOIN sqldados.prdbar AS B
+       LEFT JOIN T_BAR AS B
                  ON B.prdno = iprd.prdno AND B.grade = iprd.grade AND B.grade != '' AND prd.groupno != 10000
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
