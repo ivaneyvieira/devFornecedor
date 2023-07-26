@@ -1,7 +1,5 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabPreEntViewModel
-import br.com.astrosoft.devolucao.viewmodel.preentrada.TabPreEntViewModel
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 
@@ -10,7 +8,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabEntradaNddViewModel = TabEntradaNddViewModel(this)
   val tabEntradaNddReceberViewModel = TabEntradaNddReceberViewModel(this)
   val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebidoViewModel(this)
-  val tabNfPrecFiscalViewModel = TabNfPrecFiscalViewModel(this)
+  val tabTribFiscalViewModel = TabTribFiscalViewModel(this)
   val tabSpedViewModel = TabSpedViewModel(this)
   val tabSped2ViewModel = TabSped2ViewModel(this)
   val tabSTEstadoViewModel = TabSTEstadoViewModel(this)
@@ -19,18 +17,18 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabCteViewModel = TabCteViewModel(this)
   val tabPrecoViewModel = TabPrecoViewModel(this)
   val tabFileNFEViewModel = TabFileNFEViewModel(this)
-  val tabNfPrecInfoViewModel = TabNfPrecInfoViewModel(this)
+  val tabRefFiscalViewModel = TabRefFiscalViewModel(this)
   val tabTodasEntradasViewModel = TabTodasEntradasViewModel(this)
 
   override fun listTab() = listOf(
     view.tabEntradaNddViewModel,
     view.tabEntradaNddReceberViewModel,
     view.tabEntradaNddRecebidoViewModel,
-    view.tabNfPrecFiscalViewModel,
+    view.tabTribFiscalViewModel,
     view.tabSpedViewModel,
     view.tabSped2ViewModel,
     view.tabSTEstadoViewModel,
-    view.tabNfPrecInfoViewModel,
+    view.tabRefFiscalViewModel,
     view.tabTodasEntradasViewModel,
     view.tabFreteViewModel,
     view.tabPrecoViewModel,
@@ -44,7 +42,7 @@ interface IEntradaView : IView {
   val tabEntradaNddViewModel: ITabEntradaNddViewModel
   val tabEntradaNddRecebidoViewModel: ITabEntradaNddRecebidoViewModel
   val tabEntradaNddReceberViewModel: ITabEntradaNddReceberViewModel
-  val tabNfPrecFiscalViewModel: ITabNfPrecFiscalViewModel
+  val tabTribFiscalViewModel: ITabTribFiscalViewModel
   val tabSpedViewModel: ITabSpedViewModel
   val tabSped2ViewModel: ITabSped2ViewModel
   val tabSTEstadoViewModel: ITabSTEstadoViewModel
@@ -53,7 +51,7 @@ interface IEntradaView : IView {
   val tabFreteViewModel: ITabFreteViewModel
   val tabPrecoViewModel: ITabPrecoViewModel
   val tabFileNFEViewModel: ITabFileNFEViewModel
-  val tabNfPrecInfoViewModel: ITabNfPrecInfoViewModel
+  val tabRefFiscalViewModel: ITabRefFiscalViewModel
   val tabTodasEntradasViewModel: ITabTodasEntradasViewModel
 }
 

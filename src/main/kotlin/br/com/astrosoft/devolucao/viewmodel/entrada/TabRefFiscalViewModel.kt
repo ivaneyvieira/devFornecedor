@@ -5,13 +5,12 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
-import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
+class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
   val subView
-    get() = viewModel.view.tabNfPrecInfoViewModel
+    get() = viewModel.view.tabRefFiscalViewModel
 
   fun openDlgRelatorio() = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro())
@@ -132,7 +131,7 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
   }
 }
 
-interface ITabNfPrecInfoViewModel : ITabView {
+interface ITabRefFiscalViewModel : ITabView {
   fun setFiltro(filtro: FiltroRelatorio)
   fun getFiltro(): FiltroRelatorio
   fun openRelatorio()

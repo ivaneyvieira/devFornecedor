@@ -21,7 +21,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdx
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecInfoViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabRefFiscalViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -37,7 +37,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioNfPrecInfo(val viewModel: TabNfPrecInfoViewModel, val filtro: FiltroRelatorio) {
+class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
