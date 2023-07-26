@@ -14,7 +14,10 @@ import net.sf.dynamicreports.report.constant.PageOrientation.PORTRAIT
 import net.sf.dynamicreports.report.constant.TextAdjust
 import java.awt.Color
 
-class RelatorioNfPrecGrupo(val notas: List<NfPrecEntradaGrupo>, val fiscal: Boolean) :
+class RelatorioNfPrecGrupo(
+  val notas: List<NfPrecEntradaGrupo>,
+  val fiscal: Boolean
+) :
   ReportBuild<NfPrecEntradaGrupo>() {
   init {
     if (!fiscal) {
