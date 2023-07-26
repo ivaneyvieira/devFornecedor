@@ -18,7 +18,7 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val tabEntradaNddViewModel = TabEntradaNdd(viewModel.tabEntradaNddViewModel)
   override val tabEntradaNddReceberViewModel = TabEntradaNddReceber(viewModel.tabEntradaNddReceberViewModel)
   override val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebido(viewModel.tabEntradaNddRecebidoViewModel)
-  override val tabNfPrecFiscalViewModel = TabNfPrecFiscal(viewModel.tabNfPrecFiscalViewModel)
+  override val tabTribFiscalViewModel = TabTribFiscal(viewModel.tabTribFiscalViewModel)
   override val tabSpedViewModel = TabSped(viewModel.tabSpedViewModel)
   override val tabSped2ViewModel = TabSped2(viewModel.tabSped2ViewModel)
   override val tabSTEstadoViewModel = TabSTEstado(viewModel.tabSTEstadoViewModel)
@@ -27,7 +27,7 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val tabCteViewModel = TabCte(viewModel.tabCteViewModel)
   override val tabPrecoViewModel = TabPreco(viewModel.tabPrecoViewModel)
   override val tabFileNFEViewModel = TabFileNFE(viewModel.tabFileNFEViewModel)
-  override val tabNfPrecInfoViewModel = TabNfPrecInfo(viewModel.tabNfPrecInfoViewModel)
+  override val tabRefFiscalViewModel = TabRefFiscal(viewModel.tabRefFiscalViewModel)
   override val tabTodasEntradasViewModel = TabTodasEntradas(viewModel.tabTodasEntradasViewModel)
 
   override fun isAccept(user: IUser): Boolean {

@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabNfPrecInfoViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabNfPrecInfoViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabRefFiscalViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabRefFiscalViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewModel, ITabPanel {
+class TabRefFiscal(val viewModel: TabRefFiscalViewModel) : ITabRefFiscalViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -31,7 +31,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
   private lateinit var edtRotulo: TextField
   private lateinit var edtCaracter: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
-  private var dialog: DlgRelatorioNfPrecInfo? = null
+  private var dialog: DlgRelatorioRefFiscal? = null
 
   override fun setFiltro(filtro: FiltroRelatorio) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
@@ -81,7 +81,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
   }
 
   override fun openRelatorio() {
-    dialog = DlgRelatorioNfPrecInfo(viewModel, getFiltro())
+    dialog = DlgRelatorioRefFiscal(viewModel, getFiltro())
     dialog?.show()
   }
 
@@ -135,11 +135,11 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddNFPrecInfo == true
+    return username?.entradaNddRefFiscal == true
   }
 
   override val label: String
-    get() = "Ref Fiscais"
+    get() = "Ref Fiscal"
 
   override fun updateComponent() {
   }

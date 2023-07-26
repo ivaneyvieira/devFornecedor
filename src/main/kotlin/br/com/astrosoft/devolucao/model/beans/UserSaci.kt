@@ -36,10 +36,10 @@ class UserSaci : IUser {
   var entradaNdd by DelegateAuthorized(17)
   var entradaNddReceber by DelegateAuthorized(18)
   var entradaNddRecebido by DelegateAuthorized(19)
-  var entradaNddNFPrec by DelegateAuthorized(20)
+  var entradaNddTribFiscal by DelegateAuthorized(20)
   var notaSaida by DelegateAuthorized(21)
   var ajusteGarantiaPago by DelegateAuthorized(22)
-  var entradaNddNFPrecInfo by DelegateAuthorized(23)
+  var entradaNddRefFiscal by DelegateAuthorized(23)
   var desconto by DelegateAuthorized(24)
   var forPendenteBASE by DelegateAuthorized(25)
   var forPendenteNOTA by DelegateAuthorized(26)
@@ -116,7 +116,7 @@ class UserSaci : IUser {
   val menuAgenda
     get() = agendaAgendada || agendaPreEntrada || agendaRecebida || agendaRastreamento
   val menuEntrada
-    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddNFPrec || entradaNddNFPrecInfo ||
+    get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddTribFiscal || entradaNddRefFiscal ||
         entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE || entradaSped ||
         entradaSped2 || entradaSTEstado
   val menuCompra
