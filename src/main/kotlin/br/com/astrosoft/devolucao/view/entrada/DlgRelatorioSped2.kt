@@ -188,6 +188,9 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       this.dataProvider = dataProvider
 
       notaLoja()
+      notaNi()
+      notaData()
+      notaNfe()
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
@@ -209,9 +212,6 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaVlSubst().setHeader("V ST N").marcaDiferenca { vlIcmsSubstxn == "N" }
       notaVlTotalx().setHeader("Total X").marcaDiferenca { vlTotalxn == "N" }
       notaVlTotal().setHeader("Total N").marcaDiferenca { vlTotalxn == "N" }
-      notaNi()
-      notaData()
-      notaNfe()
     }
   }
 }
