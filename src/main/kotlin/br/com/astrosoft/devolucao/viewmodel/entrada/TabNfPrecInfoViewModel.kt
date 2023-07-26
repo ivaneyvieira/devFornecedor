@@ -25,25 +25,43 @@ class TabNfPrecInfoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val refPrdDifList = listNotas.filter { it.refPrdDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de Ref", nota, nota.pedidoCompra ?: 0, nota.refPrdn ?: "", nota.refPrdp ?: "")
-    }
-    val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
+    val refPrdDifxList = listNotas.filter { it.refPrdDifx == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        "Diferenças de Frete",
-        nota,
-        nota.pedidoCompra ?: 0,
-        nota.freten.format(),
-        nota.fretep.format()
+        nomeGrupo = "Diferenças de REFERÊNCIA XML x Cadastro",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.refPrdx ?: "",
+        valorPrecificacao = nota.refPrdp ?: ""
       )
     }
-    val barCodeDifList = listNotas.filter { it.barcodeDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de Barras", nota, nota.pedidoCompra ?: 0, nota.barcoden ?: "", nota.barcodep ?: "")
+    val barcodeDifxpList = listNotas.filter { it.barcodeDifxp == "N" }.map { nota ->
+      NfPrecEntradaGrupo(
+        nomeGrupo = "Diferenças de BARRAS XML x Cadastro",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.barcodex ?: "",
+        valorPrecificacao = nota.barcodep ?: ""
+      )
     }
-    val ncmDifList = listNotas.filter { it.ncmDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de NCM", nota, nota.pedidoCompra ?: 0, nota.ncmn ?: "", nota.ncmp ?: "")
+    val barcodeDifpcList = listNotas.filter { it.barcodeDifpc == "N" }.map { nota ->
+      NfPrecEntradaGrupo(
+        nomeGrupo = "Diferenças de BARRAS GITN x Cadastro",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.barcodep ?: "",
+        valorPrecificacao = nota.barcodec ?: ""
+      )
     }
-    val listaRelatorio = freteDifList + refPrdDifList + barCodeDifList + ncmDifList
+    val ncmDifxList = listNotas.filter { it.ncmDifx == "N" }.map { nota ->
+      NfPrecEntradaGrupo(
+        nomeGrupo = "Diferenças de NCM XML x Cadastro",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.ncmx ?: "",
+        valorPrecificacao = nota.ncmx ?: ""
+      )
+    }
+    val listaRelatorio = refPrdDifxList + barcodeDifxpList + barcodeDifpcList + ncmDifxList
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, false)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
