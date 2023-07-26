@@ -251,11 +251,11 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaSTEstado.name)
           }
-          checkBox("NF x Prec Fiscal") {
+          checkBox("Trib Fiscais") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaNddNFPrec.name)
           }
-          checkBox("NF x Prec Info") {
+          checkBox("Ref Ficais") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaNddNFPrecInfo.name)
           }

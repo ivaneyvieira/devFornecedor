@@ -139,7 +139,7 @@ class TabNfPrecInfo(val viewModel: TabNfPrecInfoViewModel) : ITabNfPrecInfoViewM
   }
 
   override val label: String
-    get() = "NF x Prec Info"
+    get() = "Ref Fiscais"
 
   override fun updateComponent() {
   }
