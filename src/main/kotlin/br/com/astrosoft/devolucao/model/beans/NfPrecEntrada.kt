@@ -88,7 +88,7 @@ class NfPrecEntrada(
       it == barcodex
     } ?: barcodepList.firstOrNull()
 
-  private fun detalheXml(): Detalhe? {
+  private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
     return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodepList)
   }
@@ -172,51 +172,51 @@ class NfPrecEntrada(
 
   val cstx: String?
     get() {
-      val icms = detalheXml()?.imposto?.icms ?: return null
+      val icms = detalheXml().firstOrNull()?.imposto?.icms ?: return null
       val orig = icms.orig
       val cst = icms.cst
       return "$orig$cst"
     }
 
   val vlIcmsx
-    get() = detalheXml()?.imposto?.icms?.vICMS ?: 0.00
+    get() = detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
 
   val vlIpix
-    get() = detalheXml()?.imposto?.ipi?.vIPI ?: 0.00
+    get() = detalheXml().sumOf { it.imposto?.ipi?.vIPI ?: 0.00 }
 
   val baseSubstx
-    get() = detalheXml()?.imposto?.icms?.vBCST ?: 0.00
+    get() = detalheXml().sumOf { it.imposto?.icms?.vBCST ?: 0.00 }
 
   val vlIcmsSubstx
-    get() = detalheXml()?.imposto?.icms?.vICMSST ?: 0.00
+    get() = detalheXml().sumOf { it.imposto?.icms?.vICMSST ?: 0.00 }
 
   val vlTotalx
-    get() = (detalheXml()?.prod?.vProd ?: 0.00) + (vlFrete ?: 0.00) + vlIcmsx + vlIpix + baseSubstx
+    get() = (detalheXml().sumOf { it.prod?.vProd ?: 0.00 }) + (vlFrete ?: 0.00) + vlIcmsx + vlIpix + baseSubstx
 
   val mvax: Double?
     get() {
-      val icms = detalheXml()?.imposto?.icms ?: return null
+      val icms = detalheXml().firstOrNull()?.imposto?.icms ?: return null
       return icms.mvaST
     }
 
   val cfopx: String?
     get() {
-      val prod = detalheXml()?.prod ?: return null
+      val prod = detalheXml().firstOrNull()?.prod ?: return null
       return prod.cfop
     }
 
   val refPrdx: String?
     get() {
-      return detalheXml()?.prod?.cProd ?: return null
+      return detalheXml().firstOrNull()?.prod?.cProd ?: return null
     }
 
   val barcodex: String?
     get() {
-      return detalheXml()?.prod?.cEANTrib ?: return null
+      return detalheXml().firstOrNull()?.prod?.cEANTrib ?: return null
     }
 
   val ncmx
-    get() = detalheXml()?.prod?.ncm
+    get() = detalheXml().firstOrNull()?.prod?.ncm
 
 
   val ljCol
