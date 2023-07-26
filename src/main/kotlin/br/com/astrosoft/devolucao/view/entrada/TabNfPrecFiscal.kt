@@ -129,7 +129,7 @@ class TabNfPrecFiscal(val viewModel: TabNfPrecFiscalViewModel) : ITabNfPrecFisca
   }
 
   override val label: String
-    get() = "NF x Prec Fiscal"
+    get() = "Trib Fisicais"
 
   override fun updateComponent() {
   }
