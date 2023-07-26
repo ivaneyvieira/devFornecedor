@@ -27,29 +27,27 @@ class TabSTEstadoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
-    val cstDifList = listNotas.filter { it.cstDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de CST", nota, nota.pedidoCompra ?: 0, nota.cstn ?: "", nota.cstp ?: "")
-    }
-    val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
+    val cstDifnpList = listNotas.filter { it.cstDifnp == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        "Diferenças de Frete",
-        nota,
-        nota.pedidoCompra ?: 0,
-        nota.freten.format(),
-        nota.fretep.format()
+        nomeGrupo = "Diferenças de CST Nota x Cadastro",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.cstIcms ?: "",
+        valorPrecificacao = nota.cstp ?: ""
       )
     }
-    val icmsDifList = listNotas.filter { it.icmsDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de ICMS", nota, nota.pedidoCompra ?: 0, nota.icmsRN.format(), nota.icmsp.format())
+
+    val cstDifxnList = listNotas.filter { it.cstDifxn == "N" }.map { nota ->
+      NfPrecEntradaGrupo(
+        nomeGrupo = "Diferenças de CST Nota x XML",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.cstIcms ?: "",
+        valorPrecificacao = nota.cstx ?: ""
+      )
     }
-    val ipiDifList = listNotas.filter { it.ipiDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de IPI", nota, nota.pedidoCompra ?: 0, nota.ipin.format(), nota.ipip.format())
-    }
-    val mvaDifList = listNotas.filter { it.mvaDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de MVA", nota, nota.pedidoCompra ?: 0, nota.mvanAprox.format(), nota.mvap.format())
-    }
-    val listaRelatorio = freteDifList + icmsDifList + ipiDifList + cstDifList + mvaDifList
-    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)
+    val listaRelatorio = cstDifnpList + cstDifxnList
+    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = false)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
 
