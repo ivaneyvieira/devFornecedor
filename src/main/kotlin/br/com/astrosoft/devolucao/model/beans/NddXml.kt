@@ -6,14 +6,14 @@ import br.com.astrosoft.devolucao.model.saci
 
 class NddXml(val id: Int, val xml: String) {
   companion object {
-    private val mapNddXml = mutableMapOf<NiProd, Detalhe?>()
+    private val mapNddXml = mutableMapOf<NiProd, List<Detalhe>>()
     fun detalheProduto(
       ni: Int,
       loja: Int,
       numero: String,
       serie: String, cProd: String, listBarcode: List<String>
-    ): Detalhe? {
-      return listBarcode.firstNotNullOfOrNull { barcode ->
+    ): List<Detalhe> {
+      return listBarcode.flatMap { barcode ->
         detalheProduto(ni, loja, numero, serie, cProd, barcode)
       }
     }
@@ -25,13 +25,13 @@ class NddXml(val id: Int, val xml: String) {
       serie: String,
       cProd: String,
       barcode: String
-    ): Detalhe? {
+    ): List<Detalhe> {
       return mapNddXml.getOrPut(NiProd(ni, cProd, barcode)) {
-        val xml = saci.findXmlNfe(ni, loja, numero, serie)?.xml ?: return@getOrPut null
+        val xml = saci.findXmlNfe(ni, loja, numero, serie)?.xml ?: return@getOrPut emptyList()
         val nfe = parseNotaFiscal(xml)
-        nfe?.infNFe?.detalhes?.firstOrNull { det ->
-          det.prod?.cProd == cProd || det.prod?.cEAN == barcode
-        }
+        nfe?.infNFe?.detalhes?.filter { det ->
+          det.prod?.cProd == cProd || det.prod?.cEAN == barcode || det.prod?.cEANTrib == barcode
+        }.orEmpty()
       }
     }
   }
