@@ -28,7 +28,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
     val cfopDifList = listNotas.filter { it.cfopDifxp == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de CFOP",
+        nomeGrupo = "Diferenças de CFOP Nota x XML",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cfop ?: "",
@@ -38,7 +38,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val cstDifnpList = listNotas.filter { it.cstDifnp == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de CST Nota Cadastro",
+        nomeGrupo = "Diferenças de CST Nota x Cadastro",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cstIcms ?: "",
@@ -48,7 +48,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val cstDifxnList = listNotas.filter { it.cstDifxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de CST XML Nota",
+        nomeGrupo = "Diferenças de CST Nota x XML",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cstIcms ?: "",
@@ -58,7 +58,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val mvaDifnpList = listNotas.filter { it.mvaDifnp == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de MVA Nota Cadastro",
+        nomeGrupo = "Diferenças de MVA Nota x Cadastro",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.mvan.format(),
@@ -68,7 +68,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val mvaDifxnList = listNotas.filter { it.mvaDifxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de MVA Nota XML",
+        nomeGrupo = "Diferenças de MVA Nota x XML",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.mvan.format(),
@@ -78,7 +78,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val icmsDifxnList = listNotas.filter { it.icmsDifxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de ICMS Nota XML",
+        nomeGrupo = "Diferenças de ICMS XML x NF",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlIcmsx.format(),
@@ -88,7 +88,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val ipiDifxnList = listNotas.filter { it.ipiDifxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de IPI Nota XML",
+        nomeGrupo = "Diferenças de IPI XML x NF",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlIpix.format(),
@@ -98,7 +98,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val baseSubstxnList = listNotas.filter { it.baseSubstxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de BASE ST",
+        nomeGrupo = "Diferenças de BASE ST XML x NF",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.baseSubstx.format(),
@@ -108,7 +108,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val vlIcmsSubstxnList = listNotas.filter { it.vlIcmsSubstxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de Valor ST",
+        nomeGrupo = "Diferenças de Valor ST XML x NF",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlIcmsSubstx.format(),
@@ -118,7 +118,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
 
     val vlTotalxnList = listNotas.filter { it.vlTotalxn == "N" }.map { nota ->
       NfPrecEntradaGrupo(
-        nomeGrupo = "Diferenças de Valor Total",
+        nomeGrupo = "Diferenças de Valor Total XML x NF",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlTotalx.format(),
