@@ -26,6 +26,11 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
   }
 
+  fun restartConnection() {
+    sql2o.connectionSource.connection.close()
+    sql2o.open()
+  }
+
   private fun registerDriver(driver: String) {
     try {
       Class.forName(driver)
