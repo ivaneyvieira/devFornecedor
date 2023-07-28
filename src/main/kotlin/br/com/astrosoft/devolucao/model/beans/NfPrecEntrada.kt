@@ -90,7 +90,7 @@ class NfPrecEntrada(
 
   private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
-    return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodepList)
+    return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodepList).distinct()
   }
 
   val refPrdDifx
