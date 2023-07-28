@@ -5,12 +5,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 object Defs {
   const val vaadinonkotlin_version = "1.1.0"
   const val vaadin10_version = "14.10.3"
-  const val kotlin_version = "1.7.20"
+  const val kotlin_version = "1.9.0"
   const val vaadin_plugin = "0.14.9.1"
 }
 
 plugins {
-  kotlin("jvm") version "1.7.20"
+  kotlin("jvm") version "1.9.0"
   id("org.gretty") version "3.0.6"
   war
   id("com.vaadin") version "0.14.9.1"
@@ -48,12 +48,14 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   implementation("com.github.mvysny.karibudsl:karibu-dsl:${vaadinonkotlin_version}") // Vaadin 14
   implementation("com.vaadin:vaadin-core:${vaadin10_version}") { // Webjars are only needed when running in Vaadin 13 compatibility mode
-    listOf("com.vaadin.webjar",
-           "org.webjars.bowergithub.insites",
-           "org.webjars.bowergithub.polymer",
-           "org.webjars.bowergithub.polymerelements",
-           "org.webjars.bowergithub.vaadin",
-           "org.webjars.bowergithub.webcomponents").forEach { exclude(group = it) }
+    listOf(
+      "com.vaadin.webjar",
+      "org.webjars.bowergithub.insites",
+      "org.webjars.bowergithub.polymer",
+      "org.webjars.bowergithub.polymerelements",
+      "org.webjars.bowergithub.vaadin",
+      "org.webjars.bowergithub.webcomponents"
+    ).forEach { exclude(group = it) }
   }
   providedCompile("javax.servlet:javax.servlet-api:3.1.0")
 
@@ -88,7 +90,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
   implementation(kotlin("reflect")) // https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core
   implementation("net.sourceforge.dynamicreports:dynamicreports-core:6.12.1") {

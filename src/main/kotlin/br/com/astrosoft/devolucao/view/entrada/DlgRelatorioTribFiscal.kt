@@ -47,7 +47,7 @@ import com.vaadin.flow.data.provider.ListDataProvider
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
-  private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
+ // private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -116,7 +116,7 @@ class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: 
         }
       }
     }) {
-      gridNota = createGrid(dataProviderGrid)
+      gridNota = createGrid()
       val list = viewModel.findNotas(filtro)
       gridNota.setItems(list)
       HorizontalLayout().apply {
@@ -127,12 +127,12 @@ class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: 
     form.open()
   }
 
-  private fun createGrid(dataProvider: ListDataProvider<NfPrecEntrada>): Grid<NfPrecEntrada> {
+  private fun createGrid(): Grid<NfPrecEntrada> {
     return Grid(NfPrecEntrada::class.java, false).apply {
       setSizeFull()
       isMultiSort = false
       setSelectionMode(Grid.SelectionMode.MULTI)
-      this.dataProvider = dataProvider
+
       this.addThemeVariants(GridVariant.LUMO_COMPACT, GridVariant.LUMO_COLUMN_BORDERS)
 
       notaLoja()
