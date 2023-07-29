@@ -129,7 +129,7 @@ SELECT iprd.storeno                                                             
                                  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 4),
                                  NULL))                                         AS icmsd,
        CAST(TRIM(IFNULL(B.barcodes, P2.gtin)) AS CHAR)                          AS barcodepl,
-       TRIM(prd.barcode)                                                        AS barcodec,
+       CAST(TRIM(IFNULL(B.barcodes, prd.barcode)) AS CHAR)                      AS barcodecl,
        TRIM(IFNULL(M.barcode, ''))                                              AS barcoden,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                               AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                               AS refPrdn,
@@ -177,7 +177,7 @@ FROM sqldados.iprd
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd.grade)
        LEFT JOIN T_BAR AS B
-                 ON B.prdno = iprd.prdno AND B.grade = iprd.grade AND B.grade != '' AND prd.groupno != 10000
+                 ON B.prdno = iprd.prdno AND B.grade = iprd.grade
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo
@@ -245,7 +245,7 @@ SELECT lj,
           'N')                                                       AS mvaDif,
        IF(NCMn = NCMp, 'S', 'N')                                     AS ncmDif,
        barcodepl,
-       barcodec,
+       barcodecl,
        barcoden,
        'S'                                                           AS barcodeDif,
        refPrdp,

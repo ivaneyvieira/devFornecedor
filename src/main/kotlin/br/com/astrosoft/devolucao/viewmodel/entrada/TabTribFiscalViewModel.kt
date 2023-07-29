@@ -68,7 +68,7 @@ class TabTribFiscalViewModel(val viewModel: EntradaViewModel) {
     val cst = filtro.cst
     filtro.cst = T
     return NfPrecEntrada.findNotas(filtro).filter { nota ->
-      (cst.str == nota.cstDifxn) || (cst.str == nota.cstDifnp) || (cst == T)
+      (cst == T) || (cst.str == nota.cstDifxn) || (cst.str == nota.cstDifnp)
     }
   }
 }
