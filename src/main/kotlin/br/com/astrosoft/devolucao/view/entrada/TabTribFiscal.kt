@@ -81,9 +81,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
   }
 
   override fun openRelatorio() {
-    access {
-      DlgRelatorioTribFiscal(viewModel, getFiltro()).show()
-    }
+    DlgRelatorioTribFiscal(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
