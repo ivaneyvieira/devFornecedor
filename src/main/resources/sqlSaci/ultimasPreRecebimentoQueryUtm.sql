@@ -68,6 +68,19 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
 
+DROP TEMPORARY TABLE IF EXISTS T_BAR;
+CREATE TEMPORARY TABLE T_BAR
+(
+  PRIMARY KEY (prdno, grade)
+)
+SELECT prdno, grade, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
+FROM sqldados.prdbar AS B
+       INNER JOIN sqldados.prd AS P
+                  ON P.no = B.prdno
+WHERE grade != ''
+  AND P.groupno != 10000
+GROUP BY prdno, grade;
+
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
 SELECT iprd2.storeno                                                                   AS lj,
@@ -99,7 +112,7 @@ SELECT iprd2.storeno                                                            
        IF(MID(iprd2.cstIcms, 2, 3) = '20',
           ROUND(iprd2.baseIcms * 100.00 / (iprd2.fob * (iprd2.qtty / 1000)), 2), NULL) AS icmsd,
        CAST(TRIM(COALESCE(GROUP_CONCAT(TRIM(B.barcode)), P2.gtin)) AS CHAR)            AS barcodepl,
-       TRIM(prd.barcode)                                                               AS barcodec,
+       CAST(TRIM(IFNULL(B.barcodes, prd.barcode)) AS CHAR)                              AS barcodecl,
        TRIM(IFNULL(M.barcode, ''))                                                     AS barcoden,
        TRIM(IFNULL(prd.refPrd, ''))                                                    AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                      AS refPrdn,
@@ -128,8 +141,8 @@ FROM sqldados.iprd2
                  USING (prdno)
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd2.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd2.grade)
-       LEFT JOIN sqldados.prdbar AS B
-                 ON B.prdno = iprd2.prdno AND B.grade = iprd2.grade AND B.grade != '' AND prd.groupno != 10000
+       LEFT JOIN T_BAR AS B
+                 ON B.prdno = iprd2.prdno AND B.grade = iprd2.grade
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd2.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo
