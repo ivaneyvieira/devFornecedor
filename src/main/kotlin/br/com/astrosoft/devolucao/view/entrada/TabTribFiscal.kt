@@ -121,9 +121,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
       icon = VaadinIcon.RECORDS.create()
       onLeftClick {
         currentUI = ui.get()
-        launch {
-          viewModel.openDlgRelatorio()
-        }
+        viewModel.openDlgRelatorio()
       }
     }
     setFiltro(getFiltro())
