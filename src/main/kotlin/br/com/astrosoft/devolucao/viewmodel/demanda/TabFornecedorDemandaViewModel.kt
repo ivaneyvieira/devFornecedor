@@ -8,7 +8,7 @@ import br.com.astrosoft.framework.viewmodel.fail
 class TabFornecedorDemandaViewModel(val viewModel: DemandaViewModel) {
   fun updateView() {
     val filtro = subView.filtro()
-    val lista = FornecedorProduto.findAll(filtro)
+    val lista = FornecedorProduto.findAll(filtro).toList()
     subView.updateGrid(lista)
   }
 

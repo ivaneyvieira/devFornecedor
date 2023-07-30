@@ -28,7 +28,7 @@ class DlgEditFile<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
         val bytes = buffer.getInputStream(fileName).readBytes()
         val nfFile = NFFile.new(nota, fileName, bytes)
         insert(nfFile)
-        grid.setItems(nota.listFiles())
+        grid.setItems(nota.listFiles().toList())
       }
     }) {
       grid
@@ -41,7 +41,7 @@ class DlgEditFile<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     return gridDetail.apply {
       addThemeVariants()
       isMultiSort = false
-      setItems(nota.listFiles()) //
+      setItems(nota.listFiles().toList())
       addColumnButton(VaadinIcon.EYE, "Visualizar", "Ver") { file ->
         val form = SubWindowForm(file.nome, toolBar = { }) {
           val div = Div()
@@ -52,7 +52,7 @@ class DlgEditFile<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
       addColumnButton(VaadinIcon.TRASH, "Remover arquivo", "Rem") { file ->
         viewModel.deleteFile(file)
-        setItems(nota.listFiles())
+        setItems(nota.listFiles().toList())
       }
       nfFileDescricao()
       nfFileData()

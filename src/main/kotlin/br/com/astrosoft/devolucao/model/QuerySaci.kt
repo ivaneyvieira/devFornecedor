@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.util.toSaciDate
@@ -26,12 +27,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, UserSaci::class) {
       addParameter("login", "TODOS")
       addParameter("appName", appName)
-    }
+    }.toList()
   }
 
   fun allLojas(): List<Loja> {
     val sql = "/sqlSaci/listLojas.sql"
-    return query(sql, Loja::class)
+    return query(sql, Loja::class).toList()
   }
 
   fun findLojaByCnpj(cnpj: String): Loja? {
@@ -57,33 +58,33 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaSaida::class) {
       addOptionalParameter("serie", serie.value)
       addOptionalParameter("vendno", vendno)
-    }
+    }.toList()
   }
 
   fun notasNFD(vendno: Int = 0): List<NotaSaida> {
     val sql = "/sqlSaci/notaNFD.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("vendno", vendno)
-    }
+    }.toList()
   }
 
   fun notasRetorno(vendno: Int = 0): List<NotaSaida> {
     val sql = "/sqlSaci/notaRetorno.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("vendno", vendno)
-    }
+    }.toList()
   }
 
   fun pedidosDevolucao(loja: Int): List<NotaSaida> {
     val sql = "/sqlSaci/pedidoDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("loja", loja)
-    }
+    }.toList()
   }
 
   fun entradaDevolucao(): List<NotaSaida> {
     val sql = "/sqlSaci/entradaDevolucao.sql"
-    return query(sql, NotaSaida::class)
+    return query(sql, NotaSaida::class).toList()
   }
 
   fun descontoDevolucao(filtro: FiltroFornecedor): List<NotaEntradaDesconto> {
@@ -91,7 +92,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NotaEntradaDesconto::class) {
       addOptionalParameter("filtro", filtro.query)
       addOptionalParameter("loja", filtro.loja.no)
-    }
+    }.toList()
   }
 
   fun ajusteGarantia(serie: Serie): List<NotaSaida> {
@@ -100,7 +101,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val notas = query(sql, NotaSaida::class) {
       this.addOptionalParameter("TIPO_NOTA", serieValue)
     }
-    return notas
+    return notas.toList()
   }
 
   fun ajusteGarantia66(serie: Serie): List<NotaSaida> {
@@ -109,7 +110,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val notas = query(sql, NotaSaida::class) {
       this.addOptionalParameter("TIPO_NOTA", serieValue)
     }
-    return notas
+    return notas.toList()
   }
 
   fun notaFinanceiro(): List<NotaSaida> {
@@ -126,7 +127,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.map { produto ->
       produto.nota = notaSaida
       produto
-    }
+    }.toList()
   }
 
   fun produtosEntrada(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
@@ -137,7 +138,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.map { produto ->
       produto.nota = notaSaida
       produto
-    }
+    }.toList()
   }
 
   fun produtosAjuste(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
@@ -149,7 +150,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.map { produto ->
       produto.nota = notaSaida
       produto
-    }
+    }.toList()
   }
 
   fun produtosFinanceiro(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
@@ -161,14 +162,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.map { produto ->
       produto.nota = notaSaida
       produto
-    }
+    }.toList()
   }
 
   fun representante(vendno: Int): List<Representante> {
     val sql = "/sqlSaci/representantes.sql"
     return query(sql, Representante::class) {
       addOptionalParameter("vendno", vendno)
-    }
+    }.toList()
   }
 
   fun produtosNotaSaida(notaSaida: NotaSaida): List<ProdutosNotaSaida> {
@@ -180,7 +181,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.map { produto ->
       produto.nota = notaSaida
       produto
-    }
+    }.toList()
   }
 
   fun saveRmk(nota: NotaSaida) {
@@ -250,12 +251,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", nfs.loja)
       addOptionalParameter("pdvno", 9999)
       addOptionalParameter("xano", nfs.pedido)
-    }
+    }.toList()
     else query(sql, NFFile::class) {
       addOptionalParameter("storeno", nfs.loja)
       addOptionalParameter("pdvno", nfs.pdv)
       addOptionalParameter("xano", nfs.transacao)
-    }
+    }.toList()
   }
 
   fun selectFile(pedido: PedidoCompra, pdvno: Int): List<NFFile> {
@@ -264,7 +265,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", pedido.loja)
       addOptionalParameter("pdvno", pdvno)
       addOptionalParameter("xano", pedido.numeroPedido)
-    }
+    }.toList()
   }
 
   fun selectFile(nota: FornecedorNota): List<NFFile> {
@@ -273,7 +274,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", 77)
       addOptionalParameter("pdvno", 7777)
       addOptionalParameter("xano", nota.ni)
-    }
+    }.toList()
   }
 
   fun selectFile(fornecedor: FornecedorProduto): List<NFFile> {
@@ -282,7 +283,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", 88)
       addOptionalParameter("pdvno", 8888)
       addOptionalParameter("xano", fornecedor.vendno)
-    }
+    }.toList()
   }
 
   fun selectFile(agenda: AgendaDemanda): List<NFFile> {
@@ -291,7 +292,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", 1)
       addOptionalParameter("pdvno", 8888)
       addOptionalParameter("xano", agenda.id)
-    }
+    }.toList()
   }
 
   //Email
@@ -301,24 +302,24 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", nota.loja)
       addOptionalParameter("pdvno", 9999)
       addOptionalParameter("xano", nota.pedido)
-    }
+    }.toList()
     else query(sql, EmailDB::class) {
       addOptionalParameter("storeno", nota.loja)
       addOptionalParameter("pdvno", nota.pdv)
       addOptionalParameter("xano", nota.transacao)
-    }
+    }.toList()
   }
 
   fun listEmailPara(): List<EmailDB> {
     val sql = "/sqlSaci/listEmailEnviadoPara.sql" //return emptyList()
-    return query(sql, EmailDB::class)
+    return query(sql, EmailDB::class).toList()
   }
 
   fun listNotasEmailNota(idEmail: Int): List<EmailDB> {
     val sql = "/sqlSaci/listNotasEmailEnviado.sql"
     return query(sql, EmailDB::class) {
       addOptionalParameter("idEmail", idEmail)
-    }
+    }.toList()
   }
 
   fun salvaEmailEnviado(gmail: EmailGmail, nota: NotaSaida, idEmail: Int) {
@@ -369,7 +370,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   // Recebimentos
   fun listaNotasPendentes(): List<NotaEntrada> {
     val sql = "/sqlSaci/notasPendentes.sql"
-    return query(sql, NotaEntrada::class)
+    return query(sql, NotaEntrada::class).toList()
   }
 
   // Agenda
@@ -380,7 +381,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("recebido", if (recebido) "S" else "N")
       addOptionalParameter("filtro", filtro)
       addOptionalParameter("loja", loja)
-    }
+    }.toList()
   }
 
   fun updateAgenda(agendaUpdate: AgendaUpdate) {
@@ -410,14 +411,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/parcelasFornecedor.sql"
     return query(sql, Parcela::class) {
       addOptionalParameter("vendno", vendno)
-    }
+    }.toList()
   }
 
   fun listPedidosFornecedor(vendno: Int): List<Pedido> {
     val sql = "/sqlSaci/pedidosFornecedor.sql"
     return query(sql, Pedido::class) {
       addOptionalParameter("vendno", vendno)
-    }
+    }.toList()
   }
 
   fun deleteFornecedorSap() {
@@ -440,7 +441,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/listNotaSap.sql"
     return query(sql, NotaDevolucaoSap::class) {
       addOptionalParameter("filtro", filtro)
-    }
+    }.toList()
   }
 
   fun findFornecedor(cnpj: String): FornecedorSaci? {
@@ -480,7 +481,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun saveNotaNdd(notas: List<NotaEntradaVO>) {
     val sql = "/sqlSaci/saveNotaNdd.sql"
-    script(sql, notas.map { nota ->
+    script(sql, lambda = notas.map { nota ->
       {
         addOptionalParameter("id", nota.id)
         addOptionalParameter("numero", nota.numero)
@@ -520,7 +521,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
       addOptionalParameter("chave", filtro.chave)
       addOptionalParameter("temIPI", filtro.temIPI.toString())
-    }
+    }.toList()
   }
 
   fun notasEntradaSaci(filtro: FiltroEntradaSaci): List<NotaEntradaSaci> {
@@ -532,7 +533,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
       addOptionalParameter("chave", filtro.chave)
       addOptionalParameter("temIPI", "TODOS")
-    }
+    }.toList()
   }
 
   fun saveNotaNddPedido(nota: NotaEntradaNdd) {
@@ -543,20 +544,18 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-
   fun fornecedorNotas(filtro: FiltroFornecedorNota): List<FornecedorNota> {
     val sql = "/sqlSaci/fornecedorNota.sql"
     return query(sql, FornecedorNota::class) {
       addOptionalParameter("vendno", filtro.vendno)
       addOptionalParameter("loja", filtro.loja)
       addOptionalParameter("query", filtro.query)
-    }
+    }.toList()
   }
 
-
-  fun ultimasNfPrec(filtro: FiltroRelatorio): List<NfPrecEntrada> {
+  fun ultimasNfPrec(filtro: FiltroRelatorio, monitor: MonitorHandler): List<NfPrecEntrada> {
     val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
-    return query(sql, NfPrecEntrada::class) {
+    return query(sql, NfPrecEntrada::class, monitor = monitor) {
       addOptionalParameter("storeno", filtro.storeno)
       addOptionalParameter("di", filtro.di.toSaciDate())
       addOptionalParameter("df", filtro.df.toSaciDate())
@@ -575,7 +574,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("fretePer", filtro.fretePer.str)
       addOptionalParameter("preco", filtro.preco.str)
       addOptionalParameter("pesquisa", filtro.pesquisa)
-    }
+    }.toList()
   }
 
   fun ultimasPreRecebimento(filtro: FiltroRelatorio): List<NfPrecEntrada> {
@@ -599,14 +598,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("fretePer", filtro.fretePer.str)
       addOptionalParameter("preco", filtro.preco.str)
       addOptionalParameter("pesquisa", filtro.pesquisa)
-    }
+    }.toList()
   }
 
-  fun queryNfPrec(filter: FiltroRelatorio) {
+  fun queryNfPrec(filter: FiltroRelatorio, monitor: MonitorHandler) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasEntradaQueryUtm.sql"
     else "/sqlSaci/ultimasNotasEntradaQuery.sql"
 
-    script(sql) {
+    script(sql, monitor = monitor) {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
       addOptionalParameter("df", filter.df.toSaciDate())
@@ -677,7 +676,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
   private fun <R : Any> filtroNfPrec(
     filter: FiltroRelatorio, sql: String, complemento: String? = null, result: (Query) -> R
   ): R {
-    return querySerivce(sql, complemento, lambda = {
+    return queryService(sql, complemento, lambda = {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
       addOptionalParameter("df", filter.df.toSaciDate())
@@ -725,7 +724,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("dataF", dataF ?: 30000101)
       addOptionalParameter("codigoCliente", filtro.codigoCliente ?: 0)
       addOptionalParameter("nomeCliente", filtro.nomeCliente ?: "")
-    }
+    }.toList()
   }
 
   fun salvaDesconto(notaSaida: NotaSaida) {
@@ -771,14 +770,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("ni", filtro.ni)
       addOptionalParameter("nf", filtro.nf)
       addOptionalParameter("listaProdutos", filtro.listaProdutos)
-    }
+    }.toList()
   }
 
   fun fornecedorProduto(filtro: String): List<FornecedorProduto> {
     val sql = "/sqlSaci/fornecdorProduto.sql"
     return query(sql, FornecedorProduto::class) {
       addOptionalParameter("filtro", filtro)
-    }
+    }.toList()
   }
 
   fun findReimpressao(filtro: FiltroReimpressao): List<ReimpressaoNota> {
@@ -786,7 +785,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, ReimpressaoNota::class) {
       addOptionalParameter("filtro", filtro.filtro)
       addOptionalParameter("loja", filtro.loja)
-    }
+    }.toList()
   }
 
   fun findReimpressao(loja: Int, nota: String, login: String): List<ReimpressaoNota> {
@@ -795,7 +794,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("loja", loja)
       addOptionalParameter("numero", nota)
       addOptionalParameter("login", login)
-    }
+    }.toList()
   }
 
   fun getQuantidadeAvaria(produtoNotaEntradaNdd: ProdutoNotaEntradaNdd): Double? {
@@ -834,11 +833,10 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         if (onlyNotConfirmado) "S" else "N"
       })
       addOptionalParameter("dataPedido", filtro.dataPedido?.toSaciDate() ?: 0)
-    }
+    }.toList()
   }
 
-  fun updateConferido(pedidoCompraProduto: PedidoCompraProduto) {/*
-    Chave loja, numeroPedido, codigo, grade, seqno*/
+  fun updateConferido(pedidoCompraProduto: PedidoCompraProduto) {
     val sql = "/sqlSaci/updateComprasProduto.sql"
     script(sql) {
       addOptionalParameter("loja", pedidoCompraProduto.loja)
@@ -851,14 +849,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  /*CRUD da tabela Agenda Demanda*/
-
   fun selectAgendaDemanda(filter: FilterAgendaDemanda): List<AgendaDemanda> {
     val sql = "/sqlSaci/demandasSelect.sql"
     return query(sql, AgendaDemanda::class) {
       addOptionalParameter("pesquisa", filter.pesquisa)
       addOptionalParameter("concluido", filter.concluido?.let { if (it) "S" else "N" } ?: "")
-    }
+    }.toList()
   }
 
   fun deleteAgendaDemanda(agendaDemanda: AgendaDemanda) {
@@ -899,7 +895,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, NfEntradaFrete::class) {
       addOptionalParameter("status", filter.status.cod)
       addOptionalParameter("diferenca", filter.diferenca.cod)
-    }
+    }.toList()
   }
 
   fun findTabName(carrno: Int, tabelano: Int): TabelaFrete? {
@@ -929,7 +925,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("numero", filter.numero)
       addOptionalParameter("cnpj", filter.cnpj)
       addOptionalParameter("fornecedor", filter.fornecedor)
-    }
+    }.toList()
   }
 
   fun listPrdRef(codigo: String, grade: String): List<PrdRef> {
@@ -937,12 +933,12 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     return query(sql, PrdRef::class) {
       addOptionalParameter("codigo", codigo)
       addOptionalParameter("grade", grade)
-    }
+    }.toList()
   }
 
   fun addPrdRef(listPrdRef: List<PrdRef>) {
     val sql = "/sqlSaci/prdRefInsert.sql"
-    script(sql, listPrdRef.map { prdRef ->
+    script(sql, lambda = listPrdRef.map { prdRef ->
       { q: Query ->
         q.addOptionalParameter("codigo", prdRef.codigo)
         q.addOptionalParameter("grade", prdRef.grade)
@@ -953,7 +949,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun addPrdBar(listPrdBar: List<PrdBar>) {
     val sql = "/sqlSaci/prdBarInsert.sql"
-    script(sql, listPrdBar.map { prdBar ->
+    script(sql, lambda = listPrdBar.map { prdBar ->
       { q: Query ->
         q.addOptionalParameter("codigo", prdBar.codigo)
         q.addOptionalParameter("grade", prdBar.grade)

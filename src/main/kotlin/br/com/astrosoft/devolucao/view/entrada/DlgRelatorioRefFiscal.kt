@@ -141,7 +141,7 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
     }
   }
 
-  fun selectedItemsSort(): List<NfPrecEntrada>? {
+  fun selectedItemsSort(): List<NfPrecEntrada> {
     return gridNota.selectedItemsSort()
   }
 

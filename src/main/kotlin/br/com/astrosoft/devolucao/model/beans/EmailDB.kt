@@ -56,7 +56,7 @@ class EmailDB(
         val emailResposta = emailsEnviados.filter { emailEnviado ->
           emailEnviado.email.contains(from) && emailEnviado.dataHora()?.isAfter(msgRecebido.data) == true
         }
-        if (emailResposta.isNotEmpty()) null
+        if (emailResposta.toList().isNotEmpty()) null
         else EmailDB(
           storeno = 0,
           pdvno = 0,

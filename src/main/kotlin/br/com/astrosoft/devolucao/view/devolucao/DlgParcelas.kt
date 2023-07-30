@@ -43,9 +43,9 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}) {
       HorizontalLayout().apply {
         setSizeFull()
-        createGridPedidos(listPedidos, 3.0)
-        createGridNotaEntradas(listNotasNaorecebidas, 6.0)
-        createGridTitulos(listParcelas, 3.0)
+        createGridPedidos(listPedidos.toList(), 3.0)
+        createGridNotaEntradas(listNotasNaorecebidas.toList(), 6.0)
+        createGridTitulos(listParcelas.toList(), 3.0)
       }
     }
     form.open()
@@ -174,7 +174,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
   }
 
   private fun configIconArq(icon: Icon, nota: NotaSaida) {
-    if (nota.listFiles().isNotEmpty()) icon.color = "DarkGreen"
+    if (nota.listFiles().toList().isNotEmpty()) icon.color = "DarkGreen"
     else icon.color = ""
   }
 }

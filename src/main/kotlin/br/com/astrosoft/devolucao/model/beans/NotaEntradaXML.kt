@@ -36,7 +36,7 @@ class NotaEntradaXML(
   fun xmlCte() = CteXML.findByCte(cte)
 
   companion object {
-    fun findAll(filter: FiltroNotaEntradaXML) = saci.listNFEntrada(filter)
+    fun findAll(filter: FiltroNotaEntradaXML) = saci.listNFEntrada(filter).toList()
   }
 }
 

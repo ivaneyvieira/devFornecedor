@@ -131,7 +131,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
   }
 
   override fun listEmail(fornecedor: Fornecedor?): List<String> {
-    return fornecedor?.listEmail().orEmpty()
+    return fornecedor?.listEmail().orEmpty().toList()
   }
 
   fun enviarEmail(notas: List<NotaSaida>) = viewModel.exec {
@@ -229,7 +229,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     return planilha.grava(fornecedores)
   }
 
-  fun findLojas(): List<Loja> = Loja.allLojas()
+  fun findLojas(): List<Loja> = Loja.allLojas().toList()
 
   fun salvaDesconto(notaSaida: NotaSaida?) = viewModel.exec {
     notaSaida ?: fail("Nenhuma nota selecionada")

@@ -161,7 +161,7 @@ class PedidoCompra(
     val DATA_COMPRA = LocalDate.of(2022, 1, 1)
 
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompra> {
-      val list = PedidoCompraProduto.findAll(filtro)
+      val list = PedidoCompraProduto.findAll(filtro).toList()
       return group(list)
     }
 

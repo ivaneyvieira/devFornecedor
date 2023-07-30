@@ -2,6 +2,7 @@ package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.knfe.Detalhe
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 import kotlin.math.absoluteValue
@@ -265,13 +266,14 @@ class NfPrecEntrada(
     get() = icmsc ?: icmsn
 
   companion object {
-    fun findNotas(filter: FiltroRelatorio) = saci.ultimasNfPrec(filter).filter {
-      it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
-        EValidade.TODAS -> true
-        EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
-        EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
+    fun findNotas(filter: FiltroRelatorio, monitor: MonitorHandler = { _, _, _ -> }) =
+      saci.ultimasNfPrec(filter, monitor = monitor).filter {
+        it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
+          EValidade.TODAS -> true
+          EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
+          EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
+        }
       }
-    }
 
     fun findNotasPreRec(filter: FiltroRelatorio) = saci.ultimasPreRecebimento(filter).filter {
       it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {

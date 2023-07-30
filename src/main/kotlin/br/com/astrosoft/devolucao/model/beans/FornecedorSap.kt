@@ -15,7 +15,7 @@ data class FornecedorSap(
 ) {
   private val notasSaci = calculaNotasSaci()
 
-  fun notasSaci() = notasSaci
+  fun notasSaci() = notasSaci.toList()
 
   private fun calculaNotasSaci(): List<NotaSaida> {
     return saci.notasDevolucao(Serie.Serie01, vendno).filter { nota ->

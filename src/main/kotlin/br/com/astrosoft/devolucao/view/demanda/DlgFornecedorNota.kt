@@ -114,7 +114,7 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
           query = edtQuery.value ?: "",
         )
       )
-    gridNota.setItems(notas)
+    gridNota.setItems(notas.toList())
   }
 
   fun imprimirRelatorio(notas: List<FornecedorNota>) {
