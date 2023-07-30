@@ -92,12 +92,12 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
           val produtosList = gridNota.asMultiSelect().selectedItems.toList()
-          viewModel.imprimirPedidoCompra(PedidoCompra.group(produtosList))
+          viewModel.imprimirPedidoCompra(PedidoCompra.group(produtosList.toList()))
         }
       }
       this.lazyDownloadButtonXlsx("Planilha", "produtosCompra") {
         val produtosList = gridNota.asMultiSelect().selectedItems.toList()
-        viewModel.excelPedidoCompra(PedidoCompra.group(produtosList))
+        viewModel.excelPedidoCompra(PedidoCompra.group(produtosList.toList()))
       }
 
       if (viewModel is ITabCompraConfViewModel) {

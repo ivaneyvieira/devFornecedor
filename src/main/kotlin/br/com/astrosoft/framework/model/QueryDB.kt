@@ -1,9 +1,11 @@
 package br.com.astrosoft.framework.model
 
 import br.com.astrosoft.framework.util.SystemUtils.readFile
+import br.com.astrosoft.framework.util.customTrim
 import org.simpleflatmapper.sql2o.SfmResultSetHandlerFactoryBuilder
 import org.sql2o.Connection
 import org.sql2o.Query
+import org.sql2o.ResultSetIterable
 import org.sql2o.Sql2o
 import org.sql2o.converters.Converter
 import org.sql2o.quirks.NoQuirks
@@ -11,14 +13,14 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.reflect.KClass
 
-typealias QueryHandle = Query.() -> Unit
+typealias QueryHandler = Query.() -> Unit
+typealias MonitorHandler = (text: String, pos: Int, total: Int) -> Unit
 
 open class QueryDB(driver: String, url: String, username: String, password: String) {
-  protected val sql2o: Sql2o
-  val BATCH_SIZE = 1500
+  private val sql2o: Sql2o
 
   init {
-    registerDriver(driver)
+    Class.forName(driver)
     val maps = HashMap<Class<*>, Converter<*>>()
     maps[LocalDate::class.java] = LocalDateConverter()
     maps[LocalTime::class.java] = LocalSqlTimeConverter()
@@ -26,63 +28,79 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
   }
 
-  fun restartConnection() {
-    sql2o.connectionSource.connection.close()
-    sql2o.open()
-  }
-
-  private fun registerDriver(driver: String) {
-    try {
-      Class.forName(driver)
-    } catch (e: ClassNotFoundException) { //throw RuntimeException(e)
+  private fun <T> ResultSetIterable<T>?.toSeq(monitor: MonitorHandler, total: Int): Sequence<T> {
+    var pos = 0
+    return sequence {
+      this@toSeq?.forEach {
+        yield(it)
+        monitor("Lendo dados", ++pos, total)
+      }
+      this@toSeq?.close()
     }
   }
 
-  protected fun <T : Any> query(file: String, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
+  protected fun <T : Any> query(
+    file: String,
+    classes: KClass<T>,
+    monitor: MonitorHandler = { _, _, _ -> },
+    lambda: QueryHandler = {}
+  ): Sequence<T> {
     val statements = toStratments(file)
-    if (statements.isEmpty()) return emptyList()
-    val lastIndex = statements.lastIndex
-    val query = statements[lastIndex]
-    val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
-    return transaction { con ->
-      scriptSQL(con, updates, lambda)
-      val ret: List<T> = querySQL(con, query, classes, lambda)
-      ret
+    if (statements.isEmpty()) throw RuntimeException("Query vazia")
+    val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
+    val updates = statements.dropLast(1)
+    val con = sql2o.open()
+    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor).forEach {
+      it.executeUpdate()
     }
+    val total = queryCount(con, query, lambda)
+    return querySQL(con, query, classes, lambda).toSeq(monitor, total)
+  }
+
+  private fun queryCount(con: Connection, sql: String, lambda: QueryHandler = {}): Int {
+    val sqlCount = "SELECT COUNT(*) FROM ($sql) AS C"
+    val query = con.createQueryConfig(sqlCount)
+    query.lambda()
+    return query.executeScalar(Int::class.java) ?: 0
   }
 
   protected fun <T : Any> queryLazy(
-    file: String, classes: KClass<T>,
+    file: String,
+    classes: KClass<T>,
     process: (bean: List<T>) -> Unit,
-    lambda: QueryHandle = {}
+    monitor: MonitorHandler = { _, _, _ -> },
+    lambda: QueryHandler = {}
   ) {
     val statements = toStratments(file)
-    if (statements.isEmpty()) return
-    val lastIndex = statements.lastIndex
-    val query = statements[lastIndex]
-    val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
-    transaction { con ->
-      scriptSQL(con, updates, lambda)
-      querySQLLazy(con, query, classes, process, lambda)
+    if (statements.isEmpty()) throw RuntimeException("Query vazia")
+    val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
+    val updates = statements.dropLast(1)
+    val con = sql2o.beginTransaction()
+    scriptSQLSeq(con, updates, lambda, monitor).forEach {
+      it.executeUpdate()
     }
+    querySQLLazy(con, query, classes, process, lambda)
+    con.commit()
+    con.close()
   }
 
-
-  protected fun <R : Any> querySerivce(
+  protected fun <R : Any> queryService(
     file: String,
     complemento: String?,
-    lambda: QueryHandle = {},
+    lambda: QueryHandler = {},
+    monitor: MonitorHandler = { _, _, _ -> },
     result: (Query) -> R
   ): R {
-    val statements = toStratments(file, complemento)
-    val lastIndex = statements.lastIndex
-    val query = statements[lastIndex]
-    val updates = if (statements.size > 1) statements.subList(0, lastIndex) else emptyList()
-    return transaction { con ->
-      scriptSQL(con, updates, lambda)
-      val q = querySQLResult(con, query, lambda)
-      result(q)
+    val statements = toStratments(file)
+    val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
+    val queryComplemento = "$query\n$complemento"
+    val updates = statements.dropLast(1)
+    val con = sql2o.open()
+    scriptSQLSeq(con, updates, lambda, monitor).forEach {
+      it.executeUpdate()
     }
+    val q = querySQLResult(con, queryComplemento, lambda)
+    return result(q)
   }
 
   private fun Connection.createQueryConfig(sql: String?): Query {
@@ -92,33 +110,32 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return query
   }
 
-  private fun querySQLResult(con: Connection, sql: String?, lambda: QueryHandle = {}): Query {
+  private fun querySQLResult(con: Connection, sql: String?, lambda: QueryHandler = {}): Query {
     val query = con.createQueryConfig(sql)
     query.lambda()
     return query
   }
 
-  private fun <T : Any> querySQL(con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
+  private fun <T : Any> querySQL(
+    con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandler = {}
+  ): ResultSetIterable<T> {
     val query = con.createQueryConfig(sql)
     query.lambda()
-    println(sql)
-    return query.executeAndFetch(classes.java)
+    return query.executeAndFetchLazy(classes.java)
   }
 
   private fun <T : Any> querySQLLazy(
     con: Connection,
-    sql: String?,
-    classes: KClass<T>,
+    sql: String?, classes: KClass<T>,
     process: (bean: List<T>) -> Unit,
-    lambda: QueryHandle = {}
+    lambda: QueryHandler = {}
   ) {
     val query = con.createQueryConfig(sql)
     query.lambda()
-    println(sql)
     val batch = mutableListOf<T>()
     query.executeAndFetchLazy(classes.java).use { beans ->
       beans.forEach { bean ->
-        if (batch.size == BATCH_SIZE) {
+        if (batch.size == BATCHSIZE) {
           process(batch)
           batch.clear()
         }
@@ -132,49 +149,56 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
-  protected fun script(file: String, lambda: QueryHandle = {}) {
-    val stratments = toStratments(file)
-    transaction { con ->
-      scriptSQL(con, stratments, lambda)
-    }
+  protected fun script(file: String, monitor: MonitorHandler = { _, _, _ -> }, lambda: QueryHandler = {}) {
+    script(file = file, monitor = monitor, lambda = listOf(lambda))
   }
 
-  protected fun script(file: String, lambda: List<QueryHandle>) {
-    val stratments = toStratments(file)
-    transaction { con ->
-      scriptSQL(con, stratments, lambda)
+  protected fun script(file: String, monitor: MonitorHandler = { _, _, _ -> }, lambda: List<QueryHandler>) {
+    val updates = toStratments(file)
+    val con = sql2o.beginTransaction()
+    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor).forEach {
+      it.executeUpdate()
     }
+    con.commit()
+    con.close()
   }
 
-  fun toStratments(file: String, complemento: String? = null): List<String> {
+  private fun toStratments(file: String): List<String> {
     val sql = if (file.startsWith("/")) readFile(file)
     else file
-    val sqlComplemento = if (complemento == null) sql else "$sql\n$complemento"
-    return sqlComplemento.split(";").filter { it.isNotBlank() || it.isNotEmpty() }
+    return sql.split(";").map { it.customTrim() }.filter { it.isNotEmpty() }
   }
 
-  private fun scriptSQL(con: Connection, stratments: List<String>, lambda: QueryHandle = {}) {
-    stratments.forEach { sql ->
-      val query = con.createQueryConfig(sql)
-      query.lambda()
-      query.executeUpdate()
-      println(sql)
-    }
+  private fun scriptSQLSeq(
+    con: Connection,
+    stratments: List<String>,
+    lambda: QueryHandler = {},
+    monitor: MonitorHandler
+  ): Sequence<ScripyUpdate> {
+    return scriptSQLSeq(con, stratments, listOf(lambda), monitor)
   }
 
-  private fun scriptSQL(con: Connection, stratments: List<String>, lambda: List<QueryHandle>) {
-    val listQuery = stratments.map { sql ->
-      val query = con.createQueryConfig(sql)
-      println(query.toString())
-      query
-    }
-    lambda.forEach { lamb ->
-      listQuery.forEach { query ->
-        query.lamb()
-        query.executeUpdate()
+  private fun scriptSQLSeq(
+    con: Connection,
+    stratments: List<String>,
+    lambda: List<QueryHandler>,
+    monitor: MonitorHandler
+  ): Sequence<ScripyUpdate> {
+    return sequence {
+      val listQuery = stratments.map { sql ->
+        ScripyUpdate(query = con.createQueryConfig(sql), queryText = sql)
+      }
+      val total = listQuery.size * lambda.size
+      var pos = 0
+      lambda.forEach { lamb ->
+        listQuery.forEach { scriptUpdate ->
+          val query = scriptUpdate.query
+          query.lamb()
+          yield(scriptUpdate)
+          monitor("Script", ++pos, total)
+        }
       }
     }
-    println()
   }
 
   fun Query.addOptionalParameter(name: String, value: String?): Query {
@@ -207,12 +231,13 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return this
   }
 
-  protected fun <T> transaction(block: (Connection) -> T): T {
-    return sql2o.beginTransaction().use { con ->
-      val ret = block(con)
-      con.commit()
-      ret
-    }
+  companion object {
+    private const val BATCHSIZE = 1500
   }
 }
 
+data class ScripyUpdate(val query: Query, val queryText: String) {
+  fun executeUpdate() {
+    query.executeUpdate()
+  }
+}

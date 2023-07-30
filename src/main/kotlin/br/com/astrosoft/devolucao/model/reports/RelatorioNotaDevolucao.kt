@@ -625,7 +625,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
       .columns(* colunms)
       .setColumnStyle(stl.style().setFontSize(7))
       .columnGrid(* colunms)
-      .setDataSource(itens)
+      .setDataSource(itens.toList())
       .summary(sumaryBuild())
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))

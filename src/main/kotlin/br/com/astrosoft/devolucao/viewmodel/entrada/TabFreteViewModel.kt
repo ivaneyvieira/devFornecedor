@@ -8,6 +8,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaFreteDif
 import br.com.astrosoft.devolucao.model.reports.RelatorioFreteDif
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -16,8 +17,8 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabFreteViewModel
 
-  fun openDlgRelatorio() = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro())
+  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+    saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
@@ -53,7 +54,7 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
     return NfPrecEntrada.findNotas(filtro).filter {
       it.frete != 0.00 && it.fretep != 0.00 && it.freten != 0.00
-    }
+    }.toList()
   }
 }
 

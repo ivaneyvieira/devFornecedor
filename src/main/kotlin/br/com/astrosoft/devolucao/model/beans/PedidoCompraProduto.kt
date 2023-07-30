@@ -229,8 +229,7 @@ class PedidoCompraProduto(
 
   companion object {
     fun findAll(filtro: FiltroPedidoCompra): List<PedidoCompraProduto> {
-      val list = saci.findPedidosCompraProduto(filtro)
-      return list
+      return saci.findPedidosCompraProduto(filtro)
     }
   }
 }

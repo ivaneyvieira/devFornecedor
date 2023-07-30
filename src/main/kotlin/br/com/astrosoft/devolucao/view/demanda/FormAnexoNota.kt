@@ -56,7 +56,7 @@ class FormAnexoNota(val nota: FornecedorNota, private val isReadOnly: Boolean, v
   }
 
   private fun updateItens() {
-    gridFile?.setItems(nota.findAnexos())
+    gridFile?.setItems(nota.findAnexos().toList())
     updateAnexo()
   }
 

@@ -60,7 +60,7 @@ class FormAnexoDemanda(val demanda: AgendaDemanda, private val isReadOnly: Boole
   }
 
   private fun updateItens() {
-    gridFile?.setItems(demanda.findAnexos())
+    gridFile?.setItems(demanda.findAnexos().toList())
     updateAnexo()
   }
 

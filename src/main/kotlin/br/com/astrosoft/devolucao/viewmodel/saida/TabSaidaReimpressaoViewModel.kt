@@ -11,12 +11,12 @@ class TabSaidaReimpressaoViewModel(val viewModel: SaidaViewModel) {
 
   fun updateView() {
     val filtro = subView.filtro()
-    val resultList = ReimpressaoNota.findReimpressao(filtro)
+    val resultList = ReimpressaoNota.findReimpressao(filtro).toList()
     subView.updateGrid(resultList)
   }
 
   fun findLojas(): List<Loja> {
-    return Loja.allLojas().sortedBy { it.no }
+    return Loja.allLojas().sortedBy { it.no }.toList()
   }
 }
 

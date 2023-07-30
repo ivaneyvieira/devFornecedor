@@ -64,7 +64,7 @@ class TabPreEntFiscalViewModel(val viewModel: PreEntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotasPreRec(filtro)
+    return NfPrecEntrada.findNotasPreRec(filtro).toList()
   }
 }
 

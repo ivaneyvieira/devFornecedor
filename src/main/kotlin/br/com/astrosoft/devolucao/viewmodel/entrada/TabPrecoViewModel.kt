@@ -8,6 +8,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaPrecoDif
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.reports.RelatorioPrecoDif
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -16,8 +17,8 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabPrecoViewModel
 
-  fun openDlgRelatorio() = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro())
+  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+    saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
@@ -61,7 +62,7 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro)
+    return NfPrecEntrada.findNotas(filtro).toList()
   }
 }
 

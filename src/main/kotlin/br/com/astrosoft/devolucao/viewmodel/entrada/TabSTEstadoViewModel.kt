@@ -5,7 +5,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
-import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
@@ -13,10 +13,10 @@ class TabSTEstadoViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabSTEstadoViewModel
 
-  fun openDlgRelatorio() = viewModel.exec {
+  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
     FornecedorNdd.updateNotas()
     val filtro = subView.getFiltro()
-    saci.queryNfPrec(filtro)
+    saci.queryNfPrec(filtro, monitor)
     subView.openRelatorio()
   }
 
@@ -61,7 +61,7 @@ class TabSTEstadoViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro)
+    return NfPrecEntrada.findNotas(filtro).toList()
   }
 }
 

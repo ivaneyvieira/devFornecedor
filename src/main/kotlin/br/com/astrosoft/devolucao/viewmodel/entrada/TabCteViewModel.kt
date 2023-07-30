@@ -19,11 +19,11 @@ class TabCteViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findLojas(): List<Loja> {
-    return Loja.allLojas().sortedBy { it.no }
+    return Loja.allLojas().sortedBy { it.no }.toList()
   }
 
   fun findNotas(filtro: FiltroDialog): List<NfEntradaFrete> {
-    return NfEntradaFrete.findNotas(filtro)
+    return NfEntradaFrete.findNotas(filtro).toList()
   }
 
   fun findTabName(carrno: Int?, codTab: Int?): String {

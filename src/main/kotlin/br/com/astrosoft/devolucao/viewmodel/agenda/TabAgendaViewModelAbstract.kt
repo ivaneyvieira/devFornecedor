@@ -18,7 +18,7 @@ abstract class TabAgendaViewModelAbstract(val viewModel: AgendaViewModel) : IVie
     val user = Config.user as? UserSaci ?: fail("Usuário não logado")
     val loja = if (user.admin) 0 else user.storeno
     val filtro = subView.filtro()
-    subView.updateGrid(listAgenda(subView.agendado, subView.recebido, filtro, loja))
+    subView.updateGrid(listAgenda(subView.agendado, subView.recebido, filtro, loja).toList())
   }
 
   private fun listAgenda(agendado: Boolean, recebido: Boolean, filtro: String, loja: Int) =

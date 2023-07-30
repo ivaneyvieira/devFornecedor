@@ -81,3 +81,9 @@ fun CharSequence.unaccent(): String {
   val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
   return REGEX_UNACCENT.replace(temp, "").uppercase(Locale.getDefault())
 }
+
+fun String.customTrim(): String {
+  return trim {
+    it <= ' '
+  }
+}

@@ -22,7 +22,7 @@ class TabTodasEntradasViewModel(val viewModel: EntradaViewModel) {
   }
 
   private fun findNotas(filtro: FiltroNotaEntradaQuery): List<NotaEntradaQuery> {
-    return NotaEntradaQuery.findNotas(filtro)
+    return NotaEntradaQuery.findNotas(filtro).toList()
   }
 
   fun imprimeRelatorio(listNotas: List<NotaEntradaQuery>, markCst: Boolean, markIpi: Boolean, markIcms: Boolean) =

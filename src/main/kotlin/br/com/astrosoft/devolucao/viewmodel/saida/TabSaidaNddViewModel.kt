@@ -14,7 +14,7 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
     if (filtro.isEmpty()) {
       limparView()
     } else {
-      val resultList = NotaSaidaNdd.findAll(subView.filtro())
+      val resultList = NotaSaidaNdd.findAll(subView.filtro()).toList()
       subView.limparFiltro()
       subView.updateGrid(resultList)
     }
@@ -26,7 +26,7 @@ class TabSaidaNddViewModel(val viewModel: SaidaViewModel) {
   }
 
   fun findLojas(): List<Loja> {
-    return Loja.allLojas().sortedBy { it.no }
+    return Loja.allLojas().sortedBy { it.no }.toList()
   }
 }
 

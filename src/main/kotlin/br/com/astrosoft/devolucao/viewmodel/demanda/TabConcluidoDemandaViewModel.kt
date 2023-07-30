@@ -7,7 +7,7 @@ import br.com.astrosoft.framework.viewmodel.ITabView
 class TabConcluidoDemandaViewModel(val viewModel: DemandaViewModel) {
   fun updateView() {
     val filter = subView.filter()
-    val list = AgendaDemanda.findAll(filter)
+    val list = AgendaDemanda.findAll(filter).toList()
     subView.updateGrid(list)
   }
 

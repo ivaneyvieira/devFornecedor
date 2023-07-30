@@ -549,7 +549,7 @@ class NotaSaida(
 
   fun saveRmk() = saci.saveRmk(this)
 
-  fun listFiles() = saci.selectFile(this)
+  fun listFiles() = saci.selectFile(this).toList()
 
   fun chaveFornecedor() = ChaveFornecedor(
     custno = custno,
@@ -565,7 +565,7 @@ class NotaSaida(
     saci.salvaEmailEnviado(gmail, this, idEmail)
   }
 
-  fun listEmailNota() = saci.listEmailNota(this)
+  fun listEmailNota() = saci.listEmailNota(this).toList()
 
   fun listaEmailRecebidoNota(): List<EmailDB> {
     val gmail = MailGMail()

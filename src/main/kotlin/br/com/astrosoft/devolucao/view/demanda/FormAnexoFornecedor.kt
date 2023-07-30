@@ -60,7 +60,7 @@ class FormAnexoFornecedor(
   }
 
   private fun updateItens() {
-    gridFile?.setItems(fornecedor.findAnexos())
+    gridFile?.setItems(fornecedor.findAnexos().toList())
     updateAnexo()
   }
 

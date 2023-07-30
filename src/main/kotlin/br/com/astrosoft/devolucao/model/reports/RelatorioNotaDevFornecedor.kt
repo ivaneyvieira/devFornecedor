@@ -209,7 +209,7 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
       .setTemplate(Templates.reportTemplate)
       .columns(* colunms)
       .columnGrid(* colunms)
-      .setDataSource(itens)
+      .setDataSource(itens.toList())
       .setPageFormat(A4, pageOrientation)
       .setPageMargin(margin(28))
       .summary(pageFooterBuilder())

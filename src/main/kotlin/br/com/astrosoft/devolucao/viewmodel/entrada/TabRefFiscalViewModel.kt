@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
@@ -12,8 +13,8 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabRefFiscalViewModel
 
-  fun openDlgRelatorio() = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro())
+  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+    saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
@@ -75,10 +76,10 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro)
+    return NfPrecEntrada.findNotas(filtro).toList()
   }
 
-  fun refXml() {
+  fun refXml(monitor: MonitorHandler = { _, _, _ -> }) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
@@ -92,12 +93,12 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
         )
       }.distinct()
       PrdRef.add(list)
-      saci.queryNfPrec(subView.getFiltro())
+      saci.queryNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
     }
   }
 
-  fun barrasXml() {
+  fun barrasXml(monitor: MonitorHandler = { _, _, _ -> }) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
@@ -110,12 +111,12 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
         )
       }.distinct()
       PrdBar.add(list)
-      saci.queryNfPrec(subView.getFiltro())
+      saci.queryNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
     }
   }
 
-  fun ncmXml() {
+  fun ncmXml(monitor: MonitorHandler = { _, _, _ -> }) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
@@ -125,7 +126,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
         if (ncm.isNullOrBlank())
           saci.addNCM(nf.prod, ncm ?: "")
       }
-      saci.queryNfPrec(subView.getFiltro())
+      saci.queryNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
     }
   }

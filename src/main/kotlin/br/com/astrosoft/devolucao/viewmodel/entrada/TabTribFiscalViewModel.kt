@@ -9,6 +9,7 @@ import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -17,8 +18,8 @@ class TabTribFiscalViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabTribFiscalViewModel
 
-  fun openDlgRelatorio() = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro())
+  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+    saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
@@ -69,7 +70,7 @@ class TabTribFiscalViewModel(val viewModel: EntradaViewModel) {
     filtro.cst = T
     return NfPrecEntrada.findNotas(filtro).filter { nota ->
       (cst == T) || (cst.str == nota.cstDifxn) || (cst.str == nota.cstDifnp)
-    }
+    }.toList()
   }
 }
 

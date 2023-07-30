@@ -8,7 +8,7 @@ class Loja(val no: Int, val sname: String, val name: String, val cnpjLoja: Strin
 
   companion object {
     val lojaZero = Loja(0, "Todas", "", cnpjLoja = "")
-    fun allLojas() = saci.allLojas()
+    fun allLojas() = saci.allLojas().toList()
   }
 
   override fun equals(other: Any?): Boolean {

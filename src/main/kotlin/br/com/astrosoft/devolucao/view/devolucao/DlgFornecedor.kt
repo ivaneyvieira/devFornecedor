@@ -14,7 +14,7 @@ class DlgFornecedor {
     fornecedor ?: return
     val listRepresentantes = fornecedor.listRepresentantes()
     val form = SubWindowForm(fornecedor.labelTitle) {
-      createGridRepresentantes(listRepresentantes)
+      createGridRepresentantes(listRepresentantes.toList())
     }
     form.open()
   }
