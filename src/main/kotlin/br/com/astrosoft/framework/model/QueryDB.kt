@@ -3,10 +3,7 @@ package br.com.astrosoft.framework.model
 import br.com.astrosoft.framework.util.SystemUtils.readFile
 import br.com.astrosoft.framework.util.customTrim
 import org.simpleflatmapper.sql2o.SfmResultSetHandlerFactoryBuilder
-import org.sql2o.Connection
-import org.sql2o.Query
-import org.sql2o.ResultSetIterable
-import org.sql2o.Sql2o
+import org.sql2o.*
 import org.sql2o.converters.Converter
 import org.sql2o.quirks.NoQuirks
 import java.time.LocalDate
@@ -16,29 +13,28 @@ import kotlin.reflect.KClass
 typealias QueryHandler = Query.() -> Unit
 typealias MonitorHandler = (text: String, pos: Int, total: Int) -> Unit
 
-open class QueryDB(driver: String, url: String, username: String, password: String) {
+open class QueryDB(val database: DatabaseConfig) {
   private val sql2o: Sql2o
 
   init {
-    Class.forName(driver)
+    Class.forName(database.driver)
     val maps = HashMap<Class<*>, Converter<*>>()
     maps[LocalDate::class.java] = LocalDateConverter()
     maps[LocalTime::class.java] = LocalSqlTimeConverter()
     maps[ByteArray::class.java] = ByteArrayConverter()
-    this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
+    this.sql2o = Sql2o(database.url, database.user, database.password, NoQuirks(maps))
   }
 
-  private fun <T> ResultSetIterable<T>?.toSeq(monitor: MonitorHandler?, total: Int): Sequence<T> {
+  private fun <T> ResultSetIterable<T>?.toSeq(monitor: MonitorHandler?, total: Int): List<T> {
     var pos = 0
-    return sequence {
+    return sequence<T> {
       this@toSeq?.forEach {
         yield(it)
         monitor?.let { it("Lendo dados", ++pos, total) }
         print(".")
       }
-      this@toSeq?.close()
       println()
-    }
+    }.toList()
   }
 
   protected fun <T : Any> query(
@@ -46,16 +42,25 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     classes: KClass<T>,
     monitor: MonitorHandler? = null,
     lambda: QueryHandler = {}
-  ): Sequence<T> {
-    val statements = toStratments(file)
-    if (statements.isEmpty()) throw RuntimeException("Query vazia")
-    val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
-    val updates = statements.dropLast(1)
-    val con = sql2o.open()
-    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
-    val total = queryCount(con, query, lambda)
-    println(query)
-    return querySQL(con, query, classes, lambda).toSeq(monitor, total)
+  ): List<T> {
+    return try {
+      transaction { con ->
+        val statements = toStratments(file)
+        if (statements.isEmpty()) throw RuntimeException("Query vazia")
+        val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
+        val updates = statements.dropLast(1)
+
+
+        scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
+        val total = queryCount(con, query, lambda)
+        println(query)
+        val querySql = querySQL(con, query, classes, lambda)
+        querySql.toSeq(monitor, total)
+      }
+    } catch (e: Sql2oException) {
+      e.printStackTrace()
+      throw e
+    }
   }
 
   private fun queryCount(con: Connection, sql: String, lambda: QueryHandler = {}): Int {
@@ -76,11 +81,10 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     if (statements.isEmpty()) throw RuntimeException("Query vazia")
     val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
     val updates = statements.dropLast(1)
-    val con = sql2o.beginTransaction()
-    scriptSQLSeq(con, updates, lambda, monitor)
-    querySQLLazy(con, query, classes, process, lambda)
-    con.commit()
-    con.close()
+    transaction { con ->
+      scriptSQLSeq(con, updates, lambda, monitor)
+      querySQLLazy(con, query, classes, process, lambda)
+    }
   }
 
   protected fun <R : Any> queryService(
@@ -94,10 +98,11 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
     val queryComplemento = "$query\n$complemento"
     val updates = statements.dropLast(1)
-    val con = sql2o.open()
-    scriptSQLSeq(con, updates, lambda, monitor)
-    val q = querySQLResult(con, queryComplemento, lambda)
-    return result(q)
+    return transaction { con ->
+      scriptSQLSeq(con, updates, lambda, monitor)
+      val q = querySQLResult(con, queryComplemento, lambda)
+      result(q)
+    }
   }
 
   private fun Connection.createQueryConfig(sql: String?): Query {
@@ -114,7 +119,9 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
 
   private fun <T : Any> querySQL(
-    con: Connection, sql: String?, classes: KClass<T>, lambda: QueryHandler = {}
+    con: Connection, sql: String?,
+    classes: KClass<T>,
+    lambda: QueryHandler = {}
   ): ResultSetIterable<T> {
     val query = con.createQueryConfig(sql)
     query.lambda()
@@ -152,10 +159,9 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
 
   protected fun script(file: String, monitor: MonitorHandler? = null, lambda: List<QueryHandler>) {
     val updates = toStratments(file)
-    val con = sql2o.beginTransaction()
-    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
-    con.commit()
-    con.close()
+    transaction { con ->
+      scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
+    }
   }
 
   private fun toStratments(file: String): List<String> {
@@ -227,9 +233,18 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     return this
   }
 
+  protected fun <T> transaction(block: (Connection) -> T): T {
+    return sql2o.beginTransaction().use { con ->
+      val ret = block(con)
+      con.commit()
+      ret
+    }
+  }
+
   companion object {
     private const val BATCHSIZE = 1500
   }
 }
 
 data class ScripyUpdate(val query: Query, val queryText: String)
+data class DatabaseConfig(val url: String, val user: String, val password: String, val driver: String)

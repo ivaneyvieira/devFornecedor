@@ -21,6 +21,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValor
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcms
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcmsx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpi
@@ -211,7 +212,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       notaVlSubstx().setHeader("V ST X").marcaDiferenca { vlIcmsSubstxn == "N" }
       notaVlSubst().setHeader("V ST N").marcaDiferenca { vlIcmsSubstxn == "N" }
       notaVlTotalx().setHeader("Total X").marcaDiferenca { vlTotalxn == "N" }
-      notaVlTotal().setHeader("Total N").marcaDiferenca { vlTotalxn == "N" }
+      notaValor().setHeader("Total N").marcaDiferenca { vlTotalxn == "N" }
     }
   }
 }

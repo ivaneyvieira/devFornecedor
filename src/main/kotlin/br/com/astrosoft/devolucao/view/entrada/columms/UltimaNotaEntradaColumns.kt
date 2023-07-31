@@ -378,7 +378,7 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
-  fun Grid<NfPrecEntrada>.notaVlTotalx() = addColumnDouble(NfPrecEntrada::vlTotalx) {
+  fun Grid<NfPrecEntrada>.notaVlTotalx() = addColumnDouble(NfPrecEntrada::valorx) {
     this.setHeader("V Total")
     this.isResizable = true
   }
