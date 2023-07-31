@@ -186,7 +186,7 @@ class NfPrecEntrada(
     }
 
   val vlIcmsx
-    get() = detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
+    get() = if (baseSubstx.absoluteValue > 0.02) 0.00 else detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
 
   val vlIpix
     get() = detalheXml().sumOf { it.imposto?.ipi?.vIPI ?: 0.00 }
