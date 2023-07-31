@@ -14,7 +14,7 @@ class TabSpedViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabSpedViewModel
 
-  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+  fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
     FornecedorNdd.updateNotas()
     saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()

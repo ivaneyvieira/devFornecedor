@@ -13,6 +13,7 @@ import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
@@ -82,7 +83,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
 
   override fun openRelatorio() {
     access {
-      DlgRelatorioTribFiscal(viewModel, getFiltro(), updateProgress).show()
+      DlgRelatorioTribFiscal(viewModel, getFiltro()).show()
     }
   }
 
@@ -118,6 +119,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
     }
     br()
     horizontalLayout {
+      this.alignItems = Alignment.END
       button("Relatório") {
         icon = VaadinIcon.RECORDS.create()
         onLeftClick {
@@ -126,7 +128,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
           }
         }
       }
-      add(progressBarLayout)
+      addAndExpand(progressBarLayout)
     }
     setFiltro(getFiltro())
   }
