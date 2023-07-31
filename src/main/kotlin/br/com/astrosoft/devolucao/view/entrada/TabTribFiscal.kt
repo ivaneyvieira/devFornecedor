@@ -81,7 +81,9 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
   }
 
   override fun openRelatorio() {
-    DlgRelatorioTribFiscal(viewModel, getFiltro()).show()
+    access {
+      DlgRelatorioTribFiscal(viewModel, getFiltro(), updateProgress).show()
+    }
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -115,12 +117,16 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
       edtRotulo = textField("Rótulo")
     }
     br()
-    button("Relatório") {
-      icon = VaadinIcon.RECORDS.create()
-      onLeftClick {
-        currentUI = ui.get()
-        viewModel.openDlgRelatorio()
+    horizontalLayout {
+      button("Relatório") {
+        icon = VaadinIcon.RECORDS.create()
+        onLeftClick {
+          launch {
+            viewModel.openDlgRelatorio(updateProgress)
+          }
+        }
       }
+      add(progressBarLayout)
     }
     setFiltro(getFiltro())
   }
