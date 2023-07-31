@@ -17,7 +17,7 @@ class TabFreteViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabFreteViewModel
 
-  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+  fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }

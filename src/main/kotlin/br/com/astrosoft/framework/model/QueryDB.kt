@@ -28,21 +28,23 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
   }
 
-  private fun <T> ResultSetIterable<T>?.toSeq(monitor: MonitorHandler, total: Int): Sequence<T> {
+  private fun <T> ResultSetIterable<T>?.toSeq(monitor: MonitorHandler?, total: Int): Sequence<T> {
     var pos = 0
     return sequence {
       this@toSeq?.forEach {
         yield(it)
-        monitor("Lendo dados", ++pos, total)
+        monitor?.let { it("Lendo dados", ++pos, total) }
+        print(".")
       }
       this@toSeq?.close()
+      println()
     }
   }
 
   protected fun <T : Any> query(
     file: String,
     classes: KClass<T>,
-    monitor: MonitorHandler = { _, _, _ -> },
+    monitor: MonitorHandler? = null,
     lambda: QueryHandler = {}
   ): Sequence<T> {
     val statements = toStratments(file)
@@ -50,10 +52,9 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
     val updates = statements.dropLast(1)
     val con = sql2o.open()
-    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor).forEach {
-      it.executeUpdate()
-    }
+    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
     val total = queryCount(con, query, lambda)
+    println(query)
     return querySQL(con, query, classes, lambda).toSeq(monitor, total)
   }
 
@@ -68,7 +69,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     file: String,
     classes: KClass<T>,
     process: (bean: List<T>) -> Unit,
-    monitor: MonitorHandler = { _, _, _ -> },
+    monitor: MonitorHandler? = null,
     lambda: QueryHandler = {}
   ) {
     val statements = toStratments(file)
@@ -76,9 +77,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     val query = statements.lastOrNull() ?: throw RuntimeException("Query vazia")
     val updates = statements.dropLast(1)
     val con = sql2o.beginTransaction()
-    scriptSQLSeq(con, updates, lambda, monitor).forEach {
-      it.executeUpdate()
-    }
+    scriptSQLSeq(con, updates, lambda, monitor)
     querySQLLazy(con, query, classes, process, lambda)
     con.commit()
     con.close()
@@ -88,7 +87,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     file: String,
     complemento: String?,
     lambda: QueryHandler = {},
-    monitor: MonitorHandler = { _, _, _ -> },
+    monitor: MonitorHandler? = null,
     result: (Query) -> R
   ): R {
     val statements = toStratments(file)
@@ -96,9 +95,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     val queryComplemento = "$query\n$complemento"
     val updates = statements.dropLast(1)
     val con = sql2o.open()
-    scriptSQLSeq(con, updates, lambda, monitor).forEach {
-      it.executeUpdate()
-    }
+    scriptSQLSeq(con, updates, lambda, monitor)
     val q = querySQLResult(con, queryComplemento, lambda)
     return result(q)
   }
@@ -149,16 +146,14 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 
-  protected fun script(file: String, monitor: MonitorHandler = { _, _, _ -> }, lambda: QueryHandler = {}) {
+  protected fun script(file: String, monitor: MonitorHandler? = null, lambda: QueryHandler = {}) {
     script(file = file, monitor = monitor, lambda = listOf(lambda))
   }
 
-  protected fun script(file: String, monitor: MonitorHandler = { _, _, _ -> }, lambda: List<QueryHandler>) {
+  protected fun script(file: String, monitor: MonitorHandler? = null, lambda: List<QueryHandler>) {
     val updates = toStratments(file)
     val con = sql2o.beginTransaction()
-    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor).forEach {
-      it.executeUpdate()
-    }
+    scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
     con.commit()
     con.close()
   }
@@ -173,32 +168,33 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     con: Connection,
     stratments: List<String>,
     lambda: QueryHandler = {},
-    monitor: MonitorHandler
-  ): Sequence<ScripyUpdate> {
-    return scriptSQLSeq(con, stratments, listOf(lambda), monitor)
+    monitor: MonitorHandler?
+  ) {
+    scriptSQLSeq(con, stratments, listOf(lambda), monitor)
   }
 
   private fun scriptSQLSeq(
     con: Connection,
     stratments: List<String>,
     lambda: List<QueryHandler>,
-    monitor: MonitorHandler
-  ): Sequence<ScripyUpdate> {
-    return sequence {
-      val listQuery = stratments.map { sql ->
-        ScripyUpdate(query = con.createQueryConfig(sql), queryText = sql)
-      }
-      val total = listQuery.size * lambda.size
-      var pos = 0
-      lambda.forEach { lamb ->
-        listQuery.forEach { scriptUpdate ->
-          val query = scriptUpdate.query
-          query.lamb()
-          yield(scriptUpdate)
-          monitor("Script", ++pos, total)
-        }
+    monitor: MonitorHandler?
+  ) {
+    val listQuery = stratments.map { sql ->
+      println(sql)
+      ScripyUpdate(query = con.createQueryConfig(sql), queryText = sql)
+    }
+    val total = listQuery.size * lambda.size
+    var pos = 0
+    lambda.forEach { lamb ->
+      listQuery.forEach { scriptUpdate ->
+        val query = scriptUpdate.query
+        query.lamb()
+        monitor?.let { it("Script", ++pos, total) } ?: true
+        query.executeUpdate()
+        print(".")
       }
     }
+    println()
   }
 
   fun Query.addOptionalParameter(name: String, value: String?): Query {
@@ -236,8 +232,4 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
   }
 }
 
-data class ScripyUpdate(val query: Query, val queryText: String) {
-  fun executeUpdate() {
-    query.executeUpdate()
-  }
-}
+data class ScripyUpdate(val query: Query, val queryText: String)

@@ -553,7 +553,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.toList()
   }
 
-  fun ultimasNfPrec(filtro: FiltroRelatorio, monitor: MonitorHandler): List<NfPrecEntrada> {
+  fun ultimasNfPrec(filtro: FiltroRelatorio, monitor: MonitorHandler?): List<NfPrecEntrada> {
     val sql = "/sqlSaci/ultimasNotasEntradaFetch.sql"
     return query(sql, NfPrecEntrada::class, monitor = monitor) {
       addOptionalParameter("storeno", filtro.storeno)
@@ -601,7 +601,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.toList()
   }
 
-  fun queryNfPrec(filter: FiltroRelatorio, monitor: MonitorHandler) {
+  fun queryNfPrec(filter: FiltroRelatorio, monitor: MonitorHandler?) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasEntradaQueryUtm.sql"
     else "/sqlSaci/ultimasNotasEntradaQuery.sql"
 

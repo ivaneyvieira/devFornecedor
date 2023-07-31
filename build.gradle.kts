@@ -117,5 +117,5 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
 
 vaadin {
   pnpmEnable = false
-  productionMode = false
+  productionMode = true
 }

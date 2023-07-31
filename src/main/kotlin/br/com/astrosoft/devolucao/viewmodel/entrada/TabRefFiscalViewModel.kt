@@ -13,7 +13,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
   val subView
     get() = viewModel.view.tabRefFiscalViewModel
 
-  fun openDlgRelatorio(monitor: MonitorHandler = { _, _, _ -> }) = viewModel.exec {
+  fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
@@ -79,7 +79,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
     return NfPrecEntrada.findNotas(filtro).toList()
   }
 
-  fun refXml(monitor: MonitorHandler = { _, _, _ -> }) {
+  fun refXml(monitor: MonitorHandler? = null) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
@@ -98,7 +98,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
     }
   }
 
-  fun barrasXml(monitor: MonitorHandler = { _, _, _ -> }) {
+  fun barrasXml(monitor: MonitorHandler? = null) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
@@ -116,7 +116,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
     }
   }
 
-  fun ncmXml(monitor: MonitorHandler = { _, _, _ -> }) {
+  fun ncmXml(monitor: MonitorHandler? = null) {
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 

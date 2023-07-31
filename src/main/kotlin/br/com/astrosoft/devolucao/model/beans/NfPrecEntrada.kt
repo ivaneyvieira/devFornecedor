@@ -266,7 +266,7 @@ class NfPrecEntrada(
     get() = icmsc ?: icmsn
 
   companion object {
-    fun findNotas(filter: FiltroRelatorio, monitor: MonitorHandler = { _, _, _ -> }) =
+    fun findNotas(filter: FiltroRelatorio, monitor: MonitorHandler? = null) =
       saci.ultimasNfPrec(filter, monitor = monitor).filter {
         it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
           EValidade.TODAS -> true
