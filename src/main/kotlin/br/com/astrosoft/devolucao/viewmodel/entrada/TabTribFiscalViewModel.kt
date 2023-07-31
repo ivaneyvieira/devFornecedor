@@ -65,10 +65,10 @@ class TabTribFiscalViewModel(val viewModel: EntradaViewModel) {
     return Loja.allLojas().sortedBy { it.no }
   }
 
-  fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
+  fun findNotas(filtro: FiltroRelatorio, monitor: MonitorHandler = { _, _, _ -> }): List<NfPrecEntrada> {
     val cst = filtro.cst
     filtro.cst = T
-    return NfPrecEntrada.findNotas(filtro).filter { nota ->
+    return NfPrecEntrada.findNotas(filtro, monitor).filter { nota ->
       (cst == T) || (cst.str == nota.cstDifxn) || (cst.str == nota.cstDifnp)
     }.toList()
   }
