@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
 import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie.*
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
+import br.com.astrosoft.framework.model.DatabaseConfig
 import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.format
@@ -12,7 +13,7 @@ import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
 import java.time.LocalDate
 
-class QuerySaci : QueryDB(driver, url, username, password) {
+class QuerySaci : QueryDB(database) {
   fun findUser(login: String?): UserSaci? {
     login ?: return null
     val sql = "/sqlSaci/userSenha.sql"
@@ -1003,11 +1004,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   companion object {
     private val db = DB("saci")
-    internal val driver = db.driver
-    internal val url = db.url
-    internal val username = db.username
-    internal val password = db.password
-    val ipServer: String? = url.split("/").getOrNull(2)
+    val ipServer: String? = db.url.split("/").getOrNull(2)
+
+    internal val database = DatabaseConfig(
+      driver = db.driver,
+      url = db.url,
+      user = db.username,
+      password = db.password
+    )
   }
 }
 

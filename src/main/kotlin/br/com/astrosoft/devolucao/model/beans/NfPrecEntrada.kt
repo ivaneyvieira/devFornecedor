@@ -152,8 +152,8 @@ class NfPrecEntrada(
 
   val vlTotalxn: String
     get() {
-      val icx = vlTotalx
-      val icn = vlTotal ?: 0.00
+      val icx = valorx
+      val icn = valor ?: 0.00
       val dif = (truncate(icx * 100).roundToInt() - truncate(icn * 100).roundToInt()).absoluteValue
       return if (dif <= 2) "S" else "N"
     }
@@ -199,6 +199,9 @@ class NfPrecEntrada(
 
   val vlTotalx
     get() = (detalheXml().sumOf { it.prod?.vProd ?: 0.00 }) + (vlFrete ?: 0.00) + vlIcmsx + vlIpix + baseSubstx
+
+  val valorx
+    get() = detalheXml().sumOf { it.prod?.vProd ?: 0.00 }
 
   val mvax: Double?
     get() {

@@ -4,10 +4,11 @@ import br.com.astrosoft.devolucao.model.beans.CteXML
 import br.com.astrosoft.devolucao.model.beans.NotaEntradaFileXML
 import br.com.astrosoft.devolucao.model.nfeXml.ProdutoNotaEntradaVO
 import br.com.astrosoft.framework.model.DB
+import br.com.astrosoft.framework.model.DatabaseConfig
 import br.com.astrosoft.framework.model.QueryDB
 import java.time.LocalDate
 
-class QueryNDD : QueryDB(driver, url, username, password) {
+class QueryNDD : QueryDB(database) {
   fun notasEntrada(dataInicial: LocalDate, process: (bean: List<NotaEntradaVO>) -> Unit) {
     val sql = "/sqlNDD/notasEntrada.sql"
     queryLazy(sql, NotaEntradaVO::class, process) {
@@ -47,10 +48,15 @@ class QueryNDD : QueryDB(driver, url, username, password) {
 
   companion object {
     private val db = DB("ndd")
-    internal val driver = db.driver
-    internal val url = db.url
-    internal val username = db.username
-    internal val password = db.password
+
+    val ipServer: String? = db.url.split("/").getOrNull(2)
+
+    internal val database = DatabaseConfig(
+      driver = db.driver,
+      url = db.url,
+      user = db.username,
+      password = db.password
+    )
   }
 }
 
