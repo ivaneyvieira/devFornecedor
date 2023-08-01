@@ -52,8 +52,9 @@ open class QueryDB(val database: DatabaseConfig) {
 
 
         scriptSQLSeq(con = con, stratments = updates, lambda = lambda, monitor = monitor)
-        val total = queryCount(con, query, lambda)
         println(query)
+        val total = queryCount(con, query, lambda)
+        println("Total: $total")
         val querySql = querySQL(con, query, classes, lambda)
         querySql.toSeq(monitor, total)
       }
