@@ -17,12 +17,16 @@ open class QueryDB(val database: DatabaseConfig) {
   private val sql2o: Sql2o
 
   init {
-    Class.forName(database.driver)
-    val maps = HashMap<Class<*>, Converter<*>>()
-    maps[LocalDate::class.java] = LocalDateConverter()
-    maps[LocalTime::class.java] = LocalSqlTimeConverter()
-    maps[ByteArray::class.java] = ByteArrayConverter()
-    this.sql2o = Sql2o(database.url, database.user, database.password, NoQuirks(maps))
+    try {
+      Class.forName(database.driver)
+      val maps = HashMap<Class<*>, Converter<*>>()
+      maps[LocalDate::class.java] = LocalDateConverter()
+      maps[LocalTime::class.java] = LocalSqlTimeConverter()
+      maps[ByteArray::class.java] = ByteArrayConverter()
+      this.sql2o = Sql2o(database.url, database.user, database.password, NoQuirks(maps))
+    }catch (e: Exception) {
+      throw RuntimeException(e)
+    }
   }
 
   private fun <T> ResultSetIterable<T>?.toSeq(monitor: MonitorHandler?, total: Int): List<T> {
