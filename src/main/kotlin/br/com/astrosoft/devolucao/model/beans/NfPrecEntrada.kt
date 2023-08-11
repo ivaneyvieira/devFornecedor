@@ -81,14 +81,14 @@ class NfPrecEntrada(
   val vlIcmsSubst: Double?,
   val vlTotal: Double?,
 ) {
-  val barcodepList get() = barcodepl?.split(",") ?: emptyList()
-  val barcodecList get() = barcodecl?.split(",") ?: emptyList()
-  val barcodebpList get() = barcodebp?.split(",") ?: emptyList()
+  val barcodepList get() = barcodepl?.split(",")?.filter { it != "" } ?: emptyList()
+  val barcodecList get() = barcodecl?.split(",")?.filter { it != "" } ?: emptyList()
+  val barcodebpList get() = barcodebp?.split(",")?.filter { it != "" } ?: emptyList()
 
   fun toHead() = NotaEntradaHead(lj, ni, data, dataEmissao, nfe, fornCad, fornNota)
 
   val barcodep
-    get() = (barcodepList + barcodebpList).firstOrNull {
+    get() = barcodepList.firstOrNull {
       it == barcodex
     } ?: barcodepList.firstOrNull()
 
