@@ -105,14 +105,11 @@ class NfPrecEntrada(
   val refPrdDifx
     get() = if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
 
-  val barcodeDifxp
-    get() = if ((barcodex ?: "") == (barcodep ?: "")) "S" else "N"
+  val barcodeDifcp
+    get() = if ((barcodec ?: "") == (barcodep ?: "")) "S" else "N"
 
-  val barcodeDifpc
-    get() = if (grade == "") {
-      if ((barcodep ?: "") == (barcodec ?: "")) "S"
-      else "N"
-    } else "S"
+  val barcodeDifcx
+    get() = if (cfop.ajustaCFOP() == cfopx.ajustaCFOP()) "S" else "N"
 
   val cfopDifxp: String
     get() = if (cfop.ajustaCFOP() == cfopx.ajustaCFOP()) "S" else "N"

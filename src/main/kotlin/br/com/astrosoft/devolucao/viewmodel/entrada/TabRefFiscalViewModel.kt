@@ -34,7 +34,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
         valorPrecificacao = nota.refPrdp ?: ""
       )
     }
-    val barcodeDifxpList = listNotas.filter { it.barcodeDifxp == "N" }.map { nota ->
+    val barcodeDifxpList = listNotas.filter { it.barcodeDifcp == "N" }.map { nota ->
       NfPrecEntradaGrupo(
         nomeGrupo = "Diferenças de BARRAS XML x Cadastro",
         nota = nota,
@@ -43,7 +43,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
         valorPrecificacao = nota.barcodep ?: ""
       )
     }
-    val barcodeDifpcList = listNotas.filter { it.barcodeDifpc == "N" }.map { nota ->
+    val barcodeDifpcList = listNotas.filter { it.barcodeDifcx == "N" }.map { nota ->
       NfPrecEntradaGrupo(
         nomeGrupo = "Diferenças de BARRAS GITN x Cadastro",
         nota = nota,
