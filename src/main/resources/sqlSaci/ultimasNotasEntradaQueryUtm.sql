@@ -86,8 +86,10 @@ CREATE TEMPORARY TABLE T_BAR
 (
   PRIMARY KEY (prdno, grade)
 )
-SELECT prdno, grade, TRIM(GROUP_CONCAT(DISTINCT TRIM(B.barcode))) AS barcodes,
-       IF((B.bits & POW(2, 1)) != 0, 'S', 'N')                    AS gtin
+SELECT prdno,
+       grade,
+       TRIM(GROUP_CONCAT(DISTINCT TRIM(B.barcode))) AS barcodes,
+       IF((B.bits & POW(2, 1)) != 0, 'S', 'N')      AS gtin
 FROM sqldados.prdbar AS B
        INNER JOIN sqldados.prd AS P
                   ON P.no = B.prdno
@@ -126,7 +128,8 @@ SELECT iprd.storeno                                                             
        IF(MID(iprd.cstIcms, 2, 3) = '20',
           ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
        TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(G.barcodes, '')) AS CHAR)) AS barcodepl,
-       TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(B.barcodes, '')) AS CHAR)) AS barcodecl,
+       TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(B.barcodes, ''), ',',
+                        TRIM(prd.barcode)) AS CHAR))                                AS barcodecl,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
        TRIM(IFNULL(G.barcodes, ''))                                                 AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
