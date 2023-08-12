@@ -83,7 +83,7 @@ class NfPrecEntrada(
 ) {
   val barcodepList get() = barcodepl?.split(",")?.filter { it != "" } ?: emptyList()
   val barcodecList get() = barcodecl?.split(",")?.filter { it != "" } ?: emptyList()
-  val barcodebpList get() = barcodebp?.split(",")?.filter { it != "" } ?: emptyList()
+  val barcodenList get() =  (listOf(barcoden) + barcodepList).filterNotNull()
 
   fun toHead() = NotaEntradaHead(lj, ni, data, dataEmissao, nfe, fornCad, fornNota)
 
@@ -99,7 +99,7 @@ class NfPrecEntrada(
 
   private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
-    return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodepList).distinct()
+    return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodenList).distinct()
   }
 
   val refPrdDifx
@@ -109,7 +109,7 @@ class NfPrecEntrada(
     get() = if ((barcodec ?: "") == (barcodep ?: "")) "S" else "N"
 
   val barcodeDifcx
-    get() = if (cfop.ajustaCFOP() == cfopx.ajustaCFOP()) "S" else "N"
+    get() = if ((barcodec ?: "") == (barcodex ?: "")) "S" else "N"
 
   val cfopDifxp: String
     get() = if (cfop.ajustaCFOP() == cfopx.ajustaCFOP()) "S" else "N"
