@@ -133,9 +133,9 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       notaGrade()
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
-      notaBarcodex().marcaDiferenca { barcodeDifcx == "N" }
+      notaBarcodex()
       notaBarcodep().marcaDiferenca { barcodeDifcp == "N" }
-      notaBarcodec().marcaDiferenca { barcodeDifcx == "N" || barcodeDifcp == "N" }
+      notaBarcodec().marcaDiferenca { barcodeDifcx == "N" }
       notaNcmx().marcaDiferenca { ncmDifx == "N" }
       notaNcmp().marcaDiferenca { ncmDifx == "N" }
     }
