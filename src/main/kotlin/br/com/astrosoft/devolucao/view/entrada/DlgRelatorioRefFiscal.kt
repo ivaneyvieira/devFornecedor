@@ -123,22 +123,26 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi().marcaDiferenca { difGeral(false) }
+      notaNi().marcaDiferenca { difGeral() }
       notaData()
-      notaNfe().marcaDiferenca { difGeral(false) }
+      notaNfe().marcaDiferenca { difGeral() }
       notaFornCad()
       notaFornNota()
-      notaProd().marcaDiferenca { difGeral(false) }
+      notaProd().marcaDiferenca { difGeral() }
       notaDescricao()
       notaGrade()
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
-      notaBarcodex().marcaDiferenca { barcodeDifxp == "N" }
-      notaBarcodep().marcaDiferenca { barcodeDifxp == "N" || barcodeDifpc == "N" }
-      notaBarcodec().marcaDiferenca { barcodeDifpc == "N" }
+      notaBarcodex().marcaDiferenca { barcodeDifcx == "N" }
+      notaBarcodep().marcaDiferenca { barcodeDifcp == "N" }
+      notaBarcodec().marcaDiferenca { barcodeDifcx == "N" || barcodeDifcp == "N" }
       notaNcmx().marcaDiferenca { ncmDifx == "N" }
       notaNcmp().marcaDiferenca { ncmDifx == "N" }
     }
+  }
+
+  private fun NfPrecEntrada.difGeral(): Boolean {
+    return refPrdDifx == "N" || barcodeDifcx == "N" || barcodeDifcp == "N" || ncmDifx == "N"
   }
 
   fun selectedItemsSort(): List<NfPrecEntrada> {
@@ -154,7 +158,7 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
     filtro.ncm = T
     val list = viewModel.findNotas(filtro).filter { nf ->
       (nf.refPrdDifx == refPrd.str || refPrd == T) &&
-          (nf.barcodeDifxp == barcode.str || nf.barcodeDifpc == barcode.str || barcode == T) &&
+          (nf.barcodeDifcp == barcode.str || nf.barcodeDifcx == barcode.str || barcode == T) &&
           (nf.ncmDifx == ncm.str || ncm == T)
     }
     filtro.refPrd = refPrd

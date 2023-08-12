@@ -68,8 +68,8 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
 
-DROP TEMPORARY TABLE IF EXISTS T_BAR;
-CREATE TEMPORARY TABLE T_BAR
+DROP TEMPORARY TABLE IF EXISTS T_GTIN;
+CREATE TEMPORARY TABLE T_GTIN
 (
   PRIMARY KEY (prdno, grade)
 )
@@ -77,22 +77,9 @@ SELECT prdno, grade, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
 FROM sqldados.prdbar AS B
        INNER JOIN sqldados.prd AS P
                   ON P.no = B.prdno
-WHERE grade != ''
-  AND P.groupno != 10000
+WHERE P.groupno != 10000
+  AND (B.bits & POW(2, 1)) != 0
 GROUP BY prdno, grade;
-
-DROP TEMPORARY TABLE IF EXISTS T_BARP;
-CREATE TEMPORARY TABLE T_BARP
-(
-  PRIMARY KEY (prdno)
-)
-SELECT prdno, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
-FROM sqldados.prdbar AS B
-       INNER JOIN sqldados.prd AS P
-                  ON P.no = B.prdno
-WHERE grade = ''
-  AND P.groupno != 10000
-GROUP BY prdno;
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
@@ -124,10 +111,10 @@ SELECT iprd.storeno                                                             
        inv.invse                                                                    AS serie,
        IF(MID(iprd.cstIcms, 2, 3) = '20',
           ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
-       CAST(CONCAT(TRIM(prd.barcode), ',', TRIM(P2.gtin)) AS CHAR)                  AS barcodepl,
-       CAST(CONCAT(TRIM(prd.barcode), ',', TRIM(B.barcodes)) AS CHAR)               AS barcodecl,
+       TRIM(IF(IFNULL(P2.gtin, '') = '', G.barcodes, P2.gtin))                      AS barcodepl,
+       TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(G.barcodes, '')) AS CHAR)) AS barcodecl,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
-       TRIM(IFNULL(BP.barcodes, ''))                                                AS barcodebp,
+       TRIM(IFNULL(G.barcodes, ''))                                                 AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
@@ -155,12 +142,10 @@ FROM sqldados.iprd
                  USING (prdno)
        LEFT JOIN sqldados.prdrefpq AS R
                  USING (prdno, grade)
+       LEFT JOIN T_GTIN AS G
+                 USING (prdno, grade)
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd.grade)
-       LEFT JOIN T_BAR AS B
-                 ON B.prdno = iprd.prdno AND B.grade = iprd.grade
-       LEFT JOIN T_BARP AS BP
-                 ON BP.prdno = iprd.prdno
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo

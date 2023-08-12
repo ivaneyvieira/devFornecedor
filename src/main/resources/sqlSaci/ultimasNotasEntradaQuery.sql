@@ -83,8 +83,8 @@ FROM sqldados.stk AS S
                   ON P.no = S.prdno
 GROUP BY prdno;
 
-DROP TEMPORARY TABLE IF EXISTS T_BAR;
-CREATE TEMPORARY TABLE T_BAR
+DROP TEMPORARY TABLE IF EXISTS T_GTIN;
+CREATE TEMPORARY TABLE T_GTIN
 (
   PRIMARY KEY (prdno, grade)
 )
@@ -92,89 +92,76 @@ SELECT prdno, grade, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
 FROM sqldados.prdbar AS B
        INNER JOIN sqldados.prd AS P
                   ON P.no = B.prdno
-WHERE grade != ''
-  AND P.groupno != 10000
+WHERE P.groupno != 10000
+  AND (B.bits & POW(2, 1)) != 0
 GROUP BY prdno, grade;
-
-DROP TEMPORARY TABLE IF EXISTS T_BARP;
-CREATE TEMPORARY TABLE T_BARP
-(
-  PRIMARY KEY (prdno)
-)
-SELECT prdno, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
-FROM sqldados.prdbar AS B
-       INNER JOIN sqldados.prd AS P
-                  ON P.no = B.prdno
-WHERE grade = ''
-  AND P.groupno != 10000
-GROUP BY prdno;
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY
-SELECT iprd.storeno                                                                                       AS lj,
-       inv.invno                                                                                          AS ni,
-       CAST(inv.date AS DATE)                                                                             AS data,
-       CAST(inv.issue_date AS DATE)                                                                       AS dataEmissao,
-       prd.mfno                                                                                           AS fornCad,
-       inv.vendno                                                                                         AS fornNota,
-       iprd.prdno                                                                                         AS prod,
-       IF(@comGrade = 'S', iprd.grade, '')                                                                AS grade,
-       TRIM(MID(prd.name, 1, 37))                                                                         AS descricao,
-       spedprd.ncm                                                                                        AS ncmp,
-       IFNULL(mfprd.ncm, spedprd.ncm)                                                                     AS ncmn,
+SELECT iprd.storeno                                                                 AS lj,
+       inv.invno                                                                    AS ni,
+       CAST(inv.date AS DATE)                                                       AS data,
+       CAST(inv.issue_date AS DATE)                                                 AS dataEmissao,
+       prd.mfno                                                                     AS fornCad,
+       inv.vendno                                                                   AS fornNota,
+       iprd.prdno                                                                   AS prod,
+       IF(@comGrade = 'S', iprd.grade, '')                                          AS grade,
+       TRIM(MID(prd.name, 1, 37))                                                   AS descricao,
+       spedprd.ncm                                                                  AS ncmp,
+       IFNULL(mfprd.ncm, spedprd.ncm)                                               AS ncmn,
        IF(prd.taxno = '06', IF(iprd.baseIcmsSubst = 0, 0, ROUND(((iprd.baseIcmsSubst / 100) /
                                                                  (((iprd.qtty / 1000) * (iprd.dfob)) + (iprd.ipiAmt / 100)) -
                                                                  1.00) * 100, 4)),
-          ROUND(iprd.lucroTributado / 100, 4))                                                            AS mvan,
-       ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 4)                             AS mvap,
-       IF(iprd.baseIpi = 0, 0.00, ROUND(iprd.ipi / 100, 4))                                               AS ipin,
-       ROUND(IFNULL(prp.ipi, 0) / 100, 4)                                                                 AS ipip,
+          ROUND(iprd.lucroTributado / 100, 4))                                      AS mvan,
+       ROUND(IF(prd.taxno = '00', 0, IFNULL(prd.lucroTributado, 0)) / 100, 4)       AS mvap,
+       IF(iprd.baseIpi = 0, 0.00, ROUND(iprd.ipi / 100, 4))                         AS ipin,
+       ROUND(IFNULL(prp.ipi, 0) / 100, 4)                                           AS ipip,
        IF(baseIcms = 0, 0.00, IF(MID(iprd.cstIcms, 2, 3) = '20',
                                  ROUND(iprd.icms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 4),
-                                 NULL))                                                                   AS icmsc,
-       IF(baseIcms = 0, 0.00, ROUND(iprd.icmsAliq / 100, 4))                                              AS icmsn,
-       ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 4)                                                         AS icmsp,
-       prd.taxno                                                                                          AS cstp,
-       MID(iprd.cstIcms, 2, 3)                                                                            AS cstn,
-       inv.nfname                                                                                         AS nfe,
-       inv.invse                                                                                          AS serie,
+                                 NULL))                                             AS icmsc,
+       IF(baseIcms = 0, 0.00, ROUND(iprd.icmsAliq / 100, 4))                        AS icmsn,
+       ROUND(IFNULL(prp.dicm, 0) * (-1) / 100, 4)                                   AS icmsp,
+       prd.taxno                                                                    AS cstp,
+       MID(iprd.cstIcms, 2, 3)                                                      AS cstn,
+       inv.nfname                                                                   AS nfe,
+       inv.invse                                                                    AS serie,
        IF(baseIcms = 0, 0.00, IF(MID(iprd.cstIcms, 2, 3) = '20',
                                  ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 4),
-                                 NULL))                                                                   AS icmsd,
-       CAST(CONCAT(TRIM(prd.barcode), ',', TRIM(IFNULL(P2.gtin, ''))) AS CHAR)                            AS barcodepl,
-       CAST(CONCAT(TRIM(prd.barcode), ',', IFNULL(BP.barcodes, ''), ',', IFNULL(B.barcodes, '')) AS CHAR) AS barcodecl,
-       TRIM(IFNULL(M.barcode, ''))                                                                        AS barcoden,
-       TRIM(IFNULL(BP.barcodes, ''))                                                                      AS barcodebp,
-       TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                                         AS refPrdp,
-       TRIM(IFNULL(M.refPrd, ''))                                                                         AS refPrdn,
-       IFNULL(prp.freight / 100, 0.00)                                                                    AS fretep,
-       inv.freight * 100.00 / inv.grossamt                                                                AS freten,
-       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)                                  AS frete,
-       IFNULL(ROUND(oprd.cost, 2), 0.00)                                                                  AS precop,
-       IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                                            AS precopc,
-       IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                                          AS precon,
-       @PESO_BRUTO := IFNULL(prd.weight_g, NULL)                                                          AS pesoBruto,
-       inv.ordno                                                                                          AS pedidoCompra,
-       IF(inv.weight = 0, NULL, inv.weight)                                                               AS pesoBrutoTotal,
-       @PESO_BRUTO * (iprd.qtty / 1000)                                                                   AS pesoBrutoPrd,
-       @FRETE := ROUND((inv.freight / 100) / (inv.weight), 4)                                             AS freteKg,
-       @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                                                       AS freteUnit,
-       ROUND(@FRETE_UN * 100 * 10000 / iprd.fob4, 2)                                                      AS fretePerNf,
-       prp.freight / 100                                                                                  AS fretePerPrc,
-       iprd.qtty / 1000                                                                                   AS quant,
-       S.estoque                                                                                          AS estoque,
-       mesesValidade                                                                                      AS mesesValidade,
-       iprd.cstIcms                                                                                       AS cstIcms,
-       iprd.cfop                                                                                          AS cfop,
-       ROUND(iprd.dfob * iprd.qtty / 1000, 2)                                                             AS valor,
-       ROUND(iprd.discount / 100, 2)                                                                      AS vlDesconto,
-       ROUND(iprd.dfob * iprd.qtty / 1000, 2) - ROUND(iprd.discount / 100, 2)                             AS vlLiquido,
-       ROUND(ROUND(iprd.dfob * iprd.qtty / 1000, 2) * iprd.frete / 10000, 2)                              AS vlFrete,
-       ROUND(ROUND(iprd.dfob * iprd.qtty / 1000, 2) * iprd.despesas / 10000, 2)                           AS vlDespesas,
-       ROUND(iprd.icms / 100, 2)                                                                          AS vlIcms,
-       ROUND(iprd.ipiAmt / 100, 2)                                                                        AS vlIpi,
-       ROUND(iprd.baseIcmsSubst / 100, 2)                                                                 AS baseSubst,
-       ROUND(iprd.icmsSubst / 100, 2)                                                                     AS vlIcmsSubst
+                                 NULL))                                             AS icmsd,
+       TRIM(IF(IFNULL(P2.gtin, '') = '', G.barcodes, P2.gtin))                      AS barcodepl,
+       TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(G.barcodes, '')) AS CHAR)) AS barcodecl,
+       TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
+       TRIM(IFNULL(G.barcodes, ''))                                                 AS barcodebp,
+       TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
+       TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
+       IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
+       inv.freight * 100.00 / inv.grossamt                                          AS freten,
+       IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)            AS frete,
+       IFNULL(ROUND(oprd.cost, 2), 0.00)                                            AS precop,
+       IFNULL(ROUND(prp.fob / 10000, 2), 0.00)                                      AS precopc,
+       IFNULL(ROUND(iprd.fob4 / 10000, 2), 0.00)                                    AS precon,
+       @PESO_BRUTO := IFNULL(prd.weight_g, NULL)                                    AS pesoBruto,
+       inv.ordno                                                                    AS pedidoCompra,
+       IF(inv.weight = 0, NULL, inv.weight)                                         AS pesoBrutoTotal,
+       @PESO_BRUTO * (iprd.qtty / 1000)                                             AS pesoBrutoPrd,
+       @FRETE := ROUND((inv.freight / 100) / (inv.weight), 4)                       AS freteKg,
+       @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                                 AS freteUnit,
+       ROUND(@FRETE_UN * 100 * 10000 / iprd.fob4, 2)                                AS fretePerNf,
+       prp.freight / 100                                                            AS fretePerPrc,
+       iprd.qtty / 1000                                                             AS quant,
+       S.estoque                                                                    AS estoque,
+       mesesValidade                                                                AS mesesValidade,
+       iprd.cstIcms                                                                 AS cstIcms,
+       iprd.cfop                                                                    AS cfop,
+       ROUND(iprd.dfob * iprd.qtty / 1000, 2)                                       AS valor,
+       ROUND(iprd.discount / 100, 2)                                                AS vlDesconto,
+       ROUND(iprd.dfob * iprd.qtty / 1000, 2) - ROUND(iprd.discount / 100, 2)       AS vlLiquido,
+       ROUND(ROUND(iprd.dfob * iprd.qtty / 1000, 2) * iprd.frete / 10000, 2)        AS vlFrete,
+       ROUND(ROUND(iprd.dfob * iprd.qtty / 1000, 2) * iprd.despesas / 10000, 2)     AS vlDespesas,
+       ROUND(iprd.icms / 100, 2)                                                    AS vlIcms,
+       ROUND(iprd.ipiAmt / 100, 2)                                                  AS vlIpi,
+       ROUND(iprd.baseIcmsSubst / 100, 2)                                           AS baseSubst,
+       ROUND(iprd.icmsSubst / 100, 2)                                               AS vlIcmsSubst
 FROM sqldados.iprd
        INNER JOIN sqldados.inv
                   USING (invno)
@@ -188,12 +175,10 @@ FROM sqldados.iprd
                  USING (prdno)
        LEFT JOIN sqldados.prdrefpq AS R
                  USING (prdno, grade)
+       LEFT JOIN T_GTIN AS G
+                 USING (prdno, grade)
        LEFT JOIN T_MFPRD AS M
                  ON M.prdno = iprd.prdno AND M.grade = IF(prd.groupno = 10000, '', iprd.grade)
-       LEFT JOIN T_BAR AS B
-                 ON B.prdno = iprd.prdno AND B.grade = iprd.grade
-       LEFT JOIN T_BARP AS BP
-                 ON BP.prdno = iprd.prdno
        LEFT JOIN sqldados.prp
                  ON (prp.prdno = iprd.prdno AND prp.storeno = 10)
        INNER JOIN sqldados.cfo
