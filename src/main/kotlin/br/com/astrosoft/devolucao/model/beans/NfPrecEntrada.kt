@@ -93,9 +93,7 @@ class NfPrecEntrada(
     } ?: barcodepList.firstOrNull()
 
   val barcodec
-    get() = barcodecList.firstOrNull {
-      it == barcodex
-    } ?: barcodecList.firstOrNull()
+    get() = barcodecList.firstOrNull()
 
   private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
