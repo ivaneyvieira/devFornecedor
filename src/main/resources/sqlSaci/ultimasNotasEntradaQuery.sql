@@ -144,7 +144,7 @@ SELECT iprd.storeno                                                           AS
           CAST(IFNULL(G.barcodes, '') AS CHAR))                               AS barcodepl,
        IF(iprd.grade = '' OR prd.groupno = 10000,
           CAST(CONCAT(TRIM(prd.barcode), ',', IFNULL(TRIM(P2.gtin), ''), ',', IFNULL(B.barcodes, '')) AS CHAR),
-          CAST(IFNULL(B.barcodes, '') AS CHAR))                               AS barcodecl,
+          CAST(CONCAT('G,', IFNULL(B.barcodes, '')) AS CHAR))                               AS barcodecl,
        TRIM(CAST(IFNULL(M.barcode, '') AS char))                              AS barcoden,
        TRIM(CAST(IFNULL(G.barcodes, '') AS char))                             AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                             AS refPrdp,
