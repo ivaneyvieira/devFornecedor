@@ -78,7 +78,6 @@ FROM sqldados.prdbar AS B
        INNER JOIN sqldados.prd AS P
                   ON P.no = B.prdno
 WHERE P.groupno != 10000
-  AND (B.bits & POW(2, 1)) != 0
 GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS T_BAR;
@@ -127,9 +126,12 @@ SELECT iprd.storeno                                                             
        inv.invse                                                                    AS serie,
        IF(MID(iprd.cstIcms, 2, 3) = '20',
           ROUND(iprd.baseIcms * 100.00 / (iprd.fob * (iprd.qtty / 1000)), 2), NULL) AS icmsd,
-       TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(G.barcodes, '')) AS CHAR)) AS barcodepl,
-       TRIM(CAST(CONCAT(IFNULL(P2.gtin, ''), ',', IFNULL(B.barcodes, ''), ',',
-                        TRIM(prd.barcode)) AS CHAR))                                AS barcodecl,
+       IF(iprd.grade = '' OR prd.groupno = 10000,
+          CAST(CONCAT(IFNULL(TRIM(P2.gtin), ''), ',', IFNULL(G.barcodes, '')) AS CHAR),
+          CAST(IFNULL(G.barcodes, '') AS CHAR))                                     AS barcodepl,
+       IF(iprd.grade = '' OR prd.groupno = 10000,
+          CAST(CONCAT(TRIM(prd.barcode), ',', IFNULL(TRIM(P2.gtin), ''), ',', IFNULL(B.barcodes, '')) AS CHAR),
+          CAST(IFNULL(B.barcodes, '') AS CHAR))                                     AS barcodecl,
        TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
        TRIM(IFNULL(G.barcodes, ''))                                                 AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
