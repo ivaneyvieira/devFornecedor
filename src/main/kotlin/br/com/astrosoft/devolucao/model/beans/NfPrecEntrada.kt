@@ -83,7 +83,7 @@ class NfPrecEntrada(
 ) {
   val barcodepList get() = barcodepl?.split(",")?.filter { it != "" } ?: emptyList()
   val barcodecList get() = barcodecl?.split(",")?.filter { it != "" } ?: emptyList()
-  val barcodenList get() =  (listOf(barcoden) + barcodepList).filterNotNull()
+  val barcodenList get() = (listOf(barcoden) + barcodepList).filterNotNull()
 
   fun toHead() = NotaEntradaHead(lj, ni, data, dataEmissao, nfe, fornCad, fornNota)
 
@@ -93,7 +93,15 @@ class NfPrecEntrada(
     } ?: barcodepList.firstOrNull()
 
   val barcodec
-    get() = barcodecList.firstOrNull()
+    get(): String? {
+      val list = barcodecList
+      val inicio = list.firstOrNull()
+      return if (inicio == "G")
+        list.firstOrNull {
+          it == barcodex
+        } ?: (list - "G").firstOrNull()
+      else list.firstOrNull()
+    }
 
   private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
