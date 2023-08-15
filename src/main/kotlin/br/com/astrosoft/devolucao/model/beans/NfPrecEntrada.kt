@@ -100,7 +100,9 @@ class NfPrecEntrada(
         list.firstOrNull {
           it == barcodex
         } ?: (list - "G").firstOrNull()
-      else list.firstOrNull()
+      else list.firstOrNull {
+        it == barcodex
+      } ?: list.firstOrNull()
     }
 
   private fun detalheXml(): List<Detalhe> {
