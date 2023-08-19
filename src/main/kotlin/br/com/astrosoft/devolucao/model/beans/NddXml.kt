@@ -11,7 +11,9 @@ class NddXml(val id: Int, val xml: String) {
       ni: Int,
       loja: Int,
       numero: String,
-      serie: String, cProd: String, listBarcode: List<String>
+      serie: String,
+      cProd: String,
+      listBarcode: List<String>
     ): List<Detalhe> {
       return listBarcode.flatMap { barcode ->
         detalheProduto(ni, loja, numero, serie, cProd, barcode)
@@ -29,8 +31,10 @@ class NddXml(val id: Int, val xml: String) {
       return mapNddXml.getOrPut(NiProd(ni, cProd, barcode)) {
         val xml = saci.findXmlNfe(ni, loja, numero, serie)?.xml ?: return@getOrPut emptyList()
         val nfe = parseNotaFiscal(xml)
+        val regexGtin = Regex("""\d{13}""")
+        val gtinValido = regexGtin.matches(barcode)
         nfe?.infNFe?.detalhes?.filter { det ->
-          det.prod?.cProd == cProd || det.prod?.cEAN == barcode || det.prod?.cEANTrib == barcode
+          det.prod?.cProd == cProd || (gtinValido && (det.prod?.cEAN == barcode || det.prod?.cEANTrib == barcode))
         }.orEmpty()
       }
     }
