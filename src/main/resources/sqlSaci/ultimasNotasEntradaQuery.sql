@@ -103,9 +103,15 @@ CREATE TEMPORARY TABLE T_GTIN
 (
   PRIMARY KEY (prdno, grade)
 )
-SELECT prdno, grade, barcodes
-FROM T_BAR
-WHERE gtin = 'S';
+SELECT prdno,
+       grade,
+       TRIM(GROUP_CONCAT(DISTINCT TRIM(B.barcode))) AS barcodes
+FROM sqldados.prdbar AS B
+       INNER JOIN sqldados.prd AS P
+                  ON P.no = B.prdno
+WHERE P.groupno != 10000
+  AND (B.bits & POW(2, 1)) != 0
+GROUP BY prdno, grade;
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_QUERY;
 CREATE TEMPORARY TABLE sqldados.T_QUERY

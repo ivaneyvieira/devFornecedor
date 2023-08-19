@@ -68,18 +68,6 @@ WHERE NOT (prd.no BETWEEN '          980000' AND '          999999')
   AND (prdalq.form_label LIKE CONCAT(@rotulo, '%') OR @rotulo = '')
   AND (prd.mfno = @mfno OR @mfno = 0);
 
-DROP TEMPORARY TABLE IF EXISTS T_GTIN;
-CREATE TEMPORARY TABLE T_GTIN
-(
-  PRIMARY KEY (prdno, grade)
-)
-SELECT prdno, grade, GROUP_CONCAT(DISTINCT TRIM(B.barcode)) AS barcodes
-FROM sqldados.prdbar AS B
-       INNER JOIN sqldados.prd AS P
-                  ON P.no = B.prdno
-WHERE P.groupno != 10000
-GROUP BY prdno, grade;
-
 DROP TEMPORARY TABLE IF EXISTS T_BAR;
 CREATE TEMPORARY TABLE T_BAR
 (
@@ -89,6 +77,21 @@ SELECT prdno,
        grade,
        TRIM(GROUP_CONCAT(DISTINCT TRIM(B.barcode))) AS barcodes,
        IF((B.bits & POW(2, 1)) != 0, 'S', 'N')      AS gtin
+FROM sqldados.prdbar AS B
+       INNER JOIN sqldados.prd AS P
+                  ON P.no = B.prdno
+WHERE P.groupno != 10000
+  AND (B.bits & POW(2, 1)) != 0
+GROUP BY prdno, grade;
+
+DROP TEMPORARY TABLE IF EXISTS T_GTIN;
+CREATE TEMPORARY TABLE T_GTIN
+(
+  PRIMARY KEY (prdno, grade)
+)
+SELECT prdno,
+       grade,
+       TRIM(GROUP_CONCAT(DISTINCT TRIM(B.barcode))) AS barcodes
 FROM sqldados.prdbar AS B
        INNER JOIN sqldados.prd AS P
                   ON P.no = B.prdno
@@ -131,9 +134,9 @@ SELECT iprd.storeno                                                             
           CAST(IFNULL(G.barcodes, '') AS CHAR))                                     AS barcodepl,
        IF(iprd.grade = '' OR prd.groupno = 10000,
           CAST(CONCAT(TRIM(prd.barcode), ',', IFNULL(B.barcodes, '')) AS CHAR),
-          CAST(IFNULL(B.barcodes, '') AS CHAR))                                     AS barcodecl,
-       TRIM(IFNULL(M.barcode, ''))                                                  AS barcoden,
-       TRIM(IFNULL(G.barcodes, ''))                                                 AS barcodebp,
+          CAST(CONCAT('G,', IFNULL(B.barcodes, '')) AS CHAR))                       AS barcodecl,
+       TRIM(CAST(IFNULL(M.barcode, '') AS char))                                    AS barcoden,
+       TRIM(CAST(IFNULL(G.barcodes, '') AS char))                                   AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                                   AS refPrdp,
        TRIM(IFNULL(M.refPrd, ''))                                                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                              AS fretep,
