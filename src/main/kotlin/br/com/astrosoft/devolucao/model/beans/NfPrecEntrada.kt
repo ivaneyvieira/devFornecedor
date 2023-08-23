@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.beans
 
+import averageBy
 import br.com.astrosoft.devolucao.model.knfe.Detalhe
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.MonitorHandler
@@ -192,17 +193,30 @@ class NfPrecEntrada(
       return "$orig$cst"
     }
 
+
   val vlIcmsx
     get() = if (baseSubstx.absoluteValue > 0.02) 0.00 else detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
+
+  val alIcmsx
+    get() = detalheXml().firstOrNull()?.imposto?.icms?.pICMS ?: 0.00
 
   val vlIpix
     get() = detalheXml().sumOf { it.imposto?.ipi?.vIPI ?: 0.00 }
 
+  val alIpix
+    get() = detalheXml().firstOrNull()?.imposto?.ipi?.pIPI ?: 0.00
+
   val vlPisx
     get() = detalheXml().sumOf { it.imposto?.pis?.vPIS ?: 0.00 }
 
+  val alPisx
+    get() = detalheXml().firstOrNull()?.imposto?.pis?.pPIS ?: 0.00
+
   val vlCofinsx
     get() = detalheXml().sumOf { it.imposto?.cofins?.vCOFINS ?: 0.00 }
+
+  val alCofinsx
+    get() = detalheXml().firstOrNull()?.imposto?.cofins?.pCOFINS ?: 0.00
 
   val descricaox
     get() = detalheXml().firstOrNull()?.prod?.xProd

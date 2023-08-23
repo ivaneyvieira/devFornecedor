@@ -353,6 +353,21 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+    fun Grid<NfPrecEntrada>.notaAlIcmsx() = addColumnDouble(NfPrecEntrada::alIcmsx) {
+    this.setHeader("V ICMS")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaAlPisx() = addColumnDouble(NfPrecEntrada::alPisx) {
+    this.setHeader("V PIS")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaAlCofinsx() = addColumnDouble(NfPrecEntrada::alCofinsx) {
+    this.setHeader("V Cofins")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaDescricaox() = addColumnString(NfPrecEntrada::descricaox) {
     this.setHeader("Descrição")
     this.isResizable = true
@@ -369,6 +384,11 @@ object UltimaNotaEntradaColumns {
   }
 
   fun Grid<NfPrecEntrada>.notaVlIpix() = addColumnDouble(NfPrecEntrada::vlIpix) {
+    this.setHeader("V IPI")
+    this.isResizable = true
+  }
+
+  fun Grid<NfPrecEntrada>.notaAlIpix() = addColumnDouble(NfPrecEntrada::alIpix) {
     this.setHeader("V IPI")
     this.isResizable = true
   }

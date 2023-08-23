@@ -3,32 +3,22 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodec
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodep
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaAlCofinsx
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaAlIcmsx
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaAlIpix
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaAlPisx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodex
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOPX
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricaox
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornCad
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvax
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmp
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidadex
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlCofinsx
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcmsx
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpix
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlPisx
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
@@ -142,11 +132,11 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       notaUnidadex()
       notaCFOPX()
       notaCstx()
-      notaVlIcmsx()
-      notaVlIpix()
+      notaAlIcmsx()
+      notaAlIpix()
       notaMvax()
-      notaVlPisx()
-      notaVlCofinsx()
+      notaAlPisx()
+      notaAlCofinsx()
     }
   }
 
