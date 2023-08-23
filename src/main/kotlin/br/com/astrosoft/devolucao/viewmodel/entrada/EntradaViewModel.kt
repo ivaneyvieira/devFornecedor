@@ -18,6 +18,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabPrecoViewModel = TabPrecoViewModel(this)
   val tabFileNFEViewModel = TabFileNFEViewModel(this)
   val tabRefFiscalViewModel = TabRefFiscalViewModel(this)
+  val tabXml2ViewModel = TabXml2ViewModel(this)
   val tabTodasEntradasViewModel = TabTodasEntradasViewModel(this)
 
   override fun listTab() = listOf(
@@ -28,6 +29,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabRefFiscalViewModel,
     view.tabSpedViewModel,
     view.tabSped2ViewModel,
+    view.tabXml2ViewModel,
     view.tabSTEstadoViewModel,
     view.tabTodasEntradasViewModel,
     view.tabFreteViewModel,
@@ -52,6 +54,7 @@ interface IEntradaView : IView {
   val tabPrecoViewModel: ITabPrecoViewModel
   val tabFileNFEViewModel: ITabFileNFEViewModel
   val tabRefFiscalViewModel: ITabRefFiscalViewModel
+  val tabXml2ViewModel: ITabXml2ViewModel
   val tabTodasEntradasViewModel: ITabTodasEntradasViewModel
 }
 
