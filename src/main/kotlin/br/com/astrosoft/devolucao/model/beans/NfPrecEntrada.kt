@@ -198,6 +198,18 @@ class NfPrecEntrada(
   val vlIpix
     get() = detalheXml().sumOf { it.imposto?.ipi?.vIPI ?: 0.00 }
 
+  val vlPisx
+    get() = detalheXml().sumOf { it.imposto?.pis?.vPIS ?: 0.00 }
+
+  val vlCofinsx
+    get() = detalheXml().sumOf { it.imposto?.cofins?.vCOFINS ?: 0.00 }
+
+  val descricaox
+    get() = detalheXml().firstOrNull()?.prod?.xProd
+
+  val unidadex
+    get() = detalheXml().firstOrNull()?.prod?.uTrib
+
   val baseSubstx
     get() = detalheXml().sumOf { it.imposto?.icms?.vBCST ?: 0.00 }
 

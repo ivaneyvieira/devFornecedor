@@ -6,12 +6,17 @@ import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodec
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodep
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodex
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCFOPX
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaData
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricao
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaDescricaox
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornCad
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaFornNota
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaGrade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaMvax
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNcmx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNfe
@@ -19,9 +24,13 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdx
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidadex
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlCofinsx
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIcmsx
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpix
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlPisx
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
-import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabXml2ViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -37,7 +46,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgRelatorioXml2(val viewModel: TabXml2ViewModel, val filtro: FiltroRelatorio) {
+class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
@@ -123,21 +132,21 @@ class DlgRelatorioXml2(val viewModel: TabXml2ViewModel, val filtro: FiltroRelato
       this.dataProvider = dataProvider
 
       notaLoja()
-      notaNi().marcaDiferenca { difGeral() }
+      notaNi()
+      notaDataEmissao()
       notaData()
-      notaNfe().marcaDiferenca { difGeral() }
-      notaFornCad()
-      notaFornNota()
-      notaProd().marcaDiferenca { difGeral() }
-      notaDescricao()
-      notaGrade()
-      notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
-      notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
+      notaNfe()
+      notaRefPrdx()
       notaBarcodex()
-      notaBarcodep().marcaDiferenca { barcodeDifcp == "N" }
-      notaBarcodec().marcaDiferenca { barcodeDifcx == "N" }
-      notaNcmx().marcaDiferenca { ncmDifx == "N" }
-      notaNcmp().marcaDiferenca { ncmDifx == "N" }
+      notaDescricaox()
+      notaUnidadex()
+      notaCFOPX()
+      notaCstx()
+      notaVlIcmsx()
+      notaVlIpix()
+      notaMvax()
+      notaVlPisx()
+      notaVlCofinsx()
     }
   }
 
