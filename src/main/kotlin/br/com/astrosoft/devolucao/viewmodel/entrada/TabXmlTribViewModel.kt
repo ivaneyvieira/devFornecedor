@@ -9,9 +9,9 @@ import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabXml2ViewModel(val viewModel: EntradaViewModel) {
+class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
   val subView
-    get() = viewModel.view.tabXml2ViewModel
+    get() = viewModel.view.tabXmlTribViewModel
 
   fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
     saci.queryNfPrec(subView.getFiltro(), monitor)
@@ -132,7 +132,7 @@ class TabXml2ViewModel(val viewModel: EntradaViewModel) {
   }
 }
 
-interface ITabXml2ViewModel : ITabView {
+interface ITabXmlTribViewModel : ITabView {
   fun setFiltro(filtro: FiltroRelatorio)
   fun getFiltro(): FiltroRelatorio
   fun openRelatorio()

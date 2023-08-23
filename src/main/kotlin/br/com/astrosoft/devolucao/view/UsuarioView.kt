@@ -247,6 +247,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaSped2.name)
           }
+          checkBox("Xml Trib") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::entradaNddXmlTrib.name)
+          }
           checkBox("ST Estado") {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::entradaSTEstado.name)

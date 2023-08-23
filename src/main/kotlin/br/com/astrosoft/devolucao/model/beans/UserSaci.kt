@@ -97,7 +97,7 @@ class UserSaci : IUser {
   var preEntradaFiscal by DelegateAuthorized(73)
   var entradaSped2 by DelegateAuthorized(74)
   var entradaSTEstado by DelegateAuthorized(75)
-  var entradaNddXml2 by DelegateAuthorized(76)
+  var entradaNddXmlTrib by DelegateAuthorized(76)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
@@ -119,7 +119,7 @@ class UserSaci : IUser {
   val menuEntrada
     get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddTribFiscal || entradaNddRefFiscal ||
         entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE || entradaSped ||
-        entradaSped2 || entradaSTEstado || entradaNddXml2
+        entradaSped2 || entradaSTEstado || entradaNddXmlTrib
   val menuCompra
     get() = compraPedidos || compraConferir
   val menuSaida

@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabXml2ViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabXml2ViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.ITabXmlTribViewModel
+import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
 import br.com.astrosoft.framework.view.localePtBr
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabXml2(val viewModel: TabXml2ViewModel) : ITabXml2ViewModel, ITabPanel {
+class TabXmlTrib(val viewModel: TabXmlTribViewModel) : ITabXmlTribViewModel, ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField
@@ -31,7 +31,7 @@ class TabXml2(val viewModel: TabXml2ViewModel) : ITabXml2ViewModel, ITabPanel {
   private lateinit var edtRotulo: TextField
   private lateinit var edtCaracter: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
-  private var dialog: DlgRelatorioXml2? = null
+  private var dialog: DlgRelatorioXmlTrib? = null
 
   override fun setFiltro(filtro: FiltroRelatorio) {
     edtLoja.value = lojas.firstOrNull { it.no == filtro.storeno }
@@ -81,7 +81,7 @@ class TabXml2(val viewModel: TabXml2ViewModel) : ITabXml2ViewModel, ITabPanel {
   }
 
   override fun openRelatorio() {
-    dialog = DlgRelatorioXml2(viewModel, getFiltro())
+    dialog = DlgRelatorioXmlTrib(viewModel, getFiltro())
     dialog?.show()
   }
 
@@ -135,11 +135,11 @@ class TabXml2(val viewModel: TabXml2ViewModel) : ITabXml2ViewModel, ITabPanel {
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddXml2 == true
+    return username?.entradaNddXmlTrib == true
   }
 
   override val label: String
-    get() = "XML 2"
+    get() = "XML Trib"
 
   override fun updateComponent() {
   }
