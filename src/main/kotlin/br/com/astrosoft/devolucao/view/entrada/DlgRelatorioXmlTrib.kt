@@ -57,51 +57,6 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.comboDiferencaStr("Referência") {
-        value = filtro.refPrd
-
-        this.addValueChangeListener {
-          filtro.refPrd = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("Código de Barras") {
-        value = filtro.barcode
-
-        this.addValueChangeListener {
-          filtro.barcode = it.value
-          updateGrid()
-        }
-      }
-      this.comboDiferencaStr("NCM") {
-        value = filtro.ncm
-
-        this.addValueChangeListener {
-          filtro.ncm = it.value
-          updateGrid()
-        }
-      }
-      this.button("Ref XML") {
-        this.icon = VaadinIcon.COGS.create()
-
-        onLeftClick {
-          viewModel.refXml()
-        }
-      }
-      this.button("Barras XML") {
-        this.icon = VaadinIcon.COGS.create()
-
-        onLeftClick {
-          viewModel.barrasXml()
-        }
-      }
-      this.button("NCM XML") {
-        this.icon = VaadinIcon.COGS.create()
-
-        onLeftClick {
-          viewModel.ncmXml()
-        }
-      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       updateGrid()
@@ -126,17 +81,35 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       notaDataEmissao()
       notaData()
       notaNfe()
-      notaRefPrdx()
-      notaBarcodex()
+      notaRefPrdx().apply {
+        setHeader("Referência")
+      }
+      notaBarcodex().apply {
+        setHeader("EAN")
+      }
       notaDescricaox()
       notaUnidadex()
-      notaCFOPX()
-      notaCstx()
-      notaAlIcmsx()
-      notaAlIpix()
-      notaMvax()
-      notaAlPisx()
-      notaAlCofinsx()
+      notaCFOPX().apply {
+        setHeader("CFOP")
+      }
+      notaCstx().apply {
+        setHeader("CST")
+      }
+      notaAlIcmsx().apply {
+        setHeader("ICMS")
+      }
+      notaAlIpix().apply {
+        setHeader("IPI")
+      }
+      notaMvax().apply {
+        setHeader("MVA")
+      }
+      notaAlPisx().apply {
+        setHeader("PIS")
+      }
+      notaAlCofinsx().apply {
+        setHeader("COFINS")
+      }
     }
   }
 
