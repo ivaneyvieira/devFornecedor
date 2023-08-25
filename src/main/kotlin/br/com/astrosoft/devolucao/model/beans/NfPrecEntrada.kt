@@ -112,7 +112,7 @@ class NfPrecEntrada(
   }
 
   val refPrdDifx
-    get() = if ((refPrdx ?: "") == (refPrdp ?: "")) "S" else "N"
+    get() = if ((refPrdx ?: "") == (refPrdn ?: "")) "S" else "N"
 
   val barcodeDifcp
     get() = if ((barcodec ?: "") == (barcodep ?: "")) "S" else "N"
