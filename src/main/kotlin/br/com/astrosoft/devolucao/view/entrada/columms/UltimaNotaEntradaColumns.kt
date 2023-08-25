@@ -156,7 +156,7 @@ object UltimaNotaEntradaColumns {
     this.right()
   }
 
-  fun Grid<NfPrecEntrada>.notaRefPrdp() = addColumnString(NfPrecEntrada::refPrdp) {
+  fun Grid<NfPrecEntrada>.notaRefPrdp() = addColumnString(NfPrecEntrada::refPrdn) {
     this.setHeader("Ref P")
     this.isResizable = true
   }
