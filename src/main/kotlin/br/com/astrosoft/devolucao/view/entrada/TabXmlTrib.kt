@@ -85,7 +85,7 @@ class TabXmlTrib(val viewModel: TabXmlTribViewModel) : ITabXmlTribViewModel, ITa
     dialog?.show()
   }
 
-  override fun selectItens(): List<NfPrecEntrada> {
+  override fun selectItens(): List<NotaXML> {
     return dialog?.selectedItemsSort() ?: emptyList()
   }
 

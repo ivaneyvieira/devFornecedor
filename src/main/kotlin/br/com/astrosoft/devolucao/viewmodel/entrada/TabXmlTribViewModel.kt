@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
+import br.com.astrosoft.devolucao.model.knfe.parseNotaFiscal
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
@@ -75,59 +76,40 @@ class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
     return Loja.allLojas().sortedBy { it.no }
   }
 
-  fun findNotas(filtro: FiltroRelatorio): List<NfPrecEntrada> {
-    return NfPrecEntrada.findNotas(filtro).toList()
+  fun findNotas(filtro: FiltroRelatorio): List<NotaXML> {
+    return NfPrecEntrada.findNotas(filtro).toNotaXml()
   }
+}
 
-  fun refXml(monitor: MonitorHandler? = null) {
-    val itens = subView.selectItens()
-    if (itens.isEmpty()) fail("Nenhum item selecionado")
+private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
+  return this.groupBy { it.ni }.flatMap { entry ->
+    val nf = entry.value.firstOrNull() ?: return@flatMap emptyList()
+    val nddXml = saci.findXmlNfe(nf.ni, nf.lj, nf.nfe, nf.serie)
+    val nfe = parseNotaFiscal(nddXml?.xml) ?: return@flatMap emptyList()
 
-    viewModel.showQuestion("Confirma a atualização de REFERÊNCIA para os itens selecionados?") {
-      val list = itens.map { nf ->
-        PrdRef(
-          prdno = nf.prod,
-          grade = nf.grade,
-          prdrefname = nf.refPrdx ?: "",
-          prdrefno = nf.refPrdx ?: ""
-        )
-      }.distinct()
-      PrdRef.add(list)
-      saci.queryNfPrec(subView.getFiltro(), monitor)
-      subView.updateGrid()
-    }
-  }
-
-  fun barrasXml(monitor: MonitorHandler? = null) {
-    val itens = subView.selectItens()
-    if (itens.isEmpty()) fail("Nenhum item selecionado")
-
-    viewModel.showQuestion("Confirma a atualização de CÓD BARRAS paras os itens selecionados?") {
-      val list = itens.map { nf ->
-        PrdBar(
-          prdno = nf.prod,
-          grade = nf.grade,
-          barcode = nf.barcodex ?: ""
-        )
-      }.distinct()
-      PrdBar.add(list)
-      saci.queryNfPrec(subView.getFiltro(), monitor)
-      subView.updateGrid()
-    }
-  }
-
-  fun ncmXml(monitor: MonitorHandler? = null) {
-    val itens = subView.selectItens()
-    if (itens.isEmpty()) fail("Nenhum item selecionado")
-
-    viewModel.showQuestion("Confirma a atualização do NCM para os itens selecionados?") {
-      itens.forEach { nf ->
-        val ncm = nf.ncmx
-        if (ncm.isNullOrBlank())
-          saci.addNCM(nf.prod, ncm ?: "")
-      }
-      saci.queryNfPrec(subView.getFiltro(), monitor)
-      subView.updateGrid()
+    nfe.infNFe.detalhes.map { det ->
+      NotaXML(
+        lj = nf.lj,
+        ni = nf.ni,
+        data = nf.data,
+        dataEmissao = nf.dataEmissao,
+        nfe = nf.nfe,
+        serie = nf.serie,
+        fornCad = nf.fornCad,
+        fornNota = nf.fornNota,
+        refPrdx = det.prod?.cProd,
+        descricaox = det.prod?.xProd,
+        cstx = det.imposto?.icms?.cst,
+        mvax = det.imposto?.icms?.mvaST,
+        barcodex = det.prod?.cEANTrib,
+        cfopx = det.prod?.cfop,
+        valor = (det.prod?.qCom ?: 0.00) * (det.prod?.vProd ?: 0.00),
+        alIcmsx = det.imposto?.icms?.pICMS,
+        alPisx = det.imposto?.pis?.pPIS,
+        alCofinsx = det.imposto?.cofins?.pCOFINS,
+        unidadex = det.prod?.uTrib,
+        alIpix = det.imposto?.ipi?.pIPI,
+      )
     }
   }
 }
@@ -136,6 +118,6 @@ interface ITabXmlTribViewModel : ITabView {
   fun setFiltro(filtro: FiltroRelatorio)
   fun getFiltro(): FiltroRelatorio
   fun openRelatorio()
-  fun selectItens(): List<NfPrecEntrada>
+  fun selectItens(): List<NotaXML>
   fun updateGrid()
 }
