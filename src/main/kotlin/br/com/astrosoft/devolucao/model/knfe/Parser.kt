@@ -59,13 +59,13 @@ fun Element?.getDateContent(tagName: String): LocalDateTime? {
 }
 
 
-fun parseNotaFiscal(xmlString: String): NFe? {
+fun parseNotaFiscal(xmlString: String?): NFe? {
   try {
+    xmlString ?: return null
     val factory = DocumentBuilderFactory.newInstance()
     val builder = factory.newDocumentBuilder()
     val inputSource = InputSource(xmlString.reader())
     val doc = builder.parse(inputSource)
-
 
     fun parseEndereco(element: Element?): Endereco? {
       element ?: return null
