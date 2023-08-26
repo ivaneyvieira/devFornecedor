@@ -99,7 +99,7 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
         fornNota = nf.fornNota,
         refPrdx = det.prod?.cProd,
         descricaox = det.prod?.xProd,
-        cstx = "${det.imposto?.icms?.orig}${det.imposto?.icms?.cst}",
+        cstx = det.imposto?.icms?.let { "${it.orig}${it.cst}" } ?: "",
         mvax = det.imposto?.icms?.mvaST ?: 0.00,
         barcodex = det.prod?.cEANTrib,
         cfopx = det.prod?.cfop,
