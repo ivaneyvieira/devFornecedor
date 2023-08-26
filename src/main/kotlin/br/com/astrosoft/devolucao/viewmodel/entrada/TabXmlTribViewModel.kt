@@ -99,16 +99,15 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
         fornNota = nf.fornNota,
         refPrdx = det.prod?.cProd,
         descricaox = det.prod?.xProd,
-        cstx = det.imposto?.icms?.cst,
-        mvax = det.imposto?.icms?.mvaST,
+        cstx = "${det.imposto?.icms?.orig}${det.imposto?.icms?.cst}",
+        mvax = det.imposto?.icms?.mvaST ?: 0.00,
         barcodex = det.prod?.cEANTrib,
         cfopx = det.prod?.cfop,
-        valor = (det.prod?.qCom ?: 0.00) * (det.prod?.vProd ?: 0.00),
-        alIcmsx = det.imposto?.icms?.pICMS,
-        alPisx = det.imposto?.pis?.pPIS,
-        alCofinsx = det.imposto?.cofins?.pCOFINS,
+        alIcmsx = det.imposto?.icms?.pICMS ?: 0.00,
+        alPisx = det.imposto?.pis?.pPIS ?: 0.00,
+        alCofinsx = det.imposto?.cofins?.pCOFINS ?: 0.00,
         unidadex = det.prod?.uTrib,
-        alIpix = det.imposto?.ipi?.pIPI,
+        alIpix = det.imposto?.ipi?.pIPI ?: 0.00,
       )
     }
   }
