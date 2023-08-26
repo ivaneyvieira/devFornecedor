@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import averageBy
 import br.com.astrosoft.devolucao.model.knfe.Detalhe
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.MonitorHandler

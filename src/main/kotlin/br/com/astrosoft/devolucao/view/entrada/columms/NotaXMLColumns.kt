@@ -69,11 +69,6 @@ object NotaXMLColumns {
     this.right()
   }
 
-  fun Grid<NotaXML>.notaValor() = addColumnDouble(NotaXML::valor) {
-    this.setHeader("Valor")
-    this.isResizable = true
-  }
-
   fun Grid<NotaXML>.notaAlIcmsx() = addColumnDouble(NotaXML::alIcmsx) {
     this.setHeader("V ICMS")
     this.isResizable = true
