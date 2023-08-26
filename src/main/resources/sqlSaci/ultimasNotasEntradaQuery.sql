@@ -154,7 +154,7 @@ SELECT iprd.storeno                                                           AS
        TRIM(CAST(IFNULL(M.barcode, '') AS char))                              AS barcoden,
        TRIM(CAST(IFNULL(G.barcodes, '') AS char))                             AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                             AS refPrdp,
-       TRIM(IFNULL(M.refPrd, ''))                                             AS refPrdn,
+       TRIM(COALESCE(M.refPrd, R.prdrefno, prd.refPrd, ''))                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                        AS fretep,
        inv.freight * 100.00 / inv.grossamt                                    AS freten,
        IF(inv.weight = 0, NULL, (inv.freight / 100) / inv.weight * 1.00)      AS frete,
