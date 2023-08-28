@@ -86,8 +86,14 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
     val nf = entry.value.firstOrNull() ?: return@flatMap emptyList()
     val nddXml = saci.findXmlNfe(nf.ni, nf.lj, nf.nfe, nf.serie)
     val nfe = parseNotaFiscal(nddXml?.xml) ?: return@flatMap emptyList()
-
     nfe.infNFe.detalhes.map { det ->
+      val refPrdx = det.prod?.cProd
+      val barcodex = det.prod?.cEANTrib
+      val codigo = entry.value.firstOrNull { nfPrd ->
+        nfPrd.refPrdn == refPrdx || nfPrd.refPrdp == refPrdx ||
+            nfPrd.barcodenList.contains(barcodex)
+      }?.prod
+
       NotaXML(
         lj = nf.lj,
         ni = nf.ni,
@@ -97,17 +103,18 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
         serie = nf.serie,
         fornCad = nf.fornCad,
         fornNota = nf.fornNota,
-        refPrdx = det.prod?.cProd,
+        refPrdx = refPrdx,
         descricaox = det.prod?.xProd,
         cstx = det.imposto?.icms?.let { "${it.orig}${it.cst}" } ?: "",
         mvax = det.imposto?.icms?.mvaST ?: 0.00,
-        barcodex = det.prod?.cEANTrib,
+        barcodex = barcodex,
         cfopx = det.prod?.cfop,
         alIcmsx = det.imposto?.icms?.pICMS ?: 0.00,
         alPisx = det.imposto?.pis?.pPIS ?: 0.00,
         alCofinsx = det.imposto?.cofins?.pCOFINS ?: 0.00,
         unidadex = det.prod?.uTrib,
         alIpix = det.imposto?.ipi?.pIPI ?: 0.00,
+        codigo = codigo,
       )
     }
   }

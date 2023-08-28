@@ -9,10 +9,12 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaAlIpix
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaAlPisx
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaBarcodex
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaCFOPX
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaCodigo
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaCstx
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaData
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaDataEmissao
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaDescricaox
+import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaFornNota
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaLoja
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaMvax
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaNfe
@@ -60,12 +62,14 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       notaDataEmissao()
       notaData()
       notaNfe()
+      notaFornNota()
       notaRefPrdx().apply {
         setHeader("Referência")
       }
       notaBarcodex().apply {
         setHeader("EAN")
       }
+      notaCodigo()
       notaDescricaox()
       notaUnidadex()
       notaCFOPX().apply {
