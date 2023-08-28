@@ -23,4 +23,7 @@ data class NotaXML(
   val alCofinsx: Double,
   val unidadex: String?,
   val alIpix: Double,
+  val quant: Double,
+  val quantSaci: Int,
+  val unidadeSaci: String,
 )

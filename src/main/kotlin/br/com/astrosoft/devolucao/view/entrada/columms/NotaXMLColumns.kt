@@ -97,6 +97,23 @@ object NotaXMLColumns {
 
   fun Grid<NotaXML>.notaUnidadex() = addColumnString(NotaXML::unidadex) {
     this.setHeader("Unid")
+    this.center()
+    this.isResizable = true
+  }
+
+  fun Grid<NotaXML>.notaUnidadeSaci() = addColumnString(NotaXML::unidadeSaci) {
+    this.setHeader("Ud Saci")
+    this.center()
+    this.isResizable = true
+  }
+
+  fun Grid<NotaXML>.notaQuantidade() = addColumnDouble(NotaXML::quant, pattern = "#,##0.####") {
+    this.setHeader("Qtd XML")
+    this.isResizable = true
+  }
+
+  fun Grid<NotaXML>.notaQuantidadeSaci() = addColumnInt(NotaXML::quantSaci) {
+    this.setHeader("Qtd Saci")
     this.isResizable = true
   }
 
