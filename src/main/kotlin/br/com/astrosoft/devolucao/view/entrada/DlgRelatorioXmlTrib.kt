@@ -27,20 +27,31 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaUnidad
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.selectedItemsSort
+import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.ListDataProvider
+import com.vaadin.flow.data.value.ValueChangeMode
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NotaXML>
   private val dataProviderGrid = ListDataProvider<NotaXML>(mutableListOf())
+  private var edtPesquisa: TextField? = null
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
-
+      edtPesquisa = textField("Pesquisa") {
+        this.width = "40em"
+        this.valueChangeMode = ValueChangeMode.LAZY
+        this.valueChangeTimeout = 1000
+        this.addValueChangeListener {
+          updateGrid()
+        }
+      }
     }) {
       gridNota = createGrid(dataProviderGrid)
       updateGrid()
@@ -107,10 +118,13 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
   }
 
   fun updateGrid() {
+    val query = edtPesquisa?.value ?: ""
     filtro.refPrd = T
     filtro.barcode = T
     filtro.ncm = T
-    val list = viewModel.findNotas(filtro)
+    val list = viewModel.findNotas(filtro).filter { nota ->
+      nota.toString().contains(query, true)
+    }
     gridNota.setItems(list)
   }
 }
