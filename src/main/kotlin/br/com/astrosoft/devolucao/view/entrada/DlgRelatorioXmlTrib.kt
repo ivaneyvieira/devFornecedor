@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum.*
+import br.com.astrosoft.devolucao.model.beans.EDiferencaNum.S
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NotaXML
@@ -29,7 +29,9 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaUnidad
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferencaXml
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
+import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.dependency.CssImport
@@ -67,6 +69,9 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
         this.addValueChangeListener {
           updateGrid()
         }
+      }
+      this.buttonPlanilha("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), "notaXml") {
+        viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
     }) {
       gridNota = createGrid(dataProviderGrid)
@@ -140,9 +145,9 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
     filtro.ncm = T
     val list = viewModel.findNotas(filtro).filter { nota ->
       nota.toString().contains(query, true)
-    }.filter {nota ->
+    }.filter { nota ->
       val dif = cmbDiferencaStr?.value ?: return@filter true
-      if(dif == EDiferencaNum.T) return@filter true
+      if (dif == EDiferencaNum.T) return@filter true
       val difNota = nota.quantDiferenca()
       difNota == dif
     }
