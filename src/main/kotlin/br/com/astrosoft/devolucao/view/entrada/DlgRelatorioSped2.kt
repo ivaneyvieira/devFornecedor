@@ -89,7 +89,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("ICMS") {
         value = filtro.icms
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.icms = it.value
           updateGrid()
@@ -97,7 +97,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("IPI") {
         value = filtro.ipi
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.ipi = it.value
           updateGrid()
@@ -105,7 +105,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("Base ST") {
         value = filtro.baseST
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.baseST = it.value
           updateGrid()
@@ -113,7 +113,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("valor ST") {
         value = filtro.valorST
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.valorST = it.value
           updateGrid()
@@ -121,7 +121,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("Totla Nota") {
         value = filtro.totalNF
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.totalNF = it.value
           updateGrid()
