@@ -24,7 +24,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaQuanti
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaRefPrdx
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaUnidadeSaci
 import br.com.astrosoft.devolucao.view.entrada.columms.NotaXMLColumns.notaUnidadex
-import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
+import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferencaXml
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -87,9 +87,9 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       notaCodigo()
       notaDescricaox()
       notaUnidadex()
-      notaQuantidade().marcaDiferenca { quant != quantSaci.toDouble() }
+      notaQuantidade().marcaDiferencaXml { quant != quantSaci.toDouble() }
       notaUnidadeSaci()
-      notaQuantidadeSaci().marcaDiferenca { quant != quantSaci.toDouble() }
+      notaQuantidadeSaci().marcaDiferencaXml { quant != quantSaci.toDouble() }
       notaCFOPX().apply {
         setHeader("CFOP")
       }

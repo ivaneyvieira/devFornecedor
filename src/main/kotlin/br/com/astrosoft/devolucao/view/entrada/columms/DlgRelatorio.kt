@@ -29,13 +29,14 @@ fun HasComponents.comboDiferencaStr(label: String, block: Select<EDiferencaStr>.
   }
 }
 
+
 fun Grid.Column<NfPrecEntrada>.marcaDiferenca(predicado: NfPrecEntrada.() -> Boolean) {
   this.setClassNameGenerator {
     if (it.predicado()) "marcaDiferenca" else null
   }
 }
 
-fun Grid.Column<NotaXML>.marcaDiferenca(predicado: NotaXML.() -> Boolean) {
+fun Grid.Column<NotaXML>.marcaDiferencaXml(predicado: NotaXML.() -> Boolean) {
   this.setClassNameGenerator {
     if (it.predicado()) "marcaDiferenca" else null
   }
