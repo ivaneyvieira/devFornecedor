@@ -1,5 +1,7 @@
 package br.com.astrosoft.devolucao.view.entrada
 
+import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
+import br.com.astrosoft.devolucao.model.beans.EDiferencaNum.*
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NotaXML
@@ -28,11 +30,13 @@ import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferencaXml
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabXmlTribViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.selectedItemsSort
+import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -42,6 +46,7 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
   private lateinit var gridNota: Grid<NotaXML>
   private val dataProviderGrid = ListDataProvider<NotaXML>(mutableListOf())
   private var edtPesquisa: TextField? = null
+  private var cmbDiferencaStr: Select<EDiferencaNum>? = null
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -49,6 +54,13 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
         this.width = "40em"
         this.valueChangeMode = ValueChangeMode.LAZY
         this.valueChangeTimeout = 1000
+        this.addValueChangeListener {
+          updateGrid()
+        }
+      }
+      cmbDiferencaStr = select("Diferença") {
+        this.setItems(EDiferencaNum.entries)
+        this.value = EDiferencaNum.T
         this.addValueChangeListener {
           updateGrid()
         }
@@ -87,9 +99,9 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       notaCodigo()
       notaDescricaox()
       notaUnidadex()
-      notaQuantidade().marcaDiferencaXml { quant != quantSaci.toDouble() }
+      notaQuantidade().marcaDiferencaXml { quantDiferenca() != S }
       notaUnidadeSaci()
-      notaQuantidadeSaci().marcaDiferencaXml { quant != quantSaci.toDouble() }
+      notaQuantidadeSaci().marcaDiferencaXml { quantDiferenca() != S }
       notaCFOPX().apply {
         setHeader("CFOP")
       }
@@ -125,6 +137,11 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
     filtro.ncm = T
     val list = viewModel.findNotas(filtro).filter { nota ->
       nota.toString().contains(query, true)
+    }.filter {nota ->
+      val dif = cmbDiferencaStr?.value ?: return@filter true
+      if(dif == EDiferencaNum.T) return@filter true
+      val difNota = nota.quantDiferenca()
+      difNota == dif
     }
     gridNota.setItems(list)
   }
