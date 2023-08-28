@@ -35,7 +35,7 @@ object NotaXMLColumns {
 
 
   fun Grid<NotaXML>.notaFornNota() = addColumnString(NotaXML::fornNota) {
-    this.setHeader("F Nota")
+    this.setHeader("For NF")
     this.isResizable = true
     this.right()
   }
@@ -82,6 +82,12 @@ object NotaXMLColumns {
   fun Grid<NotaXML>.notaAlCofinsx() = addColumnDouble(NotaXML::alCofinsx) {
     this.setHeader("V Cofins")
     this.isResizable = true
+  }
+
+  fun Grid<NotaXML>.notaCodigo() = addColumnString(NotaXML::codigo) {
+    this.setHeader("Cód")
+    this.isResizable = true
+    this.right()
   }
 
   fun Grid<NotaXML>.notaDescricaox() = addColumnString(NotaXML::descricaox) {

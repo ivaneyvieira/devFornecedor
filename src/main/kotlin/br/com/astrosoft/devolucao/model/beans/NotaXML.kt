@@ -11,6 +11,7 @@ data class NotaXML(
   val serie: String,
   val fornCad: String,
   val fornNota: String,
+  val codigo: String?,
   val refPrdx: String?,
   val descricaox: String?,
   val cstx: String?,
