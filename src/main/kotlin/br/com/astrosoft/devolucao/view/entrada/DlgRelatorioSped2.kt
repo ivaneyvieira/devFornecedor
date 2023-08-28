@@ -65,7 +65,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("CFOP") {
         value = filtro.cfop
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.cfop = it.value
           updateGrid()
@@ -73,7 +73,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("CST") {
         value = filtro.cst
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.cst = it.value
           updateGrid()
@@ -81,7 +81,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
       this.comboDiferencaStr("MVA") {
         value = filtro.mva
-        this.setItems(EDiferencaStr.values().toList() - EDiferencaStr.S)
+        this.setItems(EDiferencaStr.entries - EDiferencaStr.S)
         this.addValueChangeListener {
           filtro.mva = it.value
           updateGrid()
