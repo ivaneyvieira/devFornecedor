@@ -89,10 +89,10 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
     nfe.infNFe.detalhes.map { det ->
       val refPrdx = det.prod?.cProd
       val barcodex = det.prod?.cEANTrib
-      val codigo = entry.value.firstOrNull { nfPrd ->
+      val notaSaci = entry.value.firstOrNull { nfPrd ->
         nfPrd.refPrdn == refPrdx || nfPrd.refPrdp == refPrdx ||
             nfPrd.barcodenList.contains(barcodex)
-      }?.prod
+      }
 
       NotaXML(
         lj = nf.lj,
@@ -114,7 +114,10 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
         alCofinsx = det.imposto?.cofins?.pCOFINS ?: 0.00,
         unidadex = det.prod?.uTrib,
         alIpix = det.imposto?.ipi?.pIPI ?: 0.00,
-        codigo = codigo,
+        codigo = notaSaci?.prod ?: "",
+        quant = det.prod?.qTrib ?: 0.00,
+        unidadeSaci = notaSaci?.unidade ?: "",
+        quantSaci = notaSaci?.quant ?: 0,
       )
     }
   }
