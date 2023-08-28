@@ -58,9 +58,12 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
           updateGrid()
         }
       }
-      cmbDiferencaStr = select("Diferença") {
+      cmbDiferencaStr = select("Quantidade") {
         this.setItems(EDiferencaNum.entries)
         this.value = EDiferencaNum.T
+        this.setItemLabelGenerator {
+          it.descricao
+        }
         this.addValueChangeListener {
           updateGrid()
         }
