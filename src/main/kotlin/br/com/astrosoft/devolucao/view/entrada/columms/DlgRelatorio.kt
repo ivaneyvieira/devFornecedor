@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.entrada.columms
 import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.model.beans.NotaXML
 import com.github.mvysny.karibudsl.v10.select
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
@@ -34,3 +35,8 @@ fun Grid.Column<NfPrecEntrada>.marcaDiferenca(predicado: NfPrecEntrada.() -> Boo
   }
 }
 
+fun Grid.Column<NotaXML>.marcaDiferenca(predicado: NotaXML.() -> Boolean) {
+  this.setClassNameGenerator {
+    if (it.predicado()) "marcaDiferenca" else null
+  }
+}
