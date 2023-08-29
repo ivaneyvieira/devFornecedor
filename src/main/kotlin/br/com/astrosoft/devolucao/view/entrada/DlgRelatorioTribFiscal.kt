@@ -68,7 +68,7 @@ class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: 
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
       this.select<EValidade>("Validade") {
-        setItems(EValidade.values().toList())
+        setItems(EValidade.entries)
         value = EValidade.TODAS
         this.setItemLabelGenerator {
           it.descricao
