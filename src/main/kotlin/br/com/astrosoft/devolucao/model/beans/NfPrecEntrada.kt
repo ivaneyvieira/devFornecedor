@@ -111,6 +111,9 @@ class NfPrecEntrada(
     return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodenList).distinct()
   }
 
+  val quantDifx
+    get() = if ((quant?.toDouble() ?: 0.00) == (quantx ?: 0.00)) "S" else "N"
+
   val refPrdDifx
     get() = if ((refPrdx ?: "") == (refPrdn ?: "")) "S" else "N"
 
@@ -247,6 +250,13 @@ class NfPrecEntrada(
       val prod = detalheXml().firstOrNull()?.prod ?: return null
       return prod.cfop
     }
+
+
+  val quantx: Double?
+    get() {
+      return detalheXml().firstOrNull()?.prod?.qTrib
+    }
+
 
   val refPrdx: String?
     get() {

@@ -261,6 +261,11 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaQuantx() = addColumnDouble(NfPrecEntrada::quantx, pattern = "#,##0,####") {
+    this.setHeader("Qtd X")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaValidade() = addColumnInt(NfPrecEntrada::mesesValidade) {
     this.setHeader("Val")
     this.isResizable = true
@@ -353,7 +358,7 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
-    fun Grid<NfPrecEntrada>.notaAlIcmsx() = addColumnDouble(NfPrecEntrada::alIcmsx) {
+  fun Grid<NfPrecEntrada>.notaAlIcmsx() = addColumnDouble(NfPrecEntrada::alIcmsx) {
     this.setHeader("V ICMS")
     this.isResizable = true
   }
