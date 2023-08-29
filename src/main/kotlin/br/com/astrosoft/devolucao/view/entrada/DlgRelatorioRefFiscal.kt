@@ -21,6 +21,8 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuantx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdx
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidade
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidadex
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabRefFiscalViewModel
@@ -133,9 +135,15 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       notaProd().marcaDiferenca { difGeral() }
       notaDescricao()
       notaGrade()
+      notaUnidadex().apply {
+        setHeader("Un X")
+      }
       notaQuantx().apply {
         setHeader("Qtd X")
       }.marcaDiferenca { quantDifx == "N" }
+      notaUnidade().apply {
+        setHeader("Un S")
+      }
       notaQuant().apply {
         setHeader("Qtd S")
       }.marcaDiferenca { quantDifx == "N" }
