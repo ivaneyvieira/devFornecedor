@@ -2,6 +2,8 @@ package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
 import br.com.astrosoft.devolucao.model.beans.EDiferencaNum.S
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.N
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NotaXML
@@ -48,7 +50,7 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
   private lateinit var gridNota: Grid<NotaXML>
   private val dataProviderGrid = ListDataProvider<NotaXML>(mutableListOf())
   private var edtPesquisa: TextField? = null
-  private var cmbDiferencaStr: Select<EDiferencaNum>? = null
+  private var cmbDiferencaStr: Select<EDiferencaStr>? = null
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -61,8 +63,8 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
         }
       }
       cmbDiferencaStr = select("Quantidade") {
-        this.setItems(EDiferencaNum.entries)
-        this.value = EDiferencaNum.T
+        this.setItems(EDiferencaStr.entries)
+        this.value = T
         this.setItemLabelGenerator {
           it.descricao
         }
@@ -107,9 +109,9 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       notaCodigo()
       notaDescricaox()
       notaUnidadex()
-      notaQuantidade().marcaDiferencaXml { quantDiferenca() != S }
+      notaQuantidade().marcaDiferencaXml { quantDiferenca() != EDiferencaStr.S }
       notaUnidadeSaci()
-      notaQuantidadeSaci().marcaDiferencaXml { quantDiferenca() != S }
+      notaQuantidadeSaci().marcaDiferencaXml { quantDiferenca() != EDiferencaStr.S }
       notaCFOPX().apply {
         setHeader("CFOP")
       }
@@ -147,7 +149,7 @@ class DlgRelatorioXmlTrib(val viewModel: TabXmlTribViewModel, val filtro: Filtro
       nota.toString().contains(query, true)
     }.filter { nota ->
       val dif = cmbDiferencaStr?.value ?: return@filter true
-      if (dif == EDiferencaNum.T) return@filter true
+      if (dif == T) return@filter true
       val difNota = nota.quantDiferenca()
       difNota == dif
     }

@@ -115,10 +115,9 @@ class NfPrecEntrada(
 
   val quantDifx
     get() = when {
-      (quantx ?: 0.00) == (quant?.toDouble() ?: 0.00) -> EDiferencaNum.S
-      (quantx ?: 0.00) > (quant?.toDouble() ?: 0.00)  -> EDiferencaNum.DP
-      (quantx ?: 0.00) < (quant?.toDouble() ?: 0.00)  -> EDiferencaNum.DN
-      else                                            -> EDiferencaNum.T
+      (quantx ?: 0.00) == (quant?.toDouble() ?: 0.00) -> EDiferencaStr.S
+      (quantx ?: 0.00) != (quant?.toDouble() ?: 0.00) -> EDiferencaStr.N
+      else                                            -> EDiferencaStr.T
     }
 
   val refPrdDifx
