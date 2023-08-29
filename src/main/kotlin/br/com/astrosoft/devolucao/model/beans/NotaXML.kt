@@ -33,12 +33,12 @@ data class NotaXML(
     return "$lj|$ni|${data.format()}|${dataEmissao.format()}|$nfe|$serie|$fornNota|$codigo|$refPrdx|$descricaox|$cstx|${mvax.format()}|$barcodex|$cfopx|${alIcmsx.format()}|${alPisx.format()}|${alCofinsx.format()}|$unidadex|${alIpix.format()}|${quant.format()}|${quantSaci.format()}|$unidadeSaci"
   }
 
-  fun quantDiferenca(): EDiferencaNum {
+  fun quantDiferenca(): EDiferencaStr {
     return when {
-      quant > quantSaci.toDouble()  -> DP
-      quant < quantSaci.toDouble()  -> DN
-      quant == quantSaci.toDouble() -> S
-      else                          -> T
+      quant > quantSaci.toDouble()  -> EDiferencaStr.N
+      quant < quantSaci.toDouble()  -> EDiferencaStr.N
+      quant == quantSaci.toDouble() -> EDiferencaStr.S
+      else                          -> EDiferencaStr.T
     }
   }
 }

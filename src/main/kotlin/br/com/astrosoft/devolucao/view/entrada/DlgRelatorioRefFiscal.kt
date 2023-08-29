@@ -1,7 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
 import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
-import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.*
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodec
@@ -47,7 +48,7 @@ import com.vaadin.flow.data.provider.ListDataProvider
 class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
-  private var cmbQuantDif : Select<EDiferencaNum>? = null
+  private var cmbQuantDif : Select<EDiferencaStr>? = null
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -90,8 +91,8 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
           updateGrid()
         }
       }
-      cmbQuantDif = this.comboDiferencaNum("Quantidade") {
-        value = EDiferencaNum.T
+      cmbQuantDif = this.comboDiferencaStr("Quantidade") {
+        value = T
 
         this.addValueChangeListener {
           updateGrid()
@@ -151,13 +152,13 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       }
       notaQuantx().apply {
         setHeader("Qtd X")
-      }.marcaDiferenca { quantDifx != EDiferencaNum.S }
+      }.marcaDiferenca { quantDifx != S }
       notaUnidade().apply {
         setHeader("Un S")
       }
       notaQuant().apply {
         setHeader("Qtd S")
-      }.marcaDiferenca { quantDifx != EDiferencaNum.S }
+      }.marcaDiferenca { quantDifx != S }
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
       notaBarcodex()
@@ -189,7 +190,7 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       (nf.ncmDifx == ncm.str || ncm == T)
     }.filter { nf ->
       val quantDifx = cmbQuantDif?.value ?: return@filter false
-      nf.quantDifx == quantDifx || quantDifx == EDiferencaNum.T
+      nf.quantDifx == quantDifx || quantDifx == T
     }
     filtro.refPrd = refPrd
     filtro.barcode = barcode
