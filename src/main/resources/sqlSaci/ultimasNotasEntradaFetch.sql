@@ -89,7 +89,8 @@ SELECT lj,
        vlIpi,
        baseSubst,
        vlIcmsSubst,
-       vlTotal
+       vlTotal,
+       xml
 FROM sqldados.query1234567
 WHERE (@cst = cstDif OR @icms = icmsDif OR @ipi = ipiDif OR @mva = mvaDif OR @ncm = ncmDif OR
        @barcode = barcodeDif OR @refPrd = refPrdDif OR @frete = freteDif OR
