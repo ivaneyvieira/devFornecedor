@@ -383,6 +383,11 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaUnidade() = addColumnString(NfPrecEntrada::unidade) {
+    this.setHeader("Unid")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaVlIpi() = addColumnDouble(NfPrecEntrada::vlIpi) {
     this.setHeader("V IPI")
     this.isResizable = true
