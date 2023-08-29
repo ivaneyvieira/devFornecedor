@@ -133,12 +133,12 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       notaProd().marcaDiferenca { difGeral() }
       notaDescricao()
       notaGrade()
-      //notaQuantx().apply {
-      //  setHeader("Qtd X")
-      //}.marcaDiferenca { quantDifx == "N" }
-     // notaQuant().apply {
-     //   setHeader("Qtd S")
-     // }.marcaDiferenca { quantDifx == "N" }
+      notaQuantx().apply {
+        setHeader("Qtd X")
+      }.marcaDiferenca { quantDifx == "N" }
+      notaQuant().apply {
+        setHeader("Qtd S")
+      }.marcaDiferenca { quantDifx == "N" }
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
       notaBarcodex()
