@@ -185,7 +185,8 @@ SELECT iprd.storeno                                                           AS
        ROUND(iprd.icms / 100, 2)                                              AS vlIcms,
        ROUND(iprd.ipiAmt / 100, 2)                                            AS vlIpi,
        ROUND(iprd.baseIcmsSubst / 100, 2)                                     AS baseSubst,
-       ROUND(iprd.icmsSubst / 100, 2)                                         AS vlIcmsSubst
+       ROUND(iprd.icmsSubst / 100, 2)                                         AS vlIcmsSubst,
+       IFNULL(N1.xmlNfe, N2.xmlNfe)                                           AS xml
 FROM sqldados.iprd
        INNER JOIN sqldados.inv
                   USING (invno)
@@ -216,6 +217,18 @@ FROM sqldados.iprd
        LEFT JOIN sqldados.oprd
                  ON (oprd.storeno = inv.storeno AND oprd.ordno = inv.ordno AND
                      oprd.prdno = iprd.prdno AND oprd.grade = iprd.grade)
+       LEFT JOIN sqldados.store AS L
+                 ON inv.storeno = L.no
+       LEFT JOIN sqldados.invnfe AS C
+                 USING (invno)
+       LEFT JOIN sqldados.notasEntradaNdd AS N1
+                 ON N1.chave = CONCAT('NFe', C.nfekey)
+                   AND N1.xmlNfe != 'NULL'
+       LEFT JOIN sqldados.notasEntradaNdd AS N2
+                 ON N2.cnpjDestinatario = L.cgc
+                   AND N2.numero = inv.nfname
+                   AND N2.serie = inv.invse
+                   AND N2.xmlNfe != 'NULL'
 WHERE inv.date BETWEEN @di AND @df
   AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
   AND (iprd.storeno = @storeno OR @storeno = 0)
@@ -315,5 +328,6 @@ SELECT lj,
        vlIpi,
        baseSubst,
        vlIcmsSubst,
-       vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst AS vlTotal
+       vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst AS vlTotal,
+       xml
 FROM sqldados.T_QUERY

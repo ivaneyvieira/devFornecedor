@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
+import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
@@ -23,6 +24,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidadex
+import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabRefFiscalViewModel
@@ -38,12 +40,14 @@ import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
+  private var cmbQuantDif : Select<EDiferencaNum>? = null
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -83,6 +87,13 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
 
         this.addValueChangeListener {
           filtro.ncm = it.value
+          updateGrid()
+        }
+      }
+      cmbQuantDif = this.comboDiferencaNum("Quantidade") {
+        value = EDiferencaNum.T
+
+        this.addValueChangeListener {
           updateGrid()
         }
       }
@@ -140,13 +151,13 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       }
       notaQuantx().apply {
         setHeader("Qtd X")
-      }.marcaDiferenca { quantDifx == "N" }
+      }.marcaDiferenca { quantDifx != EDiferencaNum.S }
       notaUnidade().apply {
         setHeader("Un S")
       }
       notaQuant().apply {
         setHeader("Qtd S")
-      }.marcaDiferenca { quantDifx == "N" }
+      }.marcaDiferenca { quantDifx != EDiferencaNum.S }
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
       notaBarcodex()
@@ -174,8 +185,11 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
     filtro.ncm = T
     val list = viewModel.findNotas(filtro).filter { nf ->
       (nf.refPrdDifx == refPrd.str || refPrd == T) &&
-          (nf.barcodeDifcp == barcode.str || nf.barcodeDifcx == barcode.str || barcode == T) &&
-          (nf.ncmDifx == ncm.str || ncm == T)
+      (nf.barcodeDifcp == barcode.str || nf.barcodeDifcx == barcode.str || barcode == T) &&
+      (nf.ncmDifx == ncm.str || ncm == T)
+    }.filter { nf ->
+      val quantDifx = cmbQuantDif?.value ?: return@filter false
+      nf.quantDifx == quantDifx || quantDifx == EDiferencaNum.T
     }
     filtro.refPrd = refPrd
     filtro.barcode = barcode

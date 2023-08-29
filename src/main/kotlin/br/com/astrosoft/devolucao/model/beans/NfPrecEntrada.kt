@@ -81,6 +81,7 @@ class NfPrecEntrada(
   val baseSubst: Double?,
   val vlIcmsSubst: Double?,
   val vlTotal: Double?,
+  val xml: String?,
 ) {
   val barcodepList get() = barcodepl?.split(",")?.filter { it != "" } ?: emptyList()
   val barcodecList get() = barcodecl?.split(",")?.filter { it != "" } ?: emptyList()
@@ -108,11 +109,17 @@ class NfPrecEntrada(
 
   private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
-    return NddXml.detalheProduto(ni, lj, nfe, serie, ref, barcodenList).distinct()
+    xml ?: return emptyList()
+    return NddXml.detalheProduto(xml, ni, lj, nfe, serie, ref, barcodenList).distinct()
   }
 
   val quantDifx
-    get() = if ((quant?.toDouble() ?: 0.00) == (quantx ?: 0.00)) "S" else "N"
+    get() = when {
+      (quantx ?: 0.00) == (quant?.toDouble() ?: 0.00) -> EDiferencaNum.S
+      (quantx ?: 0.00) > (quant?.toDouble() ?: 0.00)  -> EDiferencaNum.DP
+      (quantx ?: 0.00) < (quant?.toDouble() ?: 0.00)  -> EDiferencaNum.DN
+      else                                            -> EDiferencaNum.T
+    }
 
   val refPrdDifx
     get() = if ((refPrdx ?: "") == (refPrdn ?: "")) "S" else "N"
@@ -133,7 +140,7 @@ class NfPrecEntrada(
       when (it) {
         "401" -> "403"
         "101" -> "102"
-        else -> it
+        else  -> it
       }
     } ?: ""
   }
@@ -196,7 +203,6 @@ class NfPrecEntrada(
       return "$orig$cst"
     }
 
-
   val vlIcmsx
     get() = if (baseSubstx.absoluteValue > 0.02) 0.00 else detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
 
@@ -251,12 +257,10 @@ class NfPrecEntrada(
       return prod.cfop
     }
 
-
   val quantx: Double?
     get() {
       return detalheXml().firstOrNull()?.prod?.qTrib
     }
-
 
   val refPrdx: String?
     get() {
@@ -270,7 +274,6 @@ class NfPrecEntrada(
 
   val ncmx
     get() = detalheXml().firstOrNull()?.prod?.ncm
-
 
   val ljCol
     get() = if (lj == 999) null else lj
@@ -305,25 +308,25 @@ class NfPrecEntrada(
     get() = data.format()
 
   fun difGeral(fiscal: Boolean) =
-    if (fiscal) (cstIcms ?: "") != (cstx ?: "") || icmsDif == "N" || ipiDif == "N" || mvaDif == "N"
-    else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N" || freteDif == "N"
+      if (fiscal) (cstIcms ?: "") != (cstx ?: "") || icmsDif == "N" || ipiDif == "N" || mvaDif == "N"
+      else ncmDif == "N" || barcodeDif == "N" || refPrdDif == "N" || freteDif == "N"
 
   val icmsRN
     get() = icmsc ?: icmsn
 
   companion object {
     fun findNotas(filter: FiltroRelatorio, monitor: MonitorHandler? = null) =
-      saci.ultimasNfPrec(filter, monitor = monitor).filter {
-        it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
-          EValidade.TODAS -> true
-          EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
-          EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
+        saci.ultimasNfPrec(filter, monitor = monitor).filter {
+          it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
+            EValidade.TODAS       -> true
+            EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
+            EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
+          }
         }
-      }
 
     fun findNotasPreRec(filter: FiltroRelatorio) = saci.ultimasPreRecebimento(filter).filter {
       it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
-        EValidade.TODAS -> true
+        EValidade.TODAS       -> true
         EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
         EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
       }
@@ -482,6 +485,7 @@ fun List<NfPrecEntrada>.group(): List<NfPrecEntrada> {
       baseSubst = list.sumOf { it.baseSubst ?: 0.00 },
       vlIcmsSubst = list.sumOf { it.vlIcmsSubst ?: 0.00 },
       vlTotal = list.sumOf { it.vlTotal ?: 0.00 },
+      xml = null,
     )
   }
 
