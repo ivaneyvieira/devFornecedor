@@ -101,4 +101,10 @@ WHERE :grade = '';
 UPDATE sqldados.prd
 SET barcode = LPAD(:barcode, 16, ' ')
 WHERE no = LPAD(:codigo, 16, ' ')
-  AND :grade = ''
+  AND :grade = '';
+
+UPDATE sqldados.prdbar
+SET bits = bits | POW(2, 1)
+WHERE prdno = LPAD(:codigo, 16, ' ')
+  AND grade = :grade
+  AND barcode = LPAD(:barcode, 16, ' ')
