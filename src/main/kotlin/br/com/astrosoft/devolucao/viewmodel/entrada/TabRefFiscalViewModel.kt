@@ -123,7 +123,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
     viewModel.showQuestion("Confirma a atualização do NCM para os itens selecionados?") {
       itens.forEach { nf ->
         val ncm = nf.ncmx
-        if (ncm.isNullOrBlank())
+        if (!ncm.isNullOrEmpty())
           saci.addNCM(nf.prod, ncm ?: "")
       }
       saci.queryNfPrec(subView.getFiltro(), monitor)
