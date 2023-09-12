@@ -1,5 +1,3 @@
-USE sqldados;
-
 UPDATE sqldados.spedprd
 SET genero = MID(:ncm, 1, 2),
     ncm    = :ncm
