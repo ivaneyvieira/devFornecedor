@@ -10,8 +10,9 @@ WHERE prdno = LPAD(:codigo, 16, ' ')
   AND grade = :grade
   AND prdrefno = :prdrefno;
 
-REPLACE INTO sqldados.prdrefpq(l1, l2, l3, l4, l5, l6, l7, l8, m1, m2, m3, m4, m5, m6, m7, m8, bits, padbyte, s1, s2, s3,
-                              s4, s5, s6, s7, s8, prdno, grade, prdrefno, prdrefname, c1, c2)
+REPLACE INTO sqldados.prdrefpq(l1, l2, l3, l4, l5, l6, l7, l8, m1, m2, m3, m4, m5, m6, m7, m8, bits, padbyte, s1, s2,
+                               s3,
+                               s4, s5, s6, s7, s8, prdno, grade, prdrefno, prdrefname, c1, c2)
 SELECT 0                      AS l1,
        0                      AS l2,
        0                      AS l3,
@@ -78,7 +79,7 @@ SELECT mfno                   AS vendno,
        ''                     AS grade,
        mfno_ref                  prdrefno,
        TRIM(MID(name, 1, 37)) AS prdrefname,
-       TRIM(MID(name, 37, 3))                     AS auxChar1,
+       TRIM(MID(name, 37, 3)) AS auxChar1,
        ''                     AS auxChar2,
        ''                     AS c1,
        ''                     AS c2,
@@ -91,4 +92,9 @@ WHERE no = LPAD(:codigo, 16, ' ')
 UPDATE sqldados.prd
 SET mfno_ref = :prdrefno
 WHERE no = LPAD(:codigo, 16, ' ')
-  AND :grade = ''
+  AND :grade = '';
+
+UPDATE sqldados.mfprd
+SET prdno = :prdrefno
+WHERE prdnoRef = LPAD(:codigo, 16, ' ')
+  AND grade = :grade
