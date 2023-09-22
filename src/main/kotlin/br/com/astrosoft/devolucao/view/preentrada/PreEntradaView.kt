@@ -15,8 +15,7 @@ import com.vaadin.flow.router.Route
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class PreEntradaView : ViewLayout<PreEntradaViewModel>(), IPreEntradaView {
   override val viewModel: PreEntradaViewModel = PreEntradaViewModel(this)
-  override val tabPreEntViewModel = TabPreEnt(viewModel.tabPreEntViewModel)
-  override val tabPreEntFiscalViewModel = TabPreEntFiscal(viewModel.tabPreEntFiscalViewModel)
+  override val tabTribFiscalPreViewModel = TabTribFiscalPre(viewModel.tabTribFiscalPreViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
