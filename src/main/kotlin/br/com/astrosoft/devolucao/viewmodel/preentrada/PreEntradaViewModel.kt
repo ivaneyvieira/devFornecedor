@@ -5,16 +5,14 @@ import br.com.astrosoft.framework.viewmodel.ViewModel
 
 class PreEntradaViewModel(view: IPreEntradaView) : ViewModel<IPreEntradaView>(view) {
 
-  val tabPreEntViewModel = TabPreEntViewModel(this)
-  val tabPreEntFiscalViewModel = TabPreEntFiscalViewModel(this)
+  val tabTribFiscalPreViewModel = TabTribFiscalPreViewModel(this)
 
   override fun listTab() = listOf(
-    view.tabPreEntViewModel,view.tabPreEntFiscalViewModel,
+    view.tabTribFiscalPreViewModel,
   )
 }
 
 interface IPreEntradaView : IView {
-  val tabPreEntViewModel: ITabPreEntViewModel
-  val tabPreEntFiscalViewModel: ITabPreEntFiscalViewModel
+  val tabTribFiscalPreViewModel: ITabTribFiscalPreViewModel
 }
 
