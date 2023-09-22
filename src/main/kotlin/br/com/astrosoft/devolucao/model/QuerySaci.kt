@@ -578,9 +578,9 @@ class QuerySaci : QueryDB(database) {
     }.toList()
   }
 
-  fun ultimasPreRecebimento(filtro: FiltroRelatorio): List<NfPrecEntrada> {
+  fun ultimasPreRecebimento(filtro: FiltroRelatorio, monitor: MonitorHandler?): List<NfPrecEntrada> {
     val sql = "/sqlSaci/ultimasPreRecebimentoFetch.sql"
-    return query(sql, NfPrecEntrada::class) {
+    return query(sql, NfPrecEntrada::class, monitor) {
       addOptionalParameter("storeno", filtro.storeno)
       addOptionalParameter("di", filtro.di.toSaciDate())
       addOptionalParameter("df", filtro.df.toSaciDate())
@@ -647,10 +647,10 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
-  fun queryPreRecebimento(filter: FiltroRelatorio) {
+  fun queryPreRecebimento(filter: FiltroRelatorio, monitor: MonitorHandler?) {
     val sql = if (filter.ultimaNota) "/sqlSaci/ultimasPreRecebimentoQueryUtm.sql"
     else "/sqlSaci/ultimasPreRecebimentoQuery.sql"
-    script(sql) {
+    script(sql, monitor = monitor) {
       addOptionalParameter("storeno", filter.storeno)
       addOptionalParameter("di", filter.di.toSaciDate())
       addOptionalParameter("df", filter.df.toSaciDate())
