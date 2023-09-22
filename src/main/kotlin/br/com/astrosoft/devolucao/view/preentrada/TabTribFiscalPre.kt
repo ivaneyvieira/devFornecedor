@@ -137,7 +137,7 @@ class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel()
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.entradaNddTribFiscal == true
+    return username?.preEntradaNddTribFiscal == true
   }
 
   override val label: String

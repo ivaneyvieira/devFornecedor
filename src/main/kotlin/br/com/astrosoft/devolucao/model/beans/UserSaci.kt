@@ -93,16 +93,24 @@ class UserSaci : IUser {
   var entradaFileNFE by DelegateAuthorized(69)
   var pedidoFinalizado by DelegateAuthorized(70)
   var entradaSped by DelegateAuthorized(71)
-  var preEntradaPreEnt by DelegateAuthorized(72)
-  var preEntradaFiscal by DelegateAuthorized(73)
+
+  //var preEntradaPreEnt by DelegateAuthorized(72)
+  //var preEntradaFiscal by DelegateAuthorized(73)
   var entradaSped2 by DelegateAuthorized(74)
   var entradaSTEstado by DelegateAuthorized(75)
   var entradaNddXmlTrib by DelegateAuthorized(76)
+  val preEntradaNddTribFiscal by DelegateAuthorized(77)
 
   val forPendente
-    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA || forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO || forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO || forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
+    get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
+            forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO ||
+            forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO ||
+            forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
   val menuDemanda
     get() = demandaAgenda || demandaConcluido
+
+  val menuPreEntrada
+    get() = preEntradaNddTribFiscal
 
   val menuDevolucao01
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || notaFinanceiro || conferenciaSap || sap
@@ -118,8 +126,8 @@ class UserSaci : IUser {
     get() = agendaAgendada || agendaPreEntrada || agendaRecebida || agendaRastreamento
   val menuEntrada
     get() = entradaNdd || entradaNddReceber || entradaNddRecebido || entradaNddTribFiscal || entradaNddRefFiscal ||
-        entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE || entradaSped ||
-        entradaSped2 || entradaSTEstado || entradaNddXmlTrib
+            entradaFrete || entradaPreco || entradaPrecoPreRec || entradaCte || entradaFileNFE || entradaSped ||
+            entradaSped2 || entradaSTEstado || entradaNddXmlTrib
   val menuCompra
     get() = compraPedidos || compraConferir
   val menuSaida
@@ -154,7 +162,7 @@ class DelegateAuthorized(numBit: Int) {
     thisRef ?: return
     val v = value ?: false
     thisRef.bitAcesso = when {
-      v -> thisRef.bitAcesso or bit
+      v    -> thisRef.bitAcesso or bit
       else -> thisRef.bitAcesso and bit.inv()
     }
   }

@@ -323,13 +323,14 @@ class NfPrecEntrada(
           }
         }
 
-    fun findNotasPreRec(filter: FiltroRelatorio) = saci.ultimasPreRecebimento(filter).filter {
-      it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
-        EValidade.TODAS       -> true
-        EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
-        EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
-      }
-    }
+    fun findNotasPreRec(filter: FiltroRelatorio, monitor: MonitorHandler? = null) =
+        saci.ultimasPreRecebimento(filter, monitor = monitor).filter {
+          it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
+            EValidade.TODAS       -> true
+            EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
+            EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
+          }
+        }
   }
 }
 

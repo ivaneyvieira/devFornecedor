@@ -19,7 +19,7 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
     get() = viewModel.view.tabTribFiscalPreViewModel
 
   fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro(), monitor)
+    saci.queryPreRecebimento(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
@@ -68,7 +68,7 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
   fun findNotas(filtro: FiltroRelatorio, monitor: MonitorHandler? = null): List<NfPrecEntrada> {
     val cst = filtro.cst
     filtro.cst = T
-    return NfPrecEntrada.findNotas(filtro, monitor).filter { nota ->
+    return NfPrecEntrada.findNotasPreRec(filtro, monitor).filter { nota ->
       (cst == T) || (cst.str == nota.cstDifxn) || (cst.str == nota.cstDifnp)
     }.toList()
   }
