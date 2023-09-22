@@ -64,7 +64,7 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
           viewModel.imprimeRelatorioResumo(gridNota.selectedItemsSort())
         }
       }
-      buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
+      buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaRefFiscal") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
       this.comboDiferencaStr("Referência") {
@@ -161,9 +161,11 @@ class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: Fi
       }.marcaDiferenca { quantDifx != S }
       notaRefPrdx().marcaDiferenca { refPrdDifx == "N" }
       notaRefPrdp().marcaDiferenca { refPrdDifx == "N" }
+
       notaBarcodex()
       notaBarcodep().marcaDiferenca { barcodeDifcp == "N" }
       notaBarcodec().marcaDiferenca { barcodeDifcx == "N" }
+
       notaNcmx().marcaDiferenca { ncmDifx == "N" }
       notaNcmp().marcaDiferenca { ncmDifx == "N" }
     }
