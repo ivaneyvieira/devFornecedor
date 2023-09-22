@@ -80,7 +80,7 @@ SELECT N.storeno,
        IFNULL(OP.name, '')                                        AS natureza,
        IFNULL(chaveDesconto, '')                                  AS chaveDesconto,
        IFNULL(observacaoAuxiliar, '')                             AS observacaoAuxiliar,
-       CAST(IF(dataAgenda = 0, NULL, dataAgenda) AS DATE)         AS dataAgenda,
+       CAST(IF(NC.dataAgenda = 0, NULL, dataAgenda) AS DATE)         AS dataAgenda,
        IFNULL(nfAjuste, '')                                       AS nfAjuste,
        IFNULL(dataNfAjuste, 0)                                    AS dataNfAjuste,
        IFNULL(pedidos, '')                                        AS pedidos

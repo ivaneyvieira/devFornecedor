@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.model.planilhas.PlanilhaNfPrec
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaRefFiscal
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrec
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
@@ -67,7 +67,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
   }
 
   fun geraPlanilha(notas: List<NfPrecEntrada>): ByteArray {
-    val planilha = PlanilhaNfPrec(false)
+    val planilha = PlanilhaRefFiscal()
     return planilha.grava(notas)
   }
 
@@ -124,7 +124,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
       itens.forEach { nf ->
         val ncm = nf.ncmx
         if (!ncm.isNullOrEmpty())
-          saci.addNCM(nf.prod, ncm ?: "")
+          saci.addNCM(nf.prod, ncm)
       }
       saci.queryNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
