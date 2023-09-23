@@ -27,6 +27,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRedIcms
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValidade
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVenc
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.preentrada.TabTribFiscalPreViewModel
@@ -145,6 +146,7 @@ class DlgRelatorioTribFiscalPre(val viewModel: TabTribFiscalPreViewModel, val fi
       notaDescricao()
       notaGrade()
       notaQuant()
+      notaVenc()
       notaValidade()
       notaEstoque()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }

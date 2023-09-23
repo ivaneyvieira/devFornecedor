@@ -205,6 +205,9 @@ class NfPrecEntrada(
   val vlIcmsx
     get() = if (baseSubstx.absoluteValue > 0.02) 0.00 else detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
 
+  val dataVal: LocalDate?
+    get() = detalheXml().firstOrNull()?.prod?.rastro?.dVal
+
   val alIcmsx
     get() = detalheXml().firstOrNull()?.imposto?.icms?.pICMS ?: 0.00
 

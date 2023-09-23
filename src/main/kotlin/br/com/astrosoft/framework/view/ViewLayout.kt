@@ -327,9 +327,10 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnTime(
 
 fun <T : Any> (@VaadinDsl Grid<T>).addColumnLocalDateTime(
   property: KProperty1<T, LocalDateTime?>,
+  pattern: String = "dd/MM/yyyy hh:mm:ss",
   block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
-  return this.addColumnFor(property, renderer = LocalDateTimeRenderer(property, "dd/MM/yyyy hh:mm:ss")) {
+  return this.addColumnFor(property, renderer = LocalDateTimeRenderer(property, pattern)) {
     if (this.key == null) this.key = property.name
     this.isAutoWidth = true
     this.left()
@@ -411,31 +412,31 @@ class TabClick(s: String?) : Tab(s) {
 fun DatePicker.localePtBr() {
   this.locale = Locale("pt-br")
   this.i18n =
-    DatePickerI18n()
-      .setWeek("semana")
-      .setCalendar("calendário")
-      .setClear("apagar")
-      .setToday("hoje")
-      .setCancel("cancelar")
-      .setFirstDayOfWeek(1)
-      .setMonthNames(
-        listOf(
-          "janeiro",
-          "fevereiro",
-          "março",
-          "abril",
-          "maio",
-          "junho",
-          "julho",
-          "agosto",
-          "setembro",
-          "outubro",
-          "novembro",
-          "dezembro"
+      DatePickerI18n()
+        .setWeek("semana")
+        .setCalendar("calendário")
+        .setClear("apagar")
+        .setToday("hoje")
+        .setCancel("cancelar")
+        .setFirstDayOfWeek(1)
+        .setMonthNames(
+          listOf(
+            "janeiro",
+            "fevereiro",
+            "março",
+            "abril",
+            "maio",
+            "junho",
+            "julho",
+            "agosto",
+            "setembro",
+            "outubro",
+            "novembro",
+            "dezembro"
+          )
         )
-      )
-      .setWeekdays(listOf("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"))
-      .setWeekdaysShort(listOf("dom", "seg", "ter", "qua", "qui", "sex", "sab"))
+        .setWeekdays(listOf("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"))
+        .setWeekdaysShort(listOf("dom", "seg", "ter", "qua", "qui", "sex", "sab"))
 }
 
 fun <T> ListDataProvider<T>.updateItens(itens: List<T>) {
