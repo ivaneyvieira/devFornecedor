@@ -261,6 +261,11 @@ object UltimaNotaEntradaColumns {
     this.isResizable = true
   }
 
+  fun Grid<NfPrecEntrada>.notaVenc() = addColumnLocalDate(NfPrecEntrada::dataVal, formatPattern = "MM/yy") {
+    this.setHeader("Venc")
+    this.isResizable = true
+  }
+
   fun Grid<NfPrecEntrada>.notaQuantx() = addColumnDouble(NfPrecEntrada::quantx, pattern = "#,##0.####") {
     this.setHeader("Qtd X")
     this.isResizable = true

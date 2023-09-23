@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.model.knfe
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.xml.sax.InputSource
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -47,9 +48,9 @@ fun Element?.getDoubleContent(tagName: String): Double {
   return text.toDoubleOrNull() ?: 0.0
 }
 
-fun Element?.getDateContent(tagName: String): LocalDateTime? {
+fun Element?.getDateTimeContent(tagName: String): LocalDateTime? {
+  val text = this?.getElement(tagName)?.textContent?.trim() ?: return null
   return try {
-    val text = this?.getElement(tagName)?.textContent?.trim() ?: return null
     val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
     val zonedDateTime = ZonedDateTime.parse(text, formatter)
     zonedDateTime.toLocalDateTime()
@@ -58,8 +59,27 @@ fun Element?.getDateContent(tagName: String): LocalDateTime? {
   }
 }
 
+fun Element?.getDateContent(tagName: String): LocalDate? {
+  val text = this?.getElement(tagName)?.textContent?.trim() ?: return null
+  return try {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    LocalDate.parse(text, formatter)
+  } catch (ex: DateTimeParseException) {
+    null
+  }
+}
 
 fun parseNotaFiscal(xmlString: String?): NFe? {
+  fun parserRastro(rastroElement: Element?): Rastro? {
+    rastroElement ?: return null
+    return Rastro(
+      nLote = rastroElement.getTextContent("nLote"),
+      qLote = rastroElement.getDoubleContent("qLote"),
+      dFab = rastroElement.getDateContent("dFab"),
+      dVal = rastroElement.getDateContent("dVal"),
+      cAgreg = rastroElement.getTextContent("cAgreg"),
+    )
+  }
   try {
     xmlString ?: return null
     val factory = DocumentBuilderFactory.newInstance()
@@ -85,6 +105,7 @@ fun parseNotaFiscal(xmlString: String?): NFe? {
 
     fun parseProduto(element: Element?): Produto? {
       element ?: return null
+      val rastro = parserRastro(element.getElement("rastro"))
       return Produto(
         cProd = element.getTextContent("cProd"),
         cEAN = element.getTextContent("cEAN"),
@@ -101,7 +122,8 @@ fun parseNotaFiscal(xmlString: String?): NFe? {
         vUnTrib = element.getDoubleContent("vUnTrib"),
         indTot = element.getTextContent("indTot"),
         xPed = element.getTextContent("xPed"),
-        nItemPed = element.getTextContent("nItemPed")
+        nItemPed = element.getTextContent("nItemPed"),
+        rastro = rastro
       )
     }
 
@@ -177,7 +199,7 @@ fun parseNotaFiscal(xmlString: String?): NFe? {
 
     val nfeElement = doc.getElement("NFe")
     val infNFeElement = nfeElement?.getElement("infNFe")
-    val id : String = infNFeElement?.getAttribute("Id") ?: ""
+    val id: String = infNFeElement?.getAttribute("Id") ?: ""
     val versao = infNFeElement?.getAttribute("versao") ?: ""
     val ideElement = infNFeElement?.getElement("ide")
     val emitElement = infNFeElement?.getElement("emit")
@@ -191,8 +213,8 @@ fun parseNotaFiscal(xmlString: String?): NFe? {
       mod = ideElement.getTextContent("mod"),
       serie = ideElement.getTextContent("serie"),
       nNF = ideElement.getTextContent("nNF"),
-      dhEmi = ideElement.getDateContent("dhEmi"),
-      dhSaiEnt = ideElement.getDateContent("dhSaiEnt"),
+      dhEmi = ideElement.getDateTimeContent("dhEmi"),
+      dhSaiEnt = ideElement.getDateTimeContent("dhSaiEnt"),
       tpNF = ideElement.getTextContent("tpNF"),
       idDest = ideElement.getTextContent("idDest"),
       cMunFG = ideElement.getTextContent("cMunFG"),
@@ -239,7 +261,17 @@ fun parseNotaFiscal(xmlString: String?): NFe? {
       )
     )
 
-    return NFe(InfNFe(id = id, versao = versao, ide = ide, emit = emitente, dest = destinatario, detalhes = detalhes, total = total))
+    return NFe(
+      InfNFe(
+        id = id,
+        versao = versao,
+        ide = ide,
+        emit = emitente,
+        dest = destinatario,
+        detalhes = detalhes,
+        total = total
+      )
+    )
   } catch (e: Exception) {
     return null
   }

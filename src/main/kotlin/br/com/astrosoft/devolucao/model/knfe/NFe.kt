@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.model.knfe
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class NFe(
@@ -78,7 +79,16 @@ data class Produto(
   val vUnTrib: Double,
   val indTot: String,
   val xPed: String,
-  val nItemPed: String
+  val nItemPed: String,
+  val rastro: Rastro?
+)
+
+data class Rastro(
+  val nLote: String?,
+  val qLote: Double?,
+  val dFab: LocalDate?,
+  val dVal: LocalDate?,
+  val cAgreg: String?,
 )
 
 data class Imposto(
