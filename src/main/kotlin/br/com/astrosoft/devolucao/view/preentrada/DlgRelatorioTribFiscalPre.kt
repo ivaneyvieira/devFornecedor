@@ -149,7 +149,7 @@ class DlgRelatorioTribFiscalPre(val viewModel: TabTribFiscalPreViewModel, val fi
       notaQuant()
       notaVenc()
       notaValidade()
-      notaInfo()
+      //notaInfo()
       notaEstoque()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
