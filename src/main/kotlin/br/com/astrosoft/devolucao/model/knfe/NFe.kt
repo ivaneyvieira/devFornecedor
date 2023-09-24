@@ -60,7 +60,8 @@ data class Destinatario(
 data class Detalhe(
   val nItem: Int,
   val prod: Produto?,
-  val imposto: Imposto?
+  val imposto: Imposto?,
+  val infAdProd: String,
 )
 
 data class Produto(
