@@ -193,7 +193,8 @@ fun parseNotaFiscal(xmlString: String?): NFe? {
       return Detalhe(
         nItem = element.getAttribute("nItem").toIntOrNull() ?: 0,
         prod = parseProduto(element.getElement("prod")),
-        imposto = parseImposto(element.getElement("imposto"))
+        imposto = parseImposto(element.getElement("imposto")),
+        infAdProd = element.getTextContent("infAdProd")
       )
     }
 

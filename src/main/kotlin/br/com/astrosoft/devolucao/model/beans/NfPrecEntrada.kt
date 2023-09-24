@@ -4,7 +4,9 @@ import br.com.astrosoft.devolucao.model.knfe.Detalhe
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.util.parserDate
 import java.time.LocalDate
+import java.util.regex.Pattern
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.math.truncate
@@ -194,6 +196,43 @@ class NfPrecEntrada(
       return if (vcstp == vcstn) "S" else "N"
     }
 
+  val infoPrd: String
+    get() {
+      val infAdProd = detalheXml().firstOrNull {
+        it.infAdProd != ""
+      }?.infAdProd ?: return ""
+      val info = infAdProd.replace(" / ", "/").replace("(", " ")
+        .replace(")", " ").replace(".", "/")
+
+      return if (info.uppercase().contains("LOTE")) info else ""
+    }
+
+  fun dataValInfo1(): LocalDate? {
+    val pattern = Pattern.compile("""Data +Val: +(?<data>\d+/\d+/\d+) """)
+    val matcher = pattern.matcher(infoPrd)
+
+    val data = if (matcher.find()) {
+      matcher.group("data")
+    } else null
+
+    data ?: return null
+
+    return data.parserDate()
+  }
+
+  fun dataValInfo2(): LocalDate? {
+    val pattern = Pattern.compile("""Data +Venc +(?<data>\d+/\d+/\d+) """)
+    val matcher = pattern.matcher(infoPrd)
+
+    val data = if (matcher.find()) {
+      matcher.group("data")
+    } else null
+
+    data ?: return null
+
+    return data.parserDate()
+  }
+
   val cstx: String?
     get() {
       val icms = detalheXml().firstOrNull()?.imposto?.icms ?: return null
@@ -206,7 +245,7 @@ class NfPrecEntrada(
     get() = if (baseSubstx.absoluteValue > 0.02) 0.00 else detalheXml().sumOf { it.imposto?.icms?.vICMS ?: 0.00 }
 
   val dataVal: LocalDate?
-    get() = detalheXml().firstOrNull()?.prod?.rastro?.dVal
+    get() = detalheXml().firstOrNull()?.prod?.rastro?.dVal ?: dataValInfo1() ?: dataValInfo2()
 
   val alIcmsx
     get() = detalheXml().firstOrNull()?.imposto?.icms?.pICMS ?: 0.00
