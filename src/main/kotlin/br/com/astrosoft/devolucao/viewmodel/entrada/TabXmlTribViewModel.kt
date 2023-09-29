@@ -49,7 +49,7 @@ class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
         nomeGrupo = "Diferenças de BARRAS GITN x Cadastro",
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
-        valorNota = nota.barcodep ?: "",
+        valorNota = nota.barcodex ?: "",
         valorPrecificacao = nota.barcodec ?: ""
       )
     }
