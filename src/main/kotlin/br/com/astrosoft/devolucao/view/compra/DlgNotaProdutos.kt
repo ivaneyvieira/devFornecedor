@@ -141,11 +141,12 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             }
           }
         }
-        btnExcel = lazyDownloadButton(text = "Pedido Excel", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
-          "${pedido.filename()}.xlsx"
-        }, byteArray = {
-          pedido.toExcel() ?: ByteArray(0)
-        })
+        btnExcel =
+            lazyDownloadButton(text = "Pedido Excel", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
+              "${pedido.filename()}.xlsx"
+            }, byteArray = {
+              pedido.toExcel() ?: ByteArray(0)
+            })
         if (viewModel.tipoPainel() == ETipoPainel.Conferir) {
           this.button("Confirma Pedido") {
             icon = VaadinIcon.CHECK.create()
@@ -257,7 +258,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             else ""
           }
 
-          PDF -> {
+          PDF  -> {
             val line = produto.linePDF ?: return@setClassNameGenerator ""
             val ref2 = produto.codigo
             if (line.findRef(ref2)) "marcaOk"
@@ -283,7 +284,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             else "marcaError"
           }
 
-          PDF -> {
+          PDF  -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val ref2 = produto.refFab?.split("\t") ?: return@setClassNameGenerator ""
             if (ref1 in ref2) "marcaOk"
@@ -309,7 +310,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
             else "marcaError"
           }
 
-          PDF -> {
+          PDF  -> {
             val ref1 = produto.codigoMatch ?: return@setClassNameGenerator "marcaError"
             val listRef = produto.refno?.split("\t") ?: return@setClassNameGenerator ""
             if (ref1 in listRef) "marcaOk"
@@ -329,11 +330,13 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
           when (viewModel.pedidoOK()) {
             XLSX -> {
               val pedidoExcel = produto.pedidoExcel ?: return@setClassNameGenerator "marcaError"
-              if (pedidoExcel.quantidade?.toDouble().format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
+              if (pedidoExcel.quantidade?.toDouble().format() == produto.quantidadeCt?.toDouble()
+                  .format()
+              ) "marcaOk"
               else "marcaError"
             }
 
-            PDF -> {
+            PDF  -> {
               if (produto.quantCalculada.format() == produto.quantidadeCt?.toDouble().format()) "marcaOk"
               else "marcaError"
             }
@@ -356,7 +359,7 @@ class DlgNotaProdutos(val viewModel: ITabCompraViewModel, val pedido: PedidoComp
               else "marcaError"
             }
 
-            PDF -> {
+            PDF  -> {
               if (produto.valorCalculado.format() == produto.valorUnitarioCt.format()) "marcaOk"
               else "marcaError"
             }

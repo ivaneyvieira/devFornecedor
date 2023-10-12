@@ -30,7 +30,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabTribFiscalViewModel
-import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -43,12 +42,11 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import com.vaadin.flow.data.provider.ListDataProvider
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
- // private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
+  // private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {
@@ -149,6 +147,7 @@ class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: 
       notaQuant()
       notaValidade()
       notaEstoque()
+      //notaCDesp()
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
       notaIcmsn().marcaDiferenca { icmsDif == "N" }

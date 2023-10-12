@@ -54,5 +54,5 @@ class FiltroNotaSaidaNdd(
     get() = nota?.split("/")?.getOrNull(1)
 
   fun isEmpty() =
-    (nota == null || nota == "") && (codigoCliente == null || codigoCliente == 0) && (nomeCliente == null || nomeCliente == "") && (dataI == null) && (dataF == null)
+      (nota == null || nota == "") && (codigoCliente == null || codigoCliente == 0) && (nomeCliente == null || nomeCliente == "") && (dataI == null) && (dataF == null)
 }

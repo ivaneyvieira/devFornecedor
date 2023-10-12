@@ -42,13 +42,13 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
           val filter = it.value
           gridNota.setItems(listNotas.filter { nota ->
             nota.nota.contains(filter, true) ||
-                nota.pedido.toString().contains(filter, true) ||
-                nota.pedidos.orEmpty().contains(filter, true) ||
-                nota.usuarioSituacao.contains(filter, true) ||
-                nota.dataNota.format().contains(filter, true) ||
-                nota.situacaoStr.contains(filter, true) ||
-                nota.remarks.contains(filter, true) ||
-                nota.chaveDesconto.orEmpty().contains(filter, true)
+            nota.pedido.toString().contains(filter, true) ||
+            nota.pedidos.orEmpty().contains(filter, true) ||
+            nota.usuarioSituacao.contains(filter, true) ||
+            nota.dataNota.format().contains(filter, true) ||
+            nota.situacaoStr.contains(filter, true) ||
+            nota.remarks.contains(filter, true) ||
+            nota.chaveDesconto.orEmpty().contains(filter, true)
           })
         }
       }
@@ -60,9 +60,12 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             viewModel.imprimirRelatorioPedidos(notas)
           }
         }
-        this.lazyDownloadButton(text = "Planilha Pedido", icon = FontAwesome.Solid.FILE_EXCEL.create(), fileName = {
-          "Pedido ${fornecedor.fornecedor.trim().split(" ").getOrNull(0) ?: ""}.xlsx"
-        }) {
+        this.lazyDownloadButton(
+          text = "Planilha Pedido",
+          icon = FontAwesome.Solid.FILE_EXCEL.create(),
+          fileName = {
+            "Pedido ${fornecedor.fornecedor.trim().split(" ").getOrNull(0) ?: ""}.xlsx"
+          }) {
           val notas = gridNota.asMultiSelect().selectedItems.toList()
           if (notas.isEmpty()) {
             ByteArray(0)
@@ -95,7 +98,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
               .withMessage(multList)
               .withOkButton({
                 val notas =
-                  gridNota.asMultiSelect().selectedItems.toList()
+                    gridNota.asMultiSelect().selectedItems.toList()
                 viewModel.imprimirNotaFornecedor(notas,
                   multList.value
                     .toList()
@@ -192,7 +195,11 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
     form.open()
   }
 
-  abstract fun createGridNotas(listNotas: List<NotaSaida>, serie: Serie, situacao: ESituacaoPendencia?): Grid<NotaSaida>
+  abstract fun createGridNotas(
+    listNotas: List<NotaSaida>,
+    serie: Serie,
+    situacao: ESituacaoPendencia?
+  ): Grid<NotaSaida>
 
   protected fun configIconEdt(icon: Icon, nota: NotaSaida) {
     if (nota.rmk.isNotBlank()) icon.color = "DarkGreen"

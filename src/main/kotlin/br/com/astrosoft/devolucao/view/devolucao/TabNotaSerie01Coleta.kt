@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucao01View
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabNotaSerie01Coleta

@@ -12,17 +12,18 @@ import com.vaadin.flow.data.value.ValueChangeMode
 
 class DlgEditRmk {
   fun editRmk(nota: NotaSaida, save: (NotaSaida) -> Unit) {
-    val form = SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = { window ->
-      button("Salva") {
-        icon = VaadinIcon.CHECK.create()
-        onLeftClick {
-          save(nota)
-          window.close()
+    val form =
+        SubWindowForm("PROCESSO INTERNO: ${nota.nota}|DEV FORNECEDOR: ${nota.fornecedor}", toolBar = { window ->
+          button("Salva") {
+            icon = VaadinIcon.CHECK.create()
+            onLeftClick {
+              save(nota)
+              window.close()
+            }
+          }
+        }) {
+          createFormEditRmk(nota)
         }
-      }
-    }) {
-      createFormEditRmk(nota)
-    }
     form.open()
   }
 

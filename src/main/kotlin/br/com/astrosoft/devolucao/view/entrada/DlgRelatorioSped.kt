@@ -66,7 +66,8 @@ class DlgRelatorioSped(val viewModel: TabSpedViewModel, val filtro: FiltroRelato
       }
     }) {
       val list =
-        viewModel.findNotas(filtro).group().sortedWith(compareBy({ it.ni }, { it.lj }, { it.prod }, { it.grade }))
+          viewModel.findNotas(filtro).group()
+            .sortedWith(compareBy({ it.ni }, { it.lj }, { it.prod }, { it.grade }))
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)

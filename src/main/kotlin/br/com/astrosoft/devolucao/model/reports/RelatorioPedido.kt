@@ -36,60 +36,60 @@ class RelatorioPedido(val notas: List<NotaSaida>, val isExcel: Boolean) {
   }
 
   private val dataAgendaCol: TextColumnBuilder<String> =
-    col.column("Data", NotaSaida::dataAgendaStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("Data", NotaSaida::dataAgendaStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val dataNotaEditavelCol: TextColumnBuilder<String> =
-    col.column("Data Nota", NotaSaida::dataNotaEditavelStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("Data Nota", NotaSaida::dataNotaEditavelStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val pedidoCol: TextColumnBuilder<Int> =
-    col.column("Pedido", NotaSaida::pedido.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("Pedido", NotaSaida::pedido.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val notaEditavelCol: TextColumnBuilder<String> =
-    col.column("NF Baixa", NotaSaida::notaEditavel.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("NF Baixa", NotaSaida::notaEditavel.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val dataPedidoStrCol: TextColumnBuilder<String> =
-    col.column("Data", NotaSaida::dataPedidoStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("Data", NotaSaida::dataPedidoStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val situacaoStrCol: TextColumnBuilder<String> =
-    col.column("Situação", NotaSaida::situacaoStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("Situação", NotaSaida::situacaoStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val chaveDescontoCol: TextColumnBuilder<String> =
-    col.column("Observação", NotaSaida::chaveDesconto.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setTextAdjust(TextAdjust.STRETCH_HEIGHT) //this.setFixedWidth(200)
-    }
+      col.column("Observação", NotaSaida::chaveDesconto.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(LEFT)
+        this.setTextAdjust(TextAdjust.STRETCH_HEIGHT) //this.setFixedWidth(200)
+      }
 
   private val valorNotaCol: TextColumnBuilder<Double> =
-    col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(60)
-      this.setTextAdjust(TextAdjust.SCALE_FONT)
-    }
+      col.column("Valor", NotaSaida::valorNota.name, type.doubleType()).apply {
+        this.setPattern("#,##0.00")
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(60)
+        this.setTextAdjust(TextAdjust.SCALE_FONT)
+      }
 
   private val emptyColumnValues = col.emptyColumn().apply {
     this.setFixedWidth(10)

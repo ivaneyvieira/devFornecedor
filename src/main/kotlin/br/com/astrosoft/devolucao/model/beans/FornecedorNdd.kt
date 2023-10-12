@@ -63,8 +63,8 @@ data class FornecedorNdd(
       val notaFilter = saci.notasEntrada(filtro).filter {
         when (filtro.temIPI) {
           ETemIPI.TODOS -> true
-          ETemIPI.SIM -> it.temIPI
-          ETemIPI.NAO -> !it.temIPI
+          ETemIPI.SIM   -> it.temIPI
+          ETemIPI.NAO   -> !it.temIPI
         }
       }
       return notaFilter.groupBy { it.cnpjEmitente }.mapNotNull { entry ->

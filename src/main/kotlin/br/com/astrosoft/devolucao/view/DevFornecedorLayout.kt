@@ -3,7 +3,10 @@ package br.com.astrosoft.devolucao.view
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.compra.CompraView
 import br.com.astrosoft.devolucao.view.demanda.DemandaView
-import br.com.astrosoft.devolucao.view.devolucao.*
+import br.com.astrosoft.devolucao.view.devolucao.Devolucao01View
+import br.com.astrosoft.devolucao.view.devolucao.Devolucao66View
+import br.com.astrosoft.devolucao.view.devolucao.DevolucaoInternaView
+import br.com.astrosoft.devolucao.view.devolucao.DevolucaoPedidoView
 import br.com.astrosoft.devolucao.view.entrada.EntradaView
 import br.com.astrosoft.devolucao.view.preentrada.PreEntradaView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView

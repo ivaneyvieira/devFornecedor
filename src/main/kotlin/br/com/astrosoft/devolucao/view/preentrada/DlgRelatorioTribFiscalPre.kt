@@ -16,7 +16,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsn
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIcmsr
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaInfo
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpin
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaIpip
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaLoja
@@ -48,7 +47,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class DlgRelatorioTribFiscalPre(val viewModel: TabTribFiscalPreViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
- // private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
+  // private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {

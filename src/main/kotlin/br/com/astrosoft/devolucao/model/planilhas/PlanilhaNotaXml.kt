@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 
-class PlanilhaNotaXml() {
+class PlanilhaNotaXml {
   private val campos: List<Campo<*, NotaXML>> = listOf(
     CampoInt("Lj") { lj },
     CampoInt("NI") { ni },

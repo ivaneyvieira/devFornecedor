@@ -16,14 +16,14 @@ class FornecedorProduto(
 ) {
   private fun createDemanda(): AgendaDemanda {
     val agenda =
-      AgendaDemanda(
-        date = LocalDate.now(),
-        titulo = "",
-        conteudo = "",
-        vendno = vendno,
-        destino = "",
-        origem = "",
-      )
+        AgendaDemanda(
+          date = LocalDate.now(),
+          titulo = "",
+          conteudo = "",
+          vendno = vendno,
+          destino = "",
+          origem = "",
+        )
     agenda.save()
     return agenda
   }

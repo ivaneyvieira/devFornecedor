@@ -16,7 +16,10 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.si
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.*
+import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.dateFieldEditor
+import br.com.astrosoft.framework.view.textFieldEditor
+import br.com.astrosoft.framework.view.withEditor
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
@@ -74,8 +77,8 @@ class DlgNotaPedido<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModel
       dataAgendaDesconto(situacao).dateFieldEditor().marcaAzul()
       situacaoDesconto(situacao).marcaAzul()
       if (viewModel !is TabPedidoEditorViewModel &&
-        viewModel !is TabPedidoPendenteViewModel &&
-        viewModel !is TabPedidoFinalizadoViewModel
+          viewModel !is TabPedidoPendenteViewModel &&
+          viewModel !is TabPedidoFinalizadoViewModel
       ) {
         dataBonificacao().dateFieldEditor().marcaAzul()
         notaBonificacao().textFieldEditor().marcaAzul()

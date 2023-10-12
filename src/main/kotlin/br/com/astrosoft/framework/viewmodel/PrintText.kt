@@ -94,7 +94,8 @@ abstract class PrintText<T> {
 
   protected fun String.negrito(): String {
     val stringBuffer = StringBuilder()
-    stringBuffer.append(0x1b.toChar()).append(0x45.toChar()).append(this).append(0x1b.toChar()).append(0x46.toChar())
+    stringBuffer.append(0x1b.toChar()).append(0x45.toChar()).append(this).append(0x1b.toChar())
+      .append(0x46.toChar())
     return this
   }
 

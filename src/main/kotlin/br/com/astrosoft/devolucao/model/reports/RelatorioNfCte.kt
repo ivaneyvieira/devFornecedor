@@ -37,13 +37,13 @@ class RelatorioNfCte(val notas: List<NfFreteGrupo>) : ReportBuild<NfFreteGrupo>(
   override fun labelTitleCol() = columnString(NfFreteGrupo::nomeGrupo)
 
   override val propriedades =
-    PropriedadeRelatorio(
-      titulo = "CTe",
-      subTitulo = "",
-      color = Color.WHITE,
-      detailFonteSize = 8,
-      pageOrientation = PORTRAIT
-    )
+      PropriedadeRelatorio(
+        titulo = "CTe",
+        subTitulo = "",
+        color = Color.WHITE,
+        detailFonteSize = 8,
+        pageOrientation = PORTRAIT
+      )
 
   override fun listDataSource(): List<NfFreteGrupo> = notas
 

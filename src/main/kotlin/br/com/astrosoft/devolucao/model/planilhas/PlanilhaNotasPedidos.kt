@@ -14,40 +14,40 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaNotasPedidos {
   private val campos: List<Campo<*, ProdutosNotaSaida>> =
-    listOf(
-      CampoString("Rótulo") { rotulo },
-      CampoInt("Fornecedor") { vendnoNota ?: 0 },
-      CampoInt("NI") { invno },
-      CampoString("CFOP") { cfopProduto ?: "" },
-      CampoString("Emissão") { dateInvStr },
-      CampoString("NF") { notaInv },
-      CampoString("Ref do Fab") { refFor },
-      CampoInt("Código") { codigo },
-      CampoString("Descrição") { descricao },
-      CampoString("Grade") { grade },
-      CampoString("NCM") { ncm },
-      CampoString("CST") { cst },
-      CampoString("CFOP") { cfop },
-      CampoString("Unid") { un },
-      CampoInt("Quant") { qtde },
-      CampoNumber("V. Unit") { valorUnitario },
-      CampoNumber("V. Total") { valorTotal },
-      CampoNumber("B. Cálc. ICMS") { baseICMS },
-      CampoNumber("MVA") { valorMVA },
-      CampoNumber("B. Cálc. ST") { baseSt },
+      listOf(
+        CampoString("Rótulo") { rotulo },
+        CampoInt("Fornecedor") { vendnoNota ?: 0 },
+        CampoInt("NI") { invno },
+        CampoString("CFOP") { cfopProduto ?: "" },
+        CampoString("Emissão") { dateInvStr },
+        CampoString("NF") { notaInv },
+        CampoString("Ref do Fab") { refFor },
+        CampoInt("Código") { codigo },
+        CampoString("Descrição") { descricao },
+        CampoString("Grade") { grade },
+        CampoString("NCM") { ncm },
+        CampoString("CST") { cst },
+        CampoString("CFOP") { cfop },
+        CampoString("Unid") { un },
+        CampoInt("Quant") { qtde },
+        CampoNumber("V. Unit") { valorUnitario },
+        CampoNumber("V. Total") { valorTotal },
+        CampoNumber("B. Cálc. ICMS") { baseICMS },
+        CampoNumber("MVA") { valorMVA },
+        CampoNumber("B. Cálc. ST") { baseSt },
 
-      CampoNumber("Valor ST") { valorST },
-      CampoNumber("Valor ICMS") { valorICMS },
-      CampoNumber("Valor IPI") { valorIPI },
-      CampoNumber("Alíq. ICMS") { icmsAliq },
-      CampoNumber("Alíq. IPI") { ipiAliq },
-      CampoNumber("V. Total") { valorTotalGeral },
-      CampoString("Chave") {
-        val size = chaveUlt?.length ?: return@CampoString ""
-        if (size > 6) chaveUlt.substring(0, 6) else ""
-      },
-      CampoString("Chave Sefaz") { chaveSefaz ?: "" },
-    )
+        CampoNumber("Valor ST") { valorST },
+        CampoNumber("Valor ICMS") { valorICMS },
+        CampoNumber("Valor IPI") { valorIPI },
+        CampoNumber("Alíq. ICMS") { icmsAliq },
+        CampoNumber("Alíq. IPI") { ipiAliq },
+        CampoNumber("V. Total") { valorTotalGeral },
+        CampoString("Chave") {
+          val size = chaveUlt?.length ?: return@CampoString ""
+          if (size > 6) chaveUlt.substring(0, 6) else ""
+        },
+        CampoString("Chave Sefaz") { chaveSefaz ?: "" },
+      )
 
   fun grava(listaNotas: List<NotaSaida>): ByteArray {
     val wb = workbook {

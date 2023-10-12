@@ -116,14 +116,14 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var situacao: String
     get() {
       return if (banco == "121") BANCO121.valueStr ?: ""
       else observacaoAuxiliar
-        ?.split(":")
-        ?.getOrNull(1) ?: ""
+             ?.split(":")
+             ?.getOrNull(1) ?: ""
     }
     set(value) {
       val split = observacaoAuxiliar?.split(":")
@@ -143,7 +143,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var usuarioSituacao: String
     get() {
@@ -167,7 +167,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var tituloSituacao: String
     get() {
@@ -191,7 +191,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var niSituacao: String
     get() {
@@ -215,7 +215,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var docSituacao: String
     get() {
@@ -239,7 +239,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var notaSituacao: String
     get() {
@@ -263,7 +263,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var valorSituacao: Double?
     get() {
@@ -288,7 +288,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var pedidoEditavel: Int?
     get() {
@@ -313,7 +313,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var niBonificacao: String
     get() {
@@ -337,7 +337,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var niValor: String
     get() {
@@ -361,7 +361,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var dataNotaEditavel: LocalDate?
     get() {
@@ -386,7 +386,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
   var notaEditavel: String
     get() {
@@ -410,7 +410,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13)?.toString() ?: ""
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
 
   var notaBonificacao: String
@@ -435,7 +435,7 @@ class NotaSaida(
       val notaBoni = value
       val dataBoni = split?.getOrNull(14)?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
 
   var dataBonificacao: LocalDate?
@@ -461,7 +461,7 @@ class NotaSaida(
       val notaBoni = split?.getOrNull(13) ?: ""
       val dataBoni = value?.toSaciDate()?.toString() ?: ""
       observacaoAuxiliar =
-        "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
+          "$data:$situacao:$usuario:$titulo:$ni:$doc:$nota:$valor:$pedido:$niBonif:$niVal:$dataNotaEditavel:$notaEdit:$notaBoni:$dataBoni"
     }
 
   val situacaoStr: String
@@ -469,7 +469,7 @@ class NotaSaida(
       return when {
         banco == "121" -> "Banco 121"
         situacao == "" -> ""
-        else -> ESituacaoPendencia.values().firstOrNull { sit ->
+        else           -> ESituacaoPendencia.values().firstOrNull { sit ->
           sit.valueStr == situacao
         }?.descricao ?: ESituacaoPedido.values().firstOrNull { sit ->
           sit.valueStr == situacao
@@ -490,7 +490,7 @@ class NotaSaida(
         "AJT" -> saci.produtosAjuste(this)
         "AJP" -> saci.produtosAjuste(this)
         "FIN" -> saci.produtosFinanceiro(this)
-        else -> saci.produtosNotaSaida(this)
+        else  -> saci.produtosNotaSaida(this)
       }
     }
     return produtos.orEmpty()
@@ -539,7 +539,7 @@ class NotaSaida(
 
   val valorNota
     get() = when (tipo) {
-      "1" -> valor
+      "1"  -> valor
       else -> listaProdutos().sumOf { it.valorTotalIpi }
     }
   val valorTotalProduto: Double
@@ -648,16 +648,16 @@ class NotaSaida(
       val filtroFornecedor = filtro.filtro()
 
       val notas = when (filtro.serie) {
-        PED -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
-        ENT -> saci.entradaDevolucao()
-        AJT -> saci.ajusteGarantia(filtro.serie)
-        AJD -> saci.ajusteGarantia(filtro.serie)
-        AJP -> saci.ajusteGarantia(filtro.serie)
-        AJC -> saci.ajusteGarantia(filtro.serie)
-        A66 -> saci.ajusteGarantia66(AJT)
-        FIN -> saci.notaFinanceiro()
-        RET -> saci.notasRetorno()
-        NFD -> saci.notasNFD()
+        PED  -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
+        ENT  -> saci.entradaDevolucao()
+        AJT  -> saci.ajusteGarantia(filtro.serie)
+        AJD  -> saci.ajusteGarantia(filtro.serie)
+        AJP  -> saci.ajusteGarantia(filtro.serie)
+        AJC  -> saci.ajusteGarantia(filtro.serie)
+        A66  -> saci.ajusteGarantia66(AJT)
+        FIN  -> saci.notaFinanceiro()
+        RET  -> saci.notasRetorno()
+        NFD  -> saci.notasNFD()
         else -> saci.notasDevolucao(filtro.serie)
       }.filter { nota ->
         if (nota.pedido == 3402445)
@@ -689,14 +689,14 @@ class NotaSaida(
         }
       }
       val grupos =
-        notas
-          .asSequence()
-          .filter { it.loja == loja || loja == 0 }
-          .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
-          .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
-          .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
-          .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
-          .groupBy { it.chaveFornecedor() }
+          notas
+            .asSequence()
+            .filter { it.loja == loja || loja == 0 }
+            .filter { filtro.pago66 == NONE || it.serie66Pago == filtro.pago66.value }
+            .filter { filtro.pago01 == NONE || it.serie01Pago == filtro.pago01.value }
+            .filter { filtro.coleta01 == NONE || it.serie01Coleta == filtro.coleta01.value }
+            .filter { filtro.remessaConserto == NONE || it.remessaConserto == filtro.remessaConserto.value }
+            .groupBy { it.chaveFornecedor() }
       fornecedores.clear()
       fornecedores.addAll(grupos.map { entry ->
         Fornecedor(

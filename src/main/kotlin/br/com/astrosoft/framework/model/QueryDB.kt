@@ -24,7 +24,7 @@ open class QueryDB(val database: DatabaseConfig) {
       maps[LocalTime::class.java] = LocalSqlTimeConverter()
       maps[ByteArray::class.java] = ByteArrayConverter()
       this.sql2o = Sql2o(database.url, database.user, database.password, NoQuirks(maps))
-    }catch (e: Exception) {
+    } catch (e: Exception) {
       throw RuntimeException(e)
     }
   }

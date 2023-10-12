@@ -14,18 +14,18 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaFreteDif {
   private val campos: List<Campo<*, NfPrecEntrada>> =
-    listOf(
-      CampoInt("lj") { lj },
-      CampoInt("ni") { ni },
-      CampoString("data") { data.format() },
-      CampoString("nfe") { nfe },
-      CampoString("forn Cad") { fornCad },
-      CampoString("forn Nota") { fornNota },
-      CampoString("prod") { prod },
-      CampoString("descrição") { descricao },
-      CampoNumber("freten") { freten ?: 0.0 },
-      CampoNumber("fretep") { fretep ?: 0.0 },
-    )
+      listOf(
+        CampoInt("lj") { lj },
+        CampoInt("ni") { ni },
+        CampoString("data") { data.format() },
+        CampoString("nfe") { nfe },
+        CampoString("forn Cad") { fornCad },
+        CampoString("forn Nota") { fornNota },
+        CampoString("prod") { prod },
+        CampoString("descrição") { descricao },
+        CampoNumber("freten") { freten ?: 0.0 },
+        CampoNumber("fretep") { fretep ?: 0.0 },
+      )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

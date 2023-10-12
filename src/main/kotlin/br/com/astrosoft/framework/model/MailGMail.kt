@@ -29,9 +29,10 @@ class MailGMail {
   private val senha = DB.gmailPass  // do painel de controle do SMTP
   private val portaSmtp = "465" // do painel de controle do SMTP
   private val propsSmtp = initPropertiesSmtp()
-  private val sessionSmtp: Session = Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
-    debug = false
-  }
+  private val sessionSmtp: Session =
+      Session.getDefaultInstance(propsSmtp, GmailAuthenticator(username, senha)).apply {
+        debug = false
+      }
 
   fun sendMail(to: String, subject: String, htmlMessage: String, files: List<FileAttach> = emptyList()): Boolean {
     try {
@@ -94,7 +95,7 @@ class MailGMail {
     val toSplit = toList.split(",").toList().map { it.trim() }
     val iaFrom = InternetAddress(emailRemetente, nomeRemetente)
     val iaTo =
-      arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
+        arrayOfNulls<InternetAddress>(toSplit.size) //val iaReplyTo = arrayOfNulls<InternetAddress>(1) // iaReplyTo[0] = InternetAddress(to, to)
     toSplit.forEachIndexed { index, to ->
       iaTo[index] = InternetAddress(to, to)
     }
@@ -188,7 +189,7 @@ class MailGMail {
 
 private fun Message.contentBean(): Content {
   val result = when {
-    this.isMimeType("text/plain") -> {
+    this.isMimeType("text/plain")  -> {
       this.content.toString()
     }
 
@@ -197,7 +198,7 @@ private fun Message.contentBean(): Content {
       getTextFromMimeMultipart(mimeMultipart)
     }
 
-    else -> ""
+    else                           -> ""
   }
   return Content(result, emptyList())
 }

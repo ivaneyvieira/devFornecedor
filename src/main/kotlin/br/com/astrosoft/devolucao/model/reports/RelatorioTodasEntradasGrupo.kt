@@ -26,13 +26,13 @@ class RelatorioTodasEntradasGrupo(val notas: List<NotaEntradaQueryGrupo>) : Repo
   }
 
   override val propriedades =
-    PropriedadeRelatorio(
-      titulo = "Entrada",
-      subTitulo = "",
-      color = Color.WHITE,
-      detailFonteSize = 8,
-      pageOrientation = PORTRAIT
-    )
+      PropriedadeRelatorio(
+        titulo = "Entrada",
+        subTitulo = "",
+        color = Color.WHITE,
+        detailFonteSize = 8,
+        pageOrientation = PORTRAIT
+      )
 
   override fun labelTitleCol() = columnString(NotaEntradaQueryGrupo::descricaoGrupo)
 
@@ -42,9 +42,13 @@ class RelatorioTodasEntradasGrupo(val notas: List<NotaEntradaQueryGrupo>) : Repo
     return super
       .makeReport()
       .setPageMargin(DynamicReports.margin(0))
-      .setTitleStyle(DynamicReports.stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20)))
+      .setTitleStyle(
+        DynamicReports.stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setTop(20))
+      )
       .setColumnStyle(DynamicReports.stl.style().setForegroundColor(Color.WHITE).setFontSize(8))
-      .setGroupStyle(DynamicReports.stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setLeft(4)))
+      .setGroupStyle(
+        DynamicReports.stl.style().setForegroundColor(Color.WHITE).setPadding(Styles.padding().setLeft(4))
+      )
       .setBackgroundStyle(DynamicReports.stl.style().setBackgroundColor(Color(35, 51, 72)))
   }
 

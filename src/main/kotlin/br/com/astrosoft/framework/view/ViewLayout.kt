@@ -101,16 +101,7 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
   override fun beforeLeave(event: BeforeLeaveEvent?) {
   }
 
-  override fun beforeEnter(event: BeforeEnterEvent?) {/*
-    if(!LoginService.isLogged())
-      event?.forwardTo(LoginView::class.java)
-    else {
-      saci.findUser(RegistryUserInfo.usuario)
-        ?.let {usuario ->
-          if(!isAccept(usuario))
-            event?.rerouteTo(AccessNotAllowed::class.java)
-        }
-    }*/
+  override fun beforeEnter(event: BeforeEnterEvent?) {
   }
 
   override fun afterNavigation(event: AfterNavigationEvent?) { //   loginForm.isOpened = LoginService.isLogged() == false

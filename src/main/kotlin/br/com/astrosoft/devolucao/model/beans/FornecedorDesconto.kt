@@ -50,7 +50,10 @@ class FornecedorDesconto(
   private fun filtroByQuery(query: String): Boolean {
     val queryNo = query.trim().toIntOrNull()
     return if (queryNo == null) this.fornecedor.contains(query.trim(), ignoreCase = true)
-    else this.fornecedor.contains(query.trim(), ignoreCase = true) || this.custno == queryNo || this.vendno == queryNo
+    else this.fornecedor.contains(
+      query.trim(),
+      ignoreCase = true
+    ) || this.custno == queryNo || this.vendno == queryNo
   }
 
   private fun filtroByNoLoja(no: Int): Boolean {

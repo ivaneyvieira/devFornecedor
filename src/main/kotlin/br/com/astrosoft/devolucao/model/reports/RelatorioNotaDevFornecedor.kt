@@ -32,44 +32,44 @@ class RelatorioNotaDevFornecedor(val notaSaida: NotaSaida, val ocorrencias: List
   private val notaOrigemNDD = produtosOrigemNDD.firstOrNull()
 
   private val codigoCol: TextColumnBuilder<String> =
-    col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(100)
-    }
+      col.column("Cód Forn", ProdutosNotaSaida::refFor.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(100)
+      }
 
   private val ncmInvCol: TextColumnBuilder<String> =
-    col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(70)
-    }
+      col.column("NCM", ProdutosNotaSaida::ncm.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(70)
+      }
 
   private val descricaoCol: TextColumnBuilder<String> =
-    col.column("Descrição", ProdutosNotaSaida::descricaoFornecedor.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setTextAdjust(STRETCH_HEIGHT)
-    }
+      col.column("Descrição", ProdutosNotaSaida::descricaoFornecedor.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(LEFT)
+        this.setTextAdjust(STRETCH_HEIGHT)
+      }
 
   private val qtdeCol: TextColumnBuilder<Int> =
-    col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("0")
-      this.setFixedWidth(60)
-    }
+      col.column("Quant", ProdutosNotaSaida::qtde.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("0")
+        this.setFixedWidth(60)
+      }
 
   private val barcodeCol: TextColumnBuilder<String> =
-    col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(100)
-    }
+      col.column("Cód Barra", ProdutosNotaSaida::barcode.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(100)
+      }
 
   private val unCol: TextColumnBuilder<String> =
-    col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(60)
-    }
+      col.column("Unid", ProdutosNotaSaida::un.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(60)
+      }
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return listOf(

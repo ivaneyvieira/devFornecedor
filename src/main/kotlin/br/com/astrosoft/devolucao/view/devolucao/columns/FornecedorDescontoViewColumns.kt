@@ -20,9 +20,10 @@ object FornecedorDescontoViewColumns {
     this.setHeader("Fornecedor")
   }
 
-  fun Grid<FornecedorDesconto>.fornecedorDescontoPrimeiraData() = addColumnLocalDate(FornecedorDesconto::primeiraData) {
-    this.setHeader("Primeira Data")
-  }
+  fun Grid<FornecedorDesconto>.fornecedorDescontoPrimeiraData() =
+      addColumnLocalDate(FornecedorDesconto::primeiraData) {
+        this.setHeader("Primeira Data")
+      }
 
   fun Grid<FornecedorDesconto>.fornecedorDescontoUltimaData() = addColumnLocalDate(FornecedorDesconto::ultimaData) {
     this.setHeader("Ultima Data")

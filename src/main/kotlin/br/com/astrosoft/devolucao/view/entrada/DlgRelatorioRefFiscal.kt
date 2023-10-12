@@ -1,8 +1,8 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
-import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.*
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.S
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaBarcodec
@@ -25,7 +25,6 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRefPrdx
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidade
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaUnidadex
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabRefFiscalViewModel
@@ -48,7 +47,7 @@ import com.vaadin.flow.data.provider.ListDataProvider
 class DlgRelatorioRefFiscal(val viewModel: TabRefFiscalViewModel, val filtro: FiltroRelatorio) {
   private lateinit var gridNota: Grid<NfPrecEntrada>
   private val dataProviderGrid = ListDataProvider<NfPrecEntrada>(mutableListOf())
-  private var cmbQuantDif : Select<EDiferencaStr>? = null
+  private var cmbQuantDif: Select<EDiferencaStr>? = null
 
   fun show() {
     val form = SubWindowForm("Relatório", toolBar = {

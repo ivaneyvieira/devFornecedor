@@ -33,7 +33,6 @@ class PrdRef(val prdno: String, val grade: String, val prdrefname: String, val p
     return result
   }
 
-
   companion object {
     fun listPrdRef(codigo: String, grade: String) = saci.listPrdRef(codigo, grade)
 

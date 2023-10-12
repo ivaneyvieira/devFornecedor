@@ -1,8 +1,6 @@
 package br.com.astrosoft.devolucao.view.preentrada
 
 import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.entrada.ITabTribFiscalViewModel
-import br.com.astrosoft.devolucao.viewmodel.entrada.TabTribFiscalViewModel
 import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabTribFiscalPreViewModel
 import br.com.astrosoft.devolucao.viewmodel.preentrada.TabTribFiscalPreViewModel
 import br.com.astrosoft.framework.model.IUser
@@ -22,7 +20,8 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel(), ITabTribFiscalPreViewModel, ITabPanel {
+class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel(), ITabTribFiscalPreViewModel,
+  ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
   private lateinit var edtNi: IntegerField

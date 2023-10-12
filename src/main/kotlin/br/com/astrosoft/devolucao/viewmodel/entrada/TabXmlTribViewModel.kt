@@ -91,7 +91,7 @@ private fun List<NfPrecEntrada>.toNotaXml(): List<NotaXML> {
       val barcodex = det.prod?.cEANTrib
       val notaSaci = entry.value.firstOrNull { nfPrd ->
         nfPrd.refPrdn == refPrdx || nfPrd.refPrdp == refPrdx ||
-            nfPrd.barcodenList.contains(barcodex)
+        nfPrd.barcodenList.contains(barcodex)
       }
 
       NotaXML(

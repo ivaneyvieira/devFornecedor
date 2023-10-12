@@ -15,7 +15,6 @@ class TabPedidoFinalizado(viewModel: TabPedidoFinalizadoViewModel) : TabPedidoAb
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
-
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.pedidoFinalizado == true

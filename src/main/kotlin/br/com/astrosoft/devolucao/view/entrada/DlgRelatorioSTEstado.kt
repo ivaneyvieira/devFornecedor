@@ -59,11 +59,11 @@ class DlgRelatorioSTEstado(val viewModel: TabSTEstadoViewModel, val filtro: Filt
       }
     }) {
       val list =
-        viewModel.findNotas(filtro).filter {
-          val cx = it.cstx ?: ""
-          val cp = it.cstp ?: ""
-          cx.endsWith("00") && cp == "06"
-        }
+          viewModel.findNotas(filtro).filter {
+            val cx = it.cstx ?: ""
+            val cp = it.cstp ?: ""
+            cx.endsWith("00") && cp == "06"
+          }
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)

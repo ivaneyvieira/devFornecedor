@@ -25,16 +25,16 @@ class PlanilhaRefFiscal {
         CampoString("Descrição") { descricao },
         CampoString("Grade") { grade },
         CampoString("Un X") { unidadex },
-        CampoNumber("Qtd X") { quantx  },
+        CampoNumber("Qtd X") { quantx },
         CampoString("Un S") { unidade },
-        CampoInt("Qtd S") { quant  },
+        CampoInt("Qtd S") { quant },
         CampoString("Ref X") { refPrdx },
         CampoString("Ref P") { refPrdn },
         CampoString("Cód Barras XML") { barcodex },
-        CampoString("Cód Barras Gtin") { barcodep  },
-        CampoString("Cód Barras Cad") { barcodec  },
-        CampoString("NCM X") { ncmx  },
-        CampoString("NCM P") { ncmp  },
+        CampoString("Cód Barras Gtin") { barcodep },
+        CampoString("Cód Barras Cad") { barcodec },
+        CampoString("NCM X") { ncmx },
+        CampoString("NCM P") { ncmp },
       )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
