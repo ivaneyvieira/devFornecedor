@@ -81,7 +81,7 @@ class TabXmlTrib(val viewModel: TabXmlTribViewModel) : ITabXmlTribViewModel, ITa
   }
 
   override fun openRelatorio() {
-    dialog = DlgRelatorioXmlTrib(viewModel, getFiltro(),)
+    dialog = DlgRelatorioXmlTrib(viewModel, getFiltro())
     dialog?.show()
   }
 

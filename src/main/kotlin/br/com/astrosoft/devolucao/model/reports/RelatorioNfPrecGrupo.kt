@@ -55,13 +55,13 @@ class RelatorioNfPrecGrupo(
   override fun labelTitleCol() = columnString(NfPrecEntradaGrupo::nomeGrupo)
 
   override val propriedades =
-    PropriedadeRelatorio(
-      titulo = "NF x Precificação",
-      subTitulo = "",
-      color = Color.WHITE,
-      detailFonteSize = 8,
-      pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT
-    )
+      PropriedadeRelatorio(
+        titulo = "NF x Precificação",
+        subTitulo = "",
+        color = Color.WHITE,
+        detailFonteSize = 8,
+        pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT
+      )
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
 

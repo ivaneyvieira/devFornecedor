@@ -33,7 +33,7 @@ class NFFile(
           file = bytes
         )
 
-        else -> NFFile(
+        else  -> NFFile(
           storeno = nota.loja,
           pdvno = nota.pdv,
           xano = nota.transacao,

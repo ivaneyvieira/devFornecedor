@@ -9,7 +9,7 @@ object ExportTxt {
   fun parsePdfFile(pdf: String, txt: String, fixedChar: Int) {
     try {
       val parametros =
-        listOf("-table", "-fixed", "$fixedChar", "-nodiag", "-nopgbrk", "-clip", "-enc", "UTF-8", pdf, txt)
+          listOf("-table", "-fixed", "$fixedChar", "-nodiag", "-nopgbrk", "-clip", "-enc", "UTF-8", pdf, txt)
       val output = shellRun("/usr/bin/pdftotext4", parametros)
       println(output)
     } catch (e: Throwable) {

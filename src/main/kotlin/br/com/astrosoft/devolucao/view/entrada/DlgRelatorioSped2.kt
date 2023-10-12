@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
@@ -28,13 +27,10 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlIpix
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlSubstx
-import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotal
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlTotalx
-import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaNum
 import br.com.astrosoft.devolucao.view.entrada.columms.comboDiferencaStr
 import br.com.astrosoft.devolucao.view.entrada.columms.marcaDiferenca
 import br.com.astrosoft.devolucao.viewmodel.entrada.TabSped2ViewModel
-import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
@@ -129,7 +125,7 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
       }
     }) {
       val list =
-        viewModel.findNotas(filtro)
+          viewModel.findNotas(filtro)
       dataProviderGrid.items.clear()
       dataProviderGrid.items.addAll(list)
       gridNota = createGrid(dataProviderGrid)
@@ -161,13 +157,13 @@ class DlgRelatorioSped2(val viewModel: TabSped2ViewModel, val filtro: FiltroRela
     filtro.totalNF = EDiferencaStr.T
     val list = viewModel.findNotas(filtro).filter { nf ->
       (nf.cfopDifxp == cfop.str || cfop == EDiferencaStr.T) &&
-          (nf.cstDifnp == cst.str || nf.cstDifxn == cst.str || cst == EDiferencaStr.T) &&
-          (nf.mvaDifnp == mva.str || nf.mvaDifxn == mva.str || mva == EDiferencaStr.T) &&
-          (nf.icmsDifxn == icms.str || icms == EDiferencaStr.T) &&
-          (nf.ipiDifxn == ipi.str || ipi == EDiferencaStr.T) &&
-          (nf.baseSubstxn == baseST.str || baseST == EDiferencaStr.T) &&
-          (nf.vlIcmsSubstxn == valorST.str || valorST == EDiferencaStr.T) &&
-          (nf.vlTotalxn == totalNF.str || totalNF == EDiferencaStr.T)
+      (nf.cstDifnp == cst.str || nf.cstDifxn == cst.str || cst == EDiferencaStr.T) &&
+      (nf.mvaDifnp == mva.str || nf.mvaDifxn == mva.str || mva == EDiferencaStr.T) &&
+      (nf.icmsDifxn == icms.str || icms == EDiferencaStr.T) &&
+      (nf.ipiDifxn == ipi.str || ipi == EDiferencaStr.T) &&
+      (nf.baseSubstxn == baseST.str || baseST == EDiferencaStr.T) &&
+      (nf.vlIcmsSubstxn == valorST.str || valorST == EDiferencaStr.T) &&
+      (nf.vlTotalxn == totalNF.str || totalNF == EDiferencaStr.T)
     }
     filtro.cfop = cfop
     filtro.cst = cst

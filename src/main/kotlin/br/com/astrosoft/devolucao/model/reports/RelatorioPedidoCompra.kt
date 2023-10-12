@@ -27,68 +27,68 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioPedidoCompra(val pedido: PedidoCompra, val excel: Boolean) {
   private val itemCol: TextColumnBuilder<String> =
-    col.column("Item", ProdutosNotaSaida::item.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(25)
-    }
+      col.column("Item", ProdutosNotaSaida::item.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(25)
+      }
 
   private val codigoCol: TextColumnBuilder<String> =
-    col.column("Cód Saci", PedidoCompraProduto::codigo.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(35)
-    }
+      col.column("Cód Saci", PedidoCompraProduto::codigo.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(35)
+      }
   private val refForCol: TextColumnBuilder<String> =
-    col.column("Ref do Fab", PedidoCompraProduto::refFab.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(60)
-    }
+      col.column("Ref do Fab", PedidoCompraProduto::refFab.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(60)
+      }
   private val descricaoCol: TextColumnBuilder<String> =
-    col.column("Descrição", PedidoCompraProduto::descricao.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setTextAdjust(CUT_TEXT)
-    }
+      col.column("Descrição", PedidoCompraProduto::descricao.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(LEFT)
+        this.setTextAdjust(CUT_TEXT)
+      }
   private val gradeCol: TextColumnBuilder<String> =
-    col.column("Grade", PedidoCompraProduto::grade.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setTextAdjust(SCALE_FONT)
-      this.setFixedWidth(40)
-    }
+      col.column("Grade", PedidoCompraProduto::grade.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setTextAdjust(SCALE_FONT)
+        this.setFixedWidth(40)
+      }
 
   private val qtdeCol: TextColumnBuilder<Int> =
-    col.column("Quant", PedidoCompraProduto::qtPedida.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("0")
-      this.setFixedWidth(35)
-    }
+      col.column("Quant", PedidoCompraProduto::qtPedida.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("0")
+        this.setFixedWidth(35)
+      }
 
   private val valorUnitarioCol: TextColumnBuilder<Double> =
-    col.column("V. Unit", PedidoCompraProduto::custoUnit.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("V. Unit", PedidoCompraProduto::custoUnit.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val valorTotalCol: TextColumnBuilder<Double> =
-    col.column("V. Total", PedidoCompraProduto::vlPedido.name, type.doubleType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setTextAdjust(SCALE_FONT)
-      this.setPattern("#,##0.00")
-      this.setFixedWidth(40)
-    }
+      col.column("V. Total", PedidoCompraProduto::vlPedido.name, type.doubleType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setTextAdjust(SCALE_FONT)
+        this.setPattern("#,##0.00")
+        this.setFixedWidth(40)
+      }
   private val barcodeCol: TextColumnBuilder<String> =
-    col.column("Cód Barra", PedidoCompraProduto::barcode.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(80)
-    }
+      col.column("Cód Barra", PedidoCompraProduto::barcode.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(80)
+      }
 
   private val unCol: TextColumnBuilder<String> =
-    col.column("Unid", PedidoCompraProduto::unidade.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(CENTER)
-      this.setFixedWidth(30)
-    }
+      col.column("Unid", PedidoCompraProduto::unidade.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(CENTER)
+        this.setFixedWidth(30)
+      }
 
   private fun columnBuilder(): List<ColumnBuilder<*, *>> {
     return listOf(

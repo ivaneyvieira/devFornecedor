@@ -14,23 +14,23 @@ import java.io.ByteArrayOutputStream
 
 class PlanilhaPrecoDif {
   private val campos: List<Campo<*, NfPrecEntrada>> =
-    listOf(
-      CampoInt("lj") { lj },
-      CampoInt("pedido") { pedidoCompra ?: 0 },
-      CampoInt("ni") { ni },
-      CampoString("data") { data.format() },
-      CampoString("nfe") { nfe },
-      CampoString("forn Cad") { fornCad },
-      CampoString("forn Nota") { fornNota },
-      CampoString("prod") { prod },
-      CampoString("descrição") { descricao },
-      CampoString("grade") { grade },
-      CampoNumber("R$ NF") { precon ?: 0.0 },
-      CampoNumber("R$ Ped") { precop ?: 0.0 },
-      CampoNumber("R$ Prec") { precopc ?: 0.0 },
-      CampoNumber("Dif") { precoDifValue ?: 0.0 },
-      CampoNumber("%") { precoPercen ?: 0.0 },
-    )
+      listOf(
+        CampoInt("lj") { lj },
+        CampoInt("pedido") { pedidoCompra ?: 0 },
+        CampoInt("ni") { ni },
+        CampoString("data") { data.format() },
+        CampoString("nfe") { nfe },
+        CampoString("forn Cad") { fornCad },
+        CampoString("forn Nota") { fornNota },
+        CampoString("prod") { prod },
+        CampoString("descrição") { descricao },
+        CampoString("grade") { grade },
+        CampoNumber("R$ NF") { precon ?: 0.0 },
+        CampoNumber("R$ Ped") { precop ?: 0.0 },
+        CampoNumber("R$ Prec") { precopc ?: 0.0 },
+        CampoNumber("Dif") { precoDifValue ?: 0.0 },
+        CampoNumber("%") { precoPercen ?: 0.0 },
+      )
 
   fun grava(listaNotas: List<NfPrecEntrada>): ByteArray {
     val wb = workbook {

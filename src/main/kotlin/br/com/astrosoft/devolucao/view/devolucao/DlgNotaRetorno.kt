@@ -14,9 +14,15 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.no
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.notaValor
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.situacaoDesconto
 import br.com.astrosoft.devolucao.view.devolucao.columns.NotaSaidaViewColumns.usuarioSituacao
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.Serie
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
-import br.com.astrosoft.framework.view.*
+import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.dateFieldEditor
+import br.com.astrosoft.framework.view.textFieldEditor
+import br.com.astrosoft.framework.view.withEditor
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport

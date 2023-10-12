@@ -76,10 +76,12 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
 
       val strTemplate =
-        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+          """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div><b>OBS</b>: [[item.obs]]</div>
           |</div>""".trimMargin()
-      this.setItemDetailsRenderer(TemplateRenderer.of<Parcela?>(strTemplate).withProperty("obs", Parcela::observacao))
+      this.setItemDetailsRenderer(
+        TemplateRenderer.of<Parcela?>(strTemplate).withProperty("obs", Parcela::observacao)
+      )
       listParcelas.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }
@@ -109,10 +111,12 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
 
       val strTemplate =
-        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+          """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div><b>OBS</b>: [[item.obs]]</div>
           |</div>""".trimMargin()
-      this.setItemDetailsRenderer(TemplateRenderer.of<Pedido?>(strTemplate).withProperty("obs", Pedido::observacao))
+      this.setItemDetailsRenderer(
+        TemplateRenderer.of<Pedido?>(strTemplate).withProperty("obs", Pedido::observacao)
+      )
       listPedidos.forEach { parcela ->
         this.setDetailsVisible(parcela, true)
       }
@@ -144,7 +148,7 @@ class DlgParcelas<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewMod
       }
 
       val strTemplate =
-        """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
+          """<div class='custom-details' style='border: 1px solid gray; padding: 10px; width: 100%; box-sizing: border-box;'> 
           |<div>[[item.fatura]]</div>
           |</div>""".trimMargin()
       this.setItemDetailsRenderer(

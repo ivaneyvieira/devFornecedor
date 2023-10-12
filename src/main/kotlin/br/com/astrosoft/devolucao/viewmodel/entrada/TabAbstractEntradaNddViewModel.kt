@@ -20,7 +20,13 @@ abstract class TabAbstractEntradaNddViewModel<T : ITabAbstractEntradaNddViewMode
     val dataFinal = subView.dataFinal() ?: LocalDate.now()
     val temIPI = subView.temIPI() ?: ETemIPI.TODOS
     val filtro =
-      FiltroEntradaNdd(query = query, tipo = tipoTab, dataInicial = dataInicial, dataFinal = dataFinal, temIPI = temIPI)
+        FiltroEntradaNdd(
+          query = query,
+          tipo = tipoTab,
+          dataInicial = dataInicial,
+          dataFinal = dataFinal,
+          temIPI = temIPI
+        )
     val resultList = FornecedorNdd.listFornecedores(filtro)
 
     subView.updateGrid(resultList)

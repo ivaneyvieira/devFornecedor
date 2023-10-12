@@ -86,9 +86,9 @@ class NotaEntradaNdd(
     return@lazy produtosNfe.produtosNotaEntradaNDD().filter {
       when (temIPIS) {
         ETemIPI.TODOS.toString() -> true
-        ETemIPI.SIM.toString() -> it.temIPI
-        ETemIPI.NAO.toString() -> !it.temIPI
-        else -> false
+        ETemIPI.SIM.toString()   -> it.temIPI
+        ETemIPI.NAO.toString()   -> !it.temIPI
+        else                     -> false
       }
     }
   }

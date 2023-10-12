@@ -1,6 +1,5 @@
 package br.com.astrosoft.devolucao.model.beans
 
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum.*
 import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 

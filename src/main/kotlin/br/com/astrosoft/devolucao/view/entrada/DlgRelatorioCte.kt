@@ -52,12 +52,12 @@ class DlgRelatorioCte(val viewModel: TabCteViewModel) {
 
   fun updateGrid() {
     val list =
-      viewModel.findNotas(
-        FiltroDialog(
-          status = cmbStatus?.value ?: EStatusFrete.TODOS,
-          diferenca = cmbDifFrete?.value ?: EDifFrete.TODOS
+        viewModel.findNotas(
+          FiltroDialog(
+            status = cmbStatus?.value ?: EStatusFrete.TODOS,
+            diferenca = cmbDifFrete?.value ?: EDifFrete.TODOS
+          )
         )
-      )
     gridNota.setItems(list)
   }
 

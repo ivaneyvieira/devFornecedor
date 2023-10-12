@@ -1,6 +1,5 @@
 package br.com.astrosoft.framework.util
 
-import org.nield.kotlinstatistics.mode
 import org.nield.kotlinstatistics.percentile
 
 fun main() {

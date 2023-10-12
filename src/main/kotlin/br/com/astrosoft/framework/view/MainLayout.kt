@@ -58,7 +58,12 @@ abstract class MainLayout : AppLayout(), RouterLayout, BeforeEnterObserver, Page
     }
   }
 
-  fun Tabs.menuRoute(icon: VaadinIcon, text: String, viewType: KClass<out Component>, isEnabled: Boolean = true): Tab {
+  fun Tabs.menuRoute(
+    icon: VaadinIcon,
+    text: String,
+    viewType: KClass<out Component>,
+    isEnabled: Boolean = true
+  ): Tab {
     return tab {
       this.isEnabled = isEnabled
       this.icon(icon)

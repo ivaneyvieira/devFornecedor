@@ -52,10 +52,11 @@ object ProdutosNotaNddColumns {
     this.isResizable = true
   }
 
-  fun Grid<ProdutoNotaEntradaNdd>.produtoQuantidadeAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::quantidadeAvaria) {
-    this.setHeader("Quantidade")
-    this.isResizable = true
-  }
+  fun Grid<ProdutoNotaEntradaNdd>.produtoQuantidadeAvaria() =
+      addColumnDouble(ProdutoNotaEntradaNdd::quantidadeAvaria) {
+        this.setHeader("Quantidade")
+        this.isResizable = true
+      }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorUnitario() = addColumnDouble(ProdutoNotaEntradaNdd::valorUnitario) {
     this.setHeader("Valor Unitário")
@@ -87,10 +88,11 @@ object ProdutosNotaNddColumns {
     this.isResizable = true
   }
 
-  fun Grid<ProdutoNotaEntradaNdd>.produtoValorTotalAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::valorTotalAvaria) {
-    this.setHeader("V. Unit.")
-    this.isResizable = true
-  }
+  fun Grid<ProdutoNotaEntradaNdd>.produtoValorTotalAvaria() =
+      addColumnDouble(ProdutoNotaEntradaNdd::valorTotalAvaria) {
+        this.setHeader("V. Unit.")
+        this.isResizable = true
+      }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorIPIAvaria() = addColumnDouble(ProdutoNotaEntradaNdd::valorIPIAvaria) {
     this.setHeader("V. IPI")
@@ -128,14 +130,14 @@ object ProdutosNotaNddColumns {
   }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorUnitarioAvaria() =
-    addColumnDouble(ProdutoNotaEntradaNdd::valorUnitAvaria) {
-      this.setHeader("V. Unt Av")
-      this.isResizable = true
-    }
+      addColumnDouble(ProdutoNotaEntradaNdd::valorUnitAvaria) {
+        this.setHeader("V. Unt Av")
+        this.isResizable = true
+      }
 
   fun Grid<ProdutoNotaEntradaNdd>.produtoValorFinalAvaria() =
-    addColumnDouble(ProdutoNotaEntradaNdd::valorTotalFinalAvaria) {
-      this.setHeader("V. Total Av")
-      this.isResizable = true
-    }
+      addColumnDouble(ProdutoNotaEntradaNdd::valorTotalFinalAvaria) {
+        this.setHeader("V. Total Av")
+        this.isResizable = true
+      }
 }

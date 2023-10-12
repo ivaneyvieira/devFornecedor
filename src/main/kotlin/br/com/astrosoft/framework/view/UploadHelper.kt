@@ -23,7 +23,7 @@ private fun createComponent(fileName: String, byteArray: ByteArray): Component {
     ) || fileName.endsWith(
       "png",
       ignoreCase = true
-    ) -> {
+    )                                           -> {
       val image = Image()
       try {
         image.element.setAttribute(
@@ -49,7 +49,7 @@ private fun createComponent(fileName: String, byteArray: ByteArray): Component {
       return image
     }
 
-    else -> {
+    else                                        -> {
       return Div()
     }
   }

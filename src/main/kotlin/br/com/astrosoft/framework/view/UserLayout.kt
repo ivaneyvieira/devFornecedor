@@ -43,7 +43,12 @@ abstract class UserLayout<B : IUser, VM : UserViewModel<B, *>> : ViewLayout<VM>(
       { user: B? -> viewModel.delete(user) })
   }
 
-  private fun layoutCrud(operation: CrudOperation?, domainObject: B?, readOnly: Boolean, binder: Binder<B>): Component {
+  private fun layoutCrud(
+    operation: CrudOperation?,
+    domainObject: B?,
+    readOnly: Boolean,
+    binder: Binder<B>
+  ): Component {
     return VerticalLayout().apply {
       isSpacing = false
       isMargin = false
@@ -116,6 +121,7 @@ class UserCrudFormFactory<B : IUser>(private val createForm: (CrudOperation?, B?
   }
 
   override fun showError(operation: CrudOperation?, e: Exception?) {
-    ConfirmDialog.createError().withCaption("Erro do aplicativo").withMessage(e?.message ?: "Erro desconhecido").open()
+    ConfirmDialog.createError().withCaption("Erro do aplicativo").withMessage(e?.message ?: "Erro desconhecido")
+      .open()
   }
 }

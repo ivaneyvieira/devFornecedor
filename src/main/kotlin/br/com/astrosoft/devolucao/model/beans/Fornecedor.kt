@@ -97,12 +97,12 @@ class Fornecedor(
 
   fun notasNaoRecebidasFornecedor(): List<NotaEntradaNdd> {
     val filtro =
-      FiltroEntradaNdd(
-        query = vendno.toString(),
-        tipo = ETipoNota.RECEBER,
-        dataInicial = LocalDate.of(2021, 1, 1),
-        dataFinal = LocalDate.now()
-      )
+        FiltroEntradaNdd(
+          query = vendno.toString(),
+          tipo = ETipoNota.RECEBER,
+          dataInicial = LocalDate.of(2021, 1, 1),
+          dataFinal = LocalDate.now()
+        )
     return saci.notasEntrada(filtro)
   }
 

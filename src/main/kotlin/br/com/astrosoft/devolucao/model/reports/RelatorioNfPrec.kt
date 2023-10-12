@@ -40,7 +40,12 @@ class RelatorioNfPrec(val notas: List<NfPrecEntrada>, val fiscal: Boolean) : Rep
   }
 
   override val propriedades =
-    PropriedadeRelatorio(titulo = "NF x Precificação", subTitulo = "", detailFonteSize = 8, pageOrientation = LANDSCAPE)
+      PropriedadeRelatorio(
+        titulo = "NF x Precificação",
+        subTitulo = "",
+        detailFonteSize = 8,
+        pageOrientation = LANDSCAPE
+      )
 
   override fun listDataSource(): List<NfPrecEntrada> = notas
 

@@ -1,9 +1,6 @@
 package br.com.astrosoft.devolucao.view.entrada
 
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum
-import br.com.astrosoft.devolucao.model.beans.EDiferencaNum.S
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
-import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.N
 import br.com.astrosoft.devolucao.model.beans.EDiferencaStr.T
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NotaXML

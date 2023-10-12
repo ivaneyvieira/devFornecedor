@@ -128,7 +128,7 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
     }
 
     val listaRelatorio = cfopDifList + cstDifnpList + cstDifxnList + mvaDifnpList + mvaDifxnList + icmsDifxnList +
-        ipiDifxnList + baseSubstxnList + vlIcmsSubstxnList + vlTotalxnList
+                         ipiDifxnList + baseSubstxnList + vlIcmsSubstxnList + vlTotalxnList
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = false)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }

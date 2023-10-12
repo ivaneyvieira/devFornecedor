@@ -107,13 +107,13 @@ class DlgFornecedorNota(val viewModel: TabFornecedorDemandaViewModel, val fornec
 
   private fun updateGrid() {
     val notas =
-      FornecedorNota.findByFornecedor(
-        FiltroFornecedorNota(
-          vendno = fornecedor?.vendno ?: 0,
-          loja = edtLoja.value ?: 0,
-          query = edtQuery.value ?: "",
+        FornecedorNota.findByFornecedor(
+          FiltroFornecedorNota(
+            vendno = fornecedor?.vendno ?: 0,
+            loja = edtLoja.value ?: 0,
+            query = edtQuery.value ?: "",
+          )
         )
-      )
     gridNota.setItems(notas.toList())
   }
 

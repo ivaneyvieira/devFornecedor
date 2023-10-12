@@ -147,10 +147,10 @@ class DlgAgendamento(val viewModel: TabAgendaViewModelAbstract) : VerticalLayout
 
   fun edtAgendamento(agenda: Agenda) {
     val form =
-      SubWindowForm(title = "Nr. Ordem ${agenda.invno}  NF ${agenda.nf}", toolBar = ::toolBar, fullSize = false) {
-        binder.bean = agenda.agendaUpdate()
-        this
-      }
+        SubWindowForm(title = "Nr. Ordem ${agenda.invno}  NF ${agenda.nf}", toolBar = ::toolBar, fullSize = false) {
+          binder.bean = agenda.agendaUpdate()
+          this
+        }
     form.open()
   }
 

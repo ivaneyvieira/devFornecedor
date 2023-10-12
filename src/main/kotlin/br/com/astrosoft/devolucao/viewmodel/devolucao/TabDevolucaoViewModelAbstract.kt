@@ -34,7 +34,6 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     subView.updateComponent()
   }
 
-
   fun salvaSituacaoPedido(situacao: ESituacaoPedido?, itens: List<NotaSaida>) = viewModel.exec {
     situacao ?: fail("A situação não foi selecionada")
     itens.ifEmpty {
@@ -145,7 +144,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
     val filesPlanilha = createPlanilha(gmail, notas, subView.serie)
     val filesAnexo = createAnexos(gmail, notas)
     val enviadoComSucesso =
-      mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
+        mail.sendMail(gmail.email, gmail.assunto, gmail.msgHtml, filesReport + filesPlanilha + filesAnexo)
     if (enviadoComSucesso) {
       val idEmail = EmailDB.newEmailId()
       notas.forEach { nota ->
@@ -156,7 +155,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   private fun createAnexos(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     return when (gmail.anexos) {
-      "S" -> {
+      "S"  -> {
         notas.flatMap { nota ->
           nota.listFiles().map { nfile ->
             FileAttach(nfile.nome, nfile.file)
@@ -170,7 +169,7 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   private fun createPlanilha(gmail: EmailGmail, notas: List<NotaSaida>, serie: Serie): List<FileAttach> {
     return when (gmail.planilha) {
-      "S" -> {
+      "S"  -> {
         notas.map { nota ->
           val planilha = geraPlanilha(listOf(nota), serie)
           FileAttach("Planilha da Nota ${nota.nota.replace("/", "_")}.xlsx", planilha)
@@ -183,9 +182,10 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
 
   private fun createReports(gmail: EmailGmail, notas: List<NotaSaida>): List<FileAttach> {
     val relatoriosCompleto = when (gmail.relatorio) {
-      "S" -> {
+      "S"  -> {
         notas.map { nota ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false, subView.label == "Pendente")
+          val report =
+              RelatorioNotaDevolucao.processaRelatorio(listOf(nota), false, subView.label == "Pendente")
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf", report)
         }
       }
@@ -193,9 +193,10 @@ abstract class TabDevolucaoViewModelAbstract<T : IDevolucaoAbstractView>(val vie
       else -> emptyList()
     }
     val relatoriosResumido = when (gmail.relatorioResumido) {
-      "S" -> {
+      "S"  -> {
         notas.map { nota ->
-          val report = RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true, subView.label == "Pendente")
+          val report =
+              RelatorioNotaDevolucao.processaRelatorio(listOf(nota), true, subView.label == "Pendente")
           FileAttach("Relatorio da nota ${nota.nota.replace("/", "_")}.pdf.pdf", report)
         }
       }

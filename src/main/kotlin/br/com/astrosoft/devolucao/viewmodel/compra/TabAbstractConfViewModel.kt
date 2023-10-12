@@ -90,8 +90,8 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
   final override fun pedidoOK(): EFileType {
     return when {
       listPedidoExcel.isNotEmpty() -> EFileType.XLSX
-      fileText.isNotEmpty() -> EFileType.PDF
-      else -> EFileType.NONE
+      fileText.isNotEmpty()        -> EFileType.PDF
+      else                         -> EFileType.NONE
     }
   }
 
@@ -189,10 +189,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     this ?: return null
     return when (this) {
       is String -> this
-      is Int -> this.toString()
-      is Long -> this.toString()
+      is Int    -> this.toString()
+      is Long   -> this.toString()
       is Double -> this.toLong().toString()
-      else -> this.toString()
+      else      -> this.toString()
     }
   }
 
@@ -200,10 +200,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     this ?: return null
     return when (this) {
       is String -> this.toIntOrNull()
-      is Int -> this.toInt()
-      is Long -> this.toInt()
+      is Int    -> this.toInt()
+      is Long   -> this.toInt()
       is Double -> this.toInt()
-      else -> this.toString().toIntOrNull()
+      else      -> this.toString().toIntOrNull()
     }
   }
 
@@ -211,10 +211,10 @@ abstract class TabAbstractConfViewModel(val viewModel: CompraViewModel) : ITabCo
     this ?: return null
     return when (this) {
       is String -> this.toDoubleOrNull()
-      is Int -> this.toDouble()
-      is Long -> this.toDouble()
+      is Int    -> this.toDouble()
+      is Long   -> this.toDouble()
       is Double -> this
-      else -> this.toString().toDoubleOrNull()
+      else      -> this.toString().toDoubleOrNull()
     }
   }
 

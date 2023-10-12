@@ -24,57 +24,57 @@ import java.io.ByteArrayOutputStream
 
 class RelatorioFornecedorCompraResumido(val fornecedores: List<PedidoCompraFornecedor>) {
   private val codigoSaciCol: TextColumnBuilder<Int> =
-    col.column("Codigo Saci", PedidoCompraFornecedor::vendno.name, type.integerType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(50)
-      this.setPattern("0")
-    }
+      col.column("Codigo Saci", PedidoCompraFornecedor::vendno.name, type.integerType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(50)
+        this.setPattern("0")
+      }
 
   private val nomeFornecedorCol: TextColumnBuilder<String> =
-    col.column("Fornecedor", PedidoCompraFornecedor::fornecedor.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(LEFT)
-      this.setTextAdjust(CUT_TEXT)
-    }
+      col.column("Fornecedor", PedidoCompraFornecedor::fornecedor.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(LEFT)
+        this.setTextAdjust(CUT_TEXT)
+      }
 
   private val dataPrimeiraNotaCol: TextColumnBuilder<String> =
-    col.column("Inicio", PedidoCompraFornecedor::dataPedidoInicioStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(70)
-    }
+      col.column("Inicio", PedidoCompraFornecedor::dataPedidoInicioStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(70)
+      }
 
   private val dataUltimaNotaCol: TextColumnBuilder<String> =
-    col.column("Fim", PedidoCompraFornecedor::dataPedidoFimStr.name, type.stringType()).apply {
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(70)
-    }
+      col.column("Fim", PedidoCompraFornecedor::dataPedidoFimStr.name, type.stringType()).apply {
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(70)
+      }
 
   private val colVlPedida: TextColumnBuilder<Double> =
-    col.column("Vl Pedida", PedidoCompraFornecedor::vlPedido.name, type.doubleType()).apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(90)
-    }
+      col.column("Vl Pedida", PedidoCompraFornecedor::vlPedido.name, type.doubleType()).apply {
+        this.setPattern("#,##0.00")
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(90)
+      }
 
   private val colVlCancelada: TextColumnBuilder<Double> =
-    col.column("Vl Cancelada", PedidoCompraFornecedor::vlCancelado.name, type.doubleType()).apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(90)
-    }
+      col.column("Vl Cancelada", PedidoCompraFornecedor::vlCancelado.name, type.doubleType()).apply {
+        this.setPattern("#,##0.00")
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(90)
+      }
 
   private val colVlRecebida: TextColumnBuilder<Double> =
-    col.column("Vl Recebida", PedidoCompraFornecedor::vlRecebido.name, type.doubleType()).apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(90)
-    }
+      col.column("Vl Recebida", PedidoCompraFornecedor::vlRecebido.name, type.doubleType()).apply {
+        this.setPattern("#,##0.00")
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(90)
+      }
 
   private val colVlPendente: TextColumnBuilder<Double> =
-    col.column("Vl Pendente", PedidoCompraFornecedor::vlPendente.name, type.doubleType()).apply {
-      this.setPattern("#,##0.00")
-      this.setHorizontalTextAlignment(RIGHT)
-      this.setFixedWidth(90)
-    }
+      col.column("Vl Pendente", PedidoCompraFornecedor::vlPendente.name, type.doubleType()).apply {
+        this.setPattern("#,##0.00")
+        this.setHorizontalTextAlignment(RIGHT)
+        this.setFixedWidth(90)
+      }
 
   private fun columnBuilder(): List<TextColumnBuilder<out Any>> {
     return listOf(

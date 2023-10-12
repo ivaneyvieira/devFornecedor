@@ -33,7 +33,6 @@ object NotaXMLColumns {
     this.right()
   }
 
-
   fun Grid<NotaXML>.notaFornNota() = addColumnString(NotaXML::fornNota) {
     this.setHeader("For NF")
     this.isResizable = true
@@ -116,7 +115,6 @@ object NotaXMLColumns {
     this.setHeader("Qtd Saci")
     this.isResizable = true
   }
-
 
   fun Grid<NotaXML>.notaAlIpix() = addColumnDouble(NotaXML::alIpix) {
     this.setHeader("V IPI")
