@@ -35,7 +35,7 @@ DROP TEMPORARY TABLE IF EXISTS T_NCM;
 CREATE TEMPORARY TABLE T_NCM
 (
   PRIMARY KEY (prdnoRef),
-  ncm varchar(20)
+  ncm VARCHAR(20)
 )
 SELECT DISTINCT prdnoRef, MID(MAX(CONCAT(LPAD(seqnoAuto, 20, '0'), ncm)), 21, 20) AS ncm
 FROM sqldados.mfprd
@@ -152,8 +152,8 @@ SELECT iprd.storeno                                                           AS
        IF(iprd.grade = '' OR prd.groupno = 10000,
           CAST(CONCAT(TRIM(prd.barcode), ',', IFNULL(B.barcodes, '')) AS CHAR),
           CAST(CONCAT('G,', IFNULL(B.barcodes, '')) AS CHAR))                 AS barcodecl,
-       TRIM(CAST(IFNULL(M.barcode, '') AS char))                              AS barcoden,
-       TRIM(CAST(IFNULL(G.barcodes, '') AS char))                             AS barcodebp,
+       TRIM(CAST(IFNULL(M.barcode, '') AS CHAR))                              AS barcoden,
+       TRIM(CAST(IFNULL(G.barcodes, '') AS CHAR))                             AS barcodebp,
        TRIM(COALESCE(R.prdrefno, prd.refPrd, ''))                             AS refPrdp,
        TRIM(COALESCE(M.refPrd, R.prdrefno, prd.refPrd, ''))                   AS refPrdn,
        IFNULL(prp.freight / 100, 0.00)                                        AS fretep,
@@ -186,7 +186,8 @@ SELECT iprd.storeno                                                           AS
        ROUND(iprd.ipiAmt / 100, 2)                                            AS vlIpi,
        ROUND(iprd.baseIcmsSubst / 100, 2)                                     AS baseSubst,
        ROUND(iprd.icmsSubst / 100, 2)                                         AS vlIcmsSubst,
-       IFNULL(N1.xmlNfe, N2.xmlNfe)                                           AS xml
+       IFNULL(N1.xmlNfe, N2.xmlNfe)                                           AS xml,
+       inv.account                                                            AS cDesp
 FROM sqldados.iprd
        INNER JOIN sqldados.inv
                   USING (invno)
@@ -329,5 +330,6 @@ SELECT lj,
        baseSubst,
        vlIcmsSubst,
        vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst AS vlTotal,
-       xml
+       xml,
+       cDesp
 FROM sqldados.T_QUERY

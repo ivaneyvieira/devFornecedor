@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.entrada
 import br.com.astrosoft.devolucao.model.beans.EValidade
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCDesp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCst
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstp
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaCstx
@@ -147,7 +148,7 @@ class DlgRelatorioTribFiscal(val viewModel: TabTribFiscalViewModel, val filtro: 
       notaQuant()
       notaValidade()
       notaEstoque()
-      //notaCDesp()
+      notaCDesp().marcaDiferenca {  cDesp != "2.01.20" }
       notaRedIcms().marcaDiferenca { icmsDif == "N" }
       notaIcmsr().marcaDiferenca { icmsDif == "N" }
       notaIcmsn().marcaDiferenca { icmsDif == "N" }

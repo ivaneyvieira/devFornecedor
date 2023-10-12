@@ -154,7 +154,8 @@ SELECT iprd2.storeno                                                            
        ROUND(iprd2.ipiAmt / 100, 2)                                                    AS vlIpi,
        ROUND(iprd2.baseIcmsSubst / 100, 2)                                             AS baseSubst,
        ROUND(iprd2.icmsSubst / 100, 2)                                                 AS vlIcmsSubst,
-       IFNULL(N1.xmlNfe, N2.xmlNfe)                                                    AS xml
+       IFNULL(N1.xmlNfe, N2.xmlNfe)                                                    AS xml,
+       inv2.account                                                                    AS cDesp
 FROM sqldados.iprd2
        INNER JOIN sqldados.inv2
                   USING (invno)
@@ -281,7 +282,8 @@ SELECT lj,
        baseSubst,
        vlIcmsSubst,
        vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst                 AS vlTotal,
-       xml
+       xml,
+       cDesp
 FROM sqldados.T_QUERY
        INNER JOIN sqldados.T_MAX
                   USING (Prod, grade, NI)
