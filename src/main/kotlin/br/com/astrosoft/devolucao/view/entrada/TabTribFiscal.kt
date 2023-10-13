@@ -32,6 +32,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
   private lateinit var edtUlmNota: Checkbox
   private lateinit var edtRotulo: TextField
   private lateinit var edtCaracter: TextField
+  private lateinit var edtCDespesa: TextField
   private val lojas: List<Loja> = viewModel.findLojas() + Loja.lojaZero
 
   override fun setFiltro(filtro: FiltroRelatorio) {
@@ -46,6 +47,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
     edtUlmNota.value = filtro.ultimaNota
     edtRotulo.value = filtro.rotulo
     edtCaracter.value = filtro.caraterInicial
+    edtCDespesa.value = filtro.cDespesa
   }
 
   override fun getFiltro(): FiltroRelatorio {
@@ -78,6 +80,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = edtCDespesa.value ?: ""
     )
   }
 
@@ -116,6 +119,7 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
       edtNota = textField("Nota Fiscal")
       edtProduto = textField("Produto")
       edtRotulo = textField("Rótulo")
+      edtCDespesa = textField("Conta Despesa")
     }
     br()
     horizontalLayout {

@@ -79,6 +79,7 @@ class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel()
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = ""
     )
   }
 

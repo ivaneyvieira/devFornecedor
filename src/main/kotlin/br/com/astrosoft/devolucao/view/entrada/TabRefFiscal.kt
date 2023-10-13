@@ -77,6 +77,7 @@ class TabRefFiscal(val viewModel: TabRefFiscalViewModel) : ITabRefFiscalViewMode
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = ""
     )
   }
 

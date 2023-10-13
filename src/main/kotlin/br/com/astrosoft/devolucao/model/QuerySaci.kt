@@ -575,6 +575,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("fretePer", filtro.fretePer.str)
       addOptionalParameter("preco", filtro.preco.str)
       addOptionalParameter("pesquisa", filtro.pesquisa)
+      addOptionalParameter("cdespesa", filtro.cDespesa)
     }.toList()
   }
 
@@ -599,6 +600,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("fretePer", filtro.fretePer.str)
       addOptionalParameter("preco", filtro.preco.str)
       addOptionalParameter("pesquisa", filtro.pesquisa)
+      addOptionalParameter("cdespesa", filtro.cDespesa)
     }.toList()
   }
 
@@ -627,6 +629,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("rotulo", filter.rotulo)
       addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
       addOptionalParameter("listaProdutos", filter.listaProdutos)
+      addOptionalParameter("cdespesa", filter.cDespesa)
     }
   }
 
