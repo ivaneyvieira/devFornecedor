@@ -15,6 +15,7 @@ DO @ipi := :ipi;
 DO @mva := :mva;
 DO @ncm := :ncm;
 DO @rotulo := :rotulo;
+DO @CDesp := :cdespesa;
 DO @comGrade := :comGrade;
 DO @listaProdutos := TRIM(:listaProdutos);
 
@@ -242,6 +243,7 @@ WHERE inv.date BETWEEN @di AND @df
   AND (inv.vendno = @vendno OR @vendno = 0)
   AND (iprd.prdno = @prd OR @CODIGO = '')
   AND (FIND_IN_SET(TRIM(iprd.prdno), @listaProdutos) > 0 OR @listaProdutos = '')
+  AND (inv.account = @CDesp OR @CDesp = '')
 GROUP BY iprd.invno, iprd.prdno, iprd.grade;
 
 DROP TABLE IF EXISTS sqldados.query1234567;

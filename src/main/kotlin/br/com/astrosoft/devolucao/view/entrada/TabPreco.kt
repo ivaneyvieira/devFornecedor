@@ -78,6 +78,7 @@ class TabPreco(val viewModel: TabPrecoViewModel) : ITabPrecoViewModel, ITabPanel
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = ""
     )
   }
 

@@ -14,6 +14,7 @@ DO @mva := :mva;
 DO @ncm := :ncm;
 DO @rotulo := :rotulo;
 DO @comGrade := :comGrade;
+DO @CDesp := :cdespesa;
 
 DROP TEMPORARY TABLE IF EXISTS T_MFPRD;
 CREATE TEMPORARY TABLE T_MFPRD
@@ -204,6 +205,7 @@ WHERE inv2.date BETWEEN @di AND @df
   AND (inv2.nfname = @nf OR @nf = '')
   AND (inv2.vendno = @vendno OR @vendno = 0)
   AND (iprd2.prdno = @prd OR @CODIGO = '')
+  AND (inv2.account = @CDesp OR @CDesp = '')
 GROUP BY iprd2.invno, iprd2.prdno, iprd2.grade;
 
 DROP TABLE IF EXISTS sqldados.T_MAX;

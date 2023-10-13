@@ -76,6 +76,7 @@ class TabSped2(val viewModel: TabSped2ViewModel) : ITabSped2ViewModel, ITabPanel
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = ""
     )
   }
 

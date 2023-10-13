@@ -413,6 +413,7 @@ open class FiltroRelatorio(
   open var pesquisa: String,
   open val ultimaNota: Boolean,
   open val rotulo: String,
+  open val cDespesa: String,
   open val caraterInicial: String,
   open val comGrade: Boolean,
   open val listaProdutos: String,

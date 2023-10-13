@@ -76,6 +76,7 @@ class TabSTEstado(val viewModel: TabSTEstadoViewModel) : ITabSTEstadoViewModel, 
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = ""
     )
   }
 

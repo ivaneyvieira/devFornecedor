@@ -77,6 +77,7 @@ class TabXmlTrib(val viewModel: TabXmlTribViewModel) : ITabXmlTribViewModel, ITa
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      cDespesa = ""
     )
   }
 
