@@ -57,11 +57,12 @@ CREATE TEMPORARY TABLE T_PRD
 SELECT no,
        name,
        barcode,
-       mfno_ref AS refPrd,
+       mfno_ref          AS refPrd,
        groupno,
        mfno,
        taxno,
-       lucroTributado
+       lucroTributado,
+       prdalq.form_label AS rotulo
 FROM sqldados.prd
        LEFT JOIN sqldados.prdalq
                  ON prdalq.prdno = prd.no
@@ -110,6 +111,7 @@ SELECT iprd.storeno                                                             
        inv.vendno                                                                   AS fornNota,
        iprd.prdno                                                                   AS prod,
        IF(@comGrade = 'S', iprd.grade, '')                                          AS grade,
+       prd.rotulo                                                                   AS rotulo,
        TRIM(MID(prd.name, 1, 37))                                                   AS descricao,
        TRIM(MID(prd.name, 37, 3))                                                   AS unidade,
        spedprd.ncm                                                                  AS ncmp,

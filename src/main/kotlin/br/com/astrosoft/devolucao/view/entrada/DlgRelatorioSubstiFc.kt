@@ -21,6 +21,7 @@ import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaNi
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaProd
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaQuant
+import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaRotulo
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaValor
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDesconto
 import br.com.astrosoft.devolucao.view.entrada.columms.UltimaNotaEntradaColumns.notaVlDespesa
@@ -96,20 +97,12 @@ class DlgRelatorioSubstiFc(val viewModel: TabSubstiFcViewModel, val filtro: Filt
       notaProd().setHeader("Produto")
       notaDescricao().setHeader("Descrição")
       notaGrade().setHeader("Grade")
-      notaCFOP()
-      notaCst()
-      notaCstp()
+      notaRotulo()
       notaMvan()
       notaMvap()
-      notaIcmsn().setHeader("ICMS")
       notaIpin().setHeader("IPI")
       notaQuant().setHeader("Qtd")
-      notaValor().marcaTotal(NfPrecEntrada::valor)
-      notaVlDesconto().marcaTotal(NfPrecEntrada::vlDesconto)
       notaVlLiquido().marcaTotal(NfPrecEntrada::vlLiquido)
-      notaVlFrete().marcaTotal(NfPrecEntrada::vlFrete)
-      notaVlDespesa().marcaTotal(NfPrecEntrada::vlDespesas)
-      notaVlIcms().marcaTotal(NfPrecEntrada::vlIcms)
       notaVlIpi().marcaTotal(NfPrecEntrada::vlIpi)
       notaBaseSubst().marcaTotal(NfPrecEntrada::baseSubst)
       notaVlSubst().marcaTotal(NfPrecEntrada::vlIcmsSubst)
