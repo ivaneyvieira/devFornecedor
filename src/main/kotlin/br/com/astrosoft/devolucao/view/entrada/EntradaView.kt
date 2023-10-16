@@ -20,6 +20,7 @@ class EntradaView : ViewLayout<EntradaViewModel>(), IEntradaView {
   override val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebido(viewModel.tabEntradaNddRecebidoViewModel)
   override val tabTribFiscalViewModel = TabTribFiscal(viewModel.tabTribFiscalViewModel)
   override val tabSpedViewModel = TabSped(viewModel.tabSpedViewModel)
+  override val tabSubstiFcViewModel = TabSubstiFc(viewModel.tabSubstiFcViewModel)
   override val tabSped2ViewModel = TabSped2(viewModel.tabSped2ViewModel)
   override val tabXmlTribViewModel = TabXmlTrib(viewModel.tabXmlTribViewModel)
   override val tabSTEstadoViewModel = TabSTEstado(viewModel.tabSTEstadoViewModel)

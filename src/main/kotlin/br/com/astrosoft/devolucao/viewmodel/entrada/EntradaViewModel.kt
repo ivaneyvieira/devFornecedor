@@ -9,6 +9,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
   val tabEntradaNddReceberViewModel = TabEntradaNddReceberViewModel(this)
   val tabEntradaNddRecebidoViewModel = TabEntradaNddRecebidoViewModel(this)
   val tabTribFiscalViewModel = TabTribFiscalViewModel(this)
+  val tabSubstiFcViewModel = TabSubstiFcViewModel(this)
   val tabSpedViewModel = TabSpedViewModel(this)
   val tabSped2ViewModel = TabSped2ViewModel(this)
   val tabSTEstadoViewModel = TabSTEstadoViewModel(this)
@@ -27,6 +28,7 @@ class EntradaViewModel(view: IEntradaView) : ViewModel<IEntradaView>(view) {
     view.tabEntradaNddRecebidoViewModel,
     view.tabTribFiscalViewModel,
     view.tabRefFiscalViewModel,
+    view.tabSubstiFcViewModel,
     view.tabSpedViewModel,
     view.tabSped2ViewModel,
     view.tabXmlTribViewModel,
@@ -45,6 +47,7 @@ interface IEntradaView : IView {
   val tabEntradaNddRecebidoViewModel: ITabEntradaNddRecebidoViewModel
   val tabEntradaNddReceberViewModel: ITabEntradaNddReceberViewModel
   val tabTribFiscalViewModel: ITabTribFiscalViewModel
+  val tabSubstiFcViewModel: ITabSubstiFcViewModel
   val tabSpedViewModel: ITabSpedViewModel
   val tabSped2ViewModel: ITabSped2ViewModel
   val tabSTEstadoViewModel: ITabSTEstadoViewModel
