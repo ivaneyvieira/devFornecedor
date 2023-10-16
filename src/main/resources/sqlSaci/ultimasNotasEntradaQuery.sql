@@ -65,7 +65,8 @@ SELECT no,
        lucroTributado,
        mfno_ref                             AS refPrd,
        weight_g,
-       IF(tipoGarantia = 2, garantia, NULL) AS mesesValidade
+       IF(tipoGarantia = 2, garantia, NULL) AS mesesValidade,
+       prdalq.form_label                    AS rotulo
 FROM sqldados.prd
        LEFT JOIN sqldados.prdalq
                  ON prdalq.prdno = prd.no
@@ -124,6 +125,7 @@ SELECT iprd.storeno                                                           AS
        inv.vendno                                                             AS fornNota,
        iprd.prdno                                                             AS prod,
        IF(@comGrade = 'S', iprd.grade, '')                                    AS grade,
+       prd.rotulo                                                             AS rotulo,
        TRIM(MID(prd.name, 1, 37))                                             AS descricao,
        TRIM(MID(prd.name, 37, 3))                                             AS unidade,
        spedprd.ncm                                                            AS ncmp,
@@ -266,6 +268,7 @@ SELECT lj,
        fornNota,
        TRIM(prod)                                                    AS prod,
        grade,
+       rotulo,
        descricao,
        unidade,
        icmsn,

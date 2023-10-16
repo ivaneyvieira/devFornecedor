@@ -42,7 +42,8 @@ class TabSubstiFc(val viewModel: TabSubstiFcViewModel) : ITabSubstiFcViewModel, 
     edtNota.value = filtro.nf
     edtProduto.value = filtro.prd
     edtUlmNota.value = filtro.ultimaNota
-    edtRotulo.value = filtro.rotulo
+    edtRotulo.value = "SUBSTIFC"
+    edtRotulo.isReadOnly = true
     edtCaracter.value = filtro.caraterInicial
   }
 
