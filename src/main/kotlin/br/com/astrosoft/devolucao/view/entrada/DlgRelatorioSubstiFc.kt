@@ -99,7 +99,6 @@ class DlgRelatorioSubstiFc(val viewModel: TabSubstiFcViewModel, val filtro: Filt
       notaGrade().setHeader("Grade")
       notaRotulo()
       notaMvan()
-      notaMvap()
       notaIpin().setHeader("IPI")
       notaQuant().setHeader("Qtd")
       notaVlLiquido().marcaTotal(NfPrecEntrada::vlLiquido)
