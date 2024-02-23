@@ -10,7 +10,7 @@ FROM sqldados.nf AS N
        INNER JOIN sqldados.custp AS C
                   ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.remarks LIKE 'GARANTIA %'
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 7
   AND N.cfo = 5949
@@ -20,7 +20,7 @@ DISTINCT
 SELECT *
 FROM sqldados.nf AS N
 WHERE (N.nfse = :serie)
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 2
 UNION
@@ -29,7 +29,7 @@ SELECT *
 FROM sqldados.nf AS N
 WHERE :serie = ''
   AND N.nfse IN ('1', '66')
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 2
 UNION
@@ -38,7 +38,7 @@ SELECT N.*
 FROM sqldados.nf AS N
        INNER JOIN sqldados.dup AS D
                   USING (storeno, pdvno, xano)
-WHERE D.storeno IN (2, 3, 4, 5)
+WHERE D.storeno IN (2, 3, 4, 5, 8)
   AND ((D.status = 5 AND D.remarks LIKE '%RETORNO%') OR bankno_paid = 121)
 GROUP BY storeno, pdvno, xano;
 

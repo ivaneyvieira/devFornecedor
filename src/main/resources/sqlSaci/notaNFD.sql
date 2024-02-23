@@ -12,7 +12,7 @@ FROM sqldados.nf AS N
        INNER JOIN sqldados.custp AS C
                   ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
 WHERE N.remarks LIKE 'GARANTIA %'
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 7
   AND N.cfo = 5949
@@ -22,7 +22,7 @@ DISTINCT
 SELECT *
 FROM sqldados.nf AS N
 WHERE (N.nfse = '1')
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 2
 UNION
@@ -31,7 +31,7 @@ SELECT N.*
 FROM sqldados.nf AS N
        INNER JOIN sqldados.dup AS D
                   USING (storeno, pdvno, xano)
-WHERE D.storeno IN (2, 3, 4, 5)
+WHERE D.storeno IN (2, 3, 4, 5, 8)
   AND (bankno_paid = 121)
 GROUP BY storeno, pdvno, xano;
 
@@ -106,7 +106,7 @@ FROM TNFSACI AS N
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
 WHERE (N.nfse = '1' OR (N.remarks LIKE 'GARANTIA%'))
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 2
   AND (V.no = :vendno OR :vendno = 0)

@@ -51,7 +51,7 @@ FROM sqldados.nf AS N
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
 WHERE N.nfse IN ('1', '66')
-  AND N.storeno IN (2, 3, 4, 5)
+  AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 2
 GROUP BY N.storeno, N.nfno, N.nfse;

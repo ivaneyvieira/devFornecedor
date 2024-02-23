@@ -72,7 +72,7 @@ FROM sqldados.iprd AS D
        LEFT JOIN sqldados.prp AS PP
                  ON (PP.prdno = P.no AND PP.storeno = 10)
 WHERE I.date BETWEEN @di AND @df
-  AND D.storeno IN (1, 2, 3, 4, 5, 6, 7)
+  AND D.storeno IN (1, 2, 3, 4, 5, 6, 7, 8)
   AND (D.storeno = @storeno OR @storeno = 0)
   AND C.name1 NOT LIKE 'TRANSF%'
   AND C.name1 NOT LIKE 'DEVOL%'
