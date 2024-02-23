@@ -234,7 +234,7 @@ FROM sqldados.iprd
                    AND N2.serie = inv.invse
                    AND N2.xmlNfe != 'NULL'
 WHERE inv.date BETWEEN @di AND @df
-  AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7)
+  AND iprd.storeno IN (1, 2, 3, 4, 5, 6, 7, 8)
   AND (iprd.storeno = @storeno OR @storeno = 0)
   AND cfo.name1 NOT LIKE 'TRANSF%'
   AND cfo.name1 NOT LIKE 'DEVOL%'

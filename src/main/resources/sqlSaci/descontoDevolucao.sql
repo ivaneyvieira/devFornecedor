@@ -38,7 +38,7 @@ WHERE X.amtpaid > 0
   AND I.invse = '1'
   AND I.type = 0
   AND (I.bits & POW(2, 4) = 0)
-  AND (I.storeno IN (1, 2, 3, 4, 5, 6))
+  AND (I.storeno IN (1, 2, 3, 4, 5, 6, 8))
   AND (I.storeno = @LOJA OR @LOJA = 0)
 GROUP BY I.invno, I.grossamt
 HAVING I.grossamt > pagamento;

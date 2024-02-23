@@ -69,7 +69,7 @@ FROM sqldados.nf AS N /*FORCE INDEX (e3)*/
                  ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
        INNER JOIN sqldados.custp AS C
                   ON C.no = N.custno AND C.name LIKE 'ENGECOPI%'
-WHERE N.storeno IN (2, 3, 4, 5)
+WHERE N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND CASE :TIPO_NOTA
         WHEN 'AJT'

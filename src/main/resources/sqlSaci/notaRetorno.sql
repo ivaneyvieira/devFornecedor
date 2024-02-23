@@ -9,7 +9,7 @@ SELECT N.*
 FROM sqldados.nf AS N
        INNER JOIN sqldados.dup AS D
                   USING (storeno, pdvno, xano)
-WHERE D.storeno IN (2, 3, 4, 5)
+WHERE D.storeno IN (2, 3, 4, 5, 8)
   AND ((D.status = 5 AND D.remarks LIKE '%RETORNO%') OR bankno_paid = 121)
 GROUP BY storeno, pdvno, xano;
 
