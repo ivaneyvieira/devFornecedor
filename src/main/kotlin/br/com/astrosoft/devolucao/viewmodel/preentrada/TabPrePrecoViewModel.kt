@@ -18,7 +18,7 @@ class TabPrePrecoViewModel(val viewModel: PreEntradaViewModel) {
     get() = viewModel.view.tabPrePrecoViewModel
 
   fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro(), monitor)
+    saci.queryPreNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
