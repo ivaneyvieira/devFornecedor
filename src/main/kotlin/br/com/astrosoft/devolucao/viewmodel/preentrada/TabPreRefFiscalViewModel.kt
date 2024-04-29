@@ -14,7 +14,7 @@ class TabPreRefFiscalViewModel(val viewModel: PreEntradaViewModel) {
     get() = viewModel.view.tabPreRefFiscalViewModel
 
   fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro(), monitor)
+    saci.queryPreNfPrec(subView.getFiltro(), monitor)
     subView.openRelatorio()
   }
 
@@ -93,7 +93,7 @@ class TabPreRefFiscalViewModel(val viewModel: PreEntradaViewModel) {
         )
       }.distinct()
       PrdRef.add(list)
-      saci.queryNfPrec(subView.getFiltro(), monitor)
+      saci.queryPreNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
     }
   }
@@ -111,7 +111,7 @@ class TabPreRefFiscalViewModel(val viewModel: PreEntradaViewModel) {
         )
       }.distinct()
       PrdBar.add(list)
-      saci.queryNfPrec(subView.getFiltro(), monitor)
+      saci.queryPreNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
     }
   }
@@ -126,7 +126,7 @@ class TabPreRefFiscalViewModel(val viewModel: PreEntradaViewModel) {
         if (!ncm.isNullOrEmpty())
           saci.addNCM(nf.prod, ncm)
       }
-      saci.queryNfPrec(subView.getFiltro(), monitor)
+      saci.queryPreNfPrec(subView.getFiltro(), monitor)
       subView.updateGrid()
     }
   }
