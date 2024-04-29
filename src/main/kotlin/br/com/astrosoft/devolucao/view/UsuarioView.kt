@@ -218,6 +218,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::preEntradaNddTribFiscal.name)
           }
+          checkBox("Trib Fisical") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::preEntradaNddTribFiscal.name)
+          }
         }
         formLayout {
           h4("Entrada") {

@@ -633,6 +633,35 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
+  fun queryPreNfPrec(filter: FiltroRelatorio, monitor: MonitorHandler?) {
+    val sql = if (filter.ultimaNota) "/sqlSaci/ultimasNotasPreEntradaQueryUtm.sql"
+    else "/sqlSaci/ultimasNotasPreEntradaQuery.sql"
+
+    script(sql, monitor = monitor) {
+      addOptionalParameter("storeno", filter.storeno)
+      addOptionalParameter("di", filter.di.toSaciDate())
+      addOptionalParameter("df", filter.df.toSaciDate())
+      addOptionalParameter("vendno", filter.vendno)
+      addOptionalParameter("mfno", filter.mfno)
+      addOptionalParameter("ni", filter.ni)
+      addOptionalParameter("nf", filter.nf)
+      addOptionalParameter("prd", filter.prd)
+      addOptionalParameter("cst", filter.cst.str)
+      addOptionalParameter("icms", filter.icms.str)
+      addOptionalParameter("ipi", filter.ipi.str)
+      addOptionalParameter("mva", filter.mva.str)
+      addOptionalParameter("ncm", filter.ncm.str)
+      addOptionalParameter("barcode", filter.barcode.str)
+      addOptionalParameter("refPrd", filter.refPrd.str)
+      addOptionalParameter("frete", filter.frete.str)
+      addOptionalParameter("fretePer", filter.fretePer.str)
+      addOptionalParameter("rotulo", filter.rotulo)
+      addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
+      addOptionalParameter("listaProdutos", filter.listaProdutos)
+      addOptionalParameter("cdespesa", filter.cDespesa)
+    }
+  }
+
   fun queryCte(filter: FiltroNFEntradaFrete) {
     val sql = "/sqlSaci/createNFCte.sql"
 
