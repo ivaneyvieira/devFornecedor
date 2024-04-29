@@ -600,7 +600,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("fretePer", filtro.fretePer.str)
       addOptionalParameter("preco", filtro.preco.str)
       addOptionalParameter("pesquisa", filtro.pesquisa)
-      addOptionalParameter("cdespesa", "")
+      addOptionalParameter("cdespesa", filtro.cDespesa)
     }.toList()
   }
 

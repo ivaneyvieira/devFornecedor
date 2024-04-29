@@ -22,9 +22,9 @@ class NfPrecEntrada(
   val fornNota: String,
   val prod: String,
   val grade: String,
-  val rotulo: String,
-  val descricao: String,
-  val unidade: String,
+  val rotulo: String?,
+  val descricao: String?,
+  val unidade: String?,
   val icmsn: Double?,
   val icmsp: Double?,
   val icmsd: Double?,
@@ -367,14 +367,16 @@ class NfPrecEntrada(
           }
         }
 
-    fun findNotasPreRec(filter: FiltroRelatorio, monitor: MonitorHandler? = null) =
-        saci.ultimasPreRecebimento(filter, monitor = monitor).filter {
-          it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
-            EValidade.TODAS       -> true
-            EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
-            EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
-          }
+    fun findNotasPreRec(filter: FiltroRelatorio, monitor: MonitorHandler? = null): List<NfPrecEntrada> {
+      val list = saci.ultimasPreRecebimento(filter, monitor = monitor)
+      return list.filter {
+        it.filtroCaracter(filter.listaCaracter) && when (filter.tipoValidade) {
+          EValidade.TODAS       -> true
+          EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
+          EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
         }
+      }
+    }
   }
 }
 
@@ -382,7 +384,8 @@ private fun NfPrecEntrada.filtroCaracter(listaCaracter: List<String>): Boolean {
   return if (listaCaracter.isEmpty()) true
   else {
     val listBoolean = listaCaracter.map { character ->
-      !this.descricao.startsWith(character)
+      val descricao = this.descricao ?: ""
+      !descricao.startsWith(character)
     }
     listBoolean.all { it }
   }

@@ -62,7 +62,7 @@ open class QueryDB(val database: DatabaseConfig) {
         val querySql = querySQL(con, query, classes, lambda)
         querySql.toSeq(monitor, total)
       }
-    } catch (e: Sql2oException) {
+    } catch (e: Exception) {
       e.printStackTrace()
       throw e
     }
