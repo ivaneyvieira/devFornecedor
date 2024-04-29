@@ -86,9 +86,10 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
   fun findNotas(filtro: FiltroRelatorio, monitor: MonitorHandler? = null): List<NfPrecEntrada> {
     val cst = filtro.cst
     filtro.cst = T
-    return NfPrecEntrada.findNotasPreRec(filtro, monitor).filter { nota ->
+    val lista = NfPrecEntrada.findNotasPreRec(filtro, monitor).filter { nota ->
       (cst == T) || (cst.str == nota.cstDifxn) || (cst.str == nota.cstDifnp)
     }.toList()
+    return lista
   }
 }
 
