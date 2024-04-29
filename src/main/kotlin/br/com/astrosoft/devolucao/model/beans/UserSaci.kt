@@ -102,6 +102,7 @@ class UserSaci : IUser {
   val preEntradaNddTribFiscal by DelegateAuthorized(77)
   var entradaSubstiFc by DelegateAuthorized(78)
   var entradaNddPreRefFiscal by DelegateAuthorized(79)
+  var entradaPrePreco by DelegateAuthorized(80)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
@@ -112,7 +113,7 @@ class UserSaci : IUser {
     get() = demandaAgenda || demandaConcluido
 
   val menuPreEntrada
-    get() = preEntradaNddTribFiscal || entradaNddPreRefFiscal
+    get() = preEntradaNddTribFiscal || entradaNddPreRefFiscal || entradaPrePreco || admin
 
   val menuDevolucao01
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || notaFinanceiro || conferenciaSap || sap

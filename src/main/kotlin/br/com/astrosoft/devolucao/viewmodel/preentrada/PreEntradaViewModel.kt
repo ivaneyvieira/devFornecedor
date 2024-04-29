@@ -7,15 +7,18 @@ class PreEntradaViewModel(view: IPreEntradaView) : ViewModel<IPreEntradaView>(vi
 
   val tabTribFiscalPreViewModel = TabTribFiscalPreViewModel(this)
   val tabPreRefFiscalViewModel = TabPreRefFiscalViewModel(this)
+  val tabPrePrecoViewModel = TabPrePrecoViewModel(this)
 
   override fun listTab() = listOf(
     view.tabTribFiscalPreViewModel,
     view.tabPreRefFiscalViewModel,
+    view.tabPrePrecoViewModel,
   )
 }
 
 interface IPreEntradaView : IView {
   val tabTribFiscalPreViewModel: ITabTribFiscalPreViewModel
   val tabPreRefFiscalViewModel: ITabPreRefFiscalViewModel
+  val tabPrePrecoViewModel: ITabPrePrecoViewModel
 }
 
