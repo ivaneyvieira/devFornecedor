@@ -3,6 +3,7 @@ package br.com.astrosoft.devolucao.view.preentrada
 import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.preentrada.IPreEntradaView
+import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabPrePrecoViewModel
 import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabPreRefFiscalViewModel
 import br.com.astrosoft.devolucao.viewmodel.preentrada.PreEntradaViewModel
 import br.com.astrosoft.framework.model.IUser
@@ -18,6 +19,7 @@ class PreEntradaView() : ViewLayout<PreEntradaViewModel>(), IPreEntradaView {
   override val viewModel: PreEntradaViewModel = PreEntradaViewModel(this)
   override val tabTribFiscalPreViewModel = TabTribFiscalPre(viewModel.tabTribFiscalPreViewModel)
   override val tabPreRefFiscalViewModel = TabPreRefFiscal(viewModel.tabPreRefFiscalViewModel)
+  override val tabPrePrecoViewModel = TabPrePreco(viewModel.tabPrePrecoViewModel)
 
   override fun isAccept(user: IUser): Boolean {
     val userSaci = user as? UserSaci ?: return false
