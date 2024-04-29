@@ -674,6 +674,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("rotulo", filter.rotulo)
       addOptionalParameter("comGrade", if (filter.comGrade) "S" else "N")
       addOptionalParameter("listaProdutos", filter.listaProdutos)
+      addOptionalParameter("cdespesa", filter.cDespesa)
     }
   }
 
