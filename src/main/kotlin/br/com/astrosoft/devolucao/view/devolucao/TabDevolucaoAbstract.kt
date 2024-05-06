@@ -45,7 +45,7 @@ import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.value.ValueChangeMode.LAZY
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
+abstract class  TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDevolucaoViewModelAbstract<T>) :
   TabPanelGrid<Fornecedor>(Fornecedor::class), ITabNota {
   protected var dlgNota: DlgNotaAbstract<T>? = null
   protected lateinit var dataSitCol: Grid.Column<Fornecedor>

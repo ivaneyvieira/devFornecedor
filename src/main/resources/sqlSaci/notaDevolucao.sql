@@ -27,6 +27,15 @@ UNION
 DISTINCT
 SELECT *
 FROM sqldados.nf AS N
+WHERE (N.nfse = :serie)
+  AND N.nfse = '66'
+  AND N.storeno IN (2, 3, 4, 5, 8)
+  AND N.status <> 1
+  AND N.tipo = 9
+UNION
+DISTINCT
+SELECT *
+FROM sqldados.nf AS N
 WHERE :serie = ''
   AND N.nfse IN ('1', '66')
   AND N.storeno IN (2, 3, 4, 5, 8)
