@@ -23,8 +23,7 @@ WHERE (N.nfse = :serie)
   AND N.storeno IN (2, 3, 4, 5, 8)
   AND N.status <> 1
   AND N.tipo = 2
-UNION
-DISTINCT
+UNION DISTINCT
 SELECT *
 FROM sqldados.nf AS N
 WHERE (N.nfse = :serie)
