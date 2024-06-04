@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view.preentrada
 
+import br.com.astrosoft.devolucao.model.beans.EDiferencaStr
 import br.com.astrosoft.devolucao.model.beans.EValidade
 import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
 import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
@@ -66,17 +67,38 @@ class DlgRelatorioTribFiscalPre(val viewModel: TabTribFiscalPreViewModel, val fi
       buttonPlanilha("Planilha", FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
-      this.select<EValidade>("Validade") {
-        setItems(EValidade.entries)
-        value = EValidade.TODAS
-        this.setItemLabelGenerator {
-          it.descricao
-        }
+      this.comboDiferencaStr("Fornecedor") {
+        value = filtro.fornecedor
 
         this.addValueChangeListener {
-          filtro.tipoValidade = it.value
+          filtro.fornecedor = it.value
           val list = viewModel.findNotas(filtro)
-          gridNota.setItems(list)
+
+          val listGroup = list.groupBy { it.ni }
+
+          when (it.value) {
+            EDiferencaStr.S -> {
+              val listS = listGroup.filter { (ni, lista) ->
+                lista.map { nf -> nf.fornCad }.distinct().size == 1
+              }.flatMap { nf -> nf.value }
+              gridNota.setItems(listS)
+            }
+
+            EDiferencaStr.N -> {
+              val listS = listGroup.filter { (ni, lista) ->
+                lista.map { nf -> nf.fornCad }.distinct().size > 1
+              }.flatMap { nf -> nf.value }
+              gridNota.setItems(listS)
+            }
+
+            EDiferencaStr.T -> {
+              gridNota.setItems(list)
+            }
+
+            null            -> {
+              gridNota.setItems(list)
+            }
+          }
         }
       }
       this.comboDiferencaStr("ICMS") {
@@ -111,6 +133,19 @@ class DlgRelatorioTribFiscalPre(val viewModel: TabTribFiscalPreViewModel, val fi
 
         this.addValueChangeListener {
           filtro.mva = it.value
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
+        }
+      }
+      this.select<EValidade>("Validade") {
+        setItems(EValidade.entries)
+        value = EValidade.TODAS
+        this.setItemLabelGenerator {
+          it.descricao
+        }
+
+        this.addValueChangeListener {
+          filtro.tipoValidade = it.value
           val list = viewModel.findNotas(filtro)
           gridNota.setItems(list)
         }
