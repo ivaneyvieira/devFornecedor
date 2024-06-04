@@ -21,7 +21,7 @@ fun HasComponents.comboDiferencaNum(label: String, block: Select<EDiferencaNum>.
 
 fun HasComponents.comboDiferencaStr(label: String, block: Select<EDiferencaStr>.() -> Unit): Select<EDiferencaStr> {
   return select(label) {
-    this.setItems(EDiferencaStr.values().toList())
+    this.setItems(EDiferencaStr.entries)
     this.setItemLabelGenerator {
       it.descricao
     }

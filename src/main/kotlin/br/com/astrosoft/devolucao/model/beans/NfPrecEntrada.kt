@@ -406,6 +406,7 @@ open class FiltroRelatorio(
   open var totalNF: EDiferencaStr,
   open var cst: EDiferencaStr,
   open var icms: EDiferencaStr,
+  open var fornecedor: EDiferencaStr = EDiferencaStr.T,
   open var ipi: EDiferencaStr,
   open var mva: EDiferencaStr,
   open var ncm: EDiferencaStr,
