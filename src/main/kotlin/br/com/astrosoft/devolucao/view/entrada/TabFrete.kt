@@ -76,6 +76,7 @@ class TabFrete(val viewModel: TabFreteViewModel) : ITabFreteViewModel, ITabPanel
       baseST = EDiferencaStr.T,
       valorST = EDiferencaStr.T,
       totalNF = EDiferencaStr.T,
+      fornecedor = EDiferencaStr.T,
       cDespesa = ""
     )
   }
