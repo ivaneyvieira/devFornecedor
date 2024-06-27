@@ -125,7 +125,6 @@ abstract class TabPanelUser(val viewModel: TabUsrViewModel) : TabPanelGrid<UserS
   ) {
     select<Int>(label) {
       this.setWidthFull()
-      this.addThemeVariants(SelectVariant.LUMO_SMALL)
       val lojas = viewModel.findAllLojas()
       val lojasNum = lojas.map { it.no } + listOf(0)
       setItems(lojasNum.distinct().sorted())
@@ -138,71 +137,6 @@ abstract class TabPanelUser(val viewModel: TabUsrViewModel) : TabPanelGrid<UserS
           }?.descricao ?: ""
         }
       }
-      binder.bind(this, property.name)
-    }
-  }
-
-  protected fun HasComponents.filtroImpressoraTermica(
-    binder: Binder<UserSaci>,
-    property: KMutableProperty1<UserSaci, Set<String>>
-  ) {
-    multiSelectComboBox<String>("Impressora Cupom") {
-      this.setWidthFull()
-      this.addThemeVariants(MultiSelectComboBoxVariant.LUMO_SMALL)
-      setItems(listOf("TODAS") + viewModel.allTermica().map { it.name })
-      binder.bind(this, property.name)
-    }
-  }
-
-  protected fun HasComponents.filtroImpressoraExpedicao(
-    binder: Binder<UserSaci>,
-    property: KMutableProperty1<UserSaci, Set<String>>
-  ) {
-    multiSelectComboBox<String>("Impressora") {
-      this.setWidthFull()
-      this.addThemeVariants(MultiSelectComboBoxVariant.LUMO_SMALL)
-      val impressoras = viewModel.allTermica().map { it.name }
-      val impressorasRotaLoja = ETipoRota.impressoraLojas().map { it.name }
-      val rotas = ETipoRota.entries - ETipoRota.TODAS
-      val impressorasRota = rotas.map { it.nome }
-      val itens = impressoras + impressorasRotaLoja + impressorasRota
-      setItems(listOf("Todas") + itens.distinct().sorted())
-      binder.bind(this, property.name)
-    }
-  }
-
-  protected fun HasComponents.filtroImpressoraEtiqueta(
-    binder: Binder<UserSaci>,
-    property: KMutableProperty1<UserSaci, Set<String>>
-  ) {
-    multiSelectComboBox<String>("Impressora Etiqueta") {
-      this.setWidthFull()
-      this.addThemeVariants(MultiSelectComboBoxVariant.LUMO_SMALL)
-      setItems(listOf("TODAS") + viewModel.allEtiqueta().map { it.name })
-      binder.bind(this, property.name)
-    }
-  }
-
-  protected fun HasComponents.filtroImpressoraTodas(
-    binder: Binder<UserSaci>,
-    property: KMutableProperty1<UserSaci, Set<String>>
-  ) {
-    multiSelectComboBox<String>("Impressora") {
-      this.setWidthFull()
-      this.addThemeVariants(MultiSelectComboBoxVariant.LUMO_SMALL)
-      setItems(listOf("TODAS") + viewModel.allImpressoras().map { it.name })
-      binder.bind(this, property.name)
-    }
-  }
-
-  protected fun HasComponents.filtroLocalizacao(
-    binder: Binder<UserSaci>,
-    property: KMutableProperty1<UserSaci, Set<String>>
-  ) {
-    multiSelectComboBox<String>("Localização") {
-      this.setWidthFull()
-      this.addThemeVariants(MultiSelectComboBoxVariant.LUMO_SMALL)
-      setItems(listOf("TODOS") + viewModel.allLocalizacao())
       binder.bind(this, property.name)
     }
   }
