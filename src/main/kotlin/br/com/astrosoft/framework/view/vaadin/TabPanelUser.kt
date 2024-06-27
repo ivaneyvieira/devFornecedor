@@ -1,6 +1,8 @@
 package br.com.astrosoft.framework.view.vaadin
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.framework.view.TabPanelGrid
+import br.com.astrosoft.framework.viewmodel.TabUsrViewModel
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.select
 import com.github.mvysny.karibudsl.v10.textField
