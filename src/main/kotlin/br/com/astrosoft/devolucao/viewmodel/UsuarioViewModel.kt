@@ -11,7 +11,7 @@ class UsuarioViewModel(view: IUsuarioView) : UserViewModel<UserSaci, IUsuarioVie
 
   override fun findAllUser() = UserSaci.findAll().toList()
 
-  override fun findUser(login: String) = UserSaci.findUser(login)
+  override fun findUser(login: String) = UserSaci.findUser(login).firstOrNull()
 
   override fun addUser(user: UserSaci) {
     UserSaci.updateUser(user)
