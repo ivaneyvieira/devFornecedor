@@ -109,8 +109,13 @@ class UserSaci : IUser {
             forPendenteCREDITO_AGUARDAR || forPendenteCREDITO_CONCEDIDO || forPendenteCREDITO_APLICADO ||
             forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO ||
             forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
-  val menuDemanda
-    get() = demandaAgenda || demandaConcluido
+  var menuDemanda
+    get() = demandaAgenda || demandaConcluido || pedidoFornecedor || admin
+    set(value) {
+      demandaAgenda = value
+      demandaConcluido = value
+      pedidoFornecedor = value
+    }
 
   val menuPreEntrada
     get() = preEntradaNddTribFiscal || entradaNddPreRefFiscal || entradaPrePreco || admin
