@@ -14,13 +14,13 @@ import org.sql2o.Query
 import java.time.LocalDate
 
 class QuerySaci : QueryDB(database) {
-  fun findUser(login: String?): UserSaci? {
-    login ?: return null
+  fun findUser(login: String?): List<UserSaci> {
+    login ?: return emptyList()
     val sql = "/sqlSaci/userSenha.sql"
     return query(sql, UserSaci::class) {
       addParameter("login", login)
       addParameter("appName", appName)
-    }.firstOrNull()
+    }
   }
 
   fun findAllUser(): List<UserSaci> {

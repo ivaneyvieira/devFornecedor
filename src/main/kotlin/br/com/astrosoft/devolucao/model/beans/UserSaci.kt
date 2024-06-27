@@ -147,7 +147,7 @@ class UserSaci : IUser {
       saci.updateUser(user)
     }
 
-    fun findUser(login: String?): UserSaci? {
+    fun findUser(login: String?): List<UserSaci> {
       return saci.findUser(login)
     }
   }

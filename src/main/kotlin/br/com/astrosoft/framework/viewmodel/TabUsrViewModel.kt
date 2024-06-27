@@ -5,14 +5,6 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 
 abstract class TabUsrViewModel(val vm: ViewModel<*>) {
   abstract val subView: ITabUser
-  private fun allLocais(): List<Local> = Local.all()
-  fun allLocalizacao(): List<String> {
-    return allLocais().mapNotNull { it.abreviacao }.distinct().sorted()
-  }
-
-  fun allTermica(): List<Impressora> = Impressora.allTermica()
-  fun allEtiqueta(): List<Impressora> = Impressora.allEtiqueta()
-  fun allImpressoras(): List<Impressora> = Impressora.all()
 
   fun findLoja(storeno: Int): Loja? {
     val lojas = Loja.allLojas()
