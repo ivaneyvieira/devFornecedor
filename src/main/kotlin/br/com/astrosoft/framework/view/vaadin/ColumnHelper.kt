@@ -1,11 +1,14 @@
 package br.com.astrosoft.framework.view.vaadin
 
+import br.com.astrosoft.framework.util.DATETIME_PATTERN
+import br.com.astrosoft.framework.util.TIME_PATTERN
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.list
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.addColumnFor
+import com.github.mvysny.kaributools.tooltip
 import com.vaadin.flow.component.grid.ColumnTextAlign
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.Column
@@ -37,7 +40,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).addColumnButton(
     iconButton.create().apply {
       configIcon(this, bean)
       this.style.set("cursor", "pointer")
-      if (tooltip != null) this.setTooltipText(tooltip)
+      if (tooltip != null) this.tooltip = tooltip
       onLeftClick {
         execButton(bean)
       }
@@ -94,7 +97,7 @@ fun <T : Any> (@VaadinDsl Grid<T>).columnGrid(
   isExpand: Boolean = false,
   block: (@VaadinDsl Column<T>).() -> Unit = {}
 ): Column<T> {
-  return this.column(valueProvider) {
+  return this.columnGrid(valueProvider) {
     this.setHeader(header ?: "")
     if (isExpand) {
       this.isExpand = true

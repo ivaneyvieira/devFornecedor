@@ -7,12 +7,12 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-private const val DATE_PATTERN = "dd/MM/yyyy"
-private const val DATETIME_PATTERN = "dd/MM/yyyy HH:mm"
-private const val TIME_PATTERN = "HH:mm"
-private val DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN)
-private val DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_PATTERN)
-private val TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN)
+const val DATE_PATTERN = "dd/MM/yyyy"
+const val DATETIME_PATTERN = "dd/MM/yyyy HH:mm"
+const val TIME_PATTERN = "HH:mm"
+val DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN)
+val DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_PATTERN)
+val TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN)
 
 fun LocalDateTime?.toDate(): Date? {
   if (this == null) return null
@@ -128,4 +128,14 @@ fun String?.parserDate(): LocalDate? {
   } catch (e: Exception) {
     null
   }
+}
+
+fun Date?.format(pattern: String): String {
+  if (this == null) return ""
+  val sdf = SimpleDateFormat(pattern)
+  return sdf.format(this)
+}
+
+fun LocalTime?.format(pattern: String): String {
+  return this?.format(DateTimeFormatter.ofPattern(pattern)) ?: ""
 }

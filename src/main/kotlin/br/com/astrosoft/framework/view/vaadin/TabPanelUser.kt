@@ -1,6 +1,7 @@
 package br.com.astrosoft.framework.view.vaadin
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.viewmodel.TabUsrViewModel
 import com.github.mvysny.karibudsl.v10.button
@@ -62,11 +63,6 @@ abstract class TabPanelUser(val viewModel: TabUsrViewModel) : TabPanelGrid<UserS
         viewModel.removeUsuario()
       }
     }
-  }
-
-  override fun isAuthorized(): Boolean {
-    val user = AppConfig.userLogin()
-    return user?.admin == true
   }
 
   override val label: String
