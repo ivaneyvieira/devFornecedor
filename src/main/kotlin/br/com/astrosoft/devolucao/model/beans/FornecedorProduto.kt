@@ -23,6 +23,7 @@ class FornecedorProduto(
           vendno = vendno,
           destino = "",
           origem = "",
+          userno = 0,
         )
     agenda.save()
     return agenda

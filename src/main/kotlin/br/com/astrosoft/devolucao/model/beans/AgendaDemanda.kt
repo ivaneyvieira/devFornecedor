@@ -1,6 +1,7 @@
 package br.com.astrosoft.devolucao.model.beans
 
 import br.com.astrosoft.devolucao.model.saci
+import br.com.astrosoft.framework.model.Config
 import java.time.LocalDate
 
 class AgendaDemanda(
@@ -13,6 +14,7 @@ class AgendaDemanda(
   var vendno: Int = 0,
   var destino: String,
   var origem: String,
+  var userno: Int?,
 ) {
 
   val conteudoSingle
@@ -21,6 +23,10 @@ class AgendaDemanda(
   fun delete() = saci.deleteAgendaDemanda(this)
 
   fun save() {
+    if(userno == null || userno == 0){
+      val user = Config.user as? UserSaci
+      userno = user?.no ?: 0
+    }
     if (id == 0) insert()
     else update()
   }

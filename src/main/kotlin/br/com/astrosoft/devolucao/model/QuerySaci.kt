@@ -909,6 +909,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("vendno", agendaDemanda.vendno)
       addOptionalParameter("destino", agendaDemanda.destino)
       addOptionalParameter("origem", agendaDemanda.origem)
+      addOptionalParameter("userno", agendaDemanda.userno ?: 0)
     }
   }
 
@@ -921,6 +922,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("vendno", agendaDemanda.vendno)
       addOptionalParameter("destino", agendaDemanda.destino)
       addOptionalParameter("origem", agendaDemanda.origem)
+      addOptionalParameter("userno", agendaDemanda.userno ?: 0)
     }
   }
 
