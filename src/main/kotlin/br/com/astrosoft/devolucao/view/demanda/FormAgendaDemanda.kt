@@ -55,7 +55,15 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
     get() = binder.bean
     set(value) {
       if (value == null) binder.bean =
-          AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "", destino = "", origem = "")
+          AgendaDemanda(
+            id = 0,
+            date = LocalDate.now(),
+            titulo = "",
+            conteudo = "",
+            destino = "",
+            origem = "",
+            userno = 0,
+          )
       else binder.bean = value
     }
 }

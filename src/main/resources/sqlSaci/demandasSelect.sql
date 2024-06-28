@@ -31,7 +31,8 @@ SELECT id,
        IFNULL(quantAnexo, 0) AS quantAnexo,
        vendno,
        destino,
-       origem
+       origem,
+       userno
 FROM sqldados.agendaDemandas AS A
        LEFT JOIN T_FILE AS F
                  USING (id)
@@ -40,3 +41,10 @@ WHERE (concluido = :concluido OR :concluido = '')
        @QTEXT IS NULL)
   AND (date = @QDATE OR @QDATE IS NULL)
   AND (vendno = 0)
+
+/*
+
+ALTER TABLE sqldados.agendaDemandas
+add column userno int default 0
+
+ */

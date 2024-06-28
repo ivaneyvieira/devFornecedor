@@ -107,7 +107,15 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   override fun showInsertForm(execInsert: (demanda: AgendaDemanda?) -> Unit) {
-    val bean = AgendaDemanda(id = 0, date = LocalDate.now(), titulo = "", conteudo = "", destino = "", origem = "")
+    val bean = AgendaDemanda(
+      id = 0,
+      date = LocalDate.now(),
+      titulo = "",
+      conteudo = "",
+      destino = "",
+      origem = "",
+      userno = 0,
+    )
     showAgendaForm(demanda = bean, title = "Adiciona", isReadOnly = false, exec = execInsert)
   }
 

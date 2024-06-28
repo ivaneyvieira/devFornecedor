@@ -5,5 +5,6 @@ SET date      = :date,
     concluido = :concluido,
     vendno    = :vendno,
     destino   = :destino,
-    origem    = :origem
+    origem    = :origem,
+    userno    = :userno
 WHERE id = :id
