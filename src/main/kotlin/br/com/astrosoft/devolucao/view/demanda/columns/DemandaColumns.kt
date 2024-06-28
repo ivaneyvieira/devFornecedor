@@ -7,6 +7,11 @@ import com.github.mvysny.karibudsl.v10.isExpand
 import com.vaadin.flow.component.grid.Grid
 
 object DemandaColumns {
+  fun Grid<AgendaDemanda>.colDemandaUser() = addColumnString(AgendaDemanda::login) {
+    this.setHeader("Usuário")
+    this.isExpand = false
+  }
+
   fun Grid<AgendaDemanda>.colDemandaData() = addColumnLocalDate(AgendaDemanda::date) {
     this.setHeader("Data")
     this.isExpand = false

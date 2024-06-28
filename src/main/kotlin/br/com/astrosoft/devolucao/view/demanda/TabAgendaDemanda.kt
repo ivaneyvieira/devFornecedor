@@ -8,8 +8,10 @@ import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemanda
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaDestino
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaOrigem
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaTitulo
+import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaUser
 import br.com.astrosoft.devolucao.viewmodel.demanda.ITabAgendaDemanda
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabAgendaDemandaViewModel
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
@@ -74,6 +76,7 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
       }
     }
 
+    colDemandaUser()
     colDemandaData()
     colDemandaOrigem()
     colDemandaDestino()
@@ -115,6 +118,7 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
       destino = "",
       origem = "",
       userno = 0,
+      login = "",
     )
     showAgendaForm(demanda = bean, title = "Adiciona", isReadOnly = false, exec = execInsert)
   }
@@ -128,7 +132,9 @@ class TabAgendaDemanda(val viewModel: TabAgendaDemandaViewModel) : TabPanelGrid<
   }
 
   override fun filter(): FilterAgendaDemanda {
-    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = false, vendno = 0)
+    val user = Config.user as? UserSaci
+    val userno = if (user?.admin == true) 0 else user?.no ?: 0
+    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = false, vendno = 0, userno = userno)
   }
 
   override fun selectedItem(): List<AgendaDemanda> {

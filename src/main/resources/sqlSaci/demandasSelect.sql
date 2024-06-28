@@ -32,15 +32,19 @@ SELECT id,
        vendno,
        destino,
        origem,
-       userno
+       userno,
+       U.login               AS login
 FROM sqldados.agendaDemandas AS A
        LEFT JOIN T_FILE AS F
                  USING (id)
+       LEFT JOIN sqldados.users AS U
+                 ON U.no = A.userno
 WHERE (concluido = :concluido OR :concluido = '')
   AND (titulo LIKE @QTEXT_LIKE OR conteudo LIKE @QTEXT_LIKE OR destino LIKE @QTEXT_LIKE OR
        @QTEXT IS NULL)
   AND (date = @QDATE OR @QDATE IS NULL)
   AND (vendno = 0)
+  AND (A.userno = :userno OR :userno = 0)
 
 /*
 

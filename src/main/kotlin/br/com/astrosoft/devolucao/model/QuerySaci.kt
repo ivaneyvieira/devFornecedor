@@ -887,6 +887,7 @@ class QuerySaci : QueryDB(database) {
     val sql = "/sqlSaci/demandasSelect.sql"
     return query(sql, AgendaDemanda::class) {
       addOptionalParameter("pesquisa", filter.pesquisa)
+      addOptionalParameter("userno", filter.userno)
       addOptionalParameter("concluido", filter.concluido?.let { if (it) "S" else "N" } ?: "")
     }.toList()
   }

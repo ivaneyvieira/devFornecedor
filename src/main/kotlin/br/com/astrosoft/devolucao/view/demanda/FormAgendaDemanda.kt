@@ -63,6 +63,7 @@ class FormAgendaDemanda(inicialValue: AgendaDemanda?, isReadOnly: Boolean) : For
             destino = "",
             origem = "",
             userno = 0,
+            login = "",
           )
       else binder.bean = value
     }
