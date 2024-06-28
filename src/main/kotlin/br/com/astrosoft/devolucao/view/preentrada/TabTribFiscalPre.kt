@@ -5,7 +5,6 @@ import br.com.astrosoft.devolucao.viewmodel.preentrada.ITabTribFiscalPreViewMode
 import br.com.astrosoft.devolucao.viewmodel.preentrada.TabTribFiscalPreViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ITabPanel
-import br.com.astrosoft.framework.view.TabParallel
 import br.com.astrosoft.framework.view.localePtBr
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.checkbox.Checkbox
@@ -20,7 +19,7 @@ import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel(), ITabTribFiscalPreViewModel,
+class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : ITabTribFiscalPreViewModel,
   ITabPanel {
   private lateinit var edtProduto: TextField
   private lateinit var edtNota: TextField
@@ -84,9 +83,7 @@ class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel()
   }
 
   override fun openRelatorio() {
-    access {
-      DlgRelatorioTribFiscalPre(viewModel, getFiltro()).show()
-    }
+    DlgRelatorioTribFiscalPre(viewModel, getFiltro()).show()
   }
 
   override val createComponent = VerticalLayout().apply {
@@ -125,9 +122,7 @@ class TabTribFiscalPre(val viewModel: TabTribFiscalPreViewModel) : TabParallel()
       button("Relatório") {
         icon = VaadinIcon.RECORDS.create()
         onLeftClick {
-          launch {
-            viewModel.openDlgRelatorio()
-          }
+          viewModel.openDlgRelatorio()
         }
       }
     }
