@@ -128,11 +128,10 @@ class TabTribFiscal(val viewModel: TabTribFiscalViewModel) : TabParallel(), ITab
         icon = VaadinIcon.RECORDS.create()
         onLeftClick {
           launch {
-            viewModel.openDlgRelatorio(updateProgress)
+            viewModel.openDlgRelatorio()
           }
         }
       }
-      addAndExpand(progressBarLayout)
     }
     setFiltro(getFiltro())
   }

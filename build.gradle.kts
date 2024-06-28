@@ -6,14 +6,14 @@ object Defs {
   const val vaadinonkotlin_version = "1.1.0"
   const val vaadin10_version = "14.10.3"
   const val kotlin_version = "1.9.0"
-  const val vaadin_plugin = "0.14.9.1"
+  const val vaadin_plugin = "0.14.10.4"
 }
 
 plugins {
   kotlin("jvm") version "1.9.0"
   id("org.gretty") version "3.0.6"
   war
-  id("com.vaadin") version "0.14.9.1"
+  id("com.vaadin") version "0.14.10.4"
 }
 
 defaultTasks("clean", "build")
@@ -91,7 +91,7 @@ dependencies { // Vaadin-on-Kotlin dependency, includes Vaadin
   //implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+  //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
   implementation(kotlin("reflect")) // https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core
   implementation("net.sourceforge.dynamicreports:dynamicreports-core:6.12.1") {
