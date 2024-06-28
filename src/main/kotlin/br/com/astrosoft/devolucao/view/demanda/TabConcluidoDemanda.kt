@@ -8,8 +8,10 @@ import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemanda
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaDestino
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaOrigem
 import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaTitulo
+import br.com.astrosoft.devolucao.view.demanda.columns.DemandaColumns.colDemandaUser
 import br.com.astrosoft.devolucao.viewmodel.demanda.ITabConcluidoDemanda
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabConcluidoDemandaViewModel
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
@@ -62,6 +64,7 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
       }
     }
 
+    colDemandaUser()
     colDemandaData()
     colDemandaOrigem()
     colDemandaDestino()
@@ -92,7 +95,10 @@ class TabConcluidoDemanda(val viewModel: TabConcluidoDemandaViewModel) :
   }
 
   override fun filter(): FilterAgendaDemanda {
-    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = true, vendno = 0)
+    val user = Config.user as? UserSaci
+    val userno = if (user?.admin == true) 0 else user?.no ?: 0
+
+    return FilterAgendaDemanda(pesquisa = edtFiltro.value ?: "", concluido = true, vendno = 0, userno = userno)
   }
 
   override fun selectedItem(): List<AgendaDemanda> {

@@ -15,6 +15,7 @@ class AgendaDemanda(
   var destino: String,
   var origem: String,
   var userno: Int?,
+  var login: String?,
 ) {
 
   val conteudoSingle
@@ -23,15 +24,17 @@ class AgendaDemanda(
   fun delete() = saci.deleteAgendaDemanda(this)
 
   fun save() {
-    if(userno == null || userno == 0){
-      val user = Config.user as? UserSaci
-      userno = user?.no ?: 0
-    }
     if (id == 0) insert()
     else update()
   }
 
-  fun insert() = saci.insertAgendaDemanda(this)
+  fun insert() {
+    if (userno == null || userno == 0) {
+      val user = Config.user as? UserSaci
+      userno = user?.no ?: 0
+    }
+    saci.insertAgendaDemanda(this)
+  }
 
   fun update() = saci.updateAgendaDemanda(this)
 
@@ -65,4 +68,4 @@ class AgendaDemanda(
   }
 }
 
-data class FilterAgendaDemanda(val pesquisa: String, val concluido: Boolean?, val vendno: Int)
+data class FilterAgendaDemanda(val pesquisa: String, val concluido: Boolean?, val vendno: Int, val userno: Int)
