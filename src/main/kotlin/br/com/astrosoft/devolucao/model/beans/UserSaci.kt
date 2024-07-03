@@ -124,8 +124,13 @@ class UserSaci : IUser {
     get() = nota01 || /*nota01Coleta ||*/ remessaConserto || notaFinanceiro || conferenciaSap || sap
   val menuDevolucaoInterna
     get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente || ajusteGarantia66
-  val menuDevolucaoPedido
-    get() = pedidoEditor || pedidoPendente || pedidoFinalizado
+  var menuDevolucaoPedido
+    get() = pedidoEditor || pedidoPendente || pedidoFinalizado || admin
+    set(value) {
+      pedidoEditor = value
+      pedidoPendente = value
+      pedidoFinalizado = value
+    }
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido
   val menuRecebimento
