@@ -1,7 +1,6 @@
 package br.com.astrosoft.framework.view.vaadin
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.viewmodel.TabUsrViewModel
 import com.github.mvysny.karibudsl.v10.button
@@ -97,6 +96,9 @@ abstract class TabPanelUser(val viewModel: TabUsrViewModel) : TabPanelGrid<UserS
   }
 
   fun formUpdUsuario(usuario: UserSaci) {
+    println("Pedido pendente: ${usuario.pedidoPendente}")
+    println("Pedido editor: ${usuario.pedidoEditor}")
+    println("Pedido finalizado: ${usuario.pedidoFinalizado}")
     val form = FormUsuario(usuario) {
       this.width = "60%"
       this.configFieldsDefault(true)
@@ -108,12 +110,16 @@ abstract class TabPanelUser(val viewModel: TabUsrViewModel) : TabPanelGrid<UserS
   }
 
   fun formAddUsuario() {
+
     val form = FormUsuario(UserSaci()) {
       this.width = "60%"
       this.configFieldsDefault(false)
       this.configFields()
     }
     DialogHelper.showForm(caption = "Usuário", form = form) {
+      val usuario = form.userSaci
+      println("Pedido no: ${usuario.no}")
+      usuario.print()
       viewModel.addUser(form.userSaci)
     }
   }
