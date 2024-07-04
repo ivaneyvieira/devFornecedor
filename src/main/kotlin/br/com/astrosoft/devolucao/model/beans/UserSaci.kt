@@ -6,11 +6,20 @@ import kotlin.math.pow
 import kotlin.reflect.KProperty
 
 class UserSaci : IUser {
+  fun print() {
+    println("Pedido login: $login")
+    println("Pedido name: $name")
+    println("Pedido pendente: $pedidoPendente")
+    println("Pedido editor: $pedidoEditor")
+    println("Pedido finalizado: $pedidoFinalizado")
+  }
+
   var no: Int = 0
   var name: String = ""
   override var login: String = ""
   override var senha: String = ""
   var bitAcesso: Long = 0
+  var bitAcesso2: Long = 0
   var storeno: Int = 0
   var prntno: Int = 0
   var impressora: String? = ""
@@ -84,25 +93,25 @@ class UserSaci : IUser {
   var entradaFrete by DelegateAuthorized(60)
   var entradaPreco by DelegateAuthorized(61)
   var entradaPrecoPreRec by DelegateAuthorized(62)
-  var entradaFretePer by DelegateAuthorized(63)
-  var compraConferido by DelegateAuthorized(64)
-  var agendaRastreamento by DelegateAuthorized(65)
-  var demandaAgenda by DelegateAuthorized(66)
-  var demandaConcluido by DelegateAuthorized(67)
-  var entradaCte by DelegateAuthorized(68)
-  var entradaFileNFE by DelegateAuthorized(69)
-  var pedidoFinalizado by DelegateAuthorized(70)
-  var entradaSped by DelegateAuthorized(71)
+  var entradaFretePer by DelegateAuthorized2(63)
+  var compraConferido by DelegateAuthorized2(64)
+  var agendaRastreamento by DelegateAuthorized2(65)
+  var demandaAgenda by DelegateAuthorized2(66)
+  var demandaConcluido by DelegateAuthorized2(67)
+  var entradaCte by DelegateAuthorized2(68)
+  var entradaFileNFE by DelegateAuthorized2(69)
+  var pedidoFinalizado by DelegateAuthorized2(70)
+  var entradaSped by DelegateAuthorized2(71)
 
   //var preEntradaPreEnt by DelegateAuthorized(72)
   //var preEntradaFiscal by DelegateAuthorized(73)
-  var entradaSped2 by DelegateAuthorized(74)
-  var entradaSTEstado by DelegateAuthorized(75)
-  var entradaNddXmlTrib by DelegateAuthorized(76)
-  val preEntradaNddTribFiscal by DelegateAuthorized(77)
-  var entradaSubstiFc by DelegateAuthorized(78)
-  var entradaNddPreRefFiscal by DelegateAuthorized(79)
-  var entradaPrePreco by DelegateAuthorized(80)
+  var entradaSped2 by DelegateAuthorized2(74)
+  var entradaSTEstado by DelegateAuthorized2(75)
+  var entradaNddXmlTrib by DelegateAuthorized2(76)
+  val preEntradaNddTribFiscal by DelegateAuthorized2(77)
+  var entradaSubstiFc by DelegateAuthorized2(78)
+  var entradaNddPreRefFiscal by DelegateAuthorized2(79)
+  var entradaPrePreco by DelegateAuthorized2(80)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
@@ -177,6 +186,24 @@ class DelegateAuthorized(numBit: Int) {
     thisRef.bitAcesso = when {
       v    -> thisRef.bitAcesso or bit
       else -> thisRef.bitAcesso and bit.inv()
+    }
+  }
+}
+
+class DelegateAuthorized2(numBit2: Int) {
+  private val bit = 2.toDouble().pow(numBit2 - 62).toLong()
+
+  operator fun getValue(thisRef: UserSaci?, property: KProperty<*>): Boolean {
+    thisRef ?: return false
+    return (thisRef.bitAcesso2 and bit) != 0L || thisRef.admin
+  }
+
+  operator fun setValue(thisRef: UserSaci?, property: KProperty<*>, value: Boolean?) {
+    thisRef ?: return
+    val v = value ?: false
+    thisRef.bitAcesso2 = when {
+      v    -> thisRef.bitAcesso2 or bit
+      else -> thisRef.bitAcesso2 and bit.inv()
     }
   }
 }

@@ -56,6 +56,10 @@ abstract class TabUsrViewModel(val vm: ViewModel<*>) {
   }
 
   fun updUser(usuario: UserSaci) {
+    println("Pedido pendente: ${usuario.pedidoPendente}")
+    println("Pedido editor: ${usuario.pedidoEditor}")
+    println("Pedido finalizado: ${usuario.pedidoFinalizado}")
+
     UserSaci.updateUser(usuario)
     updateView()
   }
