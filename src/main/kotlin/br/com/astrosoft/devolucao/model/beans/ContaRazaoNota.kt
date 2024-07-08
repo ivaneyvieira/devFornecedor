@@ -11,6 +11,8 @@ class ContaRazaoNota(
   val nf: String?,
   val emissao: LocalDate?,
   val entrada: LocalDate?,
+  val vendno : Int,
+  val fornecedor: String?,
   val valorNota: Double?,
   val obs: String?,
   val vencimento: LocalDate?,
@@ -50,7 +52,7 @@ class ContaRazaoNota(
         ContaRazao(
           numeroConta = entry.key,
           descricaoConta = entry.value.firstOrNull()?.descricaoConta ?: "",
-          notas = entry.value
+          notas = entry.value,
         )
       }
     }
@@ -62,5 +64,10 @@ data class FiltroContaRazaoNota(val query: String)
 data class ContaRazao(
   val numeroConta: String,
   val descricaoConta: String,
-  val notas: List<ContaRazaoNota>
-)
+  val notas: List<ContaRazaoNota>,
+  val quantNotas: Int = notas.size,
+  val valorTotal: Double = notas.sumOf { it.valorNota ?: 0.0 }
+){
+  val labelTitle
+    get() = "$numeroConta - $descricaoConta"
+}

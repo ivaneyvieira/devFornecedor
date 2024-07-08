@@ -67,6 +67,8 @@ SELECT I.storeno                                          AS loja,
        CAST(issue_date AS DATE)                           AS emissao,
        CAST(date AS DATE)                                 AS entrada,
        grossamt / 100                                     AS valorNota,
+       V.no                                               AS vendno,
+       V.sname                                            AS fornecedor,
        I.remarks                                          AS obs,
        CAST(X.duedate AS DATE)                            AS vencimento,
        CASE X.status
@@ -101,6 +103,8 @@ FROM sqldados.inv AS I
                  USING (invno)
        LEFT JOIN sqldados.invxa AS X
                  USING (invno, instno, duedate)
+       LEFT JOIN sqldados.vend AS V
+                 ON V.no = I.vendno
 ORDER BY invno DESC;
 
 SELECT numeroConta,
@@ -111,6 +115,8 @@ SELECT numeroConta,
        emissao,
        entrada,
        valorNota,
+       vendno,
+       fornecedor,
        obs,
        vencimento,
        situacao,

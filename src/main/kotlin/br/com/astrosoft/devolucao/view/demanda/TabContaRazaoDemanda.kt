@@ -11,6 +11,8 @@ import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.addColumnSeq
 import br.com.astrosoft.framework.view.vaadin.columnGrid
 import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.kaributools.asc
+import com.github.mvysny.kaributools.sort
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -42,6 +44,10 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
 
     columnGrid(ContaRazao::numeroConta, "Número")
     columnGrid(ContaRazao::descricaoConta, "Descrição", isExpand = true)
+    columnGrid(ContaRazao::quantNotas, "Quantidade")
+    columnGrid(ContaRazao::valorTotal, "Total")
+
+    this.sort(ContaRazao::numeroConta.asc)
   }
 
   override fun filtro(): FiltroContaRazaoNota {
@@ -51,7 +57,7 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
   }
 
   override fun showNotas(fornecedor: ContaRazao) {
-    TODO("Not yet implemented")
+    DlgContaRazaoNota(viewModel, fornecedor).showDialogNota()
   }
 
   override fun isAuthorized(user: IUser): Boolean {
