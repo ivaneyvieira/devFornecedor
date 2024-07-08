@@ -2,8 +2,6 @@ USE sqldados;
 
 SET SQL_MODE = '';
 
-DO @DATA_CORTE := SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH) * 1;
-
 DROP TEMPORARY TABLE IF EXISTS T_INV;
 CREATE TEMPORARY TABLE T_INV
 (
@@ -126,7 +124,6 @@ FROM T_INV AS I
                  USING (invno, instno, duedate)
        LEFT JOIN sqldados.vend AS V
                  ON V.no = I.vendno
-WHERE issue_date >= 20240301
 ORDER BY invno DESC;
 
 SELECT numeroConta,
