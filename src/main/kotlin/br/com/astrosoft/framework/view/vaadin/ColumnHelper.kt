@@ -1,6 +1,7 @@
 package br.com.astrosoft.framework.view.vaadin
 
 import br.com.astrosoft.framework.util.DATETIME_PATTERN
+import br.com.astrosoft.framework.util.DATE_PATTERN
 import br.com.astrosoft.framework.util.TIME_PATTERN
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.list
@@ -20,7 +21,6 @@ import com.vaadin.flow.data.renderer.LocalDateTimeRenderer
 import com.vaadin.flow.data.renderer.NumberRenderer
 import com.vaadin.flow.data.renderer.TextRenderer
 import com.vaadin.flow.function.ValueProvider
-import net.sf.jasperreports.types.date.FixedDate.DATE_PATTERN
 import java.sql.Time
 import java.text.DecimalFormat
 import java.time.LocalDate
