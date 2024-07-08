@@ -9,25 +9,47 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelGrid
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.framework.view.localePtBr
 import br.com.astrosoft.framework.view.vaadin.columnGrid
+import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.asc
 import com.github.mvysny.kaributools.sort
+import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import java.time.LocalDate
 
 class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel) :
   TabPanelGrid<ContaRazao>(ContaRazao::class), ITabContaRazaoDemanda {
   private lateinit var edtQuery: TextField
+  private lateinit var edtDataInicial: DatePicker
+  private lateinit var edtDataFinal: DatePicker
 
   override fun HorizontalLayout.toolBarConfig() {
     edtQuery = textField("Filtro") {
       width = "300px"
       valueChangeMode = ValueChangeMode.LAZY
       valueChangeTimeout = 2000
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtDataInicial = datePicker("Data Inicial") {
+      value = LocalDate.now().withDayOfMonth(1)
+      this.localePtBr()
+      addValueChangeListener {
+        viewModel.updateView()
+      }
+    }
+
+    edtDataFinal = datePicker("Data Final") {
+      value = LocalDate.now()
+      this.localePtBr()
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -53,6 +75,8 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
   override fun filtro(): FiltroContaRazaoNota {
     return FiltroContaRazaoNota(
       query = edtQuery.value ?: "",
+      dataInicial = edtDataInicial.value,
+      dataFinal = edtDataFinal.value
     )
   }
 
