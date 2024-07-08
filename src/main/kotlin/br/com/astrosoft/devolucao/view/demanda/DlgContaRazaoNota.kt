@@ -5,6 +5,7 @@ import br.com.astrosoft.devolucao.model.beans.ContaRazaoNota
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaContaRazaoNotas
 import br.com.astrosoft.devolucao.model.reports.RelatorioContaRazaoNota
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabContaRazaoDemandaViewModel
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.addColumnSeq
@@ -14,6 +15,7 @@ import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -86,6 +88,8 @@ class DlgContaRazaoNota(val viewModel: TabContaRazaoDemandaViewModel, val contaR
         && (loja == 0 || it.loja == loja)
     }
     gridNota.setItems(notas.toList())
+    gridNota.getColumnBy(ContaRazaoNota::valorNota).setFooter(notas.sumOf { it.valorNota ?: 0.0 }.format())
+    gridNota.getColumnBy(ContaRazaoNota::vencimento).setFooter("Total")
   }
 
   fun imprimirRelatorio(notas: List<ContaRazaoNota>) {

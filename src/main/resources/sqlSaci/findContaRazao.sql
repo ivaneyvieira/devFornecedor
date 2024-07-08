@@ -49,9 +49,8 @@ CREATE TEMPORARY TABLE T_PARCELA_ULT
 )
 SELECT invno, MAX(CONCAT(LPAD(instno, 10, ' '), LPAD(duedate, 10, ' '))) AS chave
 FROM sqldados.invxa AS X
-       INNER JOIN sqldados.inv AS I
+       INNER JOIN T_INV AS I
                   USING (invno)
-WHERE I.vendno = @VENDNO
 GROUP BY invno;
 
 DROP TEMPORARY TABLE IF EXISTS T_PARCELA_ULT2;
