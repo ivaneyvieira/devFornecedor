@@ -18,6 +18,7 @@ class ContaRazaoNota(
   val vencimento: LocalDate?,
   val situacao: String?,
   val obsParcela: String?,
+  val dataPagameno: LocalDate?,
   val quantAnexo: Int,
 ) {
   fun findAnexos(): List<NFFile> {

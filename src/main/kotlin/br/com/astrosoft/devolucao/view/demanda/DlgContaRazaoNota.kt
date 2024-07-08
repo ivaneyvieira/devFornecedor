@@ -137,6 +137,7 @@ class DlgContaRazaoNota(val viewModel: TabContaRazaoDemandaViewModel, val contaR
       columnGrid(ContaRazaoNota::fornecedor, "Fornecedor Nome")
       columnGrid(ContaRazaoNota::obs, "Obs")
       columnGrid(ContaRazaoNota::situacao, "Situação")
+      columnGrid(ContaRazaoNota::dataPagameno, "Data Pagto")
       columnGrid(ContaRazaoNota::obsParcela, "Obs Parcela")
     }
   }

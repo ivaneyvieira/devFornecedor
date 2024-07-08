@@ -109,6 +109,7 @@ SELECT I.storeno                                          AS loja,
          ELSE ''
        END                                                AS situacao,
        X.remarks                                          AS obsParcela,
+       CAST(IF(X.paiddate = 0, NULL, X.paiddate) AS DATE) AS dataPagameno,
        IFNULL(F.qt, 0)                                    AS quantAnexo,
        IFNULL(A.account, '0')                             AS numeroConta,
        IFNULL(A.descricao, 'SEM CONTA')                   AS descricaoConta
@@ -139,6 +140,7 @@ SELECT numeroConta,
        vencimento,
        situacao,
        obsParcela,
+       dataPagameno,
        quantAnexo
 FROM T_NOTAS TN
 WHERE (:query = '' OR
