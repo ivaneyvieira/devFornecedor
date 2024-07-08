@@ -72,7 +72,19 @@ class DlgContaRazaoNota(val viewModel: TabContaRazaoDemandaViewModel, val contaR
   }
 
   private fun updateGrid() {
-    val notas = contaRazao?.notas.orEmpty()
+    val notas = contaRazao?.notas.orEmpty().filter {
+      val query = edtQuery.value ?: ""
+      val loja = edtLoja.value ?: 0
+      (query == "" ||
+       (it.ni.toString().contains(query, true)) ||
+       (it.nf?.contains(query, true) == true) ||
+       (it.fornecedor?.contains(query, true) == true) ||
+       it.vendno.toString().contains(query, true) ||
+       (it.situacao?.contains(query, true) == true) ||
+       (it.obsParcela?.contains(query, true) == true) ||
+       (it.obs?.contains(query, true) == true))
+        && (loja == 0 || it.loja == loja)
+    }
     gridNota.setItems(notas.toList())
   }
 

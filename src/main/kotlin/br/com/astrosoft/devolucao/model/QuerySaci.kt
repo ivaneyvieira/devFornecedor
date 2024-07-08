@@ -559,6 +559,8 @@ class QuerySaci : QueryDB(database) {
     val sql = "/sqlSaci/findContaRazao.sql"
     return query(sql, ContaRazaoNota::class) {
       addOptionalParameter("query", filtro.query)
+      addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
+      addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
     }
   }
 

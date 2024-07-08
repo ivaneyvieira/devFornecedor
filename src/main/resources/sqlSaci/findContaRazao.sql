@@ -2,15 +2,35 @@ USE sqldados;
 
 SET SQL_MODE = '';
 
+DO @DATA_CORTE := SUBDATE(CURRENT_DATE, INTERVAL 6 MONTH) * 1;
+
+DROP TEMPORARY TABLE IF EXISTS T_INV;
+CREATE TEMPORARY TABLE T_INV
+(
+  PRIMARY KEY (invno)
+)
+SELECT account,
+       invno,
+       storeno,
+       nfname,
+       invse,
+       issue_date,
+       date,
+       grossamt,
+       vendno,
+       remarks
+FROM sqldados.inv AS I
+WHERE date BETWEEN :dataInicial AND :dataFinal
+  AND storeno IN (1, 2, 3, 4, 5, 6, 7, 8);
+
 DROP TEMPORARY TABLE IF EXISTS T_ACC_NO;
 CREATE TEMPORARY TABLE T_ACC_NO
 (
   PRIMARY KEY (account)
 )
 SELECT DISTINCT account
-FROM sqldados.inv
-WHERE account != ''
-  AND issue_date >= 20240301;
+FROM T_INV
+WHERE account != '';
 
 DROP TEMPORARY TABLE IF EXISTS T_ACC;
 CREATE TEMPORARY TABLE T_ACC
@@ -95,7 +115,7 @@ SELECT I.storeno                                          AS loja,
        IFNULL(F.qt, 0)                                    AS quantAnexo,
        IFNULL(A.account, '0')                             AS numeroConta,
        IFNULL(A.descricao, 'SEM CONTA')                   AS descricaoConta
-FROM sqldados.inv AS I
+FROM T_INV AS I
        LEFT JOIN T_ACC AS A
                  USING (account)
        LEFT JOIN T_FILES AS F

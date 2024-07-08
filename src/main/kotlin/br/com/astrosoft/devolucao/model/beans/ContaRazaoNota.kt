@@ -11,7 +11,7 @@ class ContaRazaoNota(
   val nf: String?,
   val emissao: LocalDate?,
   val entrada: LocalDate?,
-  val vendno : Int,
+  val vendno: Int,
   val fornecedor: String?,
   val valorNota: Double?,
   val obs: String?,
@@ -59,7 +59,7 @@ class ContaRazaoNota(
   }
 }
 
-data class FiltroContaRazaoNota(val query: String)
+data class FiltroContaRazaoNota(val query: String, val dataInicial: LocalDate?, val dataFinal: LocalDate?)
 
 data class ContaRazao(
   val numeroConta: String,
@@ -67,7 +67,7 @@ data class ContaRazao(
   val notas: List<ContaRazaoNota>,
   val quantNotas: Int = notas.size,
   val valorTotal: Double = notas.sumOf { it.valorNota ?: 0.0 }
-){
+) {
   val labelTitle
     get() = "$numeroConta - $descricaoConta"
 }
