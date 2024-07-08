@@ -59,7 +59,7 @@ SELECT I.storeno                                          AS loja,
          WHEN 1
            THEN 'Pgto.Total'
          WHEN 2
-           THEN 'Pgto.Parcial'
+           THEN if(X.amtdue = X.amtpaid, 'Pgto.Total', 'Pgto.Parcial')
          WHEN 3
            THEN 'Pgto.c/Desconto'
          WHEN 4
