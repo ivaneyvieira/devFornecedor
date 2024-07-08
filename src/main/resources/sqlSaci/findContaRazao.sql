@@ -9,7 +9,8 @@ CREATE TEMPORARY TABLE T_ACC_NO
 )
 SELECT DISTINCT account
 FROM sqldados.inv
-WHERE account != '';
+WHERE account != ''
+  AND issue_date >= 20240301;
 
 DROP TEMPORARY TABLE IF EXISTS T_ACC;
 CREATE TEMPORARY TABLE T_ACC
@@ -105,6 +106,7 @@ FROM sqldados.inv AS I
                  USING (invno, instno, duedate)
        LEFT JOIN sqldados.vend AS V
                  ON V.no = I.vendno
+WHERE issue_date >= 20240301
 ORDER BY invno DESC;
 
 SELECT numeroConta,
