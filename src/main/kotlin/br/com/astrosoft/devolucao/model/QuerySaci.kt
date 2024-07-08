@@ -279,6 +279,15 @@ class QuerySaci : QueryDB(database) {
     }.toList()
   }
 
+  fun selectFile(nota: ContaRazaoNota): List<NFFile> {
+    val sql = "/sqlSaci/fileSelect.sql"
+    return query(sql, NFFile::class) {
+      addOptionalParameter("storeno", 77)
+      addOptionalParameter("pdvno", 7777)
+      addOptionalParameter("xano", nota.ni)
+    }.toList()
+  }
+
   fun selectFile(fornecedor: FornecedorProduto): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
     return query(sql, NFFile::class) {
@@ -543,6 +552,13 @@ class QuerySaci : QueryDB(database) {
     script(sql) {
       addOptionalParameter("id", nota.id)
       addOptionalParameter("ordno", nota.ordno)
+    }
+  }
+
+  fun contaRazaoNotas(filtro: FiltroContaRazaoNota): List<ContaRazaoNota> {
+    val sql = "/sqlSaci/findContaRazao.sql"
+    return query(sql, ContaRazaoNota::class) {
+      addOptionalParameter("query", filtro.query)
     }
   }
 

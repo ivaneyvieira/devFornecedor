@@ -4,7 +4,6 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.demanda.DemandaViewModel
 import br.com.astrosoft.devolucao.viewmodel.demanda.IDemandaView
-import br.com.astrosoft.devolucao.viewmodel.demanda.ITabDemandaUsr
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.ViewLayout
 import com.vaadin.flow.component.dependency.CssImport
@@ -19,6 +18,7 @@ class DemandaView : ViewLayout<DemandaViewModel>(), IDemandaView {
   override val tabAgendaDemanda = TabAgendaDemanda(viewModel.tabAgendadaDemanda)
   override val tabConcluidoDemanda = TabConcluidoDemanda(viewModel.tabConcluidoDemanda)
   override val tabFornecedorDemanda = TabFornecedorDemanda(viewModel.tabFornecedorDemanda)
+  override val tabContaRazaoDemanda = TabContaRazaoDemanda(viewModel.tabContaRazaoDemanda)
   override val tabDemandaUsr = TabDemandaUsr(viewModel.tabDemandaUsr)
 
   override fun isAccept(user: IUser): Boolean {

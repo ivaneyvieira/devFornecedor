@@ -103,7 +103,7 @@ class UserSaci : IUser {
   var pedidoFinalizado by DelegateAuthorized2(70)
   var entradaSped by DelegateAuthorized2(71)
 
-  //var preEntradaPreEnt by DelegateAuthorized(72)
+  var pedidoContaRazao by DelegateAuthorized(72)
   //var preEntradaFiscal by DelegateAuthorized(73)
   var entradaSped2 by DelegateAuthorized2(74)
   var entradaSTEstado by DelegateAuthorized2(75)
@@ -119,11 +119,12 @@ class UserSaci : IUser {
             forPendenteCREDITO_CONTA || forPendenteBONIFICADA || forPendenteREPOSICAO || forPendenteRETORNO ||
             forPendenteAGUARDA_COLETA || forPendenteASSINA_CTE
   var menuDemanda
-    get() = demandaAgenda || demandaConcluido || pedidoFornecedor || admin
+    get() = demandaAgenda || demandaConcluido || pedidoFornecedor || pedidoContaRazao || admin
     set(value) {
       demandaAgenda = value
       demandaConcluido = value
       pedidoFornecedor = value
+      pedidoContaRazao = value
     }
 
   val menuPreEntrada

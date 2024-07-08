@@ -1,16 +1,32 @@
 USE sqldados;
 
-SET @VENDNO := :vendno;
-SET @LOJA := :loja;
-SET @QUERY := :query;
-SET @QUERY_LIKE := CONCAT('%', @QUERY, '%');
+SET SQL_MODE = '';
+
+DROP TEMPORARY TABLE IF EXISTS T_ACC_NO;
+CREATE TEMPORARY TABLE T_ACC_NO
+(
+  PRIMARY KEY (account)
+)
+SELECT DISTINCT account
+FROM sqldados.inv
+WHERE account != '';
+
+DROP TEMPORARY TABLE IF EXISTS T_ACC;
+CREATE TEMPORARY TABLE T_ACC
+(
+  PRIMARY KEY (account)
+)
+SELECT no AS account, name AS descricao
+FROM sqldados.acc AS A
+       INNER JOIN T_ACC_NO AS AC
+                  ON AC.account = A.no;
 
 
 DROP TEMPORARY TABLE IF EXISTS T_PARCELA_ULT;
 CREATE TEMPORARY TABLE T_PARCELA_ULT
 (
   PRIMARY KEY (invno),
-  chave varchar(20)
+  chave VARCHAR(20)
 )
 SELECT invno, MAX(CONCAT(LPAD(instno, 10, ' '), LPAD(duedate, 10, ' '))) AS chave
 FROM sqldados.invxa AS X
@@ -43,7 +59,7 @@ GROUP BY xano;
 DROP TEMPORARY TABLE IF EXISTS T_NOTAS;
 CREATE TEMPORARY TABLE T_NOTAS
 (
-  nf varchar(20)
+  nf VARCHAR(20)
 )
 SELECT I.storeno                                          AS loja,
        invno                                              AS ni,
@@ -52,7 +68,7 @@ SELECT I.storeno                                          AS loja,
        CAST(date AS DATE)                                 AS entrada,
        grossamt / 100                                     AS valorNota,
        I.remarks                                          AS obs,
-       CAST(X.duedate AS date)                            AS vencimento,
+       CAST(X.duedate AS DATE)                            AS vencimento,
        CASE X.status
          WHEN 0
            THEN 'Em Aberto'
@@ -71,21 +87,25 @@ SELECT I.storeno                                          AS loja,
          WHEN 7
            THEN 'Consignacao'
          ELSE ''
-         END                                              AS situacao,
+       END                                                AS situacao,
        X.remarks                                          AS obsParcela,
-       IFNULL(F.qt, 0)                                    AS quantAnexo
+       IFNULL(F.qt, 0)                                    AS quantAnexo,
+       IFNULL(A.account, '0')                             AS numeroConta,
+       IFNULL(A.descricao, 'SEM CONTA')                   AS descricaoConta
 FROM sqldados.inv AS I
+       LEFT JOIN T_ACC AS A
+                 USING (account)
        LEFT JOIN T_FILES AS F
                  USING (invno)
        LEFT JOIN T_PARCELA_ULT2 AS U
                  USING (invno)
        LEFT JOIN sqldados.invxa AS X
                  USING (invno, instno, duedate)
-WHERE (vendno = @VENDNO)
-  AND (I.storeno = @LOJA OR @LOJA = 0)
 ORDER BY invno DESC;
 
-SELECT loja,
+SELECT numeroConta,
+       descricaoConta,
+       loja,
        ni,
        nf,
        emissao,
@@ -97,10 +117,6 @@ SELECT loja,
        obsParcela,
        quantAnexo
 FROM T_NOTAS TN
-WHERE @QUERY = ''
-   OR loja = @QUERY
-   OR ni = @QUERY
-   OR nf LIKE @QUERY
-   OR DATE_FORMAT(emissao, '%d/%m/%Y') = @QUERY
-   OR DATE_FORMAT(entrada, '%d/%m/%Y') = @QUERY
-   OR obs LIKE @QUERY_LIKE
+WHERE (:query = '' OR
+       numeroConta LIKE CONCAT(:query, '%') OR
+       descricaoConta LIKE CONCAT(:query, '%'))
