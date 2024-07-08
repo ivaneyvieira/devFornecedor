@@ -1,17 +1,14 @@
 package br.com.astrosoft.devolucao.view.demanda
 
-import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaEmissao
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaEntrada
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaNF
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaNI
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaObs
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaObsParcela
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaSituacao
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaValor
-import br.com.astrosoft.devolucao.view.demanda.columns.FornecedorNotaColumns.fornecedorNotaVencimento
+import br.com.astrosoft.devolucao.model.beans.ContaRazao
+import br.com.astrosoft.devolucao.model.beans.ContaRazaoNota
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaContaRazaoNotas
+import br.com.astrosoft.devolucao.model.reports.RelatorioContaRazaoNota
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabContaRazaoDemandaViewModel
-import br.com.astrosoft.framework.view.*
+import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.SubWindowPDF
+import br.com.astrosoft.framework.view.addColumnSeq
+import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import br.com.astrosoft.framework.view.vaadin.columnGrid
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.integerField
@@ -41,6 +38,7 @@ class DlgContaRazaoNota(val viewModel: TabContaRazaoDemandaViewModel, val contaR
           updateGrid()
         }
       }
+
       edtQuery = textField("Pesquisa") {
         width = "300px"
         valueChangeMode = ValueChangeMode.LAZY
@@ -49,9 +47,12 @@ class DlgContaRazaoNota(val viewModel: TabContaRazaoDemandaViewModel, val contaR
           updateGrid()
         }
       }
+
       this.lazyDownloadButtonXlsx("Planilha", "pedidosCompra") {
-        ByteArray(0)
+        val list = gridNota.selectedItems.toList()
+        PlanilhaContaRazaoNotas().grava(list)
       }
+
       button("Relatório") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
@@ -79,9 +80,9 @@ class DlgContaRazaoNota(val viewModel: TabContaRazaoDemandaViewModel, val contaR
     if (notas.isEmpty()) {
       viewModel.viewModel.showError("Nenhuma item foi selecionado")
     } else {
-      //val report = RelatorioFornecedorNota.processaRelatorio(contaRazao?.labelTitle ?: "", notas)
-      //val chave = "DevFornecedorNota"
-      //SubWindowPDF(chave, report).open()
+      val report = RelatorioContaRazaoNota.processaRelatorio(contaRazao?.labelTitle ?: "", notas)
+      val chave = "DevFornecedorNota"
+      SubWindowPDF(chave, report).open()
     }
   }
 
