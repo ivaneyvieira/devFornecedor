@@ -1,5 +1,6 @@
 package br.com.astrosoft.devolucao.view
 
+import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.compra.CompraView
 import br.com.astrosoft.devolucao.view.demanda.DemandaView
@@ -26,18 +27,32 @@ import com.vaadin.flow.theme.lumo.Lumo
 @JsModule("./styles/shared-styles.js")
 class DevFornecedorLayout : MainLayout() {
   override fun Tabs.menuConfig() {
-    menuRoute(FORM, "NFD", Devolucao01View::class)
-    menuRoute(FORM, "Interna", DevolucaoInternaView::class)
-    menuRoute(FORM, "Pedido", DevolucaoPedidoView::class)
-    menuRoute(FORM, "Série 66", Devolucao66View::class)
-    menuRoute(FORM, "Compra", CompraView::class)
-    menuRoute(FORM, "Pré-entrada", PreEntradaView::class)
-    menuRoute(FORM, "Entrada", EntradaView::class)
-    menuRoute(FORM, "Saida", SaidaView::class)
-    menuRoute(TRUCK, "Recebimento", RecebimentoView::class)
-    menuRoute(CLOCK, "Demanda", DemandaView::class)
-    menuRoute(CLOCK, "Agenda", AgendaView::class)
-    menuRoute(USER, "Usuário", UsuarioView::class, Config.isAdmin)
-    menuRoute(SIGN_IN, "Assinatura", AssinaturaView::class, Config.isAdmin)
+    val user = Config.user as? UserSaci
+    if (user?.menuDevolucao01 == true)
+      menuRoute(FORM, "NFD", Devolucao01View::class)
+    if (user?.menuDevolucaoInterna == true)
+      menuRoute(FORM, "Interna", DevolucaoInternaView::class)
+    if (user?.menuDevolucaoPedido == true)
+      menuRoute(FORM, "Pedido", DevolucaoPedidoView::class)
+    if (user?.menuDevolucao66 == true)
+      menuRoute(FORM, "Série 66", Devolucao66View::class)
+    if (user?.menuCompra == true)
+      menuRoute(FORM, "Compra", CompraView::class)
+    if (user?.menuPreEntrada == true)
+      menuRoute(FORM, "Pré-entrada", PreEntradaView::class)
+    if (user?.menuEntrada == true)
+      menuRoute(FORM, "Entrada", EntradaView::class)
+    if (user?.menuSaida == true)
+      menuRoute(FORM, "Saida", SaidaView::class)
+    if (user?.menuRecebimento == true)
+      menuRoute(TRUCK, "Recebimento", RecebimentoView::class)
+    if (user?.menuDemanda == true)
+      menuRoute(CLOCK, "Demanda", DemandaView::class)
+    if (user?.menuAgenda == true)
+      menuRoute(CLOCK, "Agenda", AgendaView::class)
+    if (user?.admin == true)
+      menuRoute(USER, "Usuário", UsuarioView::class, Config.isAdmin)
+    if (user?.admin == true)
+      menuRoute(SIGN_IN, "Assinatura", AssinaturaView::class, Config.isAdmin)
   }
 }

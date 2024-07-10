@@ -7,9 +7,11 @@ abstract class ViewModel<V : IView>(val view: V) {
   fun <T> exec(block: () -> T) = exec(view, block)
   protected abstract fun listTab(): List<ITabView>
 
-  fun tabsAuthorized() = listTab().filter {
-    val user = Config.user ?: return@filter false
-    it.isAuthorized(user)
+  fun tabsAuthorized(): List<ITabView> {
+    val user = Config.user ?: return emptyList()
+    return listTab().filter {
+      it.isAuthorized(user)
+    }
   }
 
   fun showError(msg: String) = view.showError(msg)
