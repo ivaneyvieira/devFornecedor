@@ -57,7 +57,8 @@ abstract class ViewLayout<VM : ViewModel<*>> : VerticalLayout(), IView, BeforeLe
         tabs.firstOrNull()?.updateComponent()
       else
         tabs.getOrNull(indexTab)?.updateComponent()
-      this.selectedIndex = indexTab
+      if (this.tabCount > indexTab)
+        this.selectedIndex = indexTab
     }
   }
 
