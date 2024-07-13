@@ -3,18 +3,20 @@ package br.com.astrosoft.devolucao.view.demanda
 import br.com.astrosoft.devolucao.model.beans.ContaRazao
 import br.com.astrosoft.devolucao.model.beans.FiltroContaRazaoNota
 import br.com.astrosoft.devolucao.model.beans.UserSaci
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaContaRazao
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaContaRazaoNotas
 import br.com.astrosoft.devolucao.viewmodel.demanda.ITabContaRazaoDemanda
 import br.com.astrosoft.devolucao.viewmodel.demanda.TabContaRazaoDemandaViewModel
 import br.com.astrosoft.framework.model.IUser
-import br.com.astrosoft.framework.view.TabPanelGrid
-import br.com.astrosoft.framework.view.addColumnButton
-import br.com.astrosoft.framework.view.addColumnSeq
-import br.com.astrosoft.framework.view.localePtBr
+import br.com.astrosoft.framework.util.format
+import br.com.astrosoft.framework.view.*
 import br.com.astrosoft.framework.view.vaadin.columnGrid
 import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.kaributools.asc
+import com.github.mvysny.kaributools.getColumnBy
 import com.github.mvysny.kaributools.sort
+import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -54,6 +56,11 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
         viewModel.updateView()
       }
     }
+
+    this.lazyDownloadButtonXlsx("Planilha", "contaRazão") {
+      val list = itensSelecionados()
+      PlanilhaContaRazao().grava(list)
+    }
   }
 
   override fun Grid<ContaRazao>.gridPanel() {
@@ -68,6 +75,13 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
     columnGrid(ContaRazao::descricaoConta, "Descrição", isExpand = true)
     columnGrid(ContaRazao::quantNotas, "Quantidade")
     columnGrid(ContaRazao::valorTotal, "Total")
+
+    this.dataProvider.addDataProviderListener {
+      val totalPedido = listBeans().sumOf { it.valorTotal }.format()
+      val totalCol = getColumnBy(ContaRazao::valorTotal)
+      totalCol.setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
+    }
+
 
     this.sort(ContaRazao::numeroConta.asc)
   }
@@ -88,7 +102,6 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
     val username = user as? UserSaci
     return username?.pedidoContaRazao == true
   }
-
 
   override val label: String
     get() = "Conta Razão"
