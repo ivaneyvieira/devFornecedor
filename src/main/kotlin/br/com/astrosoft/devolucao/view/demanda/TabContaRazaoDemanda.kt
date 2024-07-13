@@ -73,7 +73,9 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
 
     columnGrid(ContaRazao::numeroConta, "Número")
     columnGrid(ContaRazao::descricaoConta, "Descrição", isExpand = true)
-    columnGrid(ContaRazao::quantNotas, "Quantidade")
+    columnGrid(ContaRazao::quantNotas, "Quantidade"){
+      this.setFooter("Total")
+    }
     columnGrid(ContaRazao::valorTotal, "Total")
 
     this.dataProvider.addDataProviderListener {
