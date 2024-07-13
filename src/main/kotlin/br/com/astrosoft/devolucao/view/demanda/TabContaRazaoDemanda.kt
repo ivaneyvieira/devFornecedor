@@ -74,7 +74,7 @@ class TabContaRazaoDemanda(private val viewModel: TabContaRazaoDemandaViewModel)
     columnGrid(ContaRazao::numeroConta, "Número")
     columnGrid(ContaRazao::descricaoConta, "Descrição", isExpand = true)
     columnGrid(ContaRazao::quantNotas, "Quantidade"){
-      this.setFooter("<b><font size=4>Total</font></b>")
+      this.setFooter(Html("<b><font size=4>Total</font></b>"))
     }
     columnGrid(ContaRazao::valorTotal, "Total")
 
