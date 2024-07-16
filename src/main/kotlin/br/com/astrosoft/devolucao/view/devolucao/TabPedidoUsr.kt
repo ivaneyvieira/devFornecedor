@@ -11,6 +11,7 @@ import com.vaadin.flow.component.grid.Grid
 class TabPedidoUsr(viewModel: TabPedidoUsrViewModel) : TabPanelUser(viewModel), ITabPedidoUsr {
   override fun Grid<UserSaci>.configGrid() {
     columnGrid(UserSaci::pedidoEditor, "Editor")
+    columnGrid(UserSaci::pedidoMonitoramentoEntrada, "Produto Entrada")
     columnGrid(UserSaci::pedidoPendente, "Pendente")
     columnGrid(UserSaci::pedidoFinalizado, "Finalizado")
   }
@@ -20,6 +21,9 @@ class TabPedidoUsr(viewModel: TabPedidoUsrViewModel) : TabPanelUser(viewModel), 
       verticalBlock("Menus") {
         checkBox("Editor") {
           binder.bind(this, UserSaci::pedidoEditor.name)
+        }
+        checkBox("Produto Entrada") {
+          binder.bind(this, UserSaci::pedidoMonitoramentoEntrada.name)
         }
         checkBox("Pendente") {
           binder.bind(this, UserSaci::pedidoPendente.name)
