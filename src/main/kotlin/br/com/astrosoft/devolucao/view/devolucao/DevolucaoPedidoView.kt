@@ -19,6 +19,7 @@ class DevolucaoPedidoView : ViewLayout<DevolucaoPedidoViewModel>(), IDevolucaoPe
   override val tabPedidoPendente = TabPedidoPendente(viewModel.tabPedidoPendenteViewModel)
   override val tabPedidoFinalizado = TabPedidoFinalizado(viewModel.tabPedidoFinalizadoViewModel)
   override val tabPedidoUsr = TabPedidoUsr(viewModel.tabPedidoUsrViewModel)
+  override val tabMonitoramentoEntrada = TabMonitoramentoEntrada(viewModel.tabMonitoramentoEntradaViewModel)
   //override val tabPedidoFornecedor = TabPedidoFornecedor(viewModel.tabPedidoFornecedorViewModel)
 
   override fun isAccept(user: IUser): Boolean {

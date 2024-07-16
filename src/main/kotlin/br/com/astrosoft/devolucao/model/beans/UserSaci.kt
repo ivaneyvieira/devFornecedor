@@ -104,6 +104,7 @@ class UserSaci : IUser {
   var entradaSped by DelegateAuthorized2(71)
 
   var pedidoContaRazao by DelegateAuthorized(72)
+
   //var preEntradaFiscal by DelegateAuthorized(73)
   var entradaSped2 by DelegateAuthorized2(74)
   var entradaSTEstado by DelegateAuthorized2(75)
@@ -112,6 +113,7 @@ class UserSaci : IUser {
   var entradaSubstiFc by DelegateAuthorized2(78)
   var entradaNddPreRefFiscal by DelegateAuthorized2(79)
   var entradaPrePreco by DelegateAuthorized2(80)
+  var pedidoMonitoramentoEntrada by DelegateAuthorized2(81)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
@@ -135,11 +137,12 @@ class UserSaci : IUser {
   val menuDevolucaoInterna
     get() = ajusteGarantia || ajusteGarantiaPago || ajusteGarantiaPerca || ajusteGarantiaPendente || ajusteGarantia66
   var menuDevolucaoPedido
-    get() = pedidoEditor || pedidoPendente || pedidoFinalizado || admin
+    get() = pedidoEditor || pedidoPendente || pedidoFinalizado || pedidoMonitoramentoEntrada || admin
     set(value) {
       pedidoEditor = value
       pedidoPendente = value
       pedidoFinalizado = value
+      pedidoMonitoramentoEntrada = value
     }
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido

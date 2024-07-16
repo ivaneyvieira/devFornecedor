@@ -20,6 +20,7 @@ class TabPedidoUsrViewModel(val viewModel: DevolucaoPedidoViewModel) : TabUsrVie
     this.pedidoEditor = usuario.pedidoEditor
     this.pedidoPendente = usuario.pedidoPendente
     this.pedidoFinalizado = usuario.pedidoFinalizado
+    this.pedidoMonitoramentoEntrada = usuario.pedidoMonitoramentoEntrada
   }
 }
 
