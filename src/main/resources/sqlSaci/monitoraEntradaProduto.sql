@@ -36,8 +36,12 @@ FROM sqldados.iprd AS I
                   ON P.no = I.prdno
 WHERE (N.date >= :dataInicial OR :dataInicial = 0)
   AND (N.date <= :dataFinal OR :dataFinal = 0)
+  AND (N.storeno = :loja OR :loja = 0)
   AND V.name NOT LIKE 'ENGECOPI%';
 
+DO @pesquisa := :pesquisa;
+DO @pesquisaNum := IF(@pesquisa REGEXP '^[0-9]+$', @pesquisa * 1, 0);
+DO @pesquisaLike := CONCAT(@pesquisa, '%');
 
 SELECT invno              AS ni,
        storeno            AS loja,
@@ -50,3 +54,11 @@ SELECT invno              AS ni,
        descricao          AS descricao,
        remarks            AS observacao
 FROM T_QUERY
+WHERE (@pesquisa = '' OR
+       invno = @pesquisaNum OR
+       codigo = @pesquisa OR
+       grade = @pesquisa OR
+       vendno = @pesquisaNum OR
+       fornecedor LIKE @pesquisaLike OR
+       descricao LIKE @pesquisaLike OR
+       remarks LIKE @pesquisaLike)

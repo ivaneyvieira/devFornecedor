@@ -1057,6 +1057,17 @@ class QuerySaci : QueryDB(database) {
     })
   }
 
+  fun findMonitoramentoEntrada(filtro: FiltroMonitoramentoEntrada): List<MonitoramentoEntrada>{
+    val sql = "/sqlSaci/monitoraEntradaProduto.sql"
+
+    return query(sql, MonitoramentoEntrada::class){
+      this.addOptionalParameter("loja", filtro.loja)
+      this.addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
+      this.addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())
+      this.addOptionalParameter("pesquisa", filtro.pesquisa)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     val ipServer: String? = db.url.split("/").getOrNull(2)
