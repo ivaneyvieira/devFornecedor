@@ -37,7 +37,8 @@ FROM sqldados.iprd AS I
 WHERE (N.date >= :dataInicial OR :dataInicial = 0)
   AND (N.date <= :dataFinal OR :dataFinal = 0)
   AND (N.storeno = :loja OR :loja = 0)
-  AND V.name NOT LIKE 'ENGECOPI%';
+  AND V.name NOT LIKE 'ENGECOPI%'
+  AND N.type = 0;
 
 DO @pesquisa := :pesquisa;
 DO @pesquisaNum := IF(@pesquisa REGEXP '^[0-9]+$', @pesquisa * 1, 0);
