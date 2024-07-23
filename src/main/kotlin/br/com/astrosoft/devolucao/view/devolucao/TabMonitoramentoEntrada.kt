@@ -74,9 +74,9 @@ class TabMonitoramentoEntrada(private val viewModel: TabMonitoramentoEntradaView
     columnGrid(MonitoramentoEntrada::vendno, "Cod Forn")
     columnGrid(MonitoramentoEntrada::fornecedor, "Fornecedor")
     columnGrid(MonitoramentoEntrada::codigo, "Código")
-    columnGrid(MonitoramentoEntrada::grade, "Grade")
-    columnGrid(MonitoramentoEntrada::descricao, "Descrição")
-    columnGrid(MonitoramentoEntrada::observacao, "Observação")
+    //columnGrid(MonitoramentoEntrada::grade, "Grade")
+    //columnGrid(MonitoramentoEntrada::descricao, "Descrição")
+    //columnGrid(MonitoramentoEntrada::observacao, "Observação")
   }
 
   override fun filtro(): FiltroMonitoramentoEntrada {
