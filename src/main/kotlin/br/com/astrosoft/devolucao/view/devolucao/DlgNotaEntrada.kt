@@ -2,9 +2,11 @@ package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.MonitoramentoEntradaFornecedor
 import br.com.astrosoft.devolucao.model.beans.MonitoramentoEntradaNota
+import br.com.astrosoft.devolucao.model.reports.RelatorioNotaEntrada
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabMonitoramentoEntradaViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
+import br.com.astrosoft.framework.view.SubWindowPDF
 import br.com.astrosoft.framework.view.lazyDownloadButtonXlsx
 import br.com.astrosoft.framework.view.vaadin.columnGrid
 import com.github.mvysny.karibudsl.v10.button
@@ -44,7 +46,7 @@ class DlgNotaEntrada(val viewModel: TabMonitoramentoEntradaViewModel) {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {
           val notas = gridNota.asMultiSelect().selectedItems.toList()
-          // viewModel.imprimirNotaDevolucao(notas, resumida = true)
+          viewModel.imprimirNota(notas)
         }
       }
       this.lazyDownloadButtonXlsx("Planilha", "planilha") {
@@ -78,6 +80,12 @@ class DlgNotaEntrada(val viewModel: TabMonitoramentoEntradaViewModel) {
 
   fun updateNota() {
     gridNota.dataProvider.refreshAll()
+  }
+
+  fun imprimeSelecionados(notas: List<MonitoramentoEntradaNota>) {
+    val report = RelatorioNotaEntrada.processaRelatorio(notas)
+    val chave = "EntradaFor"
+    SubWindowPDF(chave, report).open()
   }
 }
 
