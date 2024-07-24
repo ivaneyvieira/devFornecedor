@@ -77,6 +77,10 @@ class TabMonitoramentoEntrada(private val viewModel: TabMonitoramentoEntradaView
     )
   }
 
+  override fun imprimeSelecionados(notas: List<MonitoramentoEntradaNota>) {
+    dlgNota?.imprimeSelecionados(notas)
+  }
+
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.pedidoMonitoramentoEntrada == true
