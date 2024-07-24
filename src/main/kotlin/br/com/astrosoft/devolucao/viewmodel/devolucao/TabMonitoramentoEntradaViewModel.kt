@@ -1,7 +1,8 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-import br.com.astrosoft.devolucao.model.beans.*
-import br.com.astrosoft.devolucao.viewmodel.demanda.DemandaViewModel
+import br.com.astrosoft.devolucao.model.beans.FiltroMonitoramentoEntrada
+import br.com.astrosoft.devolucao.model.beans.MonitoramentoEntrada
+import br.com.astrosoft.devolucao.model.beans.MonitoramentoEntradaFornecedor
 import br.com.astrosoft.framework.viewmodel.ITabView
 
 class TabMonitoramentoEntradaViewModel(val viewModel: DevolucaoPedidoViewModel) {
@@ -16,7 +17,7 @@ class TabMonitoramentoEntradaViewModel(val viewModel: DevolucaoPedidoViewModel) 
 }
 
 interface ITabMonitoramentoEntrada : ITabView {
-  fun updateGrid(itens: List<MonitoramentoEntrada>)
+  fun updateGrid(itens: List<MonitoramentoEntradaFornecedor>)
   fun filtro(): FiltroMonitoramentoEntrada
 }
 

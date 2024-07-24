@@ -33,7 +33,7 @@ SELECT N.storeno,
        N.discount / 100                                                  AS valorDesconto,
        0.00                                                              AS outrasDespesas,
        N.ipi_amt / 100                                                   AS valorIpi,
-       grossamt / 100                                                    AS valorTotal,
+       N.grossamt / 100                                                  AS valorTotal,
        TRIM(IFNULL(OBS.remarks__480, ''))                                AS obsPedido
 FROM sqldados.nf AS N
        LEFT JOIN sqldados.nfdevRmk AS R
