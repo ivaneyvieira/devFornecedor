@@ -86,6 +86,7 @@ class NfPrecEntrada(
   val vlTotal: Double?,
   val xml: String?,
   val cDesp: String?,
+  val precoRef: Double?,
 ) {
   val barcodepList get() = barcodepl?.split(",")?.filter { it != "" } ?: emptyList()
   val barcodecList get() = barcodecl?.split(",")?.filter { it != "" } ?: emptyList()
@@ -537,6 +538,7 @@ fun List<NfPrecEntrada>.group(): List<NfPrecEntrada> {
       vlTotal = list.sumOf { it.vlTotal ?: 0.00 },
       xml = null,
       cDesp = null,
+      precoRef = list.sumOf { it.precoRef ?: 0.00 },
     )
   }
 
