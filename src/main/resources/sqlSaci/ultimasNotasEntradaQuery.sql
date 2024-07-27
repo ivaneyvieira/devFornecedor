@@ -173,6 +173,7 @@ SELECT iprd.storeno                                                           AS
        @FRETE_UN := ROUND(prd.weight_g * @FRETE, 4)                           AS freteUnit,
        ROUND(@FRETE_UN * 100 * 10000 / iprd.fob4, 2)                          AS fretePerNf,
        prp.freight / 100                                                      AS fretePerPrc,
+       prp.refprice / 100                                                     AS precoRef,
        iprd.qtty / 1000                                                       AS quant,
        S.estoque                                                              AS estoque,
        mesesValidade                                                          AS mesesValidade,
@@ -336,5 +337,6 @@ SELECT lj,
        vlIcmsSubst,
        vlDesconto + vlLiquido + vlFrete + vlIcms + vlIpi + baseSubst AS vlTotal,
        xml,
-       cDesp
+       cDesp,
+       IF(precoRef >= 99000, precoRef, NULL)                         AS precoRef
 FROM sqldados.T_QUERY
