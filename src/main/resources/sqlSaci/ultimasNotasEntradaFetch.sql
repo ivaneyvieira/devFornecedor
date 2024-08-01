@@ -103,6 +103,7 @@ WHERE (@cst = cstDif OR @icms = icmsDif OR @ipi = ipiDif OR @mva = mvaDif OR @nc
   AND (lj = @pesquisaNum OR ni = @pesquisaNum OR nfe = @pesquisaNum OR fornCad = @pesquisaNum OR
        fornNota = @pesquisaNum OR prod = @pesquisaNum OR
        (descricao LIKE CONCAT(@pesquisaStr, '%') AND @pesquisaStr <> '') OR @pesquisa = '')
+  AND (precoRef >= 99000 OR :refMaior99 = 'N')
 
 
 

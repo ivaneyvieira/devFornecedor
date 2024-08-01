@@ -595,6 +595,7 @@ class QuerySaci : QueryDB(database) {
       addOptionalParameter("preco", filtro.preco.str)
       addOptionalParameter("pesquisa", filtro.pesquisa)
       addOptionalParameter("cdespesa", filtro.cDespesa)
+      addOptionalParameter("refMaior99", filtro.refMaior99.let { if (it) "S" else "N" })
     }.toList()
   }
 
