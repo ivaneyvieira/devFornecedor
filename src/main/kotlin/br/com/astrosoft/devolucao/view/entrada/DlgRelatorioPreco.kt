@@ -27,6 +27,7 @@ import br.com.astrosoft.framework.view.buttonPlanilha
 import br.com.astrosoft.framework.view.selectedItemsSort
 import com.flowingcode.vaadin.addons.fontawesome.FontAwesome
 import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.checkBox
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.dependency.CssImport
@@ -63,6 +64,14 @@ class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRela
 
         this.addValueChangeListener {
           filtro.preco = it.value
+          val list = viewModel.findNotas(filtro)
+          gridNota.setItems(list)
+        }
+      }
+      this.checkBox("Ref, > 99 mil") {
+        value = filtro.refMaior99
+        this.addValueChangeListener {
+          filtro.refMaior99 = it.value
           val list = viewModel.findNotas(filtro)
           gridNota.setItems(list)
         }

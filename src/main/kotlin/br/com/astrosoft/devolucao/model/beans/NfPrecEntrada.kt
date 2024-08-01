@@ -365,7 +365,11 @@ class NfPrecEntrada(
             EValidade.TODAS       -> true
             EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
             EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
-          }
+          } &&
+            if(filter.refMaior99) {
+              val precoRef = it.precoRef ?: 0.00
+              precoRef > 99000.00
+            } else true
         }
 
     fun findNotasPreRec(filter: FiltroRelatorio, monitor: MonitorHandler? = null): List<NfPrecEntrada> {
@@ -416,6 +420,7 @@ open class FiltroRelatorio(
   open var frete: EDiferencaNum,
   open var fretePer: EDiferencaNum,
   open var preco: EDiferencaNum,
+  open var refMaior99: Boolean = false,
   open var pesquisa: String,
   open val ultimaNota: Boolean,
   open val rotulo: String,
