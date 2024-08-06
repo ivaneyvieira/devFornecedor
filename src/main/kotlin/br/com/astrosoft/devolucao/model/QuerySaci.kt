@@ -81,7 +81,7 @@ class QuerySaci : QueryDB(database) {
     val sql = "/sqlSaci/pedidoDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("loja", loja)
-    }.toList()
+    }
   }
 
   fun entradaDevolucao(): List<NotaSaida> {

@@ -114,6 +114,7 @@ class UserSaci : IUser {
   var entradaNddPreRefFiscal by DelegateAuthorized2(79)
   var entradaPrePreco by DelegateAuthorized2(80)
   var pedidoMonitoramentoEntrada by DelegateAuthorized2(81)
+  var coleta by DelegateAuthorized2(82)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
