@@ -227,5 +227,6 @@ enum class EOcorrencias(val num: Int, val descricao: String) {
   FaltaTransporte(3, "Falta no Transporte"),
   FaltaFabrica(4, "Falta de Fabrica"),
   ProdutoDesacordo(5, "Produto em Desacordo com o Pedido"),
-  DefeitoFabrica(6, "Defeito de Fabricação")
+  DefeitoFabrica(6, "Defeito de Fabricação"),
+  PresteVencer(7, "Preste a Vencer"),
 }
