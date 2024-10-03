@@ -4,10 +4,7 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.view.agenda.AgendaView
 import br.com.astrosoft.devolucao.view.compra.CompraView
 import br.com.astrosoft.devolucao.view.demanda.DemandaView
-import br.com.astrosoft.devolucao.view.devolucao.Devolucao01View
-import br.com.astrosoft.devolucao.view.devolucao.Devolucao66View
-import br.com.astrosoft.devolucao.view.devolucao.DevolucaoInternaView
-import br.com.astrosoft.devolucao.view.devolucao.DevolucaoPedidoView
+import br.com.astrosoft.devolucao.view.devolucao.*
 import br.com.astrosoft.devolucao.view.entrada.EntradaView
 import br.com.astrosoft.devolucao.view.preentrada.PreEntradaView
 import br.com.astrosoft.devolucao.view.recebimento.RecebimentoView
@@ -34,6 +31,8 @@ class DevFornecedorLayout : MainLayout() {
       menuRoute(FORM, "Interna", DevolucaoInternaView::class)
     if (user?.menuDevolucaoPedido == true)
       menuRoute(FORM, "Pedido", DevolucaoPedidoView::class)
+    if (user?.menuDevolucaoAvariaRec == true)
+      menuRoute(FORM, "Avaria Rec", DevolucaoAvariaRecView::class)
     if (user?.menuDevolucao66 == true)
       menuRoute(FORM, "Série 66", Devolucao66View::class)
     if (user?.menuCompra == true)
