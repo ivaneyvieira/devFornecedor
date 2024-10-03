@@ -253,6 +253,7 @@ enum class Serie(val value: String) {
   Serie01("1"),
   Serie66("66"),
   PED("PED"),
+  AVA("AVA"),
   ENT("ENT"),
   AJT("AJT"),
   AJD("AJD"),

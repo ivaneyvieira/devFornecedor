@@ -84,6 +84,13 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
+  fun avariaEntDevolucao(loja: Int): List<NotaSaida> {
+    val sql = "/sqlSaci/avariaDevolucao.sql"
+    return query(sql, NotaSaida::class) {
+      addOptionalParameter("loja", loja)
+    }
+  }
+
   fun entradaDevolucao(): List<NotaSaida> {
     val sql = "/sqlSaci/entradaDevolucao.sql"
     return query(sql, NotaSaida::class).toList()

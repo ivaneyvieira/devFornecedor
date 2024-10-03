@@ -8,7 +8,7 @@ class TabAvariaRecPendenteViewModel(viewModel: DevolucaoAvariaRecViewModel) :
 
 interface ITabAvariaRecPendente : ITabNota {
   override val serie: Serie
-    get() = Serie.PED
+    get() = Serie.AVA
   override val pago66: SimNao
     get() = SimNao.NONE
   override val pago01: SimNao
