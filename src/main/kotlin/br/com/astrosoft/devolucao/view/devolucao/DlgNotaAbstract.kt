@@ -146,42 +146,66 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
         }
       }
 
-      if (serie in listOf(Serie01)) {
-        val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
-          setItems(ESituacaoPendencia.entries.filter { !it.valueStr.isNullOrBlank() })
-          setItemLabelGenerator {
-            it.title
+      when {
+        serie in listOf(Serie01)                                                         -> {
+          val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
+            setItems(ESituacaoPendencia.entries.filter { !it.valueStr.isNullOrBlank() })
+            setItemLabelGenerator {
+              it.title
+            }
+            isAutoOpen = true
+            isClearButtonVisible = false
+            isPreventInvalidInput = true
           }
-          isAutoOpen = true
-          isClearButtonVisible = false
-          isPreventInvalidInput = true
-        }
-        button("Muda situação") {
-          onLeftClick {
-            val itens = gridNota.selectedItems.toList()
-            viewModel.salvaSituacao(cmbSituacao.value, itens)
-            itens.forEach {
-              gridNota.dataProvider.refreshItem(it)
+          button("Muda situação") {
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacao(cmbSituacao.value, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
             }
           }
         }
-      } else if (viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel) {
-        val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
-          setItems(ESituacaoPedido.entries)
-          setItemLabelGenerator {
-            it.descricao
+        viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel -> {
+          val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
+            setItems(ESituacaoPedido.entries)
+            setItemLabelGenerator {
+              it.descricao
+            }
+            isAutoOpen = true
+            isClearButtonVisible = false
+            isPreventInvalidInput = true
           }
-          isAutoOpen = true
-          isClearButtonVisible = false
-          isPreventInvalidInput = true
-        }
 
-        button("Muda situação") {
-          onLeftClick {
-            val itens = gridNota.selectedItems.toList()
-            viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
-            itens.forEach {
-              gridNota.dataProvider.refreshItem(it)
+          button("Muda situação") {
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
+            }
+          }
+        }
+        viewModel is TabAvariaRecEditorViewModel || viewModel is TabAvariaRecPendenteViewModel -> {
+          val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
+            setItems(ESituacaoPedido.entries.filter { it.avaria })
+            setItemLabelGenerator {
+              it.descricao
+            }
+            isAutoOpen = true
+            isClearButtonVisible = false
+            isPreventInvalidInput = true
+          }
+
+          button("Muda situação") {
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
             }
           }
         }
