@@ -186,6 +186,6 @@ FROM sqldados.eord AS E
                  ON RV.vendno = V.no AND RV.tipo = 'PED'
        LEFT JOIN T_NOTA AS N
                  ON E.storeno = N.loja AND E.ordno = N.pedido
-WHERE E.paymno = 316
+WHERE E.paymno = 317
   AND N.loja IS NULL
   AND (E.storeno = @LOJA OR @LOJA = 0)
