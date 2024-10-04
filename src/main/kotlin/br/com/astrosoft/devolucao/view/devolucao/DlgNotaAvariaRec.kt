@@ -69,7 +69,7 @@ class DlgNotaAvariaRec<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMo
       notaLoja()
       notaDataPedido()
       notaPedido() //notaDataNota()
-      if (viewModel !is TabPedidoEditorViewModel && viewModel !is TabPedidoPendenteViewModel) {
+      if (viewModel !is TabAvariaRecEditorViewModel && viewModel !is TabAvariaRecPendenteViewModel) {
         dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
         notaEditavel(situacao).textFieldEditor().marcaAzul()
       }
