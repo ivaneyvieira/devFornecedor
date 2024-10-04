@@ -148,7 +148,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
 
       if (serie in listOf(Serie01)) {
         val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
-          setItems(ESituacaoPendencia.values().filter { !it.valueStr.isNullOrBlank() })
+          setItems(ESituacaoPendencia.entries.filter { !it.valueStr.isNullOrBlank() })
           setItemLabelGenerator {
             it.title
           }
@@ -165,25 +165,23 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-      } else {
-        if (viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel) {
-          val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
-            setItems(ESituacaoPedido.values().toList())
-            setItemLabelGenerator {
-              it.descricao
-            }
-            isAutoOpen = true
-            isClearButtonVisible = false
-            isPreventInvalidInput = true
+      } else if (viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel) {
+        val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
+          setItems(ESituacaoPedido.entries)
+          setItemLabelGenerator {
+            it.descricao
           }
+          isAutoOpen = true
+          isClearButtonVisible = false
+          isPreventInvalidInput = true
+        }
 
-          button("Muda situação") {
-            onLeftClick {
-              val itens = gridNota.selectedItems.toList()
-              viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
-              itens.forEach {
-                gridNota.dataProvider.refreshItem(it)
-              }
+        button("Muda situação") {
+          onLeftClick {
+            val itens = gridNota.selectedItems.toList()
+            viewModel.salvaSituacaoPedido(cmbSituacaoPedido.value, itens)
+            itens.forEach {
+              gridNota.dataProvider.refreshItem(it)
             }
           }
         }

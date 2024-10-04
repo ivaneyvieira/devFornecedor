@@ -177,9 +177,11 @@ FROM sqldados.eord AS E
        LEFT JOIN sqldados.store AS S
                  ON S.no = E.storeno
        INNER JOIN sqldados.custp AS C
-                  ON C.no = E.custno AND
+                  ON C.no = E.custno /*AND
                      C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
                                   709327, 108751)
+
+ */
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
        LEFT JOIN sqldados.nfvendRmk AS RV
