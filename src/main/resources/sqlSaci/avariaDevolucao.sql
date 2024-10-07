@@ -46,8 +46,8 @@ FROM sqldados.nf AS N
                  ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
        LEFT JOIN sqldados.custp AS C
                  ON C.no = N.custno
-                   AND C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
-                                    709327, 108751)
+                  /* AND C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+                                    709327, 108751)*/
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
 WHERE N.nfse IN ('1', '66')
@@ -180,12 +180,11 @@ FROM sqldados.eord AS E
                   ON C.no = E.custno /*AND
                      C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
                                   709327, 108751)
-
  */
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
        LEFT JOIN sqldados.nfvendRmk AS RV
-                 ON RV.vendno = V.no AND RV.tipo = 'PED'
+                 ON RV.vendno = V.no AND RV.tipo = 'AVA'
        LEFT JOIN T_NOTA AS N
                  ON E.storeno = N.loja AND E.ordno = N.pedido
 WHERE E.paymno = 317
