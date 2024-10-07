@@ -478,7 +478,7 @@ class NotaSaida(
     }
 
   val situacaoPendencia
-    get() = ESituacaoPendencia.values().firstOrNull { it.valueStr == situacao }
+    get() = ESituacaoPendencia.entries.firstOrNull { it.valueStr == situacao }
 
   private var produtos: List<ProdutosNotaSaida>? = null
 
@@ -486,6 +486,7 @@ class NotaSaida(
     if (produtos == null) {
       produtos = when (tipo) {
         "PED" -> saci.produtosPedido(this)
+        "AVA" -> saci.produtosPedido(this)
         "ENT" -> saci.produtosEntrada(this)
         "AJT" -> saci.produtosAjuste(this)
         "AJP" -> saci.produtosAjuste(this)
@@ -512,23 +513,23 @@ class NotaSaida(
     get() = icmsSubstProduto + valorFrete + valorSeguro - valorDesconto + valorTotalProduto + outrasDespesas + valorIpiProdutos
 
   val valorIpiProdutos
-    get() = if (tipo == "PED") listaProdutos().sumOf { it.valorIPI } else valorIpi
+    get() = if (tipo in listOf("PED", "AVA")) listaProdutos().sumOf { it.valorIPI } else valorIpi
   val icmsSubstProduto
-    get() = if (tipo == "PED") listaProdutos().sumOf { it.vst } else icmsSubst
+    get() = if (tipo in listOf("PED", "AVA")) listaProdutos().sumOf { it.vst } else icmsSubst
   val baseIcmsSubstProduto
-    get() = if (tipo == "PED") listaProdutos().sumOf { it.baseSt } else baseIcmsSubst
+    get() = if (tipo in listOf("PED", "AVA")) listaProdutos().sumOf { it.baseSt } else baseIcmsSubst
   val valorIcmsProdutos
-    get() = if (tipo == "PED") listaProdutos().sumOf { it.valorICMS } else valorIcms
+    get() = if (tipo in listOf("PED", "AVA")) listaProdutos().sumOf { it.valorICMS } else valorIcms
   val baseIcmsProdutos
-    get() = if (tipo == "PED") listaProdutos().sumOf { it.baseICMS } else baseIcms
+    get() = if (tipo in listOf("PED", "AVA")) listaProdutos().sumOf { it.baseICMS } else baseIcms
   val dataNotaStr
-    get() = (if (tipo == "PED") dataPedido else dataNota).format()
+    get() = (if (tipo in listOf("PED", "AVA")) dataPedido else dataNota).format()
   val dataNotaEditavelStr
     get() = dataNotaEditavel.format()
   val dataAgendaStr
     get() = dataAgenda.format()
   val numeroNotaPedido
-    get() = if (tipo == "PED") pedido.toString() else nota
+    get() = if (tipo in listOf("PED", "AVA")) pedido.toString() else nota
 
   val labelTitle
     get() = "DEV FORNECEDOR: ${this.custno} ${this.fornecedor} (${this.vendno}) FOR SAP ${this.fornecedorSap}"
@@ -569,7 +570,7 @@ class NotaSaida(
 
   fun listaEmailRecebidoNota(): List<EmailDB> {
     val gmail = MailGMail()
-    val numero = if (tipo == "PED") pedido.toString() else nota.split("/")[0]
+    val numero = if (tipo in listOf("PED", "AVA")) pedido.toString() else nota.split("/")[0]
     return gmail.listEmail(Todos, numero).map { msg: EmailMessage ->
       EmailDB(
         storeno = loja,

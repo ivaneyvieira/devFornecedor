@@ -221,7 +221,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         )
       }
 
-      "PED"              -> when {
+      "PED", "AVA"       -> when {
         resumida -> if (pendente) listOf(
           itemCol,
           barcodeCol,
@@ -404,6 +404,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
   private fun titleBuider(): ComponentBuilder<*, *> {
     return when (notaSaida.tipo) {
       "PED" -> titleBuiderPedido()
+      "AVA" -> titleBuiderPedido()
       "AJT" -> titleBuiderAjuste()
       "FIN" -> titleBuilderFinanceiro()
       "66"  -> titleBuiderNota66()
@@ -416,13 +417,14 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
       when (notaSaida.tipo) {
         "1"   -> sumaryNota()
         "PED" -> sumaryPedido()
+        "AVA" -> sumaryPedido()
       }
 
       breakLine()
 
       text("Dados Adicionais:", LEFT, 100)
       text(notaSaida.obsNota, LEFT)
-      if (notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) text(notaSaida.obsPedido)
+      if (notaSaida.tipo in listOf("66", "PED", "AVA", "AJT", "FIN")) text(notaSaida.obsPedido)
     }
   }
 
@@ -591,7 +593,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
 
   private fun subtotalBuilder(): List<SubtotalBuilder<*, *>> {
     return when (notaSaida.tipo) {
-      in listOf("PED")              -> emptyList()
+      in listOf("PED", "AVA")              -> emptyList()
       in listOf("66", "AJT", "FIN") -> listOf(
         sbt.text("Total R$", valorUnitarioCol),
         sbt.sum(valorTotalCol),
@@ -621,7 +623,7 @@ class RelatorioNotaDevolucao(val notaSaida: NotaSaida, private val resumida: Boo
         item = index++
       }
     }
-    val pageOrientation = if ((notaSaida.tipo in listOf("66", "PED", "AJT", "FIN")) && resumida) PORTRAIT
+    val pageOrientation = if ((notaSaida.tipo in listOf("66", "PED", "AVA", "AJT", "FIN")) && resumida) PORTRAIT
     else LANDSCAPE
     return report()
       .title(titleBuider())
