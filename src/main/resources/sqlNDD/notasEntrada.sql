@@ -1,24 +1,24 @@
 SELECT N.OID                                                   AS id,
        IDE_NNF                                                 AS numero,
        CASE
-           WHEN EXISTS(SELECT E.OID
-                       FROM NDD_COLD.dbo.entrada_nfe_EVT AS E
-                       WHERE E.OID = N.OID
-                         AND TPEVENTO = 1
-                         AND DHREGEVENTO >= :dataInicial)
-               THEN 'S'
-           ELSE 'N'
-           END                                                 AS cancelado,
+         WHEN EXISTS(SELECT E.OID
+                     FROM NDD_COLD.dbo.entrada_nfe_EVT AS E
+                     WHERE E.OID = N.OID
+                       AND TPEVENTO = 1
+                       AND DHREGEVENTO >= :dataInicial)
+           THEN 'S'
+         ELSE 'N'
+       END                                                     AS cancelado,
        IDE_SERIE                                               AS serie,
        IDE_DEMI                                                AS dataEmissao,
        EMIT_CNPJ                                               AS cnpjEmitente,
        CASE
-           WHEN PATINDEX('%<xNome>%', XML_NFE) > 0 AND PATINDEX('%</xNome>%', XML_NFE) > 0
-               THEN SUBSTRING(XML_NFE, PATINDEX('%<xNome>%', XML_NFE) + LEN('<xNome>'),
-                              PATINDEX('%</xNome>%', XML_NFE) -
-                              PATINDEX('%<xNome>%', XML_NFE) - LEN('<xNome>'))
-           ELSE ''
-           END                                                 AS nomeFornecedor,
+         WHEN PATINDEX('%<xNome>%', XML_NFE) > 0 AND PATINDEX('%</xNome>%', XML_NFE) > 0
+           THEN SUBSTRING(XML_NFE, PATINDEX('%<xNome>%', XML_NFE) + LEN('<xNome>'),
+                          PATINDEX('%</xNome>%', XML_NFE) -
+                          PATINDEX('%<xNome>%', XML_NFE) - LEN('<xNome>'))
+         ELSE ''
+       END                                                     AS nomeFornecedor,
        DEST_CNPJ                                               AS cnpjDestinatario,
        EMIT_IE                                                 AS ieEmitente,
        DEST_IE                                                 AS ieDestinatario,
@@ -35,8 +35,10 @@ SELECT N.OID                                                   AS id,
        CASE WHEN XML_NFE IS NULL THEN 'NULL' ELSE XML_NFE END  AS xmlNfe,
        CASE WHEN XML_DADOSADIC IS NULL THEN 'NULL' ELSE '' END AS xmlDadosAdicionais
 FROM NDD_COLD.dbo.entrada_nfe AS N
-WHERE EMIT_CNPJ NOT LIKE '07.483.654%'
+WHERE /*EMIT_CNPJ NOT LIKE '07.483.654%'
   AND DEST_CNPJ LIKE '07.483.654%'
-  AND IDE_DEMI >= :dataInicial
+  AND */
+  DEST_CNPJ LIKE '07.483.654%'
+  AND (IDE_DEMI >= :dataInicial OR IDE_DEMI = '20231026')
   AND XML_NFE IS NOT NULL
 ORDER BY N.OID DESC
