@@ -494,7 +494,7 @@ class QuerySaci : QueryDB(database) {
   fun dataInicialNdd(): LocalDate {
 //    val sql = "/sqlSaci/dataInicialNdd.sql"
     return LocalDate.now()
-      .minusDays(45)// if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
+      .minusDays(35)// if (data > dataAntiga.toSaciDate()) dataAntiga else LocalDate.now().minusMonths(1)
   }
 
   fun saveNotaNdd(notas: List<NotaEntradaVO>) {
