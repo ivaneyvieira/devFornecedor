@@ -789,8 +789,11 @@ class QuerySaci : QueryDB(database) {
   }
 
   fun salvaDesconto(notaSaida: NotaSaida) {
-    if (notaSaida.tipo == "PED") salvaDescontoPed(notaSaida)
-    else salvaDescontoNota(notaSaida)
+    if (notaSaida.tipo in listOf("PED", "AVA")) {
+      salvaDescontoPed(notaSaida)
+    } else {
+      salvaDescontoNota(notaSaida)
+    }
   }
 
   private fun salvaDescontoPed(notaSaida: NotaSaida) {
@@ -1065,10 +1068,10 @@ class QuerySaci : QueryDB(database) {
     })
   }
 
-  fun findMonitoramentoEntrada(filtro: FiltroMonitoramentoEntrada): List<MonitoramentoEntrada>{
+  fun findMonitoramentoEntrada(filtro: FiltroMonitoramentoEntrada): List<MonitoramentoEntrada> {
     val sql = "/sqlSaci/monitoraEntradaProduto.sql"
 
-    return query(sql, MonitoramentoEntrada::class){
+    return query(sql, MonitoramentoEntrada::class) {
       this.addOptionalParameter("loja", filtro.loja)
       this.addOptionalParameter("dataInicial", filtro.dataInicial.toSaciDate())
       this.addOptionalParameter("dataFinal", filtro.dataFinal.toSaciDate())

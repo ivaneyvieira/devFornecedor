@@ -648,9 +648,9 @@ class NotaSaida(
       val loja: Int = if (user?.admin == true) 0 else user?.storeno ?: 0
       val filtroFornecedor = filtro.filtro()
 
-      val notas = when (filtro.serie) {
+      val notasList = when (filtro.serie) {
         PED  -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
-        AVA -> saci.avariaEntDevolucao(filtroFornecedor.loja.no)
+        AVA  -> saci.avariaEntDevolucao(filtroFornecedor.loja.no)
         ENT  -> saci.entradaDevolucao()
         AJT  -> saci.ajusteGarantia(filtro.serie)
         AJD  -> saci.ajusteGarantia(filtro.serie)
@@ -661,7 +661,8 @@ class NotaSaida(
         RET  -> saci.notasRetorno()
         NFD  -> saci.notasNFD()
         else -> saci.notasDevolucao(filtro.serie)
-      }.filter { nota ->
+      }
+      val notas = notasList.filter { nota ->
         if (nota.pedido == 3402445)
           println("nota.pedido = ${nota.pedido}")
         if (filtro.serie == RET) {
