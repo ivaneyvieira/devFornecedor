@@ -92,6 +92,7 @@ enum class ESituacaoPedido(
   RETORNO(valueStr = "RETORNO", descricao = "Retorno", pendente = false),
   EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "E-mail", pendente = true),
   NFD_AUTOZ(valueStr = "PED_NFD_ATZ", descricao = "NFD", pendente = false, avaria = true),
+  REPOSTO(valueStr = "PED_REPOSTO", descricao = "Reposto", pendente = false, avaria = true),
   BAIXA(valueStr = "PED_AJT_GAR", descricao = "Baixa", pendente = false),
 
   //PRODUTO_BAIXADO(valueStr = "PROD_BAIX", descricao = "Prod Baixado"),

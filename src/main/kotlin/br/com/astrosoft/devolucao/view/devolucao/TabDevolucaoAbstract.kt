@@ -86,7 +86,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     cmbSituacao = select("Situação") {
       val list = situacaoPedido
       val situacoes = if (list.isEmpty()) {
-        ESituacaoPedido.values().toList()
+        ESituacaoPedido.entries
       } else {
         listOf(ESituacaoPedido.VAZIO) + list
       }
@@ -101,7 +101,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       }
     }
     cmbSituacaoPendencia = select("Situação") {
-      val list = ESituacaoPendencia.values().toList()
+      val list = ESituacaoPendencia.entries
       setItems(list)
       setItemLabelGenerator { sit ->
         sit.descricao
