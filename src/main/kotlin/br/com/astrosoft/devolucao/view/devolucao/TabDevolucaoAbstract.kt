@@ -88,14 +88,18 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
       val situacoes = if (list.isEmpty()) {
         ESituacaoPedido.entries
       } else {
-        listOf(ESituacaoPedido.VAZIO) + list
+        listOf(ESituacaoPedido.VAZIO) + if (serie == AVA) {
+          list.filter { it.avaria }
+        } else {
+          list
+        }
       }
       setItems(situacoes)
       setItemLabelGenerator { sit ->
         sit.descricao
       }
       value = ESituacaoPedido.VAZIO
-      isVisible = serie == PED
+      isVisible = serie in listOf(PED, AVA)
       addValueChangeListener {
         viewModel.updateView()
       }
@@ -107,7 +111,7 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         sit.descricao
       }
       value = ESituacaoPendencia.BASE
-      isVisible = serie != PED
+      isVisible = serie !in listOf(PED, AVA)
       addValueChangeListener {
         viewModel.updateView()
       }
