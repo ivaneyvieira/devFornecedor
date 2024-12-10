@@ -1,11 +1,15 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.viewmodel.devolucao.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
+import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecFinalizado
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAvariaRecFinalizadoViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabAvariaRecFinalizado(viewModel: TabAvariaRecFinalizadoViewModel) : TabAvariaRecAbstract<IDevolucaoAvariaRecView>(viewModel),
+class TabAvariaRecFinalizado(viewModel: TabAvariaRecFinalizadoViewModel) :
+  TabAvariaRecAbstract<IDevolucaoAvariaRecView>(viewModel),
   ITabAvariaRecFinalizado {
   override val label: String
     get() = "Finalizado"
@@ -19,7 +23,7 @@ class TabAvariaRecFinalizado(viewModel: TabAvariaRecFinalizadoViewModel) : TabAv
 
   override val situacaoPedido
     get() = listOf(
-      NFD_AUTOZ, COLETADO, REPOSTO,  BAIXA, PAGO, RETORNO,
+      NFD_AUTOZ, COLETADO, REPOSTO, BAIXA, PAGO, RETORNO,
       PERCA, DESCARTE, ASSISTENCIA_RETORNO
     )
 }
