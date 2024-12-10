@@ -209,6 +209,18 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
+        viewModel is TabAvariaRecFinalizadoViewModel -> {
+          button("Volta para Pendente"){
+            this.icon = FontAwesome.Solid.UNDO.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(ESituacaoPedido.VAZIO, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
+            }
+          }
+        }
       }
     }, onClose = onClose) {
       gridNota = createGridNotas(listNotas, serie, situacao)
