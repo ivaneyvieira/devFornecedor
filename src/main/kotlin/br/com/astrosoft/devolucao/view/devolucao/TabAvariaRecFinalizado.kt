@@ -23,7 +23,7 @@ class TabAvariaRecFinalizado(viewModel: TabAvariaRecFinalizadoViewModel) :
 
   override val situacaoPedido
     get() = listOf(
-      NFD_AUTOZ, COLETADO, REPOSTO, BAIXA, PAGO, RETORNO,
+      NFD_AUTOZ, TRANSPORTADORA, REPOSTO, BAIXA, PAGO, RETORNO,
       PERCA, DESCARTE, ASSISTENCIA_RETORNO
     )
 }
