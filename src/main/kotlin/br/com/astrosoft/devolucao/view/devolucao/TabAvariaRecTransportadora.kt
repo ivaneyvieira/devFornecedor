@@ -4,26 +4,26 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecFinalizado
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAvariaRecFinalizadoViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecTransportadora
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAvariaRecTransportadoraViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabAvariaRecFinalizado(viewModel: TabAvariaRecFinalizadoViewModel) :
+class TabAvariaRecTransportadora(viewModel: TabAvariaRecTransportadoraViewModel) :
   TabAvariaRecAbstract<IDevolucaoAvariaRecView>(viewModel),
-  ITabAvariaRecFinalizado {
+  ITabAvariaRecTransportadora {
   override val label: String
-    get() = "Finalizado"
+    get() = "Transportadora"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.avariaRecFinalizado == true
+    return username?.avariaRecTransportadora == true
   }
 
   override val situacaoPedido
     get() = listOf(
       NFD_AUTOZ, TRANSPORTADORA, REPOSTO, BAIXA, PAGO, RETORNO,
-      PERCA, DESCARTE, ASSISTENCIA_RETORNO
+      PERCA, DESCARTE, ASSISTENCIA_RETORNO, ACERTO
     )
 }

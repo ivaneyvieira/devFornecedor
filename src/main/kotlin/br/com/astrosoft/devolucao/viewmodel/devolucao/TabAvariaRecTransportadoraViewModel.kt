@@ -1,12 +1,12 @@
 package br.com.astrosoft.devolucao.viewmodel.devolucao
 
-class TabAvariaRecFinalizadoViewModel(viewModel: DevolucaoAvariaRecViewModel) :
+class TabAvariaRecTransportadoraViewModel(viewModel: DevolucaoAvariaRecViewModel) :
   TabDevolucaoViewModelAbstract<IDevolucaoAvariaRecView>(viewModel) {
   override val subView
-    get() = viewModel.view.tabAvariaRecFinalizado
+    get() = viewModel.view.tabAvariaRecTransportadora
 }
 
-interface ITabAvariaRecFinalizado : ITabNota {
+interface ITabAvariaRecTransportadora : ITabNota {
   override val serie: Serie
     get() = Serie.AVA
   override val pago66: SimNao
