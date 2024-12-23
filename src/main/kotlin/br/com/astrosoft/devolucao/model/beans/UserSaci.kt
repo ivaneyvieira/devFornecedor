@@ -118,6 +118,7 @@ class UserSaci : IUser {
   var avariaRecEditor by DelegateAuthorized2(83)
   var avariaRecPendente by DelegateAuthorized2(84)
   var avariaRecTransportadora by DelegateAuthorized2(85)
+  var avariaRecEmail by DelegateAuthorized2(86)
 
   val forPendente
     get() = forPendenteBASE || forPendenteNOTA || forPendenteEMAIL || forPendenteTRANSITO || forPendenteFABRICA ||
@@ -149,11 +150,12 @@ class UserSaci : IUser {
       pedidoMonitoramentoEntrada = value
     }
   var menuDevolucaoAvariaRec
-    get() = avariaRecEditor || avariaRecPendente || avariaRecTransportadora || admin
+    get() = avariaRecEditor || avariaRecPendente || avariaRecTransportadora || avariaRecEmail || admin
     set(value) {
       avariaRecEditor = value
       avariaRecPendente = value
       avariaRecTransportadora = value
+      avariaRecEmail = value
     }
   val menuDevolucao66
     get() = nota66 || nota66Pago || entrada || emailRecebido

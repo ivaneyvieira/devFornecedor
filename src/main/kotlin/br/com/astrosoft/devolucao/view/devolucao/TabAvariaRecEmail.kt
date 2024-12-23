@@ -4,20 +4,20 @@ import br.com.astrosoft.devolucao.model.beans.UserSaci
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecTransportadora
-import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAvariaRecTransportadoraViewModel
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecEmail
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAvariaRecEmailViewModel
 import br.com.astrosoft.framework.model.IUser
 
-class TabAvariaRecTransportadora(viewModel: TabAvariaRecTransportadoraViewModel) :
-  TabAvariaRecAbstract<IDevolucaoAvariaRecView>(viewModel), ITabAvariaRecTransportadora {
+class TabAvariaRecEmail(viewModel: TabAvariaRecEmailViewModel) :
+  TabAvariaRecAbstract<IDevolucaoAvariaRecView>(viewModel), ITabAvariaRecEmail {
   override val label: String
-    get() = "Transportadora"
+    get() = "Email"
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.avariaRecTransportadora == true
+    return username?.avariaRecEmail == true
   }
 
   override val situacaoPedido
