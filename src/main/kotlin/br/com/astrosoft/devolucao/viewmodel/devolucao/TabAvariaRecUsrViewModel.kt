@@ -19,7 +19,8 @@ class TabAvariaRecUsrViewModel(val viewModel: DevolucaoAvariaRecViewModel) : Tab
   override fun UserSaci.update(usuario: UserSaci) {
     this.avariaRecEditor = usuario.avariaRecEditor
     this.avariaRecPendente = usuario.avariaRecPendente
-    this.avariaRecFinalizado = usuario.avariaRecFinalizado
+    this.avariaRecTransportadora = usuario.avariaRecTransportadora
+    this.avariaRecEmail = usuario.avariaRecEmail
   }
 }
 

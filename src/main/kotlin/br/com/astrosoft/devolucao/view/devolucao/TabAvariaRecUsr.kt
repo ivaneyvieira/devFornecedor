@@ -12,7 +12,8 @@ class TabAvariaRecUsr(viewModel: TabAvariaRecUsrViewModel) : TabPanelUser(viewMo
   override fun Grid<UserSaci>.configGrid() {
     columnGrid(UserSaci::avariaRecEditor, "Editor")
     columnGrid(UserSaci::avariaRecPendente, "Pendente")
-    columnGrid(UserSaci::avariaRecTransportadora, "Finalizado")
+    columnGrid(UserSaci::avariaRecTransportadora, "Transportadora")
+    columnGrid(UserSaci::avariaRecEmail, "E-mail")
   }
 
   override fun FormUsuario.configFields() {
@@ -24,8 +25,11 @@ class TabAvariaRecUsr(viewModel: TabAvariaRecUsrViewModel) : TabPanelUser(viewMo
         checkBox("Pendente") {
           binder.bind(this, UserSaci::avariaRecPendente.name)
         }
-        checkBox("Finalizado") {
+        checkBox("Transportadora") {
           binder.bind(this, UserSaci::avariaRecTransportadora.name)
+        }
+        checkBox("E-mail") {
+          binder.bind(this, UserSaci::avariaRecEmail.name)
         }
       }
       verticalBlock("Comandos")
