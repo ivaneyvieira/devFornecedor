@@ -78,7 +78,7 @@ class DlgNotaAvariaRec<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMo
       situacaoDesconto(situacao).marcaAzul()
       if (viewModel !is TabAvariaRecEditorViewModel &&
           viewModel !is TabAvariaRecPendenteViewModel &&
-          viewModel !is TabAvariaRecFinalizadoViewModel
+          viewModel !is TabAvariaRecTransportadoraViewModel
       ) {
         dataBonificacao().dateFieldEditor().marcaAzul()
         notaBonificacao().textFieldEditor().marcaAzul()

@@ -209,7 +209,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-        viewModel is TabAvariaRecFinalizadoViewModel -> {
+        viewModel is TabAvariaRecTransportadoraViewModel                                       -> {
           button("Volta para Pendente"){
             this.icon = FontAwesome.Solid.UNDO.create()
             onLeftClick {
