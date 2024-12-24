@@ -216,7 +216,10 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
     else icon.color = ""
   }
 
-  override fun filtro() = FiltroFornecedor(query = edtFiltro.value ?: "", loja = cmbLoja.value ?: lojaZero)
+  protected open fun filtroEmail(): Boolean = false
+
+  override fun filtro() =
+      FiltroFornecedor(query = edtFiltro.value ?: "", loja = cmbLoja.value ?: lojaZero, email = filtroEmail())
 
   override fun setFiltro(filtro: FiltroFornecedor) {
     edtFiltro.value = filtro.query

@@ -84,10 +84,11 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
-  fun avariaEntDevolucao(loja: Int): List<NotaSaida> {
+  fun avariaEntDevolucao(loja: Int, email: Boolean): List<NotaSaida> {
     val sql = "/sqlSaci/avariaDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("loja", loja)
+      addOptionalParameter("email", if (email) "S" else "N")
     }
   }
 
@@ -343,8 +344,8 @@ class QuerySaci : QueryDB(database) {
   fun salvaEmailEnviado(gmail: EmailGmail, nota: NotaSaida, idEmail: Int) {
     val sql = "/sqlSaci/salvaEmailEnviado.sql"
     val storeno = nota.loja
-    val pdvno = if (nota.tipo == "PED") 9999 else nota.pdv
-    val xano = if (nota.tipo == "PED") nota.pedido else nota.transacao
+    val pdvno = if (nota.tipo in listOf("PED", "AVA")) 9999 else nota.pdv
+    val xano = if (nota.tipo in listOf("PED", "AVA")) nota.pedido else nota.transacao
     script(sql) {
       addOptionalParameter("idEmail", idEmail)
       addOptionalParameter("storeno", storeno)
