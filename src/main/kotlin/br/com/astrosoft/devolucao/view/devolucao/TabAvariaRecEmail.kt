@@ -15,6 +15,8 @@ class TabAvariaRecEmail(viewModel: TabAvariaRecEmailViewModel) :
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
+  override fun filtroEmail(): Boolean = true
+
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.avariaRecEmail == true

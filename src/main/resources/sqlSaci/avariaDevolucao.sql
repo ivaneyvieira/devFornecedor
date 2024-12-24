@@ -46,8 +46,8 @@ FROM sqldados.nf AS N
                  ON OBS.storeno = N.storeno AND OBS.ordno = N.eordno
        LEFT JOIN sqldados.custp AS C
                  ON C.no = N.custno
-                  /* AND C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
-                                    709327, 108751)*/
+  /* AND C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
+                    709327, 108751)*/
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
 WHERE N.nfse IN ('1', '66')
@@ -126,6 +126,17 @@ WHERE (IFNULL(D.valorDevido, 100) > 0)
   AND ((D.fatura IS NOT NULL OR serie01Pago = 'N') OR N.nfse = '66')
 GROUP BY loja, pdv, transacao, dataNota, custno;
 
+DROP TEMPORARY TABLE IF EXISTS T_EMAIL;
+CREATE TEMPORARY TABLE T_EMAIL
+(
+  INDEX (loja, pedido)
+)
+SELECT storeno AS loja, xano AS pedido, idEmail
+FROM sqldados.nfdevEmail
+WHERE pdvno = 9999
+  AND (storeno = @LOJA OR @LOJA = 0)
+GROUP BY loja, pedido;
+
 SELECT E.storeno                                             AS loja,
        S.sname                                               AS sigla,
        IFNULL(N.pdv, 0)                                      AS pdv,
@@ -168,6 +179,9 @@ SELECT E.storeno                                             AS loja,
        CAST(IF(NC.dataAgenda = 0, NULL, dataAgenda) AS DATE) AS dataAgenda,
        NC.pedidos                                            AS pedidos
 FROM sqldados.eord AS E
+       LEFT JOIN T_EMAIL AS EM
+                 ON EM.loja = E.storeno
+                   AND EM.pedido = E.ordno
        LEFT JOIN sqldados.nfComplemento NC
                  ON NC.xano = E.ordno AND NC.storeno = E.storeno AND NC.pdvno = 980
        LEFT JOIN sqldados.ords AS O
@@ -177,10 +191,7 @@ FROM sqldados.eord AS E
        LEFT JOIN sqldados.store AS S
                  ON S.no = E.storeno
        INNER JOIN sqldados.custp AS C
-                  ON C.no = E.custno /*AND
-                     C.no NOT IN (306263, 312585, 901705, 21295, 120420, 478, 102773, 21333,
-                                  709327, 108751)
- */
+                  ON C.no = E.custno
        LEFT JOIN sqldados.vend AS V
                  ON C.cpf_cgc = V.cgc
        LEFT JOIN sqldados.nfvendRmk AS RV
@@ -190,3 +201,4 @@ FROM sqldados.eord AS E
 WHERE E.paymno = 317
   AND N.loja IS NULL
   AND (E.storeno = @LOJA OR @LOJA = 0)
+  AND ((:email = 'S' AND EM.idEmail IS NOT NULL) OR :email = 'N')
