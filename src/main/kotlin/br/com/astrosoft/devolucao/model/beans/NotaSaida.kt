@@ -650,7 +650,7 @@ class NotaSaida(
 
       val notasList = when (filtro.serie) {
         PED  -> saci.pedidosDevolucao(filtroFornecedor.loja.no)
-        AVA  -> saci.avariaEntDevolucao(filtroFornecedor.loja.no, filtroFornecedor.email)
+        AVA  -> saci.avariaEntDevolucao(filtroFornecedor.loja.no)
         ENT  -> saci.entradaDevolucao()
         AJT  -> saci.ajusteGarantia(filtro.serie)
         AJD  -> saci.ajusteGarantia(filtro.serie)
