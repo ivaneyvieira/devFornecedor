@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.EMAIL_ENVIADO
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecEmail
@@ -15,16 +15,11 @@ class TabAvariaRecEmail(viewModel: TabAvariaRecEmailViewModel) :
   override val situacaoPendencia: ESituacaoPendencia?
     get() = null
 
-  override fun filtroEmail(): Boolean = true
-
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
     return username?.avariaRecEmail == true
   }
 
   override val situacaoPedido
-    get() = listOf(
-      NFD_AUTOZ, TRANSPORTADORA, REPOSTO, BAIXA, PAGO, RETORNO,
-      PERCA, DESCARTE, ASSISTENCIA_RETORNO, ACERTO
-    )
+    get() = listOf(EMAIL_ENVIADO)
 }

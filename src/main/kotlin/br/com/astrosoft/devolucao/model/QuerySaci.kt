@@ -84,11 +84,10 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
-  fun avariaEntDevolucao(loja: Int, email: Boolean): List<NotaSaida> {
+  fun avariaEntDevolucao(loja: Int): List<NotaSaida> {
     val sql = "/sqlSaci/avariaDevolucao.sql"
     return query(sql, NotaSaida::class) {
       addOptionalParameter("loja", loja)
-      addOptionalParameter("email", if (email) "S" else "N")
     }
   }
 

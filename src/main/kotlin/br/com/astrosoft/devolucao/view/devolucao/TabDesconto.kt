@@ -39,7 +39,7 @@ class TabDesconto(val viewModel: TabDescontoViewModel) : TabPanelGrid<Fornecedor
   }
 
   override fun filtro(): FiltroFornecedor {
-    return FiltroFornecedor(query = edtFiltro.value ?: "", loja = Loja.lojaZero, email = false)
+    return FiltroFornecedor(query = edtFiltro.value ?: "", loja = Loja.lojaZero)
   }
 
   override fun isAuthorized(user: IUser): Boolean {

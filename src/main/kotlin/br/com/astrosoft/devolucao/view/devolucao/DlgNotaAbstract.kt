@@ -220,6 +220,16 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
               }
             }
           }
+          button("E-mail"){
+            this.icon = FontAwesome.Solid.MAIL_BULK.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(ESituacaoPedido.EMAIL_ENVIADO, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
+            }
+          }
         }
       }
     }, onClose = onClose) {
