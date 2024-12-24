@@ -79,7 +79,7 @@ class DlgNota<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewModelAbstra
         notaPedido()
       }
       notaDataNota()
-      if (serie !in listOf(PED)) {
+      if (serie !in listOf(PED, AVA)) {
         if (serie !in listOf(AJP, AJT, AJC, AJD, A66)) {
           notaNota()
         }
