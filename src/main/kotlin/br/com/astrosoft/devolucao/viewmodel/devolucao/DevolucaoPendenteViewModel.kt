@@ -90,7 +90,7 @@ enum class ESituacaoPedido(
   VAZIO(valueStr = "", descricao = "", pendente = true),
   PAGO(valueStr = "PAGO", descricao = "Pago", pendente = false),
   RETORNO(valueStr = "RETORNO", descricao = "Retorno", pendente = false),
-  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "E-mail", pendente = true, avaria = false),
+  EMAIL_ENVIADO(valueStr = "PED_EML_EVD", descricao = "E-mail", pendente = true, avaria = true),
   NFD_AUTOZ(valueStr = "PED_NFD_ATZ", descricao = "NFD", pendente = false, avaria = false),
   TRANSPORTADORA(valueStr = "PED_COLETADO", descricao = "Transportadora", pendente = false, avaria = true),
   ACERTO(valueStr = "PED_ACERTO", descricao = "Acerto", pendente = false, avaria = true),
