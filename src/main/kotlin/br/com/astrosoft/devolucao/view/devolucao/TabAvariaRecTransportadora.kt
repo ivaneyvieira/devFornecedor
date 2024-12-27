@@ -22,7 +22,7 @@ class TabAvariaRecTransportadora(viewModel: TabAvariaRecTransportadoraViewModel)
 
   override val situacaoPedido
     get() = listOf(
-      NFD_AUTOZ, TRANSPORTADORA, REPOSTO, BAIXA, PAGO, RETORNO,
+      NFD_AUTOZ, TRANSPORTADORA, BAIXA, PAGO, RETORNO,
       PERCA, DESCARTE, ASSISTENCIA_RETORNO, ACERTO
     )
 }
