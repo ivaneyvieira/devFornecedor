@@ -99,7 +99,8 @@ abstract class TabDevolucaoAbstract<T : IDevolucaoAbstractView>(val viewModel: T
         sit.descricao
       }
       value = ESituacaoPedido.VAZIO
-      isVisible = serie in listOf(PED, AVA)
+      //isVisible = serie in listOf(PED, AVA)
+      isVisible = (viewModel !is TabAvariaRecTransportadoraViewModel) && (viewModel !is TabAvariaRecEmailViewModel)
       addValueChangeListener {
         viewModel.updateView()
       }

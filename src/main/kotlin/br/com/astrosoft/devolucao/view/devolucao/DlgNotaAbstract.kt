@@ -210,8 +210,8 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
           }
         }
         viewModel is TabAvariaRecTransportadoraViewModel                                       -> {
-          button("Volta para Pendente"){
-            this.icon = FontAwesome.Solid.UNDO.create()
+          button("Volta"){
+            this.icon = VaadinIcon.ARROW_LEFT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
               viewModel.salvaSituacaoPedido(ESituacaoPedido.VAZIO, itens)
@@ -221,7 +221,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
           button("E-mail"){
-            this.icon = FontAwesome.Solid.MAIL_BULK.create()
+            this.icon = VaadinIcon.ARROW_RIGHT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
               viewModel.salvaSituacaoPedido(ESituacaoPedido.EMAIL_ENVIADO, itens)
@@ -232,8 +232,8 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
           }
         }
         viewModel is TabAvariaRecEmailViewModel                                       -> {
-          button("Volta para Transportadora"){
-            this.icon = FontAwesome.Solid.UNDO.create()
+          button("Volta"){
+            this.icon = VaadinIcon.ARROW_LEFT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
               viewModel.salvaSituacaoPedido(ESituacaoPedido.TRANSPORTADORA, itens)
