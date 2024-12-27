@@ -19,5 +19,5 @@ class TabAvariaRecPendente(viewModel: TabAvariaRecPendenteViewModel) :
   }
 
   override val situacaoPedido: List<ESituacaoPedido>
-    get() = listOf(VAZIO, LIBERADO, EMAIL_ENVIADO, ASSISTENCIA)
+    get() = listOf(VAZIO, LIBERADO,  ASSISTENCIA)
 }
