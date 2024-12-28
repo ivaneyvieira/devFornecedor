@@ -99,7 +99,8 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
               .withOkButton({
                 val notas =
                     gridNota.asMultiSelect().selectedItems.toList()
-                viewModel.imprimirNotaFornecedor(notas,
+                viewModel.imprimirNotaFornecedor(
+                  notas,
                   multList.value
                     .toList()
                     .sortedBy { it.num }
@@ -147,7 +148,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
       }
 
       when {
-        serie in listOf(Serie01)                                                         -> {
+        serie in listOf(Serie01)                                                               -> {
           val cmbSituacao = comboBox<ESituacaoPendencia>("Situação") {
             setItems(ESituacaoPendencia.entries.filter { !it.valueStr.isNullOrBlank() })
             setItemLabelGenerator {
@@ -167,9 +168,20 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-        viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel -> {
+
+        viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel       -> {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
-            setItems(ESituacaoPedido.entries)
+            if (viewModel is TabPedidoPendenteViewModel) {
+              setItems(
+                listOf(
+                  ESituacaoPedido.NFD_AUTOZ,
+                  ESituacaoPedido.ACERTO,
+                  ESituacaoPedido.REPOSTO,
+                )
+              )
+            } else {
+              setItems(ESituacaoPedido.entries)
+            }
             setItemLabelGenerator {
               it.descricao
             }
@@ -188,6 +200,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
+
         viewModel is TabAvariaRecEditorViewModel || viewModel is TabAvariaRecPendenteViewModel -> {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
             setItems(ESituacaoPedido.entries.filter { it.avaria })
@@ -209,8 +222,9 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
+
         viewModel is TabAvariaRecTransportadoraViewModel                                       -> {
-          button("Volta"){
+          button("Volta") {
             this.icon = VaadinIcon.ARROW_LEFT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
@@ -220,7 +234,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
               }
             }
           }
-          button("E-mail"){
+          button("E-mail") {
             this.icon = VaadinIcon.ARROW_RIGHT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
@@ -231,8 +245,9 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-        viewModel is TabAvariaRecEmailViewModel                                       -> {
-          button("Volta"){
+
+        viewModel is TabAvariaRecEmailViewModel                                                -> {
+          button("Volta") {
             this.icon = VaadinIcon.ARROW_LEFT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
@@ -243,8 +258,9 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-        viewModel is TabAvariaRecNFDViewModel                                       -> {
-          button("Volta"){
+
+        viewModel is TabAvariaRecNFDViewModel                                                  -> {
+          button("Volta") {
             this.icon = VaadinIcon.ARROW_LEFT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
@@ -254,7 +270,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
               }
             }
           }
-          button("Transportadora"){
+          button("Transportadora") {
             this.icon = VaadinIcon.ARROW_RIGHT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
