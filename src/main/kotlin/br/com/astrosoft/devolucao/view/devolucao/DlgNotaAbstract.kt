@@ -168,7 +168,6 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
-
         viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel       -> {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
             if (viewModel is TabPedidoPendenteViewModel) {
