@@ -214,7 +214,7 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             this.icon = VaadinIcon.ARROW_LEFT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
-              viewModel.salvaSituacaoPedido(ESituacaoPedido.VAZIO, itens)
+              viewModel.salvaSituacaoPedido(ESituacaoPedido.NFD_AUTOZ, itens)
               itens.forEach {
                 gridNota.dataProvider.refreshItem(it)
               }
@@ -234,6 +234,28 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
         viewModel is TabAvariaRecEmailViewModel                                       -> {
           button("Volta"){
             this.icon = VaadinIcon.ARROW_LEFT.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(ESituacaoPedido.NFD_AUTOZ, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
+            }
+          }
+        }
+        viewModel is TabAvariaRecNFDViewModel                                       -> {
+          button("Volta"){
+            this.icon = VaadinIcon.ARROW_LEFT.create()
+            onLeftClick {
+              val itens = gridNota.selectedItems.toList()
+              viewModel.salvaSituacaoPedido(ESituacaoPedido.VAZIO, itens)
+              itens.forEach {
+                gridNota.dataProvider.refreshItem(it)
+              }
+            }
+          }
+          button("Transportadora"){
+            this.icon = VaadinIcon.ARROW_RIGHT.create()
             onLeftClick {
               val itens = gridNota.selectedItems.toList()
               viewModel.salvaSituacaoPedido(ESituacaoPedido.TRANSPORTADORA, itens)

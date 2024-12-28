@@ -21,6 +21,7 @@ class TabAvariaRecUsrViewModel(val viewModel: DevolucaoAvariaRecViewModel) : Tab
     this.avariaRecPendente = usuario.avariaRecPendente
     this.avariaRecTransportadora = usuario.avariaRecTransportadora
     this.avariaRecEmail = usuario.avariaRecEmail
+    this.avariaRecNFD = usuario.avariaRecNFD
   }
 }
 
