@@ -72,7 +72,8 @@ class DlgNotaAvariaRec<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMo
       if (viewModel !is TabAvariaRecEditorViewModel &&
           viewModel !is TabAvariaRecPendenteViewModel &&
           viewModel !is TabAvariaRecTransportadoraViewModel &&
-          viewModel !is TabAvariaRecEmailViewModel
+          viewModel !is TabAvariaRecEmailViewModel &&
+          viewModel !is TabAvariaRecNFDViewModel
       ) {
         dataNotaEditavel(situacao).dateFieldEditor().marcaAzul()
         notaEditavel(situacao).textFieldEditor().marcaAzul()
@@ -83,6 +84,7 @@ class DlgNotaAvariaRec<T : IDevolucaoAbstractView>(viewModel: TabDevolucaoViewMo
       if (viewModel !is TabAvariaRecEditorViewModel &&
           viewModel !is TabAvariaRecPendenteViewModel &&
           viewModel !is TabAvariaRecTransportadoraViewModel &&
+          viewModel !is TabAvariaRecNFDViewModel &&
           viewModel !is TabAvariaRecEmailViewModel
       ) {
         dataBonificacao().dateFieldEditor().marcaAzul()

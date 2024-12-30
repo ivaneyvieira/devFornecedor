@@ -56,12 +56,16 @@ abstract class TabAvariaRecAbstract<T : IDevolucaoAbstractView>(viewModel: TabDe
     fornecedorCliente()
     fornecedorNome()
 
-    if (this@TabAvariaRecAbstract is TabAvariaRecPendente || this@TabAvariaRecAbstract is TabAvariaRecEditor) {
+    if (this@TabAvariaRecAbstract is TabAvariaRecEditor) {
       userCol = usuarioSituacao().marcaAzul()
       situacaoCol = situacaoDesconto().marcaAzul()
     } else {
-      dataNotaEditavel().marcaAzul()
-      notaEditavel().marcaAzul()
+      if (this@TabAvariaRecAbstract !is TabAvariaRecNFD &&
+        this@TabAvariaRecAbstract !is TabAvariaRecTransportadora &&
+        this@TabAvariaRecAbstract !is TabAvariaRecEmail) {
+        dataNotaEditavel().marcaAzul()
+        notaEditavel().marcaAzul()
+      }
     }
     dataCol = dataAgendaDesconto().marcaAzul()
     observacaoChaveDesconto().marcaAzul()
