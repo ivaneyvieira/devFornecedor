@@ -168,19 +168,12 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
             }
           }
         }
+
         viewModel is TabPedidoEditorViewModel || viewModel is TabPedidoPendenteViewModel       -> {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
-            if (viewModel is TabPedidoPendenteViewModel) {
-              setItems(
-                listOf(
-                  ESituacaoPedido.NFD_AUTOZ,
-                  ESituacaoPedido.ACERTO,
-                  ESituacaoPedido.REPOSTO,
-                )
-              )
-            } else {
-              setItems(ESituacaoPedido.entries)
-            }
+
+            setItems(ESituacaoPedido.entries)
+
             setItemLabelGenerator {
               it.descricao
             }
@@ -202,7 +195,18 @@ abstract class DlgNotaAbstract<T : IDevolucaoAbstractView>(val viewModel: TabDev
 
         viewModel is TabAvariaRecEditorViewModel || viewModel is TabAvariaRecPendenteViewModel -> {
           val cmbSituacaoPedido = comboBox<ESituacaoPedido>("Situação") {
-            setItems(ESituacaoPedido.entries.filter { it.avaria })
+            if (viewModel is TabAvariaRecPendenteViewModel) {
+              setItems(
+                listOf(
+                  ESituacaoPedido.NFD_AUTOZ,
+                  ESituacaoPedido.ACERTO,
+                  ESituacaoPedido.REPOSTO,
+                )
+              )
+            } else {
+              setItems(ESituacaoPedido.entries.filter { it.avaria })
+            }
+
             setItemLabelGenerator {
               it.descricao
             }
