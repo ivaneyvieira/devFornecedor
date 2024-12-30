@@ -15,6 +15,7 @@ import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.s
 import br.com.astrosoft.devolucao.view.devolucao.columns.FornecedorViewColumns.usuarioSituacao
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAbstractView
+import br.com.astrosoft.devolucao.viewmodel.devolucao.TabAvariaRecEditorViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.TabDevolucaoViewModelAbstract
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.addColumnButton
@@ -43,8 +44,10 @@ abstract class TabAvariaRecAbstract<T : IDevolucaoAbstractView>(viewModel: TabDe
         viewModel.updateView()
       }
     }
-    addColumnButton(VaadinIcon.MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
-      DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
+    if (viewModel is TabAvariaRecEditorViewModel) {
+      addColumnButton(VaadinIcon.MONEY, "Parcelas do fornecedor", "Parcelas") { fornecedor ->
+        DlgParcelas(viewModel).showDialogParcela(fornecedor, serie)
+      }
     }
     addColumnButton(VaadinIcon.EDIT, "Editor", "Edt", ::configIconEdt) { fornecedor ->
       viewModel.editRmkVend(fornecedor)
@@ -61,8 +64,9 @@ abstract class TabAvariaRecAbstract<T : IDevolucaoAbstractView>(viewModel: TabDe
       situacaoCol = situacaoDesconto().marcaAzul()
     } else {
       if (this@TabAvariaRecAbstract !is TabAvariaRecNFD &&
-        this@TabAvariaRecAbstract !is TabAvariaRecTransportadora &&
-        this@TabAvariaRecAbstract !is TabAvariaRecEmail) {
+          this@TabAvariaRecAbstract !is TabAvariaRecTransportadora &&
+          this@TabAvariaRecAbstract !is TabAvariaRecEmail
+      ) {
         dataNotaEditavel().marcaAzul()
         notaEditavel().marcaAzul()
       }
