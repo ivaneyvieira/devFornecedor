@@ -1,7 +1,7 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.*
+import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPedido.TRANSPORTADORA
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ESituacaoPendencia
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
 import br.com.astrosoft.devolucao.viewmodel.devolucao.ITabAvariaRecTransportadora
@@ -21,8 +21,5 @@ class TabAvariaRecTransportadora(viewModel: TabAvariaRecTransportadoraViewModel)
   }
 
   override val situacaoPedido
-    get() = listOf(
-      NFD_AUTOZ, TRANSPORTADORA, BAIXA, PAGO, RETORNO,
-      PERCA, DESCARTE, ASSISTENCIA_RETORNO, ACERTO
-    )
+    get() = listOf(TRANSPORTADORA)
 }
