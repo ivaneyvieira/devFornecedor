@@ -17,8 +17,8 @@ class DevolucaoAvariaRecViewModel(view: IDevolucaoAvariaRecView) :
     view.tabAvariaRecTransportadora,
     view.tabAvariaRecEmail,
     view.tabAvariaRecAcerto,
-    view.tabAvariaRecEditor,
     view.tabAvariaRecReposto,
+    view.tabAvariaRecEditor,
     view.tabAvariaRecUsr
   )
 }
