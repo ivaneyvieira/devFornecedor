@@ -19,6 +19,8 @@ class DevolucaoAvariaRecView : ViewLayout<DevolucaoAvariaRecViewModel>(), IDevol
   override val tabAvariaRecPendente = TabAvariaRecPendente(viewModel.tabAvariaRecPendenteViewModel)
   override val tabAvariaRecTransportadora = TabAvariaRecTransportadora(viewModel.tabAvariaRecTransportadoraViewModel)
   override val tabAvariaRecEmail = TabAvariaRecEmail(viewModel.tabAvariaRecEmailViewModel)
+  override val tabAvariaRecAcerto = TabAvariaRecAcerto(viewModel.tabAvariaRecAcertoViewModel)
+  override val tabAvariaRecReposto = TabAvariaRecReposto(viewModel.tabAvariaRecRepostoViewModel)
   override val tabAvariaRecNFD = TabAvariaRecNFD(viewModel.tabAvariaRecNFDViewModel)
   override val tabAvariaRecUsr = TabAvariaRecUsr(viewModel.tabAvariaRecUsrViewModel)
 
