@@ -13,7 +13,9 @@ class TabAvariaRecUsr(viewModel: TabAvariaRecUsrViewModel) : TabPanelUser(viewMo
     columnGrid(UserSaci::avariaRecEditor, "Editor")
     columnGrid(UserSaci::avariaRecPendente, "Pendente")
     columnGrid(UserSaci::avariaRecTransportadora, "Transportadora")
+    columnGrid(UserSaci::avariaRecAcerto, "Acerto")
     columnGrid(UserSaci::avariaRecEmail, "E-mail")
+     columnGrid(UserSaci::avariaRecReposto, "Reposto")
     columnGrid(UserSaci::avariaRecNFD, "NFD")
   }
 
@@ -32,8 +34,14 @@ class TabAvariaRecUsr(viewModel: TabAvariaRecUsrViewModel) : TabPanelUser(viewMo
         checkBox("E-mail") {
           binder.bind(this, UserSaci::avariaRecEmail.name)
         }
+        checkBox("Acerto") {
+          binder.bind(this, UserSaci::avariaRecAcerto.name)
+        }
         checkBox("NFD") {
           binder.bind(this, UserSaci::avariaRecNFD.name)
+        }
+        checkBox("Reposto") {
+          binder.bind(this, UserSaci::avariaRecReposto.name)
         }
       }
       verticalBlock("Comandos")

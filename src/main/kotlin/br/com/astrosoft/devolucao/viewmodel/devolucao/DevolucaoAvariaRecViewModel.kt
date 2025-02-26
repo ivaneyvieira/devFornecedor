@@ -7,6 +7,8 @@ class DevolucaoAvariaRecViewModel(view: IDevolucaoAvariaRecView) :
   val tabAvariaRecTransportadoraViewModel = TabAvariaRecTransportadoraViewModel(this)
   val tabAvariaRecNFDViewModel = TabAvariaRecNFDViewModel(this)
   val tabAvariaRecEmailViewModel = TabAvariaRecEmailViewModel(this)
+  val tabAvariaRecAcertoViewModel = TabAvariaRecAcertoViewModel(this)
+  val tabAvariaRecRepostoViewModel = TabAvariaRecRepostoViewModel(this)
   val tabAvariaRecUsrViewModel = TabAvariaRecUsrViewModel(this)
 
   override fun listTab() = listOf(
@@ -14,7 +16,9 @@ class DevolucaoAvariaRecViewModel(view: IDevolucaoAvariaRecView) :
     view.tabAvariaRecNFD,
     view.tabAvariaRecTransportadora,
     view.tabAvariaRecEmail,
+    view.tabAvariaRecAcerto,
     view.tabAvariaRecEditor,
+    view.tabAvariaRecReposto,
     view.tabAvariaRecUsr
   )
 }
@@ -25,6 +29,8 @@ interface IDevolucaoAvariaRecView : IDevolucaoAbstractView {
   val tabAvariaRecTransportadora: ITabAvariaRecTransportadora
   val tabAvariaRecNFD: ITabAvariaRecNFD
   val tabAvariaRecEmail: ITabAvariaRecEmail
+  val tabAvariaRecAcerto: ITabAvariaRecAcerto
+  val tabAvariaRecReposto: ITabAvariaRecReposto
   val tabAvariaRecUsr: ITabAvariaRecUsr
 }
 
