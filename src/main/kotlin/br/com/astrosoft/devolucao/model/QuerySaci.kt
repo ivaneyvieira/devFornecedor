@@ -1079,6 +1079,35 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
+  fun findProdutoEstoque(filter: FiltroProdutoEstoque): List<ProdutoEstoque> {
+    val sql = "/sqlSaci/findProdutoEstoque.sql"
+
+    return query(sql, ProdutoEstoque::class) {
+      addOptionalParameter("pesquisa", filter.pesquisa)
+      addOptionalParameter("grade", filter.grade)
+      addOptionalParameter("prdno", filter.prdno)
+      addOptionalParameter("caracter", filter.caracter.value)
+      addOptionalParameter("fornecedor", filter.fornecedor)
+      addOptionalParameter("centroLucro", filter.centroLucro)
+      addOptionalParameter("localizacao", filter.localizacao)
+      addOptionalParameter("estoque", filter.estoque.value)
+      addOptionalParameter("saldo", filter.saldo)
+      addOptionalParameter("inativo", filter.inativo.codigo)
+    }
+  }
+
+  fun updateProdutoEstoque(produtoEstoque: ProdutoEstoque) {
+    val sql = "/sqlSaci/updateProdutoEstoque.sql"
+
+    script(sql) {
+      addOptionalParameter("loja", produtoEstoque.loja ?: 0)
+      addOptionalParameter("prdno", produtoEstoque.prdno ?: "")
+      addOptionalParameter("grade", produtoEstoque.grade ?: "")
+      addOptionalParameter("dataConferencia", produtoEstoque.dataConferencia)
+      addOptionalParameter("valorConferencia", produtoEstoque.valorConferencia ?: 0)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     val ipServer: String? = db.url.split("/").getOrNull(2)
