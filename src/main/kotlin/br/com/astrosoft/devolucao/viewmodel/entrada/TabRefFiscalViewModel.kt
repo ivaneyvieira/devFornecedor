@@ -7,6 +7,7 @@ import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.saci
 import br.com.astrosoft.framework.model.MonitorHandler
 import br.com.astrosoft.framework.viewmodel.ITabView
+import br.com.astrosoft.framework.viewmodel.exec
 import br.com.astrosoft.framework.viewmodel.fail
 
 class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
@@ -98,7 +99,12 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
     }
   }
 
-  fun barrasXml(monitor: MonitorHandler? = null) {
+  fun barrasXml(monitor: MonitorHandler? = null)= viewModel.exec {
+    val filtro = subView.getFiltro()
+    if(filtro.ncm == EDiferencaStr.N){
+      fail("Não posso alterar o Código de Barras quando o NCM é diferente")
+    }
+
     val itens = subView.selectItens()
     if (itens.isEmpty()) fail("Nenhum item selecionado")
 
