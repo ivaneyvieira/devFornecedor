@@ -10,7 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(layout = DevFornecedorLayout::class)
+@Route(layout = DevFornecedorLayout::class, value = "avariarec")
 @PageTitle("Avaria Recebimento")
 @CssImport("./styles/gridTotal.css")
 class DevolucaoAvariaRecView : ViewLayout<DevolucaoAvariaRecViewModel>(), IDevolucaoAvariaRecView {
