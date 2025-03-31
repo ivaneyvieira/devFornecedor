@@ -5,15 +5,21 @@ import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevolucaoAvariaRecViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
 import br.com.astrosoft.framework.model.IUser
+import br.com.astrosoft.framework.session.SecurityUtils
+import br.com.astrosoft.framework.session.Session
 import br.com.astrosoft.framework.view.ViewLayout
 import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.router.BeforeEnterEvent
+import com.vaadin.flow.router.BeforeEnterObserver
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
+import kotlin.jvm.optionals.getOrNull
 
-@Route(layout = DevFornecedorLayout::class)
+@Route(value = "avariarec/:login/:senha")
 @PageTitle("Avaria Recebimento")
 @CssImport("./styles/gridTotal.css")
-class DevolucaoAvariaRecView : ViewLayout<DevolucaoAvariaRecViewModel>(), IDevolucaoAvariaRecView {
+class DevolucaoAvariaRecShareView : ViewLayout<DevolucaoAvariaRecViewModel>(), IDevolucaoAvariaRecView,
+  BeforeEnterObserver {
   override val viewModel: DevolucaoAvariaRecViewModel = DevolucaoAvariaRecViewModel(this)
   override val tabAvariaRecEditor = TabAvariaRecEditor(viewModel.tabAvariaRecEditorViewModel)
   override val tabAvariaRecPendente = TabAvariaRecPendente(viewModel.tabAvariaRecPendenteViewModel)
@@ -30,6 +36,19 @@ class DevolucaoAvariaRecView : ViewLayout<DevolucaoAvariaRecViewModel>(), IDevol
   }
 
   init {
+    setSizeFull()
+  }
+
+  override fun beforeEnter(event: BeforeEnterEvent?) {
+    if (SecurityUtils.isUserLoggedIn) {
+      Session.current.close()
+      ui.ifPresent {
+        it.session.close()
+      }
+    }
+    val login = event?.routeParameters?.get("login")?.getOrNull()
+    val senha = event?.routeParameters?.get("senha")?.getOrNull()
+    SecurityUtils.login(login, senha)
     addTabSheat(viewModel)
   }
 }
