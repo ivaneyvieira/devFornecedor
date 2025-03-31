@@ -1,9 +1,9 @@
 package br.com.astrosoft.devolucao.view.devolucao
 
 import br.com.astrosoft.devolucao.model.beans.UserSaci
-import br.com.astrosoft.devolucao.view.DevFornecedorLayout
 import br.com.astrosoft.devolucao.viewmodel.devolucao.DevolucaoAvariaRecViewModel
 import br.com.astrosoft.devolucao.viewmodel.devolucao.IDevolucaoAvariaRecView
+import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.session.SecurityUtils
 import br.com.astrosoft.framework.session.Session
@@ -40,14 +40,22 @@ class DevolucaoAvariaRecShareView : ViewLayout<DevolucaoAvariaRecViewModel>(), I
   }
 
   override fun beforeEnter(event: BeforeEnterEvent?) {
+    val login = event?.routeParameters?.get("login")?.getOrNull()
+    val senha = event?.routeParameters?.get("senha")?.getOrNull()
+
     if (SecurityUtils.isUserLoggedIn) {
+      val user = Config.user
+      if (user?.login != login) {
+        Session.current.close()
+        ui.ifPresent {
+          it.session.close()
+        }
+      }
       Session.current.close()
       ui.ifPresent {
         it.session.close()
       }
     }
-    val login = event?.routeParameters?.get("login")?.getOrNull()
-    val senha = event?.routeParameters?.get("senha")?.getOrNull()
     SecurityUtils.login(login, senha)
     addTabSheat(viewModel)
   }
