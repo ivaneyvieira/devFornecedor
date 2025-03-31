@@ -1,6 +1,6 @@
 package br.com.astrosoft.framework.view
 
-import br.com.astrosoft.devolucao.view.devolucao.DevolucaoAvariaRecView
+import br.com.astrosoft.devolucao.view.devolucao.DevolucaoAvariaRecShareView
 import br.com.astrosoft.framework.model.Config
 import br.com.astrosoft.framework.session.LoginView
 import br.com.astrosoft.framework.session.SecurityUtils
@@ -55,12 +55,12 @@ abstract class MainLayout : AppLayout(), RouterLayout, BeforeEnterObserver, Page
 
   override fun beforeEnter(event: BeforeEnterEvent) {
     if (!SecurityUtils.isUserLoggedIn) {
-      if (event.navigationTarget.name != DevolucaoAvariaRecView::class.java.name) {
-        event.rerouteTo(LoginView::class.java)
-      } else {
+      if (event.navigationTarget.name == DevolucaoAvariaRecShareView::class.java.name) {
         if (!SecurityUtils.login("ADM", "kkronnus")) {
           event.rerouteTo(LoginView::class.java)
         }
+      } else {
+        event.rerouteTo(LoginView::class.java)
       }
     }
   }
