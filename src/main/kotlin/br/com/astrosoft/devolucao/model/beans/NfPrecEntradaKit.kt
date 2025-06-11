@@ -30,7 +30,7 @@ fun NfPrecEntrada.explodeKits(): List<NfPrecEntradaKit> {
       prdnoKit = this.prod,
       descricaoKit = this.descricao ?: "",
       quantKit = this.quant ?: 0,
-      valorUnitarioKit = this.precon ?: 0.00,
+      valorUnitarioKit = kit.custoK ?: 0.00,
       prdno = kit.prdno ?: "",
       descricao = kit.descricao ?: "",
       quant = (kit.quant ?: 0) * (this.quant ?: 0),
@@ -66,7 +66,7 @@ fun List<NfPrecEntradaKit>.agrupaCodigo(): List<NfPrecEntradaKit> {
         prdno = listMap.firstOrNull()?.prdno ?: "",
         descricao = listMap.firstOrNull()?.descricao ?: "",
         quant = listMap.sumOf { it.quant },
-        valorUnitario = listMap.sumOf { it.valorUnitario }
+        valorUnitario = listMap.firstOrNull()?.valorUnitario ?: 0.0,
       )
     }
   }

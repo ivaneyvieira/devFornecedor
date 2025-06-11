@@ -4,6 +4,7 @@ import br.com.astrosoft.devolucao.model.saci
 
 class ProdutoKit {
   var prdnoK: String? = null
+  var custoK: Double? = null
   var prdno: String? = null
   var descricao: String? = null
   var quant: Int? = null
