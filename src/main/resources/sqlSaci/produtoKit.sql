@@ -1,13 +1,19 @@
-DO @PRDNO := (select no from sqldados.prd where no = (:prdno * 1));
+DO @PRDNO := ( SELECT no
+               FROM
+                 sqldados.prd
+               WHERE no = (:prdno * 1) );
 
-SELECT K.prdno_kit                   AS prdnoK,
-       K.prdno                       AS prdno,
-       TRIM(MID(P.name, 1, 37))      AS descricao,
-       SUM(ROUND(K.qtty / 1000))     AS quant,
-       SUM(ROUND(P.cost / 10000, 4)) AS custo
+SELECT K.prdno_kit                    AS prdnoK,
+       SUM(ROUND(PK.cost / 10000, 4)) AS custoK,
+       K.prdno                        AS prdno,
+       TRIM(MID(P.name, 1, 37))       AS descricao,
+       SUM(ROUND(K.qtty / 1000))      AS quant,
+       SUM(ROUND(P.cost / 10000, 4))  AS custo
 FROM
   sqldados.prdkit           AS K
     INNER JOIN sqldados.prd AS P
                ON K.prdno = P.no
+    INNER JOIN sqldados.prd AS PK
+               ON K.prdno_kit = PK.no
 WHERE prdno_kit = @PRDNO
 GROUP BY prdno_kit, prdno
