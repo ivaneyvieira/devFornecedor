@@ -59,6 +59,9 @@ class DlgRelatorioPreco(val viewModel: TabPrecoViewModel, val filtro: FiltroRela
       buttonPlanilha("Planilha", FontAwesome.Solid.FILE_EXCEL.create(), "planilhaNfPrecificacao") {
         viewModel.geraPlanilha(gridNota.selectedItemsSort())
       }
+      buttonPlanilha("Planilha Kit", FontAwesome.Solid.FILE_EXCEL.create(), "planilhaNfPrecificacaoKit") {
+        viewModel.geraPlanilhaKit(gridNota.selectedItemsSort())
+      }
       this.comboDiferencaNum("Preço") {
         value = filtro.preco
 
