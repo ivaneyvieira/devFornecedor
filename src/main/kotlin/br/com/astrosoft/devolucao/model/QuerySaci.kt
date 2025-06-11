@@ -1108,6 +1108,13 @@ class QuerySaci : QueryDB(database) {
     }
   }
 
+  fun findProdutoKit(prdno: String): List<ProdutoKit> {
+    val sql = "/sqlSaci/produtoKit.sql"
+    return query(sql, ProdutoKit::class) {
+      addOptionalParameter("prdno", prdno)
+    }.toList()
+  }
+
   companion object {
     private val db = DB("saci")
     val ipServer: String? = db.url.split("/").getOrNull(2)

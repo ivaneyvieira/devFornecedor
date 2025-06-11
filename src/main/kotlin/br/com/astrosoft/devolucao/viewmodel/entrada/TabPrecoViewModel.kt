@@ -1,10 +1,8 @@
 package br.com.astrosoft.devolucao.viewmodel.entrada
 
-import br.com.astrosoft.devolucao.model.beans.FiltroRelatorio
-import br.com.astrosoft.devolucao.model.beans.Loja
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntrada
-import br.com.astrosoft.devolucao.model.beans.NfPrecEntradaGrupo
+import br.com.astrosoft.devolucao.model.beans.*
 import br.com.astrosoft.devolucao.model.planilhas.PlanilhaPrecoDif
+import br.com.astrosoft.devolucao.model.planilhas.PlanilhaPrecoKit
 import br.com.astrosoft.devolucao.model.reports.RelatorioNfPrecGrupo
 import br.com.astrosoft.devolucao.model.reports.RelatorioPrecoDif
 import br.com.astrosoft.devolucao.model.saci
@@ -55,6 +53,12 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
   fun geraPlanilha(notas: List<NfPrecEntrada>): ByteArray {
     val planilha = PlanilhaPrecoDif()
     return planilha.grava(notas)
+  }
+
+  fun geraPlanilhaKit(notas: List<NfPrecEntrada>): ByteArray {
+    val planilha = PlanilhaPrecoKit()
+    val produtoKits = notas.flatMap { it.explodeKits() }.agrupaCodigo()
+    return planilha.grava(produtoKits)
   }
 
   fun findLojas(): List<Loja> {
