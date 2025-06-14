@@ -8,7 +8,8 @@ data class NfPrecEntradaKit(
   val prdno: String,
   val descricao: String,
   val quant: Int,
-  val valorUnitario: Double
+  val valorUnitario: Double,
+  val principal: Boolean,
 ) {
   val valorTotalKit: Double
     get() = quantKit * valorUnitarioKit
@@ -34,7 +35,8 @@ fun NfPrecEntrada.explodeKits(): List<NfPrecEntradaKit> {
       prdno = kit.prdno ?: "",
       descricao = kit.descricao ?: "",
       quant = (kit.quant ?: 0) * (this.quant ?: 0),
-      valorUnitario = kit.custo ?: 0.0
+      valorUnitario = kit.custo ?: 0.0,
+      principal = false
     )
   }
 
@@ -44,7 +46,8 @@ fun NfPrecEntrada.explodeKits(): List<NfPrecEntradaKit> {
 
   val listCopy = list.map {
     it.copy(
-      valorUnitario = if (it.valorUnitario == maxUnit) it.valorUnitarioKit - somaOutros else it.valorUnitario
+      valorUnitario = if (it.valorUnitario == maxUnit) it.valorUnitarioKit - somaOutros else it.valorUnitario,
+      principal = it.valorUnitario == maxUnit
     )
   }
 
@@ -56,7 +59,13 @@ fun List<NfPrecEntradaKit>.agrupaCodigo(): List<NfPrecEntradaKit> {
   val listMap = listGroup.mapNotNull { ent ->
     val listMap = ent.value
     if (listMap.size == 1) {
-      listMap.firstOrNull()
+      listMap.firstOrNull()?.let { nota ->
+        if (nota.principal) {
+          nota
+        } else {
+          null
+        }
+      }
     } else {
       NfPrecEntradaKit(
         prdnoKit = "",
@@ -67,6 +76,7 @@ fun List<NfPrecEntradaKit>.agrupaCodigo(): List<NfPrecEntradaKit> {
         descricao = listMap.firstOrNull()?.descricao ?: "",
         quant = listMap.sumOf { it.quant },
         valorUnitario = listMap.firstOrNull()?.valorUnitario ?: 0.0,
+        principal = false
       )
     }
   }
