@@ -15,7 +15,8 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
     get() = viewModel.view.tabRefFiscalViewModel
 
   fun openDlgRelatorio(monitor: MonitorHandler? = null) = viewModel.exec {
-    saci.queryNfPrec(subView.getFiltro(), monitor)
+    val filtro = subView.getFiltro()
+    saci.queryNfPrec(filter = filtro, monitor = monitor)
     subView.openRelatorio()
   }
 
@@ -59,7 +60,7 @@ class TabRefFiscalViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.ncmx ?: "",
-        valorPrecificacao = nota.ncmx ?: ""
+        valorPrecificacao = nota.ncmp ?: ""
       )
     }
     val listaRelatorio = refPrdDifxList + barcodeDifxpList + barcodeDifpcList + ncmDifxList
