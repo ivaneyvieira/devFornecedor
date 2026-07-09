@@ -115,7 +115,16 @@ class NfPrecEntrada(
   private fun detalheXml(): List<Detalhe> {
     val ref = refPrdn ?: ""
     xml ?: return emptyList()
-    return NddXml.detalheProduto(xml, ni, lj, nfe, serie, ref, barcodenList).distinct()
+    val lista = NddXml.detalheProduto(
+      xml = xml,
+      ni = ni,
+      loja = lj,
+      numero = nfe,
+      serie = serie,
+      cProd = ref,
+      listBarcode = barcodenList
+    )
+    return lista.distinct()
   }
 
   val quantDifx
@@ -366,10 +375,10 @@ class NfPrecEntrada(
             EValidade.ComValidade -> it.mesesValidade != null && it.mesesValidade != 0
             EValidade.SemValidade -> it.mesesValidade == null || it.mesesValidade == 0
           } &&
-            if(filter.refMaior99) {
-              val precoRef = it.precoRef ?: 0.00
-              precoRef > 99000.00
-            } else true
+          if (filter.refMaior99) {
+            val precoRef = it.precoRef ?: 0.00
+            precoRef > 99000.00
+          } else true
         }
 
     fun findNotasPreRec(filter: FiltroRelatorio, monitor: MonitorHandler? = null): List<NfPrecEntrada> {
