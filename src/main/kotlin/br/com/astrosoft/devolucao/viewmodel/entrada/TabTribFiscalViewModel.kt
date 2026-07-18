@@ -31,46 +31,57 @@ class TabTribFiscalViewModel(val viewModel: EntradaViewModel) {
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
     val cstDifList = listNotas.filter { it.cstDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de CST", nota, nota.pedidoCompra ?: 0, nota.cstn ?: "", nota.cstp ?: "")
+      NfPrecEntradaGrupo(
+        nomeGrupo = "Diferenças de CST",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.cstn ?: "",
+        valorPrecificacao = nota.cstp ?: "",
+        valNFO = ""
+      )
     }
     val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
-        "Diferenças de Frete",
-        nota,
-        nota.pedidoCompra ?: 0,
-        nota.freten.format(),
-        nota.fretep.format()
+        nomeGrupo = "Diferenças de Frete",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.freten.format(),
+        valorPrecificacao = nota.fretep.format(),
+        valNFO = ""
       )
     }
     val icmsDifList = listNotas.filter { it.icmsDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
-        "Diferenças de ICMS",
-        nota,
-        nota.pedidoCompra ?: 0,
-        nota.icmsRN.format(),
-        nota.icmsp.format()
+        nomeGrupo = "Diferenças de ICMS",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.icmsRN.format(),
+        valorPrecificacao = nota.icmsp.format(),
+        valNFO = nota.precon.format()
       )
     }
     val ipiDifList = listNotas.filter { it.ipiDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
-        "Diferenças de IPI",
-        nota,
-        nota.pedidoCompra ?: 0,
-        nota.ipin.format(),
-        nota.ipip.format()
+        nomeGrupo = "Diferenças de IPI",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.ipin.format(),
+        valorPrecificacao = nota.ipip.format(),
+        valNFO = nota.precon.format()
       )
     }
     val mvaDifList = listNotas.filter { it.mvaDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
-        "Diferenças de MVA",
-        nota,
-        nota.pedidoCompra ?: 0,
-        nota.mvanAprox.format(),
-        nota.mvap.format()
+        nomeGrupo = "Diferenças de MVA",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.mvanAprox.format(),
+        valorPrecificacao = nota.mvap.format(),
+        valNFO = ""
       )
     }
     val listaRelatorio = freteDifList + icmsDifList + ipiDifList + cstDifList + mvaDifList
-    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)
+    val relatorio = RelatorioNfPrecGrupo.processaRelatorio(notas = listaRelatorio, fiscal = true)
     viewModel.showReport("nfPrecificacaoGrupo", relatorio)
   }
 

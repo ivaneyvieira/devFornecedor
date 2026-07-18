@@ -31,7 +31,14 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
 
   fun imprimeRelatorioResumo(listNotas: List<NfPrecEntrada>) {
     val cstDifList = listNotas.filter { it.cstDif != "S" }.map { nota ->
-      NfPrecEntradaGrupo("Diferenças de CST", nota, nota.pedidoCompra ?: 0, nota.cstn ?: "", nota.cstp ?: "")
+      NfPrecEntradaGrupo(
+        nomeGrupo = "Diferenças de CST",
+        nota = nota,
+        pedidoCompra = nota.pedidoCompra ?: 0,
+        valorNota = nota.cstn ?: "",
+        valorPrecificacao = nota.cstp ?: "",
+        valNFO = ""
+      )
     }
     val freteDifList = listNotas.filter { it.freteDif != "S" }.map { nota ->
       NfPrecEntradaGrupo(
@@ -39,7 +46,8 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
         nota,
         nota.pedidoCompra ?: 0,
         nota.freten.format(),
-        nota.fretep.format()
+        nota.fretep.format(),
+        valNFO = ""
       )
     }
     val icmsDifList = listNotas.filter { it.icmsDif != "S" }.map { nota ->
@@ -48,7 +56,8 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
         nota,
         nota.pedidoCompra ?: 0,
         nota.icmsRN.format(),
-        nota.icmsp.format()
+        nota.icmsp.format(),
+        valNFO = ""
       )
     }
     val ipiDifList = listNotas.filter { it.ipiDif != "S" }.map { nota ->
@@ -57,7 +66,8 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
         nota,
         nota.pedidoCompra ?: 0,
         nota.ipin.format(),
-        nota.ipip.format()
+        nota.ipip.format(),
+        valNFO = ""
       )
     }
     val mvaDifList = listNotas.filter { it.mvaDif != "S" }.map { nota ->
@@ -66,7 +76,8 @@ class TabTribFiscalPreViewModel(val viewModel: PreEntradaViewModel) {
         nota,
         nota.pedidoCompra ?: 0,
         nota.mvanAprox.format(),
-        nota.mvap.format()
+        nota.mvap.format(),
+        valNFO = ""
       )
     }
     val listaRelatorio = freteDifList + icmsDifList + ipiDifList + cstDifList + mvaDifList

@@ -33,7 +33,8 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.precon.format(),
-        valorPrecificacao = nota.precop.format()
+        valorPrecificacao = nota.precop.format(),
+        valNFO = ""
       )
     }
     val listaRelatorioPrec = listNotas.filter { it.precon.format() != it.precopc.format() }.map { nota ->
@@ -42,7 +43,8 @@ class TabPrecoViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.precon.format(),
-        valorPrecificacao = nota.precopc.format()
+        valorPrecificacao = nota.precopc.format(),
+        valNFO = ""
       )
     }
     val listaRelatorio = listaRelatorioPed + listaRelatorioPrec

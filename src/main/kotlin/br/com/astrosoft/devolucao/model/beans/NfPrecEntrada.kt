@@ -460,7 +460,8 @@ data class NfPrecEntradaGrupo(
   val nota: NfPrecEntrada,
   val pedidoCompra: Int,
   val valorNota: String,
-  val valorPrecificacao: String
+  val valorPrecificacao: String,
+  val valNFO: String,
 ) {
   val lj = nota.lj
   val ni = nota.ni

@@ -32,7 +32,8 @@ class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.refPrdx ?: "",
-        valorPrecificacao = nota.refPrdp ?: ""
+        valorPrecificacao = nota.refPrdp ?: "",
+        valNFO = ""
       )
     }
     val barcodeDifxpList = listNotas.filter { it.barcodeDifcp == "N" }.map { nota ->
@@ -41,7 +42,8 @@ class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.barcodex ?: "",
-        valorPrecificacao = nota.barcodep ?: ""
+        valorPrecificacao = nota.barcodep ?: "",
+        valNFO = ""
       )
     }
     val barcodeDifpcList = listNotas.filter { it.barcodeDifcx == "N" }.map { nota ->
@@ -50,7 +52,8 @@ class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.barcodex ?: "",
-        valorPrecificacao = nota.barcodec ?: ""
+        valorPrecificacao = nota.barcodec ?: "",
+        valNFO = ""
       )
     }
     val ncmDifxList = listNotas.filter { it.ncmDifx == "N" }.map { nota ->
@@ -59,7 +62,8 @@ class TabXmlTribViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.ncmx ?: "",
-        valorPrecificacao = nota.ncmx ?: ""
+        valorPrecificacao = nota.ncmx ?: "",
+        valNFO = ""
       )
     }
     val listaRelatorio = refPrdDifxList + barcodeDifxpList + barcodeDifpcList + ncmDifxList
