@@ -64,7 +64,7 @@ class RelatorioNfPrecGrupo(
         subTitulo = "",
         color = Color.WHITE,
         detailFonteSize = 8,
-        pageOrientation = if (fiscal) LANDSCAPE else PORTRAIT
+        pageOrientation = LANDSCAPE
       )
 
   override fun listDataSource(): List<NfPrecEntradaGrupo> = notas
