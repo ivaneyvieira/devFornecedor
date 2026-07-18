@@ -33,7 +33,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cfop ?: "",
-        valorPrecificacao = nota.cfopx ?: ""
+        valorPrecificacao = nota.cfopx ?: "",
+        valNFO = ""
       )
     }
 
@@ -43,7 +44,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cstIcms ?: "",
-        valorPrecificacao = nota.cstp ?: ""
+        valorPrecificacao = nota.cstp ?: "",
+        valNFO = ""
       )
     }
 
@@ -53,7 +55,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cstIcms ?: "",
-        valorPrecificacao = nota.cstx ?: ""
+        valorPrecificacao = nota.cstx ?: "",
+        valNFO = ""
       )
     }
 
@@ -63,7 +66,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.mvan.format(),
-        valorPrecificacao = nota.mvap.format()
+        valorPrecificacao = nota.mvap.format(),
+        valNFO = ""
       )
     }
 
@@ -73,7 +77,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.mvan.format(),
-        valorPrecificacao = nota.mvax.format()
+        valorPrecificacao = nota.mvax.format(),
+        valNFO = ""
       )
     }
 
@@ -83,7 +88,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlIcmsx.format(),
-        valorPrecificacao = nota.vlIcms.format()
+        valorPrecificacao = nota.vlIcms.format(),
+        valNFO = ""
       )
     }
 
@@ -93,7 +99,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlIpix.format(),
-        valorPrecificacao = nota.vlIpi.format()
+        valorPrecificacao = nota.vlIpi.format(),
+        valNFO = ""
       )
     }
 
@@ -103,7 +110,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.baseSubstx.format(),
-        valorPrecificacao = nota.baseSubst.format()
+        valorPrecificacao = nota.baseSubst.format(),
+        valNFO = ""
       )
     }
 
@@ -113,7 +121,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlIcmsSubstx.format(),
-        valorPrecificacao = nota.vlIcmsSubst.format()
+        valorPrecificacao = nota.vlIcmsSubst.format(),
+        valNFO = ""
       )
     }
 
@@ -123,7 +132,8 @@ class TabSped2ViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.vlTotalx.format(),
-        valorPrecificacao = nota.vlTotal.format()
+        valorPrecificacao = nota.vlTotal.format(),
+        valNFO = ""
       )
     }
 

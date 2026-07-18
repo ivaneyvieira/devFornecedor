@@ -35,7 +35,8 @@ class TabFretePerViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.fretePerNf.format(),
-        valorPrecificacao = nota.fretePerPrc.format()
+        valorPrecificacao = nota.fretePerPrc.format(),
+        valNFO = ""
       )
     }
     val relatorio = RelatorioNfPrecGrupo.processaRelatorio(listaRelatorio, fiscal = true)

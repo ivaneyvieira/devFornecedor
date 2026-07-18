@@ -7,6 +7,7 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder
 import net.sf.dynamicreports.report.builder.DynamicReports.margin
 import net.sf.dynamicreports.report.builder.DynamicReports.stl
 import net.sf.dynamicreports.report.builder.style.Styles.padding
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.CENTER
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment.RIGHT
 import net.sf.dynamicreports.report.constant.PageOrientation.LANDSCAPE
@@ -33,6 +34,9 @@ class RelatorioNfPrecGrupo(
       columnString(NfPrecEntradaGrupo::grade, title = "Grade", width = 50, aligment = CENTER) {
         this.setTextAdjust(TextAdjust.SCALE_FONT)
       }
+    }
+    columnString(NfPrecEntradaGrupo::valNFO, title = "V. NFO", width = 60, aligment = RIGHT) {
+      this.setStyle(stl.style().setForegroundColor(Color.YELLOW).setFontSize(8))
     }
     columnString(NfPrecEntradaGrupo::valorNota, title = "NF", width = 60, aligment = RIGHT) {
       this.setStyle(stl.style().setForegroundColor(Color.YELLOW).setFontSize(8))

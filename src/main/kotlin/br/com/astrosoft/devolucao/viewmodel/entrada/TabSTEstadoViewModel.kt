@@ -33,7 +33,8 @@ class TabSTEstadoViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cstIcms ?: "",
-        valorPrecificacao = nota.cstp ?: ""
+        valorPrecificacao = nota.cstp ?: "",
+        valNFO = ""
       )
     }
 
@@ -43,7 +44,8 @@ class TabSTEstadoViewModel(val viewModel: EntradaViewModel) {
         nota = nota,
         pedidoCompra = nota.pedidoCompra ?: 0,
         valorNota = nota.cstIcms ?: "",
-        valorPrecificacao = nota.cstx ?: ""
+        valorPrecificacao = nota.cstx ?: "",
+        valNFO = ""
       )
     }
     val listaRelatorio = cstDifnpList + cstDifxnList
